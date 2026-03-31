@@ -1,5 +1,11 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowRight, Search } from 'lucide-react'
+
+export const metadata: Metadata = {
+  title: 'Página não encontrada — Jaleca',
+  robots: { index: false, follow: false },
+}
 
 export default function NotFound() {
   return (

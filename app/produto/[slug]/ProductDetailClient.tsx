@@ -5,7 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import ImageZoom from '@/components/ImageZoom'
 import Breadcrumb from '@/components/Breadcrumb'
-import { ShoppingBag, Heart, ChevronLeft, Ruler, Star, Loader2, CreditCard, Banknote, MessageCircle } from 'lucide-react'
+import { ShoppingBag, Heart, ChevronLeft, Ruler, Star, Loader2, CreditCard, Banknote, MessageCircle, Flame, AlertTriangle } from 'lucide-react'
 import { useCart } from '@/contexts/CartContext'
 import { useWishlist } from '@/contexts/WishlistContext'
 import { useAuth } from '@/contexts/AuthContext'
@@ -13,6 +13,7 @@ import SizeAdvisorModal from '@/components/SizeAdvisorModal'
 import BackInStockButton from '@/components/BackInStockButton'
 import { graphqlClient, GET_RELATED_PRODUCTS } from '@/lib/graphql'
 import ProductCard, { type WooProduct } from '@/components/ProductCard'
+import RecentlyViewed from '@/components/RecentlyViewed'
 
 type AttributeTerm = { slug: string; name: string }
 
@@ -65,6 +66,7 @@ type Product = {
   regularPrice?: string
   salePrice?: string
   stockStatus?: string
+  stockQuantity?: number | null
   image?: { sourceUrl: string; altText: string }
   galleryImages?: { nodes: GalleryImage[] }
   attributes?: { nodes: Attribute[] }
@@ -335,6 +337,17 @@ export default function ProductDetailClient({ product }: { product: Product }) {
       .catch(() => {})
   }, [product.databaseId, product.variations])
 
+  // Track recently viewed
+  useEffect(() => {
+    try {
+      const MAX = 8
+      const key = 'jaleca-recently-viewed'
+      const existing: string[] = JSON.parse(localStorage.getItem(key) ?? '[]')
+      const updated = [product.slug, ...existing.filter(s => s !== product.slug)].slice(0, MAX)
+      localStorage.setItem(key, JSON.stringify(updated))
+    } catch {}
+  }, [product.slug])
+
   // Load related products
   useEffect(() => {
     const categorySlug = product.productCategories?.nodes[0]?.slug
@@ -440,6 +453,8 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                   <button
                     key={img.sourceUrl}
                     onClick={() => setActiveImageIdx(idx)}
+                    aria-label={img.altText || `Ver imagem ${idx + 1} do produto`}
+                    aria-pressed={activeImageIdx === idx}
                     className={`flex-shrink-0 w-16 h-20 relative overflow-hidden rounded-md border-2 transition-all duration-200 ${
                       activeImageIdx === idx
                         ? 'border-primary shadow-sm'
@@ -461,7 +476,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
 
           {/* Info */}
           <div className="flex flex-col md:pt-4">
-            <p className="text-[11px] text-primary tracking-[0.28em] uppercase mb-1">Jaleca</p>
+            <p className="text-[11px] text-primary-text tracking-[0.28em] uppercase mb-1">Jaleca</p>
             <h1 className="font-display text-4xl lg:text-5xl font-semibold leading-[1.1] tracking-[-0.03em] mb-2 text-balance">
               {product.name.replace(/ - Jaleca$/i, '')}
             </h1>
@@ -542,6 +557,8 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                       <button
                         key={slug}
                         onClick={() => setSelectedColor(isActive ? null : slug)}
+                        aria-label={`Cor ${label}${isActive ? ' (selecionada)' : ''}`}
+                        aria-pressed={isActive}
                         className={`filter-chip min-h-12 px-4 py-2 text-xs font-medium tracking-wide uppercase ${isActive ? 'filter-chip--active' : ''}`}
                       >
                         {label}
@@ -561,7 +578,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                   </p>
                   <button
                     onClick={() => setShowSizeChart(!showSizeChart)}
-                    className="inline-flex items-center gap-1 text-xs font-medium text-primary hover:underline underline-offset-4"
+                    className="inline-flex items-center gap-1 text-xs font-medium text-primary-text hover:underline underline-offset-4"
                   >
                     <Ruler size={12} /> Tabela de medidas
                   </button>
@@ -574,6 +591,8 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                       <button
                         key={slug}
                         onClick={() => setSelectedSize(isActive ? null : slug)}
+                        aria-label={`Tamanho ${label}${isActive ? ' (selecionado)' : ''}`}
+                        aria-pressed={isActive}
                         className={`filter-chip flex h-12 w-12 items-center justify-center text-xs font-medium tracking-wide uppercase ${isActive ? 'filter-chip--active' : ''}`}
                       >
                         {label}
@@ -614,6 +633,23 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                     ))}
                   </tbody>
                 </table>
+              </div>
+            )}
+
+            {/* Stock urgency */}
+            {product.stockQuantity != null && product.stockQuantity >= 1 && product.stockQuantity <= 10 && (
+              <div className="mb-3">
+                {product.stockQuantity <= 5 ? (
+                  <p className="flex items-center gap-1.5 text-sm font-semibold text-red-600">
+                    <Flame size={14} className="flex-shrink-0" />
+                    Últimas unidades disponíveis!
+                  </p>
+                ) : (
+                  <p className="flex items-center gap-1.5 text-sm font-medium text-amber-600">
+                    <AlertTriangle size={14} className="flex-shrink-0" />
+                    Poucas unidades disponíveis
+                  </p>
+                )}
               </div>
             )}
 
@@ -663,7 +699,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
         {/* Content tabs */}
         <div className="mt-16 md:mt-24">
           {/* Tab headers */}
-          <div className="flex flex-wrap gap-2 border-b border-border pb-0">
+          <div role="tablist" aria-label="Informações do produto" className="flex flex-wrap gap-2 border-b border-border pb-0">
             {([
               { id: 'dados-tecnicos', label: 'Dados Técnicos' },
               { id: 'informacoes', label: 'Informações Adicionais' },
@@ -671,6 +707,9 @@ export default function ProductDetailClient({ product }: { product: Product }) {
             ] as { id: ActiveTab; label: string }[]).map(tab => (
               <button
                 key={tab.id}
+                role="tab"
+                aria-selected={activeTab === tab.id}
+                aria-controls={`tab-panel-${tab.id}`}
                 onClick={() => setActiveTab(tab.id)}
                 className={`px-6 py-3 text-[11px] font-semibold tracking-[0.18em] uppercase transition-all duration-200 border-b-2 -mb-px whitespace-nowrap ${
                   activeTab === tab.id
@@ -684,7 +723,12 @@ export default function ProductDetailClient({ product }: { product: Product }) {
           </div>
 
           {/* Tab content */}
-          <div className="py-8">
+          <div
+            role="tabpanel"
+            id={`tab-panel-${activeTab}`}
+            aria-label={activeTab === 'dados-tecnicos' ? 'Dados Técnicos' : activeTab === 'informacoes' ? 'Informações Adicionais' : 'Avaliações'}
+            className="py-8"
+          >
             {/* Dados Técnicos */}
             {activeTab === 'dados-tecnicos' && (
               <div className="max-w-3xl">
@@ -774,19 +818,22 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                       ) : (
                         <form onSubmit={handleReviewSubmit} className="space-y-4">
                           <div>
-                            <label className="block text-xs font-semibold tracking-widests uppercase text-muted-foreground mb-1.5">
+                            <p className="block text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-1.5" id="review-rating-label">
                               Nota
-                            </label>
-                            <div className="flex items-center gap-1">
+                            </p>
+                            <div className="flex items-center gap-1" role="group" aria-labelledby="review-rating-label">
                               {[1, 2, 3, 4, 5].map(i => (
                                 <button
                                   key={i}
                                   type="button"
                                   onClick={() => setReviewRating(i)}
+                                  aria-label={`${i} ${i === 1 ? 'estrela' : 'estrelas'}`}
+                                  aria-pressed={reviewRating === i}
                                   className="transition-transform hover:scale-110 active:scale-95"
                                 >
                                   <Star
                                     size={24}
+                                    aria-hidden="true"
                                     className={i <= reviewRating ? 'text-yellow-400 fill-yellow-400' : 'text-muted-foreground/30'}
                                   />
                                 </button>
@@ -794,28 +841,33 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                             </div>
                           </div>
                           <div>
-                            <label className="block text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">Nome *</label>
+                            <label htmlFor="review-name" className="block text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">Nome *</label>
                             <input
+                              id="review-name"
                               type="text"
                               value={reviewName}
                               onChange={e => setReviewName(e.target.value)}
                               required
+                              autoComplete="name"
                               className="w-full border border-border bg-background px-3 py-2.5 text-sm focus:outline-none focus:border-foreground transition-colors"
                             />
                           </div>
                           <div>
-                            <label className="block text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">Email *</label>
+                            <label htmlFor="review-email" className="block text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">Email *</label>
                             <input
+                              id="review-email"
                               type="email"
                               value={reviewEmail}
                               onChange={e => setReviewEmail(e.target.value)}
                               required
+                              autoComplete="email"
                               className="w-full border border-border bg-background px-3 py-2.5 text-sm focus:outline-none focus:border-foreground transition-colors"
                             />
                           </div>
                           <div>
-                            <label className="block text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">Avaliação *</label>
+                            <label htmlFor="review-text" className="block text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">Avaliação *</label>
                             <textarea
+                              id="review-text"
                               value={reviewText}
                               onChange={e => setReviewText(e.target.value)}
                               required
@@ -854,6 +906,9 @@ export default function ProductDetailClient({ product }: { product: Product }) {
             </div>
           </div>
         )}
+
+        {/* Recently viewed */}
+        <RecentlyViewed excludeSlug={product.slug} />
       </div>
     </main>
 

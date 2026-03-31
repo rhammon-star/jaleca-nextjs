@@ -27,17 +27,22 @@ export default function AnnouncementBar() {
   const msg = messages[current]
 
   return (
-    <div className="bg-[hsl(var(--foreground))] text-[hsl(var(--background))] py-2.5 text-center text-[11px] font-medium tracking-wider">
+    <div
+      className="bg-[hsl(var(--foreground))] text-[hsl(var(--background))] py-2.5 text-center text-[11px] font-medium tracking-wider"
+      role="marquee"
+      aria-live="polite"
+      aria-atomic="true"
+    >
       <div
         className="flex items-center justify-center gap-3 transition-opacity duration-300"
         style={{ opacity: fade ? 1 : 0 }}
       >
-        <span>{msg.text}</span>
+        <span aria-label={msg.text.replace(/[\u{1F300}-\u{1F9FF}]/gu, '').trim()}>{msg.text}</span>
         <Link
           href={msg.href}
           className="underline underline-offset-2 opacity-70 hover:opacity-100 transition-opacity whitespace-nowrap"
         >
-          {msg.cta} →
+          {msg.cta}
         </Link>
       </div>
     </div>

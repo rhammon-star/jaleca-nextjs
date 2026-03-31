@@ -63,7 +63,12 @@ export default function FirstPurchasePopup() {
       />
 
       {/* Modal */}
-      <div className="relative z-10 bg-background border border-border w-full max-w-md p-8 shadow-xl">
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="popup-title"
+        className="relative z-10 bg-background border border-border w-full max-w-md p-8 shadow-xl"
+      >
         <button
           onClick={handleClose}
           aria-label="Fechar"
@@ -74,8 +79,8 @@ export default function FirstPurchasePopup() {
 
         {!submitted ? (
           <>
-            <p className="font-display text-3xl font-semibold mb-1 text-center">
-              Bem-vinda à Jaleca! 🎀
+            <p id="popup-title" className="font-display text-3xl font-semibold mb-1 text-center">
+              Bem-vinda à Jaleca!
             </p>
             <p className="text-center text-muted-foreground text-sm mb-6">
               Ganhe 10% de desconto na sua primeira compra

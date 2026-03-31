@@ -4,8 +4,24 @@ import Image from 'next/image'
 import { getLooks } from '@/lib/lookbook-data'
 
 export const metadata: Metadata = {
-  title: 'Lookbook — Jaleca',
-  description: 'Inspiração editorial: veja como usar nossos jalecos e uniformes com estilo.',
+  title: 'Lookbook 2026 — Inspiração de Moda Profissional | Jaleca',
+  description: 'Inspiração editorial para profissionais da saúde: veja como usar nossos jalecos e uniformes com estilo. Looks completos para a rotina clínica.',
+  alternates: { canonical: 'https://jaleca.com.br/lookbook' },
+  openGraph: {
+    title: 'Lookbook 2026 — Inspiração de Moda Profissional | Jaleca',
+    description: 'Inspiração editorial para profissionais da saúde: veja como usar nossos jalecos e uniformes com estilo.',
+    url: 'https://jaleca.com.br/lookbook',
+    siteName: 'Jaleca',
+    locale: 'pt_BR',
+    type: 'website',
+    images: [{ url: 'https://jaleca.com.br/og-home.jpg', width: 1200, height: 630, alt: 'Lookbook Jaleca 2026' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Lookbook 2026 — Inspiração de Moda Profissional | Jaleca',
+    description: 'Inspiração editorial para profissionais da saúde: veja como usar nossos jalecos e uniformes com estilo.',
+    images: ['https://jaleca.com.br/og-home.jpg'],
+  },
 }
 
 export const revalidate = 0

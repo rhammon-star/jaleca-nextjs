@@ -169,6 +169,7 @@ export const GET_PRODUCT_BY_SLUG = `
         regularPrice
         salePrice
         stockStatus
+        stockQuantity
         sku
         image {
           sourceUrl
@@ -185,6 +186,7 @@ export const GET_PRODUCT_BY_SLUG = `
         price
         regularPrice
         salePrice
+        stockQuantity
         sku
         image {
           sourceUrl

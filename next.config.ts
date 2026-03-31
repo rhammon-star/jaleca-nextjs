@@ -14,6 +14,19 @@ const nextConfig: NextConfig = {
   },
   compress: true,
   poweredByHeader: false,
+  async redirects() {
+    return [
+      {
+        source: '/minha-conta/lost-password',
+        has: [
+          { type: 'query', key: 'key', value: '(?<key>.+)' },
+          { type: 'query', key: 'login', value: '(?<login>.+)' },
+        ],
+        destination: '/redefinir-senha?key=:key&login=:login',
+        permanent: false,
+      },
+    ]
+  },
   async headers() {
     return [
       {

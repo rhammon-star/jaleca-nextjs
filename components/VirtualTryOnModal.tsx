@@ -112,19 +112,24 @@ export default function VirtualTryOnModal({ productName, garmentImageUrl, onClos
 
   return (
     <>
-      <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm animate-fade-in" onClick={onClose} />
+      <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm animate-fade-in" onClick={onClose} aria-hidden="true" />
 
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
-        <div className="bg-background w-full max-w-lg pointer-events-auto animate-fade-up shadow-2xl max-h-[90vh] flex flex-col">
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="virtual-tryon-title"
+          className="bg-background w-full max-w-lg pointer-events-auto animate-fade-up shadow-2xl max-h-[90vh] flex flex-col"
+        >
 
           {/* Header */}
           <div className="flex items-center justify-between px-6 py-5 border-b border-border flex-shrink-0">
             <div className="flex items-center gap-2">
-              <Sparkles size={16} className="text-secondary" />
-              <span className="font-display text-lg font-semibold">Provador Virtual</span>
+              <Sparkles size={16} className="text-secondary" aria-hidden="true" />
+              <span id="virtual-tryon-title" className="font-display text-lg font-semibold">Provador Virtual</span>
             </div>
-            <button onClick={onClose} className="p-2 text-muted-foreground hover:text-foreground transition-colors active:scale-95">
-              <X size={18} />
+            <button onClick={onClose} aria-label="Fechar provador virtual" className="p-2 text-muted-foreground hover:text-foreground transition-colors active:scale-95">
+              <X size={18} aria-hidden="true" />
             </button>
           </div>
 
@@ -201,12 +206,13 @@ export default function VirtualTryOnModal({ productName, garmentImageUrl, onClos
                         </div>
                       )}
                     </div>
-                    <input ref={inputRef} type="file" accept="image/*" className="hidden" onChange={onFileChange} />
+                    <label htmlFor="virtual-tryon-file-input" className="sr-only">Enviar sua foto para o provador virtual</label>
+                    <input ref={inputRef} id="virtual-tryon-file-input" type="file" accept="image/*" className="hidden" onChange={onFileChange} />
                   </div>
                 </div>
 
                 {status === 'error' && (
-                  <p className="text-xs text-red-500 text-center">{errorMsg}</p>
+                  <p className="text-xs text-red-500 text-center" role="alert" aria-live="assertive">{errorMsg}</p>
                 )}
 
                 <p className="text-[11px] text-muted-foreground text-center">

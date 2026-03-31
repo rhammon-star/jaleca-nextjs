@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Heart, GitCompareArrows, Eye } from "lucide-react";
 import { useCompare } from "@/contexts/CompareContext";
+import { useWishlist } from "@/contexts/WishlistContext";
 
 type VariationAttr = { name: string; value: string }
 type Variation = { id: string; name: string; stockStatus: string; price?: string; regularPrice?: string; salePrice?: string; attributes: { nodes: VariationAttr[] } }
@@ -39,6 +40,8 @@ const ProductCard = ({ product }: { product: WooProduct }) => {
   const displayName = product.name.replace(/ - Jaleca$/i, "");
   const { addToCompare, removeFromCompare, isInCompare } = useCompare();
   const inCompare = isInCompare(product.id);
+  const { toggleWishlist, isInWishlist } = useWishlist();
+  const inWishlist = isInWishlist(product.id);
   const hoverImage = product.galleryImages?.nodes?.[0];
 
   // Calculate discount % (only when all variants are on sale)
@@ -100,10 +103,17 @@ const ProductCard = ({ product }: { product: WooProduct }) => {
         <div className="absolute top-3 right-3 flex flex-col gap-2 z-10">
           <button
             className="w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-sm opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all duration-300 hover:bg-white hover:scale-110 active:scale-95"
-            aria-label="Favoritar"
-            onClick={(e) => e.preventDefault()}
+            aria-label={inWishlist ? 'Remover dos favoritos' : 'Favoritar'}
+            onClick={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
+              toggleWishlist(product.id)
+            }}
           >
-            <Heart size={14} className="text-foreground" />
+            <Heart
+              size={14}
+              className={inWishlist ? 'fill-red-500 text-red-500' : 'text-foreground'}
+            />
           </button>
           <button
             className={`w-8 h-8 bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-sm opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all duration-300 hover:bg-white hover:scale-110 active:scale-95 ${inCompare ? 'text-primary' : 'text-foreground'}`}

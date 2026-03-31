@@ -5,7 +5,16 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/blog/admin/', '/api/', '/checkout'],
+      disallow: [
+        '/blog/admin/',
+        '/api/',
+        '/checkout',
+        '/minha-conta',
+        '/pedido-confirmado/',
+        '/redefinir-senha',
+        '/wishlist',
+        '/comparar',
+      ],
     },
     sitemap: 'https://jaleca.com.br/sitemap.xml',
   }

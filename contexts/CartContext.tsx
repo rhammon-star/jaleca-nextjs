@@ -13,11 +13,12 @@ export type CartItem = {
   size?: string
   color?: string
   quantity: number
+  addedAt: number
 }
 
 type CartContextType = {
   items: CartItem[]
-  addItem: (item: Omit<CartItem, 'quantity'>) => void
+  addItem: (item: Omit<CartItem, 'quantity' | 'addedAt'>) => void
   removeItem: (id: string, size?: string, color?: string) => void
   updateQuantity: (id: string, size: string | undefined, color: string | undefined, quantity: number) => void
   clearCart: () => void
@@ -57,7 +58,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem('jaleca-cart', JSON.stringify(items))
   }, [items])
 
-  const addItem = useCallback((newItem: Omit<CartItem, 'quantity'>) => {
+  const addItem = useCallback((newItem: Omit<CartItem, 'quantity' | 'addedAt'>) => {
     setItems(prev => {
       const key = itemKey(newItem.id, newItem.size, newItem.color)
       const exists = prev.find(i => itemKey(i.id, i.size, i.color) === key)
@@ -68,7 +69,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
             : i
         )
       }
-      return [...prev, { ...newItem, quantity: 1 }]
+      return [...prev, { ...newItem, quantity: 1, addedAt: Date.now() }]
     })
     setIsOpen(true)
     // Analytics

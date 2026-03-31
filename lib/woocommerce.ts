@@ -66,11 +66,15 @@ export type WCOrder = {
   status: string
   total: string
   subtotal?: string
+  customer_id: number
   date_created: string
   billing: WCAddress & { email: string }
   line_items: Array<{
     id: number
+    product_id: number
+    variation_id?: number
     name: string
+    sku?: string
     quantity: number
     price: number
     total: string
@@ -88,6 +92,7 @@ export type WCCustomer = {
   username: string
   billing?: WCAddress & { email: string; phone?: string }
   shipping?: WCAddress
+  meta_data?: Array<{ key: string; value: string }>
 }
 
 export type WCCoupon = {

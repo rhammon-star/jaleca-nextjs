@@ -20,6 +20,7 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login' }: Pro
   const [success, setSuccess] = useState('')
   const [loading, setLoading] = useState(false)
   const overlayRef = useRef<HTMLDivElement>(null)
+  const loginFormRef = useRef<HTMLFormElement>(null)
 
   const { login, register } = useAuth()
 
@@ -118,11 +119,18 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login' }: Pro
       ref={overlayRef}
       onClick={handleOverlayClick}
       className="fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in"
+      aria-hidden="true"
     >
-      <div className="bg-background w-full max-w-md shadow-2xl border border-border">
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="auth-modal-title"
+        className="bg-background w-full max-w-md shadow-2xl border border-border"
+        aria-hidden="false"
+      >
         {/* Header */}
         <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-border">
-          <h2 className="font-display text-2xl font-semibold">
+          <h2 id="auth-modal-title" className="font-display text-2xl font-semibold">
             {tab === 'login' && 'Entrar'}
             {tab === 'register' && 'Criar Conta'}
             {tab === 'forgot' && 'Recuperar Senha'}
@@ -167,39 +175,45 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login' }: Pro
 
           {/* Login Form */}
           {tab === 'login' && (
-            <form onSubmit={handleLogin} className="space-y-4">
+            <form ref={loginFormRef} onSubmit={handleLogin} className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">
+                <label htmlFor="login-email" className="block text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">
                   Email
                 </label>
                 <input
+                  id="login-email"
                   type="email"
                   value={loginEmail}
                   onChange={e => setLoginEmail(e.target.value)}
                   required
                   className="w-full border border-border bg-background px-3 py-2.5 text-sm focus:outline-none focus:border-foreground transition-colors"
                   placeholder="seu@email.com"
+                  autoComplete="email"
                 />
               </div>
               <div>
-                <label className="block text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">
+                <label htmlFor="login-password" className="block text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">
                   Senha
                 </label>
                 <div className="relative">
                   <input
+                    id="login-password"
                     type={showPassword ? 'text' : 'password'}
                     value={loginPassword}
                     onChange={e => setLoginPassword(e.target.value)}
+                    onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); loginFormRef.current?.requestSubmit() } }}
                     required
                     className="w-full border border-border bg-background px-3 py-2.5 pr-10 text-sm focus:outline-none focus:border-foreground transition-colors"
                     placeholder="••••••••"
+                    autoComplete="current-password"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
+                    aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                   >
-                    {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                    {showPassword ? <EyeOff size={16} aria-hidden="true" /> : <Eye size={16} aria-hidden="true" />}
                   </button>
                 </div>
               </div>
@@ -225,19 +239,22 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login' }: Pro
           {tab === 'register' && (
             <form onSubmit={handleRegister} className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">Nome Completo</label>
+                <label htmlFor="reg-name" className="block text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">Nome Completo</label>
                 <input
+                  id="reg-name"
                   type="text"
                   value={regName}
                   onChange={e => setRegName(e.target.value)}
                   required
                   className="w-full border border-border bg-background px-3 py-2.5 text-sm focus:outline-none focus:border-foreground transition-colors"
                   placeholder="Seu nome completo"
+                  autoComplete="name"
                 />
               </div>
               <div>
-                <label className="block text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">CPF *</label>
+                <label htmlFor="reg-cpf" className="block text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">CPF *</label>
                 <input
+                  id="reg-cpf"
                   type="text"
                   value={regCPF}
                   onChange={e => setRegCPF(formatCPF(e.target.value))}
@@ -245,33 +262,39 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login' }: Pro
                   maxLength={14}
                   className="w-full border border-border bg-background px-3 py-2.5 text-sm focus:outline-none focus:border-foreground transition-colors"
                   placeholder="000.000.000-00"
+                  autoComplete="off"
                 />
               </div>
               <div>
-                <label className="block text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">Email</label>
+                <label htmlFor="reg-email" className="block text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">Email</label>
                 <input
+                  id="reg-email"
                   type="email"
                   value={regEmail}
                   onChange={e => setRegEmail(e.target.value)}
                   required
                   className="w-full border border-border bg-background px-3 py-2.5 text-sm focus:outline-none focus:border-foreground transition-colors"
                   placeholder="seu@email.com"
+                  autoComplete="email"
                 />
               </div>
               <div>
-                <label className="block text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">Telefone / WhatsApp</label>
+                <label htmlFor="reg-phone" className="block text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">Telefone / WhatsApp</label>
                 <input
+                  id="reg-phone"
                   type="tel"
                   value={regPhone}
                   onChange={e => setRegPhone(e.target.value)}
                   className="w-full border border-border bg-background px-3 py-2.5 text-sm focus:outline-none focus:border-foreground transition-colors"
                   placeholder="(00) 00000-0000"
+                  autoComplete="tel"
                 />
               </div>
               <div>
-                <label className="block text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">Senha</label>
+                <label htmlFor="reg-password" className="block text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">Senha</label>
                 <div className="relative">
                   <input
+                    id="reg-password"
                     type={showPassword ? 'text' : 'password'}
                     value={regPassword}
                     onChange={e => setRegPassword(e.target.value)}
@@ -279,13 +302,15 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login' }: Pro
                     minLength={6}
                     className="w-full border border-border bg-background px-3 py-2.5 pr-10 text-sm focus:outline-none focus:border-foreground transition-colors"
                     placeholder="Mínimo 6 caracteres"
+                    autoComplete="new-password"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
+                    aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                   >
-                    {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                    {showPassword ? <EyeOff size={16} aria-hidden="true" /> : <Eye size={16} aria-hidden="true" />}
                   </button>
                 </div>
               </div>
@@ -310,16 +335,18 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login' }: Pro
                 Informe seu email e enviaremos as instruções para redefinir sua senha.
               </p>
               <div>
-                <label className="block text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">
+                <label htmlFor="forgot-email" className="block text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">
                   Email
                 </label>
                 <input
+                  id="forgot-email"
                   type="email"
                   value={forgotEmail}
                   onChange={e => setForgotEmail(e.target.value)}
                   required
                   className="w-full border border-border bg-background px-3 py-2.5 text-sm focus:outline-none focus:border-foreground transition-colors"
                   placeholder="seu@email.com"
+                  autoComplete="email"
                 />
               </div>
               <button

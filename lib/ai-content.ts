@@ -14,6 +14,7 @@ async function callGemini(model: string, prompt: string, maxTokens = 4096, jsonM
       generationConfig: {
         maxOutputTokens: maxTokens,
         ...(jsonMode ? { responseMimeType: 'application/json' } : {}),
+        thinkingConfig: { thinkingBudget: 0 },
       },
     }),
   })
@@ -81,7 +82,7 @@ Retorne APENAS um JSON válido (sem markdown, sem texto antes ou depois) no segu
   "suggestedKeywords": ["keyword1", "keyword2", "keyword3", "keyword4", "keyword5"]
 }`
 
-  const raw = await callGemini('gemini-2.0-flash', prompt, 8192, true)
+  const raw = await callGemini('gemini-2.5-flash', prompt, 8192, true)
   return JSON.parse(raw) as GeneratedContent
 }
 
@@ -100,7 +101,7 @@ Instruções:
 
 Retorne APENAS o HTML reescrito, sem explicações, sem markdown.`
 
-  return callGemini('gemini-2.0-flash', prompt, 8192, false)
+  return callGemini('gemini-2.5-flash', prompt, 8192, false)
 }
 
 export type SEOAnalysis = {
@@ -143,7 +144,7 @@ Retorne APENAS JSON válido (sem markdown) no formato:
 }`
 
   try {
-    const raw = await callGemini('gemini-2.0-flash', prompt, 4096, true)
+    const raw = await callGemini('gemini-2.5-flash', prompt, 4096, true)
     return JSON.parse(raw) as SEOAnalysis
   } catch {
     return {
@@ -183,7 +184,7 @@ REGRAS:
 - Melhore a legibilidade conforme sugerido
 - Retorne APENAS o HTML melhorado`
 
-  return callGemini('gemini-2.0-flash', prompt, 8192, false)
+  return callGemini('gemini-2.5-flash', prompt, 8192, false)
 }
 
 export async function generateLookDescription(
@@ -195,7 +196,7 @@ Produtos incluídos: ${products.filter(Boolean).join(', ') || 'jalecos e uniform
 A descrição deve ser inspiradora, profissional e focada em estilo de uniformes médicos/saúde.
 Retorne APENAS a descrição, sem aspas, sem explicações.`
 
-  const result = await callGemini('gemini-2.0-flash', prompt, 200)
+  const result = await callGemini('gemini-2.5-flash', prompt, 200)
   return result.trim()
 }
 
@@ -206,6 +207,6 @@ A imagem deve ser profissional, relacionada à área da saúde ou uniformes méd
 
 Retorne APENAS a query de busca, sem aspas, sem explicações. Máximo 5 palavras.`
 
-  const result = await callGemini('gemini-2.0-flash', prompt, 100)
+  const result = await callGemini('gemini-2.5-flash', prompt, 100)
   return result.trim()
 }

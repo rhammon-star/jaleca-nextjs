@@ -24,7 +24,12 @@ export default function CookieConsent() {
   if (!visible) return null
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-[150] bg-foreground text-background p-4 md:p-5 shadow-2xl">
+    <div
+      role="region"
+      aria-label="Consentimento de cookies"
+      aria-live="polite"
+      className="fixed bottom-0 left-0 right-0 z-[150] bg-foreground text-background p-4 md:p-5 shadow-2xl"
+    >
       <div className="container">
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 justify-between">
           <p className="text-sm leading-relaxed max-w-2xl">

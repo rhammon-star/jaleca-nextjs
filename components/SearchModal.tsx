@@ -85,18 +85,28 @@ export default function SearchModal({ isOpen, onClose }: Props) {
       ref={overlayRef}
       onClick={handleOverlayClick}
       className="fixed inset-0 z-[200] bg-black/50 backdrop-blur-sm flex items-start justify-center pt-[124px] px-4 animate-fade-in"
+      aria-hidden="true"
     >
-      <div className="bg-background w-full max-w-lg shadow-2xl border border-border">
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label="Buscar produtos"
+        className="bg-background w-full max-w-lg shadow-2xl border border-border"
+        aria-hidden="false"
+      >
         {/* Search input */}
         <div className="flex items-center px-4 py-3 border-b border-border gap-3">
-          <Search size={18} className="text-muted-foreground flex-shrink-0" />
+          <Search size={18} className="text-muted-foreground flex-shrink-0" aria-hidden="true" />
+          <label htmlFor="search-modal-input" className="sr-only">Buscar produtos</label>
           <input
+            id="search-modal-input"
             ref={inputRef}
-            type="text"
+            type="search"
             value={query}
             onChange={handleInput}
             placeholder="Buscar produtos..."
             className="flex-1 bg-transparent text-sm outline-none text-foreground placeholder:text-muted-foreground"
+            autoComplete="off"
           />
           {loading && <Loader2 size={16} className="animate-spin text-muted-foreground flex-shrink-0" />}
           <button

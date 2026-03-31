@@ -3,6 +3,16 @@ import WishlistClient from './WishlistClient'
 
 export const metadata: Metadata = {
   title: 'Favoritos — Jaleca',
+  description: 'Seus produtos favoritos salvos na Jaleca. Jalecos e uniformes profissionais premium.',
+  robots: { index: false, follow: false },
+  openGraph: {
+    title: 'Favoritos — Jaleca',
+    description: 'Seus produtos favoritos salvos na Jaleca.',
+    url: 'https://jaleca.com.br/wishlist',
+    siteName: 'Jaleca',
+    locale: 'pt_BR',
+    type: 'website',
+  },
 }
 
 export default function WishlistPage() {

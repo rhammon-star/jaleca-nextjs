@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { loginCustomer, getCustomerByEmail } from '@/lib/woocommerce'
+
+const WC_API = process.env.WOOCOMMERCE_API_URL!
+const key = process.env.WOOCOMMERCE_CONSUMER_KEY!
+const secret = process.env.WOOCOMMERCE_CONSUMER_SECRET!
 
 export async function POST(request: NextRequest) {
   try {
@@ -9,26 +12,30 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Email e senha são obrigatórios' }, { status: 400 })
     }
 
-    // Authenticate via JWT Auth plugin
-    const jwtData = await loginCustomer(email, password)
+    const res = await fetch(
+      `${WC_API}/jaleca-login?consumer_key=${key}&consumer_secret=${secret}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: email, password }),
+      }
+    )
 
-    // Get customer data from WooCommerce REST API
-    const customer = await getCustomerByEmail(email)
+    const data = await res.json()
 
-    if (!customer) {
-      return NextResponse.json({ error: 'Usuário não encontrado' }, { status: 404 })
+    if (!res.ok || data.code === 'invalid_credentials' || data.error) {
+      return NextResponse.json({ error: 'E-mail ou senha incorretos' }, { status: 401 })
     }
 
     const user = {
-      id: customer.id,
-      name: jwtData.user_display_name || `${customer.first_name} ${customer.last_name}`.trim(),
-      email: customer.email,
-      token: jwtData.token,
+      id: data.user_id ?? null,
+      name: data.user_display_name || '',
+      email: data.user_email || email,
+      token: data.token,
     }
 
     return NextResponse.json({ user })
-  } catch (error) {
-    const message = error instanceof Error ? error.message : 'Erro ao fazer login'
-    return NextResponse.json({ error: message }, { status: 401 })
+  } catch {
+    return NextResponse.json({ error: 'Erro ao fazer login' }, { status: 401 })
   }
 }

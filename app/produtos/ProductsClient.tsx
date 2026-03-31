@@ -284,7 +284,7 @@ export default function ProductsClient({ products, initialCat = "Todos", initial
             {filtered.length === 0 ? (
               <div className="text-center py-20">
                 <p className="text-muted-foreground mb-4">Nenhum produto encontrado com esses filtros.</p>
-                <button onClick={clearFilters} className="text-sm text-primary underline underline-offset-4">Limpar filtros</button>
+                <button onClick={clearFilters} className="text-sm text-primary-text underline underline-offset-4">Limpar filtros</button>
               </div>
             ) : (
               <>

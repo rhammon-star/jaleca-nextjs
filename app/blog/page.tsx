@@ -5,8 +5,24 @@ import type { Metadata } from 'next'
 import type { WPPost } from '@/lib/wordpress'
 
 export const metadata: Metadata = {
-  title: 'Blog — Jaleca',
-  description: 'Conteúdo para profissionais da saúde que valorizam estilo e informação.',
+  title: 'Blog — Jaleca | Dicas para Profissionais da Saúde',
+  description: 'Artigos e dicas sobre moda profissional para profissionais da saúde. Como escolher o jaleco ideal, tendências e cuidados com o uniforme.',
+  alternates: { canonical: 'https://jaleca.com.br/blog' },
+  openGraph: {
+    title: 'Blog — Jaleca | Dicas para Profissionais da Saúde',
+    description: 'Artigos e dicas sobre moda profissional para profissionais da saúde.',
+    url: 'https://jaleca.com.br/blog',
+    siteName: 'Jaleca',
+    locale: 'pt_BR',
+    type: 'website',
+    images: [{ url: 'https://jaleca.com.br/og-home.jpg', width: 1200, height: 630, alt: 'Blog Jaleca' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Blog — Jaleca | Dicas para Profissionais da Saúde',
+    description: 'Artigos e dicas sobre moda profissional para profissionais da saúde.',
+    images: ['https://jaleca.com.br/og-home.jpg'],
+  },
 }
 
 function getFeaturedImageUrl(post: WPPost): string | null {
@@ -113,7 +129,7 @@ export default async function BlogPage({
 
                       <Link
                         href={`/blog/${post.slug}`}
-                        className="inline-flex items-center gap-1 mt-4 text-xs font-medium text-primary hover:underline underline-offset-4"
+                        className="inline-flex items-center gap-1 mt-4 text-xs font-medium text-primary-text hover:underline underline-offset-4"
                       >
                         Ler artigo <ArrowRight size={12} />
                       </Link>

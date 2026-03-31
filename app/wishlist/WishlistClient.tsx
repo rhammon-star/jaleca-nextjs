@@ -131,15 +131,16 @@ export default function WishlistClient() {
                         price: product.price || product.regularPrice || '',
                       })
                     }}
+                    aria-label={`Adicionar ${product.name.replace(/ - Jaleca$/i, '')} ao carrinho`}
                     className="flex-1 flex items-center justify-center gap-1.5 bg-ink text-background py-2 text-[11px] font-semibold tracking-widest uppercase hover:bg-ink/90 transition-colors"
                   >
-                    <ShoppingBag size={12} />
+                    <ShoppingBag size={12} aria-hidden="true" />
                     Adicionar
                   </button>
                   <button
                     onClick={() => removeFromWishlist(product.id)}
                     className="w-9 h-9 flex items-center justify-center border border-border hover:bg-secondary/30 transition-colors text-muted-foreground hover:text-foreground"
-                    aria-label="Remover dos favoritos"
+                    aria-label={`Remover ${product.name.replace(/ - Jaleca$/i, '')} dos favoritos`}
                   >
                     <Trash2 size={14} />
                   </button>

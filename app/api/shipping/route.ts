@@ -42,7 +42,11 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'CEP não encontrado' }, { status: 400 })
     }
 
-    const options = await calculateShipping(cleanCep, weight, items)
+    const rawOptions = await calculateShipping(cleanCep, weight, items)
+    const options = rawOptions.map(opt => ({
+      ...opt,
+      cost: (parseFloat(String(opt.cost)) + 5).toFixed(2),
+    }))
 
     return NextResponse.json({
       options,

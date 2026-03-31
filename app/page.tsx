@@ -1,9 +1,31 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Shield, Sparkles, Ruler } from "lucide-react";
 import { graphqlClient, GET_PRODUCTS } from "@/lib/graphql";
 import ProductCard, { type WooProduct } from "@/components/ProductCard";
 import ScrollReveal from "@/components/ScrollReveal";
 import { Button } from "@/components/ui/button";
+
+export const metadata: Metadata = {
+  title: "Jaleca — Jalecos Femininos e Masculinos para Profissionais da Saúde",
+  description: "Jalecos femininos e masculinos modernos para profissionais da saúde. Elegância clínica, qualidade premium e entrega rápida para todo o Brasil.",
+  alternates: { canonical: "https://jaleca.com.br" },
+  openGraph: {
+    title: "Jaleca — Jalecos Femininos e Masculinos",
+    description: "Jalecos femininos e masculinos modernos para profissionais da saúde. Qualidade premium e entrega rápida.",
+    url: "https://jaleca.com.br",
+    siteName: "Jaleca",
+    locale: "pt_BR",
+    type: "website",
+    images: [{ url: "https://jaleca.com.br/og-home.jpg", width: 1200, height: 630, alt: "Jaleca — Jalecos Femininos e Masculinos" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Jaleca — Jalecos Femininos e Masculinos",
+    description: "Jalecos femininos e masculinos modernos para profissionais da saúde. Qualidade premium e entrega rápida.",
+    images: ["https://jaleca.com.br/og-home.jpg"],
+  },
+};
 
 async function getFeaturedProducts(): Promise<WooProduct[]> {
   try {
@@ -62,18 +84,18 @@ export default async function Home() {
     />
     <main className="bg-background">
       {/* Hero — editorial luxury split */}
-      <section className="relative w-full overflow-hidden bg-[#faf9f7]" style={{ minHeight: '92vh' }}>
-        <div className="flex flex-col md:flex-row h-full" style={{ minHeight: '92vh' }}>
+      <section className="relative w-full overflow-hidden bg-[#faf9f7]">
+        <div className="flex flex-col md:flex-row">
 
           {/* LEFT — editorial text panel */}
-          <div className="relative z-10 flex flex-col justify-center w-full md:w-[35%] px-8 md:pl-16 lg:pl-20 md:pr-4 py-20 md:py-0">
-            <p className="text-[10px] font-semibold tracking-[0.4em] uppercase text-[#b8a98a] mb-4">
+          <div className="relative z-10 flex flex-col justify-center w-full md:w-[42%] px-8 md:pl-16 lg:pl-20 md:pr-6 py-20 md:py-0">
+            <p className="text-[11px] font-semibold tracking-[0.4em] uppercase text-[#b8a98a] mb-4">
               Nova Coleção 2026
             </p>
-            <h1 className="font-display text-3xl sm:text-4xl lg:text-[2.8rem] font-semibold leading-[1.1] text-[#1a1a1a] mb-5 animate-fade-up">
+            <h1 className="font-display text-4xl sm:text-5xl lg:text-[3.4rem] font-semibold leading-[1.1] text-[#1a1a1a] mb-5 animate-fade-up">
               Elegância clínica em cada detalhe
             </h1>
-            <p className="text-[#777] text-sm leading-relaxed mb-8">
+            <p className="text-[#777] text-base leading-relaxed mb-8">
               Jalecos com caimento refinado e paleta suave para quem cuida com cuidado.
             </p>
             <div className="flex flex-wrap gap-3">
@@ -93,18 +115,19 @@ export default async function Home() {
             </div>
           </div>
 
-          {/* RIGHT — photo centered with controlled zoom */}
-          <div className="relative w-full md:w-[65%] overflow-hidden bg-[#e8e4de]" style={{ minHeight: '60vw' }}>
+          {/* RIGHT — photo panel */}
+          <div className="relative w-full md:w-[58%] bg-[#e4e4e4]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/hero-v6.jpg"
-              alt="Profissional usando jaleco premium Jaleca"
-              className="absolute inset-0 w-full h-full object-cover"
-              style={{ objectPosition: 'center 8%' }}
+              src="/jaleco-hero-v3.jpg"
+              alt="Profissional de saúde usando jaleco feminino premium Jaleca coleção 2026"
+              className="w-full h-auto block"
               fetchPriority="high"
             />
-            {/* Left fade to blend panels */}
-            <div className="absolute inset-y-0 left-0 w-40 bg-gradient-to-r from-[#faf9f7] to-transparent z-10" />
+            {/* Gradiente editorial suave */}
+            <div className="absolute inset-0 z-10 pointer-events-none"
+              style={{ background: 'linear-gradient(to right, #faf9f7 0%, #faf9f7 30%, rgba(250,249,247,0) 44%)' }}
+            />
           </div>
 
         </div>
@@ -170,7 +193,7 @@ export default async function Home() {
                 <h2 className="font-display text-3xl md:text-4xl font-semibold mb-2">Em Destaque</h2>
                 <p className="text-muted-foreground">Os favoritos dos nossos clientes</p>
               </div>
-              <Link href="/produtos" className="hidden sm:inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline underline-offset-4">
+              <Link href="/produtos" className="hidden sm:inline-flex items-center gap-1 text-sm font-medium text-primary-text hover:underline underline-offset-4">
                 Ver todos <ArrowRight size={14} />
               </Link>
             </div>
@@ -182,7 +205,7 @@ export default async function Home() {
               ))}
             </div>
             <div className="sm:hidden mt-8 text-center">
-              <Link href="/produtos" className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline underline-offset-4">
+              <Link href="/produtos" className="inline-flex items-center gap-1 text-sm font-medium text-primary-text hover:underline underline-offset-4">
                 Ver todos <ArrowRight size={14} />
               </Link>
             </div>

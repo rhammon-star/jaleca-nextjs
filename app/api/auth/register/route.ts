@@ -10,12 +10,16 @@ const auth = Buffer.from(
 async function cpfAlreadyExists(cpf: string): Promise<boolean> {
   try {
     const res = await fetch(
-      `${WC_API}/customers?meta_key=billing_cpf&meta_value=${cpf}&per_page=1&role=all`,
+      `${WC_API}/customers?meta_key=billing_cpf&meta_value=${cpf}&per_page=10&role=all`,
       { headers: { Authorization: `Basic ${auth}` }, cache: 'no-store' }
     )
     if (!res.ok) return false
     const customers = await res.json()
-    return Array.isArray(customers) && customers.length > 0
+    if (!Array.isArray(customers) || customers.length === 0) return false
+    // Verify the returned customer actually has this CPF (WC may ignore meta filters)
+    return customers.some((c: { meta_data?: Array<{ key: string; value: string }> }) =>
+      c.meta_data?.some(m => m.key === 'billing_cpf' && m.value === cpf)
+    )
   } catch {
     return false
   }

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Instagram, Facebook, Youtube, Send, ShieldCheck } from "lucide-react";
+import { Instagram, Facebook, Send, ShieldCheck } from "lucide-react";
 import {
   IconMastercard, IconVisa, IconAmex, IconDiners,
   IconHipercard, IconElo, IconPix, IconBoleto,
@@ -10,13 +10,35 @@ import {
 
 const Footer = () => {
   const [email, setEmail] = useState('')
-  const [subscribed, setSubscribed] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [success, setSuccess] = useState(false)
+  const [error, setError] = useState('')
 
-  function handleSubscribe(e: React.FormEvent) {
+  async function handleSubscribe(e: React.FormEvent) {
     e.preventDefault()
-    if (email.trim()) {
-      setSubscribed(true)
+    if (!email.trim()) return
+
+    setLoading(true)
+    setError('')
+
+    try {
+      const res = await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email.trim(), source: 'newsletter-footer' }),
+      })
+
+      if (!res.ok) {
+        const data = (await res.json()) as { error?: string }
+        throw new Error(data.error ?? 'Erro ao se inscrever')
+      }
+
+      setSuccess(true)
       setEmail('')
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Não foi possível se inscrever. Tente novamente.')
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -35,41 +57,49 @@ const Footer = () => {
 
               {/* Newsletter */}
               <p className="text-xs font-semibold tracking-widest uppercase mb-3">Receba novidades</p>
-              {subscribed ? (
-                <p className="text-sm text-primary font-medium">✓ Inscrito com sucesso!</p>
+              {success ? (
+                <p className="text-sm text-primary-text font-medium">Obrigada! Em breve você receberá nossas novidades.</p>
               ) : (
-                <form onSubmit={handleSubscribe} className="flex">
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
-                    placeholder="seu@email.com"
-                    className="flex-1 border border-border bg-background px-3 py-2.5 text-xs focus:outline-none focus:border-foreground transition-colors"
-                    required
-                  />
-                  <button
-                    type="submit"
-                    className="bg-foreground text-background px-3 py-2.5 hover:bg-foreground/90 transition-colors"
-                    aria-label="Inscrever"
-                  >
-                    <Send size={14} />
-                  </button>
-                </form>
+                <>
+                  <form onSubmit={handleSubscribe} className="flex">
+                    <label htmlFor="footer-newsletter-email" className="sr-only">Seu e-mail para newsletter</label>
+                    <input
+                      id="footer-newsletter-email"
+                      type="email"
+                      value={email}
+                      onChange={e => setEmail(e.target.value)}
+                      placeholder="seu@email.com"
+                      className="flex-1 border border-border bg-background px-3 py-2.5 text-xs focus:outline-none focus:border-foreground transition-colors disabled:opacity-50"
+                      required
+                      autoComplete="email"
+                      disabled={loading}
+                    />
+                    <button
+                      type="submit"
+                      className="bg-foreground text-background px-3 py-2.5 hover:bg-foreground/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                      aria-label="Inscrever"
+                      disabled={loading}
+                    >
+                      <Send size={14} />
+                    </button>
+                  </form>
+                  {error && (
+                    <p className="text-xs text-destructive mt-2">{error}</p>
+                  )}
+                </>
               )}
 
               {/* Social */}
               <div className="flex items-center gap-3 mt-6">
-                <a href="https://instagram.com/jaleca.com.br" target="_blank" rel="noopener noreferrer"
+                <a href="https://www.instagram.com/jaleca.oficial/" target="_blank" rel="noopener noreferrer"
+                   aria-label="Jaleca no Instagram"
                    className="w-9 h-9 border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-foreground transition-all duration-200 hover:scale-110">
-                  <Instagram size={16} />
+                  <Instagram size={16} aria-hidden="true" />
                 </a>
-                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"
+                <a href="https://www.facebook.com/jalecaoficial" target="_blank" rel="noopener noreferrer"
+                   aria-label="Jaleca no Facebook"
                    className="w-9 h-9 border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-foreground transition-all duration-200 hover:scale-110">
-                  <Facebook size={16} />
-                </a>
-                <a href="https://youtube.com" target="_blank" rel="noopener noreferrer"
-                   className="w-9 h-9 border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-foreground transition-all duration-200 hover:scale-110">
-                  <Youtube size={16} />
+                  <Facebook size={16} aria-hidden="true" />
                 </a>
               </div>
             </div>
@@ -80,8 +110,8 @@ const Footer = () => {
               <ul className="space-y-3 text-sm text-muted-foreground">
                 {[
                   { label: 'Todos os Produtos', href: '/produtos' },
-                  { label: 'Jalecos', href: '/produtos?cat=Jalecos' },
-                  { label: 'Scrubs', href: '/produtos?cat=Scrubs' },
+                  { label: 'Jalecos', href: '/categoria/jalecos' },
+                  { label: 'Scrubs', href: '/categoria/scrubs' },
                   { label: 'Novidades', href: '/produtos?novidades=true' },
                   { label: 'Promoções', href: '/produtos?sale=true' },
                 ].map(l => (
@@ -98,6 +128,7 @@ const Footer = () => {
               <p className="text-xs font-semibold tracking-widest uppercase mb-5 text-foreground">Informações</p>
               <ul className="space-y-3 text-sm text-muted-foreground">
                 {[
+                  { label: 'Sobre a Jaleca', href: '/sobre' },
                   { label: 'Tabela de Medidas', href: '/medidas' },
                   { label: 'Trocas e Devoluções', href: '/trocas-e-devolucoes' },
                   { label: 'Política de Privacidade', href: '/privacidade' },
@@ -118,6 +149,11 @@ const Footer = () => {
               <p className="text-xs font-semibold tracking-widest uppercase mb-5 text-foreground">Contato</p>
               <ul className="space-y-3 text-sm text-muted-foreground">
                 <li>
+                  <Link href="/contato" className="hover:text-foreground transition-colors">
+                    Página de Contato
+                  </Link>
+                </li>
+                <li>
                   <a href="https://wa.me/553133672467" target="_blank" rel="noopener noreferrer"
                      className="hover:text-foreground transition-colors">
                     WhatsApp
@@ -128,10 +164,15 @@ const Footer = () => {
                     contato@jaleca.com.br
                   </a>
                 </li>
+                <li>
+                  <Link href="/loja-matriz" className="hover:text-foreground transition-colors">
+                    Nossa Loja — Ipatinga, MG
+                  </Link>
+                </li>
                 <li className="pt-2">
                   <p className="text-[11px] leading-relaxed">
-                    Seg–Sex: 8h às 18h<br/>
-                    Sáb: 8h às 12h
+                    Seg–Sex: 9h às 18h<br/>
+                    Sáb: 9h às 13h
                   </p>
                 </li>
               </ul>

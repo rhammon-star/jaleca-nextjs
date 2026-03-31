@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
-import { X, ShoppingBag, Trash2, Plus, Minus, Tag, Loader2 } from 'lucide-react'
+import { X, ShoppingBag, Trash2, Plus, Minus, Tag, Loader2, Clock } from 'lucide-react'
 import { useCart } from '@/contexts/CartContext'
 import ShippingCalculator, { type ShippingOption } from '@/components/ShippingCalculator'
 import Link from 'next/link'
@@ -98,6 +98,9 @@ export default function CartDrawer() {
 
       {/* Drawer */}
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-label="Sacola de compras"
         className={`fixed top-0 right-0 z-50 h-full bg-background flex flex-col shadow-2xl transition-transform duration-300 ease-out ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
@@ -109,7 +112,12 @@ export default function CartDrawer() {
             <ShoppingBag size={18} />
             <span className="font-display text-lg font-semibold">Sacola</span>
             {totalItems > 0 && (
-              <span className="w-5 h-5 rounded-full bg-primary text-primary-foreground text-[10px] font-bold flex items-center justify-center">
+              <span
+                className="w-5 h-5 rounded-full bg-primary text-primary-foreground text-[10px] font-bold flex items-center justify-center"
+                aria-live="polite"
+                aria-atomic="true"
+                aria-label={`${totalItems} ${totalItems === 1 ? 'item' : 'itens'} na sacola`}
+              >
                 {totalItems}
               </span>
             )}
@@ -146,6 +154,16 @@ export default function CartDrawer() {
             </div>
           )
         })()}
+
+        {/* Expiration banner */}
+        {items.some(i => i.addedAt && Date.now() - i.addedAt > 48 * 60 * 60 * 1000) && (
+          <div className="flex items-start gap-2 px-6 py-3 bg-amber-50 border-b border-amber-200 text-amber-800">
+            <Clock size={13} className="mt-0.5 flex-shrink-0" />
+            <p className="text-[11px] leading-snug">
+              Alguns itens foram adicionados há mais de 48h. Confirme a disponibilidade.
+            </p>
+          </div>
+        )}
 
         {/* Items */}
         <div className="flex-1 overflow-y-auto px-6 py-4">
@@ -185,7 +203,13 @@ export default function CartDrawer() {
                         <span className="text-[11px] text-muted-foreground uppercase">{item.size}</span>
                       )}
                     </div>
-                    <p className="text-sm font-semibold mb-3">{item.price}</p>
+                    <p className="text-sm font-semibold mb-1">{item.price}</p>
+                    {item.addedAt && Date.now() - item.addedAt > 48 * 60 * 60 * 1000 && (
+                      <p className="text-[10px] text-amber-600 font-medium flex items-center gap-1 mb-2">
+                        <Clock size={10} />
+                        Disponibilidade não garantida
+                      </p>
+                    )}
 
                     {/* Quantity + Remove */}
                     <div className="flex items-center justify-between">
@@ -243,7 +267,9 @@ export default function CartDrawer() {
                 </div>
               ) : (
                 <div className="flex gap-2">
+                  <label htmlFor="cart-coupon-input" className="sr-only">Código do cupom</label>
                   <input
+                    id="cart-coupon-input"
                     type="text"
                     value={couponCode}
                     onChange={e => setCouponCode(e.target.value.toUpperCase())}

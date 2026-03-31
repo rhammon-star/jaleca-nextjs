@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import { graphqlClient, GET_PRODUCT_BY_SLUG } from '@/lib/graphql'
 import ProductDetailClient from './ProductDetailClient'
+import { getProductReviews, type WCReview } from '@/lib/woocommerce'
 import type { Metadata } from 'next'
 
 type ProductData = Record<string, unknown> & {
@@ -52,15 +53,19 @@ export async function generateMetadata({
   return {
     title: `${name} | Jaleca`,
     description,
+    alternates: { canonical: `https://jaleca.com.br/produto/${slug}` },
     openGraph: {
       title: name,
       description,
+      url: `https://jaleca.com.br/produto/${slug}`,
+      siteName: 'Jaleca',
+      locale: 'pt_BR',
       images: imageUrl ? [{ url: imageUrl, alt: name }] : [],
       type: 'website',
     },
     twitter: {
       card: 'summary_large_image',
-      title: name,
+      title: `${name} | Jaleca`,
       description,
       images: imageUrl ? [imageUrl] : [],
     },
@@ -85,6 +90,31 @@ export default async function ProdutoPage({
     ? stripHtml(String(product.description)).slice(0, 200)
     : null
   const description = shortDesc || longDesc || `Uniforme profissional premium da Jaleca.`
+
+  const databaseId = Number(product.databaseId)
+  let reviews: WCReview[] = []
+  if (databaseId) {
+    try {
+      reviews = await getProductReviews(databaseId)
+    } catch {
+      // continue without reviews
+    }
+  }
+
+  const avgRating =
+    reviews.length > 0
+      ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
+      : null
+
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Início', item: 'https://jaleca.com.br' },
+      { '@type': 'ListItem', position: 2, name: 'Produtos', item: 'https://jaleca.com.br/produtos' },
+      { '@type': 'ListItem', position: 3, name, item: `https://jaleca.com.br/produto/${slug}` },
+    ],
+  }
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -111,10 +141,37 @@ export default async function ProdutoPage({
         name: 'Jaleca',
       },
     },
+    ...(avgRating !== null && {
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: avgRating.toFixed(1),
+        reviewCount: reviews.length,
+        bestRating: '5',
+        worstRating: '1',
+      },
+      review: reviews.slice(0, 5).map(r => ({
+        '@type': 'Review',
+        reviewRating: {
+          '@type': 'Rating',
+          ratingValue: r.rating,
+          bestRating: '5',
+          worstRating: '1',
+        },
+        reviewBody: r.review.replace(/<[^>]*>/g, '').slice(0, 500),
+        author: { '@type': 'Person', name: r.reviewer },
+        datePublished: r.date_created.split('T')[0],
+      })),
+    }),
   }
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbJsonLd).replace(/</g, '\\u003c'),
+        }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{

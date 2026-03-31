@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 const WC_API = process.env.WOOCOMMERCE_API_URL!
-const auth = Buffer.from(
-  `${process.env.WOOCOMMERCE_CONSUMER_KEY}:${process.env.WOOCOMMERCE_CONSUMER_SECRET}`
-).toString('base64')
+const key = process.env.WOOCOMMERCE_CONSUMER_KEY!
+const secret = process.env.WOOCOMMERCE_CONSUMER_SECRET!
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
@@ -13,26 +12,22 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    // Search customers by CPF meta
+    // Step 1: find CPF via custom endpoint
     const res = await fetch(
-      `${WC_API}/customers?meta_key=billing_cpf&meta_value=${cpf}&per_page=5&role=all`,
-      { headers: { Authorization: `Basic ${auth}` }, cache: 'no-store' }
+      `${WC_API}/jaleca-cpf-lookup?cpf=${cpf}&consumer_key=${key}&consumer_secret=${secret}`,
+      { cache: 'no-store' }
     )
     if (!res.ok) return NextResponse.json({ found: false })
-    const customers = await res.json()
+    const data = await res.json() as { found: boolean; id?: string }
+    if (!data.found || !data.id) return NextResponse.json({ found: false })
 
-    if (Array.isArray(customers) && customers.length > 0) {
-      const c = customers[0]
-      return NextResponse.json({
-        found: true,
-        customer: {
-          id: c.id,
-          email: c.email,
-          name: `${c.first_name} ${c.last_name}`.trim(),
-        },
-      })
-    }
-    return NextResponse.json({ found: false })
+    // Step 2: confirm the customer still exists in WooCommerce
+    const verify = await fetch(
+      `${WC_API}/customers/${data.id}?consumer_key=${key}&consumer_secret=${secret}`,
+      { cache: 'no-store' }
+    )
+    if (!verify.ok) return NextResponse.json({ found: false })
+    return NextResponse.json({ found: true, id: data.id })
   } catch {
     return NextResponse.json({ found: false })
   }

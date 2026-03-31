@@ -48,10 +48,14 @@ export async function generateMetadata({
   return {
     title: `${title} — Jaleca Blog`,
     description,
+    alternates: { canonical: `https://jaleca.com.br/blog/${slug}` },
     openGraph: {
       title,
       description,
-      images: imageUrl ? [{ url: imageUrl }] : [],
+      url: `https://jaleca.com.br/blog/${slug}`,
+      siteName: 'Jaleca',
+      locale: 'pt_BR',
+      images: imageUrl ? [{ url: imageUrl, alt: title }] : [],
       type: 'article',
       publishedTime: post.date,
       modifiedTime: post.modified,
@@ -181,7 +185,7 @@ export default async function BlogPostPage({
               prose-h2:text-2xl prose-h2:mt-8 prose-h2:mb-4
               prose-h3:text-xl prose-h3:mt-6 prose-h3:mb-3
               prose-p:text-muted-foreground prose-p:leading-relaxed
-              prose-a:text-primary prose-a:underline prose-a:underline-offset-4
+              prose-a:text-primary-text prose-a:underline prose-a:underline-offset-4
               prose-strong:text-foreground prose-strong:font-semibold
               prose-ul:text-muted-foreground prose-li:my-1
               prose-img:rounded-none"
@@ -204,6 +208,31 @@ export default async function BlogPostPage({
               </div>
             </div>
           )}
+        </div>
+
+        {/* CTA — loja */}
+        <div className="container max-w-3xl mt-12">
+          <div className="bg-[#faf9f7] border border-border p-8 text-center">
+            <p className="text-[10px] font-semibold tracking-[0.3em] uppercase text-[#b8a98a] mb-2">Coleção Jaleca</p>
+            <h2 className="font-display text-2xl font-semibold mb-3">Conheça nossos jalecos</h2>
+            <p className="text-sm text-muted-foreground mb-6 max-w-sm mx-auto">
+              Uniformes profissionais com elegância e conforto para quem cuida com cuidado.
+            </p>
+            <div className="flex flex-wrap gap-3 justify-center">
+              <Link
+                href="/categoria/jalecos"
+                className="inline-flex items-center gap-2 bg-[#1a1a1a] text-white px-6 py-3 text-[11px] font-semibold tracking-widest uppercase hover:bg-black/80 transition-colors"
+              >
+                Ver Jalecos
+              </Link>
+              <Link
+                href="/categoria/scrubs"
+                className="inline-flex items-center gap-2 border border-[#1a1a1a] text-[#1a1a1a] px-6 py-3 text-[11px] font-semibold tracking-widest uppercase hover:bg-[#1a1a1a] hover:text-white transition-colors"
+              >
+                Ver Scrubs
+              </Link>
+            </div>
+          </div>
         </div>
 
         {/* Related posts */}

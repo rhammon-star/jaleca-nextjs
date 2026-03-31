@@ -15,7 +15,7 @@ const Header = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [authOpen, setAuthOpen] = useState(false);
   const { totalItems, openCart } = useCart();
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, user } = useAuth();
 
   return (
     <div className="relative z-50">
@@ -30,9 +30,11 @@ const Header = () => {
               <button
                 className="md:hidden p-2 active:scale-95 transition-transform"
                 onClick={() => setMobileOpen(!mobileOpen)}
-                aria-label="Menu"
+                aria-label={mobileOpen ? 'Fechar menu' : 'Abrir menu'}
+                aria-expanded={mobileOpen}
+                aria-controls="mobile-nav"
               >
-                {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+                {mobileOpen ? <X size={22} aria-hidden="true" /> : <Menu size={22} aria-hidden="true" />}
               </button>
               <Link href="/" className="flex items-center">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -47,13 +49,14 @@ const Header = () => {
             {/* CENTER — desktop nav, fills remaining space, links centered */}
             <nav
               className="hidden md:flex"
+              aria-label="Navegação principal"
               style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: '20px' }}
             >
               {/* Nav link styles */}
               <Link href="/" className="text-muted-foreground hover:text-foreground transition-colors duration-200 text-[12px] font-semibold tracking-widest uppercase whitespace-nowrap">
                 Início
               </Link>
-              <Link href="/produtos" className="text-muted-foreground hover:text-foreground transition-colors duration-200 text-[12px] font-semibold tracking-widest uppercase whitespace-nowrap">
+              <Link href="/loja-matriz" className="text-muted-foreground hover:text-foreground transition-colors duration-200 text-[12px] font-semibold tracking-widest uppercase whitespace-nowrap">
                 Loja
               </Link>
 
@@ -138,10 +141,13 @@ const Header = () => {
               {isLoggedIn ? (
                 <Link
                   href="/minha-conta"
-                  className="p-2 text-muted-foreground hover:text-foreground transition-colors active:scale-95"
+                  className="flex items-center gap-1.5 p-2 text-muted-foreground hover:text-foreground transition-colors active:scale-95"
                   aria-label="Minha conta"
                 >
                   <User size={19} />
+                  <span className="hidden lg:block text-[11px] font-semibold tracking-wide max-w-[100px] truncate">
+                    Olá, {user?.name?.split(' ')[0]}
+                  </span>
                 </Link>
               ) : (
                 <button
@@ -159,7 +165,12 @@ const Header = () => {
               >
                 <ShoppingBag size={19} />
                 {totalItems > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-primary text-primary-foreground text-[10px] font-bold flex items-center justify-center">
+                  <span
+                    className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-primary text-primary-foreground text-[10px] font-bold flex items-center justify-center"
+                    aria-live="polite"
+                    aria-atomic="true"
+                    aria-label={`${totalItems} ${totalItems === 1 ? 'item' : 'itens'} no carrinho`}
+                  >
                     {totalItems}
                   </span>
                 )}
@@ -170,7 +181,7 @@ const Header = () => {
 
         {/* Mobile nav */}
         {mobileOpen && (
-          <nav className="md:hidden border-t border-border bg-background animate-fade-in">
+          <nav id="mobile-nav" className="md:hidden border-t border-border bg-background animate-fade-in" aria-label="Navegação mobile">
             <div className="container py-5 flex flex-col gap-1 text-sm font-medium tracking-wide uppercase">
               {[
                 { label: 'Início', href: '/' },
@@ -179,6 +190,7 @@ const Header = () => {
                 { label: 'Scrubs', href: '/produtos?cat=Scrubs' },
                 { label: 'Blog', href: '/blog' },
                 { label: 'Lookbook', href: '/lookbook' },
+                { label: 'Nossa Loja Física', href: '/loja-matriz' },
                 { label: 'Favoritos', href: '/wishlist' },
               ].map(item => (
                 <Link

@@ -84,26 +84,30 @@ export default function ShippingCalculator({ onShippingSelected, selectedId, ini
         Calcular Frete
       </p>
       <div className="flex gap-2">
+        <label htmlFor="shipping-cep-input" className="sr-only">CEP para calcular frete</label>
         <input
+          id="shipping-cep-input"
           type="text"
           value={cep}
           onChange={e => setCep(formatCEP(e.target.value))}
           onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); handleCalculateClick() } }}
           placeholder="00000-000"
           maxLength={9}
+          autoComplete="postal-code"
           className="flex-1 border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:border-foreground transition-colors"
         />
         <button
           type="button"
           onClick={handleCalculateClick}
           disabled={loading}
+          aria-label="Calcular frete"
           className="px-4 py-2 bg-ink text-background text-xs font-semibold tracking-widest uppercase hover:bg-ink/90 active:scale-95 transition-all disabled:opacity-60 flex items-center gap-1.5"
         >
-          {loading ? <Loader2 size={12} className="animate-spin" /> : 'OK'}
+          {loading ? <Loader2 size={12} className="animate-spin" aria-hidden="true" /> : 'OK'}
         </button>
       </div>
 
-      {error && <p className="text-xs text-red-600">{error}</p>}
+      {error && <p className="text-xs text-red-600" role="alert" aria-live="polite">{error}</p>}
 
       {calculated && options.length > 0 && (
         <div className="space-y-2">

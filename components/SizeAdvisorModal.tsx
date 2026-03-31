@@ -110,19 +110,22 @@ type InputFieldProps = {
 }
 
 function InputField({ label, value, onChange, unit = 'cm', hint, required }: InputFieldProps) {
+  const inputId = `size-advisor-${label.toLowerCase().replace(/\s+/g, '-')}`
   return (
     <div>
-      <label className="block text-[11px] font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">
+      <label htmlFor={inputId} className="block text-[11px] font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">
         {label} <span className="font-normal normal-case tracking-normal">({unit})</span>
         {hint && <span className="ml-1 text-[10px] font-normal normal-case tracking-normal text-muted-foreground/70">— {hint}</span>}
-        {required && <span className="ml-1 text-red-400">*</span>}
+        {required && <span className="ml-1 text-red-400" aria-hidden="true">*</span>}
       </label>
       <input
+        id={inputId}
         type="text"
         inputMode="decimal"
         value={value}
         onChange={onChange}
         placeholder="0"
+        aria-required={required}
         className="w-full border border-border bg-background px-3 py-3 text-base focus:outline-none focus:border-primary transition-colors"
       />
     </div>
@@ -188,18 +191,23 @@ export default function SizeAdvisorModal({ productName, onClose }: Props) {
 
   return (
     <>
-      <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm animate-fade-in" onClick={onClose} />
+      <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm animate-fade-in" onClick={onClose} aria-hidden="true" />
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
-        <div className="bg-background w-full max-w-md pointer-events-auto animate-fade-up shadow-2xl max-h-[90vh] flex flex-col">
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="size-advisor-title"
+          className="bg-background w-full max-w-md pointer-events-auto animate-fade-up shadow-2xl max-h-[90vh] flex flex-col"
+        >
 
           {/* Header */}
           <div className="flex items-center justify-between px-6 py-5 border-b border-border flex-shrink-0">
             <div className="flex items-center gap-2">
-              <Ruler size={16} className="text-secondary" />
-              <span className="font-display text-lg font-semibold">Qual é o seu tamanho?</span>
+              <Ruler size={16} className="text-secondary" aria-hidden="true" />
+              <span id="size-advisor-title" className="font-display text-lg font-semibold">Qual é o seu tamanho?</span>
             </div>
-            <button onClick={onClose} className="p-2 text-muted-foreground hover:text-foreground transition-colors active:scale-95">
-              <X size={18} />
+            <button onClick={onClose} aria-label="Fechar consultor de tamanho" className="p-2 text-muted-foreground hover:text-foreground transition-colors active:scale-95">
+              <X size={18} aria-hidden="true" />
             </button>
           </div>
 
