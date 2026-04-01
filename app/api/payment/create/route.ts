@@ -196,19 +196,24 @@ export async function POST(request: NextRequest) {
     }
 
     if (paymentMethod === 'pix' && tx) {
-      response.pixQrCode = tx.qr_code
-      response.pixQrCodeUrl = tx.qr_code_url
-      response.pixExpiresAt = tx.expires_at
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const pixTx = tx as any
+      response.pixQrCode = pixTx.qr_code
+      response.pixQrCodeUrl = pixTx.qr_code_url
+      response.pixExpiresAt = pixTx.expires_at
     }
     if (paymentMethod === 'boleto' && tx) {
-      response.boletoUrl = tx.url
-      response.boletoPdf = tx.pdf
-      response.boletoLine = tx.line
-      response.boletoDueAt = tx.due_at
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const boletoTx = tx as any
+      response.boletoUrl = boletoTx.url
+      response.boletoPdf = boletoTx.pdf
+      response.boletoLine = boletoTx.line
+      response.boletoDueAt = boletoTx.due_at
     }
     if (paymentMethod === 'credit_card') {
       response.cardStatus = charge?.status
-      response.cardMessage = tx?.acquirer_message
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      response.cardMessage = (tx as any)?.acquirer_message
     }
 
     return NextResponse.json(response, { status: 201 })

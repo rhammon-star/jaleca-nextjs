@@ -75,9 +75,17 @@ Também enviar `billing: { name, address }` no nível do pedido.
 - Next.js substitui o frontend em jaleca.com.br
 - Melhor Envio: usa fallback (PAC/SEDEX estimado) — OAuth2 complexo, implementar pós-lançamento
 
+## Deploy — Vercel Pro
+- Hospedagem: Vercel Pro (Next.js) + cPanel/Hostinger (WordPress)
+- GitHub repo conectado ao Vercel — deploy automático no push
+- Variáveis de ambiente copiadas do .env.local para Vercel dashboard
+- Trial de 14 dias ativo — adicionar cartão antes de expirar
+
 ## Pendências antes do deploy
 - [ ] Remover console.log sensíveis: `lib/pagarme.ts`, `app/api/payment/create/route.ts`, `app/api/auth/login/route.ts`
-- [ ] Trocar `NEXT_PUBLIC_SITE_URL=http://localhost:3000` → `https://jaleca.com.br` no .env de produção
+- [ ] Trocar `NEXT_PUBLIC_SITE_URL=http://localhost:3000` → `https://jaleca.com.br` no .env de produção (Vercel dashboard)
 - [ ] Fazer backup completo do WordPress antes de subir
 - [ ] Configurar GA4_ID e META_PIXEL_ID reais (após lançamento)
 - [ ] Webhook Pagar.me: `https://jaleca.com.br/api/payment/webhook` ✅ já configurado
+- [ ] Apontar DNS jaleca.com.br para Vercel após backup WordPress
+- [ ] Migrar WordPress para Hostinger Basic (pós-lançamento Next.js)
