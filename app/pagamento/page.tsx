@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useCallback, useRef } from 'react'
+import { useEffect, useState, useCallback, useRef, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { CheckCircle, Clock, XCircle, Copy, Check, Loader2, ExternalLink } from 'lucide-react'
@@ -178,7 +178,7 @@ function CardView({ data }: { data: PaymentData }) {
   )
 }
 
-export default function PagamentoPage() {
+function PagamentoContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const [data, setData] = useState<PaymentData | null>(null)
@@ -293,5 +293,13 @@ export default function PagamentoPage() {
         </div>
       </div>
     </main>
+  )
+}
+
+export default function PagamentoPage() {
+  return (
+    <Suspense fallback={<main className="py-20 flex justify-center"><Loader2 size={32} className="animate-spin text-muted-foreground" /></main>}>
+      <PagamentoContent />
+    </Suspense>
   )
 }
