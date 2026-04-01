@@ -21,10 +21,10 @@ Site de uniformes médicos (jalecos/scrubs). Diretório: `/Users/rhammon/SiteJal
 - Pagamentos Pagar.me: ✅ PIX ✅ Boleto ✅ Cartão de Crédito
 - Email (via WordPress wp_mail): ✅
 - Verificação de email: ✅ (não bloqueia checkout)
-- Blog admin com IA: ✅
+- Blog admin com IA: ✅ (geração, humanização, SEO, imagem, seletor de categoria, deletar post)
 - Melhor Envio shipping: ⚠️ token placeholder, usa fallback
 - Analytics (GA4/Meta Pixel): ❌ placeholders
-- Login CPF existente no checkout: ❌ JWT Auth plugin não instalado
+- Login CPF existente no checkout: ✅ endpoint jaleca/v1/login via wp_authenticate()
 
 ## Pagamentos — arquivos principais
 - `lib/pagarme.ts` — cliente Pagar.me v5
@@ -69,23 +69,34 @@ Também enviar `billing: { name, address }` no nível do pedido.
 - Next.js chama via `/api/auth/login` → sem JWT Auth plugin (não precisar instalar)
 - Token retornado: wp_hash(user_id + email + AUTH_KEY) — não-expirável, aceito em /api/orders
 
-## Hospedagem — plano de deploy
-- cPanel tem **Setup Node.js App** — hospedar Next.js no mesmo servidor que o WordPress
-- WordPress continua em jaleca.com.br/wp-* (API WooCommerce intacta)
-- Next.js substitui o frontend em jaleca.com.br
-- Melhor Envio: usa fallback (PAC/SEDEX estimado) — OAuth2 complexo, implementar pós-lançamento
+## Blog admin — arquivos principais
+- `app/blog/admin/novo-post/NovoPostClient.tsx` — criação de post com IA + seletor de categoria
+- `app/blog/admin/posts/page.tsx` — lista de posts com botão de deletar (client component)
+- `app/blog/[slug]/page.tsx` — página pública do post (usa @tailwindcss/typography para prose)
+- `app/api/blog/categories/route.ts` — GET categorias do WordPress
+- `app/api/blog/posts/[id]/route.ts` — DELETE post do WordPress
+- `app/api/blog/publish/route.ts` — publica/rascunho no WordPress (aceita `categories`)
+- `lib/ai-content.ts` — geração, humanização, SEO via Gemini. `stripMarkdownCodeBlock()` remove wrapper ```html da resposta
+- Categorias devem existir no WordPress Admin → Posts → Categorias antes de aparecerem no seletor
 
-## Deploy — Vercel Pro
-- Hospedagem: Vercel Pro (Next.js) + cPanel/Hostinger (WordPress)
-- GitHub repo conectado ao Vercel — deploy automático no push
-- Variáveis de ambiente copiadas do .env.local para Vercel dashboard
-- Trial de 14 dias ativo — adicionar cartão antes de expirar
+## Hospedagem — decisão final
+- **Next.js:** Vercel Pro — deploy automático via GitHub, trial 14 dias (adicionar cartão)
+- **WordPress:** Hostinger Basic (Hospedagem de Sites) — só para API/WooCommerce
+- **Domínio:** registro.br — titular é o usuário (jaleca.com.br)
+- WordPress backup: All-in-One WP Migration (arquivo .wpress) — em andamento
+- DNS: após backup importado no Hostinger, apontar jaleca.com.br → Vercel
 
-## Pendências antes do deploy
-- [ ] Remover console.log sensíveis: `lib/pagarme.ts`, `app/api/payment/create/route.ts`, `app/api/auth/login/route.ts`
-- [ ] Trocar `NEXT_PUBLIC_SITE_URL=http://localhost:3000` → `https://jaleca.com.br` no .env de produção (Vercel dashboard)
-- [ ] Fazer backup completo do WordPress antes de subir
+## Plugin WordPress — jaleca-api.php
+- Arquivo em `/Users/rhammon/Downloads/jaleca-api.php`
+- Instalar em: `/wp-content/plugins/jaleca-api/jaleca-api.php`
+- Contém: dimensões padrão produtos, ordenação por estoque, campos checkout, endpoints jaleca/v1/send-email e jaleca/v1/login
+- Substitui todas as funções customizadas do tema ECOMDigital (que será removido)
+
+## Pendências
+- [ ] Backup WordPress terminar → importar no Hostinger
+- [ ] Instalar plugin jaleca-api.php no WordPress novo
+- [ ] Apontar DNS jaleca.com.br → Vercel (após WordPress novo funcionando)
+- [ ] Adicionar cartão no Vercel Pro antes do trial expirar
 - [ ] Configurar GA4_ID e META_PIXEL_ID reais (após lançamento)
 - [ ] Webhook Pagar.me: `https://jaleca.com.br/api/payment/webhook` ✅ já configurado
-- [ ] Apontar DNS jaleca.com.br para Vercel após backup WordPress
-- [ ] Migrar WordPress para Hostinger Basic (pós-lançamento Next.js)
+- [ ] Melhor Envio OAuth2 — pós-lançamento
