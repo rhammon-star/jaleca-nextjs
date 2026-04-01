@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import {
   Loader2, CheckCircle2, XCircle, AlertCircle, RefreshCw,
   Eye, EyeOff, Sparkles, BookOpen, Image as ImageIcon, Plus, Trash2, Upload,
@@ -31,6 +31,7 @@ type GeneratedResult = {
 }
 
 type LookProduct = { name: string; slug: string; price: string }
+type WPCategory = { id: number; name: string; slug: string }
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -101,7 +102,16 @@ export default function NovoPostClient() {
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle')
   const [saveError, setSaveError] = useState('')
   const [saveLink, setSaveLink] = useState('')
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(null)
+  const [categories, setCategories] = useState<WPCategory[]>([])
   const abortRef = useRef<AbortController | null>(null)
+
+  useEffect(() => {
+    fetch('/api/blog/categories')
+      .then(r => r.json())
+      .then(data => Array.isArray(data) && setCategories(data))
+      .catch(() => {})
+  }, [])
 
   // ── Lookbook state ──
   const [lookTitle, setLookTitle] = useState('')
@@ -240,6 +250,7 @@ export default function NovoPostClient() {
           slug: editSlug,
           imageUrl: result.imageUrl,
           status,
+          categories: selectedCategory ? [selectedCategory] : undefined,
         }),
       })
       const data = await res.json()
@@ -812,6 +823,24 @@ export default function NovoPostClient() {
                 />
               )}
             </div>
+
+            {categories.length > 0 && (
+              <div>
+                <label className="block text-xs font-semibold tracking-widests uppercase text-muted-foreground mb-1.5">
+                  Categoria
+                </label>
+                <select
+                  value={selectedCategory ?? ''}
+                  onChange={e => setSelectedCategory(e.target.value ? Number(e.target.value) : null)}
+                  className="w-full border border-border bg-background px-3 py-2.5 text-sm focus:outline-none focus:border-foreground transition-colors"
+                >
+                  <option value="">Sem categoria</option>
+                  {categories.map(cat => (
+                    <option key={cat.id} value={cat.id}>{cat.name}</option>
+                  ))}
+                </select>
+              </div>
+            )}
 
             {saveStatus === 'saved' && (
               <div className="p-3 bg-green-50 border border-green-200 text-green-700 text-sm flex items-center gap-2">

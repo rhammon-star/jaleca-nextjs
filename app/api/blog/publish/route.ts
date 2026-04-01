@@ -27,6 +27,7 @@ export async function POST(request: NextRequest) {
       slug?: string
       imageUrl?: string
       status?: 'draft' | 'publish'
+      categories?: number[]
     }
 
     if (!body.title || !body.content || !body.slug) {
@@ -67,6 +68,7 @@ export async function POST(request: NextRequest) {
         slug: body.slug,
         status: body.status || 'draft',
         featured_media: featuredMediaId,
+        categories: body.categories,
       },
       credentials
     )
