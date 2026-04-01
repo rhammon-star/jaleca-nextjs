@@ -180,15 +180,17 @@ export default async function BlogPostPage({
 
           {/* Content */}
           <div
-            className="prose prose-sm md:prose-base max-w-none
-              prose-headings:font-display prose-headings:font-semibold prose-headings:tracking-[-0.02em]
-              prose-h2:text-2xl prose-h2:mt-8 prose-h2:mb-4
-              prose-h3:text-xl prose-h3:mt-6 prose-h3:mb-3
-              prose-p:text-muted-foreground prose-p:leading-relaxed
-              prose-a:text-primary-text prose-a:underline prose-a:underline-offset-4
+            className="prose prose-base max-w-none
+              prose-headings:font-display prose-headings:font-semibold prose-headings:tracking-[-0.02em] prose-headings:text-foreground
+              prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4
+              prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
+              prose-p:text-foreground prose-p:leading-[1.8] prose-p:my-4
+              prose-a:text-primary prose-a:underline prose-a:underline-offset-4
               prose-strong:text-foreground prose-strong:font-semibold
-              prose-ul:text-muted-foreground prose-li:my-1
-              prose-img:rounded-none"
+              prose-ul:text-foreground prose-ul:my-4 prose-ul:pl-6
+              prose-ol:text-foreground prose-ol:my-4 prose-ol:pl-6
+              prose-li:my-2 prose-li:leading-relaxed
+              prose-img:rounded-none prose-img:my-6"
             dangerouslySetInnerHTML={{ __html: post.content.rendered }}
           />
 
