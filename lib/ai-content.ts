@@ -1,5 +1,13 @@
 const GEMINI_API_BASE = 'https://generativelanguage.googleapis.com/v1beta/models'
 
+function stripMarkdownCodeBlock(text: string): string {
+  return text
+    .replace(/^```html\s*/i, '')
+    .replace(/^```\s*/i, '')
+    .replace(/\s*```$/i, '')
+    .trim()
+}
+
 async function callGemini(model: string, prompt: string, maxTokens = 4096, jsonMode = false): Promise<string> {
   const apiKey = process.env.GEMINI_API_KEY
   if (!apiKey) throw new Error('GEMINI_API_KEY not set')
@@ -101,7 +109,8 @@ Instruções:
 
 Retorne APENAS o HTML reescrito, sem explicações, sem markdown.`
 
-  return callGemini('gemini-2.5-flash', prompt, 8192, false)
+  const raw = await callGemini('gemini-2.5-flash', prompt, 8192, false)
+  return stripMarkdownCodeBlock(raw)
 }
 
 export type SEOAnalysis = {
@@ -184,7 +193,8 @@ REGRAS:
 - Melhore a legibilidade conforme sugerido
 - Retorne APENAS o HTML melhorado`
 
-  return callGemini('gemini-2.5-flash', prompt, 8192, false)
+  const raw = await callGemini('gemini-2.5-flash', prompt, 8192, false)
+  return stripMarkdownCodeBlock(raw)
 }
 
 export async function generateLookDescription(
