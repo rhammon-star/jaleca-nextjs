@@ -20,7 +20,6 @@ export async function POST(request: NextRequest) {
     })
 
     const data = await res.json()
-    console.log('[Login] WP response status:', res.status, 'data:', JSON.stringify(data))
 
     if (!res.ok || data.error) {
       return NextResponse.json({ error: 'E-mail ou senha incorretos' }, { status: 401 })

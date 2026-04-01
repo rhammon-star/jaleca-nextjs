@@ -19,7 +19,6 @@ let blogUsers: BlogUser[] = [
     name: 'Admin',
     email: 'admin@jaleca.com.br',
     role: 'admin',
-    // hash of 'jaleca2024' using SHA-256 HMAC
     passwordHash: hashPassword('jaleca2024'),
   },
 ]

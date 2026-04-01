@@ -182,7 +182,6 @@ export async function createCreditCardOrder(params: {
       },
     }],
   }
-  console.log('[Pagar.me] Credit card order body:', JSON.stringify(body, null, 2))
   return pagarmeRequest('/orders', 'POST', body)
 }
 

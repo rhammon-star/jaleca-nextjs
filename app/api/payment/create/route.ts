@@ -180,13 +180,6 @@ export async function POST(request: NextRequest) {
     const charge = pagarmeOrder.charges?.[0]
     const tx = charge?.last_transaction
 
-    // Log card response details for debugging
-    if (paymentMethod === 'credit_card') {
-      console.log('[Payment] Pagar.me order status:', pagarmeOrder.status)
-      console.log('[Payment] Charge status:', charge?.status)
-      console.log('[Payment] Transaction:', JSON.stringify(tx, null, 2))
-    }
-
     const response: Record<string, unknown> = {
       wcOrderId: wcOrder.id,
       wcOrderKey: wcOrder.order_key,

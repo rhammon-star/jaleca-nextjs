@@ -17,7 +17,7 @@ async function getOrder(orderId: string) {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_WC_URL
       ? `https://${process.env.NEXT_PUBLIC_WC_URL.replace(/^https?:\/\//, '')}`
-      : 'http://localhost:3000'
+      : 'https://jaleca.com.br'
     const res = await fetch(`${baseUrl}/api/orders/${orderId}`, {
       cache: 'no-store',
     })
