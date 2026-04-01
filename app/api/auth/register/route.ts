@@ -1,11 +1,34 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createCustomer, loginCustomer } from '@/lib/woocommerce'
 import { validateCPF, cleanCPF } from '@/lib/cpf'
+import { sendEmailVerification } from '@/lib/email'
+import crypto from 'crypto'
 
 const WC_API = process.env.WOOCOMMERCE_API_URL!
 const auth = Buffer.from(
   `${process.env.WOOCOMMERCE_CONSUMER_KEY}:${process.env.WOOCOMMERCE_CONSUMER_SECRET}`
 ).toString('base64')
+
+async function sendVerificationEmail(customerId: number, email: string) {
+  const token = crypto.randomBytes(32).toString('hex')
+  const expires = String(Date.now() + 48 * 60 * 60 * 1000) // 48h
+
+  await fetch(`${WC_API}/customers/${customerId}`, {
+    method: 'PUT',
+    headers: { Authorization: `Basic ${auth}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      meta_data: [
+        { key: 'email_verify_token', value: token },
+        { key: 'email_verify_expires', value: expires },
+        { key: 'email_verified', value: '0' },
+      ],
+    }),
+  })
+
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://jaleca.com.br'
+  const link = `${siteUrl}/api/auth/verify-email?token=${token}&id=${customerId}`
+  await sendEmailVerification(link, email)
+}
 
 async function cpfAlreadyExists(cpf: string): Promise<boolean> {
   try {
@@ -70,6 +93,11 @@ export async function POST(request: NextRequest) {
       meta_data,
       billing: { phone: phone || '' },
     })
+
+    // Send verification email (fire-and-forget)
+    sendVerificationEmail(customer.id, customer.email).catch(err =>
+      console.error('[Register] Failed to send verification email:', err)
+    )
 
     // Auto-login after registration
     let token = ''

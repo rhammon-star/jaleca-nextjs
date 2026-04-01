@@ -12,18 +12,17 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Email e senha são obrigatórios' }, { status: 400 })
     }
 
-    const res = await fetch(
-      `${WC_API}/jaleca-login?consumer_key=${key}&consumer_secret=${secret}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: email, password }),
-      }
-    )
+    const wpUrl = process.env.NEXT_PUBLIC_WC_URL || 'https://jaleca.com.br'
+    const res = await fetch(`${wpUrl}/wp-json/jaleca/v1/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: email, password }),
+    })
 
     const data = await res.json()
+    console.log('[Login] WP response status:', res.status, 'data:', JSON.stringify(data))
 
-    if (!res.ok || data.code === 'invalid_credentials' || data.error) {
+    if (!res.ok || data.error) {
       return NextResponse.json({ error: 'E-mail ou senha incorretos' }, { status: 401 })
     }
 

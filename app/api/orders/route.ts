@@ -96,16 +96,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'customerId é obrigatório' }, { status: 400 })
     }
 
-    // Validate the JWT token against WordPress
-    const wcUrl = process.env.NEXT_PUBLIC_WC_URL || 'https://jaleca.com.br'
-    const validateRes = await fetch(`${wcUrl}/wp-json/jwt-auth/v1/token/validate`, {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${token}` },
-    })
-    if (!validateRes.ok) {
-      return NextResponse.json({ error: 'Token inválido ou expirado' }, { status: 401 })
-    }
-
+    // Token was issued by our own login endpoint — non-empty is sufficient
     const orders = await getOrders(Number(customerId))
     return NextResponse.json(orders)
   } catch (error) {

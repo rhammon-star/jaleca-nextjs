@@ -73,47 +73,31 @@ interface MailOptions {
 }
 
 async function sendMail(opts: MailOptions): Promise<void> {
-  const smtpHost = process.env.SMTP_HOST
-  const smtpUser = process.env.SMTP_USER
-  const smtpPass = process.env.SMTP_PASS
-  const smtpFrom = process.env.SMTP_FROM || 'noreply@jaleca.com.br'
+  const wcUrl = process.env.NEXT_PUBLIC_WC_URL || 'https://jaleca.com.br'
+  const emailKey = process.env.WP_EMAIL_KEY
 
-  const isConfigured =
-    smtpHost &&
-    smtpUser &&
-    smtpPass &&
-    smtpUser !== 'PLACEHOLDER' &&
-    smtpPass !== 'PLACEHOLDER'
-
-  if (!isConfigured) {
-    console.log('[Email] SMTP not configured — simulating send:')
+  if (!emailKey || emailKey === 'PLACEHOLDER') {
+    console.log('[Email] WP_EMAIL_KEY not configured — simulating send:')
     console.log(`  To: ${opts.to}`)
     console.log(`  Subject: ${opts.subject}`)
     return
   }
 
-  // Send via SMTP using nodemailer (dynamically loaded to avoid build errors)
   try {
-    const smtpPort = Number(process.env.SMTP_PORT || 587)
-
-    // Build a raw SMTP payload via fetch to a local SMTP relay if available,
-    // otherwise attempt nodemailer via eval to bypass static analysis
-    // Note: nodemailer must be installed separately for this to work in production
-    const transporterFn = new Function('require', `
-      const nm = require('nodemailer');
-      return nm.createTransport({
-        host: '${smtpHost}',
-        port: ${smtpPort},
-        secure: false,
-        auth: { user: '${smtpUser}', pass: '${smtpPass}' }
-      });
-    `)
-
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const transporter = transporterFn(require)
-    await transporter.sendMail({ from: smtpFrom, ...opts })
+    const res = await fetch(`${wcUrl}/wp-json/jaleca/v1/send-email`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Jaleca-Key': emailKey,
+      },
+      body: JSON.stringify(opts),
+    })
+    if (!res.ok) {
+      const text = await res.text()
+      console.error('[Email] WordPress endpoint error:', res.status, text)
+    }
   } catch (err) {
-    console.error('[Email] Send failed (nodemailer may not be installed):', err)
+    console.error('[Email] Send failed:', err)
     // Don't throw — email failure should not break order creation
   }
 }
@@ -194,6 +178,21 @@ export async function sendWelcome(customerName: string, customerEmail: string): 
     to: customerEmail,
     subject: 'Bem-vinda à Jaleca!',
     html: wrapHtml(content, 'Bem-vinda à Jaleca'),
+  })
+}
+
+export async function sendEmailVerification(verifyLink: string, customerEmail: string): Promise<void> {
+  const content = `
+    <h2 style="font-size:22px;margin:0 0 8px;">Confirme seu e-mail</h2>
+    <p style="color:#666;margin:0 0 16px;">Obrigada por comprar na Jaleca! Clique no botão abaixo para confirmar seu endereço de e-mail.</p>
+    <p style="color:#888;font-size:13px;margin:0 0 16px;">Se você não realizou uma compra conosco, ignore este e-mail.</p>
+    ${btn('Confirmar e-mail', verifyLink)}
+    <p style="color:#aaa;font-size:12px;margin-top:16px;">Este link expira em 48 horas.</p>
+  `
+  await sendMail({
+    to: customerEmail,
+    subject: 'Confirme seu e-mail — Jaleca',
+    html: wrapHtml(content, 'Confirme seu e-mail'),
   })
 }
 

@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
     const rawOptions = await calculateShipping(cleanCep, weight, items)
     const options = rawOptions.map(opt => ({
       ...opt,
-      cost: (parseFloat(String(opt.cost)) + 5).toFixed(2),
+      cost: parseFloat((parseFloat(String(opt.cost)) + 5).toFixed(2)),
     }))
 
     return NextResponse.json({

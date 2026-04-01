@@ -61,6 +61,13 @@ export default function CheckoutClient() {
   const [error, setError] = useState('')
   const [upsellProducts, setUpsellProducts] = useState<WooProduct[]>([])
 
+  // Card fields
+  const [cardNumber, setCardNumber] = useState('')
+  const [cardName, setCardName] = useState('')
+  const [cardExpiry, setCardExpiry] = useState('')
+  const [cardCvv, setCardCvv] = useState('')
+  const [installments, setInstallments] = useState(1)
+
   // CPF flow
   const [cpf, setCpf] = useState('')
   const [cpfStatus, setCpfStatus] = useState<'idle' | 'checking' | 'found' | 'not_found'>('idle')
@@ -190,6 +197,41 @@ export default function CheckoutClient() {
     }
   }
 
+  async function tokenizeCard(): Promise<string> {
+    const [expMonth, expYear] = cardExpiry.split('/')
+    const billingAddress = {
+      line_1: address.address_1
+        ? `${address.address_1}${address.address_2 ? ', ' + address.address_2 : ''}`.trim()
+        : 'Endereço não informado',
+      line_2: address.address_2 || '',
+      zip_code: address.postcode.replace(/\D/g, ''),
+      city: address.city,
+      state: address.state,
+      country: 'BR',
+    }
+    const res = await fetch(
+      `https://api.pagar.me/core/v5/tokens?appId=${process.env.NEXT_PUBLIC_PAGARME_PUBLIC_KEY}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'card',
+          card: {
+            number: cardNumber.replace(/\D/g, ''),
+            holder_name: cardName.trim().toUpperCase(),
+            exp_month: parseInt(expMonth),
+            exp_year: parseInt('20' + expYear.trim()),
+            cvv: cardCvv,
+            billing_address: billingAddress,
+          },
+        }),
+      }
+    )
+    const data = await res.json()
+    if (!res.ok || !data.id) throw new Error(data.message || 'Erro ao processar cartão')
+    return data.id
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setError('')
@@ -261,68 +303,71 @@ export default function CheckoutClient() {
         }
       }
 
-      const pagarmeMethodMap: Record<PaymentMethod, string> = {
-        pix: 'woo-pagarme-payments-pix',
-        boleto: 'woo-pagarme-payments-billet',
-        credit_card: 'woo-pagarme-payments-credit_card',
-      }
-      const pagarmeMethodTitleMap: Record<PaymentMethod, string> = {
-        pix: 'PIX',
-        boleto: 'Boleto Bancário',
-        credit_card: 'Cartão de Crédito',
-      }
-      const orderData = {
-        payment_method: pagarmeMethodMap[paymentMethod],
-        payment_method_title: pagarmeMethodTitleMap[paymentMethod],
-        set_paid: false,
-        billing: {
-          first_name: address.first_name,
-          last_name: address.last_name,
-          address_1: `${address.address_1}, ${address.address_2}`.trim().replace(/,$/, ''),
-          address_2: address.neighborhood,
-          city: address.city,
-          state: address.state,
-          postcode: address.postcode.replace(/\D/g, ''),
-          country: 'BR',
-          email,
-          phone: address.phone,
-        },
-        shipping: {
-          first_name: address.first_name,
-          last_name: address.last_name,
-          address_1: `${address.address_1}, ${address.address_2}`.trim().replace(/,$/, ''),
-          address_2: address.neighborhood,
-          city: address.city,
-          state: address.state,
-          postcode: address.postcode.replace(/\D/g, ''),
-          country: 'BR',
-        },
-        line_items: items.map(item => ({
-          product_id: item.databaseId,
-          quantity: item.quantity,
-        })),
-        shipping_lines: [{
-          method_id: shipping.id,
-          method_title: shipping.label,
-          total: shipping.cost.toFixed(2),
-        }],
-        customer_id: resolvedCustomerId,
+      const billingData = {
+        first_name: address.first_name,
+        last_name: address.last_name,
+        address_1: `${address.address_1}, ${address.address_2}`.trim().replace(/,$/, ''),
+        address_2: address.neighborhood,
+        city: address.city,
+        state: address.state,
+        postcode: address.postcode.replace(/\D/g, ''),
+        country: 'BR',
+        email,
+        phone: address.phone,
       }
 
-      const res = await fetch('/api/orders', {
+      // Tokenize card if needed
+      let cardToken: string | undefined
+      if (paymentMethod === 'credit_card') {
+        try {
+          cardToken = await tokenizeCard()
+        } catch (err) {
+          setError(err instanceof Error ? err.message : 'Erro ao processar cartão')
+          setLoading(false)
+          return
+        }
+      }
+
+      const paymentData = {
+        paymentMethod,
+        cpf: cleanCPF(cpf),
+        billing: billingData,
+        items: items.map(item => ({
+          product_id: item.databaseId,
+          quantity: item.quantity,
+          name: item.name,
+          price: parsePrice(item.price),
+        })),
+        shipping: {
+          method_id: shipping.id,
+          method_title: shipping.label,
+          cost: shipping.cost,
+        },
+        customer_id: resolvedCustomerId,
+        cardToken,
+        installments,
+      }
+
+      const res = await fetch('/api/payment/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(orderData),
+        body: JSON.stringify(paymentData),
       })
       const data = await res.json()
       if (!res.ok) {
-        setError(data.error || 'Erro ao criar pedido')
+        setError(data.error || 'Erro ao processar pagamento')
         return
       }
+
+      // For credit card, only clear cart if payment was approved
+      if (paymentMethod === 'credit_card' && data.cardStatus !== 'paid' && data.pagarmeStatus !== 'paid') {
+        setError(data.cardMessage || 'Pagamento não autorizado. Verifique os dados do cartão e tente novamente.')
+        return
+      }
+
       clearCart()
-      // Redirect to WooCommerce order-pay page so Pagar.me can process payment
-      const wcUrl = process.env.NEXT_PUBLIC_WC_URL || 'https://jaleca.com.br'
-      window.location.href = `${wcUrl}/checkout/order-pay/${data.orderId}/?pay_for_order=true&key=${data.orderKey}`
+      sessionStorage.setItem('jaleca-payment', JSON.stringify(data))
+      window.location.href = '/pagamento'
     } catch {
       setError('Erro ao processar pedido. Tente novamente.')
     } finally {
@@ -703,33 +748,109 @@ export default function CheckoutClient() {
                 </h2>
                 <div className="space-y-3">
                   {(['pix', 'boleto', 'credit_card'] as PaymentMethod[]).map(method => (
-                    <label
-                      key={method}
-                      className={`flex items-center gap-3 px-4 py-3 border cursor-pointer transition-colors ${
-                        paymentMethod === method ? 'border-foreground bg-secondary/20' : 'border-border hover:border-foreground/50'
-                      }`}
-                    >
-                      <input
-                        type="radio"
-                        name="payment"
-                        value={method}
-                        checked={paymentMethod === method}
-                        onChange={() => setPaymentMethod(method)}
-                        className="accent-foreground"
-                      />
-                      <div>
-                        <p className="text-sm font-medium">
-                          {method === 'pix' && 'PIX'}
-                          {method === 'boleto' && 'Boleto Bancário'}
-                          {method === 'credit_card' && 'Cartão de Crédito'}
-                        </p>
-                        <p className="text-xs text-muted-foreground">
-                          {method === 'pix' && 'Aprovação imediata'}
-                          {method === 'boleto' && 'Vencimento em 3 dias úteis'}
-                          {method === 'credit_card' && 'Você será redirecionado para o site seguro'}
-                        </p>
-                      </div>
-                    </label>
+                    <div key={method}>
+                      <label
+                        className={`flex items-center gap-3 px-4 py-3 border cursor-pointer transition-colors ${
+                          paymentMethod === method ? 'border-foreground bg-secondary/20' : 'border-border hover:border-foreground/50'
+                        }`}
+                      >
+                        <input
+                          type="radio"
+                          name="payment"
+                          value={method}
+                          checked={paymentMethod === method}
+                          onChange={() => setPaymentMethod(method)}
+                          className="accent-foreground"
+                        />
+                        <div>
+                          <p className="text-sm font-medium">
+                            {method === 'pix' && 'PIX'}
+                            {method === 'boleto' && 'Boleto Bancário'}
+                            {method === 'credit_card' && 'Cartão de Crédito'}
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            {method === 'pix' && `Aprovação imediata${process.env.NEXT_PUBLIC_PIX_DISCOUNT ? ` · ${process.env.NEXT_PUBLIC_PIX_DISCOUNT}% de desconto` : ''}`}
+                            {method === 'boleto' && 'Vencimento em 3 dias úteis'}
+                            {method === 'credit_card' && 'Visa, Mastercard, Elo, Amex'}
+                          </p>
+                        </div>
+                      </label>
+
+                      {/* Card form */}
+                      {method === 'credit_card' && paymentMethod === 'credit_card' && (
+                        <div className="border border-t-0 border-foreground bg-secondary/10 p-4 space-y-3">
+                          <div>
+                            <label className="block text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">Número do Cartão *</label>
+                            <input
+                              type="text"
+                              value={cardNumber}
+                              onChange={e => {
+                                const v = e.target.value.replace(/\D/g, '').slice(0, 16)
+                                setCardNumber(v.replace(/(.{4})/g, '$1 ').trim())
+                              }}
+                              placeholder="0000 0000 0000 0000"
+                              maxLength={19}
+                              autoComplete="cc-number"
+                              className="w-full border border-border bg-background px-3 py-2.5 text-sm focus:outline-none focus:border-foreground transition-colors"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">Nome no Cartão *</label>
+                            <input
+                              type="text"
+                              value={cardName}
+                              onChange={e => setCardName(e.target.value.toUpperCase())}
+                              placeholder="NOME COMO NO CARTÃO"
+                              autoComplete="cc-name"
+                              className="w-full border border-border bg-background px-3 py-2.5 text-sm focus:outline-none focus:border-foreground transition-colors"
+                            />
+                          </div>
+                          <div className="grid grid-cols-2 gap-3">
+                            <div>
+                              <label className="block text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">Validade *</label>
+                              <input
+                                type="text"
+                                value={cardExpiry}
+                                onChange={e => {
+                                  const v = e.target.value.replace(/\D/g, '').slice(0, 4)
+                                  setCardExpiry(v.length > 2 ? `${v.slice(0, 2)}/${v.slice(2)}` : v)
+                                }}
+                                placeholder="MM/AA"
+                                maxLength={5}
+                                autoComplete="cc-exp"
+                                className="w-full border border-border bg-background px-3 py-2.5 text-sm focus:outline-none focus:border-foreground transition-colors"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">CVV *</label>
+                              <input
+                                type="text"
+                                value={cardCvv}
+                                onChange={e => setCardCvv(e.target.value.replace(/\D/g, '').slice(0, 4))}
+                                placeholder="000"
+                                maxLength={4}
+                                autoComplete="cc-csc"
+                                className="w-full border border-border bg-background px-3 py-2.5 text-sm focus:outline-none focus:border-foreground transition-colors"
+                              />
+                            </div>
+                          </div>
+                          <div>
+                            <label className="block text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">Parcelas *</label>
+                            <select
+                              value={installments}
+                              onChange={e => setInstallments(Number(e.target.value))}
+                              className="w-full border border-border bg-background px-3 py-2.5 text-sm focus:outline-none focus:border-foreground transition-colors"
+                            >
+                              {Array.from({ length: 3 }, (_, i) => i + 1).map(n => (
+                                <option key={n} value={n}>
+                                  {n}x de {formatCurrency(total / n)} {n === 1 ? '(sem juros)' : '(sem juros)'}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   ))}
                 </div>
               </section>

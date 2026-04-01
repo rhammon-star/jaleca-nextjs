@@ -311,6 +311,23 @@ export default function MinhaContaClient() {
     })
   }
 
+  function handlePayNow(order: WCOrder) {
+    order.line_items?.forEach(item => {
+      const times = item.quantity || 1
+      for (let i = 0; i < times; i++) {
+        addItem({
+          id: String(item.product_id || item.id),
+          databaseId: item.product_id || item.id,
+          slug: item.sku || '',
+          name: item.name,
+          image: item.image?.src,
+          price: formatCurrency(parseFloat(item.total) / times),
+        })
+      }
+    })
+    router.push('/checkout')
+  }
+
   async function handleProfileSave(e: React.FormEvent) {
     e.preventDefault()
     setProfileError('')
@@ -556,13 +573,23 @@ export default function MinhaContaClient() {
                                 <span>{formatCurrency(order.total)}</span>
                               </div>
 
-                              {/* Reorder */}
-                              <button
-                                onClick={() => handleReorderAll(order)}
-                                className="flex items-center gap-2 text-xs font-semibold tracking-widest uppercase border border-border px-4 py-2 hover:bg-ink hover:text-background hover:border-ink transition-all"
-                              >
-                                <Repeat2 size={13} />Comprar novamente
-                              </button>
+                              {/* Actions */}
+                              <div className="flex flex-wrap gap-2">
+                                {order.status === 'pending' && (
+                                  <button
+                                    onClick={() => handlePayNow(order)}
+                                    className="flex items-center gap-2 text-xs font-semibold tracking-widest uppercase bg-ink text-background px-4 py-2 hover:bg-ink/90 transition-all"
+                                  >
+                                    Pagar agora
+                                  </button>
+                                )}
+                                <button
+                                  onClick={() => handleReorderAll(order)}
+                                  className="flex items-center gap-2 text-xs font-semibold tracking-widest uppercase border border-border px-4 py-2 hover:bg-ink hover:text-background hover:border-ink transition-all"
+                                >
+                                  <Repeat2 size={13} />Comprar novamente
+                                </button>
+                              </div>
                             </div>
                           )}
                         </div>
