@@ -67,6 +67,20 @@ export async function publishPost(
   return { id: post.id, link: post.link }
 }
 
+export async function deletePost(
+  postId: number,
+  credentials: { username: string; appPassword: string }
+): Promise<void> {
+  const res = await fetch(`${WP_URL}/posts/${postId}?force=true`, {
+    method: 'DELETE',
+    headers: { Authorization: getAuthHeader(credentials) },
+  })
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ message: res.statusText }))
+    throw new Error(err.message || `WordPress API error: ${res.status}`)
+  }
+}
+
 export async function uploadMedia(
   imageUrl: string,
   filename: string,

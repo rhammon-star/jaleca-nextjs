@@ -1,6 +1,8 @@
+'use client'
+
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { Calendar, ExternalLink } from 'lucide-react'
-import { getPosts } from '@/lib/wordpress'
+import { Calendar, ExternalLink, Trash2 } from 'lucide-react'
 import type { WPPost } from '@/lib/wordpress'
 
 function stripHtml(html: string): string {
@@ -11,12 +13,32 @@ function formatDate(dateStr: string): string {
   return new Date(dateStr).toLocaleDateString('pt-BR')
 }
 
-export default async function BlogAdminPostsPage() {
-  let posts: WPPost[] = []
-  try {
-    posts = await getPosts({ per_page: 50 })
-  } catch {
-    posts = []
+export default function BlogAdminPostsPage() {
+  const [posts, setPosts] = useState<WPPost[]>([])
+  const [deleting, setDeleting] = useState<number | null>(null)
+
+  useEffect(() => {
+    fetch('/api/blog/posts')
+      .then(r => r.json())
+      .then(data => Array.isArray(data) && setPosts(data))
+      .catch(() => {})
+  }, [])
+
+  async function handleDelete(postId: number, title: string) {
+    if (!confirm(`Excluir o post "${title}"? Esta ação não pode ser desfeita.`)) return
+    setDeleting(postId)
+    try {
+      const res = await fetch(`/api/blog/posts/${postId}`, { method: 'DELETE' })
+      if (res.ok) {
+        setPosts(prev => prev.filter(p => p.id !== postId))
+      } else {
+        alert('Erro ao excluir post.')
+      }
+    } catch {
+      alert('Erro ao excluir post.')
+    } finally {
+      setDeleting(null)
+    }
   }
 
   return (
@@ -87,6 +109,14 @@ export default async function BlogAdminPostsPage() {
                   >
                     <ExternalLink size={14} />
                   </a>
+                  <button
+                    onClick={() => handleDelete(post.id, title)}
+                    disabled={deleting === post.id}
+                    className="text-muted-foreground hover:text-red-500 transition-colors disabled:opacity-40"
+                    title="Excluir post"
+                  >
+                    <Trash2 size={14} />
+                  </button>
                 </div>
               </div>
             )
