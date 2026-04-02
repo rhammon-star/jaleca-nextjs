@@ -5,14 +5,14 @@ import type { WooProduct } from '@/components/ProductCard'
 
 export const dynamic = 'force-dynamic'
 
+type ProductsPage = { products: { pageInfo: { hasNextPage: boolean; endCursor: string }; nodes: WooProduct[] } }
+
 async function getAllProducts(): Promise<WooProduct[]> {
   const all: WooProduct[] = []
   let cursor: string | null = null
   try {
     do {
-      const data = await graphqlClient.request<{
-        products: { pageInfo: { hasNextPage: boolean; endCursor: string }; nodes: WooProduct[] }
-      }>(GET_PRODUCTS, { first: 24, after: cursor })
+      const data: ProductsPage = await graphqlClient.request<ProductsPage>(GET_PRODUCTS, { first: 24, after: cursor })
       all.push(...data.products.nodes)
       cursor = data.products.pageInfo.hasNextPage ? data.products.pageInfo.endCursor : null
     } while (cursor)
