@@ -115,41 +115,74 @@ Registros configurados em registro.br (modo avançado):
 - MX 5: alt1.aspmx.l.google.com, alt2.aspmx.l.google.com
 - MX 10: alt3.aspmx.l.google.com, alt4.aspmx.l.google.com
 
-## Pendências
-- [x] Backup WordPress terminar → importar no Hostinger (feito via Migrate Guru)
-- [x] Instalar plugin jaleca-api.php no WordPress novo
-- [x] Apontar DNS jaleca.com.br → Vercel (registros configurados, propagando ~02:30 de 02/04/2026)
-- [x] Adicionar cartão no Vercel Pro antes do trial expirar
-- [x] Remover menções a frete grátis (AnnouncementBar + CartDrawer)
-- [x] Atualizar tagline hero: "Jalecos e uniformes profissionais com acabamento refinado, para quem não se contenta com o básico."
-- [x] Verificar jaleca.com.br após propagação DNS — site no ar ✅
-- [x] Conectar admin.jaleca.com.br no Hostinger ✅
-- [x] WordPress URL configurado para https://wp.jaleca.com.br ✅
-- [x] Variáveis Vercel atualizadas → NEXT_PUBLIC_WC_URL, WOOCOMMERCE_API_URL, NEXT_PUBLIC_WOOCOMMERCE_GRAPHQL_URL → wp.jaleca.com.br
-- [x] Plugin jaleca-api.php instalado e ativo no WordPress novo (Hostinger)
-- [x] Produtos aparecem na home ✅
-- [x] Login de cliente funcionando ✅
-- [x] CPF lookup no checkout funcionando (rápido com $wpdb direto) ✅
-- [x] WordPress acessível em wp.jaleca.com.br/wp-admin ✅
-- [x] PHP memory_limit aumentado: WP_MEMORY_LIMIT=512M, WP_MAX_MEMORY_LIMIT=512M em wp-config.php ✅
-- [x] galleryImages e variations removidos de GET_PRODUCTS (reduz memória) ✅
-- [x] GET_PRODUCTS usa product-level attributes para filtros de cor/tamanho ✅
-- [x] Página /produtos carregando produtos ✅
-- [x] Filtros de cor e tamanho funcionando ✅
-- [x] PA_COLOR renomeado para "Cor" na página de produto ✅
-- [x] Imagem muda ao selecionar cor (mesmo sem tamanho selecionado) — normalização slug vs nome ✅
-- [x] Galeria de variações via WPGraphQL (jalecaGalleryImages) — sem chamada client-side lenta ✅
-- [x] Links do menu (Jalecos Femininos, Masculinos, Brancos) filtram corretamente via ?genero= e ?cor= ✅
-- [x] Frontend WordPress redireciona para jaleca.com.br — "Visualizar alterações" abre produto correto ✅
-- [x] ISR (revalidate 3600) em páginas de produto — sem generateStaticParams (causava 404s por sobrecarregar WordPress) ✅
-- [x] Botão "Ver Produto" removido do ProductCard ✅
-- [x] Favicon substituído pelo logo dourado da Jaleca ✅
-- [x] Miniaturas de variações sem estoque ocultas — galeria do produto (todas as cores) nunca aparece ✅
-- [x] Reviews e produtos relacionados movidos para server-side — eliminadas 2 chamadas client-side ao WordPress ✅
-- [x] Vercel Speed Insights instalado ✅
-- [x] Script de aquecimento de cache: `npm run warm-cache` (rodar após cada deploy) ✅
-- [x] Endpoint `/api/revalidate` para revalidação on-demand via webhook ✅
-- [ ] Configurar REVALIDATE_SECRET no Vercel + WordPress para ativar webhook de novo produto
-- [ ] Configurar Webhook Pagar.me: https://jaleca.com.br/api/payment/webhook
-- [ ] Configurar GA4_ID e META_PIXEL_ID reais (após lançamento)
-- [ ] Melhor Envio OAuth2 — pós-lançamento
+## Cache — arquitetura atual
+- `unstable_cache` em todas as fetches de produto, home, reviews, relacionados — persiste entre deploys
+- `revalidate = 3600` em todas as páginas de produto e home
+- `vercel.json` configura `buildCommand: "next build && node scripts/warm-cache.mjs"` — aquece cache automaticamente após cada deploy
+- `app/api/revalidate/route.ts` — endpoint seguro para revalidar paths via webhook (requer header `x-revalidate-secret`)
+- `app/api/products-by-slugs/route.ts` — proxy server-side para RecentlyViewed (evita chamada cross-origin ao WordPress)
+- warm-cache manual: `npm run warm-cache`
+
+## Analytics — estado atual
+- GA4: variável `NEXT_PUBLIC_GA4_ID` com valor `G-PLACEHOLDER` → substituir pelo ID real
+- Meta Pixel: variável `NEXT_PUBLIC_META_PIXEL_ID` com valor placeholder → substituir pelo ID real
+- Eventos implementados no código: PageView, ViewContent, AddToCart, Purchase
+- Arquivo: `components/Analytics.tsx`
+- Speed Insights Vercel: instalado e ativo
+
+## PLANO COMPLETO — O QUE FALTA
+
+### FASE 1 — Lançamento (urgente)
+- [ ] Testar cartão de crédito com compra real no Pagar.me
+- [ ] Testar boleto com compra real no Pagar.me
+- [ ] Configurar Webhook Pagar.me → `jaleca.com.br/api/payment/webhook` (painel Pagar.me)
+- [ ] Verificar email de confirmação chegando ao cliente após compra
+- [ ] Verificar pedidos aparecendo no WooCommerce após pagamento PIX/cartão/boleto
+- [ ] Substituir `G-PLACEHOLDER` pelo ID real do GA4 (Vercel env vars)
+- [ ] Substituir placeholder pelo ID real do Meta Pixel (Vercel env vars)
+- [ ] Google Search Console — verificar domínio + enviar sitemap
+- [ ] Verificar `jaleca.com.br/sitemap.xml` inclui todos os produtos
+
+### FASE 2 — Operacional (próximas 2 semanas)
+- [ ] Melhor Envio OAuth2 — substituir token placeholder pelo real
+- [ ] Testar cálculo de frete no checkout com CEP real
+- [ ] Frete grátis progressivo — "faltam R$X para frete grátis" no carrinho
+- [ ] Página de Política de Entrega e Prazos
+- [ ] Página de Política de Troca e Devolução
+- [ ] Página Sobre a Jaleca
+- [ ] FAQ — tamanho, material, lavagem, troca
+- [ ] Completar cadastro de todos os produtos com fotos de todas as variações
+- [ ] Configurar REVALIDATE_SECRET no Vercel + WordPress (produto novo → site em tempo real)
+- [ ] Tabela de medidas completa por modelo
+
+### FASE 3 — Marketing (primeiros 30 dias)
+- [ ] Google Merchant Center — produtos no Google Shopping gratuito
+- [ ] Primeira campanha Meta Ads com catálogo dinâmico
+- [ ] Remarketing — reimpactar visitantes que não compraram
+- [ ] Google Ads — palavras-chave: "jaleco feminino premium", "jaleco enfermagem"
+- [ ] Recuperação de carrinho abandonado — email automático (1h, 24h, 72h)
+- [ ] Cupom de primeira compra funcional no popup
+- [ ] Instagram Shopping — vincular catálogo WooCommerce
+- [ ] Calendário de conteúdo mensal (fotos, Reels, stories)
+- [ ] Vídeo 15s do jaleco sendo vestido para Reels/TikTok
+- [ ] Email marketing — escolher plataforma (Klaviyo/Mailchimp/RD Station)
+- [ ] Conectar captura de leads do popup à plataforma de email
+- [ ] Fluxo de boas-vindas para novos cadastros
+- [ ] WhatsApp Business com catálogo integrado
+
+### FASE 4 — Crescimento (30 a 90 dias)
+- [ ] Blog SEO — 10 artigos otimizados (estrutura já existe)
+- [ ] Parceria com 5 influenciadores da saúde (micro, 10k-100k seguidores)
+- [ ] Avaliações com foto — incentivar clientes
+- [ ] Depoimentos em vídeo de clientes reais
+- [ ] Programa de indicação — "indique um colega, ganhe R$30"
+- [ ] Cashback ou programa de pontos
+- [ ] Email pós-venda automático 30 dias após compra
+- [ ] Lista de espera para esgotados com email automático
+- [ ] Parcerias com sites de faculdades de medicina/enfermagem
+
+### FASE 5 — Escala (90+ dias)
+- [ ] TikTok Shop
+- [ ] Marketplace — Mercado Livre, Shopee
+- [ ] Coleção B2B — venda para clínicas/hospitais em volume
+- [ ] Personalização — bordado do nome/CRM no jaleco
