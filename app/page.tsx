@@ -96,7 +96,7 @@ export default async function Home() {
               Elegância clínica em cada detalhe
             </h1>
             <p className="text-[#777] text-base leading-relaxed mb-8">
-              Jalecos com caimento refinado e paleta suave para quem cuida com cuidado.
+              Jalecos e uniformes profissionais com acabamento refinado, para quem não se contenta com o básico.
             </p>
             <div className="flex flex-wrap gap-3">
               <Link

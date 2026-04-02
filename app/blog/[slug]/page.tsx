@@ -218,7 +218,7 @@ export default async function BlogPostPage({
             <p className="text-[10px] font-semibold tracking-[0.3em] uppercase text-[#b8a98a] mb-2">Coleção Jaleca</p>
             <h2 className="font-display text-2xl font-semibold mb-3">Conheça nossos jalecos</h2>
             <p className="text-sm text-muted-foreground mb-6 max-w-sm mx-auto">
-              Uniformes profissionais com elegância e conforto para quem cuida com cuidado.
+              Jalecos e uniformes profissionais com acabamento refinado, para quem não se contenta com o básico.
             </p>
             <div className="flex flex-wrap gap-3 justify-center">
               <Link
