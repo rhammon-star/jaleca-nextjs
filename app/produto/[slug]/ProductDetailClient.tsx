@@ -382,18 +382,6 @@ export default function ProductDetailClient({ product }: { product: Product }) {
   useEffect(() => {
     if (!product.variations?.nodes.length) return
 
-    // Build map from GraphQL jalecaGalleryImages field
-    const fromGraphQL: Record<number, GalleryImage[]> = {}
-    for (const v of product.variations.nodes) {
-      if (v.jalecaGalleryImages && v.jalecaGalleryImages.length > 0) {
-        fromGraphQL[v.databaseId] = v.jalecaGalleryImages
-      }
-    }
-    if (Object.keys(fromGraphQL).length > 0) {
-      setVariationGalleries(fromGraphQL)
-      return
-    }
-
     // Use GraphQL jalecaGalleryImages if available
     const fromGraphQL: Record<number, GalleryImage[]> = {}
     for (const v of product.variations.nodes) {
