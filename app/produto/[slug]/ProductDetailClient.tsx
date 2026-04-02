@@ -92,6 +92,10 @@ function buildSlugMap(attr: Attribute | undefined): Record<string, string> {
   return map
 }
 
+function formatAttrLabel(name: string): string {
+  return name.replace(/^pa_/i, '').replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
+}
+
 function isColorAttr(a: { name: string; label?: string }) {
   const n = a.name.toLowerCase()
   const l = (a.label ?? '').toLowerCase()
@@ -264,10 +268,22 @@ export default function ProductDetailClient({ product }: { product: Product }) {
   const stockStatus = matchedVariation?.stockStatus ?? product.stockStatus
   const isOutOfStock = stockStatus === 'OUT_OF_STOCK'
 
+  // Find a variation just by color (for image preview before size is selected)
+  const colorPreviewVariation = selectedColor && !matchedVariation
+    ? product.variations?.nodes.find(v => {
+        const vColor = v.attributes.nodes.find(a => isColorAttr(a))
+        if (!vColor) return false
+        const selectedColorName = colorNames[selectedColor] ?? selectedColor
+        return vColor.value.toLowerCase() === selectedColor.toLowerCase() ||
+          vColor.value.toLowerCase() === selectedColorName.toLowerCase()
+      })
+    : undefined
+
   // Build gallery: use variation gallery if available, otherwise product gallery
   const galleryNodes = product.galleryImages?.nodes ?? []
-  const varGallery = matchedVariation?.databaseId ? (variationGalleries[matchedVariation.databaseId] ?? []) : []
-  const baseImage = matchedVariation?.image?.sourceUrl ? matchedVariation.image : product.image
+  const activeVariationForGallery = matchedVariation ?? colorPreviewVariation
+  const varGallery = activeVariationForGallery?.databaseId ? (variationGalleries[activeVariationForGallery.databaseId] ?? []) : []
+  const baseImage = activeVariationForGallery?.image?.sourceUrl ? activeVariationForGallery.image : product.image
 
   const allImages = varGallery.length > 0
     ? varGallery  // variation has its own gallery → use it entirely
@@ -278,7 +294,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
   const displayImage = allImages[activeImageIdx] ?? baseImage
 
   // Reset to first image when variation changes
-  const prevMatchedId = matchedVariation?.id
+  const prevMatchedId = matchedVariation?.id ?? colorPreviewVariation?.id
   useEffect(() => { setActiveImageIdx(0) }, [prevMatchedId])
 
   const canAdd = (colorSlugs.length === 0 || selectedColor) &&
@@ -547,7 +563,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
             {colorSlugs.length > 0 && (
               <div className="mb-6">
                 <p className="text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-3">
-                  {colorAttrDef?.name ?? 'Cor'}{selectedColor ? `: ${colorNames[selectedColor] ?? selectedColor}` : ''}
+                  {formatAttrLabel(colorAttrDef?.name ?? 'Cor')}{selectedColor ? `: ${colorNames[selectedColor] ?? selectedColor}` : ''}
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {colorSlugs.map(slug => {

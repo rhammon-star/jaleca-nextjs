@@ -83,20 +83,57 @@ Também enviar `billing: { name, address }` no nível do pedido.
 - **Next.js:** Vercel Pro — deploy automático via GitHub, trial 14 dias (adicionar cartão)
 - **WordPress:** Hostinger Basic (Hospedagem de Sites) — só para API/WooCommerce
 - **Domínio:** registro.br — titular é o usuário (jaleca.com.br)
-- WordPress backup: All-in-One WP Migration (arquivo .wpress) — em andamento
+- WordPress backup: All-in-One WP Migration — arquivo `.wpress` (3.06 GB) gerado e enviado ao servidor
 - DNS: após backup importado no Hostinger, apontar jaleca.com.br → Vercel
+
+## Migração WordPress → Hostinger (concluída ✅)
+- WordPress instalado em: `~/domains/wp.jaleca.com.br/public_html/`
+- Domínio WordPress: `https://wp.jaleca.com.br` (wp-admin: wp.jaleca.com.br/wp-admin, usuário admin: Ana Luiza)
+- SSH: `ssh -p 65002 u537333031@82.25.73.174` (senha SSH separada da conta Hostinger)
+- WP-CLI disponível no servidor (`wp --info` funciona)
+- Migração feita com **Migrate Guru** (gratuito, sem limite de tamanho) — direto site-a-site
+- Plugin "All In One WP Security" desativado (bloqueava wp-login.php) — deixar desativado
+- Banco de dados: `u537333031_MJ3tY`, usuário: `u537333031_UKhGC`, host: `127.0.0.1`
+- PHP memory_limit: 512M (definido em .user.ini)
 
 ## Plugin WordPress — jaleca-api.php
 - Arquivo em `/Users/rhammon/Downloads/jaleca-api.php`
-- Instalar em: `/wp-content/plugins/jaleca-api/jaleca-api.php`
-- Contém: dimensões padrão produtos, ordenação por estoque, campos checkout, endpoints jaleca/v1/send-email e jaleca/v1/login
-- Substitui todas as funções customizadas do tema ECOMDigital (que será removido)
+- Instalado em: `~/domains/wp.jaleca.com.br/public_html/wp-content/plugins/jaleca-api/jaleca-api.php`
+- Contém: dimensões padrão produtos, ordenação por estoque, campos checkout, endpoints jaleca/v1/send-email, jaleca/v1/login, wc/v3/jaleca-cpf-lookup
+- CPF lookup usa query direta no $wpdb (rápido, sem get_users)
+
+## DNS — registro.br (configurado ✅)
+Registros configurados em registro.br (modo avançado):
+- A: jaleca.com.br → 216.198.79.1 (Vercel)
+- A: wp.jaleca.com.br → 82.25.73.174 (Hostinger WordPress)
+- CNAME: www.jaleca.com.br → bc060d04fd865036.vercel-dns-017.com
+- MX 1: aspmx.l.google.com
+- MX 5: alt1.aspmx.l.google.com, alt2.aspmx.l.google.com
+- MX 10: alt3.aspmx.l.google.com, alt4.aspmx.l.google.com
 
 ## Pendências
-- [ ] Backup WordPress terminar → importar no Hostinger
-- [ ] Instalar plugin jaleca-api.php no WordPress novo
-- [ ] Apontar DNS jaleca.com.br → Vercel (após WordPress novo funcionando)
-- [ ] Adicionar cartão no Vercel Pro antes do trial expirar
+- [x] Backup WordPress terminar → importar no Hostinger (feito via Migrate Guru)
+- [x] Instalar plugin jaleca-api.php no WordPress novo
+- [x] Apontar DNS jaleca.com.br → Vercel (registros configurados, propagando ~02:30 de 02/04/2026)
+- [x] Adicionar cartão no Vercel Pro antes do trial expirar
+- [x] Remover menções a frete grátis (AnnouncementBar + CartDrawer)
+- [x] Atualizar tagline hero: "Jalecos e uniformes profissionais com acabamento refinado, para quem não se contenta com o básico."
+- [x] Verificar jaleca.com.br após propagação DNS — site no ar ✅
+- [x] Conectar admin.jaleca.com.br no Hostinger ✅
+- [x] WordPress URL configurado para https://wp.jaleca.com.br ✅
+- [x] Variáveis Vercel atualizadas → NEXT_PUBLIC_WC_URL, WOOCOMMERCE_API_URL, NEXT_PUBLIC_WOOCOMMERCE_GRAPHQL_URL → wp.jaleca.com.br
+- [x] Plugin jaleca-api.php instalado e ativo no WordPress novo (Hostinger)
+- [x] Produtos aparecem na home ✅
+- [x] Login de cliente funcionando ✅
+- [x] CPF lookup no checkout funcionando (rápido com $wpdb direto) ✅
+- [x] WordPress acessível em wp.jaleca.com.br/wp-admin ✅
+- [x] PHP memory_limit aumentado: WP_MEMORY_LIMIT=512M, WP_MAX_MEMORY_LIMIT=512M em wp-config.php ✅
+- [x] galleryImages e variations removidos de GET_PRODUCTS (reduz memória) ✅
+- [x] GET_PRODUCTS usa product-level attributes para filtros de cor/tamanho ✅
+- [x] Página /produtos carregando produtos ✅
+- [x] Filtros de cor e tamanho funcionando ✅
+- [x] PA_COLOR renomeado para "Cor" na página de produto ✅
+- [x] Imagem muda ao selecionar cor (mesmo sem tamanho selecionado) ✅
+- [ ] Configurar Webhook Pagar.me: https://jaleca.com.br/api/payment/webhook
 - [ ] Configurar GA4_ID e META_PIXEL_ID reais (após lançamento)
-- [ ] Webhook Pagar.me: `https://jaleca.com.br/api/payment/webhook` ✅ já configurado
 - [ ] Melhor Envio OAuth2 — pós-lançamento
