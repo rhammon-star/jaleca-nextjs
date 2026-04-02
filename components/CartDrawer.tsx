@@ -131,29 +131,6 @@ export default function CartDrawer() {
           </button>
         </div>
 
-        {/* Free shipping progress bar */}
-        {items.length > 0 && (() => {
-          const FREE_SHIPPING_THRESHOLD = 299
-          const progress = Math.min((subtotal / FREE_SHIPPING_THRESHOLD) * 100, 100)
-          const remaining = Math.max(FREE_SHIPPING_THRESHOLD - subtotal, 0)
-          return (
-            <div className="px-6 py-3 bg-muted/30 border-b border-border">
-              {remaining > 0 ? (
-                <p className="text-[11px] text-muted-foreground mb-1.5">
-                  Faltam <strong className="text-foreground">{formatCurrency(remaining)}</strong> para frete grátis
-                </p>
-              ) : (
-                <p className="text-[11px] text-green-600 font-semibold mb-1.5">🎉 Frete grátis desbloqueado!</p>
-              )}
-              <div className="h-1.5 bg-border rounded-full overflow-hidden">
-                <div
-                  className="h-full bg-primary transition-all duration-500 ease-out rounded-full"
-                  style={{ width: `${progress}%` }}
-                />
-              </div>
-            </div>
-          )
-        })()}
 
         {/* Expiration banner */}
         {items.some(i => i.addedAt && Date.now() - i.addedAt > 48 * 60 * 60 * 1000) && (

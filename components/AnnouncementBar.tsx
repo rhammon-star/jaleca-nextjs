@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 
 const messages = [
-  { text: '🚚 Frete grátis nas compras acima de R$ 299', href: '/produtos', cta: 'Comprar agora' },
   { text: '💚 Nova Coleção Outono/Inverno chegou!', href: '/produtos?novidades=true', cta: 'Ver novidades' },
   { text: '⭐ Ganhe pontos de fidelidade em cada compra', href: '/minha-conta', cta: 'Saiba mais' },
 ]
