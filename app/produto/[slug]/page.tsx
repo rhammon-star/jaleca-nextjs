@@ -4,7 +4,7 @@ import ProductDetailClient from './ProductDetailClient'
 import { getProductReviews, type WCReview } from '@/lib/woocommerce'
 import type { Metadata } from 'next'
 
-export const revalidate = 3600 // cache por 1 hora, revalida em background
+export const revalidate = 0 // sempre renderiza fresco — evita cache de 404s
 
 type ProductData = Record<string, unknown> & {
   name?: string
