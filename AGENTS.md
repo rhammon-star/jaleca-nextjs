@@ -103,6 +103,8 @@ Também enviar `billing: { name, address }` no nível do pedido.
 - CPF lookup usa query direta no $wpdb (rápido, sem get_users)
 - WPGraphQL campo customizado `jalecaGalleryImages` em `ProductVariation` — lê meta `_woo_variation_gallery_images` e retorna sourceUrl/altText
 - Frontend do WordPress redireciona para jaleca.com.br (301) — wp-admin, REST e GraphQL continuam funcionando
+- Webhook `woocommerce_new_product` chama `jaleca.com.br/api/revalidate` para atualizar /produtos em tempo real ao cadastrar produto novo
+- Requer variável de ambiente `REVALIDATE_SECRET` no Vercel E no servidor WordPress (como env var do sistema)
 
 ## DNS — registro.br (configurado ✅)
 Registros configurados em registro.br (modo avançado):
@@ -139,8 +141,15 @@ Registros configurados em registro.br (modo avançado):
 - [x] Galeria de variações via WPGraphQL (jalecaGalleryImages) — sem chamada client-side lenta ✅
 - [x] Links do menu (Jalecos Femininos, Masculinos, Brancos) filtram corretamente via ?genero= e ?cor= ✅
 - [x] Frontend WordPress redireciona para jaleca.com.br — "Visualizar alterações" abre produto correto ✅
-- [x] Páginas de produto com ISR (revalidate 3600) + generateStaticParams — abertura instantânea ✅
+- [x] ISR (revalidate 3600) em páginas de produto — sem generateStaticParams (causava 404s por sobrecarregar WordPress) ✅
 - [x] Botão "Ver Produto" removido do ProductCard ✅
+- [x] Favicon substituído pelo logo dourado da Jaleca ✅
+- [x] Miniaturas de variações sem estoque ocultas — galeria do produto (todas as cores) nunca aparece ✅
+- [x] Reviews e produtos relacionados movidos para server-side — eliminadas 2 chamadas client-side ao WordPress ✅
+- [x] Vercel Speed Insights instalado ✅
+- [x] Script de aquecimento de cache: `npm run warm-cache` (rodar após cada deploy) ✅
+- [x] Endpoint `/api/revalidate` para revalidação on-demand via webhook ✅
+- [ ] Configurar REVALIDATE_SECRET no Vercel + WordPress para ativar webhook de novo produto
 - [ ] Configurar Webhook Pagar.me: https://jaleca.com.br/api/payment/webhook
 - [ ] Configurar GA4_ID e META_PIXEL_ID reais (após lançamento)
 - [ ] Melhor Envio OAuth2 — pós-lançamento
