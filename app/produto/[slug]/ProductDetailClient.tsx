@@ -32,6 +32,7 @@ type Variation = {
   salePrice?: string
   sku?: string
   image?: VariationImage
+  jalecaGalleryImages?: GalleryImage[]
   attributes: {
     nodes: Array<{ name: string; value: string; label?: string }>
   }
@@ -351,9 +352,25 @@ export default function ProductDetailClient({ product }: { product: Product }) {
   }, [user])
 
 
-  // Load variation galleries
+  // Load variation galleries — use GraphQL data if available, otherwise fetch from API
   useEffect(() => {
     if (!product.variations?.nodes.length) return
+
+    // Build map from GraphQL jalecaGalleryImages field
+    const fromGraphQL: Record<number, GalleryImage[]> = {}
+    for (const v of product.variations.nodes) {
+      if (v.jalecaGalleryImages && v.jalecaGalleryImages.length > 0) {
+        fromGraphQL[v.databaseId] = v.jalecaGalleryImages
+      }
+    }
+
+    if (Object.keys(fromGraphQL).length > 0) {
+      // All gallery data already in GraphQL — no API call needed
+      setVariationGalleries(fromGraphQL)
+      return
+    }
+
+    // Fallback: fetch from REST API (legacy / plugin not installed)
     setGalleryLoading(true)
     fetch(`/api/variation-gallery?productId=${product.databaseId}`)
       .then(r => r.json())
