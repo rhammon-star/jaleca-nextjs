@@ -222,6 +222,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
 
   // Variation galleries: databaseId → images[]
   const [variationGalleries, setVariationGalleries] = useState<Record<number, GalleryImage[]>>({})
+  const [galleryLoading, setGalleryLoading] = useState(false)
 
   // Related products
   const [related, setRelated] = useState<WooProduct[]>([])
@@ -353,10 +354,12 @@ export default function ProductDetailClient({ product }: { product: Product }) {
   // Load variation galleries
   useEffect(() => {
     if (!product.variations?.nodes.length) return
+    setGalleryLoading(true)
     fetch(`/api/variation-gallery?productId=${product.databaseId}`)
       .then(r => r.json())
       .then(data => setVariationGalleries(data))
       .catch(() => {})
+      .finally(() => setGalleryLoading(false))
   }, [product.databaseId, product.variations])
 
   // Track recently viewed
@@ -469,7 +472,13 @@ export default function ProductDetailClient({ product }: { product: Product }) {
             </div>
 
             {/* Thumbnails */}
-            {allImages.length > 1 && (
+            {galleryLoading ? (
+              <div className="flex gap-2 overflow-x-auto pb-1">
+                {[...Array(4)].map((_, i) => (
+                  <div key={i} className="flex-shrink-0 w-16 h-20 rounded-md bg-secondary/40 animate-pulse" />
+                ))}
+              </div>
+            ) : allImages.length > 1 && (
               <div className="flex gap-2 overflow-x-auto pb-1">
                 {allImages.map((img, idx) => (
                   <button
