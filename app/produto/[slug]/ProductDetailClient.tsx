@@ -241,12 +241,28 @@ export default function ProductDetailClient({ product }: { product: Product }) {
 
   // Derive available values from actual variations — avoids showing all global attribute terms
   const variations = product.variations?.nodes ?? []
+  // Only show colors/sizes that have at least one in-stock variation
+  const inStockVariations = variations.filter(v => v.stockStatus !== 'OUT_OF_STOCK')
+  const activeVariations = inStockVariations.length > 0 ? inStockVariations : variations
+
   const colorSlugs = variations.length > 0
-    ? [...new Set(variations.flatMap(v => v.attributes.nodes.filter(a => isColorAttr(a)).map(a => a.value)).filter(Boolean))]
+    ? [...new Set(activeVariations.flatMap(v => v.attributes.nodes.filter(a => isColorAttr(a)).map(a => a.value)).filter(Boolean))]
     : (colorAttrDef?.options ?? [])
-  const sizeSlugs = variations.length > 0
-    ? [...new Set(variations.flatMap(v => v.attributes.nodes.filter(a => isSizeAttr(a)).map(a => a.value)).filter(Boolean))]
-    : (sizeAttrDef?.options ?? [])
+
+  // Sizes: when color is selected, only show sizes in-stock for that color
+  const sizeSlugs = (() => {
+    if (variations.length === 0) return sizeAttrDef?.options ?? []
+    const relevantVariations = selectedColor
+      ? activeVariations.filter(v => {
+          const vColor = v.attributes.nodes.find(a => isColorAttr(a))
+          if (!vColor) return false
+          const selectedColorName = colorNames[selectedColor] ?? selectedColor
+          return normalizeAttr(vColor.value) === normalizeAttr(selectedColor) ||
+            normalizeAttr(vColor.value) === normalizeAttr(selectedColorName)
+        })
+      : activeVariations
+    return [...new Set(relevantVariations.flatMap(v => v.attributes.nodes.filter(a => isSizeAttr(a)).map(a => a.value)).filter(Boolean))]
+  })()
 
   // Only match a variation when ALL present attributes are selected to avoid wrong prices
   const allAttrsSelected =
@@ -301,9 +317,13 @@ export default function ProductDetailClient({ product }: { product: Product }) {
 
   const allImages = varGallery.length > 0
     ? varGallery  // variation has its own gallery → use it entirely
-    : baseImage
-      ? [baseImage, ...galleryNodes.filter(g => g.sourceUrl !== baseImage.sourceUrl)]
-      : galleryNodes
+    : activeVariationForGallery
+      ? baseImage
+        ? [baseImage, ...galleryNodes.filter(g => g.sourceUrl !== baseImage.sourceUrl)]
+        : galleryNodes
+      : baseImage
+        ? [baseImage]
+        : []
 
   const displayImage = allImages[activeImageIdx] ?? baseImage
 
