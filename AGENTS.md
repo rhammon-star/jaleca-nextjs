@@ -101,6 +101,8 @@ Também enviar `billing: { name, address }` no nível do pedido.
 - Instalado em: `~/domains/wp.jaleca.com.br/public_html/wp-content/plugins/jaleca-api/jaleca-api.php`
 - Contém: dimensões padrão produtos, ordenação por estoque, campos checkout, endpoints jaleca/v1/send-email, jaleca/v1/login, wc/v3/jaleca-cpf-lookup
 - CPF lookup usa query direta no $wpdb (rápido, sem get_users)
+- WPGraphQL campo customizado `jalecaGalleryImages` em `ProductVariation` — lê meta `_woo_variation_gallery_images` e retorna sourceUrl/altText
+- Frontend do WordPress redireciona para jaleca.com.br (301) — wp-admin, REST e GraphQL continuam funcionando
 
 ## DNS — registro.br (configurado ✅)
 Registros configurados em registro.br (modo avançado):
@@ -133,7 +135,12 @@ Registros configurados em registro.br (modo avançado):
 - [x] Página /produtos carregando produtos ✅
 - [x] Filtros de cor e tamanho funcionando ✅
 - [x] PA_COLOR renomeado para "Cor" na página de produto ✅
-- [x] Imagem muda ao selecionar cor (mesmo sem tamanho selecionado) ✅
+- [x] Imagem muda ao selecionar cor (mesmo sem tamanho selecionado) — normalização slug vs nome ✅
+- [x] Galeria de variações via WPGraphQL (jalecaGalleryImages) — sem chamada client-side lenta ✅
+- [x] Links do menu (Jalecos Femininos, Masculinos, Brancos) filtram corretamente via ?genero= e ?cor= ✅
+- [x] Frontend WordPress redireciona para jaleca.com.br — "Visualizar alterações" abre produto correto ✅
+- [x] Páginas de produto com ISR (revalidate 3600) + generateStaticParams — abertura instantânea ✅
+- [x] Botão "Ver Produto" removido do ProductCard ✅
 - [ ] Configurar Webhook Pagar.me: https://jaleca.com.br/api/payment/webhook
 - [ ] Configurar GA4_ID e META_PIXEL_ID reais (após lançamento)
 - [ ] Melhor Envio OAuth2 — pós-lançamento
