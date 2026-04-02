@@ -1,11 +1,12 @@
 import { notFound } from 'next/navigation'
+import { unstable_cache } from 'next/cache'
 import { graphqlClient, GET_PRODUCT_BY_SLUG, GET_RELATED_PRODUCTS } from '@/lib/graphql'
 import ProductDetailClient from './ProductDetailClient'
 import { getProductReviews, type WCReview } from '@/lib/woocommerce'
 import type { WooProduct } from '@/components/ProductCard'
 import type { Metadata } from 'next'
 
-export const revalidate = 3600 // cache 1h
+export const revalidate = 3600
 
 type ProductData = Record<string, unknown> & {
   name?: string
@@ -18,17 +19,50 @@ type ProductData = Record<string, unknown> & {
   stockStatus?: string
 }
 
-async function getProduct(slug: string): Promise<ProductData | null> {
-  try {
-    const data = await graphqlClient.request<{ product: ProductData | null }>(
-      GET_PRODUCT_BY_SLUG,
-      { slug }
-    )
-    return data.product
-  } catch {
-    return null
-  }
-}
+// unstable_cache persiste entre deploys — WordPress só é chamado 1x por hora por produto
+const getProduct = unstable_cache(
+  async (slug: string): Promise<ProductData | null> => {
+    try {
+      const data = await graphqlClient.request<{ product: ProductData | null }>(
+        GET_PRODUCT_BY_SLUG,
+        { slug }
+      )
+      return data.product
+    } catch {
+      return null
+    }
+  },
+  ['product-by-slug'],
+  { revalidate: 3600, tags: ['products'] }
+)
+
+const getRelated = unstable_cache(
+  async (categorySlug: string, productId: string): Promise<WooProduct[]> => {
+    try {
+      const data = await graphqlClient.request<{ products: { nodes: WooProduct[] } }>(
+        GET_RELATED_PRODUCTS,
+        { categorySlug, first: 5 }
+      )
+      return data.products.nodes.filter(p => p.id !== productId).slice(0, 4)
+    } catch {
+      return []
+    }
+  },
+  ['related-products'],
+  { revalidate: 3600, tags: ['products'] }
+)
+
+const getCachedReviews = unstable_cache(
+  async (databaseId: number): Promise<WCReview[]> => {
+    try {
+      return await getProductReviews(databaseId)
+    } catch {
+      return []
+    }
+  },
+  ['product-reviews'],
+  { revalidate: 3600, tags: ['reviews'] }
+)
 
 function stripHtml(html: string): string {
   return html.replace(/<[^>]*>/g, '').replace(/&[a-z]+;/gi, ' ').trim()
@@ -96,23 +130,12 @@ export default async function ProdutoPage({
 
   const databaseId = Number(product.databaseId)
 
-  // Fetch reviews and related products in parallel server-side (cached by ISR)
-  const [reviews, relatedData] = await Promise.allSettled([
-    databaseId ? getProductReviews(databaseId) : Promise.resolve([] as WCReview[]),
-    (() => {
-      const categorySlug = (product as any).productCategories?.nodes?.[0]?.slug
-      if (!categorySlug) return Promise.resolve({ products: { nodes: [] as WooProduct[] } })
-      return graphqlClient.request<{ products: { nodes: WooProduct[] } }>(
-        GET_RELATED_PRODUCTS,
-        { categorySlug, first: 5 }
-      )
-    })(),
+  // Fetch reviews and related products in parallel — all cached persistently
+  const categorySlug = (product as any).productCategories?.nodes?.[0]?.slug
+  const [resolvedReviews, relatedNodes] = await Promise.all([
+    databaseId ? getCachedReviews(databaseId) : Promise.resolve([] as WCReview[]),
+    categorySlug ? getRelated(categorySlug, String(product.id)) : Promise.resolve([] as WooProduct[]),
   ])
-
-  const resolvedReviews: WCReview[] = reviews.status === 'fulfilled' ? reviews.value : []
-  const relatedNodes: WooProduct[] = relatedData.status === 'fulfilled'
-    ? relatedData.value.products.nodes.filter((p: WooProduct) => p.id !== product.id).slice(0, 4)
-    : []
 
   const avgRating =
     resolvedReviews.length > 0
