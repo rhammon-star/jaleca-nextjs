@@ -11,7 +11,8 @@ async function getAllProducts(): Promise<WooProduct[]> {
       products: { nodes: WooProduct[] }
     }>(GET_PRODUCTS, { first: 100 })
     return data.products.nodes
-  } catch {
+  } catch (e) {
+    console.error('[getAllProducts] GraphQL error:', e)
     return []
   }
 }
