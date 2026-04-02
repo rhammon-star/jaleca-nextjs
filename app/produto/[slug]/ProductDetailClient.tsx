@@ -368,30 +368,17 @@ export default function ProductDetailClient({
   }, [user])
 
 
-  // Load variation galleries — use GraphQL data if available, otherwise fetch from API
+  // Load variation galleries from GraphQL jalecaGalleryImages (no REST fallback)
   useEffect(() => {
     if (!product.variations?.nodes.length) return
-
-    // Use GraphQL jalecaGalleryImages if available
     const fromGraphQL: Record<number, GalleryImage[]> = {}
     for (const v of product.variations.nodes) {
       if (v.jalecaGalleryImages && v.jalecaGalleryImages.length > 0) {
         fromGraphQL[v.databaseId] = v.jalecaGalleryImages
       }
     }
-    if (Object.keys(fromGraphQL).length > 0) {
-      setVariationGalleries(fromGraphQL)
-      return
-    }
-
-    // Fallback: fetch from REST API
-    setGalleryLoading(true)
-    fetch(`/api/variation-gallery?productId=${product.databaseId}`)
-      .then(r => r.json())
-      .then(data => setVariationGalleries(data))
-      .catch(() => {})
-      .finally(() => setGalleryLoading(false))
-  }, [product.databaseId, product.variations])
+    if (Object.keys(fromGraphQL).length > 0) setVariationGalleries(fromGraphQL)
+  }, [product.variations])
 
   // Track recently viewed
   useEffect(() => {

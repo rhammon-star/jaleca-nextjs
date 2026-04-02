@@ -2,38 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { graphqlClient } from '@/lib/graphql'
-
 const LS_KEY = 'jaleca-recently-viewed'
-
-const GET_PRODUCTS_BY_SLUGS = `
-  query GetProductsBySlugs($slugs: [String]) {
-    products(where: { slugIn: $slugs }, first: 8) {
-      nodes {
-        id
-        databaseId
-        name
-        slug
-        ... on SimpleProduct {
-          price
-          regularPrice
-          image {
-            sourceUrl
-            altText
-          }
-        }
-        ... on VariableProduct {
-          price
-          regularPrice
-          image {
-            sourceUrl
-            altText
-          }
-        }
-      }
-    }
-  }
-`
 
 type RecentProduct = {
   id: string
@@ -61,11 +30,10 @@ export default function RecentlyViewed({ excludeSlug }: Props) {
         setLoading(false)
         return
       }
-      graphqlClient
-        .request<{ products: { nodes: RecentProduct[] } }>(GET_PRODUCTS_BY_SLUGS, { slugs })
-        .then(data => {
-          // Preserve the localStorage order (most recent first)
-          const bySlug = new Map(data.products.nodes.map(p => [p.slug, p]))
+      fetch(`/api/products-by-slugs?slugs=${slugs.join(',')}`)
+        .then(r => r.json())
+        .then((nodes: RecentProduct[]) => {
+          const bySlug = new Map(nodes.map(p => [p.slug, p]))
           const ordered = slugs.map(s => bySlug.get(s)).filter(Boolean) as RecentProduct[]
           setProducts(ordered)
         })
