@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Heart, GitCompareArrows, Eye } from "lucide-react";
+import { Heart, GitCompareArrows } from "lucide-react";
 import { useCompare } from "@/contexts/CompareContext";
 import { useWishlist } from "@/contexts/WishlistContext";
 
@@ -129,13 +129,6 @@ const ProductCard = ({ product }: { product: WooProduct }) => {
           </button>
         </div>
 
-        {/* "Ver Produto" CTA - appears on hover, slides up */}
-        <div className="absolute bottom-0 left-0 right-0 z-10 p-3 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 ease-out">
-          <div className="flex items-center justify-center gap-2 bg-white text-foreground text-[11px] font-semibold tracking-widest uppercase py-2.5">
-            <Eye size={13} />
-            Ver Produto
-          </div>
-        </div>
       </div>
 
       {/* Info */}

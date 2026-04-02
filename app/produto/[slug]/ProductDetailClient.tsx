@@ -93,7 +93,13 @@ function buildSlugMap(attr: Attribute | undefined): Record<string, string> {
 }
 
 function formatAttrLabel(name: string): string {
-  return name.replace(/^pa_/i, '').replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
+  const clean = name.replace(/^pa_/i, '').replace(/_/g, ' ').toLowerCase()
+  const ptMap: Record<string, string> = { 'color': 'Cor', 'cor': 'Cor', 'tamanho': 'Tamanho', 'size': 'Tamanho', 'estampa': 'Estampa' }
+  return ptMap[clean] ?? clean.replace(/\b\w/g, c => c.toUpperCase())
+}
+
+function normalizeAttr(s: string): string {
+  return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[-_\s]/g, '')
 }
 
 function isColorAttr(a: { name: string; label?: string }) {
@@ -249,11 +255,11 @@ export default function ProductDetailClient({ product }: { product: Product }) {
         const selectedColorName = selectedColor ? (colorNames[selectedColor] ?? selectedColor) : null
         const selectedSizeName  = selectedSize  ? (sizeNames[selectedSize]  ?? selectedSize)  : null
         const colorMatch = !selectedColor || !vColor || vColor.value === '' ||
-          vColor.value.toLowerCase() === selectedColor.toLowerCase() ||
-          (selectedColorName && vColor.value.toLowerCase() === selectedColorName.toLowerCase())
+          normalizeAttr(vColor.value) === normalizeAttr(selectedColor) ||
+          (selectedColorName && normalizeAttr(vColor.value) === normalizeAttr(selectedColorName))
         const sizeMatch = !selectedSize || !vSize || vSize.value === '' ||
-          vSize.value.toLowerCase() === selectedSize.toLowerCase() ||
-          (selectedSizeName && vSize.value.toLowerCase() === selectedSizeName.toLowerCase())
+          normalizeAttr(vSize.value) === normalizeAttr(selectedSize) ||
+          (selectedSizeName && normalizeAttr(vSize.value) === normalizeAttr(selectedSizeName))
         return colorMatch && sizeMatch
       })
     : undefined
@@ -274,8 +280,8 @@ export default function ProductDetailClient({ product }: { product: Product }) {
         const vColor = v.attributes.nodes.find(a => isColorAttr(a))
         if (!vColor) return false
         const selectedColorName = colorNames[selectedColor] ?? selectedColor
-        return vColor.value.toLowerCase() === selectedColor.toLowerCase() ||
-          vColor.value.toLowerCase() === selectedColorName.toLowerCase()
+        return normalizeAttr(vColor.value) === normalizeAttr(selectedColor) ||
+          normalizeAttr(vColor.value) === normalizeAttr(selectedColorName)
       })
     : undefined
 
