@@ -3,6 +3,8 @@ import { graphqlClient, GET_PRODUCTS } from '@/lib/graphql'
 import ProductsClient from './ProductsClient'
 import type { WooProduct } from '@/components/ProductCard'
 
+export const dynamic = 'force-dynamic'
+
 async function getAllProducts(): Promise<WooProduct[]> {
   try {
     const data = await graphqlClient.request<{
