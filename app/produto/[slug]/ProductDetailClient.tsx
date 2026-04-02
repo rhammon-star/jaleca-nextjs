@@ -362,7 +362,19 @@ export default function ProductDetailClient({ product }: { product: Product }) {
   useEffect(() => {
     if (!product.variations?.nodes.length) return
 
-    // Fetch from REST API
+    // Build map from GraphQL jalecaGalleryImages field
+    const fromGraphQL: Record<number, GalleryImage[]> = {}
+    for (const v of product.variations.nodes) {
+      if (v.jalecaGalleryImages && v.jalecaGalleryImages.length > 0) {
+        fromGraphQL[v.databaseId] = v.jalecaGalleryImages
+      }
+    }
+    if (Object.keys(fromGraphQL).length > 0) {
+      setVariationGalleries(fromGraphQL)
+      return
+    }
+
+    // Fallback: fetch from REST API
     setGalleryLoading(true)
     fetch(`/api/variation-gallery?productId=${product.databaseId}`)
       .then(r => r.json())

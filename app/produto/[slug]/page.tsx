@@ -1,22 +1,10 @@
 import { notFound } from 'next/navigation'
-import { graphqlClient, GET_PRODUCT_BY_SLUG, GET_PRODUCTS } from '@/lib/graphql'
+import { graphqlClient, GET_PRODUCT_BY_SLUG } from '@/lib/graphql'
 import ProductDetailClient from './ProductDetailClient'
 import { getProductReviews, type WCReview } from '@/lib/woocommerce'
 import type { Metadata } from 'next'
 
 export const revalidate = 3600 // cache por 1 hora, revalida em background
-
-export async function generateStaticParams() {
-  try {
-    const data = await graphqlClient.request<{ products: { nodes: Array<{ slug: string }> } }>(
-      GET_PRODUCTS,
-      { first: 100, after: null }
-    )
-    return (data.products?.nodes ?? []).map(p => ({ slug: p.slug }))
-  } catch {
-    return []
-  }
-}
 
 type ProductData = Record<string, unknown> & {
   name?: string
