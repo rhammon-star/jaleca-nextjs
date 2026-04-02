@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { unstable_cache } from "next/cache";
 import { ArrowRight, Shield, Sparkles, Ruler } from "lucide-react";
 import { graphqlClient, GET_PRODUCTS } from "@/lib/graphql";
 import ProductCard, { type WooProduct } from "@/components/ProductCard";
 import ScrollReveal from "@/components/ScrollReveal";
 import { Button } from "@/components/ui/button";
+
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Jaleca — Jalecos Femininos e Masculinos para Profissionais da Saúde",
@@ -27,16 +30,20 @@ export const metadata: Metadata = {
   },
 };
 
-async function getFeaturedProducts(): Promise<WooProduct[]> {
-  try {
-    const data = await graphqlClient.request<{ products: { nodes: WooProduct[] } }>(
-      GET_PRODUCTS, { first: 8 }
-    );
-    return data.products.nodes;
-  } catch {
-    return [];
-  }
-}
+const getFeaturedProducts = unstable_cache(
+  async (): Promise<WooProduct[]> => {
+    try {
+      const data = await graphqlClient.request<{ products: { nodes: WooProduct[] } }>(
+        GET_PRODUCTS, { first: 8 }
+      );
+      return data.products.nodes;
+    } catch {
+      return [];
+    }
+  },
+  ['featured-products'],
+  { revalidate: 3600, tags: ['products'] }
+);
 
 export default async function Home() {
   const products = await getFeaturedProducts();
