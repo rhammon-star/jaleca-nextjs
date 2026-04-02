@@ -374,6 +374,18 @@ export default function ProductDetailClient({ product }: { product: Product }) {
       return
     }
 
+    // Use GraphQL jalecaGalleryImages if available
+    const fromGraphQL: Record<number, GalleryImage[]> = {}
+    for (const v of product.variations.nodes) {
+      if (v.jalecaGalleryImages && v.jalecaGalleryImages.length > 0) {
+        fromGraphQL[v.databaseId] = v.jalecaGalleryImages
+      }
+    }
+    if (Object.keys(fromGraphQL).length > 0) {
+      setVariationGalleries(fromGraphQL)
+      return
+    }
+
     // Fallback: fetch from REST API
     setGalleryLoading(true)
     fetch(`/api/variation-gallery?productId=${product.databaseId}`)

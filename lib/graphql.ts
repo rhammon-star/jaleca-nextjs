@@ -205,6 +205,10 @@ export const GET_PRODUCT_BY_SLUG = `
               sourceUrl
               altText
             }
+            jalecaGalleryImages {
+              sourceUrl
+              altText
+            }
             attributes {
               nodes {
                 name
