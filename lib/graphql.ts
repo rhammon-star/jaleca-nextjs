@@ -34,22 +34,6 @@ export const GET_PRODUCTS = `
             sourceUrl
             altText
           }
-          variations {
-            nodes {
-              id
-              name
-              stockStatus
-              price
-              regularPrice
-              salePrice
-              attributes {
-                nodes {
-                  name
-                  value
-                }
-              }
-            }
-          }
         }
       }
     }
