@@ -4,7 +4,20 @@ import ProductDetailClient from './ProductDetailClient'
 import { getProductReviews, type WCReview } from '@/lib/woocommerce'
 import type { Metadata } from 'next'
 
-export const revalidate = 3600 // cache 1h, skeleton aparece enquanto carrega
+export const revalidate = 3600 // cache 1h
+export const dynamicParams = true // render on-demand for non-pre-built slugs
+
+// Pre-build top 20 products at deploy time to avoid cold start delay
+export async function generateStaticParams() {
+  try {
+    const data = await graphqlClient.request<{ products: { nodes: Array<{ slug: string }> } }>(
+      `query { products(first: 20) { nodes { slug } } }`
+    )
+    return data.products.nodes.map(p => ({ slug: p.slug }))
+  } catch {
+    return []
+  }
+}
 
 type ProductData = Record<string, unknown> & {
   name?: string

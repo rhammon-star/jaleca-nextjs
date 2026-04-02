@@ -309,21 +309,14 @@ export default function ProductDetailClient({ product }: { product: Product }) {
       })
     : undefined
 
-  // Build gallery: use variation gallery if available, otherwise product gallery
-  const galleryNodes = product.galleryImages?.nodes ?? []
+  // Build gallery: never mix product-level gallery (contains all colors) with variation images
   const activeVariationForGallery = matchedVariation ?? colorPreviewVariation
   const varGallery = activeVariationForGallery?.databaseId ? (variationGalleries[activeVariationForGallery.databaseId] ?? []) : []
   const baseImage = activeVariationForGallery?.image?.sourceUrl ? activeVariationForGallery.image : product.image
 
   const allImages = varGallery.length > 0
     ? varGallery  // variation has its own gallery → use it entirely
-    : activeVariationForGallery
-      ? baseImage
-        ? [baseImage, ...galleryNodes.filter(g => g.sourceUrl !== baseImage.sourceUrl)]
-        : galleryNodes
-      : baseImage
-        ? [baseImage]
-        : []
+    : baseImage ? [baseImage] : []  // only show the single main/variation image
 
   const displayImage = allImages[activeImageIdx] ?? baseImage
 
