@@ -6,15 +6,21 @@ import type { WooProduct } from '@/components/ProductCard'
 export const dynamic = 'force-dynamic'
 
 async function getAllProducts(): Promise<WooProduct[]> {
+  const all: WooProduct[] = []
+  let cursor: string | null = null
   try {
-    const data = await graphqlClient.request<{
-      products: { nodes: WooProduct[] }
-    }>(GET_PRODUCTS, { first: 100 })
-    return data.products.nodes
+    do {
+      const data = await graphqlClient.request<{
+        products: { pageInfo: { hasNextPage: boolean; endCursor: string }; nodes: WooProduct[] }
+      }>(GET_PRODUCTS, { first: 24, after: cursor })
+      all.push(...data.products.nodes)
+      cursor = data.products.pageInfo.hasNextPage ? data.products.pageInfo.endCursor : null
+    } while (cursor)
   } catch (e) {
     console.error('[getAllProducts] GraphQL error:', e)
-    return []
+    if (all.length === 0) return []
   }
+  return all
 }
 
 export const metadata: Metadata = {
