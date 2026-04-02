@@ -15,6 +15,18 @@ function parsePrice(price?: string): number {
 }
 
 function getAttrValues(product: WooProduct, attrNames: string[]): string[] {
+  // Use product-level attributes (options array) when available
+  const productAttrs = product.attributes?.nodes ?? [];
+  if (productAttrs.length > 0) {
+    const values: string[] = [];
+    for (const a of productAttrs) {
+      if (attrNames.some(n => a.name.toLowerCase().includes(n))) {
+        values.push(...a.options.map(o => o.toLowerCase()));
+      }
+    }
+    return values;
+  }
+  // Fallback: variation-level attributes
   const values: string[] = [];
   for (const v of product.variations?.nodes ?? []) {
     for (const a of v.attributes.nodes) {

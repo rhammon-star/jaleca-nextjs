@@ -20,6 +20,7 @@ export type WooProduct = {
   image?: { sourceUrl: string; altText: string };
   galleryImages?: { nodes: Array<{ sourceUrl: string; altText: string }> };
   variations?: { nodes: Variation[] };
+  attributes?: { nodes: Array<{ name: string; options: string[] }> };
 }
 
 const ProductCard = ({ product }: { product: WooProduct }) => {

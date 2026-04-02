@@ -25,6 +25,12 @@ export const GET_PRODUCTS = `
             sourceUrl
             altText
           }
+          attributes {
+            nodes {
+              name
+              options
+            }
+          }
         }
         ... on VariableProduct {
           price
@@ -33,6 +39,12 @@ export const GET_PRODUCTS = `
           image {
             sourceUrl
             altText
+          }
+          attributes {
+            nodes {
+              name
+              options
+            }
           }
         }
       }
