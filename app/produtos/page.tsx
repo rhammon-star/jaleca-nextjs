@@ -76,6 +76,7 @@ export default async function ProdutosPage({
         }}
       />
       <ProductsClient
+        key={`${cat ?? ''}-${genero ?? ''}-${cor ?? ''}-${sale ?? ''}-${novidades ?? ''}`}
         products={products}
         initialCat={cat || 'Todos'}
         initialSale={sale === 'true'}
