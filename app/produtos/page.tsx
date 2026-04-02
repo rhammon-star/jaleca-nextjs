@@ -62,9 +62,9 @@ const collectionPageSchema = {
 export default async function ProdutosPage({
   searchParams,
 }: {
-  searchParams: Promise<{ cat?: string; sale?: string; novidades?: string }>
+  searchParams: Promise<{ cat?: string; sale?: string; novidades?: string; genero?: string; cor?: string }>
 }) {
-  const { cat, sale, novidades } = await searchParams
+  const { cat, sale, novidades, genero, cor } = await searchParams
   const products = await getAllProducts()
 
   return (
@@ -80,6 +80,8 @@ export default async function ProdutosPage({
         initialCat={cat || 'Todos'}
         initialSale={sale === 'true'}
         initialNovidades={novidades === 'true'}
+        initialGenero={genero}
+        initialCor={cor}
       />
     </>
   )

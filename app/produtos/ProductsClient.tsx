@@ -88,7 +88,7 @@ const SORT_LABELS: Record<SortOption, string> = {
   newest: "Novidades",
 };
 
-type Props = { products: WooProduct[]; initialCat?: string; initialSale?: boolean; initialNovidades?: boolean };
+type Props = { products: WooProduct[]; initialCat?: string; initialSale?: boolean; initialNovidades?: boolean; initialGenero?: string; initialCor?: string };
 
 const FilterPanel = ({
   selectedCategory, setSelectedCategory,
@@ -168,11 +168,30 @@ const FilterPanel = ({
   </div>
 );
 
-export default function ProductsClient({ products, initialCat = "Todos", initialSale = false, initialNovidades = false }: Props) {
+function resolveInitialGender(g?: string): string {
+  if (!g) return "Todos";
+  const l = g.toLowerCase();
+  if (l === "feminino" || l === "fem") return "Feminino";
+  if (l === "masculino" || l === "masc") return "Masculino";
+  return "Todos";
+}
+
+function resolveInitialCor(c?: string): string | null {
+  if (!c) return null;
+  const l = c.toLowerCase();
+  // "colorido" não é uma cor específica — ignora
+  if (l === "colorido") return null;
+  // Tenta encontrar na lista de cores
+  const colorOptions = ["Branco", "Preto", "Verde Floresta", "Azul Marinho", "Cinza", "Rosa Antigo"];
+  const match = colorOptions.find(o => o.toLowerCase().includes(l) || l.includes(o.toLowerCase()));
+  return match ?? null;
+}
+
+export default function ProductsClient({ products, initialCat = "Todos", initialSale = false, initialNovidades = false, initialGenero, initialCor }: Props) {
   const [selectedCategory, setSelectedCategory] = useState(initialCat);
-  const [selectedGender, setSelectedGender] = useState("Todos");
+  const [selectedGender, setSelectedGender] = useState(() => resolveInitialGender(initialGenero));
   const [saleOnly] = useState(initialSale);
-  const [selectedColor, setSelectedColor] = useState<string | null>(null);
+  const [selectedColor, setSelectedColor] = useState<string | null>(() => resolveInitialCor(initialCor));
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [sortBy, setSortBy] = useState<SortOption>("relevance");
