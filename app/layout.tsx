@@ -17,6 +17,7 @@ import CompareBar from "@/components/CompareBar";
 import TawkToChat from "@/components/TawkToChat";
 import BackToTop from "@/components/BackToTop";
 import CookieConsent from "@/components/CookieConsent";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
@@ -85,6 +86,7 @@ export default function RootLayout({
                 <TawkToChat />
                 <BackToTop />
                 <CookieConsent />
+                <SpeedInsights />
               </CartProvider>
             </CompareProvider>
           </WishlistProvider>
