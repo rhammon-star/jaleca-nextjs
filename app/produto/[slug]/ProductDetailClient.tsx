@@ -239,8 +239,14 @@ export default function ProductDetailClient({ product }: { product: Product }) {
   const colorNames = buildSlugMap(colorAttrDef)
   const sizeNames  = buildSlugMap(sizeAttrDef)
 
-  const colorSlugs = colorAttrDef?.options ?? []
-  const sizeSlugs  = sizeAttrDef?.options  ?? []
+  // Derive available values from actual variations — avoids showing all global attribute terms
+  const variations = product.variations?.nodes ?? []
+  const colorSlugs = variations.length > 0
+    ? [...new Set(variations.flatMap(v => v.attributes.nodes.filter(a => isColorAttr(a)).map(a => a.value)).filter(Boolean))]
+    : (colorAttrDef?.options ?? [])
+  const sizeSlugs = variations.length > 0
+    ? [...new Set(variations.flatMap(v => v.attributes.nodes.filter(a => isSizeAttr(a)).map(a => a.value)).filter(Boolean))]
+    : (sizeAttrDef?.options ?? [])
 
   // Only match a variation when ALL present attributes are selected to avoid wrong prices
   const allAttrsSelected =
@@ -356,21 +362,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
   useEffect(() => {
     if (!product.variations?.nodes.length) return
 
-    // Build map from GraphQL jalecaGalleryImages field
-    const fromGraphQL: Record<number, GalleryImage[]> = {}
-    for (const v of product.variations.nodes) {
-      if (v.jalecaGalleryImages && v.jalecaGalleryImages.length > 0) {
-        fromGraphQL[v.databaseId] = v.jalecaGalleryImages
-      }
-    }
-
-    if (Object.keys(fromGraphQL).length > 0) {
-      // All gallery data already in GraphQL — no API call needed
-      setVariationGalleries(fromGraphQL)
-      return
-    }
-
-    // Fallback: fetch from REST API (legacy / plugin not installed)
+    // Fetch from REST API
     setGalleryLoading(true)
     fetch(`/api/variation-gallery?productId=${product.databaseId}`)
       .then(r => r.json())
