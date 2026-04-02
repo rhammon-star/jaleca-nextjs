@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
         hostname: "jaleca.com.br",
         pathname: "/wp-content/uploads/**",
       },
+      {
+        protocol: "https",
+        hostname: "wp.jaleca.com.br",
+        pathname: "/wp-content/uploads/**",
+      },
     ],
     formats: ["image/avif", "image/webp"],
     minimumCacheTTL: 60 * 60 * 24 * 30, // 30 days
