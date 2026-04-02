@@ -1,7 +1,8 @@
 import { notFound } from 'next/navigation'
-import { graphqlClient, GET_PRODUCT_BY_SLUG } from '@/lib/graphql'
+import { graphqlClient, GET_PRODUCT_BY_SLUG, GET_RELATED_PRODUCTS } from '@/lib/graphql'
 import ProductDetailClient from './ProductDetailClient'
 import { getProductReviews, type WCReview } from '@/lib/woocommerce'
+import type { WooProduct } from '@/components/ProductCard'
 import type { Metadata } from 'next'
 
 export const revalidate = 3600 // cache 1h
@@ -94,18 +95,28 @@ export default async function ProdutoPage({
   const description = shortDesc || longDesc || `Uniforme profissional premium da Jaleca.`
 
   const databaseId = Number(product.databaseId)
-  let reviews: WCReview[] = []
-  if (databaseId) {
-    try {
-      reviews = await getProductReviews(databaseId)
-    } catch {
-      // continue without reviews
-    }
-  }
+
+  // Fetch reviews and related products in parallel server-side (cached by ISR)
+  const [reviews, relatedData] = await Promise.allSettled([
+    databaseId ? getProductReviews(databaseId) : Promise.resolve([] as WCReview[]),
+    (() => {
+      const categorySlug = (product as any).productCategories?.nodes?.[0]?.slug
+      if (!categorySlug) return Promise.resolve({ products: { nodes: [] as WooProduct[] } })
+      return graphqlClient.request<{ products: { nodes: WooProduct[] } }>(
+        GET_RELATED_PRODUCTS,
+        { categorySlug, first: 5 }
+      )
+    })(),
+  ])
+
+  const resolvedReviews: WCReview[] = reviews.status === 'fulfilled' ? reviews.value : []
+  const relatedNodes: WooProduct[] = relatedData.status === 'fulfilled'
+    ? relatedData.value.products.nodes.filter((p: WooProduct) => p.id !== product.id).slice(0, 4)
+    : []
 
   const avgRating =
-    reviews.length > 0
-      ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
+    resolvedReviews.length > 0
+      ? resolvedReviews.reduce((sum, r) => sum + r.rating, 0) / resolvedReviews.length
       : null
 
   const breadcrumbJsonLd = {
@@ -125,10 +136,7 @@ export default async function ProdutoPage({
     description,
     image: product.image?.sourceUrl,
     sku: product.sku,
-    brand: {
-      '@type': 'Brand',
-      name: 'Jaleca',
-    },
+    brand: { '@type': 'Brand', name: 'Jaleca' },
     offers: {
       '@type': 'Offer',
       price: String(product.price || product.regularPrice || '').replace(/[^0-9,]/g, '').replace(',', '.') || undefined,
@@ -138,27 +146,19 @@ export default async function ProdutoPage({
           ? 'https://schema.org/OutOfStock'
           : 'https://schema.org/InStock',
       url: `https://jaleca.com.br/produto/${slug}`,
-      seller: {
-        '@type': 'Organization',
-        name: 'Jaleca',
-      },
+      seller: { '@type': 'Organization', name: 'Jaleca' },
     },
     ...(avgRating !== null && {
       aggregateRating: {
         '@type': 'AggregateRating',
         ratingValue: avgRating.toFixed(1),
-        reviewCount: reviews.length,
+        reviewCount: resolvedReviews.length,
         bestRating: '5',
         worstRating: '1',
       },
-      review: reviews.slice(0, 5).map(r => ({
+      review: resolvedReviews.slice(0, 5).map(r => ({
         '@type': 'Review',
-        reviewRating: {
-          '@type': 'Rating',
-          ratingValue: r.rating,
-          bestRating: '5',
-          worstRating: '1',
-        },
+        reviewRating: { '@type': 'Rating', ratingValue: r.rating, bestRating: '5', worstRating: '1' },
         reviewBody: r.review.replace(/<[^>]*>/g, '').slice(0, 500),
         author: { '@type': 'Person', name: r.reviewer },
         datePublished: r.date_created.split('T')[0],
@@ -170,17 +170,17 @@ export default async function ProdutoPage({
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(breadcrumbJsonLd).replace(/</g, '\\u003c'),
-        }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd).replace(/</g, '\\u003c') }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c'),
-        }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
       />
-      <ProductDetailClient product={product as Parameters<typeof ProductDetailClient>[0]['product']} />
+      <ProductDetailClient
+        product={product as Parameters<typeof ProductDetailClient>[0]['product']}
+        initialReviews={resolvedReviews}
+        relatedProducts={relatedNodes}
+      />
     </>
   )
 }

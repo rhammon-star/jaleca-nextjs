@@ -11,7 +11,6 @@ import { useWishlist } from '@/contexts/WishlistContext'
 import { useAuth } from '@/contexts/AuthContext'
 import SizeAdvisorModal from '@/components/SizeAdvisorModal'
 import BackInStockButton from '@/components/BackInStockButton'
-import { graphqlClient, GET_RELATED_PRODUCTS } from '@/lib/graphql'
 import ProductCard, { type WooProduct } from '@/components/ProductCard'
 import RecentlyViewed from '@/components/RecentlyViewed'
 
@@ -202,7 +201,15 @@ function formatCurrency(value: number): string {
 }
 
 
-export default function ProductDetailClient({ product }: { product: Product }) {
+export default function ProductDetailClient({
+  product,
+  initialReviews = [],
+  relatedProducts = [],
+}: {
+  product: Product
+  initialReviews?: Review[]
+  relatedProducts?: WooProduct[]
+}) {
   const [selectedColor, setSelectedColor] = useState<string | null>(null)
   const [selectedSize, setSelectedSize]   = useState<string | null>(null)
   const [activeImageIdx, setActiveImageIdx] = useState(0)
@@ -210,9 +217,9 @@ export default function ProductDetailClient({ product }: { product: Product }) {
   const [showAdvisor, setShowAdvisor]     = useState(false)
   const [activeTab, setActiveTab] = useState<ActiveTab>('dados-tecnicos')
 
-  // Reviews
-  const [reviews, setReviews] = useState<Review[]>([])
-  const [reviewsLoading, setReviewsLoading] = useState(false)
+  // Reviews — loaded server-side, updated after new submission
+  const [reviews, setReviews] = useState<Review[]>(initialReviews)
+  const [reviewsLoading] = useState(false)
   const [reviewName, setReviewName] = useState('')
   const [reviewEmail, setReviewEmail] = useState('')
   const [reviewText, setReviewText] = useState('')
@@ -225,8 +232,8 @@ export default function ProductDetailClient({ product }: { product: Product }) {
   const [variationGalleries, setVariationGalleries] = useState<Record<number, GalleryImage[]>>({})
   const [galleryLoading, setGalleryLoading] = useState(false)
 
-  // Related products
-  const [related, setRelated] = useState<WooProduct[]>([])
+  // Related products — loaded server-side
+  const [related] = useState<WooProduct[]>(relatedProducts)
 
   const { user } = useAuth()
   const { isInWishlist, toggleWishlist } = useWishlist()
@@ -352,16 +359,6 @@ export default function ProductDetailClient({ product }: { product: Product }) {
   }
 
   // Load reviews
-  useEffect(() => {
-    if (!product.databaseId) return
-    setReviewsLoading(true)
-    fetch(`/api/reviews/${product.databaseId}`)
-      .then(r => r.json())
-      .then(data => { if (Array.isArray(data)) setReviews(data) })
-      .catch(() => {})
-      .finally(() => setReviewsLoading(false))
-  }, [product.databaseId])
-
   // Prepopulate review form if logged in
   useEffect(() => {
     if (user) {
@@ -406,22 +403,6 @@ export default function ProductDetailClient({ product }: { product: Product }) {
       localStorage.setItem(key, JSON.stringify(updated))
     } catch {}
   }, [product.slug])
-
-  // Load related products
-  useEffect(() => {
-    const categorySlug = product.productCategories?.nodes[0]?.slug
-    if (!categorySlug) return
-    graphqlClient
-      .request<{ products: { nodes: WooProduct[] } }>(GET_RELATED_PRODUCTS, {
-        categorySlug,
-        first: 4,
-      })
-      .then(data => {
-        const nodes = data.products.nodes.filter(p => p.id !== product.id).slice(0, 4)
-        setRelated(nodes)
-      })
-      .catch(() => {})
-  }, [product.id, product.productCategories])
 
   async function handleReviewSubmit(e: React.FormEvent) {
     e.preventDefault()
