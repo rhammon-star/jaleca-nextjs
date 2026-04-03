@@ -73,7 +73,7 @@ interface MailOptions {
 }
 
 async function sendMail(opts: MailOptions): Promise<void> {
-  const wcUrl = process.env.NEXT_PUBLIC_WC_URL || 'https://jaleca.com.br'
+  const wcUrl = process.env.NEXT_PUBLIC_WP_URL || process.env.NEXT_PUBLIC_WC_URL || 'https://wp.jaleca.com.br'
   const emailKey = process.env.WP_EMAIL_KEY
 
   if (!emailKey || emailKey === 'PLACEHOLDER') {
