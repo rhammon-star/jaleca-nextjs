@@ -18,13 +18,15 @@ Site de uniformes médicos (jalecos/scrubs). Diretório: `/Users/rhammon/SiteJal
 ## Status das integrações
 - WooCommerce GraphQL: ✅
 - Carrinho: ✅ localStorage
-- Pagamentos Pagar.me: ✅ PIX ✅ Boleto ✅ Cartão de Crédito
-- Email (via WordPress wp_mail): ✅
+- Pagamentos Pagar.me: ✅ PIX ✅ Boleto ✅ Cartão de Crédito (testado e funcionando)
+- Email confirmação de pedido: ✅ template completo com logo, produtos, frete, endereço
+- Email de senha (novo cliente): ✅ aponta para wp.jaleca.com.br/wp-login.php
 - Verificação de email: ✅ (não bloqueia checkout)
 - Blog admin com IA: ✅ (geração, humanização, SEO, imagem, seletor de categoria, deletar post)
 - Melhor Envio shipping: ⚠️ token placeholder, usa fallback
 - Analytics (GA4/Meta Pixel): ❌ placeholders
 - Login CPF existente no checkout: ✅ endpoint jaleca/v1/login via wp_authenticate()
+- Webhook Pagar.me: ✅ configurado (charge.paid + charge.payment_failed)
 
 ## Pagamentos — arquivos principais
 - `lib/pagarme.ts` — cliente Pagar.me v5
@@ -58,6 +60,11 @@ Também enviar `billing: { name, address }` no nível do pedido.
 ### Email
 - Roteado via WordPress: `wp-json/jaleca/v1/send-email` com header `X-Jaleca-Key`
 - `WP_EMAIL_KEY` em `.env.local` e `functions.php`
+- `NEXT_PUBLIC_WP_URL=https://wp.jaleca.com.br` no Vercel — usado em forgot-password e reset
+- Email de confirmação: `lib/email.ts` → `sendOrderConfirmation()` — template completo com logo, tabela de itens, frete, endereço
+- WooCommerce "Processando pedido" desativado (WooCommerce → Configurações → Emails) — evita duplicata
+- Logo no email: `https://jaleca.com.br/logo-full.jpg`
+- Novo cliente no checkout → conta criada automaticamente + email de definição de senha via `app/api/auth/forgot-password/route.ts` → chama `wp.jaleca.com.br/wp-login.php?action=lostpassword`
 
 ### WooCommerce
 - Checkout slug: `finalizar-compra` (não `checkout`)
@@ -133,11 +140,14 @@ Registros configurados em registro.br (modo avançado):
 ## PLANO COMPLETO — O QUE FALTA
 
 ### FASE 1 — Lançamento (urgente)
-- [ ] Testar cartão de crédito com compra real no Pagar.me
+- [x] Testar cartão de crédito com compra real no Pagar.me ✅
+- [x] Configurar Webhook Pagar.me → `jaleca.com.br/api/payment/webhook` ✅ (charge.paid + charge.payment_failed)
+- [x] WooCommerce atualiza para "Processando" imediatamente após cartão aprovado ✅
+- [x] Email de confirmação chegando ao cliente ✅ (template completo com logo)
+- [x] Email duplicado do WooCommerce desativado ✅
 - [ ] Testar boleto com compra real no Pagar.me
-- [ ] Configurar Webhook Pagar.me → `jaleca.com.br/api/payment/webhook` (painel Pagar.me)
-- [ ] Verificar email de confirmação chegando ao cliente após compra
-- [ ] Verificar pedidos aparecendo no WooCommerce após pagamento PIX/cartão/boleto
+- [ ] WordPress Settings → General → Site Address → `https://jaleca.com.br` (emails WC mostram wp.jaleca ainda)
+- [ ] Verificar pedidos aparecendo no WooCommerce após pagamento PIX
 - [ ] Substituir `G-PLACEHOLDER` pelo ID real do GA4 (Vercel env vars)
 - [ ] Substituir placeholder pelo ID real do Meta Pixel (Vercel env vars)
 - [ ] Google Search Console — verificar domínio + enviar sitemap
