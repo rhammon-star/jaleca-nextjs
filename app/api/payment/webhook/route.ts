@@ -71,7 +71,8 @@ export async function POST(request: NextRequest) {
               sendOrderConfirmation(order, email).catch(() => {})
 
               // Meta Conversions API — Purchase event (PIX/Boleto confirmed via webhook)
-              sendMetaPurchase(
+              // Must be awaited — Vercel terminates fire-and-forget before completion
+              await sendMetaPurchase(
                 {
                   email: order.billing?.email,
                   phone: order.billing?.phone,

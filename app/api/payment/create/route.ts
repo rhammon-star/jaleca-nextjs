@@ -211,7 +211,8 @@ export async function POST(request: NextRequest) {
         } catch {}
 
         // Meta Conversions API — Purchase event
-        sendMetaPurchase(
+        // Must be awaited — Vercel terminates fire-and-forget before completion
+        await sendMetaPurchase(
           {
             email: billing.email,
             phone: billing.phone,
