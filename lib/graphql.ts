@@ -191,7 +191,7 @@ export const GET_PRODUCT_BY_SLUG = `
             }
           }
         }
-        variations {
+        variations(first: 100) {
           nodes {
             id
             databaseId
