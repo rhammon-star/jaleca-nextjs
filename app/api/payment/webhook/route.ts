@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { sendOrderConfirmation } from '@/lib/email'
+import { sendMetaPurchase } from '@/lib/meta-conversions'
 
 const WC_API = process.env.WOOCOMMERCE_API_URL!
 const WC_CK = process.env.WOOCOMMERCE_CONSUMER_KEY!
@@ -68,6 +69,28 @@ export async function POST(request: NextRequest) {
             const email = order.billing?.email
             if (email) {
               sendOrderConfirmation(order, email).catch(() => {})
+
+              // Meta Conversions API — Purchase event (PIX/Boleto confirmed via webhook)
+              sendMetaPurchase(
+                {
+                  email: order.billing?.email,
+                  phone: order.billing?.phone,
+                  firstName: order.billing?.first_name,
+                  lastName: order.billing?.last_name,
+                  city: order.billing?.city,
+                  state: order.billing?.state,
+                  zip: order.billing?.postcode,
+                  country: order.billing?.country,
+                },
+                {
+                  orderId: String(order.id),
+                  value: parseFloat(order.total || '0'),
+                  items: order.line_items?.map((i: { product_id: number; quantity: number }) => ({
+                    id: String(i.product_id),
+                    quantity: i.quantity,
+                  })),
+                }
+              ).catch(() => {})
             }
           }
         } catch {}

@@ -11,6 +11,7 @@ import { createOrder } from '@/lib/woocommerce'
 import type { WCOrderData } from '@/lib/woocommerce'
 import { addPoints } from '@/lib/loyalty'
 import { sendOrderConfirmation } from '@/lib/email'
+import { sendMetaPurchase } from '@/lib/meta-conversions'
 
 const WC_API = process.env.WOOCOMMERCE_API_URL!
 const WC_CK = process.env.WOOCOMMERCE_CONSUMER_KEY!
@@ -64,7 +65,18 @@ function toCents(value: number): number {
   return Math.round(value * 100)
 }
 
+function getClientInfo(req: NextRequest) {
+  return {
+    clientIp: req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || undefined,
+    clientUserAgent: req.headers.get('user-agent') || undefined,
+    fbc: req.cookies.get('_fbc')?.value || undefined,
+    fbp: req.cookies.get('_fbp')?.value || undefined,
+  }
+}
+
 export async function POST(request: NextRequest) {
+  const clientInfo = getClientInfo(request)
+
   try {
     const body: RequestBody = await request.json()
     const { paymentMethod, cpf, billing, items, shipping, customer_id, cardToken, installments } = body
@@ -197,6 +209,26 @@ export async function POST(request: NextRequest) {
             sendOrderConfirmation(updatedOrder, billing.email).catch(() => {})
           }
         } catch {}
+
+        // Meta Conversions API — Purchase event
+        sendMetaPurchase(
+          {
+            email: billing.email,
+            phone: billing.phone,
+            firstName: billing.first_name,
+            lastName: billing.last_name,
+            city: billing.city,
+            state: billing.state,
+            zip: billing.postcode,
+            country: billing.country,
+            ...clientInfo,
+          },
+          {
+            orderId: String(wcOrder.id),
+            value: parseFloat(wcOrder.total || '0'),
+            items: items.map(i => ({ id: String(i.product_id), quantity: i.quantity })),
+          }
+        ).catch(() => {})
       }
     }
 
