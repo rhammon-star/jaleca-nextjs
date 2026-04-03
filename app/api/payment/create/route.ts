@@ -10,6 +10,15 @@ import {
 import { createOrder } from '@/lib/woocommerce'
 import type { WCOrderData } from '@/lib/woocommerce'
 import { addPoints } from '@/lib/loyalty'
+import { sendOrderConfirmation } from '@/lib/email'
+
+const WC_API = process.env.WOOCOMMERCE_API_URL!
+const WC_CK = process.env.WOOCOMMERCE_CONSUMER_KEY!
+const WC_CS = process.env.WOOCOMMERCE_CONSUMER_SECRET!
+
+function wcAuth(): string {
+  return `Basic ${Buffer.from(`${WC_CK}:${WC_CS}`).toString('base64')}`
+}
 
 type RequestBody = {
   paymentMethod: 'pix' | 'boleto' | 'credit_card'
@@ -169,6 +178,26 @@ export async function POST(request: NextRequest) {
         installments: installments || 1,
         metadata,
       })
+    }
+
+    // For credit card: update WC immediately if payment was approved
+    // (PIX/Boleto rely on polling or webhook since payment is async)
+    if (paymentMethod === 'credit_card') {
+      const ccCharge = pagarmeOrder.charges?.[0]
+      const isPaid = pagarmeOrder.status === 'paid' || ccCharge?.status === 'paid'
+      if (isPaid) {
+        try {
+          const res = await fetch(`${WC_API}/orders/${wcOrder.id}`, {
+            method: 'PUT',
+            headers: { Authorization: wcAuth(), 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status: 'processing' }),
+          })
+          if (res.ok) {
+            const updatedOrder = await res.json()
+            sendOrderConfirmation(updatedOrder, billing.email).catch(() => {})
+          }
+        } catch {}
+      }
     }
 
     // Award loyalty points (fire-and-forget)
