@@ -61,11 +61,15 @@ function buildUserData(u: MetaUserData): Record<string, unknown> {
 async function sendEvent(events: object[]) {
   if (!PIXEL_ID || !ACCESS_TOKEN) return
 
+  const TEST_EVENT_CODE = process.env.META_TEST_EVENT_CODE
+  const payload: Record<string, unknown> = { data: events }
+  if (TEST_EVENT_CODE) payload.test_event_code = TEST_EVENT_CODE
+
   try {
     const res = await fetch(`${API_URL}?access_token=${ACCESS_TOKEN}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ data: events }),
+      body: JSON.stringify(payload),
     })
     if (!res.ok) {
       const text = await res.text()
