@@ -24,7 +24,8 @@ Site de uniformes médicos (jalecos/scrubs). Diretório: `/Users/rhammon/SiteJal
 - Verificação de email: ✅ (não bloqueia checkout)
 - Blog admin com IA: ✅ (geração, humanização, SEO, imagem, seletor de categoria, deletar post)
 - Melhor Envio shipping: ⚠️ token placeholder, usa fallback
-- Analytics (GA4/Meta Pixel): ❌ placeholders
+- Analytics (GA4/Meta Pixel): ✅ GA4 G-SHBE64GDP7 + Meta Pixel 936912792527674 configurados
+- Meta Conversions API (server-side): ✅ Purchase via cartão e webhook PIX/boleto
 - Login CPF existente no checkout: ✅ endpoint jaleca/v1/login via wp_authenticate()
 - Webhook Pagar.me: ✅ configurado (charge.paid + charge.payment_failed)
 
@@ -131,10 +132,14 @@ Registros configurados em registro.br (modo avançado):
 - warm-cache manual: `npm run warm-cache`
 
 ## Analytics — estado atual
-- GA4: variável `NEXT_PUBLIC_GA4_ID` com valor `G-PLACEHOLDER` → substituir pelo ID real
-- Meta Pixel: variável `NEXT_PUBLIC_META_PIXEL_ID` com valor placeholder → substituir pelo ID real
-- Eventos implementados no código: PageView, ViewContent, AddToCart, Purchase
-- Arquivo: `components/Analytics.tsx`
+- GA4: `NEXT_PUBLIC_GA4_ID=G-SHBE64GDP7` ✅ configurado no Vercel
+- Meta Pixel: `NEXT_PUBLIC_META_PIXEL_ID=936912792527674` ✅ configurado no Vercel
+- Meta Conversions API token: `META_CONVERSIONS_API_TOKEN` ✅ configurado no Vercel
+- Eventos browser Pixel: PageView, ViewContent, AddToCart, Purchase — arquivo `components/Analytics.tsx`
+- Eventos server-side CAPI: Purchase (cartão em `payment/create`, PIX/boleto via webhook) — arquivo `lib/meta-conversions.ts`
+- Deduplicação: `event_id: purchase_${orderId}` igual no browser e no servidor
+- Dados do usuário: hasheados SHA-256 (email, telefone, nome, cidade, estado, CEP, país)
+- Cookies `_fbc` / `_fbp` capturados do browser para atribuição de anúncios
 - Speed Insights Vercel: instalado e ativo
 
 ## PLANO COMPLETO — O QUE FALTA
@@ -148,8 +153,8 @@ Registros configurados em registro.br (modo avançado):
 - [ ] Testar boleto com compra real no Pagar.me
 - [ ] WordPress Settings → General → Site Address → `https://jaleca.com.br` (emails WC mostram wp.jaleca ainda)
 - [ ] Verificar pedidos aparecendo no WooCommerce após pagamento PIX
-- [ ] Substituir `G-PLACEHOLDER` pelo ID real do GA4 (Vercel env vars)
-- [ ] Substituir placeholder pelo ID real do Meta Pixel (Vercel env vars)
+- [x] GA4 G-SHBE64GDP7 configurado (Vercel env vars) ✅
+- [x] Meta Pixel 936912792527674 + Conversions API server-side ✅
 - [ ] Google Search Console — verificar domínio + enviar sitemap
 - [ ] Verificar `jaleca.com.br/sitemap.xml` inclui todos os produtos
 
