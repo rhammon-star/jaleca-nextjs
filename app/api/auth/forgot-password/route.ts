@@ -8,13 +8,14 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Email é obrigatório' }, { status: 400 })
     }
 
-    const siteUrl = process.env.NEXT_PUBLIC_WC_URL || 'https://jaleca.com.br'
+    // WordPress is at wp.jaleca.com.br — not the Next.js frontend
+    const wpUrl = process.env.WORDPRESS_URL || process.env.NEXT_PUBLIC_WP_URL || 'https://wp.jaleca.com.br'
     const body = new URLSearchParams()
     body.append('user_login', email)
     body.append('redirect_to', '')
     body.append('wp-submit', 'Obter nova senha')
 
-    await fetch(`${siteUrl}/wp-login.php?action=lostpassword`, {
+    await fetch(`${wpUrl}/wp-login.php?action=lostpassword`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: body.toString(),
