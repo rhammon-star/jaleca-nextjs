@@ -9,7 +9,7 @@ const wcAuth = () =>
   ).toString('base64')
 
 const BREVO_API = 'https://api.brevo.com/v3'
-const COUPON = 'PRIMEIRACOMPRA10'
+const COUPON = 'PRIMEIRACOMPRA5JALECA'
 
 async function customerExistsByEmail(email: string): Promise<number | null> {
   const res = await fetch(`${WC_API}/customers?email=${encodeURIComponent(email)}&role=all`, {

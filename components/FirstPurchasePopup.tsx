@@ -124,7 +124,7 @@ export default function FirstPurchasePopup() {
           <div className="text-center py-4">
             <p className="font-display text-2xl font-semibold mb-3">Seu cupom é:</p>
             <p className="text-xl font-mono font-bold tracking-widest bg-secondary/30 px-4 py-3 mb-4 border border-border">
-              PRIMEIRACOMPRA10
+              PRIMEIRACOMPRA5JALECA
             </p>
             <p className="text-sm text-muted-foreground mb-6">
               Use no checkout e ganhe 5% de desconto na sua primeira compra!
