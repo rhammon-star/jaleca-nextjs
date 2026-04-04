@@ -225,18 +225,12 @@ export default function SizeAdvisorModal({ productName, onClose }: Props) {
                   📏 Meça com uma fita métrica passando pela parte mais larga de cada região, sem apertar.
                 </div>
 
-                <div className="flex flex-wrap gap-4 w-full">
+                <div className="grid gap-4 w-full" style={{ gridTemplateColumns: '1fr 1fr' }}>
                   {!isMasculine && (
-                    <div className="flex-1 min-w-[120px]">
-                      <InputField label="Busto" value={measurements.busto} onChange={set('busto')} hint="parte mais larga" required />
-                    </div>
+                    <InputField label="Busto" value={measurements.busto} onChange={set('busto')} hint="parte mais larga" required />
                   )}
-                  <div className="flex-1 min-w-[120px]">
-                    <InputField label="Cintura" value={measurements.cintura} onChange={set('cintura')} hint="parte mais estreita" required />
-                  </div>
-                  <div className="flex-1 min-w-[120px]">
-                    <InputField label="Quadril" value={measurements.quadril} onChange={set('quadril')} hint="opcional" />
-                  </div>
+                  <InputField label="Cintura" value={measurements.cintura} onChange={set('cintura')} hint="parte mais estreita" required />
+                  {!isMasculine && <InputField label="Quadril" value={measurements.quadril} onChange={set('quadril')} hint="opcional" />}
                 </div>
 
                 <p className="text-[10px] text-muted-foreground/70 text-center">
