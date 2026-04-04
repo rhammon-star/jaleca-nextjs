@@ -8,23 +8,23 @@ import type { Metadata } from 'next'
 const CATEGORY_MAP: Record<string, { label: string; description: string; keywords: string }> = {
   jalecos: {
     label: 'Jalecos',
-    description: 'Jalecos femininos e masculinos premium para profissionais da saúde. Modelos slim, clássicos e coloridos com tecido de alta qualidade.',
-    keywords: 'jaleco, jaleco feminino, jaleco masculino, jaleco branco, jaleco profissional, jaleco médico',
+    description: 'Jalecos femininos e masculinos premium para médicos, enfermeiros, dentistas e cirurgiões. Modelos slim fit, clássicos, brancos e coloridos com tecido stretch anti-microbiano e acabamento refinado. Tamanhos PP ao G3, entrega rápida para todo o Brasil.',
+    keywords: 'jaleco feminino, jaleco masculino, jaleco branco, jaleco médico, jaleco enfermagem, jaleco dentista, jaleco cirurgião, jaleco slim, jaleco profissional, comprar jaleco',
   },
   scrubs: {
     label: 'Scrubs',
-    description: 'Scrubs confortáveis e modernos para médicos, enfermeiros e profissionais da saúde. Tecido stretch anti-microbiano com design elegante.',
-    keywords: 'scrub, scrub médico, scrub feminino, scrub masculino, uniforme cirúrgico, roupa hospitalar',
+    description: 'Scrubs profissionais femininos e masculinos para médicos, enfermeiros e cirurgiões. Tecido de alta performance, modelagem ergonômica e conforto para longas jornadas. Disponível em PP ao G3.',
+    keywords: 'scrub médico, scrub feminino, scrub masculino, scrub cirúrgico, uniforme cirúrgico, roupa hospitalar, scrub colorido, pijama cirúrgico',
   },
   calcas: {
     label: 'Calças',
-    description: 'Calças profissionais para saúde com conforto e estilo. Modelos com elastano e acabamento premium para uso clínico.',
-    keywords: 'calça profissional, calça médica, calça hospitalar, uniforme saúde',
+    description: 'Calças profissionais para saúde com conforto, elastano e acabamento premium. Ideais para médicos, enfermeiros e técnicos de saúde. Modelos femininos e masculinos com cós ajustável.',
+    keywords: 'calça profissional, calça médica, calça hospitalar, calça enfermagem, calça técnico saúde, uniforme saúde, calça feminina médica',
   },
   acessorios: {
     label: 'Acessórios',
-    description: 'Acessórios para profissionais da saúde: toucas, aventais e complementos para completar seu uniforme.',
-    keywords: 'acessórios médicos, touca, avental, uniforme saúde',
+    description: 'Acessórios para profissionais da saúde: toucas, aventais e complementos para completar seu uniforme médico. Qualidade e praticidade para o dia a dia clínico.',
+    keywords: 'acessórios médicos, touca cirúrgica, avental, complementos uniforme saúde, acessórios enfermagem',
   },
 }
 

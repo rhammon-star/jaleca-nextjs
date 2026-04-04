@@ -138,6 +138,12 @@ export default async function ProdutoPage({
     ],
   }
 
+  // Extrair cores e tamanhos dos atributos do produto
+  const attrs: Array<{ name: string; options?: string[] }> =
+    (product as any).attributes?.nodes ?? []
+  const colorAttr = attrs.find((a) => /cor/i.test(a.name))
+  const sizeAttr = attrs.find((a) => /tamanho|size/i.test(a.name))
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Product',
@@ -146,6 +152,10 @@ export default async function ProdutoPage({
     image: product.image?.sourceUrl,
     sku: product.sku,
     brand: { '@type': 'Brand', name: 'Jaleca' },
+    manufacturer: { '@type': 'Organization', name: 'Jaleca', url: 'https://jaleca.com.br' },
+    category: 'Uniformes Profissionais para Saúde',
+    ...(colorAttr?.options?.length && { color: colorAttr.options.join(', ') }),
+    ...(sizeAttr?.options?.length && { size: sizeAttr.options.join(', ') }),
     offers: {
       '@type': 'Offer',
       price: String(product.price || product.regularPrice || '').replace(/[^0-9,]/g, '').replace(',', '.') || undefined,

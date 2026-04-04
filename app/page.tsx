@@ -55,6 +55,30 @@ export default async function Home() {
     ],
   };
 
+  const localBusinessJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'ClothingStore',
+    '@id': 'https://jaleca.com.br/#localbusiness',
+    name: 'Jaleca — Jalecos e Mimos',
+    image: 'https://jaleca.com.br/logo.svg',
+    description: 'Loja de jalecos e uniformes profissionais para médicos, enfermeiros, dentistas e profissionais da saúde. Loja física em Ipatinga, MG e loja online para todo o Brasil.',
+    url: 'https://jaleca.com.br',
+    telephone: '+55-31-3367-2467',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Ipatinga',
+      addressRegion: 'MG',
+      addressCountry: 'BR',
+    },
+    openingHoursSpecification: [
+      { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday'], opens: '09:00', closes: '18:00' },
+      { '@type': 'OpeningHoursSpecification', dayOfWeek: 'Saturday', opens: '09:00', closes: '13:00' },
+    ],
+    priceRange: '$$',
+    servesCuisine: undefined,
+    hasMap: 'https://maps.google.com/?q=Ipatinga,MG,Brasil',
+  };
+
   const websiteJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
@@ -76,6 +100,12 @@ export default async function Home() {
       type="application/ld+json"
       dangerouslySetInnerHTML={{
         __html: JSON.stringify(organizationJsonLd).replace(/</g, '\\u003c'),
+      }}
+    />
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(localBusinessJsonLd).replace(/</g, '\\u003c'),
       }}
     />
     <script

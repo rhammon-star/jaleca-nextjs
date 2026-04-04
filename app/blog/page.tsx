@@ -68,7 +68,35 @@ export default async function BlogPage({
     posts = []
   }
 
+  const blogJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Blog',
+    name: 'Blog Jaleca — Dicas para Profissionais da Saúde',
+    description: 'Artigos e dicas sobre moda profissional, cuidados com uniformes e tendências para médicos, enfermeiros e profissionais da saúde.',
+    url: 'https://jaleca.com.br/blog',
+    publisher: {
+      '@type': 'Organization',
+      name: 'Jaleca',
+      logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo.svg' },
+    },
+    ...(posts.length > 0 && {
+      blogPost: posts.slice(0, 10).map(p => ({
+        '@type': 'BlogPosting',
+        headline: stripHtml(p.title.rendered),
+        url: `https://jaleca.com.br/blog/${p.slug}`,
+        datePublished: p.date,
+        dateModified: p.modified,
+        author: { '@type': 'Person', name: p._embedded?.author?.[0]?.name ?? 'Jaleca' },
+      })),
+    }),
+  }
+
   return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogJsonLd).replace(/</g, '\\u003c') }}
+      />
     <main className="py-8 md:py-12">
       <div className="container max-w-4xl">
         <header className="mb-12">
@@ -176,5 +204,6 @@ export default async function BlogPage({
         )}
       </div>
     </main>
+    </>
   )
 }
