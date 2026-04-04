@@ -5,7 +5,7 @@ const WC_API = process.env.WOOCOMMERCE_API_URL!
 const wcAuth = () =>
   'Basic ' +
   Buffer.from(
-    `${process.env.WOOCOMMERCE_CONSUMER_KEY}:${process.env.WOOCOMMERCE_CONSUMER_SECRET}`
+    `${process.env.WP_ADMIN_USER}:${process.env.WP_ADMIN_APP_PASSWORD}`
   ).toString('base64')
 
 const BREVO_API = 'https://api.brevo.com/v3'
