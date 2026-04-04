@@ -67,6 +67,32 @@ export async function generateContent(
 ): Promise<GeneratedContent> {
   const keywordsStr = keywords?.length ? `Palavras-chave a incluir: ${keywords.join(', ')}.` : ''
 
+  const validLinks = `
+URLs VÁLIDAS que você pode usar como links internos (use APENAS estas, nunca invente outras):
+Categorias:
+- /categoria/jalecos
+- /categoria/jalecos-femininos
+- /categoria/jalecos-masculinos
+- /categoria/jalecos-personalizados
+- /categoria/scrub
+- /categoria/conjuntos
+- /categoria/dolmas
+- /categoria/calcados
+- /categoria/acessorios
+Produtos:
+- /produto/jaleco-slim-elastex-feminino-varias-cores-jaleca
+- /produto/jaleco-slim-feminino-de-ziper-central-varias-cores-jaleca
+- /produto/jaleco-slim-masculino-de-ziper-central-varias-cores-jaleca
+- /produto/jaleco-universitario-unissex-jaleca
+- /produto/jaleco-padrao-aluno-feminino-de-botao-varias-cores-jaleca
+- /produto/jaleco-padrao-aluno-masculino-de-botao-varias-cores-jaleca
+- /produto/conjunto-pijama-cirurgico-scrub-feminino-varias-cores-jaleca
+Páginas:
+- /produtos
+- /medida
+- /faq
+`
+
   const prompt = `Você é um redator especializado em conteúdo para profissionais da saúde no Brasil, com foco em uniformes e jalecos profissionais. Crie um artigo de blog completo e otimizado para SEO sobre o seguinte tema: "${topic}".
 
 ${keywordsStr}
@@ -76,9 +102,12 @@ Requisitos:
 - Máximo 4 seções com H2, sem H3
 - Linguagem profissional mas acessível
 - Foco em profissionais de saúde (médicos, enfermeiros, dentistas, etc.)
-- No máximo 1 link interno para /produto/[slug]
+- No máximo 2 links internos — use APENAS as URLs da lista abaixo, NUNCA invente URLs
+- PROIBIDO criar links para páginas que não existem na lista
 - Integre as palavras-chave naturalmente no texto
 - Conteúdo em português brasileiro
+
+${validLinks}
 
 Retorne APENAS um JSON válido (sem markdown, sem texto antes ou depois) no seguinte formato:
 {
@@ -191,6 +220,7 @@ REGRAS:
 - Não adicione texto antes ou depois do HTML
 - Integre as palavras-chave de forma natural
 - Melhore a legibilidade conforme sugerido
+- NUNCA adicione ou altere links — mantenha apenas os links já existentes no conteúdo
 - Retorne APENAS o HTML melhorado`
 
   const raw = await callGemini('gemini-2.5-flash', prompt, 8192, false)
