@@ -167,7 +167,7 @@ function CardView({ data }: { data: PaymentData }) {
             {data.cardMessage || 'Pagamento não autorizado. Tente outro cartão.'}
           </p>
           <Link
-            href="/checkout"
+            href="/finalizar-compra"
             className="inline-flex items-center gap-2 bg-ink text-background px-6 py-3 text-xs font-semibold tracking-widest uppercase hover:bg-ink/90 transition-all"
           >
             Tentar novamente
