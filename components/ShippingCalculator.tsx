@@ -14,7 +14,7 @@ type Props = {
   onShippingSelected: (shipping: ShippingOption) => void
   selectedId?: string
   initialCep?: string
-  onCepCalculated?: (cep: string) => void
+  onCepCalculated?: (cep: string, state?: string) => void
 }
 
 function formatCEP(value: string): string {
@@ -60,7 +60,7 @@ export default function ShippingCalculator({ onShippingSelected, selectedId, ini
       }
       setOptions(data.options)
       setCalculated(true)
-      onCepCalculated?.(clean)
+      onCepCalculated?.(clean, data.address?.state)
     } catch {
       setError('Erro ao calcular frete. Tente novamente.')
     } finally {

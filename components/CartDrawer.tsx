@@ -43,6 +43,29 @@ export default function CartDrawer() {
     return () => { document.body.style.overflow = '' }
   }, [isOpen])
 
+  const FREE_SHIPPING_THRESHOLD = 599
+  const FREE_SHIPPING_STATES = ['SP', 'RJ', 'ES', 'MG']
+
+  const [customerState, setCustomerState] = useState<string>('')
+
+  // Load saved CEP and state from localStorage
+  useEffect(() => {
+    try {
+      const savedCep = localStorage.getItem('jaleca-checkout-cep')
+      const savedState = localStorage.getItem('jaleca-checkout-state')
+      if (savedState) setCustomerState(savedState)
+      else if (savedCep) {
+        // Fallback: try to get state via ViaCEP if only CEP is saved
+        fetch(`https://viacep.com.br/ws/${savedCep}/json/`).then(r => r.json()).then(data => {
+          if (data.uf) {
+            setCustomerState(data.uf)
+            localStorage.setItem('jaleca-checkout-state', data.uf)
+          }
+        }).catch(() => {})
+      }
+    } catch {}
+  }, [])
+
   const subtotal = items.reduce((sum, i) => sum + parsePrice(i.price) * i.quantity, 0)
 
   function calcDiscount(): number {
@@ -291,27 +314,41 @@ export default function CartDrawer() {
             <ShippingCalculator
               onShippingSelected={setSelectedShipping}
               selectedId={selectedShipping?.id}
-              onCepCalculated={cep => {
-                try { localStorage.setItem('jaleca-checkout-cep', cep) } catch {}
+              onCepCalculated={(cep, state) => {
+                try {
+                  localStorage.setItem('jaleca-checkout-cep', cep)
+                  if (state) {
+                    localStorage.setItem('jaleca-checkout-state', state)
+                    setCustomerState(state)
+                  }
+                } catch {}
               }}
             />
 
-            {/* Free shipping progress bar */}
-            {subtotal > 0 && subtotal < 350 && (
+            {/* Free shipping progress bar — only for SP, RJ, ES, MG */}
+            {subtotal > 0 && customerState && !FREE_SHIPPING_STATES.includes(customerState) && (
+              <div className="bg-muted/50 border border-border p-3 text-center">
+                <p className="text-[11px] text-muted-foreground">
+                  <Truck size={11} className="inline mr-1" />
+                  Frete grátis para compras acima de <strong className="text-foreground">{formatCurrency(FREE_SHIPPING_THRESHOLD)}</strong> nas regiões SP, RJ, ES e MG
+                </p>
+              </div>
+            )}
+            {subtotal > 0 && (!customerState || FREE_SHIPPING_STATES.includes(customerState)) && subtotal < FREE_SHIPPING_THRESHOLD && (
               <div className="bg-muted/50 border border-border p-3 text-center">
                 <p className="text-[11px] text-muted-foreground mb-1.5">
                   <Truck size={11} className="inline mr-1" />
-                  Faltam <strong className="text-foreground">{formatCurrency(350 - subtotal)}</strong> para <strong className="text-green-600">frete grátis!</strong>
+                  Faltam <strong className="text-foreground">{formatCurrency(FREE_SHIPPING_THRESHOLD - subtotal)}</strong> para <strong className="text-green-600">frete grátis!</strong>
                 </p>
                 <div className="h-1.5 bg-border rounded-full overflow-hidden">
                   <div
                     className="h-full bg-green-500 rounded-full transition-all duration-500"
-                    style={{ width: `${Math.min((subtotal / 350) * 100, 100)}%` }}
+                    style={{ width: `${Math.min((subtotal / FREE_SHIPPING_THRESHOLD) * 100, 100)}%` }}
                   />
                 </div>
               </div>
             )}
-            {subtotal >= 350 && subtotal > 0 && (
+            {subtotal > 0 && (!customerState || FREE_SHIPPING_STATES.includes(customerState)) && subtotal >= FREE_SHIPPING_THRESHOLD && (
               <div className="bg-green-50 border border-green-200 p-3 text-center flex items-center justify-center gap-2">
                 <Truck size={13} className="text-green-600" />
                 <p className="text-xs text-green-700 font-semibold">Você ganhou frete grátis!</p>
