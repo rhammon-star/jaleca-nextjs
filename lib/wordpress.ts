@@ -1,4 +1,4 @@
-const WP_URL = 'https://jaleca.com.br/wp-json/wp/v2'
+const WP_URL = process.env.NEXT_PUBLIC_WP_URL ?? 'https://wp.jaleca.com.br/wp-json/wp/v2'
 
 export type WPPost = {
   id: number
