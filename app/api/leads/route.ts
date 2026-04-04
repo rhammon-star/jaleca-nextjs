@@ -95,7 +95,7 @@ async function sendWelcomeEmail(email: string, customerId: number): Promise<void
             <span style="font-size:24px;font-family:monospace;font-weight:bold;letter-spacing:4px;color:#1a1a1a;">${COUPON}</span>
           </div>
           <p style="font-size:13px;color:#666;margin:0 0 24px;text-align:center;">
-            Use no checkout e ganhe <strong>10% de desconto</strong> na sua primeira compra.
+            Use no checkout e ganhe <strong>5% de desconto</strong> na sua primeira compra.
           </p>
 
           <p style="font-size:12px;color:#aaa;margin:0;">
@@ -118,7 +118,7 @@ async function sendWelcomeEmail(email: string, customerId: number): Promise<void
     body: JSON.stringify({
       sender: { name: 'Jaleca', email: 'contato@jaleca.com.br' },
       to: [{ email }],
-      subject: 'Bem-vinda à Jaleca! Seu cupom de 10% está aqui 🎉',
+      subject: 'Bem-vinda à Jaleca! Seu cupom de 5% está aqui 🎉',
       htmlContent: html,
     }),
   })
