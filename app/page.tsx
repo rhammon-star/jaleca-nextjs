@@ -119,13 +119,18 @@ export default async function Home() {
 
           {/* RIGHT — photo panel */}
           <div className="relative w-full md:w-[58%] bg-[#e4e4e4]">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/jaleco-hero-v3.jpg"
-              alt="Profissional de saúde usando jaleco feminino premium Jaleca coleção 2026"
-              className="w-full h-auto block"
-              fetchPriority="high"
-            />
+            <picture>
+              <source srcSet="/jaleco-hero-v3.webp" type="image/webp" />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/jaleco-hero-v3.jpg"
+                alt="Profissional de saúde usando jaleco feminino premium Jaleca coleção 2026"
+                className="w-full h-auto block"
+                width={3155}
+                height={3871}
+                fetchPriority="high"
+              />
+            </picture>
             {/* Gradiente editorial suave */}
             <div className="absolute inset-0 z-10 pointer-events-none"
               style={{ background: 'linear-gradient(to right, #faf9f7 0%, #faf9f7 30%, rgba(250,249,247,0) 44%)' }}

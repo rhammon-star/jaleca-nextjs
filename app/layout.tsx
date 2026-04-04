@@ -65,6 +65,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" className={`h-full antialiased ${cormorant.variable} ${dmSans.variable}`}>
+      <head>
+        <link rel="preload" as="image" href="/jaleco-hero-v3.webp" type="image/webp" fetchPriority="high" />
+      </head>
       <body className="min-h-full flex flex-col">
         <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[999] focus:bg-background focus:border focus:border-border focus:px-4 focus:py-2 focus:text-sm focus:font-semibold">
           Pular para o conteúdo
