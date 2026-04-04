@@ -215,7 +215,7 @@ export default function SizeAdvisorModal({ productName, onClose }: Props) {
 
             {/* FORM */}
             {step === 'form' && (
-              <div className="space-y-5">
+              <div className="flex flex-col items-center space-y-5">
                 <p className="text-sm text-muted-foreground text-center">
                   Informe suas medidas corporais e te diremos qual tamanho do{' '}
                   <strong className="text-foreground">{productName}</strong> é ideal para você.
@@ -225,7 +225,7 @@ export default function SizeAdvisorModal({ productName, onClose }: Props) {
                   📏 Meça com uma fita métrica passando pela parte mais larga de cada região, sem apertar.
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-4 w-full">
                   {!isMasculine && (
                     <InputField label="Busto" value={measurements.busto} onChange={set('busto')} hint="parte mais larga" required />
                   )}
@@ -249,10 +249,10 @@ export default function SizeAdvisorModal({ productName, onClose }: Props) {
 
             {/* RESULT */}
             {step === 'result' && best && (
-              <div className="space-y-6">
+              <div className="flex flex-col items-center space-y-6">
 
                 {/* Best size highlight */}
-                <div className="border-2 border-primary bg-primary/5 p-5 text-center">
+                <div className="border-2 border-primary bg-primary/5 p-5 text-center w-full">
                   <p className="text-[11px] font-semibold tracking-widest uppercase text-muted-foreground mb-1">Tamanho recomendado</p>
                   <p className="font-display text-5xl font-semibold text-primary mb-2">{best.size}</p>
                   <p className={`text-sm font-medium ${best.color}`}>{best.verdict}</p>
@@ -262,7 +262,7 @@ export default function SizeAdvisorModal({ productName, onClose }: Props) {
                 </div>
 
                 {/* Area breakdown */}
-                <div>
+                <div className="w-full">
                   <p className="text-[11px] font-semibold tracking-widest uppercase text-muted-foreground mb-3 text-center">
                     {productChart ? `Ajuste no tamanho ${best.size}` : 'Detalhamento por área'}
                   </p>
@@ -291,7 +291,7 @@ export default function SizeAdvisorModal({ productName, onClose }: Props) {
                 </div>
 
                 {/* Size comparison table */}
-                <div>
+                <div className="w-full">
                   <p className="text-[11px] font-semibold tracking-widest uppercase text-muted-foreground mb-3 text-center">Comparativo de tamanhos</p>
                   <div className="space-y-1.5">
                     {recommendations.map(rec => (
@@ -311,7 +311,7 @@ export default function SizeAdvisorModal({ productName, onClose }: Props) {
 
                 {/* Product garment measurements table (when available) */}
                 {productChart && (
-                  <div>
+                  <div className="w-full">
                     <p className="text-[11px] font-semibold tracking-widest uppercase text-muted-foreground mb-3 text-center">
                       Medidas do jaleco — {productName}
                     </p>
