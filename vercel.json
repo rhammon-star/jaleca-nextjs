@@ -1,3 +1,9 @@
 {
-  "buildCommand": "next build && node scripts/warm-cache.mjs"
+  "buildCommand": "next build && node scripts/warm-cache.mjs",
+  "crons": [
+    {
+      "path": "/api/cron/cart-recovery",
+      "schedule": "0 * * * *"
+    }
+  ]
 }

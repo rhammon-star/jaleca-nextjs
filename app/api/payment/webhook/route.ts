@@ -70,6 +70,9 @@ export async function POST(request: NextRequest) {
             if (email) {
               sendOrderConfirmation(order, email).catch(() => {})
 
+              // Remove from cart recovery list — customer completed purchase
+              import('@/lib/brevo-cart').then(m => m.removeFromRecoveryList(email)).catch(() => {})
+
               // Meta Conversions API — Purchase event (PIX/Boleto confirmed via webhook)
               // Must be awaited — Vercel terminates fire-and-forget before completion
               await sendMetaPurchase(

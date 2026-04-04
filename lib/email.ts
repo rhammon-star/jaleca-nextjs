@@ -255,27 +255,72 @@ export async function sendPasswordReset(resetLink: string, customerEmail: string
   })
 }
 
-export async function sendCartRecovery(cartItems: CartItem[], customerEmail: string): Promise<void> {
-  const itemsHtml = cartItems
+function cartItemsHtml(cartItems: CartItem[]): string {
+  return cartItems
     .map(
       i =>
         `<tr><td style="padding:6px 0;border-bottom:1px solid #f0f0f0;">${i.name} × ${i.quantity}</td>
         <td style="padding:6px 0;border-bottom:1px solid #f0f0f0;text-align:right;">${i.price}</td></tr>`
     )
     .join('')
+}
 
+/** 1h — gentle reminder */
+export async function sendCartRecovery1h(cartItems: CartItem[], customerEmail: string): Promise<void> {
   const content = `
     <h2 style="font-size:22px;margin:0 0 8px;">Você esqueceu alguma coisa! 🛍️</h2>
     <p style="color:#666;margin:0 0 16px;">Estes itens ainda estão esperando por você no carrinho:</p>
     <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;">
-      <tbody>${itemsHtml}</tbody>
+      <tbody>${cartItemsHtml(cartItems)}</tbody>
     </table>
-    ${btn('Finalizar compra', `https://jaleca.com.br/checkout`)}
+    ${btn('Finalizar compra', 'https://jaleca.com.br/finalizar-compra')}
   `
-
   await sendMail({
     to: customerEmail,
     subject: 'Você deixou algo no carrinho — Jaleca',
     html: wrapHtml(content, 'Carrinho abandonado'),
   })
+}
+
+/** 24h — urgency */
+export async function sendCartRecovery24h(cartItems: CartItem[], customerEmail: string): Promise<void> {
+  const content = `
+    <h2 style="font-size:22px;margin:0 0 8px;">Seus itens podem esgotar 😟</h2>
+    <p style="color:#666;margin:0 0 16px;">Trabalho com estoque limitado — não queremos que você perca:</p>
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;">
+      <tbody>${cartItemsHtml(cartItems)}</tbody>
+    </table>
+    <p style="color:#666;margin:0 0 20px;">Garanta o seu agora antes que acabe.</p>
+    ${btn('Garantir meu jaleco', 'https://jaleca.com.br/finalizar-compra')}
+  `
+  await sendMail({
+    to: customerEmail,
+    subject: 'Seus itens podem esgotar — Jaleca',
+    html: wrapHtml(content, 'Estoque limitado'),
+  })
+}
+
+/** 72h — PIX discount incentive */
+export async function sendCartRecovery72h(cartItems: CartItem[], customerEmail: string): Promise<void> {
+  const content = `
+    <h2 style="font-size:22px;margin:0 0 8px;">Última chance + 5% no PIX 💛</h2>
+    <p style="color:#666;margin:0 0 16px;">Seu carrinho ainda está salvo. Pague com PIX e ganhe 5% de desconto:</p>
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;">
+      <tbody>${cartItemsHtml(cartItems)}</tbody>
+    </table>
+    <p style="background:#f9f5ef;border-left:3px solid #c9a96e;padding:12px 16px;color:#555;margin:0 0 20px;font-size:14px;">
+      <strong>Use PIX no checkout</strong> e pague 5% a menos. Aprovação imediata.
+    </p>
+    ${btn('Aproveitar desconto PIX', 'https://jaleca.com.br/finalizar-compra')}
+  `
+  await sendMail({
+    to: customerEmail,
+    subject: '5% de desconto PIX esperando por você — Jaleca',
+    html: wrapHtml(content, 'Oferta especial'),
+  })
+}
+
+/** @deprecated Use sendCartRecovery1h instead */
+export async function sendCartRecovery(cartItems: CartItem[], customerEmail: string): Promise<void> {
+  return sendCartRecovery1h(cartItems, customerEmail)
 }
