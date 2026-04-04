@@ -120,7 +120,8 @@ export default async function Home() {
           {/* RIGHT — photo panel */}
           <div className="relative w-full md:w-[58%] bg-[#e4e4e4]">
             <picture>
-              <source srcSet="/jaleco-hero-v3.webp" type="image/webp" />
+              <source media="(max-width: 767px)" srcSet="/jaleco-hero-mobile.webp" type="image/webp" />
+              <source media="(min-width: 768px)" srcSet="/jaleco-hero-desktop.webp" type="image/webp" />
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/jaleco-hero-v3.jpg"
