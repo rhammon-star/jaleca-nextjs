@@ -79,6 +79,13 @@ export default function CheckoutClient() {
   const [cpfLoggedIn, setCpfLoggedIn] = useState(false)
   const cpfTimer = useRef<ReturnType<typeof setTimeout>>(undefined)
 
+  // Coupon
+  const [couponInput, setCouponInput] = useState('')
+  const [couponCode, setCouponCode] = useState('')
+  const [couponDiscount, setCouponDiscount] = useState(0)
+  const [couponError, setCouponError] = useState('')
+  const [couponLoading, setCouponLoading] = useState(false)
+
   const subtotal = items.reduce((sum, i) => sum + parsePrice(i.price) * i.quantity, 0)
   const shippingCost = shipping?.cost ?? 0
   const total = subtotal + shippingCost
@@ -146,6 +153,45 @@ export default function CheckoutClient() {
     finally {
       setCepLoading(false)
     }
+  }
+
+  async function applyCoupon() {
+    const code = couponInput.trim()
+    if (!code) return
+    setCouponLoading(true)
+    setCouponError('')
+    try {
+      const res = await fetch('/api/coupon', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code }),
+      })
+      const data = await res.json()
+      if (!res.ok || !data.valid) {
+        setCouponError(data.error || 'Cupom inválido')
+        setCouponCode('')
+        setCouponDiscount(0)
+        return
+      }
+      setCouponCode(data.code)
+      // Calculate discount based on type
+      if (data.discount_type === 'percent') {
+        setCouponDiscount(subtotal * (parseFloat(data.amount) / 100))
+      } else {
+        setCouponDiscount(parseFloat(data.amount))
+      }
+    } catch {
+      setCouponError('Erro ao validar cupom')
+    } finally {
+      setCouponLoading(false)
+    }
+  }
+
+  function removeCoupon() {
+    setCouponCode('')
+    setCouponDiscount(0)
+    setCouponInput('')
+    setCouponError('')
   }
 
   function maskEmail(email: string) {
@@ -346,6 +392,7 @@ export default function CheckoutClient() {
         customer_id: resolvedCustomerId,
         cardToken,
         installments,
+        couponCode: couponCode || undefined,
       }
 
       const res = await fetch('/api/payment/create', {
@@ -952,6 +999,39 @@ export default function CheckoutClient() {
                     </div>
                   ))}
                 </div>
+                {/* Coupon field */}
+                <div className="pt-4 border-t border-border">
+                  {couponCode ? (
+                    <div className="flex items-center justify-between bg-green-50 border border-green-200 px-3 py-2 text-sm">
+                      <span className="text-green-800 font-mono font-semibold tracking-wider">{couponCode.toUpperCase()}</span>
+                      <span className="text-green-700 font-medium">- {formatCurrency(couponDiscount)}</span>
+                      <button type="button" onClick={removeCoupon} className="text-green-600 hover:text-green-900 text-xs ml-2 underline">remover</button>
+                    </div>
+                  ) : (
+                    <div className="space-y-1">
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          value={couponInput}
+                          onChange={e => { setCouponInput(e.target.value.toUpperCase()); setCouponError('') }}
+                          onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), applyCoupon())}
+                          placeholder="Cupom de desconto"
+                          className="flex-1 border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:border-foreground transition-colors"
+                        />
+                        <button
+                          type="button"
+                          onClick={applyCoupon}
+                          disabled={couponLoading || !couponInput.trim()}
+                          className="px-4 py-2 text-xs font-semibold tracking-widest uppercase bg-foreground text-background hover:bg-foreground/90 transition-all disabled:opacity-50"
+                        >
+                          {couponLoading ? '...' : 'Aplicar'}
+                        </button>
+                      </div>
+                      {couponError && <p className="text-xs text-red-600">{couponError}</p>}
+                    </div>
+                  )}
+                </div>
+
                 <div className="space-y-2 pt-4">
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Subtotal</span>
@@ -963,18 +1043,24 @@ export default function CheckoutClient() {
                       <span>{shippingCost === 0 ? 'Grátis' : formatCurrency(shippingCost)}</span>
                     </div>
                   )}
+                  {couponDiscount > 0 && (
+                    <div className="flex justify-between text-sm text-green-600">
+                      <span>Cupom ({couponCode.toUpperCase()})</span>
+                      <span>- {formatCurrency(couponDiscount)}</span>
+                    </div>
+                  )}
                   {paymentMethod === 'pix' && (
                     <div className="flex justify-between text-sm text-green-600">
                       <span>Desconto PIX (5%)</span>
-                      <span>- {formatCurrency(subtotal * 0.05)}</span>
+                      <span>- {formatCurrency((subtotal - couponDiscount) * 0.05)}</span>
                     </div>
                   )}
                   <div className="flex justify-between text-base font-semibold pt-2 border-t border-border">
                     <span>Total</span>
                     <span>
                       {paymentMethod === 'pix'
-                        ? formatCurrency(total * 0.95)
-                        : formatCurrency(total)}
+                        ? formatCurrency((total - couponDiscount) * 0.95)
+                        : formatCurrency(total - couponDiscount)}
                     </span>
                   </div>
                 </div>

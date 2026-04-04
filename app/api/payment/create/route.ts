@@ -51,6 +51,7 @@ type RequestBody = {
     cost: number
   }
   customer_id?: number
+  couponCode?: string
 }
 
 function phoneNumbers(phone: string): { area_code: string; number: string } {
@@ -79,7 +80,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const body: RequestBody = await request.json()
-    const { paymentMethod, cpf, billing, items, shipping, customer_id, cardToken, installments } = body
+    const { paymentMethod, cpf, billing, items, shipping, customer_id, cardToken, installments, couponCode } = body
 
     if (!billing || !items?.length || !shipping) {
       return NextResponse.json({ error: 'Dados incompletos' }, { status: 400 })
@@ -126,6 +127,7 @@ export async function POST(request: NextRequest) {
         total: shipping.cost.toFixed(2),
       }],
       customer_id,
+      coupon_lines: couponCode ? [{ code: couponCode }] : undefined,
     }
 
     const wcOrder = await createOrder(wcOrderData)

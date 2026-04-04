@@ -43,7 +43,10 @@ async function createWCCustomer(email: string): Promise<number> {
 
 async function sendWelcomeEmail(email: string, customerId: number): Promise<void> {
   const apiKey = process.env.BREVO_API_KEY
-  if (!apiKey) return
+  if (!apiKey) {
+    console.error('[Leads] BREVO_API_KEY not set — skipping welcome email')
+    return
+  }
 
   // Generate password reset token and save to WC customer meta
   const token = crypto.randomBytes(32).toString('hex')
@@ -112,7 +115,7 @@ async function sendWelcomeEmail(email: string, customerId: number): Promise<void
 </body>
 </html>`
 
-  await fetch(`${BREVO_API}/smtp/email`, {
+  const emailRes = await fetch(`${BREVO_API}/smtp/email`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'api-key': apiKey },
     body: JSON.stringify({
@@ -122,6 +125,12 @@ async function sendWelcomeEmail(email: string, customerId: number): Promise<void
       htmlContent: html,
     }),
   })
+  if (!emailRes.ok) {
+    const errBody = await emailRes.text().catch(() => '')
+    console.error(`[Leads] Brevo email failed (${emailRes.status}):`, errBody)
+  } else {
+    console.log(`[Leads] Welcome email sent to ${email}`)
+  }
 }
 
 export async function POST(request: NextRequest) {
@@ -136,12 +145,14 @@ export async function POST(request: NextRequest) {
     // Check if already a WC customer
     const existingId = await customerExistsByEmail(email)
     if (existingId) {
-      // Already registered — just return ok (don't spam)
+      console.log(`[Leads] Email already registered as WC customer ${existingId} — skipping`)
       return NextResponse.json({ ok: true, existing: true })
     }
 
     // Create WC customer + send welcome email
+    console.log(`[Leads] Creating WC customer for ${email}`)
     const customerId = await createWCCustomer(email)
+    console.log(`[Leads] WC customer created: ${customerId}`)
     await sendWelcomeEmail(email, customerId)
 
     return NextResponse.json({ ok: true })
