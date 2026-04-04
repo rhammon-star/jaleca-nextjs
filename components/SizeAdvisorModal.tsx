@@ -216,12 +216,12 @@ export default function SizeAdvisorModal({ productName, onClose }: Props) {
             {/* FORM */}
             {step === 'form' && (
               <div className="space-y-5">
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-muted-foreground text-center">
                   Informe suas medidas corporais e te diremos qual tamanho do{' '}
                   <strong className="text-foreground">{productName}</strong> é ideal para você.
                 </p>
 
-                <div className="bg-muted/50 border border-border p-4 text-xs text-muted-foreground leading-relaxed">
+                <div className="bg-muted/50 border border-border p-4 text-xs text-muted-foreground leading-relaxed text-center">
                   📏 Meça com uma fita métrica passando pela parte mais larga de cada região, sem apertar.
                 </div>
 
@@ -233,7 +233,7 @@ export default function SizeAdvisorModal({ productName, onClose }: Props) {
                   <InputField label="Quadril" value={measurements.quadril} onChange={set('quadril')} hint="opcional" />
                 </div>
 
-                <p className="text-[10px] text-muted-foreground/70">
+                <p className="text-[10px] text-muted-foreground/70 text-center">
                   * {isMasculine ? 'Cintura obrigatória' : 'Busto e cintura obrigatórios'}
                 </p>
 
@@ -263,7 +263,7 @@ export default function SizeAdvisorModal({ productName, onClose }: Props) {
 
                 {/* Area breakdown */}
                 <div>
-                  <p className="text-[11px] font-semibold tracking-widest uppercase text-muted-foreground mb-3">
+                  <p className="text-[11px] font-semibold tracking-widest uppercase text-muted-foreground mb-3 text-center">
                     {productChart ? `Ajuste no tamanho ${best.size}` : 'Detalhamento por área'}
                   </p>
                   <div className="space-y-3">
@@ -292,7 +292,7 @@ export default function SizeAdvisorModal({ productName, onClose }: Props) {
 
                 {/* Size comparison table */}
                 <div>
-                  <p className="text-[11px] font-semibold tracking-widest uppercase text-muted-foreground mb-3">Comparativo de tamanhos</p>
+                  <p className="text-[11px] font-semibold tracking-widest uppercase text-muted-foreground mb-3 text-center">Comparativo de tamanhos</p>
                   <div className="space-y-1.5">
                     {recommendations.map(rec => (
                       <div
@@ -312,7 +312,7 @@ export default function SizeAdvisorModal({ productName, onClose }: Props) {
                 {/* Product garment measurements table (when available) */}
                 {productChart && (
                   <div>
-                    <p className="text-[11px] font-semibold tracking-widest uppercase text-muted-foreground mb-3">
+                    <p className="text-[11px] font-semibold tracking-widest uppercase text-muted-foreground mb-3 text-center">
                       Medidas do jaleco — {productName}
                     </p>
                     <div className="overflow-hidden border border-border text-xs">
@@ -343,7 +343,7 @@ export default function SizeAdvisorModal({ productName, onClose }: Props) {
                         </tbody>
                       </table>
                     </div>
-                    <p className="text-[10px] text-muted-foreground mt-2">* Medidas do jaleco, não do corpo.</p>
+                    <p className="text-[10px] text-muted-foreground mt-2 text-center">* Medidas do jaleco, não do corpo.</p>
                   </div>
                 )}
 
