@@ -112,11 +112,11 @@ type InputFieldProps = {
 function InputField({ label, value, onChange, unit = 'cm', hint, required }: InputFieldProps) {
   const inputId = `size-advisor-${label.toLowerCase().replace(/\s+/g, '-')}`
   return (
-    <div>
-      <label htmlFor={inputId} className="block text-[11px] font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">
+    <div className="flex flex-col">
+      <label htmlFor={inputId} className="flex-1 text-[11px] font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">
         {label} <span className="font-normal normal-case tracking-normal">({unit})</span>
-        {hint && <span className="ml-1 text-[10px] font-normal normal-case tracking-normal text-muted-foreground/70">— {hint}</span>}
         {required && <span className="ml-1 text-red-400" aria-hidden="true">*</span>}
+        {hint && <span className="block text-[10px] font-normal normal-case tracking-normal text-muted-foreground/70 mt-0.5">{hint}</span>}
       </label>
       <input
         id={inputId}
@@ -225,7 +225,7 @@ export default function SizeAdvisorModal({ productName, onClose }: Props) {
                   📏 Meça com uma fita métrica passando pela parte mais larga de cada região, sem apertar.
                 </div>
 
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-3 gap-4 items-end">
                   {!isMasculine && (
                     <InputField label="Busto" value={measurements.busto} onChange={set('busto')} hint="parte mais larga" required />
                   )}
