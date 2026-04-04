@@ -268,7 +268,16 @@ export default function ProductDetailClient({
             normalizeAttr(vColor.value) === normalizeAttr(selectedColorName)
         })
       : activeVariations
-    return [...new Set(relevantVariations.flatMap(v => v.attributes.nodes.filter(a => isSizeAttr(a)).map(a => a.value)).filter(Boolean))]
+    const sizeOrder = ['pp', 'p', 'm', 'g', 'gg', 'g1', 'g2', 'g3']
+    const slugs = [...new Set(relevantVariations.flatMap(v => v.attributes.nodes.filter(a => isSizeAttr(a)).map(a => a.value)).filter(Boolean))]
+    return slugs.sort((a, b) => {
+      const ai = sizeOrder.indexOf(a.toLowerCase())
+      const bi = sizeOrder.indexOf(b.toLowerCase())
+      if (ai === -1 && bi === -1) return a.localeCompare(b)
+      if (ai === -1) return 1
+      if (bi === -1) return -1
+      return ai - bi
+    })
   })()
 
   // Only match a variation when ALL present attributes are selected to avoid wrong prices

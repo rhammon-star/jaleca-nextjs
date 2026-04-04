@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { unstable_cache } from "next/cache";
 import { ArrowRight, Shield, Sparkles, Ruler } from "lucide-react";
 import { graphqlClient, GET_PRODUCTS } from "@/lib/graphql";
 import ProductCard, { type WooProduct } from "@/components/ProductCard";
@@ -30,20 +29,16 @@ export const metadata: Metadata = {
   },
 };
 
-const getFeaturedProducts = unstable_cache(
-  async (): Promise<WooProduct[]> => {
-    try {
-      const data = await graphqlClient.request<{ products: { nodes: WooProduct[] } }>(
-        GET_PRODUCTS, { first: 8 }
-      );
-      return data.products.nodes;
-    } catch {
-      return [];
-    }
-  },
-  ['featured-products'],
-  { revalidate: 3600, tags: ['products'] }
-);
+async function getFeaturedProducts(): Promise<WooProduct[]> {
+  try {
+    const data = await graphqlClient.request<{ products: { nodes: WooProduct[] } }>(
+      GET_PRODUCTS, { first: 8 }
+    );
+    return data.products.nodes;
+  } catch {
+    return [];
+  }
+}
 
 export default async function Home() {
   const products = await getFeaturedProducts();

@@ -124,12 +124,22 @@ Registros configurados em registro.br (modo avançado):
 - MX 10: alt3.aspmx.l.google.com, alt4.aspmx.l.google.com
 
 ## Cache — arquitetura atual
-- `unstable_cache` em todas as fetches de produto, home, reviews, relacionados — persiste entre deploys
-- `revalidate = 3600` em todas as páginas de produto e home
+- `unstable_cache` REMOVIDO de `app/produto/[slug]/page.tsx` e `app/page.tsx` — causava conflito com `revalidatePath`
+- `revalidate = 0` na página de produto (busca dados frescos a cada request) — pode ser aumentado para 300 quando estável
 - `vercel.json` configura `buildCommand: "next build && node scripts/warm-cache.mjs"` — aquece cache automaticamente após cada deploy
-- `app/api/revalidate/route.ts` — endpoint seguro para revalidar paths via webhook (requer header `x-revalidate-secret`)
+- `app/api/revalidate/route.ts` — endpoint seguro para revalidar paths (requer header `x-revalidate-secret: jaleca-revalidate-2024`)
+- `REVALIDATE_SECRET=jaleca-revalidate-2024` configurado no Vercel E hardcoded em `jaleca-api.php`
 - `app/api/products-by-slugs/route.ts` — proxy server-side para RecentlyViewed (evita chamada cross-origin ao WordPress)
 - warm-cache manual: `npm run warm-cache`
+- **ATENÇÃO Next.js 16**: `revalidateTag` requer 2 argumentos nessa versão — NÃO usar sem verificar a assinatura. Usar `revalidatePath` em vez disso.
+
+## Produtos — regras críticas
+- Query GraphQL usa `variations(first: 100)` — WPGraphQL tem limite padrão de 10, produtos com mais de 10 variações precisam desse parâmetro
+- Variações sem preço no WooCommerce NÃO aparecem no site (WPGraphQL não as retorna)
+- Ordem dos tamanhos: PP → P → M → G → GG → G1 → G2 → G3 (definido em `ProductDetailClient.tsx`)
+- Ao adicionar novos tamanhos/cores no WC: criar as variações em Dados do produto → Variações → "Gerar variações"
+- Revalidação automática: jaleca-api.php dispara `woocommerce_update_product` → chama `jaleca.com.br/api/revalidate`
+- Revalidação manual: `node -e "fetch('https://jaleca.com.br/api/revalidate',{method:'POST',headers:{'Content-Type':'application/json','x-revalidate-secret':'jaleca-revalidate-2024'},body:JSON.stringify({paths:['/produtos','/produto/SLUG']})}).then(r=>r.json()).then(console.log)"`
 
 ## Analytics — estado atual
 - GA4: `NEXT_PUBLIC_GA4_ID=G-SHBE64GDP7` ✅ configurado no Vercel
@@ -148,8 +158,8 @@ Registros configurados em registro.br (modo avançado):
 - [x] Testar cartão de crédito com compra real no Pagar.me ✅
 - [x] Configurar Webhook Pagar.me → `jaleca.com.br/api/payment/webhook` ✅ (charge.paid + charge.payment_failed)
 - [x] WooCommerce atualiza para "Processando" imediatamente após cartão aprovado ✅
-- [x] Email de confirmação chegando ao cliente ✅ (template completo com logo)
-- [x] Email duplicado do WooCommerce desativado ✅
+- [x] Email de confirmação chegando ao cliente ✅ (email nativo WooCommerce reativado — Opção B: migrar para Resend pendente)
+- [ ] Migrar envio de email para Resend (direto do Vercel, sem depender do WordPress)
 - [ ] Testar boleto com compra real no Pagar.me
 - [ ] WordPress Settings → General → Site Address → `https://jaleca.com.br` (emails WC mostram wp.jaleca ainda)
 - [ ] Verificar pedidos aparecendo no WooCommerce após pagamento PIX

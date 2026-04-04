@@ -73,28 +73,32 @@ interface MailOptions {
 }
 
 async function sendMail(opts: MailOptions): Promise<void> {
-  const wcUrl = process.env.NEXT_PUBLIC_WP_URL || process.env.NEXT_PUBLIC_WC_URL || 'https://wp.jaleca.com.br'
-  const emailKey = process.env.WP_EMAIL_KEY
+  const apiKey = process.env.BREVO_API_KEY
 
-  if (!emailKey || emailKey === 'PLACEHOLDER') {
-    console.log('[Email] WP_EMAIL_KEY not configured — simulating send:')
+  if (!apiKey || apiKey === 'PLACEHOLDER') {
+    console.log('[Email] BREVO_API_KEY not configured — simulating send:')
     console.log(`  To: ${opts.to}`)
     console.log(`  Subject: ${opts.subject}`)
     return
   }
 
   try {
-    const res = await fetch(`${wcUrl}/wp-json/jaleca/v1/send-email`, {
+    const res = await fetch('https://api.brevo.com/v3/smtp/email', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-Jaleca-Key': emailKey,
+        'api-key': apiKey,
       },
-      body: JSON.stringify(opts),
+      body: JSON.stringify({
+        sender: { name: 'Jaleca', email: 'contato@jaleca.com.br' },
+        to: [{ email: opts.to }],
+        subject: opts.subject,
+        htmlContent: opts.html,
+      }),
     })
     if (!res.ok) {
       const text = await res.text()
-      console.error('[Email] WordPress endpoint error:', res.status, text)
+      console.error('[Email] Brevo error:', res.status, text)
     }
   } catch (err) {
     console.error('[Email] Send failed:', err)
