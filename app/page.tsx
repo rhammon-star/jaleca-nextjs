@@ -125,10 +125,10 @@ export default async function Home() {
               Nova Coleção 2026
             </p>
             <h1 className="font-display text-4xl sm:text-5xl lg:text-[3.4rem] font-semibold leading-[1.1] text-[#1a1a1a] mb-5 animate-fade-up">
-              Elegância clínica em cada detalhe
+              O jaleco que valoriza sua presença profissional
             </h1>
             <p className="text-[#777] text-base leading-relaxed mb-8">
-              Jalecos e uniformes profissionais com acabamento refinado, para quem não se contenta com o básico.
+              Modelagem premium, tecidos de alta qualidade e caimento perfeito para quem leva a profissão a sério.
             </p>
             <div className="flex flex-wrap gap-3">
               <Link
@@ -168,6 +168,25 @@ export default async function Home() {
             />
           </div>
 
+        </div>
+      </section>
+
+      {/* Social proof bar */}
+      <section className="border-t border-b border-[#e8e4de] bg-[#faf9f7] py-4">
+        <div className="container">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-0">
+            <p className="text-xs font-semibold tracking-widest uppercase text-[#5a4a3a] sm:px-8">
+              500+ profissionais satisfeitas
+            </p>
+            <span className="hidden sm:block h-4 w-px bg-[#c4a97d]/40" />
+            <p className="text-xs font-semibold tracking-widest uppercase text-[#5a4a3a] sm:px-8">
+              ⭐ 4.9/5 avaliação média
+            </p>
+            <span className="hidden sm:block h-4 w-px bg-[#c4a97d]/40" />
+            <p className="text-xs font-semibold tracking-widest uppercase text-[#5a4a3a] sm:px-8">
+              Envio para todo o Brasil
+            </p>
+          </div>
         </div>
       </section>
 
@@ -229,7 +248,7 @@ export default async function Home() {
             <div className="flex items-end justify-between mb-12">
               <div>
                 <h2 className="font-display text-3xl md:text-4xl font-semibold mb-2">Em Destaque</h2>
-                <p className="text-muted-foreground">Os favoritos dos nossos clientes</p>
+                <p className="text-muted-foreground">Os preferidos das profissionais de saúde</p>
               </div>
               <Link href="/produtos" className="hidden sm:inline-flex items-center gap-1 text-sm font-medium text-primary-text hover:underline underline-offset-4">
                 Ver todos <ArrowRight size={14} />
@@ -253,9 +272,9 @@ export default async function Home() {
 
       {/* Virtual try-on */}
       <ScrollReveal>
-        <section className="py-20 md:py-24">
+        <section className="py-12 md:py-16">
           <div className="container">
-            <div className="px-6 py-12 text-center md:px-12 md:py-16">
+            <div className="px-6 py-8 text-center md:px-12 md:py-10">
               <h2 className="font-display text-3xl md:text-4xl font-semibold mb-4 text-balance">Experimente Antes de Comprar</h2>
               <p className="text-muted-foreground max-w-2xl mx-auto mb-8 text-pretty leading-relaxed">
                 Veja como o jaleco fica em você com nossa tecnologia de prova virtual
@@ -278,10 +297,10 @@ export default async function Home() {
             <h2 className="font-display text-3xl md:text-4xl font-semibold text-center mb-16">Por Que Jaleca?</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
               {[
-                { icon: Sparkles, title: "Tecidos Premium", desc: "Materiais anti-microbianos com stretch e conforto térmico." },
-                { icon: Ruler, title: "Tamanhos para Todos", desc: "Do PP ao G3, com tabela de medidas por modelo para garantir o tamanho certo." },
-                { icon: Sparkles, title: "Estilo e Elegância", desc: "Jalecos que combinam funcionalidade profissional com design moderno." },
-                { icon: Shield, title: "Garantia de Qualidade", desc: "Cada peça passa por rigoroso controle de qualidade." },
+                { icon: Sparkles, title: "Tecidos Premium", desc: "Anti-microbiano, stretch confortável e resistente ao uso intenso." },
+                { icon: Ruler, title: "Tamanhos para Todos", desc: "Do PP ao G3 — com tabela de medidas por modelo para você acertar de primeira." },
+                { icon: Sparkles, title: "Estilo e Elegância", desc: "Design moderno que une autoridade profissional com moda contemporânea." },
+                { icon: Shield, title: "Garantia de Qualidade", desc: "Cada peça passa por controle rigoroso antes de chegar até você." },
               ].map((d, i) => (
                 <ScrollReveal key={d.title} delay={i * 100}>
                   <div className="text-center">

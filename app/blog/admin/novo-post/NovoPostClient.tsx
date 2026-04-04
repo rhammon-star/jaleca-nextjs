@@ -104,6 +104,7 @@ export default function NovoPostClient() {
   const [saveLink, setSaveLink] = useState('')
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null)
   const [categories, setCategories] = useState<WPCategory[]>([])
+  const [refreshingImage, setRefreshingImage] = useState(false)
   const abortRef = useRef<AbortController | null>(null)
 
   useEffect(() => {
@@ -204,6 +205,25 @@ export default function NovoPostClient() {
       if ((err as Error).name === 'AbortError') return
       setError((err as Error).message || 'Erro ao gerar conteúdo')
       setStep('config')
+    }
+  }
+
+  async function handleRefreshImage() {
+    if (!result) return
+    setRefreshingImage(true)
+    try {
+      const res = await fetch('/api/blog/new-image', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ topic: editTitle || topic }),
+      })
+      if (!res.ok) throw new Error()
+      const data = await res.json() as { imageUrl: string | null; imageAuthor: { name: string; link: string } | null }
+      setResult(prev => prev ? { ...prev, imageUrl: data.imageUrl, imageAuthor: data.imageAuthor } : prev)
+    } catch {
+      // silently fail
+    } finally {
+      setRefreshingImage(false)
     }
   }
 
@@ -745,15 +765,26 @@ export default function NovoPostClient() {
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={result.imageUrl} alt="Imagem destacada sugerida" className="w-full h-full object-cover" />
                 </div>
-                {result.imageAuthor && (
-                  <p className="text-[10px] text-muted-foreground mt-1">
-                    Foto por{' '}
-                    <a href={result.imageAuthor.link} target="_blank" rel="noopener noreferrer" className="underline">
-                      {result.imageAuthor.name}
-                    </a>{' '}
-                    no Unsplash
-                  </p>
-                )}
+                <div className="flex items-center justify-between mt-1">
+                  {result.imageAuthor && (
+                    <p className="text-[10px] text-muted-foreground">
+                      Foto por{' '}
+                      <a href={result.imageAuthor.link} target="_blank" rel="noopener noreferrer" className="underline">
+                        {result.imageAuthor.name}
+                      </a>{' '}
+                      no Unsplash
+                    </p>
+                  )}
+                  <button
+                    type="button"
+                    onClick={handleRefreshImage}
+                    disabled={refreshingImage}
+                    className="inline-flex items-center gap-1.5 text-xs text-primary hover:text-primary/80 transition-colors disabled:opacity-40 ml-auto"
+                  >
+                    {refreshingImage ? <Loader2 size={12} className="animate-spin" /> : <RefreshCw size={12} />}
+                    Buscar nova imagem
+                  </button>
+                </div>
               </div>
             )}
 

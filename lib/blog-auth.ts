@@ -17,7 +17,7 @@ let blogUsers: BlogUser[] = [
   {
     id: '1',
     name: 'Admin',
-    email: 'admin@jaleca.com.br',
+    email: 'contato@jaleca.com.br',
     role: 'admin',
     passwordHash: hashPassword('jaleca2024'),
   },
