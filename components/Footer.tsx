@@ -131,6 +131,7 @@ const Footer = () => {
                   { label: 'Sobre a Jaleca', href: '/sobre' },
                   { label: 'Tabela de Medidas', href: '/medidas' },
                   { label: 'Trocas e Devoluções', href: '/trocas-e-devolucoes' },
+                  { label: 'Perguntas Frequentes', href: '/faq' },
                   { label: 'Política de Privacidade', href: '/privacidade' },
                   { label: 'Termos de Uso', href: '/termos' },
                   { label: 'Blog', href: '/blog' },
