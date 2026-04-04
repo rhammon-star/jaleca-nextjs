@@ -6,7 +6,7 @@ export const graphqlClient = new GraphQLClient(endpoint)
 
 export const GET_PRODUCTS = `
   query GetProducts($first: Int, $after: String) {
-    products(first: $first, after: $after) {
+    products(first: $first, after: $after, where: { featured: true }) {
       pageInfo {
         hasNextPage
         endCursor
