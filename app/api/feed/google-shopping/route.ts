@@ -30,6 +30,7 @@ type WCProduct = {
   stock_status: string
   images: Array<{ src: string }>
   type: string
+  attributes: Array<{ name: string; options: string[] }>
 }
 
 type WCVariation = {
@@ -63,6 +64,31 @@ function gender(name: string): string {
   return 'unisex'
 }
 
+// Mapeia atributos WooCommerce → campos Google Shopping
+function mapAttr(attrs: Array<{ name: string; option: string }>) {
+  const get = (regex: RegExp) => attrs.find(a => regex.test(a.name))?.option
+  return {
+    color:    get(/^cor$/i),
+    size:     get(/tamanho|size/i),
+    material: get(/material/i),
+    pattern:  get(/estampa|estampado|print|padrão/i),
+  }
+}
+
+// Para produtos simples: usa options[] do atributo do produto pai
+function mapProductAttr(attrs: Array<{ name: string; options: string[] }>) {
+  const get = (regex: RegExp) => {
+    const found = attrs.find(a => regex.test(a.name))
+    return found?.options?.join(', ') || undefined
+  }
+  return {
+    color:    get(/^cor$/i),
+    size:     get(/tamanho|size/i),
+    material: get(/material/i),
+    pattern:  get(/estampa|estampado|print|padrão/i),
+  }
+}
+
 function buildItem(fields: {
   id: string
   groupId?: string
@@ -72,9 +98,11 @@ function buildItem(fields: {
   image: string
   availability: string
   price: string
+  gender: string
   color?: string
   size?: string
-  gender: string
+  material?: string
+  pattern?: string
 }): string {
   return `
     <item>
@@ -91,8 +119,10 @@ function buildItem(fields: {
       <g:age_group>adult</g:age_group>
       <g:gender>${fields.gender}</g:gender>
       <g:google_product_category>Apparel &amp; Accessories &gt; Clothing &gt; Uniforms</g:google_product_category>
-      ${fields.color ? `<g:color>${esc(fields.color)}</g:color>` : ''}
-      ${fields.size ? `<g:size>${esc(fields.size)}</g:size>` : ''}
+      ${fields.color    ? `<g:color>${esc(fields.color)}</g:color>`         : ''}
+      ${fields.size     ? `<g:size>${esc(fields.size)}</g:size>`             : ''}
+      ${fields.material ? `<g:material>${esc(fields.material)}</g:material>` : ''}
+      ${fields.pattern  ? `<g:pattern>${esc(fields.pattern)}</g:pattern>`    : ''}
     </item>`
 }
 
@@ -113,9 +143,9 @@ export async function GET() {
 
     const items: string[] = []
 
-    // Processa variáveis em paralelo, simples em série
+    // Produtos em estoque apenas
     const variableProducts = allProducts.filter(p => p.type === 'variable' && p.price !== '')
-    const simpleProducts = allProducts.filter(p => p.type === 'simple' && p.price)
+    const simpleProducts = allProducts.filter(p => p.type === 'simple' && p.price && p.stock_status === 'instock')
 
     // Produtos simples
     for (const p of simpleProducts) {
@@ -124,15 +154,19 @@ export async function GET() {
       const price = brl(p.price)
       if (!price) continue
 
+      const attrs = mapProductAttr(p.attributes ?? [])
+      const g = gender(p.name)
+
       items.push(buildItem({
         id: String(p.id),
         title: p.name,
         description: stripHtml(p.description || p.short_description || p.name),
         link: `https://jaleca.com.br/produto/${p.slug}`,
         image,
-        availability: p.stock_status === 'instock' ? 'in_stock' : 'out_of_stock',
+        availability: 'in_stock',
         price,
-        gender: gender(p.name),
+        gender: g,
+        ...attrs,
       }))
     }
 
@@ -152,17 +186,17 @@ export async function GET() {
       const g = gender(p.name)
 
       for (const v of variations) {
-        if (!v.price) continue
+        if (!v.price || v.stock_status !== 'instock') continue
         const price = brl(v.price)
         if (!price) continue
 
         const image = v.image?.src || baseImage
         if (!image) continue
 
-        const colorAttr = v.attributes.find(a => /cor/i.test(a.name))?.option
-        const sizeAttr = v.attributes.find(a => /tamanho|size/i.test(a.name))?.option
+        const attrs = mapAttr(v.attributes)
 
-        const titleParts = [p.name, colorAttr, sizeAttr].filter(Boolean)
+        // Título: nome do produto + cor + tamanho (ou estampa se não tiver cor)
+        const titleParts = [p.name, attrs.color ?? attrs.pattern, attrs.size].filter(Boolean)
         const title = titleParts.join(' — ')
 
         items.push(buildItem({
@@ -172,11 +206,10 @@ export async function GET() {
           description,
           link,
           image,
-          availability: v.stock_status === 'instock' ? 'in_stock' : 'out_of_stock',
+          availability: 'in_stock',
           price,
-          color: colorAttr,
-          size: sizeAttr,
           gender: g,
+          ...attrs,
         }))
       }
     }
