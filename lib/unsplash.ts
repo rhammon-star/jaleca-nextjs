@@ -51,7 +51,7 @@ export async function searchImage(
       if (res.ok) {
         const data: UnsplashSearchResponse = await res.json()
         if (data.results?.length) {
-          const photo = data.results[0]
+          const photo = data.results[Math.floor(Math.random() * Math.min(data.results.length, 5))]
           return { url: photo.urls.regular, authorName: photo.user.name, authorLink: photo.user.links.html }
         }
       }
