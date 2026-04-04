@@ -19,8 +19,8 @@ Site de uniformes médicos (jalecos/scrubs). Diretório: `/Users/rhammon/SiteJal
 - WooCommerce GraphQL: ✅
 - Carrinho: ✅ localStorage
 - Pagamentos Pagar.me: ✅ PIX ✅ Boleto ✅ Cartão de Crédito (testado e funcionando)
-- Email confirmação de pedido: ✅ template completo com logo, produtos, frete, endereço
-- Email de senha (novo cliente): ✅ aponta para wp.jaleca.com.br/wp-login.php
+- Email confirmação de pedido: ✅ via Brevo (lib/email.ts → sendOrderConfirmation)
+- Email de senha (novo cliente): ✅ aponta para wp.jaleca.com.br/wp-login.php (via forgot-password route)
 - Verificação de email: ✅ (não bloqueia checkout)
 - Blog admin com IA: ✅ (geração, humanização, SEO, imagem, seletor de categoria, deletar post)
 - Melhor Envio shipping: ⚠️ token placeholder, usa fallback
@@ -59,13 +59,17 @@ Também enviar `billing: { name, address }` no nível do pedido.
 - Tailwind flex não aplicava ao `.container` — corrigido com inline styles no inner div
 
 ### Email
-- Roteado via WordPress: `wp-json/jaleca/v1/send-email` com header `X-Jaleca-Key`
-- `WP_EMAIL_KEY` em `.env.local` e `functions.php`
-- `NEXT_PUBLIC_WP_URL=https://wp.jaleca.com.br` no Vercel — usado em forgot-password e reset
-- Email de confirmação: `lib/email.ts` → `sendOrderConfirmation()` — template completo com logo, tabela de itens, frete, endereço
-- WooCommerce "Processando pedido" desativado (WooCommerce → Configurações → Emails) — evita duplicata
+- **Provedor: Brevo** (antigo Sendinblue) — envia direto do Next.js via API REST, sem depender do WordPress
+- `BREVO_API_KEY` no Vercel (Production + Preview) e em `.env.local`
+- Remetente: `contato@jaleca.com.br` (domínio `jaleca.com.br` autenticado no Brevo com DKIM + DMARC)
+- `lib/email.ts` → `sendMail()` chama `https://api.brevo.com/v3/smtp/email` com header `api-key`
+- Funções disponíveis: `sendOrderConfirmation()`, `sendOrderShipped()`, `sendWelcome()`, `sendEmailVerification()`, `sendPasswordReset()`, `sendCartRecovery()`
+- Email de confirmação: template completo com logo, tabela de itens, frete, endereço
+- WooCommerce "Processando pedido" desativado (WooCommerce → Configurações → Emails) — evita duplicata com o email do Next.js
 - Logo no email: `https://jaleca.com.br/logo-full.jpg`
 - Novo cliente no checkout → conta criada automaticamente + email de definição de senha via `app/api/auth/forgot-password/route.ts` → chama `wp.jaleca.com.br/wp-login.php?action=lostpassword`
+- `NEXT_PUBLIC_WP_URL=https://wp.jaleca.com.br` no Vercel — usado em forgot-password e reset
+- **ATENÇÃO**: Vercel não consegue alcançar `wp.jaleca.com.br` via HTTP (ETIMEDOUT) — NÃO usar o endpoint WordPress para email, usar sempre o Brevo
 
 ### WooCommerce
 - Checkout slug: `finalizar-compra` (não `checkout`)

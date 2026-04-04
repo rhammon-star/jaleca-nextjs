@@ -142,7 +142,7 @@ export async function sendOrderConfirmation(order: Order, customerEmail: string)
 
   const content = `
     <div style="text-align:center;margin-bottom:28px;">
-      <img src="https://jaleca.com.br/logo-full.jpg" alt="Jaleca" style="max-width:160px;height:auto;" />
+      <img src="https://jaleca.com.br/logo-full.jpg" alt="Jaleca" style="max-width:260px;height:auto;" />
     </div>
 
     <h2 style="font-size:22px;margin:0 0 6px;font-family:Georgia,serif;">Pedido confirmado!</h2>
