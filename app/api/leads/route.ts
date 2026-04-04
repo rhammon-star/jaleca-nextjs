@@ -74,8 +74,8 @@ async function sendWelcomeEmail(email: string, customerId: number): Promise<void
   <table width="100%" cellpadding="0" cellspacing="0" style="padding:32px 16px;">
     <tr><td align="center">
       <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border:1px solid #e5e5e5;max-width:600px;width:100%;">
-        <tr><td style="background:#1a1a1a;padding:24px 32px;text-align:center;">
-          <span style="color:#ffffff;font-size:24px;letter-spacing:6px;font-family:Georgia,serif;font-weight:400;">JALECA</span>
+        <tr><td style="background:#ffffff;padding:24px 32px;text-align:center;border-bottom:1px solid #e5e5e5;">
+          <img src="${siteUrl}/logo-cropped.jpg" alt="Jaleca" width="160" style="display:inline-block;height:auto;" />
         </td></tr>
         <tr><td style="padding:40px 32px;">
           <h2 style="font-size:26px;margin:0 0 8px;font-family:Georgia,serif;font-weight:400;">Bem-vinda à Jaleca! 🎉</h2>
