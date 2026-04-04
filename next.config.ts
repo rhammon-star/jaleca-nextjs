@@ -21,6 +21,7 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   async redirects() {
     return [
+      // WordPress password reset
       {
         source: '/minha-conta/lost-password',
         has: [
@@ -30,6 +31,25 @@ const nextConfig: NextConfig = {
         destination: '/redefinir-senha?key=:key&login=:login',
         permanent: false,
       },
+      // Páginas antigas do WordPress → novas
+      { source: '/shop', destination: '/produtos', permanent: true },
+      { source: '/loja', destination: '/produtos', permanent: true },
+      { source: '/jalecos-femininos', destination: '/categoria/jalecos-femininos', permanent: true },
+      { source: '/jalecos-masculinos', destination: '/categoria/jalecos-masculinos', permanent: true },
+      { source: '/jalecos', destination: '/produtos', permanent: true },
+      { source: '/scrubs', destination: '/categoria/scrubs', permanent: true },
+      { source: '/product/:slug', destination: '/produto/:slug', permanent: true },
+      { source: '/produto-category/:slug*', destination: '/categoria/:slug*', permanent: true },
+      { source: '/product-category/:slug*', destination: '/categoria/:slug*', permanent: true },
+      // Categorias aninhadas do site antigo → categoria simples (ex: /categoria/jalecos/jalecos-masculinos → /categoria/jalecos-masculinos)
+      { source: '/categoria/:parent/:slug', destination: '/categoria/:slug', permanent: true },
+      { source: '/cart', destination: '/produtos', permanent: true },
+      { source: '/checkout', destination: '/finalizar-compra', permanent: true },
+      { source: '/my-account/:path*', destination: '/minha-conta', permanent: true },
+      { source: '/sobre-nos', destination: '/sobre', permanent: true },
+      { source: '/contato-nos', destination: '/contato', permanent: true },
+      { source: '/politica-de-privacidade', destination: '/privacidade', permanent: true },
+      { source: '/politica-de-trocas', destination: '/trocas-e-devolucoes', permanent: true },
     ]
   },
   async headers() {
