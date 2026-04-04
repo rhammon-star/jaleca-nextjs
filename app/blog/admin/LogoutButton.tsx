@@ -6,8 +6,7 @@ export default function BlogAdminLogoutButton() {
   const router = useRouter()
 
   async function handleLogout() {
-    // Clear the cookie by calling a logout endpoint or just deleting it client-side
-    document.cookie = 'blog-token=; Max-Age=0; path=/'
+    await fetch('/api/blog/auth/login', { method: 'DELETE' })
     router.push('/blog/admin/login')
   }
 

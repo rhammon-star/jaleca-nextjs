@@ -83,6 +83,7 @@ export async function POST(request: NextRequest) {
 
         let wpPostId: number | undefined
         let wpPostLink: string | undefined
+        let imageUploadError: string | null = null
 
         // Step 5: Optionally publish
         if (publishDirectly) {
@@ -102,15 +103,15 @@ export async function POST(request: NextRequest) {
                   `${generated.suggestedSlug}.jpg`,
                   credentials
                 )
-              } catch {
-                // Continue without featured image
+              } catch (err) {
+                imageUploadError = err instanceof Error ? err.message : 'Erro no upload da imagem'
               }
             }
 
             const wpPost = await publishPost(
               {
                 title: generated.title,
-                content: humanizedContent,
+                content: optimizedContent,
                 excerpt: generated.excerpt,
                 slug: generated.suggestedSlug,
                 status: 'publish',
@@ -138,6 +139,8 @@ export async function POST(request: NextRequest) {
             : null,
           wpPostId,
           wpPostLink,
+          imageUploadError,
+          publishedDirectly: !!wpPostId,
         })
       } catch (error) {
         send('error', { message: error instanceof Error ? error.message : 'Erro desconhecido' })

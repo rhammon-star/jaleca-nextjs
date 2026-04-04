@@ -28,6 +28,9 @@ type GeneratedResult = {
   seoAnalysis: SEOAnalysis
   imageUrl: string | null
   imageAuthor: { name: string; link: string } | null
+  imageUploadError?: string | null
+  publishedDirectly?: boolean
+  error?: string
 }
 
 type LookProduct = { name: string; slug: string; price: string }
@@ -105,13 +108,17 @@ export default function NovoPostClient() {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null)
   const [categories, setCategories] = useState<WPCategory[]>([])
   const [refreshingImage, setRefreshingImage] = useState(false)
+  const [imageUploadWarning, setImageUploadWarning] = useState<string | null>(null)
+  const [publishWarning, setPublishWarning] = useState<string | null>(null)
   const abortRef = useRef<AbortController | null>(null)
 
   useEffect(() => {
     fetch('/api/blog/categories')
       .then(r => r.json())
       .then(data => Array.isArray(data) && setCategories(data))
-      .catch(() => {})
+      .catch(() => {
+        // silently fail — categories are optional
+      })
   }, [])
 
   // ── Lookbook state ──
@@ -195,6 +202,8 @@ export default function NovoPostClient() {
             setEditContent(generated.content)
             setEditMeta(generated.metaDescription)
             setEditSlug(generated.slug)
+            setImageUploadWarning(generated.imageUploadError ?? null)
+            setPublishWarning(generated.error ?? (generated.publishedDirectly === false ? 'Post não foi publicado automaticamente.' : null))
             setTimeout(() => setStep('review'), 500)
           } else if (eventType === 'error') {
             throw new Error(data.message)
@@ -756,7 +765,19 @@ export default function NovoPostClient() {
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
           {/* Main form */}
           <div className="space-y-5">
-            {result.imageUrl && (
+            {imageUploadWarning && (
+          <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 text-yellow-700 text-sm flex items-start gap-2">
+            <AlertCircle size={16} className="flex-shrink-0 mt-0.5" />
+            <span>Imagem destacada: {imageUploadWarning}</span>
+          </div>
+        )}
+        {publishWarning && (
+          <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 text-yellow-700 text-sm flex items-start gap-2">
+            <AlertCircle size={16} className="flex-shrink-0 mt-0.5" />
+            <span>{publishWarning}</span>
+          </div>
+        )}
+        {result.imageUrl && (
               <div>
                 <label className="block text-xs font-semibold tracking-widests uppercase text-muted-foreground mb-2">
                   Imagem Destacada

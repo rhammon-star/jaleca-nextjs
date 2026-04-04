@@ -16,12 +16,16 @@ function formatDate(dateStr: string): string {
 export default function BlogAdminPostsPage() {
   const [posts, setPosts] = useState<WPPost[]>([])
   const [deleting, setDeleting] = useState<number | null>(null)
+  const [error, setError] = useState('')
 
   useEffect(() => {
     fetch('/api/blog/posts')
-      .then(r => r.json())
+      .then(r => {
+        if (!r.ok) throw new Error('Erro ao carregar posts')
+        return r.json()
+      })
       .then(data => Array.isArray(data) && setPosts(data))
-      .catch(() => {})
+      .catch(err => setError(err instanceof Error ? err.message : 'Erro desconhecido'))
   }, [])
 
   async function handleDelete(postId: number, title: string) {
@@ -52,6 +56,10 @@ export default function BlogAdminPostsPage() {
           Novo Post
         </Link>
       </div>
+
+      {error && (
+        <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 text-sm">{error}</div>
+      )}
 
       {posts.length === 0 ? (
         <div className="border border-border p-12 text-center">
