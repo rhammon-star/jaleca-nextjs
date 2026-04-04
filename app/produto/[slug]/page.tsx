@@ -74,7 +74,7 @@ export async function generateMetadata({
   const imageUrl = product.image?.sourceUrl
 
   return {
-    title: `${name} | Jaleca`,
+    title: name,
     description,
     alternates: { canonical: `https://jaleca.com.br/produto/${slug}` },
     openGraph: {
@@ -88,7 +88,7 @@ export async function generateMetadata({
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${name} | Jaleca`,
+      title: name,
       description,
       images: imageUrl ? [imageUrl] : [],
     },

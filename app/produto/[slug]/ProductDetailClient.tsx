@@ -26,6 +26,7 @@ type Variation = {
   databaseId: number
   name: string
   stockStatus: string
+  stockQuantity?: number | null
   price?: string
   regularPrice?: string
   salePrice?: string
@@ -113,16 +114,19 @@ function isSizeAttr(a: { name: string; label?: string }) {
   return n === 'pa_tamanho' || n.includes('tamanho') || n.includes('size') || l.includes('tamanho') || l.includes('size')
 }
 
-function StockBadge({ status }: { status?: string }) {
+function StockBadge({ status, quantity }: { status?: string; quantity?: number | null }) {
   if (!status) return null
-  if (status === 'IN_STOCK') {
-    return <span className="text-xs text-green-600 font-medium">Em estoque</span>
-  }
   if (status === 'OUT_OF_STOCK') {
     return <span className="text-xs text-red-600 font-medium">Esgotado</span>
   }
   if (status === 'ON_BACKORDER') {
-    return <span className="text-xs text-yellow-600 font-medium">Últimas unidades</span>
+    return <span className="text-xs text-yellow-600 font-medium flex items-center gap-1"><Flame size={12} /> Últimas unidades — compre agora!</span>
+  }
+  if (status === 'IN_STOCK') {
+    if (quantity !== null && quantity !== undefined && quantity <= 5) {
+      return <span className="text-xs text-orange-500 font-medium flex items-center gap-1"><Flame size={12} /> Apenas {quantity} em estoque!</span>
+    }
+    return <span className="text-xs text-green-600 font-medium">Em estoque</span>
   }
   return null
 }
@@ -312,6 +316,7 @@ export default function ProductDetailClient({
   const displayPrice  = isOnSale ? activeSale! : activePrice
 
   const stockStatus = matchedVariation?.stockStatus ?? product.stockStatus
+  const stockQty = matchedVariation?.stockQuantity ?? product.stockQuantity
   const isOutOfStock = stockStatus === 'OUT_OF_STOCK'
 
   // Find a variation just by color (for image preview before size is selected)
@@ -565,7 +570,7 @@ export default function ProductDetailClient({
             )}
 
             <div className="mb-4">
-              <StockBadge status={stockStatus} />
+              <StockBadge status={stockStatus} quantity={stockQty} />
             </div>
 
             {/* Short description */}

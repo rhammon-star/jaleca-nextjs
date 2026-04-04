@@ -225,7 +225,7 @@ export default function SizeAdvisorModal({ productName, onClose }: Props) {
                   📏 Meça com uma fita métrica passando pela parte mais larga de cada região, sem apertar.
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-3 gap-4">
                   {!isMasculine && (
                     <InputField label="Busto" value={measurements.busto} onChange={set('busto')} hint="parte mais larga" required />
                   )}

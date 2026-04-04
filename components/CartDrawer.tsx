@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
-import { X, ShoppingBag, Trash2, Plus, Minus, Tag, Loader2, Clock } from 'lucide-react'
+import { X, ShoppingBag, Trash2, Plus, Minus, Tag, Loader2, Clock, Truck, Percent, ArrowRight } from 'lucide-react'
 import { useCart } from '@/contexts/CartContext'
 import ShippingCalculator, { type ShippingOption } from '@/components/ShippingCalculator'
 import Link from 'next/link'
@@ -148,6 +148,27 @@ export default function CartDrawer() {
             <div className="flex flex-col items-center justify-center h-full text-center gap-4">
               <ShoppingBag size={40} className="text-muted-foreground/40" />
               <p className="text-muted-foreground text-sm">Sua sacola está vazia</p>
+              <div className="space-y-3 w-full px-4">
+                <p className="text-[11px] text-muted-foreground/70">Veja algumas sugestões:</p>
+                <Link
+                  href="/produtos"
+                  className="flex items-center justify-center gap-2 w-full border border-border py-3 text-xs font-semibold tracking-wide uppercase hover:bg-muted transition-colors"
+                >
+                  Ver produtos <ArrowRight size={13} />
+                </Link>
+                <Link
+                  href="/produtos?cat=Jalecos"
+                  className="flex items-center justify-center gap-2 w-full border border-border py-3 text-xs font-semibold tracking-wide uppercase hover:bg-muted transition-colors"
+                >
+                  Jalecos femininos
+                </Link>
+                <Link
+                  href="/produtos?cat=Scrubs"
+                  className="flex items-center justify-center gap-2 w-full border border-border py-3 text-xs font-semibold tracking-wide uppercase hover:bg-muted transition-colors"
+                >
+                  Scrubs
+                </Link>
+              </div>
             </div>
           ) : (
             <div className="space-y-5">
@@ -274,6 +295,36 @@ export default function CartDrawer() {
                 try { localStorage.setItem('jaleca-checkout-cep', cep) } catch {}
               }}
             />
+
+            {/* Free shipping progress bar */}
+            {subtotal > 0 && subtotal < 350 && (
+              <div className="bg-muted/50 border border-border p-3 text-center">
+                <p className="text-[11px] text-muted-foreground mb-1.5">
+                  <Truck size={11} className="inline mr-1" />
+                  Faltam <strong className="text-foreground">{formatCurrency(350 - subtotal)}</strong> para <strong className="text-green-600">frete grátis!</strong>
+                </p>
+                <div className="h-1.5 bg-border rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-green-500 rounded-full transition-all duration-500"
+                    style={{ width: `${Math.min((subtotal / 350) * 100, 100)}%` }}
+                  />
+                </div>
+              </div>
+            )}
+            {subtotal >= 350 && subtotal > 0 && (
+              <div className="bg-green-50 border border-green-200 p-3 text-center flex items-center justify-center gap-2">
+                <Truck size={13} className="text-green-600" />
+                <p className="text-xs text-green-700 font-semibold">Você ganhou frete grátis!</p>
+              </div>
+            )}
+
+            {/* PIX discount badge */}
+            <div className="flex items-center gap-2 bg-green-50 border border-green-200 px-3 py-2">
+              <Percent size={13} className="text-green-600 shrink-0" />
+              <p className="text-xs text-green-700 font-medium">
+                Pague via PIX e ganhe <strong>5% de desconto</strong>!
+              </p>
+            </div>
 
             {/* Price summary */}
             <div className="space-y-1.5 pt-2 border-t border-border">

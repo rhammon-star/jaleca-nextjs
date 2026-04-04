@@ -963,9 +963,19 @@ export default function CheckoutClient() {
                       <span>{shippingCost === 0 ? 'Grátis' : formatCurrency(shippingCost)}</span>
                     </div>
                   )}
+                  {paymentMethod === 'pix' && (
+                    <div className="flex justify-between text-sm text-green-600">
+                      <span>Desconto PIX (5%)</span>
+                      <span>- {formatCurrency(subtotal * 0.05)}</span>
+                    </div>
+                  )}
                   <div className="flex justify-between text-base font-semibold pt-2 border-t border-border">
                     <span>Total</span>
-                    <span>{formatCurrency(total)}</span>
+                    <span>
+                      {paymentMethod === 'pix'
+                        ? formatCurrency(total * 0.95)
+                        : formatCurrency(total)}
+                    </span>
                   </div>
                 </div>
               </div>

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Shield, Sparkles, Ruler } from "lucide-react";
+import { ArrowRight, Shield, Sparkles, Ruler, Truck, CreditCard, RotateCcw, ShieldCheck, Lock, Percent } from "lucide-react";
 import { graphqlClient, GET_PRODUCTS } from "@/lib/graphql";
 import ProductCard, { type WooProduct } from "@/components/ProductCard";
 import ScrollReveal from "@/components/ScrollReveal";
@@ -297,6 +297,30 @@ export default async function Home() {
           </div>
         </section>
       </ScrollReveal>
+
+      {/* Trust badges */}
+      <section className="py-12 border-y border-border bg-muted/20">
+        <div className="container">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {[
+              { icon: Truck, title: 'Frete para Todo Brasil', desc: 'Entrega em 5 a 15 dias úteis' },
+              { icon: Percent, title: '5% de Desconto no PIX', desc: 'Aprovação imediata' },
+              { icon: RotateCcw, title: '7 Dias para Troca', desc: 'Direito de arrependimento' },
+              { icon: ShieldCheck, title: 'Compra Segura', desc: 'Seus dados protegidos' },
+            ].map((badge, i) => (
+              <div key={badge.title} className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                  <badge.icon size={18} className="text-primary" />
+                </div>
+                <div>
+                  <p className="text-xs font-semibold text-foreground">{badge.title}</p>
+                  <p className="text-[11px] text-muted-foreground">{badge.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* Testimonials */}
       <ScrollReveal>
