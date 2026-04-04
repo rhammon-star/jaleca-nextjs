@@ -25,7 +25,7 @@ Site de uniformes médicos (jalecos/scrubs). Diretório: `/Users/rhammon/SiteJal
 - Blog admin com IA: ✅ (geração, humanização, SEO, imagem, seletor de categoria, deletar post)
 - Melhor Envio shipping: ⚠️ token placeholder, usa fallback
 - Analytics (GA4/Meta Pixel): ✅ GA4 G-SHBE64GDP7 + Meta Pixel 936912792527674 configurados
-- Meta Conversions API (server-side): ✅ Purchase via cartão e webhook PIX/boleto
+- Meta Conversions API (server-side): ✅ Purchase via cartão e webhook PIX/boleto (testado e confirmado)
 - Login CPF existente no checkout: ✅ endpoint jaleca/v1/login via wp_authenticate()
 - Webhook Pagar.me: ✅ configurado (charge.paid + charge.payment_failed)
 
@@ -145,6 +145,32 @@ Registros configurados em registro.br (modo avançado):
 - Revalidação automática: jaleca-api.php dispara `woocommerce_update_product` → chama `jaleca.com.br/api/revalidate`
 - Revalidação manual: `node -e "fetch('https://jaleca.com.br/api/revalidate',{method:'POST',headers:{'Content-Type':'application/json','x-revalidate-secret':'jaleca-revalidate-2024'},body:JSON.stringify({paths:['/produtos','/produto/SLUG']})}).then(r=>r.json()).then(console.log)"`
 
+## SEO — estado atual (2026-04-04)
+- PageSpeed celular: 69 / desktop: 83 (SEO 100, Práticas 100, Acessibilidade 95)
+- Hero image otimizada: WebP responsivo — mobile 21 KB, desktop 72 KB (era 583 KB JPG)
+  - `public/jaleco-hero-mobile.webp` (800px) — `public/jaleco-hero-desktop.webp` (1600px)
+  - `<picture>` com `media` queries no `app/page.tsx`
+  - Preload no `app/layout.tsx` com `media` attribute
+- `width={3155} height={3871}` na img hero para evitar CLS
+- Redirects de URLs antigas do WordPress → `next.config.ts` (redirects permanentes 301)
+  - `/shop` → `/produtos`, `/jalecos-femininos` → `/categoria/jalecos-femininos`, etc.
+  - `/categoria/:parent/:slug` → `/categoria/:slug` (URLs aninhadas antigas)
+- Schema JSON-LD implementados:
+  - `Organization` + `WebSite` (SearchAction) + `ClothingStore` (LocalBusiness) — home
+  - `Product` com `manufacturer`, `color`, `size`, `aggregateRating`, `review` — produto
+  - `BreadcrumbList` — categoria e produto
+  - `CollectionPage` — categoria
+  - `Blog` + `BlogPosting` — /blog
+  - `Article` — /blog/[slug]
+  - `FAQPage` — /trocas-e-devolucoes
+  - `ContactPage` — /contato
+- Descrições de categoria enriquecidas com keywords secundárias (jaleco enfermagem, scrub cirúrgico, etc.)
+- Sitemap processado pelo Google (30 páginas, 03/04/2026)
+- **SEO pendente de alta prioridade:**
+  - Criar página `/faq` com FAQPage schema (aparece como resposta destacada no Google)
+  - Adicionar H2 dinâmico em `/produtos` quando filtro ativo
+  - Blog: 10 artigos otimizados para palavras-chave de alto interesse
+
 ## Analytics — estado atual
 - GA4: `NEXT_PUBLIC_GA4_ID=G-SHBE64GDP7` ✅ configurado no Vercel
 - Meta Pixel: `NEXT_PUBLIC_META_PIXEL_ID=936912792527674` ✅ configurado no Vercel
@@ -162,15 +188,19 @@ Registros configurados em registro.br (modo avançado):
 - [x] Testar cartão de crédito com compra real no Pagar.me ✅
 - [x] Configurar Webhook Pagar.me → `jaleca.com.br/api/payment/webhook` ✅ (charge.paid + charge.payment_failed)
 - [x] WooCommerce atualiza para "Processando" imediatamente após cartão aprovado ✅
-- [x] Email de confirmação chegando ao cliente ✅ (email nativo WooCommerce reativado — Opção B: migrar para Resend pendente)
-- [ ] Migrar envio de email para Resend (direto do Vercel, sem depender do WordPress)
-- [ ] Testar boleto com compra real no Pagar.me
-- [ ] WordPress Settings → General → Site Address → `https://jaleca.com.br` (emails WC mostram wp.jaleca ainda)
-- [ ] Verificar pedidos aparecendo no WooCommerce após pagamento PIX
+- [x] Email de confirmação via Brevo ✅ (lib/email.ts → sendOrderConfirmation, direto do Vercel)
+- [x] Email novo cliente — "defina sua senha" via Brevo ✅ (app/api/auth/forgot-password/route.ts)
+- [x] Migrar envio de email para Brevo ✅ (domínio jaleca.com.br autenticado, BREVO_API_KEY no Vercel)
 - [x] GA4 G-SHBE64GDP7 configurado (Vercel env vars) ✅
-- [x] Meta Pixel 936912792527674 + Conversions API server-side ✅
-- [ ] Google Search Console — verificar domínio + enviar sitemap
-- [ ] Verificar `jaleca.com.br/sitemap.xml` inclui todos os produtos
+- [x] Meta Pixel 936912792527674 + Conversions API server-side ✅ (Purchase via Servidor testado e confirmado)
+- [x] Variações de produto (G1, G2, G3) aparecendo ✅ — `variations(first: 100)` no GraphQL
+- [x] Ordem dos tamanhos PP→P→M→G→GG→G1→G2→G3 ✅ — sizeOrder em ProductDetailClient.tsx
+- [x] Revalidação de produto em tempo real ✅ — jaleca-api.php dispara woocommerce_update_product
+- [ ] Testar boleto com compra real no Pagar.me
+- [ ] Verificar pedidos aparecendo no WooCommerce após pagamento PIX
+- [ ] Remover META_TEST_EVENT_CODE do Vercel (após testes concluídos)
+- [x] Google Search Console — sitemap `jaleca.com.br/sitemap.xml` processado ✅ (30 páginas, 03/04/2026)
+- [x] Sitemap inclui produtos e posts do blog ✅
 
 ### FASE 2 — Operacional (próximas 2 semanas)
 - [ ] Melhor Envio OAuth2 — substituir token placeholder pelo real
@@ -181,17 +211,24 @@ Registros configurados em registro.br (modo avançado):
 - [ ] Página Sobre a Jaleca
 - [ ] FAQ — tamanho, material, lavagem, troca
 - [ ] Completar cadastro de todos os produtos com fotos de todas as variações
-- [ ] Configurar REVALIDATE_SECRET no Vercel + WordPress (produto novo → site em tempo real)
+- [x] REVALIDATE_SECRET configurado ✅ (hardcoded em jaleca-api.php + Vercel)
 - [ ] Tabela de medidas completa por modelo
 
 ### FASE 3 — Marketing (primeiros 30 dias)
-- [ ] Google Merchant Center — produtos no Google Shopping gratuito
+- [x] Feed Google Shopping criado ✅ — `app/api/feed/google-shopping/route.ts`, URL: `jaleca.com.br/api/feed/google-shopping`
+- [x] Produtos da home filtrados por destaque ✅ — GET_PRODUCTS usa `where: { featured: true }` (marcar ⭐ em Produtos no WC admin)
+- [~] Google Merchant Center — feed registrado, aguardando processamento. Verificar se já atualizou.
+  - Se ainda mostrar 0 produtos: deletar e re-registrar como tipo XML explícito
+- [x] Meta Commerce Manager — 273 produtos importados via feed ✅ (catálogo "Jaleca_Products")
+- [ ] Instagram Shopping — **BLOQUEADO**: Página Jaleca (ID: 302241233666850) é propriedade de "BM 01 - Jaleca.Jaleca" (possível agência antiga). Solicitação de transferência enviada mas aguarda aprovação do BM proprietário.
+  - Opção 1: Tentar pelo app Instagram → Configurações → Empresa → Shopping
+  - Opção 2: Contatar Meta support em facebook.com/help/contact para reclamar a Página
+  - Opção 3: Localizar a agência antiga e pedir para liberar o BM
 - [ ] Primeira campanha Meta Ads com catálogo dinâmico
 - [ ] Remarketing — reimpactar visitantes que não compraram
 - [ ] Google Ads — palavras-chave: "jaleco feminino premium", "jaleco enfermagem"
 - [ ] Recuperação de carrinho abandonado — email automático (1h, 24h, 72h)
 - [ ] Cupom de primeira compra funcional no popup
-- [ ] Instagram Shopping — vincular catálogo WooCommerce
 - [ ] Calendário de conteúdo mensal (fotos, Reels, stories)
 - [ ] Vídeo 15s do jaleco sendo vestido para Reels/TikTok
 - [ ] Email marketing — escolher plataforma (Klaviyo/Mailchimp/RD Station)
