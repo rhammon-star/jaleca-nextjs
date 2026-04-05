@@ -150,22 +150,27 @@ export async function POST(request: NextRequest) {
       },
     }
 
-    const pagarmeItems: PagarmeItem[] = items.map(i => ({
-      amount: toCents(i.price),
-      description: i.name,
-      quantity: i.quantity,
-      code: String(i.product_id),
-    }))
+    const subtotalCents = items.reduce((sum, i) => sum + Math.round(i.price * 100) * i.quantity, 0)
+    const discountCents = totalDiscount ? toCents(totalDiscount) : 0
+    const discountedSubtotalCents = Math.max(100, subtotalCents - discountCents)
 
-    // Apply discount as a negative item so Pagar.me charges the correct amount
-    if (totalDiscount && totalDiscount > 0) {
-      pagarmeItems.push({
-        amount: -toCents(totalDiscount),
-        description: 'Desconto',
-        quantity: 1,
-        code: 'discount',
-      })
-    }
+    // Distribute discount proportionally across items
+    const scale = discountedSubtotalCents / subtotalCents
+    let allocated = 0
+    const pagarmeItems: PagarmeItem[] = items.map((i, idx) => {
+      const original = Math.round(i.price * 100) * i.quantity
+      let adjusted = idx < items.length - 1
+        ? Math.round(original * scale)
+        : discountedSubtotalCents - allocated
+      if (adjusted < 1) adjusted = 1
+      allocated += adjusted
+      return {
+        amount: Math.round(adjusted / i.quantity),
+        description: i.name,
+        quantity: i.quantity,
+        code: String(i.product_id),
+      }
+    })
 
     const address: PagarmeAddress = {
       line_1: `${billing.address_1}, ${billing.address_2}`.trim().replace(/,\s*$/, ''),
