@@ -60,11 +60,15 @@ function matchesCategory(name: string, slug: string, cat: string, productCategor
 
 function matchesGender(name: string, gender: string, productCategories?: { nodes: Array<{ name: string; slug: string }> }) {
   if (gender === "Todos") return true;
-  // Preferência: subcategorias WooCommerce (jalecos-masculinos, domas-femininas, etc.)
-  const wcSlugs = (productCategories?.nodes ?? []).map(c => c.slug.toLowerCase());
-  if (wcSlugs.length > 0) {
-    if (gender === "Feminino") return wcSlugs.some(s => s.includes("feminino") || s.includes("-fem"));
-    if (gender === "Masculino") return wcSlugs.some(s => s.includes("masculino") || s.includes("-masc"));
+  // Checa slug E nome das categorias para encontrar palavras de gênero
+  const wcCats = productCategories?.nodes ?? [];
+  const allCatText = wcCats.map(c => c.slug.toLowerCase() + " " + c.name.toLowerCase()).join(" ");
+  const hasFemCat = allCatText.includes("feminino");
+  const hasMascCat = allCatText.includes("masculino");
+  // Só aplica filtro por categoria se houver subcategoria de gênero cadastrada
+  if (hasFemCat || hasMascCat) {
+    if (gender === "Feminino") return hasFemCat;
+    if (gender === "Masculino") return hasMascCat;
   }
   // Fallback: nome do produto
   const lower = name.toLowerCase();
