@@ -83,7 +83,7 @@ export default function FirstPurchasePopup() {
               Bem-vinda à Jaleca!
             </p>
             <p className="text-center text-muted-foreground text-sm mb-6">
-              Ganhe 5% de desconto na sua primeira compra
+              Ganhe um desconto exclusivo na sua primeira compra
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -127,7 +127,7 @@ export default function FirstPurchasePopup() {
               PRIMEIRACOMPRA5JALECA
             </p>
             <p className="text-sm text-muted-foreground mb-6">
-              Use no checkout e ganhe 5% de desconto na sua primeira compra!
+              Use no checkout e ganhe seu desconto exclusivo na primeira compra!
             </p>
             <button
               onClick={handleClose}
