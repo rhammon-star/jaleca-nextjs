@@ -38,21 +38,25 @@ function getAttrValues(product: WooProduct, attrNames: string[]): string[] {
   return values;
 }
 
+function norm(s: string) {
+  return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+
 function matchesCategory(name: string, slug: string, cat: string, productCategories?: { nodes: Array<{ name: string; slug: string }> }) {
   if (cat === "Todos") return true;
-  const wcCats = (productCategories?.nodes ?? []).map(c => c.slug.toLowerCase() + " " + c.name.toLowerCase());
+  const wcCats = (productCategories?.nodes ?? []).map(c => norm(c.slug) + " " + norm(c.name));
   if (wcCats.length > 0) {
     const joined = wcCats.join(" ");
     if (cat === "Jalecos") return joined.includes("jaleco");
-    if (cat === "Dômãs") return joined.includes("doma");
+    if (cat === "Dômãs") return joined.includes("dolma");
     if (cat === "Conjuntos") return joined.includes("conjunto");
     if (cat === "Acessórios") return joined.includes("acessor") || joined.includes("touca");
     return false;
   }
   // fallback: usa o nome do produto
-  const lower = (name + " " + slug).toLowerCase();
+  const lower = norm(name + " " + slug);
   if (cat === "Jalecos") return lower.includes("jaleco");
-  if (cat === "Dômãs") return lower.includes("doma");
+  if (cat === "Dômãs") return lower.includes("dolma");
   if (cat === "Conjuntos") return lower.includes("conjunto");
   if (cat === "Acessórios") return lower.includes("acessor") || lower.includes("touca");
   return true;
@@ -60,9 +64,9 @@ function matchesCategory(name: string, slug: string, cat: string, productCategor
 
 function matchesGender(name: string, gender: string, productCategories?: { nodes: Array<{ name: string; slug: string }> }) {
   if (gender === "Todos") return true;
-  // Checa slug E nome das categorias para encontrar palavras de gênero
+  // Norma: remove acentos para comparação
   const wcCats = productCategories?.nodes ?? [];
-  const allCatText = wcCats.map(c => c.slug.toLowerCase() + " " + c.name.toLowerCase()).join(" ");
+  const allCatText = wcCats.map(c => norm(c.slug) + " " + norm(c.name)).join(" ");
   const hasFemCat = allCatText.includes("feminino") || allCatText.includes("femininas");
   const hasMascCat = allCatText.includes("masculino") || allCatText.includes("masculinas");
   // Só aplica filtro por categoria se houver subcategoria de gênero cadastrada
@@ -71,7 +75,7 @@ function matchesGender(name: string, gender: string, productCategories?: { nodes
     if (gender === "Masculino") return hasMascCat;
   }
   // Fallback: nome do produto
-  const lower = name.toLowerCase();
+  const lower = norm(name);
   if (gender === "Feminino") return lower.includes("feminino") || lower.includes("fem");
   if (gender === "Masculino") return lower.includes("masculino") || lower.includes("masc");
   return true;

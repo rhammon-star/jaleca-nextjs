@@ -1,5 +1,5 @@
 # Projeto: Comunicação Automática de Pedidos — Jaleca
-**Versão:** 3.0 · **Data:** 05/04/2026 · **Status:** ✅ Aprovado — Aguardando API Key Rastreador.dev
+**Versão:** 4.0 · **Data:** 05/04/2026 · **Status:** ✅ Aprovado — Pendente: confirmar API de rastreamento
 
 ---
 
@@ -11,7 +11,7 @@
 | **Custo mensal** | R$ 0 |
 | **Esforço de desenvolvimento** | ~10–12 horas |
 | **Risco** | Baixo — isolado do checkout existente |
-| **Dependência crítica** | API Key Rastreador.dev (conta a criar) |
+| **Pendência** | Confirmar se etiquetas são geradas pelo Melhor Envio (define qual API de rastreamento usar) |
 
 ---
 
@@ -25,12 +25,34 @@
 | "Em separação" envia email ao cliente? | ✅ Sim |
 | Pagamento pendente sem pagar → email? | ✅ Sim — lembrete após **12 horas** |
 | Entregue → muda status para Concluído? | ✅ Sim — automático pelo sistema |
+| rastreador.dev | ❌ Descontinuado — não usar |
 
 ---
 
-## 1. Mapa Completo de Emails
+## API de Rastreamento — Decisão Pendente
 
-Todo o ciclo de vida do pedido coberto:
+> ⚠️ **Confirmar antes de iniciar a implementação.**
+
+### Opção A — Melhor Envio (recomendada se usar para etiquetas)
+- **Condição:** só funciona para fretes **gerados dentro da plataforma Melhor Envio**
+- **Custo:** R$ 0 (gratuito, ilimitado)
+- **Transportadoras:** Correios, Jadlog, Braspress — todas em uma API só
+- **Autenticação:** OAuth2 (já previsto no projeto — `lib/melhor-envio.ts`)
+- **Como confirmar:** você emite etiquetas pelo Melhor Envio?
+
+### Opção B — APIs diretas (se não usar Melhor Envio para etiquetas)
+
+| Transportadora | API | Custo |
+|---|---|---|
+| Correios | SeuRastreio (seurastreio.com.br) | Grátis |
+| Jadlog | API direta Jadlog | Grátis |
+| Braspress | API direta Braspress | Grátis |
+
+Mais integrações para manter, mas totalmente gratuito.
+
+---
+
+## 1. Mapa Completo de Emails (10 automáticos)
 
 | # | Gatilho | Assunto do Email | Quando |
 |---|---------|-----------------|--------|
@@ -45,11 +67,9 @@ Todo o ciclo de vida do pedido coberto:
 | 9 | Cancelado | "Seu pedido #1234 foi cancelado" | Imediato ao mudar status |
 | 10 | Reembolsado | "Seu reembolso foi processado — Jaleca" | Imediato ao mudar status |
 
-**Total: 10 emails automáticos** — zero trabalho manual.
-
 ---
 
-## 2. Fluxo do Seu Dia a Dia
+## 2. Fluxo do Dia a Dia
 
 ```
 CLIENTE FAZ PEDIDO
@@ -86,20 +106,7 @@ Você muda status → "Reembolsado"           → Email #10 automático
 
 ---
 
-## 3. Transportadoras
-
-| Transportadora | Rastreio Automático | Como |
-|---|---|---|
-| **Correios** | ✅ Sim | Rastreador.dev |
-| **Jadlog** | ✅ Sim | Rastreador.dev → fallback API Jadlog |
-| **Braspress** | ✅ Sim | Rastreador.dev → fallback API Braspress |
-| **Outra** | ❌ Não | Email com código + nome da transportadora |
-
----
-
-## 4. O Que Será Construído
-
-### 4.1 Campos de Rastreio no WP Admin (functions.php)
+## 3. Campos no WP Admin (functions.php)
 
 Nova caixa **"Rastreamento de Envio"** na tela do pedido:
 
@@ -119,68 +126,39 @@ Nova caixa **"Rastreamento de Envio"** na tela do pedido:
 └─────────────────────────────────────┘
 ```
 
-Ao salvar o pedido com esses campos preenchidos → webhook automático para `/api/tracking/register`.
+Ao salvar → webhook automático para `/api/tracking/register`.
 
 ---
 
-### 4.2 Emails por Mudança de Status (functions.php)
-
-Hooks no WooCommerce disparam chamadas à API do site quando o status muda:
-
-```
-woocommerce_order_status_changed → POST /api/orders/notify
-  { order_id, new_status, customer_email, customer_name, ... }
-```
-
-Statuses cobertos: `on-hold` (análise), `faturado`, `wc-separacao`, `cancelled`, `refunded`.
-
----
-
-### 4.3 Lembrete de Pagamento Pendente (cron)
-
-Cron separado — roda a cada hora, verifica pedidos:
-- Status = `pending`
-- Criados há mais de 12 horas
-- Lembrete ainda não enviado (`jaleca_payment_reminder_sent` não existe no meta)
-
-```
-vercel.json:
-{ "path": "/api/orders/payment-reminder", "schedule": "0 * * * *" }
-```
-
----
-
-### 4.4 Endpoints API (Next.js — Vercel)
+## 4. Endpoints API (Next.js — Vercel)
 
 | Endpoint | Função |
 |----------|--------|
-| `POST /api/tracking/register` | Recebe código de rastreio do WooCommerce → email #5 |
-| `GET /api/tracking/check-all` | Cron diário — verifica status tracking → emails #6 #7 #8 + auto-Concluído |
-| `GET /api/tracking/status` | Consulta status de um código (uso interno) |
-| `POST /api/orders/notify` | Recebe mudanças de status → emails #2 #3 #4 #9 #10 |
-| `GET /api/orders/payment-reminder` | Cron horário — lembrete pagamento pendente → email #1 |
+| `POST /api/tracking/register` | Recebe código do WooCommerce → email #5 |
+| `GET /api/tracking/check-all` | Cron diário — verifica rastreamento → emails #6 #7 #8 + auto-Concluído |
+| `GET /api/tracking/status` | Consulta status de um código (interno) |
+| `POST /api/orders/notify` | Mudanças de status WC → emails #2 #3 #4 #9 #10 |
+| `GET /api/orders/payment-reminder` | Cron horário — lembrete pagamento → email #1 |
 
 ---
 
-### 4.5 Automação: Entregue → Concluído
+## 5. Crons Vercel
 
-Quando o cron de rastreamento detecta status "entregue":
-1. Envia Email #8 ao cliente
-2. Chama `PATCH /wp-json/wc/v3/orders/{id}` com `{ "status": "completed" }`
-3. Marca `jaleca_tracking_active = 0` (para de monitorar)
-
-O pedido muda para "Concluído" no WooCommerce sem você precisar fazer nada.
+```json
+{ "path": "/api/tracking/check-all",        "schedule": "0 12 * * *"  }
+{ "path": "/api/orders/payment-reminder",    "schedule": "0 * * * *"   }
+```
 
 ---
 
-### 4.6 Armazenamento (WooCommerce meta_data)
+## 6. Armazenamento (WooCommerce meta_data)
 
 ```
 jaleca_tracking_code          → "PU123456789BR"
 jaleca_tracking_carrier       → "correios" | "jadlog" | "braspress" | "outra"
 jaleca_tracking_carrier_name  → "Braspress"
 jaleca_tracking_status        → "in_transit" | "out_for_delivery" | "delivered"
-jaleca_tracking_history       → "[{...}]" (JSON — histórico completo)
+jaleca_tracking_history       → "[{...}]" (JSON)
 jaleca_notified_statuses      → "shipped,in_transit" (evita email duplicado)
 jaleca_tracking_active        → "1" | "0"
 jaleca_payment_reminder_sent  → "1" (evita lembrete duplicado)
@@ -188,13 +166,13 @@ jaleca_payment_reminder_sent  → "1" (evita lembrete duplicado)
 
 ---
 
-## 5. Sequência de Implementação
+## 7. Sequência de Implementação
 
 | Fase | Tarefa | Horas |
 |------|--------|-------|
 | **1** | `functions.php` — campos rastreio + hooks de status + webhook | 1.5h |
-| **2** | `lib/tracking.ts` — cliente Rastreador.dev + fallback Jadlog/Braspress | 2h |
-| **3** | `POST /api/orders/notify` — emails por mudança de status (#2 #3 #4 #9 #10) | 1h |
+| **2** | `lib/tracking.ts` — cliente API de rastreamento (Melhor Envio ou APIs diretas) | 2h |
+| **3** | `POST /api/orders/notify` — emails por status (#2 #3 #4 #9 #10) | 1h |
 | **4** | `POST /api/tracking/register` — email envio (#5) + salvar meta | 1h |
 | **5** | `GET /api/tracking/check-all` — cron rastreamento + auto-Concluído (#6 #7 #8) | 1.5h |
 | **6** | `GET /api/orders/payment-reminder` — cron lembrete 12h (#1) | 1h |
@@ -204,75 +182,49 @@ jaleca_payment_reminder_sent  → "1" (evita lembrete duplicado)
 
 ---
 
-## 6. O Que Você Precisa Fazer
+## 8. Você Precisa Fazer
 
-**Antes de começar:**
-- [ ] Criar conta em **rastreador.dev** → copiar API Key
-- [ ] Enviar a API Key (vai para Vercel como `RASTREADOR_DEV_API_KEY`)
-
-**Durante os testes:**
-- [ ] Fazer pedido de teste → confirmar email de lembrete após 12h
-- [ ] Mudar status manualmente → confirmar emails de cada etapa
-- [ ] Despachar pedido com código real → confirmar email de envio
-- [ ] Aguardar cron → confirmar emails de rastreamento
-- [ ] Confirmar que status vira "Concluído" automaticamente ao entregar
+- [ ] **Confirmar:** você emite etiquetas pelo Melhor Envio? (define qual API de rastreamento usar)
+- [ ] Se Melhor Envio: configurar OAuth2 real (hoje está com token placeholder)
+- [ ] Se não: confirmar que usará APIs diretas (Correios/Jadlog/Braspress)
 
 ---
 
-## 7. Fora do Escopo (Fase 2 futura)
+## 9. Fora do Escopo (Fase 2)
 
-- ❌ Página pública `/rastrear` no site (cliente digita o código)
+- ❌ Página pública `/rastrear` no site
 - ❌ Notificações WhatsApp automáticas
 - ❌ Dashboard admin de rastreamentos
 
 ---
 
-## 8. Riscos e Mitigações
-
-| Risco | Probabilidade | Impacto | Mitigação |
-|-------|--------------|---------|-----------|
-| Rastreador.dev fora do ar | Baixa | Médio | Fallback APIs diretas Jadlog/Braspress |
-| Código inválido | Média | Baixo | Tenta novamente em 24h |
-| Limite 100 req/dia | Baixa | Médio | Monitorar só pedidos dos últimos 15 dias |
-| Auto-Concluído errado | Muito baixa | Médio | Só muda status quando API confirma entrega com data |
-| Email duplicado | Baixa | Baixo | `jaleca_notified_statuses` evita reenvio |
-
----
-
-## 9. Arquivos
+## 10. Arquivos
 
 **Criados:**
 ```
-app/api/
-├── tracking/
-│   ├── register/route.ts       ← webhook código de rastreio
-│   ├── status/route.ts         ← consulta status (interno)
-│   └── check-all/route.ts      ← cron diário tracking
-└── orders/
-    ├── notify/route.ts         ← emails por mudança de status
-    └── payment-reminder/route.ts ← cron lembrete 12h
-
-lib/tracking.ts                 ← cliente Rastreador.dev + fallback
+app/api/tracking/register/route.ts
+app/api/tracking/status/route.ts
+app/api/tracking/check-all/route.ts
+app/api/orders/notify/route.ts
+app/api/orders/payment-reminder/route.ts
+lib/tracking.ts
 ```
 
 **Modificados:**
 ```
-lib/email.ts      ← +10 funções de email
-vercel.json       ← +2 entradas cron
-```
-
-**WordPress:**
-```
-functions.php     ← campos rastreio + hooks status + webhooks
+lib/email.ts      (+10 funções)
+vercel.json       (+2 crons)
+functions.php     (+campos rastreio + hooks status)
 ```
 
 ---
 
-## 10. Custo Total
+## 11. Custo Total
 
 | Serviço | Custo |
 |---------|-------|
-| Rastreador.dev | R$ 0 (100 req/dia) |
+| Melhor Envio rastreamento | R$ 0 |
+| SeuRastreio (fallback Correios) | R$ 0 |
 | Jadlog API | R$ 0 |
 | Braspress API | R$ 0 |
 | Brevo (10 templates) | R$ 0 (já incluso) |
@@ -281,4 +233,4 @@ functions.php     ← campos rastreio + hooks status + webhooks
 
 ---
 
-*Versão 3.0 — 05/04/2026 · Projeto completo aprovado · Aguardando API Key Rastreador.dev*
+*Versão 4.0 — 05/04/2026 · rastreador.dev descontinuado — substituído por Melhor Envio / APIs diretas*
