@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Shield, Sparkles, Ruler, Truck, CreditCard, RotateCcw, ShieldCheck, Lock, Percent } from "lucide-react";
+import TrustBadgeBar from "@/components/TrustBadgeBar";
 import { graphqlClient, GET_PRODUCTS } from "@/lib/graphql";
 import ProductCard, { type WooProduct } from "@/components/ProductCard";
 import ScrollReveal from "@/components/ScrollReveal";
@@ -115,6 +116,7 @@ export default async function Home() {
       }}
     />
     <main className="bg-background">
+      <TrustBadgeBar />
       {/* Hero — editorial luxury split */}
       <section className="relative w-full overflow-hidden bg-[#faf9f7]">
         <div className="flex flex-col md:flex-row">
