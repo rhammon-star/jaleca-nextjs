@@ -129,6 +129,9 @@ export async function POST(request: NextRequest) {
       }],
       customer_id,
       coupon_lines: couponCode ? [{ code: couponCode }] : undefined,
+      meta_data: [
+        { key: '_billing_cpf', value: cpf.replace(/\D/g, '') },
+      ],
     }
 
     const wcOrder = await createOrder(wcOrderData)
