@@ -193,9 +193,9 @@ export default async function Home() {
                 accent: 'text-[#5a4a3a]',
               },
               {
-                title: 'Scrubs',
+                title: 'Conjuntos',
                 subtitle: 'Conforto & Estilo',
-                href: '/produtos?cat=Scrubs',
+                href: '/produtos?cat=Conjuntos',
                 bg: 'bg-[#e8edf0]',
                 accent: 'text-[#3a4a5a]',
               },

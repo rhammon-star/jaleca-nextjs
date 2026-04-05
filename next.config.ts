@@ -37,7 +37,7 @@ const nextConfig: NextConfig = {
       { source: '/jalecos-femininos', destination: '/categoria/jalecos-femininos', permanent: true },
       { source: '/jalecos-masculinos', destination: '/categoria/jalecos-masculinos', permanent: true },
       { source: '/jalecos', destination: '/produtos', permanent: true },
-      { source: '/scrubs', destination: '/categoria/scrubs', permanent: true },
+      { source: '/scrubs', destination: '/categoria/conjuntos', permanent: true },
       { source: '/product/:slug', destination: '/produto/:slug', permanent: true },
       { source: '/produto-category/:slug*', destination: '/categoria/:slug*', permanent: true },
       { source: '/product-category/:slug*', destination: '/categoria/:slug*', permanent: true },

@@ -87,22 +87,21 @@ const Header = () => {
                 </div>
               </div>
 
-              {/* Scrubs dropdown */}
+              {/* Conjuntos dropdown */}
               <div className="relative group/nav2" style={{ display: 'flex', alignItems: 'center' }}>
-                <Link href="/produtos?cat=Scrubs" className="text-muted-foreground hover:text-foreground transition-colors duration-200 text-[12px] font-semibold tracking-widest uppercase whitespace-nowrap flex items-center gap-1 py-5">
-                  Scrubs
+                <Link href="/produtos?cat=Conjuntos" className="text-muted-foreground hover:text-foreground transition-colors duration-200 text-[12px] font-semibold tracking-widest uppercase whitespace-nowrap flex items-center gap-1 py-5">
+                  Conjuntos
                   <ChevronDown size={11} className="transition-transform duration-200 group-hover/nav2:rotate-180" />
                 </Link>
                 <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover/nav2:opacity-100 group-hover/nav2:visible transition-all duration-200 z-50">
                   <div className="bg-background border border-border shadow-xl p-5 w-52">
-                    <p className="text-[10px] font-semibold tracking-widest uppercase text-muted-foreground mb-3">Scrubs</p>
+                    <p className="text-[10px] font-semibold tracking-widest uppercase text-muted-foreground mb-3">Conjuntos</p>
                     <div className="space-y-2.5">
                       {[
-                        { label: 'Todos os Scrubs', href: '/produtos?cat=Scrubs' },
-                        { label: 'Scrubs Femininos', href: '/produtos?cat=Scrubs&genero=feminino' },
-                        { label: 'Scrubs Masculinos', href: '/produtos?cat=Scrubs&genero=masculino' },
-                        { label: 'Conjuntos', href: '/produtos?cat=Scrubs&tipo=conjunto' },
-                        { label: 'Promoções', href: '/produtos?cat=Scrubs&sale=true' },
+                        { label: 'Todos os Conjuntos', href: '/produtos?cat=Conjuntos' },
+                        { label: 'Conjuntos Femininos', href: '/produtos?cat=Conjuntos&genero=feminino' },
+                        { label: 'Conjuntos Masculinos', href: '/produtos?cat=Conjuntos&genero=masculino' },
+                        { label: 'Promoções', href: '/produtos?cat=Conjuntos&sale=true' },
                       ].map(item => (
                         <Link key={item.href} href={item.href} className="block text-sm text-muted-foreground hover:text-foreground hover:translate-x-1 transition-all duration-150">
                           {item.label}
@@ -187,7 +186,7 @@ const Header = () => {
                 { label: 'Início', href: '/' },
                 { label: 'Loja', href: '/produtos' },
                 { label: 'Jalecos', href: '/produtos?cat=Jalecos' },
-                { label: 'Scrubs', href: '/produtos?cat=Scrubs' },
+                { label: 'Conjuntos', href: '/produtos?cat=Conjuntos' },
                 { label: 'Blog', href: '/blog' },
                 { label: 'Lookbook', href: '/lookbook' },
                 { label: 'Nossa Loja Física', href: '/loja-matriz' },

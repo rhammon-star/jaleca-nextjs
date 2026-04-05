@@ -63,16 +63,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.9,
     },
     {
-      url: `${SITE_URL}/categoria/scrubs`,
+      url: `${SITE_URL}/categoria/domas`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.9,
     },
     {
-      url: `${SITE_URL}/categoria/calcas`,
+      url: `${SITE_URL}/categoria/conjuntos`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
-      priority: 0.8,
+      priority: 0.9,
     },
     {
       url: `${SITE_URL}/categoria/acessorios`,

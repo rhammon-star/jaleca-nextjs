@@ -186,10 +186,10 @@ export default function CartDrawer() {
                   Jalecos femininos
                 </Link>
                 <Link
-                  href="/produtos?cat=Scrubs"
+                  href="/produtos?cat=Conjuntos"
                   className="flex items-center justify-center gap-2 w-full border border-border py-3 text-xs font-semibold tracking-wide uppercase hover:bg-muted transition-colors"
                 >
-                  Scrubs
+                  Conjuntos
                 </Link>
               </div>
             </div>
