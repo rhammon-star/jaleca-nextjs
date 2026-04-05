@@ -6,7 +6,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 # Jaleca — Next.js E-commerce
 
-Site de uniformes médicos (jalecos/scrubs). Diretório: `/Users/rhammon/SiteJaleca/jaleca-nextjs`
+Site de uniformes médicos (jalecos, dômãs, conjuntos). Diretório: `/Users/rhammon/SiteJaleca/jaleca-nextjs`
 
 ## Stack
 - Next.js 16, React 19, TypeScript, Tailwind CSS v3.4
@@ -16,7 +16,7 @@ Site de uniformes médicos (jalecos/scrubs). Diretório: `/Users/rhammon/SiteJal
 - Gemini AI (gemini-2.5-flash) para blog
 - Radix UI (shadcn/ui pattern) + custom components
 
-## Status das integrações (04/04/2026)
+## Status das integrações (05/04/2026)
 - WooCommerce GraphQL: ✅ `https://wp.jaleca.com.br/graphql`
 - WooCommerce REST: ✅ Pedidos, customers
 - Carrinho: ✅ localStorage
@@ -24,12 +24,13 @@ Site de uniformes médicos (jalecos/scrubs). Diretório: `/Users/rhammon/SiteJal
 - Email transacional: ✅ via Brevo (`lib/email.ts`)
 - Verificação de email: ✅ (não bloqueia checkout)
 - Blog CMS com IA: ✅ (`/blog/admin`)
-- Melhor Envio shipping: ⚠️ token placeholder
+- Melhor Envio shipping: ⚠️ token placeholder (OAuth2 real pendente)
 - GA4 + Meta Pixel + Meta CAPI: ✅
 - Tawk.to chat: ✅
 - Speed Insights Vercel: ✅
 - Trust badges + PIX badge + Urgência estoque: ✅
 - FAQ page + FAQPage schema: ✅
+- Cores produto ordenadas alfabeticamente: ✅ (`ProductDetailClient.tsx`)
 
 ## Arquivos principais
 
@@ -64,7 +65,7 @@ Site de uniformes médicos (jalecos/scrubs). Diretório: `/Users/rhammon/SiteJal
 ### API routes
 - `/api/auth/*` — login, register, forgot-password, verify-email, profile, reset-password, cpf-lookup
 - `/api/blog/*` — posts, categories, generate, publish, improve-seo, new-image, auth
-- `/api/orders/*` — pedidos do cliente logado
+- `/api/orders/*` — pedidos do cliente logado; `notify` (emails por status); `payment-reminder` (cron 12h)
 - `/api/shipping/*` — cálculo de frete
 - `/api/coupon/*` — validação de cupom
 - `/api/leads/*` — newsletter
@@ -73,6 +74,7 @@ Site de uniformes médicos (jalecos/scrubs). Diretório: `/Users/rhammon/SiteJal
 - `/api/reviews/*` — avaliações
 - `/api/cart-recovery/*` — recuperação de carrinho
 - `/api/revalidate/*` — revalidação de cache
+- `/api/tracking/*` — rastreamento: `register` (webhook WC), `status` (consulta), `check-all` (cron diário)
 
 ## Regras críticas de implementação
 
@@ -115,6 +117,15 @@ Também enviar `billing: { name, address }` no nível do pedido.
 - Variações sem preço não aparecem no site
 - Ordem dos tamanhos: PP → P → M → G → GG → G1 → G2 → G3
 
+### Categorias e filtros (`lib/products.ts`, `app/produtos/ProductsClient.tsx`)
+- Categorias: `["Todos", "Jalecos", "Dômãs", "Conjuntos", "Acessórios"]`
+- O filtro usa **categorias reais do WooCommerce** (`productCategories` via GraphQL), não o nome do produto
+- Slugs WooCommerce esperados: `jalecos`, `domas`, `conjuntos`, `acessorios`
+- Subcategorias por gênero: `jalecos-femininos`, `jalecos-masculinos`, `domas-femininas`, `domas-masculinas`, `conjuntos-femininos`, `conjuntos-masculinos`
+- Filtro de cor: apenas 3 opções — **Branco** (attr contém "branco"), **Preto** (attr contém "preto"), **Colorido** (qualquer outra cor)
+- Atributo de cor no WooCommerce deve se chamar `Cor` ou `color`
+- Calças foi removida das categorias
+
 ## Credenciais
 - **Pagar.me Secret:** `sk_zpn8wrBIZ3tKwBL6`
 - **Pagar.me Public:** `pk_YvOwdngub4hoq3e5`
@@ -154,8 +165,23 @@ Também enviar `billing: { name, address }` no nível do pedido.
 - [x] Blog: WP_URL configurável via env var
 - [x] Link FAQ no footer
 
+## Projeto em andamento: Comunicação Automática de Pedidos
+Documento: `docs/PROJETO-RASTREAMENTO-APROVACAO.md`
+
+10 emails automáticos cobrindo todo ciclo do pedido:
+- Lembrete pagamento pendente (12h sem pagar)
+- Mudanças de status: Análise, Faturado, Em separação, Cancelado, Reembolsado
+- Rastreamento: Enviado, Em trânsito, Saiu para entrega, Entregue (+ auto-Concluído)
+
+**Pendência:** confirmar se etiquetas são geradas pelo Melhor Envio (define qual API de rastreamento usar).
+- Se sim → Melhor Envio API (gratuita, OAuth2 já previsto no projeto)
+- Se não → APIs diretas: SeuRastreio (Correios) + Jadlog + Braspress
+
+Novos arquivos a criar: `app/api/tracking/*`, `app/api/orders/notify`, `app/api/orders/payment-reminder`, `lib/tracking.ts`
+Modificar: `lib/email.ts` (+10 funções), `vercel.json` (+2 crons), `functions.php` WP (+campos rastreio + hooks)
+
 ## Pendente (prioridade)
-1. Verificar blog carregando posts (NEXT_PUBLIC_WP_URL configurado na Vercel?)
+1. **Confirmar API rastreamento** (Melhor Envio ou APIs diretas) → iniciar projeto comunicação pedidos
 2. Testar PIX/Boleto em produção
 3. Google Search Console + sitemap
 4. Melhor Envio OAuth2 real
