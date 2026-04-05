@@ -12,8 +12,8 @@ const CATEGORY_MAP: Record<string, { label: string; description: string; keyword
     keywords: 'jaleco feminino, jaleco masculino, jaleco branco, jaleco médico, jaleco enfermagem, jaleco dentista, jaleco cirurgião, jaleco slim, jaleco profissional, comprar jaleco',
   },
   domas: {
-    label: 'Domas',
-    description: 'Domas profissionais femininas e masculinas para médicos, enfermeiros e cirurgiões. Tecido de alta performance, modelagem ergonômica e conforto para longas jornadas. Disponível em PP ao G3.',
+    label: 'Dômãs',
+    description: 'Dômãs profissionais femininas e masculinas para médicos, enfermeiros e cirurgiões. Tecido de alta performance, modelagem ergonômica e conforto para longas jornadas. Disponível em PP ao G3.',
     keywords: 'doma médica, doma feminina, doma masculina, doma cirúrgica, uniforme cirúrgico, roupa hospitalar, doma colorida',
   },
   conjuntos: {

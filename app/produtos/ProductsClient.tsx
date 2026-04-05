@@ -44,7 +44,7 @@ function matchesCategory(name: string, slug: string, cat: string, productCategor
   if (wcCats.length > 0) {
     const joined = wcCats.join(" ");
     if (cat === "Jalecos") return joined.includes("jaleco");
-    if (cat === "Domas") return joined.includes("doma");
+    if (cat === "Dômãs") return joined.includes("doma");
     if (cat === "Conjuntos") return joined.includes("conjunto");
     if (cat === "Acessórios") return joined.includes("acessor") || joined.includes("touca");
     return false;
@@ -52,7 +52,7 @@ function matchesCategory(name: string, slug: string, cat: string, productCategor
   // fallback: usa o nome do produto
   const lower = (name + " " + slug).toLowerCase();
   if (cat === "Jalecos") return lower.includes("jaleco");
-  if (cat === "Domas") return lower.includes("doma");
+  if (cat === "Dômãs") return lower.includes("doma");
   if (cat === "Conjuntos") return lower.includes("conjunto");
   if (cat === "Acessórios") return lower.includes("acessor") || lower.includes("touca");
   return true;
