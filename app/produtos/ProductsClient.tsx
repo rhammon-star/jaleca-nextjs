@@ -334,7 +334,7 @@ export default function ProductsClient({ products, initialCat = "Todos", initial
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
                   {visible.map((p, i) => (
                     <ScrollReveal key={p.id} delay={i * 60}>
-                      <ProductCard product={p} />
+                      <ProductCard product={p} colorFilter={selectedColor} />
                     </ScrollReveal>
                   ))}
                 </div>

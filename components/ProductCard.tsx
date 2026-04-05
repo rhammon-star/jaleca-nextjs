@@ -7,7 +7,7 @@ import { useCompare } from "@/contexts/CompareContext";
 import { useWishlist } from "@/contexts/WishlistContext";
 
 type VariationAttr = { name: string; value: string }
-type Variation = { id: string; name: string; stockStatus: string; price?: string; regularPrice?: string; salePrice?: string; attributes: { nodes: VariationAttr[] } }
+type Variation = { id: string; name: string; stockStatus: string; price?: string; regularPrice?: string; salePrice?: string; image?: { sourceUrl: string; altText: string }; attributes: { nodes: VariationAttr[] } }
 
 export type WooProduct = {
   id: string;
@@ -24,7 +24,23 @@ export type WooProduct = {
   productCategories?: { nodes: Array<{ name: string; slug: string }> };
 }
 
-const ProductCard = ({ product }: { product: WooProduct }) => {
+function getColorVariationImage(variations: Variation[], color: string | null) {
+  if (!color || variations.length === 0) return null;
+  const match = variations.find(v => {
+    const attr = v.attributes.nodes.find(a =>
+      a.name.toLowerCase().includes("cor") || a.name.toLowerCase().includes("color")
+    );
+    if (!attr) return false;
+    const val = attr.value.toLowerCase();
+    if (color === "Branco") return val.includes("branco");
+    if (color === "Preto") return val.includes("preto");
+    if (color === "Colorido") return !val.includes("branco") && !val.includes("preto");
+    return false;
+  });
+  return match?.image ?? null;
+}
+
+const ProductCard = ({ product, colorFilter }: { product: WooProduct; colorFilter?: string | null }) => {
   const variations = product.variations?.nodes ?? [];
 
   // A variation is on sale only if it has both salePrice and regularPrice and they differ
@@ -46,6 +62,10 @@ const ProductCard = ({ product }: { product: WooProduct }) => {
   const inWishlist = isInWishlist(product.id);
   const hoverImage = product.galleryImages?.nodes?.[0];
 
+  // When a color filter is active, prefer the matching variation's image
+  const colorVariationImage = getColorVariationImage(variations, colorFilter ?? null);
+  const mainImage = colorVariationImage ?? product.image;
+
   // Calculate discount % (only when all variants are on sale)
   const discount = isOnSale && product.regularPrice && product.salePrice
     ? Math.round((1 - parseFloat(product.salePrice.replace(/[^0-9,]/g,'').replace(',','.')) / parseFloat(product.regularPrice.replace(/[^0-9,]/g,'').replace(',','.'))) * 100)
@@ -55,11 +75,11 @@ const ProductCard = ({ product }: { product: WooProduct }) => {
     <Link href={`/produto/${product.slug}`} className="group block">
       {/* Image container */}
       <div className="relative overflow-hidden bg-[#f5f3f0] aspect-[3/4] mb-3">
-        {/* Main image */}
-        {product.image?.sourceUrl ? (
+        {/* Main image — uses color variation image when filter is active */}
+        {mainImage?.sourceUrl ? (
           <Image
-            src={product.image.sourceUrl}
-            alt={product.image.altText || product.name}
+            src={mainImage.sourceUrl}
+            alt={mainImage.altText || product.name}
             fill
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
             className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.07]"

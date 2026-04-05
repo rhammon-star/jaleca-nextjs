@@ -52,6 +52,26 @@ export const GET_PRODUCTS = `
               options
             }
           }
+          variations(first: 20) {
+            nodes {
+              id
+              name
+              stockStatus
+              price
+              regularPrice
+              salePrice
+              image {
+                sourceUrl
+                altText
+              }
+              attributes {
+                nodes {
+                  name
+                  value
+                }
+              }
+            }
+          }
         }
       }
     }
