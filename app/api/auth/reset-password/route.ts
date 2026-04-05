@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'A senha deve ter no mínimo 6 caracteres' }, { status: 400 })
     }
 
-    // Find customer by email
+    // Find customer by email (list endpoint — sem meta_data)
     const searchRes = await fetch(
       `${WC_API}/customers?email=${encodeURIComponent(login)}&role=all`,
       { headers: { Authorization: wcAuth() }, cache: 'no-store' }
@@ -27,7 +27,16 @@ export async function POST(request: NextRequest) {
     if (!Array.isArray(customers) || customers.length === 0) {
       return NextResponse.json({ error: 'Link inválido ou expirado' }, { status: 400 })
     }
-    const customer = customers[0]
+
+    // Busca cliente por ID para obter meta_data completo
+    const detailRes = await fetch(
+      `${WC_API}/customers/${customers[0].id}`,
+      { headers: { Authorization: wcAuth() }, cache: 'no-store' }
+    )
+    if (!detailRes.ok) {
+      return NextResponse.json({ error: 'Erro ao buscar cliente' }, { status: 500 })
+    }
+    const customer = await detailRes.json()
 
     // Validate token from WC meta
     const meta: Array<{ key: string; value: string }> = customer.meta_data || []
