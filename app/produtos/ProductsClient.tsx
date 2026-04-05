@@ -70,7 +70,9 @@ function matchesColor(product: WooProduct, color: string | null) {
   if (!color) return true;
   const vals = getAttrValues(product, ["cor", "color"]);
   if (vals.length === 0) return true;
-  return vals.some(v => v.includes(color.toLowerCase()));
+  if (color === "Branco") return vals.some(v => v.includes("branco"));
+  if (color === "Preto") return vals.some(v => v.includes("preto"));
+  if (color === "Colorido") return vals.some(v => !v.includes("branco") && !v.includes("preto"));
 }
 
 function matchesSize(product: WooProduct, size: string | null) {

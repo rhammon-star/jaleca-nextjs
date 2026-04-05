@@ -91,7 +91,7 @@ export const products: Product[] = [
 
 export const categories = ["Todos", "Jalecos", "Dômãs", "Conjuntos", "Acessórios"];
 export const genderOptions = ["Todos", "Feminino", "Masculino"] as const;
-export const colorOptions = ["Branco", "Preto", "Verde Floresta", "Azul Marinho", "Cinza", "Rosa Antigo"];
+export const colorOptions = ["Branco", "Preto", "Colorido"];
 export const sizeOptions = ["PP", "P", "M", "G", "GG", "XGG"];
 
 export interface BlogPost {
