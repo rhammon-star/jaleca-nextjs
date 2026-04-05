@@ -121,28 +121,37 @@ export default async function Home() {
 
           {/* LEFT — editorial text panel */}
           <div className="relative z-10 flex flex-col justify-center w-full md:w-[42%] px-8 md:pl-16 lg:pl-20 md:pr-6 py-20 md:py-0">
-            <p className="text-[11px] font-semibold tracking-[0.4em] uppercase text-[#b8a98a] mb-4">
-              Nova Coleção 2026
-            </p>
+            {/* Badge de autoridade */}
+            <div className="inline-flex items-center gap-2 bg-[#1a1a1a] text-[#c4a97d] px-4 py-2 mb-6 self-start">
+              <span className="text-sm">🏆</span>
+              <span className="text-[10px] font-semibold tracking-[0.3em] uppercase">Uma das marcas que mais vende jalecos no Brasil</span>
+            </div>
             <h1 className="font-display text-4xl sm:text-5xl lg:text-[3.4rem] font-semibold leading-[1.1] text-[#1a1a1a] mb-5 animate-fade-up">
-              Elegância clínica em cada detalhe
+              Mais de 250 mil jalecos vendidos no Brasil
             </h1>
-            <p className="text-[#777] text-base leading-relaxed mb-8">
-              Jalecos e uniformes profissionais com acabamento refinado, para quem não se contenta com o básico.
+            <p className="text-[#555] text-base leading-relaxed mb-6">
+              A escolha de profissionais da saúde que buscam conforto, elegância e presença no atendimento.
             </p>
+            {/* Prova social */}
+            <div className="flex items-center gap-3 mb-8 pb-8 border-b border-[#e8e0d5]">
+              <div className="flex text-[#c4a97d] text-lg leading-none">★★★★★</div>
+              <p className="text-[13px] text-[#555]">
+                <span className="font-semibold text-[#1a1a1a]">Milhares de clientes satisfeitos</span> em todo o Brasil
+              </p>
+            </div>
             <div className="flex flex-wrap gap-3">
               <Link
-                href="/produtos?novidades=true"
-                className="inline-flex items-center gap-2 bg-[#c4a97d] text-white px-6 py-3 text-[11px] font-semibold tracking-widest uppercase transition-all duration-300 hover:bg-[#a8895f] hover:tracking-[0.2em] active:scale-[0.97]"
+                href="/produtos"
+                className="inline-flex items-center gap-2 bg-[#1a1a1a] text-white px-6 py-3 text-[11px] font-semibold tracking-widest uppercase transition-all duration-300 hover:bg-[#333] active:scale-[0.97]"
               >
-                Ver Novidades
+                Ver Coleção
                 <ArrowRight size={13} />
               </Link>
               <Link
-                href="/produtos"
+                href="/produtos?novidades=true"
                 className="inline-flex items-center gap-2 border border-[#c4a97d] text-[#c4a97d] px-6 py-3 text-[11px] font-semibold tracking-widest uppercase transition-all duration-300 hover:bg-[#c4a97d] hover:text-white active:scale-[0.97]"
               >
-                Explorar Coleção
+                Novidades 2026
               </Link>
             </div>
           </div>
