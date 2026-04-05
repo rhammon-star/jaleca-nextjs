@@ -175,7 +175,7 @@ export async function sendOrderConfirmation(order: Order, customerEmail: string)
     </div>` : ''}
 
     <p style="color:#888;font-size:13px;margin:24px 0 16px;">Você receberá um e-mail assim que seu pedido for enviado com o código de rastreio.</p>
-    ${btn('Ver meu pedido', `https://jaleca.com.br/minha-conta`)}
+    ${btn('Ver meu pedido', `https://jaleca.com.br/pedido-confirmado/${order.id}`)}
   `
 
   await sendMail({

@@ -256,9 +256,10 @@ export default function ProductDetailClient({
   const inStockVariations = variations.filter(v => v.stockStatus !== 'OUT_OF_STOCK')
   const activeVariations = inStockVariations.length > 0 ? inStockVariations : variations
 
-  const colorSlugs = variations.length > 0
+  const colorSlugs = (variations.length > 0
     ? [...new Set(activeVariations.flatMap(v => v.attributes.nodes.filter(a => isColorAttr(a)).map(a => a.value)).filter(Boolean))]
     : (colorAttrDef?.options ?? [])
+  ).sort((a, b) => (colorNames[a] ?? a).toLowerCase().localeCompare((colorNames[b] ?? b).toLowerCase(), 'pt-BR'))
 
   // Sizes: when color is selected, only show sizes in-stock for that color
   const sizeSlugs = (() => {
