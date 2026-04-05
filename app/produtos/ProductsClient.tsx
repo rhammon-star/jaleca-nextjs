@@ -58,8 +58,15 @@ function matchesCategory(name: string, slug: string, cat: string, productCategor
   return true;
 }
 
-function matchesGender(name: string, gender: string) {
+function matchesGender(name: string, gender: string, productCategories?: { nodes: Array<{ name: string; slug: string }> }) {
   if (gender === "Todos") return true;
+  // Preferência: subcategorias WooCommerce (jalecos-masculinos, domas-femininas, etc.)
+  const wcSlugs = (productCategories?.nodes ?? []).map(c => c.slug.toLowerCase());
+  if (wcSlugs.length > 0) {
+    if (gender === "Feminino") return wcSlugs.some(s => s.includes("feminino") || s.includes("-fem"));
+    if (gender === "Masculino") return wcSlugs.some(s => s.includes("masculino") || s.includes("-masc"));
+  }
+  // Fallback: nome do produto
   const lower = name.toLowerCase();
   if (gender === "Feminino") return lower.includes("feminino") || lower.includes("fem");
   if (gender === "Masculino") return lower.includes("masculino") || lower.includes("masc");
@@ -213,7 +220,7 @@ export default function ProductsClient({ products, initialCat = "Todos", initial
   const filtered = useMemo(() => {
     let base = products.filter((p) => {
       if (!matchesCategory(p.name, p.slug, selectedCategory, p.productCategories)) return false;
-      if (!matchesGender(p.name, selectedGender)) return false;
+      if (!matchesGender(p.name, selectedGender, p.productCategories)) return false;
       if (!matchesColor(p, selectedColor)) return false;
       if (!matchesSize(p, selectedSize)) return false;
       if (!matchesSale(p, saleOnly)) return false;
