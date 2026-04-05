@@ -70,14 +70,6 @@ const faqData = {
     },
     {
       "@type": "Question",
-      "name": "O jaleco é antimicrobiano?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Sim! Utilizamos tecidos técnicos com propriedades antimicrobianas que inibem a proliferação de bactérias e fungos. O tecido também possui tratamento antifúngico, sendo ideal para profissionais da saúde que passam longas jornadas em ambientes clínicos."
-      }
-    },
-    {
-      "@type": "Question",
       "name": "Como funciona a personalizado / bordado?",
       "acceptedAnswer": {
         "@type": "Answer",
@@ -160,7 +152,7 @@ const categories = [
     title: 'Outros',
     questions: [
       { q: 'Como funciona a personalização / bordado?', anchor: 'personalizado' },
-      { q: 'O jaleco é antimicrobiano?', anchor: 'antimicrobiano' },
+
       { q: 'Tem loja física?', anchor: 'loja-fisica' },
     ],
   },
@@ -274,9 +266,7 @@ export default function FAQPage() {
                             </ol>
                           </>
                         )}
-                        {item.q.includes('antimicrobiano') && (
-                          <p>Sim! Utilizamos tecidos técnicos com propriedades antimicrobianas que inibem a proliferação de bactérias e fungos. O tecido também possui tratamento antifúngico, ideal para longas jornadas em ambientes clínicos.</p>
-                        )}
+
                         {item.q.includes('loja física') && (
                           <>
                             <p>Sim! Nossa loja matriz fica em Ipatinga, MG.</p>
