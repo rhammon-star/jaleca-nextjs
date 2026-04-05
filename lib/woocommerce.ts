@@ -57,6 +57,7 @@ export type WCOrderData = {
   coupon_lines?: Array<{ code: string }>
   customer_id?: number
   customer_note?: string
+  meta_data?: Array<{ key: string; value: string }>
 }
 
 export type WCOrder = {
