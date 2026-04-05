@@ -127,10 +127,10 @@ export default async function Home() {
               <span className="text-[10px] font-semibold tracking-[0.3em] uppercase">Uma das marcas que mais vende jalecos no Brasil</span>
             </div>
             <h1 className="font-display text-4xl sm:text-5xl lg:text-[3.4rem] font-semibold leading-[1.1] text-[#1a1a1a] mb-5 animate-fade-up">
-              Mais de 250 mil jalecos vendidos no Brasil
+              Mais de 200 mil peças vendidas. Descubra o porquê.
             </h1>
             <p className="text-[#555] text-base leading-relaxed mb-6">
-              A escolha de profissionais da saúde que buscam conforto, elegância e presença no atendimento.
+              Conforto, caimento impecável e a confiança que você transmite no seu dia a dia.
             </p>
             {/* Prova social */}
             <div className="flex items-center gap-3 mb-8 pb-8 border-b border-[#e8e0d5]">
