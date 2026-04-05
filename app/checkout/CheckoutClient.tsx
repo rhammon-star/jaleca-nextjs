@@ -444,8 +444,151 @@ export default function CheckoutClient() {
 
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-8 lg:gap-12 items-start">
+            {/* Right column: Upsell + Order summary */}
+            <aside className="space-y-6 lg:col-start-2 lg:row-start-1">
+            {/* Upsell / cross-sell */}
+            {upsellProducts.length > 0 && (
+              <div className="border border-border p-5">
+                <h2 className="font-display text-lg font-semibold mb-4">Você também pode gostar</h2>
+                <div className="space-y-3">
+                  {upsellProducts.map(product => (
+                    <div key={product.id} className="flex items-center gap-3">
+                      <div className="relative w-14 h-16 flex-shrink-0 bg-secondary/20 overflow-hidden">
+                        {product.image?.sourceUrl ? (
+                          <Image
+                            src={product.image.sourceUrl}
+                            alt={product.image.altText || product.name}
+                            fill
+                            className="object-cover"
+                            sizes="56px"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-muted" />
+                        )}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs font-medium truncate">{product.name.replace(/ - Jaleca$/i, '')}</p>
+                        <p className="text-xs text-muted-foreground">{product.price || product.regularPrice}</p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => addItem({
+                          id: product.id,
+                          databaseId: product.databaseId,
+                          slug: product.slug,
+                          name: product.name.replace(/ - Jaleca$/i, ''),
+                          image: product.image?.sourceUrl,
+                          price: product.price || product.regularPrice || '0',
+                        })}
+                        className="flex-shrink-0 w-7 h-7 bg-foreground text-background flex items-center justify-center hover:bg-foreground/80 transition-colors"
+                        aria-label={`Adicionar ${product.name}`}
+                      >
+                        <Plus size={12} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Order summary */}
+            <div className="border border-border p-6 lg:sticky lg:top-24">
+              <h2 className="font-display text-xl font-semibold mb-4">Resumo do Pedido</h2>
+              <div className="space-y-4 divide-y divide-border">
+                <div className="space-y-3">
+                  {items.map(item => (
+                    <div key={`${item.id}-${item.size}-${item.color}`} className="flex gap-3">
+                      <div className="relative w-14 h-16 flex-shrink-0 bg-secondary/20 overflow-hidden">
+                        {item.image ? (
+                          <Image src={item.image} alt={item.name} fill className="object-cover" sizes="56px" />
+                        ) : (
+                          <div className="w-full h-full bg-muted" />
+                        )}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs font-medium truncate">{item.name}</p>
+                        <p className="text-[11px] text-muted-foreground">
+                          {[item.color, item.size].filter(Boolean).join(' / ')}
+                        </p>
+                        <div className="flex justify-between items-center mt-1">
+                          <span className="text-[11px] text-muted-foreground">Qtd: {item.quantity}</span>
+                          <span className="text-xs font-semibold">{item.price}</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                {/* Coupon field */}
+                <div className="pt-4 border-t border-border">
+                  {couponCode ? (
+                    <div className="flex items-center justify-between bg-green-50 border border-green-200 px-3 py-2 text-sm">
+                      <span className="text-green-800 font-mono font-semibold tracking-wider">{couponCode.toUpperCase()}</span>
+                      <span className="text-green-700 font-medium">- {formatCurrency(couponDiscount)}</span>
+                      <button type="button" onClick={removeCoupon} className="text-green-600 hover:text-green-900 text-xs ml-2 underline">remover</button>
+                    </div>
+                  ) : (
+                    <div className="space-y-1">
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          value={couponInput}
+                          onChange={e => { setCouponInput(e.target.value.toUpperCase()); setCouponError('') }}
+                          onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), applyCoupon())}
+                          placeholder="Cupom de desconto"
+                          className="flex-1 border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:border-foreground transition-colors"
+                        />
+                        <button
+                          type="button"
+                          onClick={applyCoupon}
+                          disabled={couponLoading || !couponInput.trim()}
+                          className="px-4 py-2 text-xs font-semibold tracking-widest uppercase bg-foreground text-background hover:bg-foreground/90 transition-all disabled:opacity-50"
+                        >
+                          {couponLoading ? '...' : 'Aplicar'}
+                        </button>
+                      </div>
+                      {couponError && <p className="text-xs text-red-600">{couponError}</p>}
+                    </div>
+                  )}
+                </div>
+
+                <div className="space-y-2 pt-4">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Subtotal</span>
+                    <span>{formatCurrency(subtotal)}</span>
+                  </div>
+                  {shipping && (
+                    <div className="flex justify-between text-sm">
+                      <span className="text-muted-foreground">Frete</span>
+                      <span>{shippingCost === 0 ? 'Grátis' : formatCurrency(shippingCost)}</span>
+                    </div>
+                  )}
+                  {couponDiscount > 0 && (
+                    <div className="flex justify-between text-sm text-green-600">
+                      <span>Cupom ({couponCode.toUpperCase()})</span>
+                      <span>- {formatCurrency(couponDiscount)}</span>
+                    </div>
+                  )}
+                  {paymentMethod === 'pix' && (
+                    <div className="flex justify-between text-sm text-green-600">
+                      <span>Desconto PIX (5%)</span>
+                      <span>- {formatCurrency((subtotal - couponDiscount) * 0.05)}</span>
+                    </div>
+                  )}
+                  <div className="flex justify-between text-base font-semibold pt-2 border-t border-border">
+                    <span>Total</span>
+                    <span>
+                      {paymentMethod === 'pix'
+                        ? formatCurrency((subtotal - couponDiscount) * 0.95 + shippingCost)
+                        : formatCurrency(total - couponDiscount)}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </aside>
+
             {/* Left column */}
-            <div className="space-y-8">
+            <div className="space-y-8 lg:col-start-1 lg:row-start-1">
               {/* Section 1: Identification */}
               <section className="border border-border p-6">
                 <h2 className="font-display text-xl font-semibold mb-4 flex items-center gap-2">
@@ -924,150 +1067,8 @@ export default function CheckoutClient() {
                 )}
               </button>
             </div>
-
-            {/* Right column: Upsell + Order summary */}
-            <aside className="space-y-6">
-            {/* Upsell / cross-sell */}
-            {upsellProducts.length > 0 && (
-              <div className="border border-border p-5">
-                <h2 className="font-display text-lg font-semibold mb-4">Você também pode gostar</h2>
-                <div className="space-y-3">
-                  {upsellProducts.map(product => (
-                    <div key={product.id} className="flex items-center gap-3">
-                      <div className="relative w-14 h-16 flex-shrink-0 bg-secondary/20 overflow-hidden">
-                        {product.image?.sourceUrl ? (
-                          <Image
-                            src={product.image.sourceUrl}
-                            alt={product.image.altText || product.name}
-                            fill
-                            className="object-cover"
-                            sizes="56px"
-                          />
-                        ) : (
-                          <div className="w-full h-full bg-muted" />
-                        )}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-xs font-medium truncate">{product.name.replace(/ - Jaleca$/i, '')}</p>
-                        <p className="text-xs text-muted-foreground">{product.price || product.regularPrice}</p>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => addItem({
-                          id: product.id,
-                          databaseId: product.databaseId,
-                          slug: product.slug,
-                          name: product.name.replace(/ - Jaleca$/i, ''),
-                          image: product.image?.sourceUrl,
-                          price: product.price || product.regularPrice || '0',
-                        })}
-                        className="flex-shrink-0 w-7 h-7 bg-foreground text-background flex items-center justify-center hover:bg-foreground/80 transition-colors"
-                        aria-label={`Adicionar ${product.name}`}
-                      >
-                        <Plus size={12} />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Order summary */}
-            <div className="border border-border p-6 lg:sticky lg:top-24">
-              <h2 className="font-display text-xl font-semibold mb-4">Resumo do Pedido</h2>
-              <div className="space-y-4 divide-y divide-border">
-                <div className="space-y-3">
-                  {items.map(item => (
-                    <div key={`${item.id}-${item.size}-${item.color}`} className="flex gap-3">
-                      <div className="relative w-14 h-16 flex-shrink-0 bg-secondary/20 overflow-hidden">
-                        {item.image ? (
-                          <Image src={item.image} alt={item.name} fill className="object-cover" sizes="56px" />
-                        ) : (
-                          <div className="w-full h-full bg-muted" />
-                        )}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-xs font-medium truncate">{item.name}</p>
-                        <p className="text-[11px] text-muted-foreground">
-                          {[item.color, item.size].filter(Boolean).join(' / ')}
-                        </p>
-                        <div className="flex justify-between items-center mt-1">
-                          <span className="text-[11px] text-muted-foreground">Qtd: {item.quantity}</span>
-                          <span className="text-xs font-semibold">{item.price}</span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                {/* Coupon field */}
-                <div className="pt-4 border-t border-border">
-                  {couponCode ? (
-                    <div className="flex items-center justify-between bg-green-50 border border-green-200 px-3 py-2 text-sm">
-                      <span className="text-green-800 font-mono font-semibold tracking-wider">{couponCode.toUpperCase()}</span>
-                      <span className="text-green-700 font-medium">- {formatCurrency(couponDiscount)}</span>
-                      <button type="button" onClick={removeCoupon} className="text-green-600 hover:text-green-900 text-xs ml-2 underline">remover</button>
-                    </div>
-                  ) : (
-                    <div className="space-y-1">
-                      <div className="flex gap-2">
-                        <input
-                          type="text"
-                          value={couponInput}
-                          onChange={e => { setCouponInput(e.target.value.toUpperCase()); setCouponError('') }}
-                          onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), applyCoupon())}
-                          placeholder="Cupom de desconto"
-                          className="flex-1 border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:border-foreground transition-colors"
-                        />
-                        <button
-                          type="button"
-                          onClick={applyCoupon}
-                          disabled={couponLoading || !couponInput.trim()}
-                          className="px-4 py-2 text-xs font-semibold tracking-widest uppercase bg-foreground text-background hover:bg-foreground/90 transition-all disabled:opacity-50"
-                        >
-                          {couponLoading ? '...' : 'Aplicar'}
-                        </button>
-                      </div>
-                      {couponError && <p className="text-xs text-red-600">{couponError}</p>}
-                    </div>
-                  )}
-                </div>
-
-                <div className="space-y-2 pt-4">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Subtotal</span>
-                    <span>{formatCurrency(subtotal)}</span>
-                  </div>
-                  {shipping && (
-                    <div className="flex justify-between text-sm">
-                      <span className="text-muted-foreground">Frete</span>
-                      <span>{shippingCost === 0 ? 'Grátis' : formatCurrency(shippingCost)}</span>
-                    </div>
-                  )}
-                  {couponDiscount > 0 && (
-                    <div className="flex justify-between text-sm text-green-600">
-                      <span>Cupom ({couponCode.toUpperCase()})</span>
-                      <span>- {formatCurrency(couponDiscount)}</span>
-                    </div>
-                  )}
-                  {paymentMethod === 'pix' && (
-                    <div className="flex justify-between text-sm text-green-600">
-                      <span>Desconto PIX (5%)</span>
-                      <span>- {formatCurrency((subtotal - couponDiscount) * 0.05)}</span>
-                    </div>
-                  )}
-                  <div className="flex justify-between text-base font-semibold pt-2 border-t border-border">
-                    <span>Total</span>
-                    <span>
-                      {paymentMethod === 'pix'
-                        ? formatCurrency((total - couponDiscount) * 0.95)
-                        : formatCurrency(total - couponDiscount)}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            </aside>
           </div>
+
         </form>
       </div>
     </main>
