@@ -2,7 +2,7 @@ const badges = [
   { emoji: '🛡️', text: 'Compra 100% Segura' },
   { emoji: '💰', text: 'PIX 5% de desconto' },
   { emoji: '💳', text: '3x sem juros' },
-  { emoji: '🏆', text: '8 Anos no Mercado' },
+  { emoji: '🏅', text: '8 Anos no Mercado' },
 ]
 
 export default function TrustBadgeBar() {
