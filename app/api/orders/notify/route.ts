@@ -10,15 +10,21 @@ import {
 const WEBHOOK_SECRET = process.env.JALECA_WEBHOOK_SECRET!
 
 // Mapa de status WooCommerce → função de email
+// Slugs confirmados nos prints do WP Admin (05/04/2026)
 const STATUS_MAP: Record<string, 'under_review' | 'invoiced' | 'packing' | 'cancelled' | 'refunded'> = {
-  'on-hold':           'under_review',  // Pagamento em análise
-  'wc-analise':        'under_review',
-  'processing':        'invoiced',       // Faturado / processando
-  'wc-faturado':       'invoiced',
-  'wc-em-separacao':   'packing',        // Em separação
-  'wc-separacao':      'packing',
-  'cancelled':         'cancelled',
-  'refunded':          'refunded',
+  // Padrão WooCommerce
+  'on-hold':                    'under_review',  // Pagamento em análise
+  'cancelled':                  'cancelled',     // Cancelado
+  'refunded':                   'refunded',      // Reembolsado
+  // Status customizados
+  'wc-pagamento-analise':       'under_review',  // Pagamento em análise (custom)
+  'pagamento-analise':          'under_review',
+  'wc-faturado':                'invoiced',      // Faturado
+  'faturado':                   'invoiced',
+  'wc-em-separacao':            'packing',       // Em separação
+  'em-separacao':               'packing',
+  'wc-cancelado':               'cancelled',
+  'wc-reembolsado':             'refunded',
 }
 
 export async function POST(req: NextRequest) {
