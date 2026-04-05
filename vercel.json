@@ -4,6 +4,14 @@
     {
       "path": "/api/cron/cart-recovery",
       "schedule": "0 * * * *"
+    },
+    {
+      "path": "/api/orders/payment-reminder",
+      "schedule": "0 * * * *"
+    },
+    {
+      "path": "/api/tracking/check-all",
+      "schedule": "0 12 * * *"
     }
   ]
 }

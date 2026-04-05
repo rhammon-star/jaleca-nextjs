@@ -5,6 +5,19 @@ export type ShippingOption = {
   delivery_time: string
 }
 
+export type TrackingEvent = {
+  status: 'posted' | 'in_transit' | 'out_for_delivery' | 'delivered' | 'undelivered' | 'unknown'
+  description: string
+  date: string
+}
+
+export type TrackingResult = {
+  meTag: string
+  status: TrackingEvent['status']
+  events: TrackingEvent[]
+  error?: string
+}
+
 const JALECA_CEP = '35160294'
 
 // Regional fallback table (PAC and SEDEX by zone)
@@ -100,12 +113,72 @@ async function callMelhorEnvioAPI(
     options.push({
       id:            String(svc.id),
       label:         SERVICE_LABELS[svc.id] ?? svc.name,
-      cost,
+      cost:          cost + 3.50, // R$3,50 taxa operacional (etiqueta + manuseio)
       delivery_time: `${deliveryDays} dia${deliveryDays !== 1 ? 's' : ''} útil${deliveryDays !== 1 ? 'eis' : ''}`,
     })
   }
 
   return options
+}
+
+// ── Rastreamento ──────────────────────────────────────────────────────────────
+
+type METrackingResponse = {
+  [meTag: string]: {
+    tracking: string
+    status: string
+    status_code?: string
+    steps?: Array<{ status: string; message: string; date: string }>
+  }
+}
+
+function normalizeStatus(raw: string): TrackingEvent['status'] {
+  const s = raw.toLowerCase()
+  if (s.includes('postado') || s.includes('posted') || s.includes('coletado')) return 'posted'
+  if (s.includes('saiu') || s.includes('out_for_delivery') || s.includes('entrega hoje')) return 'out_for_delivery'
+  if (s.includes('entregue') || s.includes('delivered')) return 'delivered'
+  if (s.includes('trânsito') || s.includes('transito') || s.includes('in_transit') || s.includes('caminho')) return 'in_transit'
+  if (s.includes('tentativa') || s.includes('undelivered') || s.includes('ausente')) return 'undelivered'
+  return 'unknown'
+}
+
+export async function trackShipments(meTags: string[]): Promise<TrackingResult[]> {
+  const token = process.env.MELHOR_ENVIO_TOKEN
+  if (!token || token === 'PLACEHOLDER' || meTags.length === 0) return []
+
+  try {
+    const res = await fetch(`${API_BASE}/me/shipment/tracking`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+        'User-Agent': 'JalecaApp/1.0 (contato@jaleca.com.br)',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify({ orders: meTags }),
+    })
+
+    if (!res.ok) {
+      console.error('[ME Tracking] API error:', res.status)
+      return meTags.map(tag => ({ meTag: tag, status: 'unknown' as const, events: [], error: `HTTP ${res.status}` }))
+    }
+
+    const data = (await res.json()) as METrackingResponse
+    return meTags.map(tag => {
+      const info = data[tag]
+      if (!info) return { meTag: tag, status: 'unknown' as const, events: [] }
+      const status = normalizeStatus(info.status ?? '')
+      const events: TrackingEvent[] = (info.steps ?? []).map(s => ({
+        status: normalizeStatus(s.status),
+        description: s.message,
+        date: s.date,
+      }))
+      return { meTag: tag, status, events }
+    })
+  } catch (err) {
+    console.error('[ME Tracking] fetch error:', err)
+    return meTags.map(tag => ({ meTag: tag, status: 'unknown' as const, events: [], error: String(err) }))
+  }
 }
 
 export async function calculateShipping(

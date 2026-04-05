@@ -324,3 +324,197 @@ export async function sendCartRecovery72h(cartItems: CartItem[], customerEmail: 
 export async function sendCartRecovery(cartItems: CartItem[], customerEmail: string): Promise<void> {
   return sendCartRecovery1h(cartItems, customerEmail)
 }
+
+// ── Cadência automática de pedidos ────────────────────────────────────────────
+
+/** Email #1 — Lembrete pagamento pendente (+12h sem pagar) */
+export async function sendPaymentReminder(
+  orderId: number | string,
+  customerName: string,
+  customerEmail: string,
+  orderTotal: string,
+): Promise<void> {
+  const firstName = customerName.split(' ')[0] || 'Cliente'
+  const content = `
+    <h2 style="font-size:22px;margin:0 0 8px;">Seu pedido está esperando! 🕐</h2>
+    <p style="color:#666;margin:0 0 16px;">Olá, ${firstName}! Notamos que o pedido <strong>#${orderId}</strong> ainda está aguardando pagamento.</p>
+    <div style="background:#f9f5ef;border-left:3px solid #c4a97d;padding:16px;margin:0 0 24px;">
+      <p style="margin:0;font-size:14px;color:#555;">Total do pedido: <strong style="color:#1a1a1a;">${orderTotal}</strong></p>
+      <p style="margin:6px 0 0;font-size:13px;color:#888;">Pague com PIX e ganhe 5% de desconto imediato.</p>
+    </div>
+    <p style="color:#888;font-size:13px;margin:0 0 20px;">Se já realizou o pagamento, pode ignorar este e-mail — processamos em breve.</p>
+    ${btn('Finalizar pagamento', `https://jaleca.com.br/finalizar-compra`)}
+  `
+  await sendMail({ to: customerEmail, subject: `Seu pedido Jaleca aguarda pagamento 🕐`, html: wrapHtml(content, 'Pedido aguardando pagamento') })
+}
+
+/** Email #2 — Pagamento em análise */
+export async function sendOrderUnderReview(
+  orderId: number | string,
+  customerName: string,
+  customerEmail: string,
+): Promise<void> {
+  const firstName = customerName.split(' ')[0] || 'Cliente'
+  const content = `
+    <h2 style="font-size:22px;margin:0 0 8px;">Pagamento em análise ✅</h2>
+    <p style="color:#666;margin:0 0 16px;">Olá, ${firstName}! Recebemos o pagamento do pedido <strong>#${orderId}</strong> e estamos analisando.</p>
+    <p style="color:#666;margin:0 0 24px;">Em breve confirmaremos e iniciaremos a preparação do seu pedido. Você receberá um novo e-mail a cada etapa.</p>
+    ${btn('Acompanhar pedido', `https://jaleca.com.br/minha-conta`)}
+  `
+  await sendMail({ to: customerEmail, subject: `Pagamento em análise — Pedido #${orderId}`, html: wrapHtml(content, 'Pagamento em análise') })
+}
+
+/** Email #3 — Pedido faturado */
+export async function sendOrderInvoiced(
+  orderId: number | string,
+  customerName: string,
+  customerEmail: string,
+): Promise<void> {
+  const firstName = customerName.split(' ')[0] || 'Cliente'
+  const content = `
+    <h2 style="font-size:22px;margin:0 0 8px;">Pedido confirmado e faturado ✅</h2>
+    <p style="color:#666;margin:0 0 16px;">Olá, ${firstName}! Ótima notícia — o pagamento do pedido <strong>#${orderId}</strong> foi aprovado e o pedido está faturado.</p>
+    <p style="color:#666;margin:0 0 24px;">Nossa equipe já iniciou o processo de preparação. Em breve avisaremos quando estiver sendo separado.</p>
+    ${btn('Ver meu pedido', `https://jaleca.com.br/minha-conta`)}
+  `
+  await sendMail({ to: customerEmail, subject: `Pedido #${orderId} faturado ✅ — Jaleca`, html: wrapHtml(content, 'Pedido faturado') })
+}
+
+/** Email #4 — Em separação */
+export async function sendOrderPacking(
+  orderId: number | string,
+  customerName: string,
+  customerEmail: string,
+): Promise<void> {
+  const firstName = customerName.split(' ')[0] || 'Cliente'
+  const content = `
+    <h2 style="font-size:22px;margin:0 0 8px;">Estamos preparando seu pedido! 📦</h2>
+    <p style="color:#666;margin:0 0 16px;">Olá, ${firstName}! Seu pedido <strong>#${orderId}</strong> entrou em separação — nossa equipe está cuidando de tudo com atenção.</p>
+    <p style="color:#666;margin:0 0 24px;">Em breve você receberá o código de rastreio por e-mail. Fique de olho! 👀</p>
+    ${btn('Ver meu pedido', `https://jaleca.com.br/minha-conta`)}
+  `
+  await sendMail({ to: customerEmail, subject: `Separando seu pedido #${orderId} 📦 — Jaleca`, html: wrapHtml(content, 'Pedido em separação') })
+}
+
+/** Email #5 — Enviado com código de rastreio (substitui a versão antiga) */
+export async function sendOrderShippedWithTracking(
+  orderId: number | string,
+  customerName: string,
+  customerEmail: string,
+  trackingCode: string,
+  carrier: string,
+  estimatedDays?: number,
+): Promise<void> {
+  const firstName = customerName.split(' ')[0] || 'Cliente'
+  const trackUrl = `https://www.linkcorretos.com.br/?P_COD_UNI=${trackingCode}`
+  const eta = estimatedDays ? `<p style="color:#888;font-size:13px;margin:0 0 24px;">Previsão de entrega: <strong>${estimatedDays} dias úteis</strong> a partir de hoje.</p>` : ''
+  const content = `
+    <h2 style="font-size:22px;margin:0 0 8px;">Seu pedido foi enviado! 🚚</h2>
+    <p style="color:#666;margin:0 0 16px;">Olá, ${firstName}! O pedido <strong>#${orderId}</strong> saiu do nosso estoque.</p>
+    <div style="background:#f9f5ef;border-left:3px solid #c4a97d;padding:16px;margin:0 0 20px;">
+      <p style="margin:0 0 4px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#888;font-family:Arial,sans-serif;">Transportadora</p>
+      <p style="margin:0 0 12px;font-size:15px;color:#1a1a1a;font-weight:bold;">${carrier}</p>
+      <p style="margin:0 0 4px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#888;font-family:Arial,sans-serif;">Código de rastreio</p>
+      <p style="margin:0;font-family:monospace;font-size:18px;letter-spacing:3px;color:#1a1a1a;">${trackingCode}</p>
+    </div>
+    ${eta}
+    ${btn('Rastrear meu pedido', trackUrl)}
+    <p style="color:#aaa;font-size:12px;margin-top:16px;">O rastreio pode levar até 24h para ser atualizado pela transportadora.</p>
+  `
+  await sendMail({ to: customerEmail, subject: `Pedido #${orderId} enviado! Rastreie aqui 🚚`, html: wrapHtml(content, 'Pedido enviado') })
+}
+
+/** Email #6 — Em trânsito */
+export async function sendOrderInTransit(
+  orderId: number | string,
+  customerName: string,
+  customerEmail: string,
+  trackingCode: string,
+  carrier: string,
+): Promise<void> {
+  const firstName = customerName.split(' ')[0] || 'Cliente'
+  const trackUrl = `https://www.linkcorretos.com.br/?P_COD_UNI=${trackingCode}`
+  const content = `
+    <h2 style="font-size:22px;margin:0 0 8px;">Seu pedido está a caminho! 📦</h2>
+    <p style="color:#666;margin:0 0 16px;">Olá, ${firstName}! O pedido <strong>#${orderId}</strong> foi atualizado — está em trânsito com a ${carrier}.</p>
+    <p style="color:#666;margin:0 0 8px;">Rastreio: <strong style="font-family:monospace;">${trackingCode}</strong></p>
+    ${btn('Rastrear pedido', trackUrl)}
+  `
+  await sendMail({ to: customerEmail, subject: `Pedido #${orderId} em trânsito 📦 — Jaleca`, html: wrapHtml(content, 'Pedido em trânsito') })
+}
+
+/** Email #7 — Saiu para entrega */
+export async function sendOrderOutForDelivery(
+  orderId: number | string,
+  customerName: string,
+  customerEmail: string,
+  trackingCode: string,
+): Promise<void> {
+  const firstName = customerName.split(' ')[0] || 'Cliente'
+  const trackUrl = `https://www.linkcorretos.com.br/?P_COD_UNI=${trackingCode}`
+  const content = `
+    <h2 style="font-size:22px;margin:0 0 8px;">Seu pedido sai para entrega hoje! 🚚</h2>
+    <p style="color:#666;margin:0 0 16px;">Olá, ${firstName}! O pedido <strong>#${orderId}</strong> saiu para entrega — fique de olho, ele chega hoje!</p>
+    <p style="color:#888;font-size:13px;margin:0 0 24px;">Certifique-se de que há alguém no endereço para receber. Caso não haja, a transportadora tentará novamente.</p>
+    ${btn('Rastrear pedido', trackUrl)}
+  `
+  await sendMail({ to: customerEmail, subject: `🚚 Seu pedido Jaleca sai para entrega hoje!`, html: wrapHtml(content, 'Saiu para entrega') })
+}
+
+/** Email #8 — Entregue */
+export async function sendOrderDelivered(
+  orderId: number | string,
+  customerName: string,
+  customerEmail: string,
+): Promise<void> {
+  const firstName = customerName.split(' ')[0] || 'Cliente'
+  const content = `
+    <h2 style="font-size:22px;margin:0 0 8px;">Seu jaleco chegou! 🎉</h2>
+    <p style="color:#666;margin:0 0 16px;">Olá, ${firstName}! O pedido <strong>#${orderId}</strong> foi entregue com sucesso.</p>
+    <p style="color:#666;margin:0 0 24px;">Esperamos que você ame! Se tiver qualquer dúvida ou precisar de troca, estamos aqui.</p>
+    <div style="background:#f9f5ef;border-left:3px solid #c4a97d;padding:16px;margin:0 0 24px;">
+      <p style="margin:0;font-size:14px;color:#555;">Gostou? Deixe uma avaliação e ajude outros profissionais de saúde a escolherem o jaleco certo. 💛</p>
+    </div>
+    ${btn('Avaliar meu pedido', `https://jaleca.com.br/minha-conta`)}
+  `
+  await sendMail({ to: customerEmail, subject: `Pedido #${orderId} entregue! Como foi? 🏠`, html: wrapHtml(content, 'Pedido entregue') })
+}
+
+/** Email #9 — Cancelado */
+export async function sendOrderCancelled(
+  orderId: number | string,
+  customerName: string,
+  customerEmail: string,
+): Promise<void> {
+  const firstName = customerName.split(' ')[0] || 'Cliente'
+  const content = `
+    <h2 style="font-size:22px;margin:0 0 8px;">Pedido cancelado</h2>
+    <p style="color:#666;margin:0 0 16px;">Olá, ${firstName}. O pedido <strong>#${orderId}</strong> foi cancelado.</p>
+    <p style="color:#666;margin:0 0 24px;">Se o cancelamento foi um engano ou você tiver alguma dúvida, entre em contato — teremos prazer em ajudar.</p>
+    ${btn('Falar com a Jaleca', `https://jaleca.com.br/contato`)}
+  `
+  await sendMail({ to: customerEmail, subject: `Pedido #${orderId} cancelado — Jaleca`, html: wrapHtml(content, 'Pedido cancelado') })
+}
+
+/** Email #10 — Reembolsado */
+export async function sendOrderRefunded(
+  orderId: number | string,
+  customerName: string,
+  customerEmail: string,
+  orderTotal: string,
+): Promise<void> {
+  const firstName = customerName.split(' ')[0] || 'Cliente'
+  const content = `
+    <h2 style="font-size:22px;margin:0 0 8px;">Reembolso processado ✅</h2>
+    <p style="color:#666;margin:0 0 16px;">Olá, ${firstName}. O reembolso do pedido <strong>#${orderId}</strong> no valor de <strong>${orderTotal}</strong> foi processado.</p>
+    <p style="color:#666;margin:0 0 8px;">O prazo para o valor aparecer em sua conta varia conforme o método de pagamento:</p>
+    <ul style="color:#666;font-size:14px;margin:0 0 24px;padding-left:20px;">
+      <li>PIX: até 1 dia útil</li>
+      <li>Boleto: até 5 dias úteis</li>
+      <li>Cartão de crédito: até 2 faturas seguintes</li>
+    </ul>
+    <p style="color:#888;font-size:13px;margin:0 0 20px;">Dúvidas? Estamos à disposição.</p>
+    ${btn('Falar com a Jaleca', `https://jaleca.com.br/contato`)}
+  `
+  await sendMail({ to: customerEmail, subject: `Reembolso processado — Pedido #${orderId}`, html: wrapHtml(content, 'Reembolso processado') })
+}
