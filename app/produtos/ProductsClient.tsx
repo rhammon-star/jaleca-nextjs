@@ -263,6 +263,18 @@ export default function ProductsClient({ products, initialCat = "Todos", initial
   return (
     <main className="py-8 md:py-12">
       <div className="container">
+        {/* DEBUG TEMPORÁRIO — remover depois */}
+        <details className="mb-4 text-xs bg-yellow-50 border border-yellow-300 p-3">
+          <summary className="cursor-pointer font-bold">DEBUG: categorias dos produtos (remover depois)</summary>
+          <div className="mt-2 space-y-1 max-h-60 overflow-auto">
+            {products.slice(0, 10).map(p => (
+              <div key={p.id}>
+                <strong>{p.name}</strong>:{" "}
+                {p.productCategories?.nodes?.map(c => `${c.slug}`).join(", ") || "SEM CATEGORIAS"}
+              </div>
+            ))}
+          </div>
+        </details>
         <Breadcrumb crumbs={[
           { label: 'Início', href: '/' },
           { label: selectedCategory === 'Todos' ? 'Produtos' : selectedCategory },
