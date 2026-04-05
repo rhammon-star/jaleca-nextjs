@@ -556,12 +556,6 @@ export default function CheckoutClient() {
                     <span className="text-muted-foreground">Subtotal</span>
                     <span>{formatCurrency(subtotal)}</span>
                   </div>
-                  {shipping && (
-                    <div className="flex justify-between text-sm">
-                      <span className="text-muted-foreground">Frete</span>
-                      <span>{shippingCost === 0 ? 'Grátis' : formatCurrency(shippingCost)}</span>
-                    </div>
-                  )}
                   {couponDiscount > 0 && (
                     <div className="flex justify-between text-sm text-green-600">
                       <span>Cupom ({couponCode.toUpperCase()})</span>
@@ -572,6 +566,12 @@ export default function CheckoutClient() {
                     <div className="flex justify-between text-sm text-green-600">
                       <span>Desconto PIX (5%)</span>
                       <span>- {formatCurrency((subtotal - couponDiscount) * 0.05)}</span>
+                    </div>
+                  )}
+                  {shipping && (
+                    <div className="flex justify-between text-sm">
+                      <span className="text-muted-foreground">Frete</span>
+                      <span>{shippingCost === 0 ? 'Grátis' : formatCurrency(shippingCost)}</span>
                     </div>
                   )}
                   <div className="flex justify-between text-base font-semibold pt-2 border-t border-border">
