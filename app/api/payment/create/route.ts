@@ -52,6 +52,7 @@ type RequestBody = {
   }
   customer_id?: number
   couponCode?: string
+  totalDiscount?: number
 }
 
 function phoneNumbers(phone: string): { area_code: string; number: string } {
@@ -80,7 +81,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const body: RequestBody = await request.json()
-    const { paymentMethod, cpf, billing, items, shipping, customer_id, cardToken, installments, couponCode } = body
+    const { paymentMethod, cpf, billing, items, shipping, customer_id, cardToken, installments, couponCode, totalDiscount } = body
 
     if (!billing || !items?.length || !shipping) {
       return NextResponse.json({ error: 'Dados incompletos' }, { status: 400 })
@@ -155,6 +156,16 @@ export async function POST(request: NextRequest) {
       quantity: i.quantity,
       code: String(i.product_id),
     }))
+
+    // Apply discount as a negative item so Pagar.me charges the correct amount
+    if (totalDiscount && totalDiscount > 0) {
+      pagarmeItems.push({
+        amount: -toCents(totalDiscount),
+        description: 'Desconto',
+        quantity: 1,
+        code: 'discount',
+      })
+    }
 
     const address: PagarmeAddress = {
       line_1: `${billing.address_1}, ${billing.address_2}`.trim().replace(/,\s*$/, ''),

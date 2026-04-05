@@ -89,6 +89,8 @@ export default function CheckoutClient() {
   const subtotal = items.reduce((sum, i) => sum + parsePrice(i.price) * i.quantity, 0)
   const shippingCost = shipping?.cost ?? 0
   const total = subtotal + shippingCost
+  const pixDiscount = paymentMethod === 'pix' ? (subtotal - couponDiscount) * 0.05 : 0
+  const finalTotal = subtotal - couponDiscount - pixDiscount + shippingCost
 
   // Prefill CEP from cart
   useEffect(() => {
@@ -393,6 +395,7 @@ export default function CheckoutClient() {
         cardToken,
         installments,
         couponCode: couponCode || undefined,
+        totalDiscount: couponDiscount + pixDiscount,
       }
 
       const res = await fetch('/api/payment/create', {
@@ -1033,7 +1036,7 @@ export default function CheckoutClient() {
                             >
                               {Array.from({ length: 3 }, (_, i) => i + 1).map(n => (
                                 <option key={n} value={n}>
-                                  {n}x de {formatCurrency(total / n)} {n === 1 ? '(sem juros)' : '(sem juros)'}
+                                  {n}x de {formatCurrency(finalTotal / n)} {n === 1 ? '(sem juros)' : '(sem juros)'}
                                 </option>
                               ))}
                             </select>
