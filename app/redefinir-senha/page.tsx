@@ -48,7 +48,7 @@ function ResetPasswordForm() {
         setError(data.error || 'Erro ao redefinir senha.')
       } else {
         setSuccess(true)
-        setTimeout(() => router.push('/'), 3000)
+        setTimeout(() => router.push('/minha-conta'), 3000)
       }
     } catch {
       setError('Erro de conexão. Tente novamente.')
@@ -65,8 +65,8 @@ function ResetPasswordForm() {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
           </svg>
         </div>
-        <p className="font-semibold">Senha redefinida com sucesso!</p>
-        <p className="text-sm text-muted-foreground">Redirecionando para a loja...</p>
+        <p className="font-semibold">Senha definida com sucesso!</p>
+        <p className="text-sm text-muted-foreground">Redirecionando para sua conta...</p>
       </div>
     )
   }

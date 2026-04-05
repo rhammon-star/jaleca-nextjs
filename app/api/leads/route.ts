@@ -65,7 +65,7 @@ async function sendWelcomeEmail(email: string, customerId: number): Promise<void
   })
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://jaleca.com.br'
-  const accountLink = `${siteUrl}/minha-conta`
+  const definePasswordLink = `${siteUrl}/redefinir-senha?key=${token}&login=${encodeURIComponent(email)}`
 
   const html = `<!DOCTYPE html>
 <html lang="pt-BR">
@@ -83,10 +83,10 @@ async function sendWelcomeEmail(email: string, customerId: number): Promise<void
             Sua conta foi criada com o email <strong>${email}</strong>.
           </p>
           <p style="color:#666;margin:0 0 24px;font-size:15px;line-height:1.6;">
-            Para definir sua senha, clique no botão abaixo, acesse sua conta e clique em <strong>"Esqueci minha senha"</strong>.
+            Clique no botão abaixo para definir sua senha e acessar seus pedidos. O link é válido por 72 horas.
           </p>
 
-          <a href="${accountLink}"
+          <a href="${definePasswordLink}"
              style="display:inline-block;background:#1a1a1a;color:#ffffff;padding:14px 32px;text-decoration:none;font-size:12px;letter-spacing:3px;font-family:Arial,sans-serif;margin-bottom:32px;">
             DEFINIR MINHA SENHA
           </a>
