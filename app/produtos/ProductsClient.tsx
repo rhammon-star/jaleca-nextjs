@@ -38,11 +38,21 @@ function getAttrValues(product: WooProduct, attrNames: string[]): string[] {
   return values;
 }
 
-function matchesCategory(name: string, slug: string, cat: string) {
+function matchesCategory(name: string, slug: string, cat: string, productCategories?: { nodes: Array<{ name: string; slug: string }> }) {
   if (cat === "Todos") return true;
+  const wcCats = (productCategories?.nodes ?? []).map(c => c.slug.toLowerCase() + " " + c.name.toLowerCase());
+  if (wcCats.length > 0) {
+    const joined = wcCats.join(" ");
+    if (cat === "Jalecos") return joined.includes("jaleco");
+    if (cat === "Scrubs") return joined.includes("scrub") || joined.includes("conjunto");
+    if (cat === "Calças") return joined.includes("cal");
+    if (cat === "Acessórios") return joined.includes("acessor") || joined.includes("touca");
+    return false;
+  }
+  // fallback: usa o nome do produto
   const lower = (name + " " + slug).toLowerCase();
   if (cat === "Jalecos") return lower.includes("jaleco");
-  if (cat === "Scrubs") return lower.includes("scrub");
+  if (cat === "Scrubs") return lower.includes("scrub") || lower.includes("conjunto");
   if (cat === "Calças") return lower.includes("calça") || lower.includes("calca");
   if (cat === "Acessórios") return lower.includes("acessor") || lower.includes("touca");
   return true;
@@ -200,7 +210,7 @@ export default function ProductsClient({ products, initialCat = "Todos", initial
 
   const filtered = useMemo(() => {
     let base = products.filter((p) => {
-      if (!matchesCategory(p.name, p.slug, selectedCategory)) return false;
+      if (!matchesCategory(p.name, p.slug, selectedCategory, p.productCategories)) return false;
       if (!matchesGender(p.name, selectedGender)) return false;
       if (!matchesColor(p, selectedColor)) return false;
       if (!matchesSize(p, selectedSize)) return false;

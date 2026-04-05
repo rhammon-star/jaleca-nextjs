@@ -16,6 +16,12 @@ export const GET_PRODUCTS = `
         databaseId
         name
         slug
+        productCategories {
+          nodes {
+            name
+            slug
+          }
+        }
         ... on SimpleProduct {
           price
           regularPrice

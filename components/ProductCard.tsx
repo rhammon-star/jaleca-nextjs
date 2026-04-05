@@ -21,6 +21,7 @@ export type WooProduct = {
   galleryImages?: { nodes: Array<{ sourceUrl: string; altText: string }> };
   variations?: { nodes: Variation[] };
   attributes?: { nodes: Array<{ name: string; options: string[] }> };
+  productCategories?: { nodes: Array<{ name: string; slug: string }> };
 }
 
 const ProductCard = ({ product }: { product: WooProduct }) => {
