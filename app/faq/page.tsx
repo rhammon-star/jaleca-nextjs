@@ -70,14 +70,6 @@ const faqData = {
     },
     {
       "@type": "Question",
-      "name": "Como funciona a personalizado / bordado?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No momento, oferecemos bordado de nome e CRM na região do peito. Para solicitar, após fazer o pedido, envie um e-mail para contato@jaleca.com.br com o número do pedido e o texto que deseja bordar. O serviço tem custo adicional de R$ 35 e agrega até 3 dias ao prazo de envio."
-      }
-    },
-    {
-      "@type": "Question",
       "name": "Envia para todo o Brasil?",
       "acceptedAnswer": {
         "@type": "Answer",
@@ -151,8 +143,6 @@ const categories = [
     icon: MessageCircle,
     title: 'Outros',
     questions: [
-      { q: 'Como funciona a personalização / bordado?', anchor: 'personalizado' },
-
       { q: 'Tem loja física?', anchor: 'loja-fisica' },
     ],
   },
@@ -254,19 +244,8 @@ export default function FAQPage() {
                           <p>Você tem até <strong>7 dias após o recebimento</strong> para solicitar a troca ou devolução. O produto deve estar sem uso e com a etiqueta original. Para iniciar, envie um e-mail para <a href="mailto:contato@jaleca.com.br" className="text-primary underline">contato@jaleca.com.br</a> com o número do pedido.</p>
                         )}
                         {item.q.includes('garantia') && (
-                          <p>Todos os nossos produtos têm garantia contra defeito de fabricação de 90 dias, conforme o Código de Defesa do Consumidor. Defeitos decorrentes de mau uso não são cobertos.</p>
+                          <p>Todos os nossos produtos têm garantia contra defeito de fabricação de <strong>90 dias</strong>, conforme o Código de Defesa do Consumidor. A garantia não cobre defeitos por mau uso, produtos que tenham sido <strong>modificados</strong> ou que não possuam a <strong>etiqueta original</strong>.</p>
                         )}
-                        {item.q.includes('personalização') && (
-                          <>
-                            <p>Oferecemos bordado de nome e CRM na região do peito. Para solicitar:</p>
-                            <ol className="list-decimal pl-5 mt-2 space-y-1">
-                              <li>Faça o pedido normalmente</li>
-                              <li>Envie um e-mail para <a href="mailto:contato@jaleca.com.br" className="text-primary underline">contato@jaleca.com.br</a> com o número do pedido e o texto do bordado</li>
-                              <li>O serviço custa R$ 35 e adiciona até 3 dias ao prazo de envio</li>
-                            </ol>
-                          </>
-                        )}
-
                         {item.q.includes('loja física') && (
                           <>
                             <p>Sim! Nossa loja matriz fica em Ipatinga, MG.</p>
