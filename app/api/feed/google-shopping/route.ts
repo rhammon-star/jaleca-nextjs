@@ -43,11 +43,6 @@ type WCVariation = {
   attributes: Array<{ name: string; option: string }>
 }
 
-function optimizeImage(url: string): string {
-  if (!url) return url
-  return `https://jaleca.com.br/_next/image?url=${encodeURIComponent(url)}&w=1200&q=85`
-}
-
 function esc(s: string): string {
   return s
     .replace(/&/g, '&amp;')
@@ -121,7 +116,7 @@ function buildItem(fields: {
       <title>${esc(title)}</title>
       <description>${esc(fields.description)}</description>
       <link>${esc(fields.link)}</link>
-      <g:image_link>${esc(optimizeImage(fields.image))}</g:image_link>
+      <g:image_link>${esc(fields.image)}</g:image_link>
       <g:availability>${fields.availability}</g:availability>
       <g:quantity>${qty}</g:quantity>
       <g:price>${fields.price}</g:price>
