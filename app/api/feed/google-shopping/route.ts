@@ -108,7 +108,7 @@ function buildItem(fields: {
   pattern?: string
 }): string {
   const title = fields.title.length > 65 ? fields.title.slice(0, 62) + '...' : fields.title
-  const qty = fields.quantity && fields.quantity > 0 ? fields.quantity : 1
+  const qty = fields.quantity && fields.quantity > 0 ? fields.quantity : 50
   return `
     <item>
       <g:id>${esc(fields.id)}</g:id>
