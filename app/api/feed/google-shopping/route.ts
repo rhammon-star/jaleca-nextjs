@@ -28,6 +28,7 @@ type WCProduct = {
   short_description: string
   price: string
   stock_status: string
+  stock_quantity: number | null
   images: Array<{ src: string }>
   type: string
   attributes: Array<{ name: string; options: string[] }>
@@ -37,8 +38,14 @@ type WCVariation = {
   id: number
   price: string
   stock_status: string
+  stock_quantity: number | null
   image?: { src: string }
   attributes: Array<{ name: string; option: string }>
+}
+
+function optimizeImage(url: string): string {
+  if (!url) return url
+  return `https://jaleca.com.br/_next/image?url=${encodeURIComponent(url)}&w=1200&q=85`
 }
 
 function esc(s: string): string {
@@ -99,20 +106,24 @@ function buildItem(fields: {
   availability: string
   price: string
   gender: string
+  quantity?: number
   color?: string
   size?: string
   material?: string
   pattern?: string
 }): string {
+  const title = fields.title.length > 65 ? fields.title.slice(0, 62) + '...' : fields.title
+  const qty = fields.quantity && fields.quantity > 0 ? fields.quantity : 1
   return `
     <item>
       <g:id>${esc(fields.id)}</g:id>
       ${fields.groupId ? `<g:item_group_id>${esc(fields.groupId)}</g:item_group_id>` : ''}
-      <title>${esc(fields.title)}</title>
+      <title>${esc(title)}</title>
       <description>${esc(fields.description)}</description>
       <link>${esc(fields.link)}</link>
-      <g:image_link>${esc(fields.image)}</g:image_link>
+      <g:image_link>${esc(optimizeImage(fields.image))}</g:image_link>
       <g:availability>${fields.availability}</g:availability>
+      <g:quantity>${qty}</g:quantity>
       <g:price>${fields.price}</g:price>
       <g:brand>Jaleca</g:brand>
       <g:condition>new</g:condition>
@@ -166,6 +177,7 @@ export async function GET() {
         availability: 'in_stock',
         price,
         gender: g,
+        quantity: p.stock_quantity ?? 1,
         ...attrs,
       }))
     }
@@ -209,6 +221,7 @@ export async function GET() {
           availability: 'in_stock',
           price,
           gender: g,
+          quantity: v.stock_quantity ?? 1,
           ...attrs,
         }))
       }

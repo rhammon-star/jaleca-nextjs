@@ -16,7 +16,7 @@ Site de uniformes médicos (jalecos, dômãs, conjuntos). Diretório: `/Users/rh
 - Gemini AI (gemini-2.5-flash) para blog
 - Radix UI (shadcn/ui pattern) + custom components
 
-## Status das integrações (05/04/2026)
+## Status das integrações (06/04/2026)
 - WooCommerce GraphQL: ✅ `https://wp.jaleca.com.br/graphql`
 - WooCommerce REST: ✅ Pedidos, customers
 - Carrinho: ✅ localStorage
@@ -26,6 +26,10 @@ Site de uniformes médicos (jalecos, dômãs, conjuntos). Diretório: `/Users/rh
 - Blog CMS com IA: ✅ (`/blog/admin`)
 - Melhor Envio shipping: ⚠️ token placeholder (OAuth2 real pendente)
 - GA4 + Meta Pixel + Meta CAPI: ✅
+- Meta Pixel ID: ✅ `566059928254677` (Pixel de BM 01 - Jaleca.Jaleca)
+- Meta CAPI token: ✅ configurado (06/04/2026)
+- Meta Catálogo: ✅ 30 produtos / 559 variantes (feed: `/api/feed/google-shopping`, atualiza 1h)
+- Meta Loja Instagram (@jaleca.oficial) + Facebook: ✅ criada, aguardando aprovação (1-3 dias)
 - Tawk.to chat: ✅
 - Speed Insights Vercel: ✅
 - Trust badges + PIX badge + Urgência estoque: ✅
