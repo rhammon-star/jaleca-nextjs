@@ -155,6 +155,7 @@ export async function GET() {
 
     // Produtos simples
     for (const p of simpleProducts) {
+      if (p.stock_quantity !== null && p.stock_quantity <= 0) continue
       const image = p.images[0]?.src
       if (!image) continue
       const price = brl(p.price)
@@ -194,6 +195,8 @@ export async function GET() {
 
       for (const v of variations) {
         if (!v.price || v.stock_status !== 'instock') continue
+        // stock_quantity=0 significa sem estoque real; null significa sem gerenciamento (ok)
+        if (v.stock_quantity !== null && v.stock_quantity <= 0) continue
         const price = brl(v.price)
         if (!price) continue
 
@@ -216,7 +219,7 @@ export async function GET() {
           availability: 'in_stock',
           price,
           gender: g,
-          quantity: v.stock_quantity ?? 1,
+          quantity: v.stock_quantity ?? 50,
           ...attrs,
         }))
       }
