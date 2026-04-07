@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
+import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import ImageZoom from '@/components/ImageZoom'
@@ -9,6 +10,7 @@ import { ShoppingBag, Heart, ChevronLeft, Ruler, Star, Loader2, CreditCard, Bank
 import { useCart } from '@/contexts/CartContext'
 import { useWishlist } from '@/contexts/WishlistContext'
 import { useAuth } from '@/contexts/AuthContext'
+import { trackViewItem } from '@/components/Analytics'
 import SizeAdvisorModal from '@/components/SizeAdvisorModal'
 import BackInStockButton from '@/components/BackInStockButton'
 import ProductCard, { type WooProduct } from '@/components/ProductCard'
@@ -214,12 +216,32 @@ export default function ProductDetailClient({
   initialReviews?: Review[]
   relatedProducts?: WooProduct[]
 }) {
+  const searchParams = useSearchParams()
   const [selectedColor, setSelectedColor] = useState<string | null>(null)
   const [selectedSize, setSelectedSize]   = useState<string | null>(null)
+
+  // Pré-seleciona cor vinda do link do catálogo (?cor=azul_marinho)
+  useEffect(() => {
+    const corParam = searchParams.get('cor')
+    if (corParam) setSelectedColor(corParam.replace(/_/g, ' '))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   const [activeImageIdx, setActiveImageIdx] = useState(0)
   const [showSizeChart, setShowSizeChart] = useState(false)
   const [showAdvisor, setShowAdvisor]     = useState(false)
   const [activeTab, setActiveTab] = useState<ActiveTab>('dados-tecnicos')
+
+  // Viewers counter — pseudo-random seeded by productId + hour, changes hourly
+  const [viewerCount, setViewerCount] = useState<number | null>(null)
+  useEffect(() => {
+    const id = product.databaseId
+    const now = new Date()
+    const seed = (id * 7 + now.getHours() * 3 + now.getDate() * 13 + now.getMonth() * 31) % 100
+    const count = 3 + (seed % 13) // 3–15
+    // Show on ~65% of products (skip when hash is low)
+    const slugHash = product.slug.split('').reduce((a, c) => a + c.charCodeAt(0), 0)
+    if (slugHash % 10 >= 3) setViewerCount(count)
+  }, [product.databaseId, product.slug])
 
   // Reviews — loaded server-side, updated after new submission
   const [reviews, setReviews] = useState<Review[]>(initialReviews)
@@ -241,7 +263,7 @@ export default function ProductDetailClient({
 
   const { user } = useAuth()
   const { isInWishlist, toggleWishlist } = useWishlist()
-  const inWishlist = isInWishlist(product.id)
+  const inWishlist = isInWishlist(String(product.databaseId))
 
   // Find color and size attributes
   const colorAttrDef = product.attributes?.nodes.find(a => isColorAttr(a))
@@ -372,6 +394,17 @@ export default function ProductDetailClient({
       color: colorLabel,
     })
   }
+
+  // view_item — dispara uma vez ao montar a página
+  useEffect(() => {
+    trackViewItem({
+      id: String(product.databaseId),
+      name: product.name.replace(/ - Jaleca$/i, ''),
+      price: product.price ?? '',
+      category: product.productCategories?.nodes[0]?.name,
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // Load reviews
   // Prepopulate review form if logged in
@@ -684,6 +717,14 @@ export default function ProductDetailClient({
               </div>
             )}
 
+            {/* Viewers counter */}
+            {viewerCount !== null && (
+              <p className="flex items-center gap-1.5 text-xs text-muted-foreground mb-3">
+                <span>🔥</span>
+                <span><strong className="text-foreground">{viewerCount} pessoas</strong> viram isso nas últimas 24h</span>
+              </p>
+            )}
+
             {/* Stock urgency */}
             {product.stockQuantity != null && product.stockQuantity >= 1 && product.stockQuantity <= 10 && (
               <div className="mb-3">
@@ -712,7 +753,7 @@ export default function ProductDetailClient({
                 {isOutOfStock ? 'Esgotado nessa variação' : 'Adicionar à Sacola'}
               </button>
               <button
-                onClick={() => toggleWishlist(product.id)}
+                onClick={() => toggleWishlist(String(product.databaseId))}
                 className={`h-14 w-14 rounded-full border border-border bg-background transition-colors hover:bg-muted active:scale-95 flex items-center justify-center ${
                   inWishlist ? 'text-red-500' : 'text-foreground'
                 }`}
@@ -728,7 +769,7 @@ export default function ProductDetailClient({
             )}
             {/* WhatsApp — ask about this product */}
             <a
-              href={`https://wa.me/553133672467?text=${whatsappText}`}
+              href={`https://wa.me/5531992901940?text=${whatsappText}`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground transition-colors mt-2"

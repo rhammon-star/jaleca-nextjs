@@ -55,6 +55,60 @@ export function trackPurchase(
   })
 }
 
+export function trackViewItem(product: {
+  id: string
+  name: string
+  price: string
+  category?: string
+}) {
+  if (typeof window === 'undefined') return
+
+  const price = parseFloat(product.price.replace(/[^0-9,]/g, '').replace(',', '.')) || 0
+
+  // GA4
+  window.gtag?.('event', 'view_item', {
+    currency: 'BRL',
+    value: price,
+    items: [{ item_id: product.id, item_name: product.name, price, item_category: product.category }],
+  })
+
+  // Meta Pixel
+  window.fbq?.('track', 'ViewContent', {
+    value: price,
+    currency: 'BRL',
+    content_ids: [product.id],
+    content_name: product.name,
+    content_type: 'product',
+  })
+}
+
+export function trackInitiateCheckout(value: number, numItems: number) {
+  if (typeof window === 'undefined') return
+
+  // GA4
+  window.gtag?.('event', 'begin_checkout', {
+    currency: 'BRL',
+    value,
+  })
+
+  // Meta Pixel
+  window.fbq?.('track', 'InitiateCheckout', {
+    value,
+    currency: 'BRL',
+    num_items: numItems,
+  })
+}
+
+export function trackSearch(term: string) {
+  if (typeof window === 'undefined') return
+
+  // GA4
+  window.gtag?.('event', 'search', { search_term: term })
+
+  // Meta Pixel
+  window.fbq?.('track', 'Search', { search_string: term })
+}
+
 export function trackAddToCart(product: {
   id: string
   name: string

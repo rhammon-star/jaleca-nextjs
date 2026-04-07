@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { MapPin, Clock, Phone, Mail, MessageCircle } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Contato — Jaleca | Fale Conosco',
+  title: 'Contato — Fale Conosco',
   description: 'Entre em contato com a Jaleca. WhatsApp, e-mail ou visite nossa loja em Ipatinga, MG. Atendimento de segunda a sábado para jalecos e uniformes profissionais.',
   alternates: { canonical: 'https://jaleca.com.br/contato' },
   openGraph: {
@@ -84,7 +84,7 @@ export default function ContatoPage() {
           {/* Contact channels */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
             <a
-              href="https://wa.me/553133672467"
+              href="https://wa.me/5531992901940?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Jaleca%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es."
               target="_blank"
               rel="noopener noreferrer"
               className="block border border-border rounded-lg px-6 py-5 hover:border-foreground hover:bg-secondary/10 transition-all duration-200 group"

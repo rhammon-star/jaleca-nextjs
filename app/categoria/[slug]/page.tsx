@@ -47,10 +47,10 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params
   const cat = CATEGORY_MAP[slug]
-  if (!cat) return { title: 'Categoria não encontrada — Jaleca' }
+  if (!cat) return { title: 'Categoria não encontrada' }
 
   return {
-    title: `${cat.label} — Jaleca`,
+    title: cat.label,
     description: cat.description,
     keywords: cat.keywords,
     alternates: { canonical: `https://jaleca.com.br/categoria/${slug}` },

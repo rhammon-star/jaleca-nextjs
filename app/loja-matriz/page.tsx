@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { MapPin, Clock, Phone, Mail, Users } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Nossa Loja — Jaleca | Jalecos e Mimos',
+  title: 'Nossa Loja — Ipatinga, MG',
   description: 'Conheça a loja Jaleca em Ipatinga, MG. Av. Castelo Branco, 391 - Loja B, Horto. Experimente jalecos e uniformes profissionais com atendimento especializado.',
   alternates: { canonical: 'https://jaleca.com.br/loja-matriz' },
   openGraph: {
@@ -176,7 +176,7 @@ export default function LojaMatrizPage() {
 
                 <div className="mt-8 flex flex-wrap gap-3">
                   <a
-                    href="https://wa.me/553133672467"
+                    href="https://wa.me/5531992901940?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Jaleca%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es."
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 bg-[#1a1a1a] text-white px-6 py-3 text-[11px] font-semibold tracking-widest uppercase hover:bg-black/80 transition-colors"

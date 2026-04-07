@@ -20,21 +20,28 @@ Site de uniformes médicos (jalecos, dômãs, conjuntos). Diretório: `/Users/rh
 - WooCommerce GraphQL: ✅ `https://wp.jaleca.com.br/graphql`
 - WooCommerce REST: ✅ Pedidos, customers
 - Carrinho: ✅ localStorage
-- Pagamentos Pagar.me: ✅ PIX ✅ Boleto ✅ Cartão de Crédito
+- Pagamentos Pagar.me: ✅ PIX ✅ Boleto ✅ Cartão de Crédito ✅ Webhook configurado
+- Google Search Console: ✅ sitemap submetido
 - Email transacional: ✅ via Brevo (`lib/email.ts`)
 - Verificação de email: ✅ (não bloqueia checkout)
 - Blog CMS com IA: ✅ (`/blog/admin`)
 - Melhor Envio shipping: ⚠️ token placeholder (OAuth2 real pendente)
 - GA4 + Meta Pixel + Meta CAPI: ✅
 - Meta Pixel ID: ✅ `566059928254677` (Pixel de BM 01 - Jaleca.Jaleca)
-- Meta CAPI token: ✅ configurado (06/04/2026)
+- Meta CAPI token: ✅ configurado
 - Meta Catálogo: ✅ 30 produtos / 559 variantes (feed: `/api/feed/google-shopping`, atualiza 1h)
-- Meta Loja Instagram (@jaleca.oficial) + Facebook: ✅ criada, aguardando aprovação (1-3 dias)
+- Meta Loja Instagram + Facebook: ✅ aprovada (06/04/2026)
 - Tawk.to chat: ✅
 - Speed Insights Vercel: ✅
 - Trust badges + PIX badge + Urgência estoque: ✅
 - FAQ page + FAQPage schema: ✅
 - Cores produto ordenadas alfabeticamente: ✅ (`ProductDetailClient.tsx`)
+- Cupom `PRIMEIRACOMPRA5JALECA`: ✅ criado no WooCommerce (06/04/2026)
+- Descrições de produtos: ✅ reescritas com copywriting premium (todos os 30 produtos, 06/04/2026)
+  - Estrutura: Headline → Subheadline → Parágrafo de conexão → Benefícios → Prova social → Especificações → FAQ → CTA
+  - Tom: Confiante, profissional, premium, direto
+  - SEO: naturalmente incluir "jaleco femenino", "jaleco premium", "jaleco para dentista", "jaleco confortável", "jaleco moderno"
+  - NÃO usar emojis, linguagem genérica de marketplace, ou texto robótico
 
 ## Arquivos principais
 
@@ -74,6 +81,8 @@ Site de uniformes médicos (jalecos, dômãs, conjuntos). Diretório: `/Users/rh
 - `/api/coupon/*` — validação de cupom
 - `/api/leads/*` — newsletter
 - `/api/feed/*` — Google Shopping XML
+  - ⚠️ ATENÇÃO: O feed inclui todas as variações `status=publish` e `stock_status=instock` mesmo se `stock_quantity=0`. Isso causa erro "Missing quantity" no Meta. Se variação não tem estoque, mudar status pra `outofstock` no WooCommerce.
+  - ⚠️ Imagens > 8MB causam erro "image file is larger than 8 MB" no Meta. Solução: plugin EWWW Image Optimizer no WP (bulk optimize todas as fotos). Feed não faz resize — usa URL original do WooCommerce.
 - `/api/loyalty/*` — programa de pontos
 - `/api/reviews/*` — avaliações
 - `/api/cart-recovery/*` — recuperação de carrinho
@@ -185,9 +194,8 @@ Novos arquivos a criar: `app/api/tracking/*`, `app/api/orders/notify`, `app/api/
 Modificar: `lib/email.ts` (+10 funções), `vercel.json` (+2 crons), `functions.php` WP (+campos rastreio + hooks)
 
 ## Pendente (prioridade)
-1. **Confirmar API rastreamento** (Melhor Envio ou APIs diretas) → iniciar projeto comunicação pedidos
-2. Testar PIX/Boleto em produção
-3. Google Search Console + sitemap
-4. Melhor Envio OAuth2 real
-5. Google Merchant Center
-6. Meta Ads catálogo dinâmico
+1. **API rastreamento** — projeto comunicação pedidos aprovado, aguardando token OAuth2 Melhor Envio
+2. Google Search Console + sitemap
+3. Melhor Envio OAuth2 real
+4. Meta Ads catálogo dinâmico
+5. **Meta feed: erros a resolver** — 10 variações com `stock_quantity=0` (Missing quantity) + 11 variações com imagem > 8MB (Scrub Feminino, Jaleco Universitário Unissex). Verificar se variações sem estoque devem ser publicadas ou não.

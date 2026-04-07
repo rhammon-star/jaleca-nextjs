@@ -1,11 +1,14 @@
 import { notFound } from 'next/navigation'
+import { headers } from 'next/headers'
+import { cache } from 'react'
 import { graphqlClient, GET_PRODUCT_BY_SLUG, GET_RELATED_PRODUCTS } from '@/lib/graphql'
 import ProductDetailClient from './ProductDetailClient'
 import { getProductReviews, type WCReview } from '@/lib/woocommerce'
 import type { WooProduct } from '@/components/ProductCard'
 import type { Metadata } from 'next'
+import { sendMetaViewContent } from '@/lib/meta-conversions'
 
-export const revalidate = 0
+export const revalidate = 3600
 
 type ProductData = Record<string, unknown> & {
   name?: string
@@ -18,7 +21,7 @@ type ProductData = Record<string, unknown> & {
   stockStatus?: string
 }
 
-async function getProduct(slug: string): Promise<ProductData | null> {
+const getProduct = cache(async (slug: string): Promise<ProductData | null> => {
   try {
     const data = await graphqlClient.request<{ product: ProductData | null }>(
       GET_PRODUCT_BY_SLUG,
@@ -28,7 +31,7 @@ async function getProduct(slug: string): Promise<ProductData | null> {
   } catch {
     return null
   }
-}
+})
 
 async function getRelated(categorySlug: string, productId: string): Promise<WooProduct[]> {
   try {
@@ -115,6 +118,20 @@ export default async function ProdutoPage({
   const description = shortDesc || longDesc || `Uniforme profissional premium da Jaleca.`
 
   const databaseId = Number(product.databaseId)
+
+  // CAPI ViewContent — server-side, sem bloquear o render
+  const reqHeaders = await headers()
+  const clientIp = reqHeaders.get('x-forwarded-for')?.split(',')[0]?.trim() ?? reqHeaders.get('x-real-ip') ?? undefined
+  const clientUserAgent = reqHeaders.get('user-agent') ?? undefined
+  sendMetaViewContent(
+    { clientIp, clientUserAgent },
+    {
+      id: String(databaseId),
+      name,
+      value: parseFloat(String(product.price ?? '').replace(/[^0-9,]/g, '').replace(',', '.')) || undefined,
+    },
+    `https://jaleca.com.br/produto/${slug}`
+  ).catch(() => {})
 
   // Fetch reviews and related products in parallel — all cached persistently
   const categorySlug = (product as any).productCategories?.nodes?.[0]?.slug

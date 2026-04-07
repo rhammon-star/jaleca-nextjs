@@ -109,6 +109,61 @@ export async function sendMetaPurchase(
 }
 
 /**
+ * ViewContent event — call when product page is viewed (server-side).
+ */
+export async function sendMetaViewContent(
+  userData: MetaUserData,
+  content: { id: string; name: string; value?: number },
+  sourceUrl: string
+) {
+  await sendEvent([
+    {
+      event_name: 'ViewContent',
+      event_time: Math.floor(Date.now() / 1000),
+      event_id: `view_${content.id}_${Date.now()}`,
+      event_source_url: sourceUrl,
+      action_source: 'website',
+      user_data: buildUserData(userData),
+      custom_data: {
+        content_ids: [content.id],
+        content_name: content.name,
+        content_type: 'product',
+        value: content.value,
+        currency: 'BRL',
+      },
+    },
+  ])
+}
+
+/**
+ * AddToCart event — call when customer adds item to cart (server-side).
+ */
+export async function sendMetaAddToCart(
+  userData: MetaUserData,
+  content: { id: string; name: string; value: number; quantity: number },
+  sourceUrl: string
+) {
+  await sendEvent([
+    {
+      event_name: 'AddToCart',
+      event_time: Math.floor(Date.now() / 1000),
+      event_id: `atc_${content.id}_${Date.now()}`,
+      event_source_url: sourceUrl,
+      action_source: 'website',
+      user_data: buildUserData(userData),
+      custom_data: {
+        content_ids: [content.id],
+        content_name: content.name,
+        content_type: 'product',
+        value: content.value * content.quantity,
+        currency: 'BRL',
+        contents: [{ id: content.id, quantity: content.quantity }],
+      },
+    },
+  ])
+}
+
+/**
  * InitiateCheckout event — call when customer reaches checkout.
  */
 export async function sendMetaInitiateCheckout(

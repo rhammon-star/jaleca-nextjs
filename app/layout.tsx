@@ -17,6 +17,7 @@ import CompareBar from "@/components/CompareBar";
 import TawkToChat from "@/components/TawkToChat";
 import BackToTop from "@/components/BackToTop";
 import CookieConsent from "@/components/CookieConsent";
+import FranqueadoBanner from "@/components/FranqueadoBanner";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const cormorant = Cormorant_Garamond({
@@ -77,6 +78,9 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className={`h-full antialiased ${cormorant.variable} ${dmSans.variable}`}>
       <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="/icon.png" type="image/png" />
+        <link rel="apple-touch-icon" href="/icon.png" />
         <link rel="preload" as="image" href="/jaleco-hero-mobile.webp" type="image/webp" media="(max-width: 767px)" fetchPriority="high" />
         <link rel="preload" as="image" href="/jaleco-hero-desktop.webp" type="image/webp" media="(min-width: 768px)" fetchPriority="high" />
       </head>
@@ -101,6 +105,7 @@ export default function RootLayout({
                 <TawkToChat />
                 <BackToTop />
                 <CookieConsent />
+                <FranqueadoBanner />
                 <SpeedInsights />
               </CartProvider>
             </CompareProvider>

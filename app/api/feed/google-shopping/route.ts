@@ -52,7 +52,12 @@ function esc(s: string): string {
 }
 
 function stripHtml(s: string): string {
-  return s.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 5000)
+  return s
+    .replace(/\[\/?\w[^\]]*\]/g, ' ')   // remove shortcodes WPBakery [vc_row], [/vc_column], etc.
+    .replace(/<[^>]*>/g, ' ')            // remove tags HTML
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, 5000)
 }
 
 function brl(price: string): string {
@@ -189,38 +194,62 @@ export async function GET() {
 
     for (const { product: p, variations } of variationResults) {
       const baseImage = p.images[0]?.src || ''
-      const description = stripHtml(p.description || p.short_description || p.name)
-      const link = `https://jaleca.com.br/produto/${p.slug}`
+      // Fix: usar short_description (texto curto abaixo do preço), não a descrição longa
+      const description = stripHtml(p.short_description || p.description || p.name)
       const g = gender(p.name)
+
+      // Agrupar variações por cor — 1 item por cor no catálogo, tamanho NÃO gera item separado
+      const colorGroups = new Map<string, {
+        colorLabel: string
+        image: string
+        rep: WCVariation
+        sizes: string[]
+      }>()
 
       for (const v of variations) {
         if (!v.price || v.stock_status !== 'instock') continue
-        // stock_quantity=0 significa sem estoque real; null significa sem gerenciamento (ok)
         if (v.stock_quantity !== null && v.stock_quantity <= 0) continue
-        const price = brl(v.price)
-        if (!price) continue
-
+        const attrs = mapAttr(v.attributes)
+        const colorLabel = attrs.color ?? attrs.pattern ?? ''
+        const colorKey = colorLabel.toLowerCase().replace(/\s+/g, '_') || 'unica'
         const image = v.image?.src || baseImage
         if (!image) continue
 
-        const attrs = mapAttr(v.attributes)
+        if (!colorGroups.has(colorKey)) {
+          colorGroups.set(colorKey, { colorLabel, image, rep: v, sizes: [] })
+        }
+        if (attrs.size) colorGroups.get(colorKey)!.sizes.push(attrs.size)
+      }
 
-        // Título: nome do produto + cor + tamanho (ou estampa se não tiver cor)
-        const titleParts = [p.name, attrs.color ?? attrs.pattern, attrs.size].filter(Boolean)
+      // Um item por cor
+      for (const [colorKey, group] of colorGroups) {
+        const price = brl(group.rep.price)
+        if (!price) continue
+
+        const repAttrs = mapAttr(group.rep.attributes)
+
+        // Título: nome do produto + cor (sem tamanho)
+        const titleParts = [p.name, group.colorLabel].filter(Boolean)
         const title = titleParts.join(' — ')
 
+        // Fix: link já abre na cor certa
+        const link = `https://jaleca.com.br/produto/${p.slug}?cor=${encodeURIComponent(colorKey)}`
+
         items.push(buildItem({
-          id: String(v.id),
+          id: `${p.id}_${colorKey}`,
           groupId: String(p.id),
           title,
           description,
           link,
-          image,
+          image: group.image,
           availability: 'in_stock',
           price,
           gender: g,
-          quantity: v.stock_quantity ?? 50,
-          ...attrs,
+          quantity: group.rep.stock_quantity ?? 50,
+          color: group.colorLabel || undefined,
+          size: group.sizes[0] || undefined,
+          material: repAttrs.material,
+          pattern: repAttrs.pattern,
         }))
       }
     }

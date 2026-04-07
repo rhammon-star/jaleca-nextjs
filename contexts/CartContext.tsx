@@ -72,8 +72,17 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       return [...prev, { ...newItem, quantity: 1, addedAt: Date.now() }]
     })
     setIsOpen(true)
-    // Analytics
+    // Analytics browser (GA4 + Meta Pixel)
     trackAddToCart({ id: newItem.id, name: newItem.name, price: newItem.price, quantity: 1 })
+    // CAPI server-side (Meta)
+    const price = parsePrice(newItem.price)
+    if (price > 0) {
+      fetch('/api/events/add-to-cart', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: newItem.databaseId ?? newItem.id, name: newItem.name, value: price, quantity: 1 }),
+      }).catch(() => {})
+    }
   }, [])
 
   const removeItem = useCallback((id: string, size?: string, color?: string) => {

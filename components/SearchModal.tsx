@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { X, Search, Loader2 } from 'lucide-react'
 import Link from 'next/link'
 import { graphqlClient, SEARCH_PRODUCTS } from '@/lib/graphql'
+import { trackSearch } from '@/components/Analytics'
 
 type SearchProduct = {
   id: string
@@ -60,6 +61,7 @@ export default function SearchModal({ isOpen, onClose }: Props) {
     try {
       const data = await graphqlClient.request<SearchResult>(SEARCH_PRODUCTS, { search: term, first: 8 })
       setResults(data.products.nodes)
+      if (data.products.nodes.length > 0) trackSearch(term)
     } catch {
       setResults([])
     } finally {

@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { CheckCircle, ShoppingBag, User } from 'lucide-react'
 import PurchaseTracker from './PurchaseTracker'
+import { getOrder as fetchOrder } from '@/lib/woocommerce'
 
 export const metadata: Metadata = {
   title: 'Pedido Confirmado — Jaleca',
@@ -15,14 +16,9 @@ type Props = {
 
 async function getOrder(orderId: string) {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_WC_URL
-      ? `https://${process.env.NEXT_PUBLIC_WC_URL.replace(/^https?:\/\//, '')}`
-      : 'https://jaleca.com.br'
-    const res = await fetch(`${baseUrl}/api/orders/${orderId}`, {
-      cache: 'no-store',
-    })
-    if (!res.ok) return null
-    return res.json()
+    const id = Number(orderId)
+    if (isNaN(id)) return null
+    return await fetchOrder(id)
   } catch {
     return null
   }

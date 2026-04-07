@@ -6,11 +6,17 @@ import {
   sendOrderPacking,
   sendOrderCancelled,
   sendOrderRefunded,
+  sendReviewRequest,
 } from '@/lib/email'
 
 const WEBHOOK_SECRET = process.env.JALECA_WEBHOOK_SECRET!
+const WC_URL = process.env.WOOCOMMERCE_API_URL!
+const CK = process.env.WOOCOMMERCE_CONSUMER_KEY!
+const CS = process.env.WOOCOMMERCE_CONSUMER_SECRET!
 
-const STATUS_MAP: Record<string, 'under_review' | 'invoiced' | 'packing' | 'cancelled' | 'refunded'> = {
+type Action = 'under_review' | 'invoiced' | 'packing' | 'cancelled' | 'refunded' | 'review_request'
+
+const STATUS_MAP: Record<string, Action> = {
   'on-hold':              'under_review',
   'wc-pagamento-analise': 'under_review',
   'pagamento-analise':    'under_review',
@@ -22,6 +28,28 @@ const STATUS_MAP: Record<string, 'under_review' | 'invoiced' | 'packing' | 'canc
   'wc-cancelado':         'cancelled',
   'refunded':             'refunded',
   'wc-reembolsado':       'refunded',
+  'completed':            'review_request',
+  'wc-completed':         'review_request',
+}
+
+type WCLineItem = { product_id: number; name: string }
+
+async function getProductSlugs(lineItems: WCLineItem[]): Promise<Array<{ name: string; slug: string }>> {
+  const auth = 'Basic ' + Buffer.from(`${CK}:${CS}`).toString('base64')
+  return Promise.all(
+    lineItems.map(async item => {
+      try {
+        const res = await fetch(`${WC_URL}/products/${item.product_id}`, {
+          headers: { Authorization: auth },
+        })
+        if (!res.ok) return { name: item.name, slug: '' }
+        const p = await res.json() as { slug: string }
+        return { name: item.name, slug: p.slug }
+      } catch {
+        return { name: item.name, slug: '' }
+      }
+    })
+  ).then(results => results.filter(p => p.slug))
 }
 
 export async function POST(req: NextRequest) {
@@ -38,12 +66,12 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
       }
 
-      // Formato WooCommerce nativo
       const order = JSON.parse(rawBody) as {
         id: number
         status: string
         total: string
         billing: { first_name: string; last_name: string; email: string }
+        line_items?: WCLineItem[]
       }
 
       const newStatus = order.status
@@ -58,7 +86,15 @@ export async function POST(req: NextRequest) {
       const customerName = `${order.billing.first_name} ${order.billing.last_name}`.trim()
       const orderTotal = `R$ ${parseFloat(order.total).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`
 
-      await dispatchEmail(action, orderId, customerName, customerEmail, orderTotal)
+      if (action === 'review_request') {
+        const products = order.line_items?.length
+          ? await getProductSlugs(order.line_items)
+          : []
+        await sendReviewRequest(orderId, customerName, customerEmail, products)
+      } else {
+        await dispatchEmail(action, orderId, customerName, customerEmail, orderTotal)
+      }
+
       console.log(`[Orders Notify WC] Pedido #${orderId} status "${newStatus}" → email "${action}" enviado`)
       return NextResponse.json({ ok: true, action })
     }
@@ -84,7 +120,17 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ ok: true, skipped: true, reason: `Status "${newStatus}" sem email mapeado` })
     }
 
-    await dispatchEmail(action, orderId, customerName, customerEmail, orderTotal ?? 'N/A')
+    if (action === 'review_request') {
+      // Formato customizado não inclui line_items — busca da WC API
+      const auth = 'Basic ' + Buffer.from(`${CK}:${CS}`).toString('base64')
+      const orderRes = await fetch(`${WC_URL}/orders/${orderId}`, { headers: { Authorization: auth } }).catch(() => null)
+      const orderData = orderRes?.ok ? await orderRes.json() as { line_items: WCLineItem[] } : null
+      const products = orderData?.line_items ? await getProductSlugs(orderData.line_items) : []
+      await sendReviewRequest(orderId, customerName, customerEmail, products)
+    } else {
+      await dispatchEmail(action, orderId, customerName, customerEmail, orderTotal ?? 'N/A')
+    }
+
     console.log(`[Orders Notify] Pedido #${orderId} status "${newStatus}" → email "${action}" enviado`)
     return NextResponse.json({ ok: true, action })
 
@@ -95,7 +141,7 @@ export async function POST(req: NextRequest) {
 }
 
 async function dispatchEmail(
-  action: 'under_review' | 'invoiced' | 'packing' | 'cancelled' | 'refunded',
+  action: Exclude<Action, 'review_request'>,
   orderId: number,
   customerName: string,
   customerEmail: string,

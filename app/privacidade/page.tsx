@@ -182,7 +182,7 @@ export default function PrivacidadePage() {
                 </a>
               </li>
               <li><strong className="text-foreground font-medium">WhatsApp:</strong>{' '}
-                <a href="https://wa.me/553133672467" target="_blank" rel="noopener noreferrer" className="text-foreground underline underline-offset-2 hover:no-underline">
+                <a href="https://wa.me/5531992901940?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Jaleca%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener noreferrer" className="text-foreground underline underline-offset-2 hover:no-underline">
                   (31) 3367-2467
                 </a>
               </li>

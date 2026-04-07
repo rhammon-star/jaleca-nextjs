@@ -59,7 +59,7 @@ const ProductCard = ({ product, colorFilter }: { product: WooProduct; colorFilte
   const { addToCompare, removeFromCompare, isInCompare } = useCompare();
   const inCompare = isInCompare(product.id);
   const { toggleWishlist, isInWishlist } = useWishlist();
-  const inWishlist = isInWishlist(product.id);
+  const inWishlist = isInWishlist(String(product.databaseId));
   const hoverImage = product.galleryImages?.nodes?.[0];
 
   // When a color filter is active, prefer the matching variation's image
@@ -129,7 +129,7 @@ const ProductCard = ({ product, colorFilter }: { product: WooProduct; colorFilte
             onClick={(e) => {
               e.preventDefault()
               e.stopPropagation()
-              toggleWishlist(product.id)
+              toggleWishlist(String(product.databaseId))
             }}
           >
             <Heart

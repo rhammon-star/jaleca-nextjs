@@ -155,7 +155,7 @@ const Footer = () => {
                   </Link>
                 </li>
                 <li>
-                  <a href="https://wa.me/553133672467" target="_blank" rel="noopener noreferrer"
+                  <a href="https://wa.me/5531992901940?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Jaleca%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener noreferrer"
                      className="hover:text-foreground transition-colors">
                     WhatsApp
                   </a>

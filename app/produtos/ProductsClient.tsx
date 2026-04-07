@@ -64,15 +64,17 @@ function matchesCategory(name: string, slug: string, cat: string, productCategor
 
 function matchesGender(name: string, gender: string, productCategories?: { nodes: Array<{ name: string; slug: string }> }) {
   if (gender === "Todos") return true;
-  // Norma: remove acentos para comparação
   const wcCats = productCategories?.nodes ?? [];
   const allCatText = wcCats.map(c => norm(c.slug) + " " + norm(c.name)).join(" ");
   const hasFemCat = allCatText.includes("feminino") || allCatText.includes("femininas");
   const hasMascCat = allCatText.includes("masculino") || allCatText.includes("masculinas");
-  // Só aplica filtro por categoria se houver subcategoria de gênero cadastrada
-  if (hasFemCat || hasMascCat) {
-    if (gender === "Feminino") return hasFemCat;
-    if (gender === "Masculino") return hasMascCat;
+  const hasUnissex = allCatText.includes("unissex");
+  // Filtro Unissex: só produtos com categoria unissex
+  if (gender === "Unissex") return hasUnissex;
+  // Filtro Feminino/Masculino: exclui produtos unissex
+  if (hasFemCat || hasMascCat || hasUnissex) {
+    if (gender === "Feminino") return hasFemCat && !hasUnissex;
+    if (gender === "Masculino") return hasMascCat && !hasUnissex;
   }
   // Fallback: nome do produto
   const lower = norm(name);

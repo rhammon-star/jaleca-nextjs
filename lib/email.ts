@@ -518,3 +518,47 @@ export async function sendOrderRefunded(
   `
   await sendMail({ to: customerEmail, subject: `Reembolso processado — Pedido #${orderId}`, html: wrapHtml(content, 'Reembolso processado') })
 }
+
+export async function sendReviewRequest(
+  orderId: number | string,
+  customerName: string,
+  customerEmail: string,
+  products: Array<{ name: string; slug: string }>,
+): Promise<void> {
+  const firstName = customerName.split(' ')[0] || 'Cliente'
+
+  const productButtons = products.map(p => {
+    const displayName = p.name.replace(/ - Jaleca$/i, '')
+    return `
+      <tr>
+        <td style="padding:8px 0;border-bottom:1px solid #f0f0f0;">
+          <table width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td style="font-size:14px;color:#1a1a1a;">${displayName}</td>
+              <td align="right">
+                <a href="https://jaleca.com.br/produto/${p.slug}#reviews"
+                   style="display:inline-block;background:#1a1a1a;color:#ffffff;padding:6px 16px;text-decoration:none;font-size:11px;letter-spacing:2px;font-family:Arial,sans-serif;">
+                  AVALIAR
+                </a>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>`
+  }).join('')
+
+  const content = `
+    <h2 style="font-size:22px;margin:0 0 8px;">Como foi sua experiência? ⭐</h2>
+    <p style="color:#666;margin:0 0 24px;">Olá, ${firstName}! Seu pedido <strong>#${orderId}</strong> foi entregue. Sua opinião é muito importante para nós e ajuda outras profissionais a escolherem melhor.</p>
+    <p style="color:#1a1a1a;font-weight:bold;margin:0 0 12px;font-size:14px;">Avalie seus produtos:</p>
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;">
+      ${productButtons}
+    </table>
+    <p style="color:#888;font-size:12px;margin:0;">Leva menos de 1 minuto e faz toda a diferença. Obrigada!</p>
+  `
+  await sendMail({
+    to: customerEmail,
+    subject: `Como foi sua experiência, ${firstName}? Deixe sua avaliação ⭐`,
+    html: wrapHtml(content, 'Avalie sua compra')
+  })
+}

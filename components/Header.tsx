@@ -157,7 +157,7 @@ const Header = () => {
               </button>
               <Link
                 href="/wishlist"
-                className="hidden sm:flex p-2 text-muted-foreground hover:text-foreground transition-colors active:scale-95"
+                className="flex p-2 text-muted-foreground hover:text-foreground transition-colors active:scale-95"
                 aria-label="Favoritos"
               >
                 <Heart size={19} />

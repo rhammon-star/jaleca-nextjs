@@ -171,7 +171,7 @@ export default function FAQPage() {
           {/* WhatsApp CTA */}
           <div className="flex justify-center mb-12">
             <a
-              href="https://wa.me/553133672467?text=Olá! Tenho uma dúvida sobre os produtos Jaleca."
+              href="https://wa.me/5531992901940?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Jaleca%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es."
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-green-600 text-white px-6 py-3 text-sm font-semibold tracking-wide hover:bg-green-700 transition-colors active:scale-[0.98]"
@@ -272,7 +272,7 @@ export default function FAQPage() {
             <p className="text-muted-foreground text-sm mb-4">Estamos aqui para ajudar. Entre em contato pelo canal de sua preferência.</p>
             <div className="flex flex-wrap gap-3 justify-center">
               <a
-                href="https://wa.me/553133672467"
+                href="https://wa.me/5531992901940?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Jaleca%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 bg-green-600 text-white px-5 py-2.5 text-xs font-semibold tracking-wide hover:bg-green-700 transition-colors"

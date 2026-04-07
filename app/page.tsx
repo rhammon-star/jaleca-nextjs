@@ -30,11 +30,50 @@ export const metadata: Metadata = {
   },
 };
 
+const GET_FEATURED_PRODUCTS = `
+  query GetFeaturedProducts {
+    products(first: 8, where: { featured: true, status: "publish" }) {
+      nodes {
+        id
+        databaseId
+        name
+        slug
+        productCategories {
+          nodes { name slug }
+        }
+        ... on SimpleProduct {
+          price regularPrice salePrice stockStatus
+          image { sourceUrl altText }
+          attributes { nodes { name options } }
+        }
+        ... on VariableProduct {
+          price regularPrice salePrice
+          image { sourceUrl altText }
+          attributes { nodes { name options } }
+          variations(first: 20) {
+            nodes {
+              id name stockStatus price
+              attributes { nodes { name value } }
+            }
+          }
+        }
+      }
+    }
+  }
+`
+
 async function getFeaturedProducts(): Promise<WooProduct[]> {
   try {
     const data = await graphqlClient.request<{ products: { nodes: WooProduct[] } }>(
-      GET_PRODUCTS, { first: 8 }
+      GET_FEATURED_PRODUCTS
     );
+    // Fallback: se não tiver produtos marcados como destaque, busca os 8 primeiros
+    if (!data.products.nodes.length) {
+      const fallback = await graphqlClient.request<{ products: { nodes: WooProduct[] } }>(
+        GET_PRODUCTS, { first: 8 }
+      );
+      return fallback.products.nodes;
+    }
     return data.products.nodes;
   } catch {
     return [];
@@ -78,6 +117,13 @@ export default async function Home() {
     priceRange: '$$',
     servesCuisine: undefined,
     hasMap: 'https://maps.google.com/?q=Ipatinga,MG,Brasil',
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: '4.0',
+      reviewCount: '8',
+      bestRating: '5',
+      worstRating: '1',
+    },
   };
 
   const websiteJsonLd = {

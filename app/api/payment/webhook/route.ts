@@ -1,10 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { createHmac } from 'crypto'
 import { sendOrderConfirmation } from '@/lib/email'
 import { sendMetaPurchase } from '@/lib/meta-conversions'
 
 const WC_API = process.env.WOOCOMMERCE_API_URL!
 const WC_CK = process.env.WOOCOMMERCE_CONSUMER_KEY!
 const WC_CS = process.env.WOOCOMMERCE_CONSUMER_SECRET!
+
+function verifyPagarmeSignature(rawBody: string, signature: string | null): boolean {
+  if (!signature) return false
+  const secret = process.env.PAGARME_SECRET_KEY
+  if (!secret) return false
+  const parts = signature.split('=')
+  if (parts.length !== 2 || parts[0] !== 'sha1') return false
+  const expected = createHmac('sha1', secret).update(rawBody).digest('hex')
+  return parts[1] === expected
+}
 
 function wcAuth(): string {
   return `Basic ${Buffer.from(`${WC_CK}:${WC_CS}`).toString('base64')}`
@@ -29,7 +40,15 @@ const STATUS_MAP: Record<string, string> = {
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json()
+    const rawBody = await request.text()
+    const signature = request.headers.get('x-hub-signature')
+
+    if (!verifyPagarmeSignature(rawBody, signature)) {
+      console.warn('[Webhook] Invalid signature')
+      return NextResponse.json({ error: 'Invalid signature' }, { status: 401 })
+    }
+
+    const body = JSON.parse(rawBody)
 
     // Pagar.me sends order or charge events
     const eventType: string = body.type || ''

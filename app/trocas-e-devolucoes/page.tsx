@@ -124,7 +124,7 @@ export default function TrocasEDevolucoesPage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <a
-                href="https://wa.me/553133672467"
+                href="https://wa.me/5531992901940?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Jaleca%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block border border-border rounded-lg px-5 py-4 hover:border-foreground hover:bg-[hsl(var(--muted))] transition-all duration-200 group"
@@ -216,7 +216,7 @@ export default function TrocasEDevolucoesPage() {
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
             <a
-              href="https://wa.me/553133672467"
+              href="https://wa.me/5531992901940?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Jaleca%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es."
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-foreground text-background px-6 py-3 text-xs font-bold tracking-widest uppercase hover:bg-foreground/90 transition-colors"

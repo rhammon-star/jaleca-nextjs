@@ -168,7 +168,7 @@ export default function MedidasPage() {
             Ver Todos os Produtos
           </Link>
           <a
-            href="https://wa.me/553133672467"
+            href="https://wa.me/5531992901940?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Jaleca%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es."
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 border border-border text-foreground px-6 py-3 text-xs font-bold tracking-widest uppercase hover:bg-[hsl(var(--muted))] transition-colors"

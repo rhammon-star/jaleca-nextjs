@@ -24,7 +24,7 @@ async function getAllProducts(): Promise<WooProduct[]> {
 }
 
 export const metadata: Metadata = {
-  title: 'Jalecos e Uniformes Profissionais — Jaleca',
+  title: 'Jalecos e Uniformes Profissionais',
   description: 'Explore nossa coleção completa de jalecos femininos, masculinos, scrubs e uniformes premium para profissionais da saúde. Entrega rápida para todo o Brasil.',
   alternates: { canonical: 'https://jaleca.com.br/produtos' },
   openGraph: {
