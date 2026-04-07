@@ -14,7 +14,10 @@ export async function GET(req: NextRequest) {
     // x-vercel-ip-city vem URL-encoded (ex: "Ipatinga" → "Ipatinga")
     const decodedCity = decodeURIComponent(city)
 
-    const franqueado = findFranqueado(decodedCity, region)
+    // x-vercel-ip-country-region pode vir como "BR-MG" ou "MG"
+    const state = region.includes('-') ? region.split('-').pop()! : region
+
+    const franqueado = findFranqueado(decodedCity, state)
     return NextResponse.json(franqueado)
   } catch {
     return NextResponse.json(null)

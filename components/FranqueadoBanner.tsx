@@ -4,16 +4,16 @@ import { useEffect, useState } from 'react'
 import { X, MapPin, Instagram } from 'lucide-react'
 import type { Franqueado } from '@/lib/franqueados'
 
-const STORAGE_KEY = 'jaleca-franqueado-dismissed'
+const STORAGE_KEY = 'jaleca-franqueado-dismissed-date'
 
 export default function FranqueadoBanner() {
   const [franqueado, setFranqueado] = useState<Franqueado | null>(null)
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
-    // Already dismissed this session or ever
-    if (sessionStorage.getItem(STORAGE_KEY)) return
-    if (localStorage.getItem(STORAGE_KEY)) return
+    const today = new Date().toISOString().slice(0, 10) // YYYY-MM-DD
+    const dismissed = localStorage.getItem(STORAGE_KEY)
+    if (dismissed === today) return
 
     fetch('/api/franqueado')
       .then(r => r.json())
@@ -28,8 +28,8 @@ export default function FranqueadoBanner() {
 
   function dismiss() {
     setVisible(false)
-    sessionStorage.setItem(STORAGE_KEY, '1')
-    localStorage.setItem(STORAGE_KEY, '1')
+    const today = new Date().toISOString().slice(0, 10)
+    localStorage.setItem(STORAGE_KEY, today)
   }
 
   if (!visible || !franqueado) return null
