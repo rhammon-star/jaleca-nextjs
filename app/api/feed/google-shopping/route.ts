@@ -232,12 +232,11 @@ export async function GET() {
         const titleParts = [p.name, group.colorLabel].filter(Boolean)
         const title = titleParts.join(' — ')
 
-        // Fix: link já abre na cor certa
-        const link = `https://jaleca.com.br/produto/${p.slug}?cor=${encodeURIComponent(colorKey)}`
+        // Link abre na cor certa via nome e ID da variação representativa
+        const link = `https://jaleca.com.br/produto/${p.slug}?cor=${encodeURIComponent(colorKey)}&vid=${group.rep.id}`
 
         items.push(buildItem({
           id: `${p.id}_${colorKey}`,
-          groupId: String(p.id),
           title,
           description,
           link,

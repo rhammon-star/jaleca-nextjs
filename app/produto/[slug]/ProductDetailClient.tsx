@@ -220,10 +220,23 @@ export default function ProductDetailClient({
   const [selectedColor, setSelectedColor] = useState<string | null>(null)
   const [selectedSize, setSelectedSize]   = useState<string | null>(null)
 
-  // Pré-seleciona cor vinda do link do catálogo (?cor=azul_marinho)
+  // Pré-seleciona cor vinda do link do catálogo (?cor=azul_marinho&vid=123)
   useEffect(() => {
     const corParam = searchParams.get('cor')
-    if (corParam) setSelectedColor(corParam.replace(/_/g, ' '))
+    const vidParam = searchParams.get('vid')
+
+    if (corParam) {
+      setSelectedColor(corParam.replace(/_/g, ' '))
+    } else if (vidParam) {
+      // fallback: acha a cor pela variation ID
+      const variation = product.variations?.nodes.find(
+        v => String(v.databaseId) === vidParam
+      )
+      const colorAttr = variation?.attributes?.nodes?.find((a: { name: string }) =>
+        isColorAttr({ name: a.name })
+      )
+      if (colorAttr?.value) setSelectedColor(colorAttr.value)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   const [activeImageIdx, setActiveImageIdx] = useState(0)
