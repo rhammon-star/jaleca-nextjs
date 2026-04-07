@@ -78,7 +78,7 @@ export function trackViewItem(product: {
     currency: 'BRL',
     content_ids: [product.id],
     content_name: product.name,
-    content_type: 'product',
+    content_type: 'product_group',
   })
 }
 
@@ -132,7 +132,7 @@ export function trackAddToCart(product: {
     value: price * qty,
     currency: 'BRL',
     contents: [{ id: product.id, quantity: qty }],
-    content_type: 'product',
+    content_type: 'product_group',
   })
 }
 
