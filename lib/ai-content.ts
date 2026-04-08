@@ -109,7 +109,7 @@ Retorne APENAS um JSON válido (sem markdown, sem texto antes ou depois) no segu
   "suggestedKeywords": ["keyword1", "keyword2", "keyword3", "keyword4", "keyword5"]
 }`
 
-  const raw = await callClaude(prompt, 8192)
+  const raw = await callClaude(prompt, 2000)
   return JSON.parse(stripMarkdownCodeBlock(raw)) as GeneratedContent
 }
 
@@ -128,7 +128,7 @@ Instruções:
 
 Retorne APENAS o HTML reescrito, sem explicações, sem markdown.`
 
-  const raw = await callClaude(prompt, 8192)
+  const raw = await callClaude(prompt, 2000)
   return stripMarkdownCodeBlock(raw)
 }
 
@@ -172,7 +172,7 @@ Retorne APENAS JSON válido (sem markdown) no formato:
 }`
 
   try {
-    const raw = await callClaude(prompt, 4096)
+    const raw = await callClaude(prompt, 1000)
     return JSON.parse(stripMarkdownCodeBlock(raw)) as SEOAnalysis
   } catch {
     return {
@@ -213,7 +213,7 @@ REGRAS:
 - NUNCA adicione ou altere links — mantenha apenas os links já existentes no conteúdo
 - Retorne APENAS o HTML melhorado`
 
-  const raw = await callClaude(prompt, 8192)
+  const raw = await callClaude(prompt, 2000)
   return stripMarkdownCodeBlock(raw)
 }
 
