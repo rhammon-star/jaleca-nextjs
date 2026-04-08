@@ -18,7 +18,7 @@ async function callMiniMax(prompt: string, maxTokens = 2000): Promise<string> {
       'Authorization': `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
-      model: 'MiniMax-Text-01',
+      model: 'abab6-chat',
       max_tokens: maxTokens,
       messages: [{ role: 'user', content: prompt }],
     }),
