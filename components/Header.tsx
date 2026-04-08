@@ -137,6 +137,10 @@ const Header = () => {
                 </div>
               </div>
 
+              <Link href="/produtos?sort=mais-vendidos" className="text-muted-foreground hover:text-foreground transition-colors duration-200 text-[12px] font-semibold tracking-widest uppercase whitespace-nowrap relative">
+                Mais Vendidos
+                <span className="absolute -top-2 -right-3 bg-[#c4a97d] text-white text-[8px] font-bold px-1 py-0.5 leading-none tracking-wide">TOP</span>
+              </Link>
               <Link href="/blog" className="text-muted-foreground hover:text-foreground transition-colors duration-200 text-[12px] font-semibold tracking-widest uppercase whitespace-nowrap">
                 Blog
               </Link>
@@ -213,6 +217,7 @@ const Header = () => {
                 { label: 'Jalecos', href: '/produtos?cat=Jalecos' },
                 { label: 'Dômãs', href: '/produtos?cat=Dômãs' },
                 { label: 'Conjuntos', href: '/produtos?cat=Conjuntos' },
+                { label: 'Mais Vendidos', href: '/produtos?sort=mais-vendidos' },
                 { label: 'Blog', href: '/blog' },
                 { label: 'Lookbook', href: '/lookbook' },
                 { label: 'Nossa Loja Física', href: '/loja-matriz' },

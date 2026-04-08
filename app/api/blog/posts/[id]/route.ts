@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { verifyBlogToken } from '@/lib/blog-auth'
 import { deletePost } from '@/lib/wordpress'
 import { cookies } from 'next/headers'
+import { revalidatePath } from 'next/cache'
 
 export async function DELETE(
   request: NextRequest,
@@ -23,5 +24,6 @@ export async function DELETE(
   if (!wpUser || !wpPass) return NextResponse.json({ error: 'Credenciais WordPress não configuradas' }, { status: 500 })
 
   await deletePost(postId, { username: wpUser, appPassword: wpPass })
+  revalidatePath('/blog')
   return NextResponse.json({ ok: true })
 }

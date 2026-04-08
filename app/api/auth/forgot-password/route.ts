@@ -85,7 +85,7 @@ export async function POST(request: NextRequest) {
 </body>
 </html>`
 
-    await fetch(`${BREVO_API}/smtp/email`, {
+    const brevoRes = await fetch(`${BREVO_API}/smtp/email`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'api-key': apiKey },
       body: JSON.stringify({
@@ -96,8 +96,16 @@ export async function POST(request: NextRequest) {
       }),
     })
 
+    if (!brevoRes.ok) {
+      const errText = await brevoRes.text()
+      console.error('[ForgotPassword] Brevo error:', brevoRes.status, errText)
+      return NextResponse.json({ error: 'Erro ao enviar email' }, { status: 500 })
+    }
+
+    console.log(`[ForgotPassword] Email enviado para ${email}`)
     return NextResponse.json({ success: true })
-  } catch {
-    return NextResponse.json({ success: true })
+  } catch (err) {
+    console.error('[ForgotPassword] Unexpected error:', err)
+    return NextResponse.json({ error: 'Erro interno' }, { status: 500 })
   }
 }

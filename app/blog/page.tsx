@@ -183,23 +183,29 @@ export default async function BlogPage({
         )}
 
         {/* Pagination */}
-        {posts.length === perPage && (
+        {(currentPage > 1 || posts.length === perPage) && (
           <div className="flex items-center justify-center gap-4 mt-12 pt-8 border-t border-border">
-            {currentPage > 1 && (
+            {currentPage > 1 ? (
               <Link
                 href={`/blog?page=${currentPage - 1}`}
                 className="inline-flex items-center gap-2 text-sm font-medium text-foreground border border-border px-4 py-2 hover:bg-secondary/20 transition-colors"
               >
-                Anterior
+                ← Anterior
               </Link>
+            ) : (
+              <span className="w-24" />
             )}
             <span className="text-sm text-muted-foreground">Página {currentPage}</span>
-            <Link
-              href={`/blog?page=${currentPage + 1}`}
-              className="inline-flex items-center gap-2 text-sm font-medium text-foreground border border-border px-4 py-2 hover:bg-secondary/20 transition-colors"
-            >
-              Próxima <ArrowRight size={14} />
-            </Link>
+            {posts.length === perPage ? (
+              <Link
+                href={`/blog?page=${currentPage + 1}`}
+                className="inline-flex items-center gap-2 text-sm font-medium text-foreground border border-border px-4 py-2 hover:bg-secondary/20 transition-colors"
+              >
+                Próxima <ArrowRight size={14} />
+              </Link>
+            ) : (
+              <span className="w-24" />
+            )}
           </div>
         )}
       </div>

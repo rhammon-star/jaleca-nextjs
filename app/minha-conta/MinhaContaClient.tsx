@@ -325,7 +325,7 @@ export default function MinhaContaClient() {
         })
       }
     })
-    router.push('/checkout')
+    router.push('/finalizar-compra')
   }
 
   async function handleProfileSave(e: React.FormEvent) {

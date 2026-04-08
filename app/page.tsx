@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Shield, Sparkles, Ruler, Truck, CreditCard, RotateCcw, ShieldCheck, Lock, Percent } from "lucide-react";
 import TrustBadgeBar from "@/components/TrustBadgeBar";
+import GoogleReviewsSection from "@/components/GoogleReviewsSection";
+import { getGooglePlaceData } from "@/lib/google-places";
 import { graphqlClient, GET_PRODUCTS } from "@/lib/graphql";
 import ProductCard, { type WooProduct } from "@/components/ProductCard";
 import ScrollReveal from "@/components/ScrollReveal";
@@ -81,7 +83,10 @@ async function getFeaturedProducts(): Promise<WooProduct[]> {
 }
 
 export default async function Home() {
-  const products = await getFeaturedProducts();
+  const [products, googlePlace] = await Promise.all([
+    getFeaturedProducts(),
+    getGooglePlaceData(),
+  ]);
 
   const organizationJsonLd = {
     '@context': 'https://schema.org',
@@ -178,7 +183,7 @@ export default async function Home() {
               Mais de 200 mil peças vendidas. Descubra o porquê.
             </h1>
             <p className="text-[#555] text-base leading-relaxed mb-6">
-              Conforto, caimento impecável e a confiança que você transmite no seu dia a dia.
+              Antes de você falar, sua imagem já foi avaliada. Conforto, caimento impecável e a presença que eleva sua autoridade profissional.
             </p>
             {/* Prova social */}
             <div className="flex items-center gap-3 mb-8 pb-8 border-b border-[#e8e0d5]">
@@ -427,6 +432,13 @@ export default async function Home() {
           </div>
         </section>
       </ScrollReveal>
+
+      {/* Google Reviews */}
+      {googlePlace && (
+        <ScrollReveal>
+          <GoogleReviewsSection place={googlePlace} />
+        </ScrollReveal>
+      )}
 
       {/* CTA */}
       <ScrollReveal>

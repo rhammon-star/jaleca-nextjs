@@ -7,47 +7,34 @@ function stripMarkdownCodeBlock(text: string): string {
     .trim()
 }
 
-async function callMiniMax(prompt: string, maxTokens = 2000): Promise<string> {
-  const apiKey = process.env.MINIMAX_API_KEY
-  if (!apiKey) throw new Error('MINIMAX_API_KEY not set')
+async function callGemini(prompt: string, maxTokens = 2000): Promise<string> {
+  const apiKey = process.env.GEMINI_API_KEY
+  if (!apiKey) throw new Error('GEMINI_API_KEY not set')
 
-  const res = await fetch('https://api.minimaxi.com/v1/text/chatcompletion_v2', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${apiKey}`,
-    },
-    body: JSON.stringify({
-      model: 'M2-her',
-      max_tokens: maxTokens,
-      messages: [{ role: 'user', content: prompt }],
-    }),
-  })
+  const res = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${apiKey}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: { maxOutputTokens: maxTokens },
+      }),
+    }
+  )
 
   if (!res.ok) {
-    const err = await res.json().catch(() => ({ error: { message: res.statusText } }))
-    const message =
-      (err as { error?: { message?: string } }).error?.message ??
-      `MiniMax API error: ${res.status}`
+    const err = await res.json().catch(() => ({}))
+    const message = (err as { error?: { message?: string } }).error?.message ?? `Gemini API error: ${res.status}`
     throw new Error(message)
   }
 
   const data = (await res.json()) as {
-    choices?: Array<{ message?: { content?: string } }>
-    base_resp?: { status_code?: number; status_msg?: string }
+    candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>
   }
 
-  // Check for MiniMax API errors
-  if (data.base_resp?.status_code !== 0 && data.base_resp?.status_code !== undefined) {
-    throw new Error(`MiniMax API error ${data.base_resp.status_code}: ${data.base_resp.status_msg ?? 'Unknown error'}`)
-  }
-
-  const text = data.choices?.[0]?.message?.content
-  if (typeof text !== 'string') {
-    // Log the actual response for debugging
-    console.error('MiniMax unexpected response:', JSON.stringify(data).slice(0, 500))
-    throw new Error('Unexpected MiniMax response')
-  }
+  const text = data.candidates?.[0]?.content?.parts?.[0]?.text
+  if (typeof text !== 'string') throw new Error('Unexpected Gemini response')
   return text
 }
 
@@ -60,11 +47,35 @@ export type GeneratedContent = {
   suggestedKeywords: string[]
 }
 
+const WRITING_STYLES = [
+  {
+    name: 'especialista-pratico',
+    persona: 'um especialista em uniformes profissionais de saúde que escreve de forma direta e objetiva, focando em dicas práticas e benefícios concretos. Começa com o problema do leitor, vai direto ao ponto, usa listas quando ajuda.',
+    tone: 'Direto, prático, sem enrolação. Parágrafos curtos. Usa "você" para falar com o leitor.',
+  },
+  {
+    name: 'colega-de-profissao',
+    persona: 'uma profissional de saúde que também escreve sobre moda e estilo clínico. Tom de conversa entre colegas da área, informal mas respeitoso.',
+    tone: 'Caloroso, empático, usa expressões do dia a dia da área da saúde. Começa com uma situação que o leitor reconhece da rotina clínica.',
+  },
+  {
+    name: 'narrativo-envolvente',
+    persona: 'um redator que conta histórias. Começa com uma cena ou situação real que o leitor vai se identificar, depois traz as informações de forma fluida.',
+    tone: 'Narrativo, descritivo, evocativo. O leitor se vê na história. Alterna entre storytelling e informação útil.',
+  },
+  {
+    name: 'analitico-confiante',
+    persona: 'um consultor de imagem profissional para a área da saúde que analisa tendências e dá recomendações embasadas.',
+    tone: 'Confiante, analítico, usa dados e argumentos. Tom de autoridade mas acessível. Não usa jargão excessivo.',
+  },
+]
+
 export async function generateContent(
   topic: string,
   keywords?: string[]
 ): Promise<GeneratedContent> {
   const keywordsStr = keywords?.length ? `Palavras-chave a incluir: ${keywords.join(', ')}.` : ''
+  const style = WRITING_STYLES[Math.floor(Math.random() * WRITING_STYLES.length)]
 
   const validLinks = `
 URLs VÁLIDAS que você pode usar como links internos (use APENAS estas, nunca invente outras):
@@ -92,52 +103,117 @@ Páginas:
 - /faq
 `
 
-  const prompt = `Você é um redator especializado em conteúdo para profissionais da saúde no Brasil, com foco em uniformes e jalecos profissionais. Crie um artigo de blog completo e otimizado para SEO sobre o seguinte tema: "${topic}".
+  const prompt = `Você é ${style.persona}. Crie um artigo de blog completo e otimizado para SEO sobre: "${topic}".
+
+Tom de escrita: ${style.tone}
 
 ${keywordsStr}
 
 Requisitos:
 - Artigo entre 500 e 700 palavras (IMPORTANTE: seja conciso)
 - Máximo 4 seções com H2, sem H3
-- Linguagem profissional mas acessível
 - Foco em profissionais de saúde (médicos, enfermeiros, dentistas, etc.)
 - No máximo 2 links internos — use APENAS as URLs da lista abaixo, NUNCA invente URLs
 - PROIBIDO criar links para páginas que não existem na lista
 - Integre as palavras-chave naturalmente no texto
 - Conteúdo em português brasileiro
+- NUNCA use frases genéricas de IA como "No mundo atual", "É fundamental destacar", "Neste artigo vamos explorar"
 
 ${validLinks}
 
 Retorne APENAS um JSON válido (sem markdown, sem texto antes ou depois) no seguinte formato:
 {
   "title": "Título do artigo (máx 60 chars)",
-  "content": "Conteúdo HTML completo com tags h2, h3, p, ul, li, strong",
+  "content": "Conteúdo HTML completo com tags h2, p, ul, li, strong",
   "excerpt": "Resumo de 1-2 frases (máx 160 chars)",
   "metaDescription": "Meta description SEO otimizada (máx 160 chars)",
   "suggestedSlug": "slug-do-artigo-sem-acento",
   "suggestedKeywords": ["keyword1", "keyword2", "keyword3", "keyword4", "keyword5"]
 }`
 
-  const raw = await callMiniMax(prompt, 2000)
+  const raw = await callGemini(prompt, 4000)
   return JSON.parse(stripMarkdownCodeBlock(raw)) as GeneratedContent
 }
 
+// ── Blacklist de palavras/frases robóticas de IA ──────────────────────────────
+
+export const AI_BLACKLIST = [
+  // Conectivos robóticos
+  'Primeiramente', 'Ademais', 'Outrossim', 'Não obstante', 'Assim sendo',
+  'Destarte', 'Por conseguinte', 'Em síntese', 'Em suma', 'No que diz respeito',
+  'No tocante a', 'No que tange', 'No que se refere', 'Concernente a',
+  'No que concerne', 'Por forma que', 'De sorte que', 'De tal maneira que',
+  'A priori', 'A posteriori',
+  // Verbos pomposos
+  'Potencializar', 'Maximizar', 'Otimizar', 'Ressignificar', 'Externalizar',
+  'Internalizar', 'Consolidar', 'Estruturar', 'Perenizar', 'Verticalizar',
+  'Tangenciar', 'Convergir', 'Propender',
+  // Adjetivos vagos
+  'Inédito', 'Transformador', 'Abrangente', 'Consistente', 'Profícuo',
+  // Locuções clássicas de IA
+  'É importante ressaltar que', 'É fundamental destacar que',
+  'É válido salientar que', 'Deixe-me explicar', 'Como podemos observar',
+  'Podemos notar que', 'É possível notar', 'Fica evidente', 'Nota-se que',
+  'Ressalta-se que', 'Conclui-se que', 'É preciso destacar',
+  'Neste sentido', 'Neste contexto', 'Nessa perspectiva', 'Sob tal óptica',
+  'Com base nisso', 'À luz disso', 'Face ao exposto', 'Posto isso', 'Isto posto',
+  'Cumpre destacar', 'Cabe ressaltar', 'Faz-se necessário', 'Torna-se imperativo',
+  'É mister', 'Não resta dúvida que', 'Inquestionavelmente', 'Indubitavelmente',
+  'Sem sombra de dúvida',
+  // Frases iniciais robóticas
+  'Bem-vindo a este artigo', 'Neste artigo vamos falar sobre',
+  'Você sabia que', 'Você já se perguntou', 'Aqui está o que você precisa saber',
+  'Sem mais delongas', 'Vamos direto ao ponto', 'Segundo especialistas',
+  'No mundo atual', 'Nos dias de hoje', 'No cenário atual',
+]
+
+// Verifica se o texto contém palavras da blacklist
+export function isAIContent(text: string): { flagged: boolean; found: string[] } {
+  const lower = text.toLowerCase()
+  const found = AI_BLACKLIST.filter(w => lower.includes(w.toLowerCase()))
+  return { flagged: found.length > 0, found }
+}
+
+const BLACKLIST_STR = AI_BLACKLIST.slice(0, 30).join(', ')
+
 export async function humanizeContent(content: string): Promise<string> {
-  const prompt = `Você é um editor de conteúdo brasileiro. Reescreva o seguinte conteúdo HTML de forma mais natural e humanizada:
+  const prompt = `Você é um editor de conteúdo brasileiro especialista em remover linguagem robótica de textos gerados por IA. Reescreva o seguinte conteúdo HTML para soar como um brasileiro real escrevendo.
 
 ${content}
 
-Instruções:
-- Mantenha toda a estrutura HTML (tags h2, h3, p, ul, li, strong)
-- Use variações de frases para evitar repetição
-- Adicione expressões coloquiais brasileiras onde apropriado
-- Remova estrutura muito mecânica e previsível
-- Torne o tom mais conversacional e autêntico
-- NÃO altere links ou informações factuais
+REGRAS OBRIGATÓRIAS:
+- Mantenha TODA a estrutura HTML intacta (h2, p, ul, li, strong, a)
+- NÃO altere links, slugs ou informações factuais
+- PROIBIDO usar qualquer uma dessas palavras/frases: ${BLACKLIST_STR}
+- Use linguagem direta, frases curtas, tom de conversa
+- Pode usar: "pra", "vc", "né", "tipo" — mas sem exagero
+- Parágrafos curtos (máx 3 linhas)
+- NUNCA comece parágrafo com "Neste artigo", "É importante", "Vale ressaltar", "No mundo atual"
 
 Retorne APENAS o HTML reescrito, sem explicações, sem markdown.`
 
-  const raw = await callMiniMax(prompt, 2000)
+  const raw = await callGemini(prompt, 4000)
+  return stripMarkdownCodeBlock(raw)
+}
+
+export async function rewriteHumanized(content: string): Promise<string> {
+  const prompt = `Você é um redator brasileiro que reescreve textos com linguagem robótica de IA para soar natural e humano. Reescreva o HTML abaixo.
+
+${content}
+
+REGRAS:
+- Mantenha estrutura HTML (h2, p, ul, li, strong, a) — não altere tags
+- NÃO mude links internos
+- PROIBIDO: ${BLACKLIST_STR}
+- Tom: conversa direta entre profissionais de saúde
+- Frases curtas. Parágrafos de no máximo 2-3 linhas
+- Sem introduções genéricas como "Neste artigo...", "É fundamental...", "No cenário atual..."
+- Comece o primeiro parágrafo direto no assunto, sem rodeios
+- Use vocabulário simples e cotidiano da área da saúde
+
+Retorne APENAS o HTML reescrito, sem markdown, sem explicações.`
+
+  const raw = await callGemini(prompt, 4000)
   return stripMarkdownCodeBlock(raw)
 }
 
@@ -181,7 +257,7 @@ Retorne APENAS JSON válido (sem markdown) no formato:
 }`
 
   try {
-    const raw = await callMiniMax(prompt, 1000)
+    const raw = await callGemini(prompt, 1000)
     return JSON.parse(stripMarkdownCodeBlock(raw)) as SEOAnalysis
   } catch {
     return {
@@ -222,7 +298,7 @@ REGRAS:
 - NUNCA adicione ou altere links — mantenha apenas os links já existentes no conteúdo
 - Retorne APENAS o HTML melhorado`
 
-  const raw = await callMiniMax(prompt, 2000)
+  const raw = await callGemini(prompt, 4000)
   return stripMarkdownCodeBlock(raw)
 }
 
@@ -235,7 +311,7 @@ Produtos incluídos: ${products.filter(Boolean).join(', ') || 'jalecos e uniform
 A descrição deve ser inspiradora, profissional e focada em estilo de uniformes médicos/saúde.
 Retorne APENAS a descrição, sem aspas, sem explicações.`
 
-  const result = await callMiniMax(prompt, 200)
+  const result = await callGemini(prompt, 200)
   return result.trim()
 }
 
@@ -246,6 +322,6 @@ A imagem deve ser profissional, relacionada à área da saúde ou uniformes méd
 
 Retorne APENAS a query de busca, sem aspas, sem explicações. Máximo 5 palavras.`
 
-  const result = await callMiniMax(prompt, 200)
+  const result = await callGemini(prompt, 200)
   return result.trim()
 }

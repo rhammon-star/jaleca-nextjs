@@ -575,6 +575,19 @@ export default function ProductDetailClient({
               {product.name.replace(/ - Jaleca$/i, '')}
             </h1>
 
+            {/* Trust block — prova social abaixo do título */}
+            <div className="flex flex-wrap gap-x-4 gap-y-1.5 mb-4">
+              <span className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
+                <span className="text-green-600">✔</span> Envio rápido para todo o Brasil
+              </span>
+              <span className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
+                <span className="text-green-600">✔</span> Troca fácil em até 30 dias
+              </span>
+              <span className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
+                <span className="text-green-600">✔</span> Compra 100% segura
+              </span>
+            </div>
+
             {/* SKU */}
             {displaySku && (
               <p className="text-xs text-muted-foreground mb-3">Ref: {displaySku}</p>

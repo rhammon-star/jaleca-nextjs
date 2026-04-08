@@ -4,10 +4,12 @@ import { useEffect, useState } from 'react'
 import { X, MapPin, Instagram } from 'lucide-react'
 import type { Franqueado } from '@/lib/franqueados'
 
+type FranqueadoWithDist = Franqueado & { distanciaKm?: number }
+
 const STORAGE_KEY = 'jaleca-franqueado-dismissed-date'
 
 export default function FranqueadoBanner() {
-  const [franqueado, setFranqueado] = useState<Franqueado | null>(null)
+  const [franqueado, setFranqueado] = useState<FranqueadoWithDist | null>(null)
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
@@ -17,7 +19,7 @@ export default function FranqueadoBanner() {
 
     fetch('/api/franqueado')
       .then(r => r.json())
-      .then((data: Franqueado | null) => {
+      .then((data: FranqueadoWithDist | null) => {
         if (data) {
           setFranqueado(data)
           setVisible(true)
@@ -61,7 +63,7 @@ export default function FranqueadoBanner() {
         <div className="flex items-center gap-2 mb-4">
           <MapPin size={18} className="text-primary shrink-0" />
           <p className="text-xs tracking-[0.15em] uppercase text-muted-foreground font-medium">
-            Loja próxima a você
+            {franqueado.distanciaKm ? `Loja a ${franqueado.distanciaKm} km de você` : 'Loja próxima a você'}
           </p>
         </div>
 

@@ -99,6 +99,8 @@ export default function NovoPostClient() {
   const [editSlug, setEditSlug] = useState('')
   const [showPreview, setShowPreview] = useState(true)
   const [improvingSEO, setImprovingSEO] = useState(false)
+  const [humanizing, setHumanizing] = useState(false)
+  const [refreshingImage, setRefreshingImage] = useState(false)
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle')
   const [saveError, setSaveError] = useState('')
   const [saveLink, setSaveLink] = useState('')
@@ -150,7 +152,7 @@ export default function NovoPostClient() {
         body: JSON.stringify({
           topic: topic.trim(),
           keywords: keywords.trim() ? keywords.split(',').map(k => k.trim()).filter(Boolean) : [],
-          publishDirectly,
+          publishDirectly: false,
         }),
         signal: controller.signal,
       })
@@ -204,6 +206,44 @@ export default function NovoPostClient() {
       if ((err as Error).name === 'AbortError') return
       setError((err as Error).message || 'Erro ao gerar conteúdo')
       setStep('config')
+    }
+  }
+
+  async function handleRefreshImage() {
+    if (!result) return
+    setRefreshingImage(true)
+    try {
+      const res = await fetch('/api/blog/new-image', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ topic, content: editContent }),
+      })
+      if (!res.ok) throw new Error('Erro ao buscar imagem')
+      const data = await res.json()
+      setResult(prev => prev ? { ...prev, imageUrl: data.imageUrl, imageAuthor: data.imageAuthor } : prev)
+    } catch {
+      // silently fail
+    } finally {
+      setRefreshingImage(false)
+    }
+  }
+
+  async function handleHumanize() {
+    if (!editContent) return
+    setHumanizing(true)
+    try {
+      const res = await fetch('/api/blog/rewrite', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content: editContent }),
+      })
+      if (!res.ok) throw new Error('Erro ao humanizar')
+      const data = await res.json()
+      setEditContent(data.content)
+    } catch {
+      // silently fail
+    } finally {
+      setHumanizing(false)
     }
   }
 
@@ -665,16 +705,6 @@ export default function NovoPostClient() {
             />
           </div>
 
-          <label className="flex items-center gap-3 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={publishDirectly}
-              onChange={e => setPublishDirectly(e.target.checked)}
-              className="w-4 h-4 accent-foreground"
-            />
-            <span className="text-sm">Publicar diretamente no WordPress</span>
-          </label>
-
           <button
             onClick={handleGenerate}
             disabled={!topic.trim()}
@@ -738,12 +768,30 @@ export default function NovoPostClient() {
           <div className="space-y-5">
             {result.imageUrl && (
               <div>
-                <label className="block text-xs font-semibold tracking-widests uppercase text-muted-foreground mb-2">
-                  Imagem Destacada
-                </label>
-                <div className="aspect-[16/9] max-w-md overflow-hidden bg-secondary/20">
+                <div className="flex items-center justify-between mb-2">
+                  <label className="block text-xs font-semibold tracking-widests uppercase text-muted-foreground">
+                    Imagem Destacada
+                  </label>
+                  <button
+                    type="button"
+                    onClick={handleRefreshImage}
+                    disabled={refreshingImage}
+                    className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors disabled:opacity-40"
+                  >
+                    {refreshingImage
+                      ? <Loader2 size={12} className="animate-spin" />
+                      : <RefreshCw size={12} />}
+                    Trocar foto
+                  </button>
+                </div>
+                <div className="aspect-[16/9] max-w-md overflow-hidden bg-secondary/20 relative">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={result.imageUrl} alt="Imagem destacada sugerida" className="w-full h-full object-cover" />
+                  {refreshingImage && (
+                    <div className="absolute inset-0 bg-background/60 flex items-center justify-center">
+                      <Loader2 size={24} className="animate-spin text-foreground" />
+                    </div>
+                  )}
                 </div>
                 {result.imageAuthor && (
                   <p className="text-[10px] text-muted-foreground mt-1">
@@ -797,14 +845,27 @@ export default function NovoPostClient() {
             <div>
               <div className="flex items-center justify-between mb-1.5">
                 <label className="block text-xs font-semibold tracking-widests uppercase text-muted-foreground">Conteúdo HTML</label>
-                <button
-                  type="button"
-                  onClick={() => setShowPreview(!showPreview)}
-                  className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  {showPreview ? <EyeOff size={12} /> : <Eye size={12} />}
-                  {showPreview ? 'Editar' : 'Preview'}
-                </button>
+                <div className="flex items-center gap-3">
+                  <button
+                    type="button"
+                    onClick={handleHumanize}
+                    disabled={humanizing}
+                    className="inline-flex items-center gap-1.5 text-xs text-primary hover:text-primary/80 transition-colors disabled:opacity-40"
+                  >
+                    {humanizing
+                      ? <Loader2 size={12} className="animate-spin" />
+                      : <Sparkles size={12} />}
+                    Humanizar texto
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setShowPreview(!showPreview)}
+                    className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    {showPreview ? <EyeOff size={12} /> : <Eye size={12} />}
+                    {showPreview ? 'Editar' : 'Preview'}
+                  </button>
+                </div>
               </div>
 
               {showPreview ? (

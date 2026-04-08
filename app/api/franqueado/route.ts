@@ -1,23 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { findFranqueado } from '@/lib/franqueados'
+import { findFranqueadoByRadius } from '@/lib/franqueados'
 
 export const runtime = 'edge'
 
 export async function GET(req: NextRequest) {
   try {
-    // Vercel injeta geo headers nativamente — sem API externa
-    const city = req.headers.get('x-vercel-ip-city')
-    const region = req.headers.get('x-vercel-ip-country-region')
+    const latStr = req.headers.get('x-vercel-ip-latitude')
+    const lngStr = req.headers.get('x-vercel-ip-longitude')
 
-    if (!city || !region) return NextResponse.json(null)
+    if (!latStr || !lngStr) return NextResponse.json(null)
 
-    // x-vercel-ip-city vem URL-encoded (ex: "Ipatinga" → "Ipatinga")
-    const decodedCity = decodeURIComponent(city)
+    const lat = parseFloat(latStr)
+    const lng = parseFloat(lngStr)
 
-    // x-vercel-ip-country-region pode vir como "BR-MG" ou "MG"
-    const state = region.includes('-') ? region.split('-').pop()! : region
+    if (isNaN(lat) || isNaN(lng)) return NextResponse.json(null)
 
-    const franqueado = findFranqueado(decodedCity, state)
+    const franqueado = findFranqueadoByRadius(lat, lng, 100)
     return NextResponse.json(franqueado)
   } catch {
     return NextResponse.json(null)

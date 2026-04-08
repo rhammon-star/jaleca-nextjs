@@ -169,7 +169,7 @@ export async function sendMetaAddToCart(
 export async function sendMetaInitiateCheckout(
   userData: MetaUserData,
   value: number,
-  sourceUrl = 'https://jaleca.com.br/checkout'
+  sourceUrl = 'https://jaleca.com.br/finalizar-compra'
 ) {
   await sendEvent([
     {

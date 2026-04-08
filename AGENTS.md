@@ -24,7 +24,7 @@ Site de uniformes médicos (jalecos, dômãs, conjuntos). Diretório: `/Users/rh
 - Google Search Console: ✅ sitemap submetido
 - Email transacional: ✅ via Brevo (`lib/email.ts`)
 - Verificação de email: ✅ (não bloqueia checkout)
-- Blog CMS com IA: ✅ (`/blog/admin`)
+- Blog CMS com IA: ✅ (`/blog/admin`) — Gemini 2.5 flash-lite + Unsplash + 4 estilos de escrita + humanização
 - Melhor Envio shipping: ⚠️ token placeholder (OAuth2 real pendente)
 - GA4 + Meta Pixel + Meta CAPI: ✅
 - Meta Pixel ID: ✅ `566059928254677` (Pixel de BM 01 - Jaleca.Jaleca)
@@ -33,8 +33,9 @@ Site de uniformes médicos (jalecos, dômãs, conjuntos). Diretório: `/Users/rh
 - Meta Loja Instagram + Facebook: ✅ aprovada (06/04/2026)
 - Meta Checkout URL: ✅ configurado (`/api/meta-checkout`) — redireciona para produto por cor ou /produtos (08/04/2026)
 - Meta Catálogo: ✅ 116 produtos ativos, 0 erros (08/04/2026)
-- Franqueado popup: ✅ reset diário (STORAGE_KEY = data YYYY-MM-DD), region fix BR-MG→MG
+- Franqueado popup: ✅ raio 100km via geolocalização IP (Vercel headers), reset diário
 - Franqueado debug: ✅ `/api/franqueado/debug`
+- Google Reviews (homepage): ✅ via Places API (New) — `lib/google-places.ts`, `components/GoogleReviewsSection.tsx`
 - Google Ads: ✅ conta 444-659-1621 — Merchant Center 5759143798 ✅ (106 produtos aprovados), GA4 530831994 ✅, faturamento ✅
   - Campanha Search "Jaleca - Search - Jalecos": ✅ publicada (R$49/dia)
   - Tag conversão AW-18072506944: ✅ instalada em `components/Analytics.tsx` (aguardando verificação ~24h)
@@ -72,19 +73,27 @@ Site de uniformes médicos (jalecos, dômãs, conjuntos). Diretório: `/Users/rh
 - `app/produto/[slug]/ProductDetailClient.tsx` — cliente com urgência estoque, Size Advisor
 
 ### Blog
-- `app/blog/page.tsx` — lista de posts (busca do WordPress)
+- `app/blog/page.tsx` — lista de posts (busca do WordPress), paginação bidirecional
 - `app/blog/[slug]/page.tsx` — post público
-- `app/blog/admin/novo-post/NovoPostClient.tsx` — criar post com IA
-- `app/blog/admin/posts/page.tsx` — lista com deletar
+- `app/blog/admin/novo-post/NovoPostClient.tsx` — criar post com IA (sem publishDirectly, botão Trocar Foto, botão Humanizar Texto)
+- `app/blog/admin/posts/page.tsx` — lista com deletar (invalida cache ISR ao deletar)
 - `lib/wordpress.ts` — usa `NEXT_PUBLIC_WP_URL` (wp.jaleca.com.br)
+- `lib/ai-content.ts` — Gemini 2.5 flash-lite, 4 estilos de escrita, AI_BLACKLIST, isAIContent(), rewriteHumanized()
 
 ### Pages extras
 - `app/faq/page.tsx` — FAQ com 12 perguntas + FAQPage schema JSON-LD
 - `components/Footer.tsx` — link para FAQ adicionado
+- `components/GoogleReviewsSection.tsx` — avaliações Google na homepage
+- `lib/google-places.ts` — busca rating + reviews via Places API (New), cache 24h
+
+### Franqueado
+- `lib/franqueados.ts` — tipo Franqueado com lat/lng, haversineKm(), findFranqueadoByRadius(lat, lng, 100)
+- `app/api/franqueado/route.ts` — usa x-vercel-ip-latitude/longitude para busca por raio
+- `components/FranqueadoBanner.tsx` — mostra distância em km, reset diário
 
 ### API routes
 - `/api/auth/*` — login, register, forgot-password, verify-email, profile, reset-password, cpf-lookup
-- `/api/blog/*` — posts, categories, generate, publish, improve-seo, new-image, auth
+- `/api/blog/*` — posts, categories, generate, publish, improve-seo, new-image, rewrite, auth
 - `/api/orders/*` — pedidos do cliente logado; `notify` (emails por status); `payment-reminder` (cron 12h)
 - `/api/shipping/*` — cálculo de frete
 - `/api/coupon/*` — validação de cupom
@@ -203,21 +212,47 @@ Novos arquivos a criar: `app/api/tracking/*`, `app/api/orders/notify`, `app/api/
 Modificar: `lib/email.ts` (+10 funções), `vercel.json` (+2 crons), `functions.php` WP (+campos rastreio + hooks)
 
 ## Pendente (prioridade)
-1. **Google Ads — Campanha Shopping** — 🔄 PARADO na tela de orçamento: digitar `30` → Continuar → publicar campanha "Jaleca - Shopping - Produtos"
-2. **Google Ads — Verificação do anunciante** — completar verificação de identidade (Adm. → Configurações da conta → Verificação do anunciante)
-3. **Google Ads — Tag de conversão** — aguardando verificação automática (~24h). Tag AW-18072506944 já instalada.
-4. **Google Ads — Performance Max** — criar no mês 2, após ter dados de conversão. R$14/dia.
-5. **API rastreamento** — projeto comunicação pedidos aprovado, aguardando token OAuth2 Melhor Envio
-6. **Melhor Envio OAuth2 real**
-7. **Imagens WordPress** — instalar EWWW Image Optimizer, bulk optimize (algumas imagens > 8MB bloqueavam Meta)
-8. **Instagram Shopping** — coleção sem produtos visíveis — aguardando sincronização Meta após configuração do checkout URL (08/04/2026)
-9. **Vercel Pro** — trial em andamento, verificar prazo de expiração
+1. **Google Ads — Verificação do anunciante** — completar verificação de identidade (Adm. → Configurações da conta → Verificação do anunciante)
+2. **Google Ads — Performance Max** — criar no mês 2, após ter dados de conversão. R$14/dia.
+3. **API rastreamento** — projeto comunicação pedidos aprovado, aguardando token OAuth2 Melhor Envio
+4. **Melhor Envio OAuth2 real**
+5. **Imagens WordPress** — instalar EWWW Image Optimizer, bulk optimize (algumas imagens > 8MB bloqueavam Meta)
+6. **Instagram Shopping** — coleção sem produtos visíveis — aguardando sincronização Meta após configuração do checkout URL (08/04/2026)
+7. **Vercel Pro** — trial em andamento, verificar prazo de expiração
+8. **Reset senha email** — Brevo log de erro adicionado; confirmar funcionamento em produção
 
 ## CRO implementado (08/04/2026)
 - Hero subheadline atualizado: "Antes de você falar, sua imagem já foi avaliada..."
 - "Mais Vendidos" adicionado ao menu desktop + mobile com badge TOP
 - Bloco de confiança na página de produto: Envio rápido + Troca fácil + Compra segura
+- Google Reviews seção na homepage (Places API New, rating + 3 reviews, cache 24h)
 
 ## PRDs criados (docs/)
 - `PRD-GOOGLE-ADS-MASTER-JALECA-2026.md` — estratégia completa Google Ads (campanhas, keywords, copy, CRO, projeções)
 - `PRD-APRESENTACAO-PROJECAO-12-MESES.md` — projeção financeira 3 cenários para Manus gerar apresentação
+- `PRD-BLOG-IA-HUMANIZADA.md` — blacklist de palavras de IA + regras para conteúdo humano
+
+## Blog — Regras de Conteúdo com IA
+
+**PRD:** `docs/PRD-BLOG-IA-HUMANIZADA.md`
+
+O blog da Jaleca usa IA para gerar e reescrever conteúdo. Todas as saídas de IA devem evitar palavras da blacklist para soar como brasileiro real.
+
+### Blacklist principal (resumo)
+- Conectivos robóticos: Primeiramente, Ademais, Outrossim, Não obstante, Em síntese, No que diz respeito, etc.
+- Verbos pomposos: Potencializar, Maximizar, Otimizar, Ressignificar, Consolidar, Estruturar, etc.
+- Substantivos abstratos: Robustez, Paradigma, Ecosystem, Expertise, Know-how, etc.
+- Locuções: "É importante ressaltar que", "Deixe-me explicar", "Podemos notar que", etc.
+- Frases iniciais robóticas: "Bem-vindo a este artigo", "Você sabia que", etc.
+
+### Tom correto
+- Brasileiro real, conversacional
+- Usar contrações: "vc", "pra", "né", "tipo", "na verdade"
+- Frases curtas e diretas, parágrafos curtos
+- Sem encadeamento excessivo de frases
+- Pular linhas entre parágrafos
+
+### Validação
+- `isAIContent(text)` em `lib/ai-content.ts` retorna `{ flagged, found[] }`
+- Botão "Humanizar texto" no admin chama `/api/blog/rewrite` → `rewriteHumanized()` → reescreve HTML com tom humano
+- Geração usa 1 de 4 estilos aleatórios: especialista-pratico, colega-de-profissao, narrativo-envolvente, analitico-confiante
