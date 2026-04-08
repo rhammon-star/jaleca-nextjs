@@ -11,14 +11,14 @@ async function callMiniMax(prompt: string, maxTokens = 2000): Promise<string> {
   const apiKey = process.env.MINIMAX_API_KEY
   if (!apiKey) throw new Error('MINIMAX_API_KEY not set')
 
-  const res = await fetch('https://api.minimax.io/v1/chat/completions', {
+  const res = await fetch('https://api.minimaxi.com/v1/text/chatcompletion_v2', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
-      model: 'abab6-chat',
+      model: 'M2-her',
       max_tokens: maxTokens,
       messages: [{ role: 'user', content: prompt }],
     }),
