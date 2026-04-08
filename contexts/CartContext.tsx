@@ -3,6 +3,12 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react'
 import { trackAddToCart } from '@/components/Analytics'
 
+export type CouponData = {
+  code: string
+  discount_type: string
+  amount: string
+}
+
 export type CartItem = {
   id: string
   databaseId: number
@@ -27,6 +33,8 @@ type CartContextType = {
   isOpen: boolean
   openCart: () => void
   closeCart: () => void
+  appliedCoupon: CouponData | null
+  setAppliedCoupon: (coupon: CouponData | null) => void
 }
 
 const CartContext = createContext<CartContextType | null>(null)
@@ -46,17 +54,29 @@ function itemKey(id: string, size?: string, color?: string) {
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([])
   const [isOpen, setIsOpen] = useState(false)
+  const [appliedCoupon, setAppliedCouponState] = useState<CouponData | null>(null)
 
   useEffect(() => {
     try {
       const saved = localStorage.getItem('jaleca-cart')
       if (saved) setItems(JSON.parse(saved))
+      const savedCoupon = localStorage.getItem('jaleca-coupon')
+      if (savedCoupon) setAppliedCouponState(JSON.parse(savedCoupon))
     } catch {}
   }, [])
 
   useEffect(() => {
     localStorage.setItem('jaleca-cart', JSON.stringify(items))
   }, [items])
+
+  const setAppliedCoupon = useCallback((coupon: CouponData | null) => {
+    setAppliedCouponState(coupon)
+    if (coupon) {
+      localStorage.setItem('jaleca-coupon', JSON.stringify(coupon))
+    } else {
+      localStorage.removeItem('jaleca-coupon')
+    }
+  }, [])
 
   const addItem = useCallback((newItem: Omit<CartItem, 'quantity' | 'addedAt'>) => {
     setItems(prev => {
@@ -101,7 +121,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     }
   }, [])
 
-  const clearCart = useCallback(() => setItems([]), [])
+  const clearCart = useCallback(() => {
+    setItems([])
+    setAppliedCoupon(null)
+  }, [setAppliedCoupon])
   const openCart = useCallback(() => setIsOpen(true), [])
   const closeCart = useCallback(() => setIsOpen(false), [])
 
@@ -114,6 +137,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     <CartContext.Provider value={{
       items, addItem, removeItem, updateQuantity, clearCart,
       totalItems, totalPrice, isOpen, openCart, closeCart,
+      appliedCoupon, setAppliedCoupon,
     }}>
       {children}
     </CartContext.Provider>

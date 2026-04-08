@@ -8,12 +8,6 @@ import ShippingCalculator, { type ShippingOption } from '@/components/ShippingCa
 import Link from 'next/link'
 import { trackInitiateCheckout } from '@/components/Analytics'
 
-type CouponData = {
-  code: string
-  discount_type: string
-  amount: string
-}
-
 function parsePrice(price: string): number {
   return parseFloat(price.replace(/[^0-9,]/g, '').replace(',', '.')) || 0
 }
@@ -23,11 +17,10 @@ function formatCurrency(value: number): string {
 }
 
 export default function CartDrawer() {
-  const { items, removeItem, updateQuantity, clearCart, totalItems, totalPrice, isOpen, closeCart } = useCart()
+  const { items, removeItem, updateQuantity, clearCart, totalItems, totalPrice, isOpen, closeCart, appliedCoupon, setAppliedCoupon } = useCart()
   const pathname = usePathname()
 
   const [couponCode, setCouponCode] = useState('')
-  const [appliedCoupon, setAppliedCoupon] = useState<CouponData | null>(null)
   const [couponError, setCouponError] = useState('')
   const [couponLoading, setCouponLoading] = useState(false)
   const [selectedShipping, setSelectedShipping] = useState<ShippingOption | null>(null)

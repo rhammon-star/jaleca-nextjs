@@ -47,7 +47,7 @@ const emptyAddress: AddressForm = {
 type PaymentMethod = 'credit_card' | 'pix' | 'boleto'
 
 export default function CheckoutClient() {
-  const { items, clearCart, addItem } = useCart()
+  const { items, clearCart, addItem, appliedCoupon } = useCart()
   const { user, isLoggedIn, login } = useAuth()
   const router = useRouter()
 
@@ -91,6 +91,19 @@ export default function CheckoutClient() {
   const total = subtotal + shippingCost
   const pixDiscount = paymentMethod === 'pix' ? (subtotal - couponDiscount) * 0.05 : 0
   const finalTotal = subtotal - couponDiscount - pixDiscount + shippingCost
+
+  // Prefill coupon from cart context
+  useEffect(() => {
+    if (appliedCoupon) {
+      setCouponCode(appliedCoupon.code)
+      const subtotalNow = items.reduce((sum, i) => sum + parsePrice(i.price) * i.quantity, 0)
+      if (appliedCoupon.discount_type === 'percent') {
+        setCouponDiscount(subtotalNow * (parseFloat(appliedCoupon.amount) / 100))
+      } else {
+        setCouponDiscount(parseFloat(appliedCoupon.amount) || 0)
+      }
+    }
+  }, [appliedCoupon, items])
 
   // Prefill CEP from cart
   useEffect(() => {
