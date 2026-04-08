@@ -1,29 +1,27 @@
-const GEMINI_API_BASE = 'https://generativelanguage.googleapis.com/v1beta/models'
-
 function stripMarkdownCodeBlock(text: string): string {
   return text
     .replace(/^```html\s*/i, '')
+    .replace(/^```json\s*/i, '')
     .replace(/^```\s*/i, '')
     .replace(/\s*```$/i, '')
     .trim()
 }
 
-async function callGemini(model: string, prompt: string, maxTokens = 4096, jsonMode = false): Promise<string> {
-  const apiKey = process.env.GEMINI_API_KEY
-  if (!apiKey) throw new Error('GEMINI_API_KEY not set')
+async function callClaude(prompt: string, maxTokens = 4096): Promise<string> {
+  const apiKey = process.env.ANTHROPIC_API_KEY
+  if (!apiKey) throw new Error('ANTHROPIC_API_KEY not set')
 
-  const url = `${GEMINI_API_BASE}/${model}:generateContent?key=${apiKey}`
-
-  const res = await fetch(url, {
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': apiKey,
+      'anthropic-version': '2023-06-01',
+    },
     body: JSON.stringify({
-      contents: [{ parts: [{ text: prompt }] }],
-      generationConfig: {
-        maxOutputTokens: maxTokens,
-        ...(jsonMode ? { responseMimeType: 'application/json' } : {}),
-        thinkingConfig: { thinkingBudget: 0 },
-      },
+      model: 'claude-haiku-4-5-20251001',
+      max_tokens: maxTokens,
+      messages: [{ role: 'user', content: prompt }],
     }),
   })
 
@@ -31,24 +29,16 @@ async function callGemini(model: string, prompt: string, maxTokens = 4096, jsonM
     const err = await res.json().catch(() => ({ error: { message: res.statusText } }))
     const message =
       (err as { error?: { message?: string } }).error?.message ??
-      `Gemini API error: ${res.status}`
+      `Claude API error: ${res.status}`
     throw new Error(message)
   }
 
   const data = (await res.json()) as {
-    candidates?: Array<{
-      content?: { parts?: Array<{ text?: string }> }
-      finishReason?: string
-    }>
+    content?: Array<{ type: string; text?: string }>
   }
 
-  const candidate = data.candidates?.[0]
-  if (candidate?.finishReason === 'MAX_TOKENS') {
-    throw new Error('Gemini response truncated (MAX_TOKENS). Tente um tema mais curto ou reduza o tamanho do artigo.')
-  }
-
-  const text = candidate?.content?.parts?.[0]?.text
-  if (typeof text !== 'string') throw new Error('Unexpected Gemini response')
+  const text = data.content?.[0]?.text
+  if (typeof text !== 'string') throw new Error('Unexpected Claude response')
   return text
 }
 
@@ -119,8 +109,8 @@ Retorne APENAS um JSON válido (sem markdown, sem texto antes ou depois) no segu
   "suggestedKeywords": ["keyword1", "keyword2", "keyword3", "keyword4", "keyword5"]
 }`
 
-  const raw = await callGemini('gemini-2.5-flash', prompt, 8192, true)
-  return JSON.parse(raw) as GeneratedContent
+  const raw = await callClaude(prompt, 8192)
+  return JSON.parse(stripMarkdownCodeBlock(raw)) as GeneratedContent
 }
 
 export async function humanizeContent(content: string): Promise<string> {
@@ -138,7 +128,7 @@ Instruções:
 
 Retorne APENAS o HTML reescrito, sem explicações, sem markdown.`
 
-  const raw = await callGemini('gemini-2.5-flash', prompt, 8192, false)
+  const raw = await callClaude(prompt, 8192)
   return stripMarkdownCodeBlock(raw)
 }
 
@@ -182,8 +172,8 @@ Retorne APENAS JSON válido (sem markdown) no formato:
 }`
 
   try {
-    const raw = await callGemini('gemini-2.5-flash', prompt, 4096, true)
-    return JSON.parse(raw) as SEOAnalysis
+    const raw = await callClaude(prompt, 4096)
+    return JSON.parse(stripMarkdownCodeBlock(raw)) as SEOAnalysis
   } catch {
     return {
       score: 50,
@@ -223,7 +213,7 @@ REGRAS:
 - NUNCA adicione ou altere links — mantenha apenas os links já existentes no conteúdo
 - Retorne APENAS o HTML melhorado`
 
-  const raw = await callGemini('gemini-2.5-flash', prompt, 8192, false)
+  const raw = await callClaude(prompt, 8192)
   return stripMarkdownCodeBlock(raw)
 }
 
@@ -236,7 +226,7 @@ Produtos incluídos: ${products.filter(Boolean).join(', ') || 'jalecos e uniform
 A descrição deve ser inspiradora, profissional e focada em estilo de uniformes médicos/saúde.
 Retorne APENAS a descrição, sem aspas, sem explicações.`
 
-  const result = await callGemini('gemini-2.5-flash', prompt, 200)
+  const result = await callClaude(prompt, 200)
   return result.trim()
 }
 
@@ -247,6 +237,6 @@ A imagem deve ser profissional, relacionada à área da saúde ou uniformes méd
 
 Retorne APENAS a query de busca, sem aspas, sem explicações. Máximo 5 palavras.`
 
-  const result = await callGemini('gemini-2.5-flash', prompt, 100)
+  const result = await callClaude(prompt, 200)
   return result.trim()
 }

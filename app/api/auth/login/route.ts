@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Email e senha são obrigatórios' }, { status: 400 })
     }
 
-    const wpUrl = process.env.NEXT_PUBLIC_WC_URL || 'https://jaleca.com.br'
+    const wpUrl = process.env.NEXT_PUBLIC_WC_URL || 'https://wp.jaleca.com.br'
     const res = await fetch(`${wpUrl}/wp-json/jaleca/v1/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

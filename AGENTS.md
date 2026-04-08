@@ -16,7 +16,7 @@ Site de uniformes médicos (jalecos, dômãs, conjuntos). Diretório: `/Users/rh
 - Gemini AI (gemini-2.5-flash) para blog
 - Radix UI (shadcn/ui pattern) + custom components
 
-## Status das integrações (06/04/2026)
+## Status das integrações (08/04/2026)
 - WooCommerce GraphQL: ✅ `https://wp.jaleca.com.br/graphql`
 - WooCommerce REST: ✅ Pedidos, customers
 - Carrinho: ✅ localStorage
@@ -31,6 +31,15 @@ Site de uniformes médicos (jalecos, dômãs, conjuntos). Diretório: `/Users/rh
 - Meta CAPI token: ✅ configurado
 - Meta Catálogo: ✅ 30 produtos / 559 variantes (feed: `/api/feed/google-shopping`, atualiza 1h)
 - Meta Loja Instagram + Facebook: ✅ aprovada (06/04/2026)
+- Meta Checkout URL: ✅ configurado (`/api/meta-checkout`) — redireciona para produto por cor ou /produtos (08/04/2026)
+- Meta Catálogo: ✅ 116 produtos ativos, 0 erros (08/04/2026)
+- Franqueado popup: ✅ reset diário (STORAGE_KEY = data YYYY-MM-DD), region fix BR-MG→MG
+- Franqueado debug: ✅ `/api/franqueado/debug`
+- Google Ads: ✅ conta 444-659-1621 — Merchant Center 5759143798 ✅ (106 produtos aprovados), GA4 530831994 ✅, faturamento ✅
+  - Campanha Search "Jaleca - Search - Jalecos": ✅ publicada (R$49/dia)
+  - Tag conversão AW-18072506944: ✅ instalada em `components/Analytics.tsx` (aguardando verificação ~24h)
+  - Campanha Shopping "Jaleca - Shopping - Produtos": ✅ publicada (R$30/dia, Maximizar cliques, CPC máx R$2,50)
+  - Campanha Performance Max: ⏳ criar no mês 2 após dados de conversão
 - Tawk.to chat: ✅
 - Speed Insights Vercel: ✅
 - Trust badges + PIX badge + Urgência estoque: ✅
@@ -118,11 +127,11 @@ Também enviar `billing: { name, address }` no nível do pedido.
 - Link do carrinho: `/finalizar-compra`
 
 ### Frete grátis (04/04/2026)
-- Limite: **R$599**
+- Limite: **R$499**
 - Estados elegíveis: **SP, RJ, ES, MG**
 - CEP salvo em `localStorage` (`jaleca-checkout-cep`, `jaleca-checkout-state`)
 - Se estado não é SP/RJ/ES/MG: mostra mensagem informativa
-- Se estado é SP/RJ/ES/MG e valor >= R$599: "Você ganhou frete grátis!"
+- Se estado é SP/RJ/ES/MG e valor >= R$499: "Você ganhou frete grátis!"
 - Se estado é SP/RJ/ES/MG e valor < R$599: barra de progresso
 
 ### Produtos
@@ -194,8 +203,21 @@ Novos arquivos a criar: `app/api/tracking/*`, `app/api/orders/notify`, `app/api/
 Modificar: `lib/email.ts` (+10 funções), `vercel.json` (+2 crons), `functions.php` WP (+campos rastreio + hooks)
 
 ## Pendente (prioridade)
-1. **API rastreamento** — projeto comunicação pedidos aprovado, aguardando token OAuth2 Melhor Envio
-2. Google Search Console + sitemap
-3. Melhor Envio OAuth2 real
-4. Meta Ads catálogo dinâmico
-5. **Meta feed: erros a resolver** — 10 variações com `stock_quantity=0` (Missing quantity) + 11 variações com imagem > 8MB (Scrub Feminino, Jaleco Universitário Unissex). Verificar se variações sem estoque devem ser publicadas ou não.
+1. **Google Ads — Campanha Shopping** — 🔄 PARADO na tela de orçamento: digitar `30` → Continuar → publicar campanha "Jaleca - Shopping - Produtos"
+2. **Google Ads — Verificação do anunciante** — completar verificação de identidade (Adm. → Configurações da conta → Verificação do anunciante)
+3. **Google Ads — Tag de conversão** — aguardando verificação automática (~24h). Tag AW-18072506944 já instalada.
+4. **Google Ads — Performance Max** — criar no mês 2, após ter dados de conversão. R$14/dia.
+5. **API rastreamento** — projeto comunicação pedidos aprovado, aguardando token OAuth2 Melhor Envio
+6. **Melhor Envio OAuth2 real**
+7. **Imagens WordPress** — instalar EWWW Image Optimizer, bulk optimize (algumas imagens > 8MB bloqueavam Meta)
+8. **Instagram Shopping** — coleção sem produtos visíveis — aguardando sincronização Meta após configuração do checkout URL (08/04/2026)
+9. **Vercel Pro** — trial em andamento, verificar prazo de expiração
+
+## CRO implementado (08/04/2026)
+- Hero subheadline atualizado: "Antes de você falar, sua imagem já foi avaliada..."
+- "Mais Vendidos" adicionado ao menu desktop + mobile com badge TOP
+- Bloco de confiança na página de produto: Envio rápido + Troca fácil + Compra segura
+
+## PRDs criados (docs/)
+- `PRD-GOOGLE-ADS-MASTER-JALECA-2026.md` — estratégia completa Google Ads (campanhas, keywords, copy, CRO, projeções)
+- `PRD-APRESENTACAO-PROJECAO-12-MESES.md` — projeção financeira 3 cenários para Manus gerar apresentação

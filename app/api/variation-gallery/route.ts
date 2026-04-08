@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server'
 
-const WC_API = process.env.WOOCOMMERCE_API_URL || 'https://jaleca.com.br/wp-json/wc/v3'
-const WP_API = (process.env.NEXT_PUBLIC_WC_URL || 'https://jaleca.com.br') + '/wp-json/wp/v2'
+const WC_API = process.env.WOOCOMMERCE_API_URL || 'https://wp.jaleca.com.br/wp-json/wc/v3'
+const WP_API = (process.env.NEXT_PUBLIC_WC_URL || 'https://wp.jaleca.com.br') + '/wp-json/wp/v2'
 const auth = Buffer.from(
   `${process.env.WOOCOMMERCE_CONSUMER_KEY}:${process.env.WOOCOMMERCE_CONSUMER_SECRET}`
 ).toString('base64')

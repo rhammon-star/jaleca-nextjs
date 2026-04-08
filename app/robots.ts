@@ -8,7 +8,7 @@ export default function robots(): MetadataRoute.Robots {
       disallow: [
         '/blog/admin/',
         '/api/',
-        '/checkout',
+        '/finalizar-compra',
         '/minha-conta',
         '/pedido-confirmado/',
         '/redefinir-senha',

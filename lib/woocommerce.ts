@@ -173,7 +173,7 @@ export async function getShippingZones(): Promise<Array<{ id: number; name: stri
 
 export async function loginCustomer(email: string, password: string): Promise<{ token: string; user_email: string; user_nicename: string; user_display_name: string }> {
   // Uses JWT Auth plugin endpoint — install https://wordpress.org/plugins/jwt-authentication-for-wp-rest-api/
-  const wcUrl = process.env.NEXT_PUBLIC_WC_URL || 'https://jaleca.com.br'
+  const wcUrl = process.env.NEXT_PUBLIC_WC_URL || 'https://wp.jaleca.com.br'
   const res = await fetch(`${wcUrl}/wp-json/jwt-auth/v1/token`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
