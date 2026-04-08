@@ -34,10 +34,20 @@ async function callMiniMax(prompt: string, maxTokens = 2000): Promise<string> {
 
   const data = (await res.json()) as {
     choices?: Array<{ message?: { content?: string } }>
+    base_resp?: { status_code?: number; status_msg?: string }
+  }
+
+  // Check for MiniMax API errors
+  if (data.base_resp?.status_code !== 0 && data.base_resp?.status_code !== undefined) {
+    throw new Error(`MiniMax API error ${data.base_resp.status_code}: ${data.base_resp.status_msg ?? 'Unknown error'}`)
   }
 
   const text = data.choices?.[0]?.message?.content
-  if (typeof text !== 'string') throw new Error('Unexpected MiniMax response')
+  if (typeof text !== 'string') {
+    // Log the actual response for debugging
+    console.error('MiniMax unexpected response:', JSON.stringify(data).slice(0, 500))
+    throw new Error('Unexpected MiniMax response')
+  }
   return text
 }
 
