@@ -519,6 +519,26 @@ export async function sendOrderRefunded(
   await sendMail({ to: customerEmail, subject: `Reembolso processado — Pedido #${orderId}`, html: wrapHtml(content, 'Reembolso processado') })
 }
 
+/** Email — Observação do pedido para o cliente */
+export async function sendOrderNote(
+  orderId: number | string,
+  customerName: string,
+  customerEmail: string,
+  note: string,
+): Promise<void> {
+  const firstName = customerName.split(' ')[0] || 'Cliente'
+  const content = `
+    <h2 style="font-size:22px;margin:0 0 8px;">Atualização do seu pedido</h2>
+    <p style="color:#666;margin:0 0 16px;">Olá, ${firstName}. Temos uma atualização sobre o seu pedido <strong>#${orderId}</strong>:</p>
+    <div style="background:#f9f7f5;border-left:4px solid #c4a97d;padding:16px 20px;margin:0 0 24px;border-radius:4px;">
+      <p style="color:#333;margin:0;font-size:15px;line-height:1.6;">${note}</p>
+    </div>
+    <p style="color:#888;font-size:13px;margin:0 0 20px;">Dúvidas? Estamos à disposição.</p>
+    ${btn('Ver meu pedido', `https://jaleca.com.br/minha-conta`)}
+  `
+  await sendMail({ to: customerEmail, subject: `Atualização do Pedido #${orderId} — Jaleca`, html: wrapHtml(content, 'Atualização do pedido') })
+}
+
 export async function sendReviewRequest(
   orderId: number | string,
   customerName: string,
