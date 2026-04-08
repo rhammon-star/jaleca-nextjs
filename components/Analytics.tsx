@@ -7,6 +7,7 @@ import { Suspense } from 'react'
 
 const GA4_ID = process.env.NEXT_PUBLIC_GA4_ID
 const META_PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID
+const GOOGLE_ADS_ID = 'AW-18072506944'
 
 // ── GA4 helpers ──────────────────────────────────────────────────────────────
 
@@ -43,6 +44,14 @@ export function trackPurchase(
       price: i.price,
       quantity: i.quantity,
     })),
+  })
+
+  // Google Ads conversion
+  window.gtag?.('event', 'conversion', {
+    send_to: GOOGLE_ADS_ID,
+    value,
+    currency: 'BRL',
+    transaction_id: orderId,
   })
 
   // Meta Pixel
@@ -173,6 +182,7 @@ export default function Analytics() {
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());
                 gtag('config', '${GA4_ID}', { send_page_view: false });
+                gtag('config', '${GOOGLE_ADS_ID}');
               `,
             }}
           />
