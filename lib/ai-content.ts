@@ -7,19 +7,18 @@ function stripMarkdownCodeBlock(text: string): string {
     .trim()
 }
 
-async function callClaude(prompt: string, maxTokens = 4096): Promise<string> {
-  const apiKey = process.env.ANTHROPIC_API_KEY
-  if (!apiKey) throw new Error('ANTHROPIC_API_KEY not set')
+async function callMiniMax(prompt: string, maxTokens = 2000): Promise<string> {
+  const apiKey = process.env.MINIMAX_API_KEY
+  if (!apiKey) throw new Error('MINIMAX_API_KEY not set')
 
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
+  const res = await fetch('https://api.minimaxi.chat/v1/chat/completions', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'x-api-key': apiKey,
-      'anthropic-version': '2023-06-01',
+      'Authorization': `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
-      model: 'claude-3-5-haiku-20241022',
+      model: 'MiniMax-Text-01',
       max_tokens: maxTokens,
       messages: [{ role: 'user', content: prompt }],
     }),
@@ -29,16 +28,16 @@ async function callClaude(prompt: string, maxTokens = 4096): Promise<string> {
     const err = await res.json().catch(() => ({ error: { message: res.statusText } }))
     const message =
       (err as { error?: { message?: string } }).error?.message ??
-      `Claude API error: ${res.status}`
+      `MiniMax API error: ${res.status}`
     throw new Error(message)
   }
 
   const data = (await res.json()) as {
-    content?: Array<{ type: string; text?: string }>
+    choices?: Array<{ message?: { content?: string } }>
   }
 
-  const text = data.content?.[0]?.text
-  if (typeof text !== 'string') throw new Error('Unexpected Claude response')
+  const text = data.choices?.[0]?.message?.content
+  if (typeof text !== 'string') throw new Error('Unexpected MiniMax response')
   return text
 }
 
@@ -109,7 +108,7 @@ Retorne APENAS um JSON válido (sem markdown, sem texto antes ou depois) no segu
   "suggestedKeywords": ["keyword1", "keyword2", "keyword3", "keyword4", "keyword5"]
 }`
 
-  const raw = await callClaude(prompt, 2000)
+  const raw = await callMiniMax(prompt, 2000)
   return JSON.parse(stripMarkdownCodeBlock(raw)) as GeneratedContent
 }
 
@@ -128,7 +127,7 @@ Instruções:
 
 Retorne APENAS o HTML reescrito, sem explicações, sem markdown.`
 
-  const raw = await callClaude(prompt, 2000)
+  const raw = await callMiniMax(prompt, 2000)
   return stripMarkdownCodeBlock(raw)
 }
 
@@ -172,7 +171,7 @@ Retorne APENAS JSON válido (sem markdown) no formato:
 }`
 
   try {
-    const raw = await callClaude(prompt, 1000)
+    const raw = await callMiniMax(prompt, 1000)
     return JSON.parse(stripMarkdownCodeBlock(raw)) as SEOAnalysis
   } catch {
     return {
@@ -213,7 +212,7 @@ REGRAS:
 - NUNCA adicione ou altere links — mantenha apenas os links já existentes no conteúdo
 - Retorne APENAS o HTML melhorado`
 
-  const raw = await callClaude(prompt, 2000)
+  const raw = await callMiniMax(prompt, 2000)
   return stripMarkdownCodeBlock(raw)
 }
 
@@ -226,7 +225,7 @@ Produtos incluídos: ${products.filter(Boolean).join(', ') || 'jalecos e uniform
 A descrição deve ser inspiradora, profissional e focada em estilo de uniformes médicos/saúde.
 Retorne APENAS a descrição, sem aspas, sem explicações.`
 
-  const result = await callClaude(prompt, 200)
+  const result = await callMiniMax(prompt, 200)
   return result.trim()
 }
 
@@ -237,6 +236,6 @@ A imagem deve ser profissional, relacionada à área da saúde ou uniformes méd
 
 Retorne APENAS a query de busca, sem aspas, sem explicações. Máximo 5 palavras.`
 
-  const result = await callClaude(prompt, 200)
+  const result = await callMiniMax(prompt, 200)
   return result.trim()
 }
