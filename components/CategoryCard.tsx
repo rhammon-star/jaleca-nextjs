@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useRef } from 'react'
+import { useRef, useEffect } from 'react'
 
 interface CategoryCardProps {
   title: string
@@ -15,17 +15,20 @@ interface CategoryCardProps {
 export default function CategoryCard({ title, subtitle, href, bg, accent, video }: CategoryCardProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
 
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.play().catch(() => {})
+    }
+  }, [])
+
   const handleMouseEnter = () => {
     if (videoRef.current) {
-      videoRef.current.play()
+      videoRef.current.play().catch(() => {})
     }
   }
 
   const handleMouseLeave = () => {
-    if (videoRef.current) {
-      videoRef.current.pause()
-      videoRef.current.currentTime = 0
-    }
+    // Não pausa — deixa rodando sempre no background
   }
 
   return (
@@ -39,23 +42,34 @@ export default function CategoryCard({ title, subtitle, href, bg, accent, video 
         <>
           {/* Background color fallback */}
           <div className={`absolute inset-0 ${bg}`} />
-          {/* Video */}
+
+          {/* Vídeo — sempre rodando, opacidade sutil em repouso, plena no hover */}
           <video
             ref={videoRef}
             src={video}
             muted
             loop
             playsInline
-            preload="metadata"
-            className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 opacity-0 group-hover:opacity-100"
+            preload="auto"
+            className="absolute inset-0 w-full h-full object-cover transition-opacity duration-700 opacity-30 group-hover:opacity-100"
           />
-          {/* Gradient overlay para o texto ficar legível */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent group-hover:from-black/70 transition-all duration-300" />
+
+          {/* Gradiente sempre presente, mais forte no hover */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent group-hover:from-black/65 transition-all duration-500" />
+
+          {/* Ícone de play sutil — some no hover */}
+          <div className="absolute top-4 right-4 opacity-40 group-hover:opacity-0 transition-opacity duration-300">
+            <div className="w-8 h-8 rounded-full border border-white/60 flex items-center justify-center">
+              <svg width="10" height="12" viewBox="0 0 10 12" fill="white">
+                <path d="M0 0L10 6L0 12V0Z" />
+              </svg>
+            </div>
+          </div>
         </>
       )}
 
       <div className="relative translate-y-2 group-hover:translate-y-0 transition-transform duration-400">
-        <p className={`text-[10px] font-semibold tracking-[0.3em] uppercase ${video ? 'text-white/70 group-hover:text-white/90' : accent} mb-1 opacity-70`}>
+        <p className={`text-[10px] font-semibold tracking-[0.3em] uppercase ${video ? 'text-white/70 group-hover:text-white/90' : accent} mb-1`}>
           {subtitle}
         </p>
         <h3 className={`font-display text-2xl md:text-3xl font-semibold ${video ? 'text-white' : accent} mb-3`}>
@@ -66,7 +80,6 @@ export default function CategoryCard({ title, subtitle, href, bg, accent, video 
         </span>
       </div>
 
-      {/* Overlay shine */}
       {!video && (
         <div className="absolute inset-0 bg-white/0 group-hover:bg-white/5 transition-colors duration-300" />
       )}

@@ -255,11 +255,12 @@ export default async function Home() {
                 video: '/video-conjuntos.mp4',
               },
               {
-                title: 'Novidades',
-                subtitle: 'Recém chegadas',
-                href: '/produtos?novidades=true',
+                title: 'Dômãs',
+                subtitle: 'Conforto no trabalho',
+                href: '/produtos?cat=Dômãs',
                 bg: 'bg-[#edf0e8]',
                 accent: 'text-[#3a5a3a]',
+                video: '/video-domas.mp4',
               },
             ].map(cat => (
               <CategoryCard key={cat.title} {...cat} />
