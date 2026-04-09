@@ -202,7 +202,8 @@ export async function calculateShipping(
     const token = process.env.MELHOR_ENVIO_TOKEN
     if (token && token !== 'PLACEHOLDER') {
       const options = await callMelhorEnvioAPI(cleanCep, totalWeight, items)
-      if (options.length > 0) {
+      // Only use API result if it returned at least 2 services (PAC + SEDEX or more)
+      if (options.length >= 2) {
         // Apply free shipping for PAC if eligible
         const ufRes = await fetch(`https://viacep.com.br/ws/${cleanCep}/json/`).catch(() => null)
         if (ufRes?.ok) {
