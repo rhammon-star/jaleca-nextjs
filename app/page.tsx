@@ -223,6 +223,9 @@ export default async function Home() {
                 width={3155}
                 height={3871}
                 fetchPriority="high"
+                loading="eager"
+                decoding="sync"
+                sizes="(max-width: 767px) 100vw, 58vw"
               />
             </picture>
             {/* Gradiente editorial suave */}
