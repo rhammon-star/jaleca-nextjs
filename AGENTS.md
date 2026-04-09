@@ -217,19 +217,18 @@ Novos arquivos a criar: `app/api/tracking/*`, `app/api/orders/notify`, `app/api/
 Modificar: `lib/email.ts` (+10 funções), `vercel.json` (+2 crons), `functions.php` WP (+campos rastreio + hooks)
 
 ## Pendente (prioridade)
-1. **Cadastro de usuário** — ✅ RESOLVIDO (09/04/2026). Fallback WC nativo, auth forgot-password corrigida, emails funcionando.
-2. **WooCommerce SKUs duplicados** — 4 produtos com variação com SKU = SKU do produto pai. Ver `memory/backlog_jaleca.md`. Corrigir no WooCommerce antes do próximo sync Bling.
-3. **Google Ads — Verificação do anunciante** — Adm. → Configurações → Verificação do anunciante
-4. **Google Ads — Em 7 dias** — checar termos novos para negativar; ao atingir 30 compras, trocar Search para "Maximizar conversões"
-5. **Meta Remarketing** — se não gastar em 3 dias, expandir público de 60 para 90 dias
-6. **API rastreamento** — projeto aprovado, aguardando token OAuth2 Melhor Envio
-7. **Melhor Envio OAuth2 real** — token placeholder, frete usa fallback regional
-8. **Imagens WordPress** — EWWW Image Optimizer (algumas imagens > 8MB bloqueavam Meta)
-9. **Instagram Shopping** — aguardando sincronização Meta
-10. **Vercel Pro** — verificar prazo trial
-11. **Reset senha email** — confirmar funcionamento em produção
-12. **Marketplaces via Bling** — próximo passo: conectar Mercado Livre (Preferências → Integrações → Central de atendimento do Mercado Livre). Ver `docs/PROJETO-MARKETPLACES-BLING.md`
-13. **Google Ads — Performance Max** — criar no mês 2
+1. **Cadastro de usuário** — ✅ RESOLVIDO (09/04/2026).
+2. **Melhor Envio** — ✅ RESOLVIDO (09/04/2026). Token real configurado, integração automática ME cart, renovação mensal automática via cron.
+3. **WooCommerce SKUs duplicados** — 4 produtos afetados. Corrigir antes do próximo sync Bling.
+4. **Google Ads — Verificação do anunciante** — Adm. → Configurações → Verificação do anunciante
+5. **Google Ads — Em 7 dias** — checar termos novos para negativar; ao atingir 30 compras, trocar Search para "Maximizar conversões"
+6. **Meta Remarketing** — se não gastar em 3 dias, expandir público de 60 para 90 dias
+7. **Imagens WordPress** — EWWW Image Optimizer (algumas imagens > 8MB bloqueavam Meta)
+8. **Instagram Shopping** — aguardando sincronização Meta
+9. **Vercel Pro** — verificar prazo trial
+10. **Marketplaces via Bling** — próximo passo: conectar Mercado Livre. Ver `docs/PROJETO-MARKETPLACES-BLING.md`
+11. **Google Ads — Performance Max** — criar no mês 2
+12. **Webhook WC status pedido** — configurar em WP Admin → WooCommerce → Avançado → Webhooks → URL: `https://jaleca.com.br/api/orders/notify` + secret = JALECA_WEBHOOK_SECRET
 
 ## Performance (09/04/2026)
 - Cache headers corrigidos no `next.config.ts` (regex estava quebrado — assets sem cache)
@@ -268,12 +267,21 @@ Modificar: `lib/email.ts` (+10 funções), `vercel.json` (+2 crons), `functions.
 - **`/minha-conta`**: aba **"Avaliar"** — pedidos concluídos, form estrelas + comentário → POST `/api/reviews/[productId]`.
 
 ### Email pós-compra
-- Email de confirmação para PIX/Boleto: `/api/payment/create/route.ts` (antes só cartão aprovado)
-- Email "Bem-vinda + Defina sua senha": via `/api/auth/forgot-password?isNewCustomer=true` após auto-create no checkout
+- Email de confirmação para PIX/Boleto: `/api/payment/create/route.ts`
+- Email "Bem-vinda + Defina sua senha": via `forgot-password?isNewCustomer=true` após auto-create no checkout
+- Email interno `financeiro@jaleca.com.br`: disparado a cada nova venda com cliente, forma de pagamento, itens e link para o pedido no WP Admin
 
-### Frete (09/04/2026)
-- PAC + SEDEX + Jadlog sempre exibidos — se Melhor Envio API retornar < 2 opções, usa fallback regional
+### Frete e Melhor Envio (09/04/2026)
+- PAC + SEDEX + Jadlog sempre exibidos — se API retornar < 2 opções, usa fallback regional
 - Fallback: PAC R$18,90 / Jadlog R$22,90 / SEDEX R$35,90 (Sul/Sudeste); PAC grátis acima R$499 para SP/RJ/MG/ES
+- **Token real ME configurado** — expira ~30 dias, renovação automática via cron (dia 1 de cada mês, `app/api/melhor-envio/refresh/route.ts`)
+- **ME cart automático**: pedido pago → `addShipmentToMECart()` em `lib/melhor-envio.ts` → aparece no carrinho ME com serviço correto (PAC=1, SEDEX=2, Jadlog=7)
+- `ME_SERVICE_MAP`: mapa de IDs de serviço exportado de `lib/melhor-envio.ts`
+- **WordPress SMTP**: WP Mail SMTP configurado com Brevo (smtp-relay.brevo.com:587) → notas de pedido WC chegam no email do cliente
+- **Variáveis ME no Vercel**: `MELHOR_ENVIO_TOKEN`, `MELHOR_ENVIO_REFRESH_TOKEN`, `MELHOR_ENVIO_CLIENT_ID` (23800), `MELHOR_ENVIO_CLIENT_SECRET`, `VERCEL_API_TOKEN`
+
+### Reset de senha (09/04/2026)
+- `reset-password/route.ts`: auth corrigida para usar WC consumer key (antes usava WP_ADMIN_USER inexistente → retornava "link expirado" incorretamente)
 
 ## PRDs criados (docs/)
 - `PRD-GOOGLE-ADS-MASTER-JALECA-2026.md` — estratégia completa Google Ads (campanhas, keywords, copy, CRO, projeções)
