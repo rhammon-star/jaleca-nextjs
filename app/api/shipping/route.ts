@@ -18,9 +18,10 @@ export async function POST(request: NextRequest) {
       cep?: string
       weight?: number
       items?: number
+      subtotal?: number
     }
 
-    const { cep, weight = 0.5, items = 1 } = body
+    const { cep, weight = 0.5, items = 1, subtotal = 0 } = body
 
     if (!cep) {
       return NextResponse.json({ error: 'CEP é obrigatório' }, { status: 400 })
@@ -42,7 +43,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'CEP não encontrado' }, { status: 400 })
     }
 
-    const rawOptions = await calculateShipping(cleanCep, weight, items)
+    const rawOptions = await calculateShipping(cleanCep, weight, items, subtotal)
     const options = rawOptions.map(opt => ({
       ...opt,
       cost: parseFloat((parseFloat(String(opt.cost)) + 5).toFixed(2)),

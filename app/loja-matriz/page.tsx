@@ -51,7 +51,7 @@ const localBusinessSchema = {
       '@type': 'OpeningHoursSpecification',
       dayOfWeek: 'Saturday',
       opens: '09:00',
-      closes: '13:00',
+      closes: '12:00',
     },
   ],
   image: 'https://jaleca.com.br/loja-fachada-noite.jpg',
@@ -97,7 +97,7 @@ export default function LojaMatrizPage() {
             <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-border">
               {[
                 { icon: Clock, label: 'Seg – Sex', value: '09h às 18h' },
-                { icon: Clock, label: 'Sábados', value: '09h às 13h' },
+                { icon: Clock, label: 'Sábados', value: '09h às 12h' },
                 { icon: Users, label: 'Atendimento', value: 'Especializado' },
                 { icon: MapPin, label: 'Localização', value: 'Ipatinga, MG' },
               ].map(item => (
@@ -208,12 +208,13 @@ export default function LojaMatrizPage() {
               A Jaleca está crescendo e buscando parceiras para expansão. Revenda nossa coleção com suporte completo da marca, modelo comprovado e uma linha exclusiva de jalecos e uniformes profissionais. Entre em contato e saiba mais.
             </p>
             <a
-              href="mailto:contato@jaleca.com.br"
+              href="https://wa.me/5531992901940?text=Olá!%20Tenho%20interesse%20em%20ser%20uma%20revendedora%20Jaleca."
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-[#c4a97d] text-white px-8 py-4 text-[11px] font-semibold tracking-widest uppercase hover:bg-[#a8895f] transition-colors"
             >
               Quero ser Revendedora
             </a>
-            <p className="text-white/40 text-xs mt-4">contato@jaleca.com.br</p>
           </div>
         </section>
 

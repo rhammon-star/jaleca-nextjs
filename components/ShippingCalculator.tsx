@@ -15,6 +15,7 @@ type Props = {
   selectedId?: string
   initialCep?: string
   onCepCalculated?: (cep: string, state?: string) => void
+  subtotal?: number
 }
 
 function formatCEP(value: string): string {
@@ -27,7 +28,7 @@ function formatCurrency(value: number): string {
   return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
 }
 
-export default function ShippingCalculator({ onShippingSelected, selectedId, initialCep, onCepCalculated }: Props) {
+export default function ShippingCalculator({ onShippingSelected, selectedId, initialCep, onCepCalculated, subtotal = 0 }: Props) {
   const [cep, setCep] = useState(initialCep ? formatCEP(initialCep) : '')
   const [options, setOptions] = useState<ShippingOption[]>([])
   const [loading, setLoading] = useState(false)
@@ -51,7 +52,7 @@ export default function ShippingCalculator({ onShippingSelected, selectedId, ini
       const res = await fetch('/api/shipping', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ cep: clean }),
+        body: JSON.stringify({ cep: clean, subtotal }),
       })
       const data = await res.json()
       if (!res.ok) {

@@ -117,7 +117,12 @@ export async function POST(request: NextRequest) {
       },
     }, { status: 201 })
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Erro ao criar conta'
+    const raw = error instanceof Error ? error.message : 'Erro ao criar conta'
+    // WooCommerce can return permission errors when the API key is read-only
+    const isPermissionError = raw.toLowerCase().includes('permiss') || raw.toLowerCase().includes('cannot create') || raw.toLowerCase().includes('not authorized')
+    const message = isPermissionError
+      ? 'Não foi possível criar sua conta no momento. Tente novamente em instantes ou entre em contato pelo WhatsApp.'
+      : raw
     return NextResponse.json({ error: message }, { status: 400 })
   }
 }

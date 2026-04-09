@@ -937,6 +937,7 @@ export default function CheckoutClient() {
                     onShippingSelected={setShipping}
                     selectedId={shipping?.id}
                     initialCep={calculatedCep}
+                    subtotal={subtotal}
                     onCepCalculated={cep => {
                       // Frete mudou o CEP → atualiza o endereço (mantém nome/telefone)
                       setAddress(prev => ({ ...prev, postcode: formatCEP(cep) }))

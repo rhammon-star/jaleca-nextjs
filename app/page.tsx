@@ -118,7 +118,7 @@ export default async function Home() {
     },
     openingHoursSpecification: [
       { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday'], opens: '09:00', closes: '18:00' },
-      { '@type': 'OpeningHoursSpecification', dayOfWeek: 'Saturday', opens: '09:00', closes: '13:00' },
+      { '@type': 'OpeningHoursSpecification', dayOfWeek: 'Saturday', opens: '09:00', closes: '12:00' },
     ],
     priceRange: '$$',
     servesCuisine: undefined,
@@ -259,9 +259,9 @@ export default async function Home() {
                 video: '/video-conjuntos-opt.mp4',
               },
               {
-                title: 'Dômãs',
+                title: 'Dólmãs',
                 subtitle: 'Conforto no trabalho',
-                href: '/produtos?cat=Dômãs',
+                href: '/produtos?cat=Dólmãs',
                 bg: 'bg-[#edf0e8]',
                 accent: 'text-[#3a5a3a]',
                 video: '/video-domas-opt.mp4',
@@ -354,7 +354,7 @@ export default async function Home() {
         <div className="container">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
-              { icon: Truck, title: 'Frete para Todo Brasil', desc: 'Entrega em 5 a 15 dias úteis' },
+              { icon: Truck, title: 'Frete Grátis no Sudeste', desc: 'SP · RJ · MG · ES acima de R$499' },
               { icon: Percent, title: '5% de Desconto no PIX', desc: 'Aprovação imediata' },
               { icon: RotateCcw, title: '7 Dias para Troca', desc: 'Direito de arrependimento' },
               { icon: ShieldCheck, title: 'Compra Segura', desc: 'Seus dados protegidos' },

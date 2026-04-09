@@ -52,7 +52,7 @@ const contactPageSchema = {
         '@type': 'OpeningHoursSpecification',
         dayOfWeek: 'Saturday',
         opens: '09:00',
-        closes: '13:00',
+        closes: '12:00',
       },
     ],
   },
@@ -118,7 +118,7 @@ export default function ContatoPage() {
                 <p className="font-semibold text-foreground text-sm group-hover:underline">Telefone</p>
               </div>
               <p className="text-sm text-muted-foreground">(31) 3367-2467</p>
-              <p className="text-xs text-muted-foreground mt-1">Seg–Sex: 9h às 18h | Sáb: 9h às 13h</p>
+              <p className="text-xs text-muted-foreground mt-1">Seg–Sex: 9h às 18h | Sáb: 9h às 12h</p>
             </a>
 
             <div className="block border border-border rounded-lg px-6 py-5">
@@ -127,7 +127,7 @@ export default function ContatoPage() {
                 <p className="font-semibold text-foreground text-sm">Horário de Atendimento</p>
               </div>
               <p className="text-sm text-muted-foreground">Segunda a Sexta: 9h às 18h</p>
-              <p className="text-sm text-muted-foreground">Sábado: 9h às 13h</p>
+              <p className="text-sm text-muted-foreground">Sábado: 9h às 12h</p>
             </div>
           </div>
 

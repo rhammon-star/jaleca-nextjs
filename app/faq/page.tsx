@@ -57,7 +57,7 @@ const faqData = {
       "name": "Qual o prazo de entrega?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "O prazo varia de 5 a 15 dias úteis conforme a região. Para Sudeste, o prazo médio é de 5 a 8 dias úteis. Para Sul, Centro-Oeste e Nordeste, de 8 a 12 dias úteis. Para Norte, de 10 a 15 dias úteis. O rastreamento é enviado por e-mail após a postagem."
+        "text": "Trabalhamos com entrega rápida para todo o Brasil. Para o Sudeste (SP, RJ, MG, ES), o prazo médio é de 3 a 7 dias úteis. Para Sul e Centro-Oeste, de 5 a 10 dias. Para Nordeste e Norte, de 7 a 12 dias. O rastreamento é enviado por e-mail após a postagem."
       }
     },
     {
@@ -97,7 +97,7 @@ const faqData = {
       "name": "Tem loja física?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Sim! Nossa loja matriz fica em Ipatinga, MG. Endereço: Av. Itaú, 123 —Centro. Atendimento de segunda a sexta das 9h às 18h e sábado das 9h às 13h. Você pode visitar para provar e comprar diretamente.拜訪を歓迎します!"
+        "text": "Sim! Nossa loja matriz fica em Ipatinga, MG. Endereço: Av. Castelo Branco, 391-B, Horto. Atendimento de segunda a sexta das 9h às 18h e sábado das 9h às 12h. Você pode visitar para provar e comprar diretamente."
       }
     }
   ]
@@ -225,11 +225,11 @@ export default function FAQPage() {
                         )}
                         {item.q.includes('prazo de entrega') && (
                           <>
-                            <p>O prazo varia conforme a região:</p>
+                            <p>Trabalhamos com entrega rápida para todo o Brasil:</p>
                             <ul className="list-disc pl-5 mt-2 space-y-1">
-                              <li><strong>Sudeste:</strong> 5 a 8 dias úteis</li>
-                              <li><strong>Sul / Centro-Oeste / Nordeste:</strong> 8 a 12 dias úteis</li>
-                              <li><strong>Norte:</strong> 10 a 15 dias úteis</li>
+                              <li><strong>Sudeste (SP, RJ, MG, ES):</strong> 3 a 7 dias úteis</li>
+                              <li><strong>Sul / Centro-Oeste:</strong> 5 a 10 dias úteis</li>
+                              <li><strong>Nordeste / Norte:</strong> 7 a 12 dias úteis</li>
                             </ul>
                             <p className="mt-2">O rastreamento é enviado por e-mail após a postagem.</p>
                           </>

@@ -87,21 +87,21 @@ const Header = () => {
                 </div>
               </div>
 
-              {/* Dômãs dropdown */}
+              {/* Dólmãs dropdown */}
               <div className="relative group/nav2" style={{ display: 'flex', alignItems: 'center' }}>
-                <Link href="/produtos?cat=Dômãs" className="text-muted-foreground hover:text-foreground transition-colors duration-200 text-[12px] font-semibold tracking-widest uppercase whitespace-nowrap flex items-center gap-1 py-5">
-                  Dômãs
+                <Link href="/produtos?cat=Dólmãs" className="text-muted-foreground hover:text-foreground transition-colors duration-200 text-[12px] font-semibold tracking-widest uppercase whitespace-nowrap flex items-center gap-1 py-5">
+                  Dólmãs
                   <ChevronDown size={11} className="transition-transform duration-200 group-hover/nav2:rotate-180" />
                 </Link>
                 <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover/nav2:opacity-100 group-hover/nav2:visible transition-all duration-200 z-50">
                   <div className="bg-background border border-border shadow-xl p-5 w-52">
-                    <p className="text-[10px] font-semibold tracking-widest uppercase text-muted-foreground mb-3">Dômãs</p>
+                    <p className="text-[10px] font-semibold tracking-widest uppercase text-muted-foreground mb-3">Dólmãs</p>
                     <div className="space-y-2.5">
                       {[
-                        { label: 'Todas as Dômãs', href: '/produtos?cat=Dômãs' },
-                        { label: 'Dômãs Femininas', href: '/produtos?cat=Dômãs&genero=feminino' },
-                        { label: 'Dômãs Masculinas', href: '/produtos?cat=Dômãs&genero=masculino' },
-                        { label: 'Promoções', href: '/produtos?cat=Dômãs&sale=true' },
+                        { label: 'Todas as Dólmãs', href: '/produtos?cat=Dólmãs' },
+                        { label: 'Dólmãs Femininas', href: '/produtos?cat=Dólmãs&genero=feminino' },
+                        { label: 'Dólmãs Masculinas', href: '/produtos?cat=Dólmãs&genero=masculino' },
+                        { label: 'Promoções', href: '/produtos?cat=Dólmãs&sale=true' },
                       ].map(item => (
                         <Link key={item.href} href={item.href} className="block text-sm text-muted-foreground hover:text-foreground hover:translate-x-1 transition-all duration-150">
                           {item.label}
@@ -215,7 +215,7 @@ const Header = () => {
                 { label: 'Início', href: '/' },
                 { label: 'Loja', href: '/produtos' },
                 { label: 'Jalecos', href: '/produtos?cat=Jalecos' },
-                { label: 'Dômãs', href: '/produtos?cat=Dômãs' },
+                { label: 'Dólmãs', href: '/produtos?cat=Dólmãs' },
                 { label: 'Conjuntos', href: '/produtos?cat=Conjuntos' },
                 { label: 'Mais Vendidos', href: '/produtos?sort=mais-vendidos' },
                 { label: 'Blog', href: '/blog' },

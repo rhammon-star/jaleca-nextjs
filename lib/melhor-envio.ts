@@ -20,6 +20,8 @@ export type TrackingResult = {
 
 const JALECA_CEP = '35160294'
 
+// States eligible for free PAC shipping above R$499
+const FREE_SHIPPING_STATES = ['SP', 'RJ', 'MG', 'ES']
 // Regional fallback table (PAC and SEDEX by zone)
 const SUL_SUDESTE = ['SP', 'RJ', 'MG', 'ES', 'PR', 'SC', 'RS']
 
@@ -32,19 +34,22 @@ type ViaCEPResponse = {
   erro?: boolean
 }
 
-function getFallbackOptions(uf?: string): ShippingOption[] {
+function getFallbackOptions(uf?: string, subtotal = 0): ShippingOption[] {
   const isSulSudeste = uf ? SUL_SUDESTE.includes(uf.toUpperCase()) : false
+  const isFreeShipping = uf ? FREE_SHIPPING_STATES.includes(uf.toUpperCase()) && subtotal >= 499 : false
 
   if (isSulSudeste) {
     return [
-      { id: 'pac',   label: 'PAC (Correios)',   cost: 18.90, delivery_time: '5-7 dias úteis'  },
-      { id: 'sedex', label: 'SEDEX (Correios)', cost: 35.90, delivery_time: '2-3 dias úteis'  },
+      { id: 'pac',   label: 'PAC (Correios)',   cost: isFreeShipping ? 0 : 18.90, delivery_time: 'Entrega rápida'  },
+      { id: 'sedex', label: 'SEDEX (Correios)', cost: 35.90, delivery_time: 'Entrega expressa'  },
+      { id: 'jadlog', label: 'Jadlog',          cost: 22.90, delivery_time: 'Entrega rápida'  },
     ]
   }
 
   return [
-    { id: 'pac',   label: 'PAC (Correios)',   cost: 18.90, delivery_time: '7-10 dias úteis' },
-    { id: 'sedex', label: 'SEDEX (Correios)', cost: 35.90, delivery_time: '3-5 dias úteis'  },
+    { id: 'pac',   label: 'PAC (Correios)',   cost: 18.90, delivery_time: 'Entrega rápida' },
+    { id: 'sedex', label: 'SEDEX (Correios)', cost: 39.90, delivery_time: 'Entrega expressa'  },
+    { id: 'jadlog', label: 'Jadlog',          cost: 26.90, delivery_time: 'Entrega rápida'  },
   ]
 }
 
@@ -63,7 +68,8 @@ const API_BASE = process.env.MELHOR_ENVIO_SANDBOX === 'true'
 
 async function callMelhorEnvioAPI(
   cepDestino: string,
-  weight: number
+  weight: number,
+  items = 1
 ): Promise<ShippingOption[]> {
   const token = process.env.MELHOR_ENVIO_TOKEN
 
@@ -82,7 +88,8 @@ async function callMelhorEnvioAPI(
     body: JSON.stringify({
       from: { postal_code: JALECA_CEP },
       to:   { postal_code: cepDestino },
-      products: [{ id: 'jaleco', height: 20, width: 30, length: 40, weight, quantity: 1, insurance_value: 0 }],
+      // Cubagem: 4 × 31 × 41 cm base, +4cm de largura por peça adicional
+      products: [{ id: 'jaleco', height: 4, width: Math.min(4 + 4 * (items - 1), 60), length: 41, weight, quantity: items, insurance_value: 0 }],
       services: '1,2,7,8',
       options: { insurance_value: 0, receipt: false, own_hand: false, collect: false },
     }),
@@ -184,7 +191,8 @@ export async function trackShipments(meTags: string[]): Promise<TrackingResult[]
 export async function calculateShipping(
   cepDestino: string,
   weight: number,
-  items: number
+  items: number,
+  subtotal = 0
 ): Promise<ShippingOption[]> {
   const cleanCep = cepDestino.replace(/\D/g, '')
   const totalWeight = Math.max(weight * items, 0.5)
@@ -193,8 +201,18 @@ export async function calculateShipping(
   try {
     const token = process.env.MELHOR_ENVIO_TOKEN
     if (token && token !== 'PLACEHOLDER') {
-      const options = await callMelhorEnvioAPI(cleanCep, totalWeight)
-      if (options.length > 0) return options
+      const options = await callMelhorEnvioAPI(cleanCep, totalWeight, items)
+      if (options.length > 0) {
+        // Apply free shipping for PAC if eligible
+        const ufRes = await fetch(`https://viacep.com.br/ws/${cleanCep}/json/`).catch(() => null)
+        if (ufRes?.ok) {
+          const cepData = (await ufRes.json()) as ViaCEPResponse
+          if (!cepData.erro && FREE_SHIPPING_STATES.includes(cepData.uf?.toUpperCase()) && subtotal >= 499) {
+            return options.map(o => o.id === '1' ? { ...o, cost: 0 } : o)
+          }
+        }
+        return options
+      }
     }
   } catch {
     // Fall through to regional fallback
@@ -206,12 +224,12 @@ export async function calculateShipping(
     if (viaCepRes.ok) {
       const cepData = (await viaCepRes.json()) as ViaCEPResponse
       if (!cepData.erro) {
-        return getFallbackOptions(cepData.uf)
+        return getFallbackOptions(cepData.uf, subtotal)
       }
     }
   } catch {
     // ignore
   }
 
-  return getFallbackOptions()
+  return getFallbackOptions(undefined, subtotal)
 }
