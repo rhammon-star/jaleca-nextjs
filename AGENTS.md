@@ -37,9 +37,11 @@ Site de uniformes médicos (jalecos, dômãs, conjuntos). Diretório: `/Users/rh
 - Franqueado debug: ✅ `/api/franqueado/debug`
 - Google Reviews (homepage): ✅ via Places API (New) — `lib/google-places.ts`, `components/GoogleReviewsSection.tsx`
 - Google Ads: ✅ conta 444-659-1621 — Merchant Center 5759143798 ✅ (106 produtos aprovados), GA4 530831994 ✅, faturamento ✅
-  - Campanha Search "Jaleca - Search - Jalecos": ✅ publicada (R$49/dia)
-  - Tag conversão AW-18072506944: ✅ instalada em `components/Analytics.tsx` (aguardando verificação ~24h)
+  - Campanha Search "Jaleca - Search - Jalecos": ✅ R$70/dia, estratégia **Maximizar Cliques** (CPC máx R$2,50) — trocado de "Maximizar conversões" pois não havia histórico de conversões
+  - Tag conversão AW-18072506944: ✅ verificada e funcionando — bolinha verde, origem GA4, evento `manual_event_PURCHASE`
+  - Palavras-chave negativas: ✅ adicionadas (~40 termos de concorrentes: dra cherie, farcoo, coat lab, tutto bianco, etc.)
   - Campanha Shopping "Jaleca - Shopping - Produtos": ✅ publicada (R$30/dia, Maximizar cliques, CPC máx R$2,50)
+  - Meta Remarketing: ✅ nova campanha "Remarketing - Carrinho Abandonado" criada sem Advantage+ (08/04/2026, em análise ~24h)
   - Campanha Performance Max: ⏳ criar no mês 2 após dados de conversão
 - Tawk.to chat: ✅
 - Speed Insights Vercel: ✅
@@ -214,18 +216,34 @@ Modificar: `lib/email.ts` (+10 funções), `vercel.json` (+2 crons), `functions.
 ## Pendente (prioridade)
 1. **Google Ads — Verificação do anunciante** — completar verificação de identidade (Adm. → Configurações da conta → Verificação do anunciante)
 2. **Google Ads — Performance Max** — criar no mês 2, após ter dados de conversão. R$14/dia.
-3. **API rastreamento** — projeto comunicação pedidos aprovado, aguardando token OAuth2 Melhor Envio
-4. **Melhor Envio OAuth2 real**
-5. **Imagens WordPress** — instalar EWWW Image Optimizer, bulk optimize (algumas imagens > 8MB bloqueavam Meta)
-6. **Instagram Shopping** — coleção sem produtos visíveis — aguardando sincronização Meta após configuração do checkout URL (08/04/2026)
-7. **Vercel Pro** — trial em andamento, verificar prazo de expiração
-8. **Reset senha email** — Brevo log de erro adicionado; confirmar funcionamento em produção
+3. **Google Ads — Em 7 dias** — checar termos de pesquisa novos para negativar; quando tiver 30 compras trocar Search de volta para "Maximizar conversões"
+4. **Meta Remarketing** — verificar amanhã se campanha "Remarketing - Carrinho Abandonado" saiu de "Em análise". Se não gastar em 3 dias, expandir público de 60 para 90 dias
+5. **API rastreamento** — projeto comunicação pedidos aprovado, aguardando token OAuth2 Melhor Envio
+6. **Melhor Envio OAuth2 real**
+7. **Imagens WordPress** — instalar EWWW Image Optimizer, bulk optimize (algumas imagens > 8MB bloqueavam Meta)
+8. **Instagram Shopping** — coleção sem produtos visíveis — aguardando sincronização Meta após configuração do checkout URL (08/04/2026)
+9. **Vercel Pro** — trial em andamento, verificar prazo de expiração
+10. **Reset senha email** — Brevo log de erro adicionado; confirmar funcionamento em produção
+11. **Marketplaces via Bling** — WooCommerce ↔ Bling conectado (09/04/2026). 210 produtos importados. Próximo passo: conectar Mercado Livre no Bling (Preferências → Integrações → Central de atendimento do Mercado Livre). Ver `docs/PROJETO-MARKETPLACES-BLING.md`
+
+## Performance (09/04/2026)
+- Cache headers corrigidos no `next.config.ts` (regex estava quebrado — assets sem cache)
+- Preconnect adicionado: Facebook, Google Tag Manager, wp.jaleca.com.br
+- DNS-prefetch: embed.tawk.to
+- Hero image: `loading="eager"`, `decoding="sync"`, `sizes="(max-width: 767px) 100vw, 58vw"`
+- Vídeos dos cards comprimidos com ffmpeg (12MB → 3.3MB, 73% menor)
+- Vídeos carregam via IntersectionObserver (lazy-load — zero impacto no PageSpeed)
+- PageSpeed antes: FCP 2.7s | LCP 7.7s | TBT 160ms | CLS 0 | SI 4.3s
 
 ## CRO implementado (08/04/2026)
 - Hero subheadline atualizado: "Antes de você falar, sua imagem já foi avaliada..."
 - "Mais Vendidos" adicionado ao menu desktop + mobile com badge TOP
 - Bloco de confiança na página de produto: Envio rápido + Troca fácil + Compra segura
 - Google Reviews seção na homepage (Places API New, rating + 3 reviews, cache 24h)
+- Cards de categoria com vídeo hover (Jalecos, Conjuntos, Dômãs) — `components/CategoryCard.tsx`
+- Barra de confiança com ícones SVG (substituiu emojis) — `components/TrustBadgeBar.tsx`
+- Campo "Ref:" (SKU) removido da página de produto
+- "Novidades" renomeado para "Dômãs" nos cards da home
 
 ## PRDs criados (docs/)
 - `PRD-GOOGLE-ADS-MASTER-JALECA-2026.md` — estratégia completa Google Ads (campanhas, keywords, copy, CRO, projeções)
