@@ -283,7 +283,7 @@ export async function addShipmentToMECart(payload: MEShipmentPayload): Promise<{
       name:        'Jaleca',
       phone:       '3134461777',
       email:       'contato@jaleca.com.br',
-      document:    '00000000000000',   // CNPJ Jaleca — atualizar quando disponível
+      document:    '30379063000161',   // CNPJ Jaleca
       address:     'Rua Coronel Joao Pessoa, 408',
       complement:  'Loja',
       district:    'Centro',

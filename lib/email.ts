@@ -27,6 +27,7 @@ type CartItem = {
 // ── Template helpers ──────────────────────────────────────────────────────────
 
 function wrapHtml(content: string, title: string): string {
+  const siteUrl = 'https://jaleca.com.br'
   return `<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -38,14 +39,14 @@ function wrapHtml(content: string, title: string): string {
   <table width="100%" cellpadding="0" cellspacing="0" style="padding:32px 16px;">
     <tr><td align="center">
       <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border:1px solid #e5e5e5;max-width:600px;width:100%;">
-        <!-- Header -->
+        <!-- Header com logo -->
         <tr>
-          <td style="background:#1a1a1a;padding:24px 32px;text-align:center;">
-            <span style="color:#ffffff;font-size:24px;letter-spacing:6px;font-family:Georgia,serif;font-weight:400;">JALECA</span>
+          <td style="background:#ffffff;padding:28px 32px;text-align:center;border-bottom:1px solid #e5e5e5;">
+            <img src="${siteUrl}/logo-cropped.jpg" alt="Jaleca" width="180" style="display:inline-block;height:auto;" />
           </td>
         </tr>
         <!-- Content -->
-        <tr><td style="padding:32px;">${content}</td></tr>
+        <tr><td style="padding:40px 32px;">${content}</td></tr>
         <!-- Footer -->
         <tr>
           <td style="background:#f5f5f0;padding:16px 32px;text-align:center;font-size:12px;color:#888;">
@@ -141,10 +142,6 @@ export async function sendOrderConfirmation(order: Order, customerEmail: string)
   const paymentMethod = (order as Record<string, unknown>).payment_method_title as string | undefined
 
   const content = `
-    <div style="text-align:center;margin-bottom:28px;">
-      <img src="https://jaleca.com.br/logo-full.jpg" alt="Jaleca" style="max-width:260px;height:auto;" />
-    </div>
-
     <h2 style="font-size:22px;margin:0 0 6px;font-family:Georgia,serif;">Pedido confirmado!</h2>
     <p style="color:#666;margin:0 0 24px;font-size:15px;">Olá, ${firstName}! Seu pedido <strong>#${orderNumber}</strong> foi recebido e está sendo processado.</p>
 
@@ -625,4 +622,56 @@ export async function sendInternalOrderNotification(
 </html>`
 
   await sendMail({ to: 'financeiro@jaleca.com.br', subject: `Nova venda — Pedido #${orderNumber} (${total})`, html })
+}
+
+// ── Email de definição de senha (novo cliente ou redefinição) ─────────────────
+// Gera token, salva no WC meta e envia o email via Brevo.
+// Usado tanto no /register (novo cliente via checkout) quanto no /forgot-password.
+export async function sendSetPasswordEmail(
+  customerId: number,
+  email: string,
+  isNewCustomer: boolean,
+): Promise<void> {
+  const WC_API = process.env.WOOCOMMERCE_API_URL
+  const CK     = process.env.WOOCOMMERCE_CONSUMER_KEY
+  const CS     = process.env.WOOCOMMERCE_CONSUMER_SECRET
+  const siteUrl = 'https://jaleca.com.br'
+
+  if (!WC_API || !CK || !CS) return
+
+  const crypto = await import('crypto')
+  const token   = crypto.randomBytes(32).toString('hex')
+  const expires = String(Date.now() + 72 * 60 * 60 * 1000) // 72h
+
+  const wcAuth = 'Basic ' + Buffer.from(`${CK}:${CS}`).toString('base64')
+  await fetch(`${WC_API}/customers/${customerId}`, {
+    method: 'PUT',
+    headers: { Authorization: wcAuth, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      meta_data: [
+        { key: 'email_verify_token',   value: token   },
+        { key: 'email_verify_expires', value: expires },
+      ],
+    }),
+  }).catch(() => {})
+
+  const resetLink = `${siteUrl}/redefinir-senha?key=${token}&login=${encodeURIComponent(email)}`
+
+  const subject = isNewCustomer
+    ? 'Sua conta Jaleca foi criada — defina sua senha'
+    : 'Redefinição de senha — Jaleca'
+  const heading = isNewCustomer ? 'Bem-vindo à Jaleca!' : 'Redefinição de senha'
+  const body    = isNewCustomer
+    ? 'Sua conta foi criada com sucesso. Clique no botão abaixo para definir sua senha e acessar seus pedidos. O link é válido por 72 horas.'
+    : 'Clique no botão abaixo para criar uma nova senha. O link é válido por 72 horas.'
+  const btnText = isNewCustomer ? 'DEFINIR MINHA SENHA' : 'REDEFINIR SENHA'
+
+  const content = `
+    <h2 style="font-size:26px;margin:0 0 16px;font-family:Georgia,serif;font-weight:400;">${heading}</h2>
+    <p style="color:#666;margin:0 0 24px;font-size:15px;line-height:1.6;">${body}</p>
+    ${btn(btnText, resetLink)}
+    <p style="font-size:12px;color:#aaa;margin-top:24px;">Se você não solicitou isso, ignore este e-mail.</p>
+  `
+
+  await sendMail({ to: email, subject, html: wrapHtml(content, subject) })
 }

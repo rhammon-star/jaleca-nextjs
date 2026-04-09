@@ -347,14 +347,7 @@ export default function CheckoutClient() {
           if (regRes.ok) {
             const regData = await regRes.json()
             resolvedCustomerId = regData.user?.id
-            // Send "set password" email so customer can access their account
-            // keepalive: true ensures the request survives page navigation to /pagamento
-            fetch('/api/auth/forgot-password', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ email, isNewCustomer: true }),
-              keepalive: true,
-            }).catch(() => {})
+            // "Define sua senha" email is sent server-side in /api/auth/register
           }
         } catch {
           // Continue without account — guest order

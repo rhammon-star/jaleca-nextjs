@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { loginCustomer } from '@/lib/woocommerce'
 import { validateCPF, cleanCPF } from '@/lib/cpf'
-import { sendEmailVerification } from '@/lib/email'
+import { sendEmailVerification, sendSetPasswordEmail } from '@/lib/email'
 import crypto from 'crypto'
 
 const WC_API = process.env.WOOCOMMERCE_API_URL!
@@ -158,10 +158,10 @@ export async function POST(request: NextRequest) {
       body: JSON.stringify({ meta_data }),
     }).catch(() => {})
 
-    // Send verification email (fire-and-forget)
+    // Send "define your password" email directly (more reliable than browser call)
     if (customerId) {
-      sendVerificationEmail(customerId, email).catch(err =>
-        console.error('[Register] Failed to send verification email:', err)
+      sendSetPasswordEmail(customerId, email, true).catch(err =>
+        console.error('[Register] Failed to send set-password email:', err)
       )
     }
 
