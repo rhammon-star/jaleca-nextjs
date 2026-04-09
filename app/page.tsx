@@ -245,6 +245,7 @@ export default async function Home() {
                 href: '/produtos?cat=Jalecos',
                 bg: 'bg-[#f0ede8]',
                 accent: 'text-[#5a4a3a]',
+                video: '/video-jalecos-opt.mp4',
               },
               {
                 title: 'Conjuntos',
@@ -252,7 +253,7 @@ export default async function Home() {
                 href: '/produtos?cat=Conjuntos',
                 bg: 'bg-[#e8edf0]',
                 accent: 'text-[#3a4a5a]',
-                video: '/video-conjuntos.mp4',
+                video: '/video-conjuntos-opt.mp4',
               },
               {
                 title: 'Dômãs',
@@ -260,7 +261,7 @@ export default async function Home() {
                 href: '/produtos?cat=Dômãs',
                 bg: 'bg-[#edf0e8]',
                 accent: 'text-[#3a5a3a]',
-                video: '/video-domas.mp4',
+                video: '/video-domas-opt.mp4',
               },
             ].map(cat => (
               <CategoryCard key={cat.title} {...cat} />
