@@ -217,7 +217,7 @@ Novos arquivos a criar: `app/api/tracking/*`, `app/api/orders/notify`, `app/api/
 Modificar: `lib/email.ts` (+10 funções), `vercel.json` (+2 crons), `functions.php` WP (+campos rastreio + hooks)
 
 ## Pendente (prioridade)
-1. **Cadastro de usuário** — atualizar WOOCOMMERCE_CONSUMER_KEY e WOOCOMMERCE_CONSUMER_SECRET no Vercel com credenciais da chave "Jaleca Next.js" (`***c3150d3`). Chave atual (`ck_a5855...`) não tem permissão de criação.
+1. **Cadastro de usuário** — ✅ RESOLVIDO (09/04/2026). Usa endpoint customizado `/wp-json/jaleca/v1/create-customer` via plugin "Jaleca Fix" no WordPress. Autenticado com `X-Jaleca-Secret: jaleca-register-secret-2026`. Depois de Salvar Links Permanentes no WP Admin para registrar a rota.
 2. **WooCommerce SKUs duplicados** — 4 produtos com variação com SKU = SKU do produto pai. Ver `memory/backlog_jaleca.md`. Corrigir no WooCommerce antes do próximo sync Bling.
 3. **Google Ads — Verificação do anunciante** — Adm. → Configurações → Verificação do anunciante
 4. **Google Ads — Em 7 dias** — checar termos novos para negativar; ao atingir 30 compras, trocar Search para "Maximizar conversões"
