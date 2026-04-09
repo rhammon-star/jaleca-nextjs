@@ -8,6 +8,7 @@ import { graphqlClient, GET_PRODUCTS } from "@/lib/graphql";
 import ProductCard, { type WooProduct } from "@/components/ProductCard";
 import ScrollReveal from "@/components/ScrollReveal";
 import { Button } from "@/components/ui/button";
+import CategoryCard from "@/components/CategoryCard";
 
 export const revalidate = 3600;
 
@@ -251,6 +252,7 @@ export default async function Home() {
                 href: '/produtos?cat=Conjuntos',
                 bg: 'bg-[#e8edf0]',
                 accent: 'text-[#3a4a5a]',
+                video: '/video-conjuntos.mp4',
               },
               {
                 title: 'Novidades',
@@ -260,25 +262,7 @@ export default async function Home() {
                 accent: 'text-[#3a5a3a]',
               },
             ].map(cat => (
-              <Link
-                key={cat.title}
-                href={cat.href}
-                className={`group relative overflow-hidden ${cat.bg} aspect-[4/3] md:aspect-[3/4] flex flex-col justify-end p-6 md:p-8`}
-              >
-                <div className="translate-y-2 group-hover:translate-y-0 transition-transform duration-400">
-                  <p className={`text-[10px] font-semibold tracking-[0.3em] uppercase ${cat.accent} mb-1 opacity-70`}>
-                    {cat.subtitle}
-                  </p>
-                  <h3 className={`font-display text-2xl md:text-3xl font-semibold ${cat.accent} mb-3`}>
-                    {cat.title}
-                  </h3>
-                  <span className={`inline-flex items-center gap-1.5 text-xs font-semibold tracking-widest uppercase ${cat.accent} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}>
-                    Explorar →
-                  </span>
-                </div>
-                {/* Overlay shine */}
-                <div className="absolute inset-0 bg-white/0 group-hover:bg-white/5 transition-colors duration-300" />
-              </Link>
+              <CategoryCard key={cat.title} {...cat} />
             ))}
           </div>
         </div>
