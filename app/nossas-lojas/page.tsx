@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
+import Image from 'next/image'
 import { MapPin, Instagram } from 'lucide-react'
 import { franqueados } from '@/lib/franqueados'
+import StoreMapClient from '@/components/StoreMapClient'
 
 export const metadata: Metadata = {
   title: 'Nossas Lojas',
@@ -17,7 +18,6 @@ function WhatsAppIcon() {
 }
 
 export default function NossasLojasPage() {
-  // Agrupa por estado
   const porEstado = franqueados.reduce<Record<string, typeof franqueados>>((acc, f) => {
     if (!acc[f.estado]) acc[f.estado] = []
     acc[f.estado].push(f)
@@ -36,18 +36,52 @@ export default function NossasLojasPage() {
 
   return (
     <main>
-      {/* Hero */}
-      <section className="bg-secondary/30 border-b border-border py-16 md:py-20">
-        <div className="container text-center">
-          <p className="text-[10px] font-semibold tracking-[0.35em] uppercase text-muted-foreground mb-3">
-            Encontre a loja mais próxima
+      {/* Hero com foto da loja */}
+      <section className="relative w-full overflow-hidden bg-[#1a1a1a]" style={{ height: '52vh', minHeight: 320 }}>
+        <Image
+          src="/loja-fachada-noite.jpg"
+          alt="Loja Jaleca Ipatinga"
+          fill
+          className="object-cover opacity-70"
+          priority
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 p-8 md:p-14">
+          <p className="text-[11px] font-semibold tracking-[0.4em] uppercase text-[#c4a97d] mb-3">
+            Jaleca — presença nacional
           </p>
-          <h1 className="font-display text-4xl md:text-5xl font-semibold text-foreground mb-4">
+          <h1 className="font-display text-4xl md:text-6xl font-semibold text-white leading-tight mb-2">
             Nossas Lojas
           </h1>
-          <p className="text-muted-foreground text-base max-w-md mx-auto leading-relaxed">
-            Experimente pessoalmente a qualidade Jaleca. Nossas lojas estão presentes em {franqueados.length} cidades.
+          <p className="text-white/70 text-sm md:text-base">
+            {franqueados.length} lojas físicas. Clique no mapa para encontrar a mais próxima de você.
           </p>
+        </div>
+      </section>
+
+      {/* Mapa interativo */}
+      <section className="w-full border-b border-border" style={{ height: '520px' }}>
+        <StoreMapClient />
+      </section>
+
+      {/* Contador visual */}
+      <section className="bg-secondary/20 border-b border-border py-8">
+        <div className="container">
+          <div className="grid grid-cols-3 gap-4 max-w-lg mx-auto text-center">
+            <div>
+              <p className="font-display text-4xl font-semibold text-foreground">{franqueados.length}</p>
+              <p className="text-[10px] font-semibold tracking-[0.25em] uppercase text-muted-foreground mt-1">Lojas físicas</p>
+            </div>
+            <div>
+              <p className="font-display text-4xl font-semibold text-foreground">{Object.keys(porEstado).length}</p>
+              <p className="text-[10px] font-semibold tracking-[0.25em] uppercase text-muted-foreground mt-1">Estados</p>
+            </div>
+            <div>
+              <p className="font-display text-4xl font-semibold text-foreground">+</p>
+              <p className="text-[10px] font-semibold tracking-[0.25em] uppercase text-muted-foreground mt-1">Em expansão</p>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -55,7 +89,6 @@ export default function NossasLojasPage() {
       <section className="container py-14 md:py-20">
         {estados.map(estado => (
           <div key={estado} className="mb-14 last:mb-0">
-            {/* Estado label */}
             <div className="flex items-center gap-3 mb-6">
               <span className="inline-flex items-center gap-1.5 text-[10px] font-semibold tracking-[0.3em] uppercase text-muted-foreground">
                 <MapPin size={12} />
@@ -64,7 +97,6 @@ export default function NossasLojasPage() {
               <div className="flex-1 h-px bg-border" />
             </div>
 
-            {/* Grid de lojas */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {porEstado[estado].map(loja => {
                 const waNumber = loja.whatsapp.replace(/\D/g, '')
@@ -77,7 +109,6 @@ export default function NossasLojasPage() {
                     key={loja.id}
                     className="group border border-border bg-background hover:border-foreground/20 hover:shadow-sm transition-all duration-300 p-6 flex flex-col"
                   >
-                    {/* City + badge */}
                     <div className="flex items-start justify-between gap-2 mb-1">
                       <h2 className="font-display text-xl font-semibold text-foreground leading-tight">
                         {loja.cidade}
@@ -91,12 +122,10 @@ export default function NossasLojasPage() {
                       {loja.nome_loja}
                     </p>
 
-                    {/* Address */}
                     <p className="text-sm text-muted-foreground leading-relaxed mb-6 flex-1">
                       {loja.endereco}
                     </p>
 
-                    {/* Actions */}
                     <div className="flex flex-col gap-2">
                       <a
                         href={waLink}
@@ -126,22 +155,22 @@ export default function NossasLojasPage() {
       </section>
 
       {/* CTA Franquia */}
-      <section className="border-t border-border bg-secondary/20 py-14 md:py-16">
+      <section className="border-t border-border bg-[#1a1a1a] py-14 md:py-16">
         <div className="container text-center">
-          <p className="text-[10px] font-semibold tracking-[0.35em] uppercase text-muted-foreground mb-3">
+          <p className="text-[10px] font-semibold tracking-[0.35em] uppercase text-[#c4a97d] mb-3">
             Quer ter sua própria loja?
           </p>
-          <h2 className="font-display text-3xl md:text-4xl font-semibold text-foreground mb-4">
+          <h2 className="font-display text-3xl md:text-4xl font-semibold text-white mb-4">
             Seja um franqueado Jaleca
           </h2>
-          <p className="text-muted-foreground text-sm max-w-sm mx-auto mb-8 leading-relaxed">
+          <p className="text-white/60 text-sm max-w-sm mx-auto mb-8 leading-relaxed">
             Faça parte da maior rede de uniformes premium para profissionais da saúde do Brasil.
           </p>
           <a
-            href={`https://wa.me/5531992901940?text=Olá!%20Tenho%20interesse%20em%20ser%20um%20franqueado%20Jaleca.`}
+            href="https://wa.me/5531992901940?text=Olá!%20Tenho%20interesse%20em%20ser%20um%20franqueado%20Jaleca."
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-foreground text-background text-xs font-semibold tracking-[0.2em] uppercase px-8 py-3.5 hover:bg-foreground/90 transition-colors duration-200"
+            className="inline-flex items-center gap-2 bg-[#c4a97d] text-white text-xs font-semibold tracking-[0.2em] uppercase px-8 py-3.5 hover:bg-[#a8895f] transition-colors duration-200"
           >
             Quero ser uma revenda
           </a>
