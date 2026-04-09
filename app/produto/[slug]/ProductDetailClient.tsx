@@ -588,10 +588,6 @@ export default function ProductDetailClient({
               </span>
             </div>
 
-            {/* SKU */}
-            {displaySku && (
-              <p className="text-xs text-muted-foreground mb-3">Ref: {displaySku}</p>
-            )}
 
             {/* Rating summary */}
             {reviews.length > 0 && (
