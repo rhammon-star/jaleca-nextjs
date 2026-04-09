@@ -33,20 +33,22 @@ async function sendVerificationEmail(customerId: number, email: string) {
   await sendEmailVerification(link, email)
 }
 
-async function cpfAlreadyExists(cpf: string): Promise<boolean> {
+async function cpfAlreadyExists(cpf: string): Promise<number | null> {
   try {
-    const res = await fetch(
-      `${WC_API}/customers?meta_key=billing_cpf&meta_value=${cpf}&per_page=10&role=all`,
-      { headers: { Authorization: `Basic ${auth}` }, cache: 'no-store' }
-    )
-    if (!res.ok) return false
+    // Fetch ALL customers (up to 100) and check billing_cpf in meta_data
+    const res = await fetch(`${WC_API}/customers?role=all&per_page=100`, {
+      headers: { Authorization: `Basic ${auth}` },
+      cache: 'no-store',
+    })
+    if (!res.ok) return null
     const customers = await res.json()
-    if (!Array.isArray(customers) || customers.length === 0) return false
-    return customers.some((c: { meta_data?: Array<{ key: string; value: string }> }) =>
+    if (!Array.isArray(customers) || customers.length === 0) return null
+    const match = customers.find((c: { meta_data?: Array<{ key: string; value: string }>; id: number }) =>
       c.meta_data?.some(m => m.key === 'billing_cpf' && m.value === cpf)
     )
+    return match ? match.id : null
   } catch {
-    return false
+    return null
   }
 }
 
@@ -66,15 +68,20 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'CPF inválido' }, { status: 400 })
     }
 
-    const cpfExists = await cpfAlreadyExists(cleanedCPF)
-    if (cpfExists) {
+    // Check if CPF is already registered — return existing customer ID if so
+    const existingCustomerId = await cpfAlreadyExists(cleanedCPF)
+    if (existingCustomerId) {
       return NextResponse.json({ error: 'Já existe uma conta cadastrada com este CPF' }, { status: 409 })
     }
 
     const [first_name, ...rest] = name.trim().split(' ')
     const last_name = rest.join(' ')
 
-    // Cria usuário via endpoint customizado do WordPress (bypassa permissões WC REST API)
+    // Create via WooCommerce REST API directly (WP custom endpoint may not exist)
+    let customerId: number | null = null
+    let createdVia = 'wc'
+
+    // Try WordPress custom endpoint first (if it exists)
     const wpRes = await fetch(`${WP_URL}/wp-json/jaleca/v1/create-customer`, {
       method: 'POST',
       headers: {
@@ -91,35 +98,67 @@ export async function POST(request: NextRequest) {
       }),
     })
 
-    const wpData = await wpRes.json()
-
-    if (!wpRes.ok) {
-      const msg = wpData?.message || wpData?.data?.status || 'Erro ao criar conta'
-      if (wpRes.status === 409 || (wpData?.code === 'email_exists')) {
-        return NextResponse.json({ error: 'Este email já está cadastrado' }, { status: 409 })
-      }
-      return NextResponse.json({ error: msg }, { status: 400 })
-    }
-
-    const customerId = wpData.id
-
-    // Salva campos extras WC (birthdate, gender) se informados
-    if ((birthdate || gender) && customerId) {
-      const meta_data: Array<{ key: string; value: string }> = [
-        { key: 'billing_cpf', value: cleanedCPF },
-        { key: 'billing_persontype', value: '1' },
-      ]
-      if (birthdate) meta_data.push({ key: 'billing_birthdate', value: birthdate })
-      if (gender) meta_data.push({ key: 'billing_sex', value: gender })
-
-      await fetch(`${WC_API}/customers/${customerId}`, {
-        method: 'PUT',
+    if (wpRes.ok) {
+      const wpData = await wpRes.json()
+      customerId = wpData.id
+    } else {
+      // Fallback: create directly via WooCommerce REST API
+      const wcRes = await fetch(`${WC_API}/customers`, {
+        method: 'POST',
         headers: { Authorization: `Basic ${auth}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ meta_data }),
-      }).catch(() => {})
+        body: JSON.stringify({
+          email,
+          password,
+          first_name,
+          last_name,
+          billing: {
+            first_name,
+            last_name,
+            email,
+            phone: phone || '',
+            cpf: cleanedCPF,
+            address_1: '',
+            city: '',
+            state: '',
+            postcode: '',
+            country: 'BR',
+          },
+        }),
+      })
+
+      if (!wcRes.ok) {
+        const errData = await wcRes.json()
+        const msg = errData?.message || errData?.data?.status || 'Erro ao criar conta'
+        if (wcRes.status === 409 || errData?.code === 'email_exists') {
+          return NextResponse.json({ error: 'Este email já está cadastrado' }, { status: 409 })
+        }
+        return NextResponse.json({ error: msg }, { status: 400 })
+      }
+
+      const wcData = await wcRes.json()
+      customerId = wcData.id
+      createdVia = 'wc'
     }
 
-    // Email de verificação (fire-and-forget)
+    if (!customerId) {
+      return NextResponse.json({ error: 'Erro ao criar conta' }, { status: 400 })
+    }
+
+    // Save extra meta fields in WooCommerce
+    const meta_data: Array<{ key: string; value: string }> = [
+      { key: 'billing_cpf', value: cleanedCPF },
+      { key: 'billing_persontype', value: '1' },
+    ]
+    if (birthdate) meta_data.push({ key: 'billing_birthdate', value: birthdate })
+    if (gender) meta_data.push({ key: 'billing_sex', value: gender })
+
+    await fetch(`${WC_API}/customers/${customerId}`, {
+      method: 'PUT',
+      headers: { Authorization: `Basic ${auth}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ meta_data }),
+    }).catch(() => {})
+
+    // Send verification email (fire-and-forget)
     if (customerId) {
       sendVerificationEmail(customerId, email).catch(err =>
         console.error('[Register] Failed to send verification email:', err)
@@ -138,10 +177,11 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       user: {
         id: customerId,
-        name: wpData.name || name,
+        name: name,
         email,
         token,
       },
+      createdVia,
     }, { status: 201 })
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Erro ao criar conta'

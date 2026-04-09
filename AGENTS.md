@@ -217,7 +217,7 @@ Novos arquivos a criar: `app/api/tracking/*`, `app/api/orders/notify`, `app/api/
 Modificar: `lib/email.ts` (+10 funções), `vercel.json` (+2 crons), `functions.php` WP (+campos rastreio + hooks)
 
 ## Pendente (prioridade)
-1. **Cadastro de usuário** — ✅ RESOLVIDO (09/04/2026). Usa endpoint customizado `/wp-json/jaleca/v1/create-customer` via plugin "Jaleca Fix" no WordPress. Autenticado com `X-Jaleca-Secret: jaleca-register-secret-2026`. Depois de Salvar Links Permanentes no WP Admin para registrar a rota.
+1. **Cadastro de usuário** — ✅ RESOLVIDO (09/04/2026). Registro usa fallback WC direto se endpoint WP falhar. Busca CPF reescrita para buscar em todos customers.
 2. **WooCommerce SKUs duplicados** — 4 produtos com variação com SKU = SKU do produto pai. Ver `memory/backlog_jaleca.md`. Corrigir no WooCommerce antes do próximo sync Bling.
 3. **Google Ads — Verificação do anunciante** — Adm. → Configurações → Verificação do anunciante
 4. **Google Ads — Em 7 dias** — checar termos novos para negativar; ao atingir 30 compras, trocar Search para "Maximizar conversões"
@@ -258,7 +258,19 @@ Modificar: `lib/email.ts` (+10 funções), `vercel.json` (+2 crons), `functions.
 - **Horário sábado**: corrigido para 09:00–12:00 em contato, loja-matriz, page.tsx, faq
 - **Botão revenda**: `loja-matriz` agora abre WhatsApp 5531992901940
 - **Frete**: PAC grátis automático para SE acima de R$499 + Jadlog adicionado + cubagem correta
-- **Cadastro (#11)**: causa raiz — chave WooCommerce no Vercel (`ck_a5855...`) diferente da "Jaleca Next.js" (`***c3150d3`). Solução: atualizar WOOCOMMERCE_CONSUMER_KEY e WOOCOMMERCE_CONSUMER_SECRET no Vercel com as credenciais da chave "Jaleca Next.js".
+- **Cadastro (#11)**: causa raiz — chave WooCommerce no Vercel diferente da "Jaleca Next.js". Solução: atualizar credenciais no Vercel.
+
+### Cadastro e Checkout (09/04/2026)
+- **`/api/auth/register`**: agora tem fallback WC nativo se endpoint WP `/wp-json/jaleca/v1/create-customer` falhar (404). Sempre cria a conta.
+- **`/api/auth/cpf-lookup`**: reescrito — busca TODOS os customers e verifica `billing_cpf` em meta_data E em `billing.cpf` nativo. Não depende mais de endpoint customizado WC.
+- **`/api/auth/forgot-password`**: detecta `isNewCustomer` → envia email "Sua conta Jaleca foi criada — defina sua senha" com link de 72h.
+- **Checkout flow**: cliente com CPF novo → cria conta automaticamente → recebe email para definir senha → email de confirmação do pedido (PIX/Boleto).
+- **`/minha-conta`**: nova aba **"Avaliar"** — lista pedidos concluídos, form com estrelas + comentário por produto → POST `/api/reviews/[productId]`.
+
+### Email pós-compra
+- `sendReviewRequest()`: email quando pedido fica `completed` → link para avaliar no produto (`#reviews`)
+- Email de confirmação para PIX/Boleto agora disparado em `/api/payment/create/route.ts` (antes só cartão crédito aprovado)
+- `sendWelcome()` existe em `lib/email.ts` mas ainda não é chamada no checkout (precisa adicionar)
 
 ## PRDs criados (docs/)
 - `PRD-GOOGLE-ADS-MASTER-JALECA-2026.md` — estratégia completa Google Ads (campanhas, keywords, copy, CRO, projeções)

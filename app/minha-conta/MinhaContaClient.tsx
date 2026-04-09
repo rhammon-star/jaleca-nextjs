@@ -17,7 +17,7 @@ import { useCart } from '@/contexts/CartContext'
 import { getPointsDiscount } from '@/lib/loyalty-utils'
 import { graphqlClient } from '@/lib/graphql'
 
-type Tab = 'orders' | 'profile' | 'addresses' | 'points' | 'wishlist'
+type Tab = 'orders' | 'profile' | 'addresses' | 'points' | 'wishlist' | 'reviews'
 
 type WCOrder = {
   id: number
@@ -405,6 +405,7 @@ export default function MinhaContaClient() {
   const tabs: { id: Tab; label: string; icon: React.ReactNode }[] = [
     { id: 'orders',    label: 'Pedidos',    icon: <Package size={16} /> },
     { id: 'wishlist',  label: 'Favoritos',  icon: <Heart size={16} /> },
+    { id: 'reviews',   label: 'Avaliar',    icon: <Star size={16} /> },
     { id: 'profile',   label: 'Meus Dados', icon: <User size={16} /> },
     { id: 'addresses', label: 'Endereços',  icon: <MapPin size={16} /> },
     { id: 'points',    label: 'Pontos',     icon: <Award size={16} /> },
@@ -589,6 +590,14 @@ export default function MinhaContaClient() {
                                 >
                                   <Repeat2 size={13} />Comprar novamente
                                 </button>
+                                {order.status === 'completed' && (
+                                  <button
+                                    onClick={() => setActiveTab('reviews')}
+                                    className="flex items-center gap-2 text-xs font-semibold tracking-widest uppercase border border-border px-4 py-2 hover:bg-yellow-50 hover:border-yellow-300 hover:text-yellow-700 transition-all"
+                                  >
+                                    <Star size={13} />Avaliar produtos
+                                  </button>
+                                )}
                               </div>
                             </div>
                           )}
@@ -845,6 +854,52 @@ export default function MinhaContaClient() {
                 )}
               </div>
             )}
+
+            {/* REVIEWS */}
+            {activeTab === 'reviews' && (
+              <div>
+                <h2 className="font-display text-2xl font-semibold mb-6">Minhas Avaliações</h2>
+                <p className="text-sm text-muted-foreground mb-6">
+                  Aqui você pode avaliar os produtos que comprou. Sua opinião ajuda outras profissionais a escolherem o jaleco certo.
+                </p>
+                {ordersLoading ? (
+                  <div className="flex justify-center py-16"><Loader2 size={24} className="animate-spin text-muted-foreground" /></div>
+                ) : orders.filter(o => o.status === 'completed').length === 0 ? (
+                  <div className="text-center py-16 border border-border">
+                    <Star size={40} className="mx-auto mb-3 text-muted-foreground/30" />
+                    <p className="text-muted-foreground mb-4">Nenhum pedido concluído para avaliar.</p>
+                    <Link href="/produtos" className="inline-flex items-center gap-2 bg-ink text-background px-6 py-2.5 text-xs font-semibold tracking-widest uppercase hover:bg-ink/90 transition-colors">
+                      Ver Produtos
+                    </Link>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {orders.filter(o => o.status === 'completed').map(order => (
+                      <div key={order.id} className="border border-border p-5">
+                        <div className="flex items-center justify-between mb-4">
+                          <div>
+                            <p className="font-semibold text-sm">Pedido #{order.number}</p>
+                            <p className="text-xs text-muted-foreground">{formatDate(order.date_created)}</p>
+                          </div>
+                          <span className="inline-flex items-center gap-1 px-2.5 py-1 text-[11px] font-semibold border bg-green-50 text-green-700 border-green-200">
+                            <CheckCircle size={12} />Entregue
+                          </span>
+                        </div>
+                        <div className="space-y-3">
+                          {order.line_items?.map(item => (
+                            <ProductReviewForm
+                              key={item.id}
+                              item={item}
+                              orderId={order.id}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -1015,5 +1070,136 @@ function AddressCard({ title, address, isEditing, form, onFormChange, onEdit, on
         <p className="text-sm text-muted-foreground">Nenhum endereço cadastrado.</p>
       )}
     </div>
+  )
+}
+
+// ProductReviewForm sub-component
+type ProductReviewFormProps = {
+  item: WCOrder['line_items'][0]
+  orderId: number
+}
+
+function ProductReviewForm({ item, orderId }: ProductReviewFormProps) {
+  const [rating, setRating] = useState(0)
+  const [hoverRating, setHoverRating] = useState(0)
+  const [review, setReview] = useState('')
+  const [submitted, setSubmitted] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    if (rating === 0) {
+      setError('Selecione uma nota de 1 a 5 estrelas')
+      return
+    }
+    if (review.trim().length < 10) {
+      setError('Escreva um comentário com pelo menos 10 caracteres')
+      return
+    }
+    setLoading(true)
+    setError('')
+    try {
+      const res = await fetch(`/api/reviews/${item.product_id}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          rating,
+          review: review.trim(),
+          reviewer: 'Cliente Jaleca',
+          reviewer_email: 'cliente@jaleca.com.br',
+        }),
+      })
+      if (!res.ok) {
+        const data = await res.json()
+        throw new Error(data.error || 'Erro ao enviar avaliação')
+      }
+      setSubmitted(true)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Erro ao enviar avaliação')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  if (submitted) {
+    return (
+      <div className="flex items-center gap-3 p-4 bg-green-50 border border-green-200">
+        <CheckCircle size={20} className="text-green-600 flex-shrink-0" />
+        <div>
+          <p className="text-sm font-medium text-green-700">Avaliação enviada!</p>
+          <p className="text-xs text-green-600">Obrigada pelo seu feedback. Sua avaliação ajuda outras profissionais.</p>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="border border-border p-4">
+      <div className="flex items-center gap-3 mb-4">
+        {item.image?.src ? (
+          <div className="w-12 h-12 bg-secondary overflow-hidden flex-shrink-0">
+            <Image src={item.image.src} alt={item.name} width={48} height={48} className="object-cover w-full h-full" />
+          </div>
+        ) : (
+          <div className="w-12 h-12 bg-secondary flex items-center justify-center flex-shrink-0">
+            <Package size={16} className="text-muted-foreground" />
+          </div>
+        )}
+        <div className="flex-1 min-w-0">
+          <p className="text-sm font-medium truncate">{item.name}</p>
+          <p className="text-xs text-muted-foreground">Pedido #{orderId}</p>
+        </div>
+      </div>
+
+      {/* Star rating */}
+      <div className="flex items-center gap-1 mb-3">
+        {[1, 2, 3, 4, 5].map(star => (
+          <button
+            key={star}
+            type="button"
+            onClick={() => setRating(star)}
+            onMouseEnter={() => setHoverRating(star)}
+            onMouseLeave={() => setHoverRating(0)}
+            className="p-0.5 transition-colors hover:scale-110"
+            aria-label={`Nota ${star} estrelas`}
+          >
+            <Star
+              size={24}
+              className={
+                star <= (hoverRating || rating)
+                  ? 'text-yellow-400 fill-yellow-400'
+                  : 'text-gray-300'
+              }
+            />
+          </button>
+        ))}
+        <span className="text-xs text-muted-foreground ml-1">
+          {rating === 0 ? 'Toque para avaliar' : `${rating}/5 estrelas`}
+        </span>
+      </div>
+
+      {/* Review text */}
+      <textarea
+        value={review}
+        onChange={e => setReview(e.target.value)}
+        placeholder="Conte o que você achou do produto (qualidade, caimento, tamanho, etc.)"
+        rows={3}
+        className="w-full border border-border bg-background px-3 py-2.5 text-sm focus:outline-none focus:border-foreground transition-colors resize-none"
+      />
+
+      {error && (
+        <p className="text-red-600 text-xs mt-2">{error}</p>
+      )}
+
+      <button
+        type="submit"
+        disabled={loading}
+        className="mt-3 flex items-center gap-2 bg-ink text-background px-5 py-2.5 text-xs font-semibold tracking-widest uppercase hover:bg-ink/90 transition-colors disabled:opacity-60"
+      >
+        {loading ? <Loader2 size={13} className="animate-spin" /> : <CheckCircle size={13} />}
+        Enviar Avaliação
+      </button>
+    </form>
   )
 }

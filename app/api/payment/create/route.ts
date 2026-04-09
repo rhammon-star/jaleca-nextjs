@@ -259,7 +259,13 @@ export async function POST(request: NextRequest) {
       addPoints(customer_id, parseFloat(wcOrder.total)).catch(() => {})
     }
 
-    // ── 4. Build response ────────────────────────────────────────────────────
+    // ── 4. Send order confirmation email ──────────────────────────────────────
+    // PIX/Boleto: fire-and-forget; credit card handled above after status check
+    if (paymentMethod !== 'credit_card') {
+      sendOrderConfirmation(wcOrder, billing.email).catch(() => {})
+    }
+
+    // ── 5. Build response ────────────────────────────────────────────────────
     const charge = pagarmeOrder.charges?.[0]
     const tx = charge?.last_transaction
 

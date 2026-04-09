@@ -222,11 +222,6 @@ export default function CheckoutClient() {
     setCpfLoginError('')
     const clean = cleanCPF(formatted)
     if (clean.length === 11 && validateCPF(clean)) {
-      // Skip lookup if already logged in
-      if (isLoggedIn) {
-        setCpfStatus('not_found')
-        return
-      }
       clearTimeout(cpfTimer.current)
       cpfTimer.current = setTimeout(() => doLookupCPF(clean), 600)
     }
