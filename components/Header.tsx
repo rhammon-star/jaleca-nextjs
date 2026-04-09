@@ -56,8 +56,8 @@ const Header = () => {
               <Link href="/" className="text-muted-foreground hover:text-foreground transition-colors duration-200 text-[12px] font-semibold tracking-widest uppercase whitespace-nowrap">
                 Início
               </Link>
-              <Link href="/loja-matriz" className="text-muted-foreground hover:text-foreground transition-colors duration-200 text-[12px] font-semibold tracking-widest uppercase whitespace-nowrap">
-                Loja
+              <Link href="/nossas-lojas" className="text-muted-foreground hover:text-foreground transition-colors duration-200 text-[12px] font-semibold tracking-widest uppercase whitespace-nowrap">
+                Nossas Lojas
               </Link>
 
               {/* Jalecos dropdown */}
@@ -220,7 +220,7 @@ const Header = () => {
                 { label: 'Mais Vendidos', href: '/produtos?sort=mais-vendidos' },
                 { label: 'Blog', href: '/blog' },
                 { label: 'Lookbook', href: '/lookbook' },
-                { label: 'Nossa Loja Física', href: '/loja-matriz' },
+                { label: 'Nossas Lojas', href: '/nossas-lojas' },
                 { label: 'Favoritos', href: '/wishlist' },
               ].map(item => (
                 <Link
