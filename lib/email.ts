@@ -582,3 +582,47 @@ export async function sendReviewRequest(
     html: wrapHtml(content, 'Avalie sua compra')
   })
 }
+
+export async function sendInternalOrderNotification(
+  orderId: number,
+  orderNumber: string,
+  customerName: string,
+  customerEmail: string,
+  total: string,
+  paymentMethod: string,
+  items: Array<{ name: string; quantity: number }>
+): Promise<void> {
+  const itemsList = items.map(i => `<li style="margin:4px 0;">${i.quantity}× ${i.name}</li>`).join('')
+  const html = `<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"/><title>Novo pedido #${orderNumber}</title></head>
+<body style="margin:0;padding:0;background:#f5f5f0;font-family:Arial,sans-serif;color:#1a1a1a;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="padding:24px 16px;">
+    <tr><td align="center">
+      <table width="560" cellpadding="0" cellspacing="0" style="background:#fff;border:1px solid #e5e5e5;max-width:560px;width:100%;">
+        <tr><td style="background:#1a1a1a;padding:18px 28px;">
+          <p style="margin:0;color:#c4a97d;font-size:11px;letter-spacing:3px;text-transform:uppercase;">Jaleca — Novo Pedido</p>
+        </td></tr>
+        <tr><td style="padding:28px;">
+          <h2 style="margin:0 0 20px;font-size:20px;">Pedido #${orderNumber}</h2>
+          <table width="100%" cellpadding="0" cellspacing="0" style="font-size:14px;margin-bottom:20px;">
+            <tr><td style="padding:5px 0;color:#666;">Cliente</td><td style="padding:5px 0;"><strong>${customerName}</strong></td></tr>
+            <tr><td style="padding:5px 0;color:#666;">Email</td><td style="padding:5px 0;">${customerEmail}</td></tr>
+            <tr><td style="padding:5px 0;color:#666;">Pagamento</td><td style="padding:5px 0;">${paymentMethod}</td></tr>
+            <tr><td style="padding:5px 0;color:#666;">Total</td><td style="padding:5px 0;"><strong style="font-size:16px;">${total}</strong></td></tr>
+          </table>
+          <p style="margin:0 0 8px;font-size:13px;color:#666;">Itens:</p>
+          <ul style="margin:0 0 24px;padding-left:20px;font-size:14px;">${itemsList}</ul>
+          <a href="https://wp.jaleca.com.br/wp-admin/post.php?post=${orderId}&action=edit"
+             style="display:inline-block;background:#1a1a1a;color:#fff;padding:12px 24px;text-decoration:none;font-size:12px;letter-spacing:2px;">
+            VER PEDIDO NO PAINEL
+          </a>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`
+
+  await sendMail({ to: 'financeiro@jaleca.com.br', subject: `Nova venda — Pedido #${orderNumber} (${total})`, html })
+}

@@ -10,8 +10,9 @@ import {
 import { createOrder } from '@/lib/woocommerce'
 import type { WCOrderData } from '@/lib/woocommerce'
 import { addPoints } from '@/lib/loyalty'
-import { sendOrderConfirmation } from '@/lib/email'
+import { sendOrderConfirmation, sendInternalOrderNotification } from '@/lib/email'
 import { sendMetaPurchase } from '@/lib/meta-conversions'
+import { addShipmentToMECart, ME_SERVICE_MAP } from '@/lib/melhor-envio'
 
 const WC_API = process.env.WOOCOMMERCE_API_URL!
 const WC_CK = process.env.WOOCOMMERCE_CONSUMER_KEY!
@@ -264,6 +265,42 @@ export async function POST(request: NextRequest) {
     if (paymentMethod !== 'credit_card') {
       sendOrderConfirmation(wcOrder, billing.email).catch(() => {})
     }
+
+    // ── 4b. Adicionar ao carrinho do Melhor Envio ─────────────────────────────
+    // Só executa se MELHOR_ENVIO_TOKEN estiver configurado (não placeholder)
+    const meServiceId = ME_SERVICE_MAP[shipping.method_id] ?? ME_SERVICE_MAP['sedex']
+    const meWeight = Math.max(items.reduce((s, i) => s + 0.5 * i.quantity, 0), 0.5)
+    const meTotalValue = items.reduce((s, i) => s + i.price * i.quantity, 0)
+    addShipmentToMECart({
+      serviceId: meServiceId,
+      to: {
+        name:       `${billing.first_name} ${billing.last_name}`.trim(),
+        phone:      billing.phone,
+        email:      billing.email,
+        document:   cpf,
+        address:    billing.address_1,
+        complement: billing.address_2 || '',
+        city:       billing.city,
+        state:      billing.state,
+        postalCode: billing.postcode,
+      },
+      products: items.map(i => ({ name: i.name, quantity: i.quantity, unitValue: i.price })),
+      insuranceValue: meTotalValue,
+      weight: meWeight,
+    }).catch(() => {})
+
+    // ── 4c. Notificação interna — financeiro@jaleca.com.br ────────────────────
+    const totalFormatted = `R$ ${parseFloat(wcOrder.total || '0').toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`
+    const paymentTitle = wcTitleMap[paymentMethod]
+    sendInternalOrderNotification(
+      wcOrder.id,
+      wcOrder.number || String(wcOrder.id),
+      `${billing.first_name} ${billing.last_name}`.trim(),
+      billing.email,
+      totalFormatted,
+      paymentTitle,
+      items.map(i => ({ name: i.name, quantity: i.quantity }))
+    ).catch(() => {})
 
     // ── 5. Build response ────────────────────────────────────────────────────
     const charge = pagarmeOrder.charges?.[0]

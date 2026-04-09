@@ -34,22 +34,34 @@ type ViaCEPResponse = {
   erro?: boolean
 }
 
+// Maps our shipping IDs → Melhor Envio service IDs
+// Used to add shipment to ME cart and to label order notes
+export const ME_SERVICE_MAP: Record<string, number> = {
+  pac:    1,  // PAC Correios
+  sedex:  2,  // SEDEX Correios
+  jadlog: 7,  // Jadlog Package
+  '1':    1,
+  '2':    2,
+  '7':    7,
+  '8':    8,
+}
+
 function getFallbackOptions(uf?: string, subtotal = 0): ShippingOption[] {
   const isSulSudeste = uf ? SUL_SUDESTE.includes(uf.toUpperCase()) : false
   const isFreeShipping = uf ? FREE_SHIPPING_STATES.includes(uf.toUpperCase()) && subtotal >= 499 : false
 
   if (isSulSudeste) {
     return [
-      { id: 'pac',   label: 'PAC (Correios)',   cost: isFreeShipping ? 0 : 18.90, delivery_time: 'Entrega rápida'  },
-      { id: 'sedex', label: 'SEDEX (Correios)', cost: 35.90, delivery_time: 'Entrega expressa'  },
-      { id: 'jadlog', label: 'Jadlog',          cost: 22.90, delivery_time: 'Entrega rápida'  },
+      { id: 'pac',    label: 'PAC (Correios)',   cost: isFreeShipping ? 0 : 18.90, delivery_time: 'Entrega rápida'   },
+      { id: 'sedex',  label: 'SEDEX (Correios)', cost: 35.90,                      delivery_time: 'Entrega expressa' },
+      { id: 'jadlog', label: 'Jadlog',           cost: 22.90,                      delivery_time: 'Entrega rápida'   },
     ]
   }
 
   return [
-    { id: 'pac',   label: 'PAC (Correios)',   cost: 18.90, delivery_time: 'Entrega rápida' },
-    { id: 'sedex', label: 'SEDEX (Correios)', cost: 39.90, delivery_time: 'Entrega expressa'  },
-    { id: 'jadlog', label: 'Jadlog',          cost: 26.90, delivery_time: 'Entrega rápida'  },
+    { id: 'pac',    label: 'PAC (Correios)',   cost: 18.90, delivery_time: 'Entrega rápida'   },
+    { id: 'sedex',  label: 'SEDEX (Correios)', cost: 39.90, delivery_time: 'Entrega expressa' },
+    { id: 'jadlog', label: 'Jadlog',           cost: 26.90, delivery_time: 'Entrega rápida'   },
   ]
 }
 
@@ -233,4 +245,109 @@ export async function calculateShipping(
   }
 
   return getFallbackOptions(undefined, subtotal)
+}
+
+// ── Adicionar envio ao carrinho do Melhor Envio ───────────────────────────────
+
+export type MEShipmentPayload = {
+  serviceId: number          // 1=PAC, 2=SEDEX, 7=Jadlog Package
+  to: {
+    name: string
+    phone: string
+    email: string
+    document: string         // CPF do cliente
+    address: string
+    complement?: string
+    district?: string
+    city: string
+    state: string
+    postalCode: string
+  }
+  products: Array<{
+    name: string
+    quantity: number
+    unitValue: number        // valor unitário em reais
+  }>
+  insuranceValue: number     // valor declarado total
+  weight: number             // peso total em kg
+}
+
+export async function addShipmentToMECart(payload: MEShipmentPayload): Promise<{ id: string } | null> {
+  const token = process.env.MELHOR_ENVIO_TOKEN
+  if (!token || token === 'PLACEHOLDER') return null
+
+  const itemCount = payload.products.reduce((s, p) => s + p.quantity, 0)
+  const body = {
+    service: payload.serviceId,
+    from: {
+      name:        'Jaleca',
+      phone:       '3134461777',
+      email:       'contato@jaleca.com.br',
+      document:    '00000000000000',   // CNPJ Jaleca — atualizar quando disponível
+      address:     'Rua Coronel Joao Pessoa, 408',
+      complement:  'Loja',
+      district:    'Centro',
+      city:        'Ipatinga',
+      state_abbr:  'MG',
+      country_id:  'BR',
+      postal_code: JALECA_CEP,
+    },
+    to: {
+      name:        payload.to.name,
+      phone:       payload.to.phone.replace(/\D/g, ''),
+      email:       payload.to.email,
+      document:    payload.to.document.replace(/\D/g, ''),
+      address:     payload.to.address,
+      complement:  payload.to.complement || '',
+      district:    payload.to.district || '',
+      city:        payload.to.city,
+      state_abbr:  payload.to.state,
+      country_id:  'BR',
+      postal_code: payload.to.postalCode.replace(/\D/g, ''),
+    },
+    products: payload.products.map(p => ({
+      name:           p.name,
+      quantity:       p.quantity,
+      unitary_value:  p.unitValue,
+    })),
+    volumes: [{
+      height: 4,
+      width:  Math.min(4 + 4 * (itemCount - 1), 60),
+      length: 41,
+      weight: payload.weight,
+    }],
+    options: {
+      insurance_value: payload.insuranceValue,
+      receipt:         false,
+      own_hand:        false,
+      reverse:         false,
+      non_commercial:  false,
+    },
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/me/cart`, {
+      method:  'POST',
+      headers: {
+        'Content-Type':  'application/json',
+        'Authorization': `Bearer ${token}`,
+        'User-Agent':    'JalecaApp/1.0 (contato@jaleca.com.br)',
+        'Accept':        'application/json',
+      },
+      body: JSON.stringify(body),
+    })
+
+    if (!res.ok) {
+      const err = await res.text()
+      console.error('[ME Cart] Erro ao adicionar envio:', res.status, err)
+      return null
+    }
+
+    const data = (await res.json()) as { id: string }
+    console.log(`[ME Cart] Envio adicionado ao carrinho: ${data.id}`)
+    return data
+  } catch (err) {
+    console.error('[ME Cart] Falha:', err)
+    return null
+  }
 }

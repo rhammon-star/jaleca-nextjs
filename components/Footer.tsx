@@ -173,7 +173,7 @@ const Footer = () => {
                 <li className="pt-2">
                   <p className="text-[11px] leading-relaxed">
                     Seg–Sex: 9h às 18h<br/>
-                    Sáb: 9h às 13h
+                    Sáb: 9h às 12h
                   </p>
                 </li>
               </ul>

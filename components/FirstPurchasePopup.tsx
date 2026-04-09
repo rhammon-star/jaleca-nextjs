@@ -117,7 +117,7 @@ export default function FirstPurchasePopup() {
               onClick={handleClose}
               className="block w-full text-center mt-4 text-xs text-muted-foreground underline underline-offset-2 hover:text-foreground transition-colors"
             >
-              Não, obrigada
+              Agora não, obrigado
             </button>
           </>
         ) : (

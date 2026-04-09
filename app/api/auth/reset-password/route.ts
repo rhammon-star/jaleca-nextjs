@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 const WC_API = process.env.WOOCOMMERCE_API_URL!
 const wcAuth = () =>
-  'Basic ' + Buffer.from(`${process.env.WP_ADMIN_USER}:${process.env.WP_ADMIN_APP_PASSWORD}`).toString('base64')
+  'Basic ' + Buffer.from(`${process.env.WOOCOMMERCE_CONSUMER_KEY}:${process.env.WOOCOMMERCE_CONSUMER_SECRET}`).toString('base64')
 
 export async function POST(request: NextRequest) {
   try {
