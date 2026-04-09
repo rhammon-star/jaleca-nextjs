@@ -137,13 +137,16 @@ Também enviar `billing: { name, address }` no nível do pedido.
 - Página `/finalizar-compra` criada (mesmo conteúdo de `/checkout`)
 - Link do carrinho: `/finalizar-compra`
 
-### Frete grátis (04/04/2026)
+### Frete grátis (09/04/2026)
 - Limite: **R$499**
-- Estados elegíveis: **SP, RJ, ES, MG**
+- Estados elegíveis (PAC grátis): **SP, RJ, ES, MG**
 - CEP salvo em `localStorage` (`jaleca-checkout-cep`, `jaleca-checkout-state`)
 - Se estado não é SP/RJ/ES/MG: mostra mensagem informativa
-- Se estado é SP/RJ/ES/MG e valor >= R$499: "Você ganhou frete grátis!"
-- Se estado é SP/RJ/ES/MG e valor < R$599: barra de progresso
+- Se estado é SP/RJ/ES/MG e valor >= R$499: PAC custo=0 (aplicado direto no `calculateShipping`)
+- Se estado é SP/RJ/ES/MG e valor < R$499: barra de progresso
+- Subtotal passado ao ShippingCalculator → `/api/shipping` → `calculateShipping(cep, weight, items, subtotal)`
+- SEDEX e Jadlog sempre pagos (Jadlog adicionado em 09/04/2026)
+- Cubagem: 4×31×41 cm base, +4cm largura por peça adicional (`lib/melhor-envio.ts`)
 
 ### Produtos
 - Query GraphQL usa `variations(first: 100)` — limite padrão WPGraphQL é 10
@@ -151,7 +154,7 @@ Também enviar `billing: { name, address }` no nível do pedido.
 - Ordem dos tamanhos: PP → P → M → G → GG → G1 → G2 → G3
 
 ### Categorias e filtros (`lib/products.ts`, `app/produtos/ProductsClient.tsx`)
-- Categorias: `["Todos", "Jalecos", "Dômãs", "Conjuntos", "Acessórios"]`
+- Categorias: `["Todos", "Jalecos", "Dólmãs", "Conjuntos", "Acessórios"]`
 - O filtro usa **categorias reais do WooCommerce** (`productCategories` via GraphQL), não o nome do produto
 - Slugs WooCommerce esperados: `jalecos`, `domas`, `conjuntos`, `acessorios`
 - Subcategorias por gênero: `jalecos-femininos`, `jalecos-masculinos`, `domas-femininas`, `domas-masculinas`, `conjuntos-femininos`, `conjuntos-masculinos`
@@ -214,17 +217,19 @@ Novos arquivos a criar: `app/api/tracking/*`, `app/api/orders/notify`, `app/api/
 Modificar: `lib/email.ts` (+10 funções), `vercel.json` (+2 crons), `functions.php` WP (+campos rastreio + hooks)
 
 ## Pendente (prioridade)
-1. **Google Ads — Verificação do anunciante** — completar verificação de identidade (Adm. → Configurações da conta → Verificação do anunciante)
-2. **Google Ads — Performance Max** — criar no mês 2, após ter dados de conversão. R$14/dia.
-3. **Google Ads — Em 7 dias** — checar termos de pesquisa novos para negativar; quando tiver 30 compras trocar Search de volta para "Maximizar conversões"
-4. **Meta Remarketing** — verificar amanhã se campanha "Remarketing - Carrinho Abandonado" saiu de "Em análise". Se não gastar em 3 dias, expandir público de 60 para 90 dias
-5. **API rastreamento** — projeto comunicação pedidos aprovado, aguardando token OAuth2 Melhor Envio
-6. **Melhor Envio OAuth2 real**
-7. **Imagens WordPress** — instalar EWWW Image Optimizer, bulk optimize (algumas imagens > 8MB bloqueavam Meta)
-8. **Instagram Shopping** — coleção sem produtos visíveis — aguardando sincronização Meta após configuração do checkout URL (08/04/2026)
-9. **Vercel Pro** — trial em andamento, verificar prazo de expiração
-10. **Reset senha email** — Brevo log de erro adicionado; confirmar funcionamento em produção
-11. **Marketplaces via Bling** — WooCommerce ↔ Bling conectado (09/04/2026). 210 produtos importados. Próximo passo: conectar Mercado Livre no Bling (Preferências → Integrações → Central de atendimento do Mercado Livre). Ver `docs/PROJETO-MARKETPLACES-BLING.md`
+1. **Cadastro de usuário** — atualizar WOOCOMMERCE_CONSUMER_KEY e WOOCOMMERCE_CONSUMER_SECRET no Vercel com credenciais da chave "Jaleca Next.js" (`***c3150d3`). Chave atual (`ck_a5855...`) não tem permissão de criação.
+2. **WooCommerce SKUs duplicados** — 4 produtos com variação com SKU = SKU do produto pai. Ver `memory/backlog_jaleca.md`. Corrigir no WooCommerce antes do próximo sync Bling.
+3. **Google Ads — Verificação do anunciante** — Adm. → Configurações → Verificação do anunciante
+4. **Google Ads — Em 7 dias** — checar termos novos para negativar; ao atingir 30 compras, trocar Search para "Maximizar conversões"
+5. **Meta Remarketing** — se não gastar em 3 dias, expandir público de 60 para 90 dias
+6. **API rastreamento** — projeto aprovado, aguardando token OAuth2 Melhor Envio
+7. **Melhor Envio OAuth2 real** — token placeholder, frete usa fallback regional
+8. **Imagens WordPress** — EWWW Image Optimizer (algumas imagens > 8MB bloqueavam Meta)
+9. **Instagram Shopping** — aguardando sincronização Meta
+10. **Vercel Pro** — verificar prazo trial
+11. **Reset senha email** — confirmar funcionamento em produção
+12. **Marketplaces via Bling** — próximo passo: conectar Mercado Livre (Preferências → Integrações → Central de atendimento do Mercado Livre). Ver `docs/PROJETO-MARKETPLACES-BLING.md`
+13. **Google Ads — Performance Max** — criar no mês 2
 
 ## Performance (09/04/2026)
 - Cache headers corrigidos no `next.config.ts` (regex estava quebrado — assets sem cache)
@@ -240,10 +245,20 @@ Modificar: `lib/email.ts` (+10 funções), `vercel.json` (+2 crons), `functions.
 - "Mais Vendidos" adicionado ao menu desktop + mobile com badge TOP
 - Bloco de confiança na página de produto: Envio rápido + Troca fácil + Compra segura
 - Google Reviews seção na homepage (Places API New, rating + 3 reviews, cache 24h)
-- Cards de categoria com vídeo hover (Jalecos, Conjuntos, Dômãs) — `components/CategoryCard.tsx`
+- Cards de categoria com vídeo hover (Jalecos, Conjuntos, Dólmãs) — `components/CategoryCard.tsx`
 - Barra de confiança com ícones SVG (substituiu emojis) — `components/TrustBadgeBar.tsx`
 - Campo "Ref:" (SKU) removido da página de produto
-- "Novidades" renomeado para "Dômãs" nos cards da home
+- "Novidades" renomeado para "Dólmãs" nos cards da home
+
+## Implementado (09/04/2026)
+- **Página Nossas Lojas** (`/nossas-lojas`) — cards por estado das 6 franquias com WhatsApp individual e Instagram. Substituiu `/loja-matriz` no menu.
+- **Menu**: "Loja" → "Nossas Lojas" (desktop + mobile)
+- **Ortografia**: "Dômãs" → "Dólmãs" em todo o site (Header, products.ts, ProductsClient, categoria, page.tsx)
+- **Trust badge**: "Frete para Todo Brasil" → "Frete Grátis no Sudeste — SP · RJ · MG · ES acima de R$499"
+- **Horário sábado**: corrigido para 09:00–12:00 em contato, loja-matriz, page.tsx, faq
+- **Botão revenda**: `loja-matriz` agora abre WhatsApp 5531992901940
+- **Frete**: PAC grátis automático para SE acima de R$499 + Jadlog adicionado + cubagem correta
+- **Cadastro (#11)**: causa raiz — chave WooCommerce no Vercel (`ck_a5855...`) diferente da "Jaleca Next.js" (`***c3150d3`). Solução: atualizar WOOCOMMERCE_CONSUMER_KEY e WOOCOMMERCE_CONSUMER_SECRET no Vercel com as credenciais da chave "Jaleca Next.js".
 
 ## PRDs criados (docs/)
 - `PRD-GOOGLE-ADS-MASTER-JALECA-2026.md` — estratégia completa Google Ads (campanhas, keywords, copy, CRO, projeções)
