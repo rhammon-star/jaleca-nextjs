@@ -80,7 +80,7 @@ export default function FirstPurchasePopup() {
         {!submitted ? (
           <>
             <p id="popup-title" className="font-display text-3xl font-semibold mb-1 text-center">
-              Bem-vinda à Jaleca!
+              Bem-vindo à Jaleca!
             </p>
             <p className="text-center text-muted-foreground text-sm mb-6">
               Ganhe um desconto exclusivo na sua primeira compra

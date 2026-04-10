@@ -274,7 +274,10 @@ export async function POST(request: NextRequest) {
 
     // ── 4b. Adicionar ao carrinho do Melhor Envio ─────────────────────────────
     // Só executa se MELHOR_ENVIO_TOKEN estiver configurado (não placeholder)
-    const meServiceId = ME_SERVICE_MAP[shipping.method_id] ?? ME_SERVICE_MAP['sedex']
+    // Use numeric ME service ID directly when available (from live ME API), else map string IDs (fallback)
+    const meServiceId = /^\d+$/.test(shipping.method_id)
+      ? parseInt(shipping.method_id)
+      : (ME_SERVICE_MAP[shipping.method_id] ?? 2)
     const meWeight = Math.max(items.reduce((s, i) => s + 0.5 * i.quantity, 0), 0.5)
     const meTotalValue = items.reduce((s, i) => s + i.price * i.quantity, 0)
     addShipmentToMECart({

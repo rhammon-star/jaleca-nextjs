@@ -39,11 +39,11 @@ type ViaCEPResponse = {
 export const ME_SERVICE_MAP: Record<string, number> = {
   pac:    1,  // PAC Correios
   sedex:  2,  // SEDEX Correios
-  jadlog: 7,  // Jadlog Package
+  jadlog: 3,  // Jadlog Package (ME service ID 3)
   '1':    1,
   '2':    2,
-  '7':    7,
-  '8':    8,
+  '3':    3,
+  '4':    4,
 }
 
 function getFallbackOptions(uf?: string, subtotal = 0): ShippingOption[] {
@@ -102,7 +102,7 @@ async function callMelhorEnvioAPI(
       to:   { postal_code: cepDestino },
       // Cubagem: 4 × 31 × 41 cm base, +4cm de largura por peça adicional
       products: [{ id: 'jaleco', height: 4, width: Math.min(4 + 4 * (items - 1), 60), length: 41, weight, quantity: items, insurance_value: 0 }],
-      services: '1,2,7,8',
+      services: '1,2,3,4',
       options: { insurance_value: 0, receipt: false, own_hand: false, collect: false },
     }),
   })
@@ -116,8 +116,8 @@ async function callMelhorEnvioAPI(
   const SERVICE_LABELS: Record<number, string> = {
     1: 'PAC (Correios)',
     2: 'SEDEX (Correios)',
-    7: 'Jadlog Package',
-    8: 'Jadlog .Com',
+    3: 'Jadlog Package',
+    4: 'Jadlog .com',
   }
 
   const options: ShippingOption[] = []
@@ -250,7 +250,7 @@ export async function calculateShipping(
 // ── Adicionar envio ao carrinho do Melhor Envio ───────────────────────────────
 
 export type MEShipmentPayload = {
-  serviceId: number          // 1=PAC, 2=SEDEX, 7=Jadlog Package
+  serviceId: number          // 1=PAC, 2=SEDEX, 3=Jadlog Package, 4=Jadlog .com
   to: {
     name: string
     phone: string

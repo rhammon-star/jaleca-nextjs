@@ -209,15 +209,15 @@ export async function sendWelcome(customerName: string, customerEmail: string): 
   const firstName = customerName.split(' ')[0] || 'Cliente'
 
   const content = `
-    <h2 style="font-size:22px;margin:0 0 8px;">Bem-vinda à Jaleca!</h2>
+    <h2 style="font-size:22px;margin:0 0 8px;">Bem-vindo à Jaleca!</h2>
     <p style="color:#666;margin:0 0 16px;">Olá, ${firstName}! Sua conta foi criada com sucesso. Explore nossa coleção de jalecos e uniformes premium.</p>
     ${btn('Ver produtos', `https://jaleca.com.br/produtos`)}
   `
 
   await sendMail({
     to: customerEmail,
-    subject: 'Bem-vinda à Jaleca!',
-    html: wrapHtml(content, 'Bem-vinda à Jaleca'),
+    subject: 'Bem-vindo à Jaleca!',
+    html: wrapHtml(content, 'Bem-vindo à Jaleca'),
   })
 }
 
@@ -621,7 +621,14 @@ export async function sendInternalOrderNotification(
 </body>
 </html>`
 
-  await sendMail({ to: 'financeiro@jaleca.com.br', subject: `Nova venda — Pedido #${orderNumber} (${total})`, html })
+  const internalRecipients = [
+    'financeiro@jaleca.com.br',
+    'contato@jaleca.com.br',
+    'rhammon@objetivasolucao.com.br',
+  ]
+  await Promise.all(
+    internalRecipients.map(to => sendMail({ to, subject: `Nova venda — Pedido #${orderNumber} (${total})`, html }))
+  )
 }
 
 // ── Email de definição de senha (novo cliente ou redefinição) ─────────────────
@@ -644,7 +651,7 @@ export async function sendSetPasswordEmail(
   const expires = String(Date.now() + 72 * 60 * 60 * 1000) // 72h
 
   const wcAuth = 'Basic ' + Buffer.from(`${CK}:${CS}`).toString('base64')
-  await fetch(`${WC_API}/customers/${customerId}`, {
+  const saveRes = await fetch(`${WC_API}/customers/${customerId}`, {
     method: 'PUT',
     headers: { Authorization: wcAuth, 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -653,7 +660,15 @@ export async function sendSetPasswordEmail(
         { key: 'email_verify_expires', value: expires },
       ],
     }),
-  }).catch(() => {})
+  }).catch((err: unknown) => {
+    console.error(`[sendSetPasswordEmail] Network error saving token for customer ${customerId}:`, err)
+    return null
+  })
+  if (!saveRes || !saveRes.ok) {
+    const body = saveRes ? await saveRes.text().catch(() => '') : 'network error'
+    console.error(`[sendSetPasswordEmail] WC PUT failed for customer ${customerId}: ${saveRes?.status ?? 0} — ${body}`)
+    throw new Error(`Failed to save reset token (${saveRes?.status ?? 'network error'})`)
+  }
 
   const resetLink = `${siteUrl}/redefinir-senha?key=${token}&login=${encodeURIComponent(email)}`
 

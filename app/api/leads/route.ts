@@ -69,7 +69,7 @@ async function sendWelcomeEmail(email: string, customerId: number): Promise<void
 
   const html = `<!DOCTYPE html>
 <html lang="pt-BR">
-<head><meta charset="UTF-8" /><title>Bem-vinda à Jaleca!</title></head>
+<head><meta charset="UTF-8" /><title>Bem-vindo à Jaleca!</title></head>
 <body style="margin:0;padding:0;background:#f5f5f0;font-family:Georgia,serif;color:#1a1a1a;">
   <table width="100%" cellpadding="0" cellspacing="0" style="padding:32px 16px;">
     <tr><td align="center">
@@ -78,7 +78,7 @@ async function sendWelcomeEmail(email: string, customerId: number): Promise<void
           <img src="${siteUrl}/logo-cropped.jpg" alt="Jaleca — Jalecos e Mimos" width="180" style="display:inline-block;height:auto;" />
         </td></tr>
         <tr><td style="padding:40px 32px;">
-          <h2 style="font-size:26px;margin:0 0 8px;font-family:Georgia,serif;font-weight:400;">Bem-vinda à Jaleca! 🎉</h2>
+          <h2 style="font-size:26px;margin:0 0 8px;font-family:Georgia,serif;font-weight:400;">Bem-vindo à Jaleca! 🎉</h2>
           <p style="color:#666;margin:0 0 8px;font-size:15px;line-height:1.6;">
             Sua conta foi criada com o email <strong>${email}</strong>.
           </p>
@@ -121,7 +121,7 @@ async function sendWelcomeEmail(email: string, customerId: number): Promise<void
     body: JSON.stringify({
       sender: { name: 'Jaleca', email: 'contato@jaleca.com.br' },
       to: [{ email }],
-      subject: 'Bem-vinda à Jaleca! Seu cupom de 5% está aqui 🎉',
+      subject: 'Bem-vindo à Jaleca! Seu cupom de 5% está aqui 🎉',
       htmlContent: html,
     }),
   })
