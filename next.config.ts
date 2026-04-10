@@ -32,6 +32,15 @@ const nextConfig: NextConfig = {
         destination: '/redefinir-senha?key=:key&login=:login',
         permanent: false,
       },
+      // Categorias inexistentes geradas por IA → páginas reais
+      { source: '/categoria/jalecos-personalizados', destination: '/produtos', permanent: true },
+      { source: '/categoria/scrub', destination: '/categoria/conjuntos', permanent: true },
+      { source: '/categoria/calcados', destination: '/produtos', permanent: true },
+      { source: '/categoria/uniformes', destination: '/produtos', permanent: true },
+      { source: '/categoria/estilo-clinico', destination: '/produtos', permanent: true },
+      { source: '/categoria/vestuario-medico', destination: '/produtos', permanent: true },
+      { source: '/categoria/moda-profissional-saude', destination: '/produtos', permanent: true },
+      { source: '/medida', destination: '/faq', permanent: true },
       // Páginas antigas do WordPress → novas
       { source: '/shop', destination: '/produtos', permanent: true },
       { source: '/loja', destination: '/produtos', permanent: true },
