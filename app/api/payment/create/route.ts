@@ -54,6 +54,7 @@ type RequestBody = {
   customer_id?: number
   couponCode?: string
   totalDiscount?: number
+  pixDiscount?: number
 }
 
 function phoneNumbers(phone: string): { area_code: string; number: string } {
@@ -89,7 +90,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const body: RequestBody = await request.json()
-    const { paymentMethod, cpf, billing, items, shipping, customer_id, cardToken, installments, couponCode, totalDiscount } = body
+    const { paymentMethod, cpf, billing, items, shipping, customer_id, cardToken, installments, couponCode, totalDiscount, pixDiscount } = body
 
     if (!billing || !items?.length || !shipping) {
       return NextResponse.json({ error: 'Dados incompletos' }, { status: 400 })
@@ -137,6 +138,9 @@ export async function POST(request: NextRequest) {
       }],
       customer_id,
       coupon_lines: couponCode ? [{ code: couponCode }] : undefined,
+      fee_lines: pixDiscount && pixDiscount > 0
+        ? [{ name: 'Desconto PIX (5%)', total: `-${pixDiscount.toFixed(2)}`, tax_status: 'none' }]
+        : undefined,
       meta_data: [
         { key: '_billing_cpf', value: cpf.replace(/\D/g, '') },
       ],
@@ -322,7 +326,7 @@ export async function POST(request: NextRequest) {
       pagarmeOrderId: pagarmeOrder.id,
       pagarmeStatus: pagarmeOrder.status,
       paymentMethod,
-      orderValue: parseFloat(wcOrder.total || '0'),
+      orderValue: (discountedSubtotalCents + toCents(shipping.cost)) / 100,
       orderItems: items.map(i => ({
         id: String(i.variation_id || i.product_id),
         name: i.name,

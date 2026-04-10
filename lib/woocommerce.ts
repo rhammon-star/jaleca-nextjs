@@ -55,6 +55,7 @@ export type WCOrderData = {
   line_items: WCOrderLineItem[]
   shipping_lines?: Array<{ method_id: string; method_title: string; total: string }>
   coupon_lines?: Array<{ code: string }>
+  fee_lines?: Array<{ name: string; total: string; tax_status: string }>
   customer_id?: number
   customer_note?: string
   meta_data?: Array<{ key: string; value: string }>

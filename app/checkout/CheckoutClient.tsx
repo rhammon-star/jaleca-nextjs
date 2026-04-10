@@ -400,6 +400,7 @@ export default function CheckoutClient() {
         installments,
         couponCode: couponCode || undefined,
         totalDiscount: couponDiscount + pixDiscount,
+        pixDiscount: pixDiscount > 0 ? pixDiscount : undefined,
       }
 
       const res = await fetch('/api/payment/create', {
