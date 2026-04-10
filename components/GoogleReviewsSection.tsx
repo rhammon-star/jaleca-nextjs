@@ -56,9 +56,6 @@ export default function GoogleReviewsSection({ place }: { place: PlaceData }) {
             <GoogleIcon />
             <div className="text-3xl font-bold text-[#1a1a1a] leading-none">{rating.toFixed(1)}</div>
             <StarRating rating={rating} size="sm" />
-            <p className="text-[11px] text-muted-foreground mt-0.5">
-              {reviewCount.toLocaleString('pt-BR')} avaliações
-            </p>
           </a>
         </div>
 
