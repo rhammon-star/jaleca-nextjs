@@ -609,15 +609,7 @@ export default function ProductDetailClient({
                   {' '}({googlePlace.reviewCount} avaliações no Google)
                 </span>
               </button>
-            ) : (
-              <button
-                onClick={() => setActiveTab('avaliacoes')}
-                className="flex items-center gap-1.5 mb-4 text-xs text-muted-foreground hover:text-foreground transition-colors group"
-              >
-                <StarRating rating={0} size={12} />
-                <span className="underline underline-offset-2 group-hover:no-underline">Seja o primeiro a avaliar</span>
-              </button>
-            )}
+            ) : null}
 
             {/* Price */}
             <div className="flex items-center gap-3 mb-1">
@@ -949,8 +941,6 @@ export default function ProductDetailClient({
                             ))}
                           </div>
                         </div>
-                      ) : reviews.length === 0 ? (
-                        <p className="text-muted-foreground text-sm">Nenhuma avaliação ainda. Seja o primeiro!</p>
                       ) : (
                         <div className="space-y-6">
                           {reviews.map(review => (
