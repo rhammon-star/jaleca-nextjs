@@ -74,11 +74,13 @@ function gender(name: string): string {
 // Mapeia atributos WooCommerce → campos Google Shopping
 function mapAttr(attrs: Array<{ name: string; option: string }>) {
   const get = (regex: RegExp) => attrs.find(a => regex.test(a.name))?.option
+  const color   = get(/^cores?$/i)          // "Cor" e "Cores"
+  const pattern = get(/estampa|print|padrão/i)
   return {
-    color:    get(/^cor$/i),
+    color:    color ?? pattern,              // usa estampa como cor se não tiver cor (aceito pelo Google)
     size:     get(/tamanho|size/i),
     material: get(/material/i),
-    pattern:  get(/estampa|estampado|print|padrão/i),
+    pattern,
   }
 }
 
@@ -88,11 +90,13 @@ function mapProductAttr(attrs: Array<{ name: string; options: string[] }>) {
     const found = attrs.find(a => regex.test(a.name))
     return found?.options?.join(', ') || undefined
   }
+  const color   = get(/^cores?$/i)          // "Cor" e "Cores"
+  const pattern = get(/estampa|print|padrão/i)
   return {
-    color:    get(/^cor$/i),
+    color:    color ?? pattern,
     size:     get(/tamanho|size/i),
     material: get(/material/i),
-    pattern:  get(/estampa|estampado|print|padrão/i),
+    pattern,
   }
 }
 
@@ -235,10 +239,6 @@ export async function GET() {
         // Link abre na cor certa via nome e ID da variação representativa
         const link = `https://jaleca.com.br/produto/${p.slug}?cor=${encodeURIComponent(colorKey)}&vid=${group.rep.id}`
 
-        // Cor vs estampa: não misturar os dois campos
-        const isPattern = !!repAttrs.pattern && group.colorLabel === repAttrs.pattern
-        const colorValue = isPattern ? undefined : (group.colorLabel || undefined)
-
         // Tamanhos disponíveis — join para mostrar todos (ex: "PP / P / M / G")
         const sizeValue = group.sizes.length > 0 ? group.sizes.join(' / ') : undefined
 
@@ -253,7 +253,7 @@ export async function GET() {
           price,
           gender: g,
           quantity: group.rep.stock_quantity ?? 50,
-          color: colorValue,
+          color: group.colorLabel || undefined,
           size: sizeValue,
           material: repAttrs.material,
           pattern: repAttrs.pattern,
