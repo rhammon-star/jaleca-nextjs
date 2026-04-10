@@ -15,6 +15,7 @@ import SizeAdvisorModal from '@/components/SizeAdvisorModal'
 import BackInStockButton from '@/components/BackInStockButton'
 import ProductCard, { type WooProduct } from '@/components/ProductCard'
 import RecentlyViewed from '@/components/RecentlyViewed'
+import type { PlaceData } from '@/lib/google-places'
 
 type AttributeTerm = { slug: string; name: string }
 
@@ -211,10 +212,12 @@ export default function ProductDetailClient({
   product,
   initialReviews = [],
   relatedProducts = [],
+  googlePlace,
 }: {
   product: Product
   initialReviews?: Review[]
   relatedProducts?: WooProduct[]
+  googlePlace?: PlaceData
 }) {
   const searchParams = useSearchParams()
   const [selectedColor, setSelectedColor] = useState<string | null>(null)
@@ -595,6 +598,17 @@ export default function ProductDetailClient({
                 <StarRating rating={Math.round(avgRating)} size={13} />
                 <span className="text-xs text-muted-foreground">{avgRating.toFixed(1)} ({reviews.length} avaliações)</span>
               </div>
+            ) : googlePlace && googlePlace.reviewCount > 0 ? (
+              <button
+                onClick={() => setActiveTab('avaliacoes')}
+                className="flex items-center gap-2 mb-4 text-xs text-muted-foreground hover:text-foreground transition-colors group"
+              >
+                <StarRating rating={Math.round(googlePlace.rating)} size={13} />
+                <span className="underline underline-offset-2 group-hover:no-underline">
+                  <strong className="text-foreground font-medium">{googlePlace.rating.toFixed(1)}</strong>
+                  {' '}({googlePlace.reviewCount} avaliações no Google)
+                </span>
+              </button>
             ) : (
               <button
                 onClick={() => setActiveTab('avaliacoes')}
@@ -898,7 +912,44 @@ export default function ProductDetailClient({
                   <div className="grid md:grid-cols-[1fr_360px] gap-12">
                     {/* Reviews list */}
                     <div>
-                      {reviews.length === 0 ? (
+                      {reviews.length === 0 && googlePlace && googlePlace.reviewCount > 0 ? (
+                        <div>
+                          {/* Google Reviews badge */}
+                          <div className="flex items-center gap-3 p-4 bg-green-50 border border-green-200 rounded-lg mb-6">
+                            <div className="text-3xl">⭐</div>
+                            <div>
+                              <p className="text-sm font-semibold text-green-800">
+                                {googlePlace.rating.toFixed(1)} / 5,0 — Avaliação no Google
+                              </p>
+                              <p className="text-xs text-green-700">
+                                Baseada em {googlePlace.reviewCount} avaliações de clientes reais
+                              </p>
+                              {googlePlace.mapsUrl && (
+                                <a
+                                  href={googlePlace.mapsUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-xs text-green-600 underline hover:no-underline"
+                                >
+                                  Ver todas no Google →
+                                </a>
+                              )}
+                            </div>
+                          </div>
+                          {/* Google review excerpts */}
+                          <div className="space-y-4">
+                            {googlePlace.reviews.map((r, i) => (
+                              <div key={i} className="border-b border-border pb-4">
+                                <div className="flex items-center gap-2 mb-1">
+                                  <StarRating rating={r.rating} size={11} />
+                                  <span className="text-[11px] text-muted-foreground">{r.authorName} · {r.relativeTime}</span>
+                                </div>
+                                <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3">{r.text}</p>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      ) : reviews.length === 0 ? (
                         <p className="text-muted-foreground text-sm">Nenhuma avaliação ainda. Seja o primeiro!</p>
                       ) : (
                         <div className="space-y-6">
