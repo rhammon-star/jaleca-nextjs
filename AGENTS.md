@@ -37,6 +37,7 @@ Site de uniformes médicos (jalecos, dômãs, conjuntos). Diretório: `/Users/rh
 - Franqueado popup: ✅ raio 100km via geolocalização IP (Vercel headers), reset diário
 - Franqueado debug: ✅ `/api/franqueado/debug`
 - Google Reviews (homepage): ✅ via Places API (New) — `lib/google-places.ts`, `components/GoogleReviewsSection.tsx`
+- Google Reviews (página de produto): ✅ mesmas 57 reviews do Google exibidas quando não há avaliações WooCommerce — `ProductDetailClient.tsx` recebe `googlePlace?: PlaceData` prop, mostra badge rating + 3 reviews na aba "Avaliações"
 - Google Ads: ✅ conta 444-659-1621 — Merchant Center 5759143798 ✅ (106 produtos aprovados), GA4 530831994 ✅, faturamento ✅
   - Campanha Search "Jaleca - Search - Jalecos": ✅ R$70/dia, estratégia **Maximizar Cliques** (CPC máx R$2,50) — trocado de "Maximizar conversões" pois não havia histórico de conversões
   - Tag conversão AW-18072506944: ✅ verificada e funcionando — bolinha verde, origem GA4, evento `manual_event_PURCHASE`
@@ -249,6 +250,7 @@ Modificar: `lib/email.ts` (+10 funções), `vercel.json` (+2 crons), `functions.
 - "Mais Vendidos" adicionado ao menu desktop + mobile com badge TOP
 - Bloco de confiança na página de produto: Envio rápido + Troca fácil + Compra segura
 - Google Reviews seção na homepage (Places API New, rating + 3 reviews, cache 24h)
+- **Google Reviews na página de produto (10/04/2026)**: quando não há avaliações WooCommerce, exibe rating 4.9/5.0 do Google com badge verde e 3 reviews na aba "Avaliações" — prova social disponível desde o primeiro acesso
 - Cards de categoria com vídeo hover (Jalecos, Conjuntos, Dólmãs) — `components/CategoryCard.tsx`
 - Barra de confiança com ícones SVG (substituiu emojis) — `components/TrustBadgeBar.tsx`
 - Campo "Ref:" (SKU) removido da página de produto
