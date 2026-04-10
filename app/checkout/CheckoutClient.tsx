@@ -385,6 +385,7 @@ export default function CheckoutClient() {
         billing: billingData,
         items: items.map(item => ({
           product_id: item.databaseId,
+          variation_id: item.variationId,
           quantity: item.quantity,
           name: item.name,
           price: parsePrice(item.price),

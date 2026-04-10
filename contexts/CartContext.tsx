@@ -12,6 +12,7 @@ export type CouponData = {
 export type CartItem = {
   id: string
   databaseId: number
+  variationId?: number
   slug: string
   name: string
   image?: string

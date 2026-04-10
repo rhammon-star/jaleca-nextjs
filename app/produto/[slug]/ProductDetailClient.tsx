@@ -402,6 +402,7 @@ export default function ProductDetailClient({
     addItem({
       id: product.id,
       databaseId: product.databaseId,
+      variationId: matchedVariation?.databaseId,
       slug: product.slug,
       name: product.name.replace(/ - Jaleca$/i, ''),
       image: displayImage?.sourceUrl,
