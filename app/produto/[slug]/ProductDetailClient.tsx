@@ -561,8 +561,8 @@ export default function ProductDetailClient({
                     <Image
                       src={img.sourceUrl}
                       alt={img.altText || `${product.name} ${idx + 1}`}
-                      fill
-                      sizes="64px"
+                      width={64}
+                      height={80}
                       className="object-cover"
                     />
                   </button>
