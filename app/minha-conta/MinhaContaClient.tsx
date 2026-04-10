@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import {
@@ -175,7 +175,12 @@ export default function MinhaContaClient() {
   const { items: wishlistIds, removeFromWishlist } = useWishlist()
   const { addItem } = useCart()
   const router = useRouter()
-  const [activeTab, setActiveTab] = useState<Tab>('orders')
+  const searchParams = useSearchParams()
+  const [activeTab, setActiveTab] = useState<Tab>(() => {
+    const tab = searchParams.get('tab')
+    if (tab === 'reviews') return 'reviews'
+    return 'orders'
+  })
 
   // Orders
   const [orders, setOrders] = useState<WCOrder[]>([])

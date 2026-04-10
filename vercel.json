@@ -16,6 +16,10 @@
     {
       "path": "/api/melhor-envio/refresh",
       "schedule": "0 8 1 * *"
+    },
+    {
+      "path": "/api/orders/review-request",
+      "schedule": "0 13 * * *"
     }
   ]
 }

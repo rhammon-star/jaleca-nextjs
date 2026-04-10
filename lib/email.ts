@@ -675,3 +675,4 @@ export async function sendSetPasswordEmail(
 
   await sendMail({ to: email, subject, html: wrapHtml(content, subject) })
 }
+
