@@ -235,8 +235,16 @@ export async function GET() {
         // Link abre na cor certa via nome e ID da variação representativa
         const link = `https://jaleca.com.br/produto/${p.slug}?cor=${encodeURIComponent(colorKey)}&vid=${group.rep.id}`
 
+        // Cor vs estampa: não misturar os dois campos
+        const isPattern = !!repAttrs.pattern && group.colorLabel === repAttrs.pattern
+        const colorValue = isPattern ? undefined : (group.colorLabel || undefined)
+
+        // Tamanhos disponíveis — join para mostrar todos (ex: "PP / P / M / G")
+        const sizeValue = group.sizes.length > 0 ? group.sizes.join(' / ') : undefined
+
         items.push(buildItem({
           id: `${p.id}_${colorKey}`,
+          groupId: String(p.id),          // item_group_id — agrupa variantes no Merchant Center
           title,
           description,
           link,
@@ -245,8 +253,8 @@ export async function GET() {
           price,
           gender: g,
           quantity: group.rep.stock_quantity ?? 50,
-          color: group.colorLabel || undefined,
-          size: group.sizes[0] || undefined,
+          color: colorValue,
+          size: sizeValue,
           material: repAttrs.material,
           pattern: repAttrs.pattern,
         }))
