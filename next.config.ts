@@ -22,13 +22,6 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   async redirects() {
     return [
-      // www → non-www canonical redirect (301 permanent)
-      {
-        source: '/:path*',
-        has: [{ type: 'host', value: 'www.jaleca.com.br' }],
-        destination: 'https://jaleca.com.br/:path*',
-        permanent: true,
-      },
       // WordPress password reset
       {
         source: '/minha-conta/lost-password',
