@@ -4,6 +4,7 @@ import { cache } from 'react'
 import { graphqlClient, GET_PRODUCT_BY_SLUG, GET_RELATED_PRODUCTS } from '@/lib/graphql'
 import ProductDetailClient from './ProductDetailClient'
 import { getProductReviews, type WCReview } from '@/lib/woocommerce'
+import { getGooglePlaceData, type PlaceData } from '@/lib/google-places'
 import type { WooProduct } from '@/components/ProductCard'
 import type { Metadata } from 'next'
 import { sendMetaViewContent } from '@/lib/meta-conversions'
@@ -139,15 +140,16 @@ export default async function ProdutoPage({
 
   // Fetch reviews and related products in parallel — all cached persistently
   const categorySlugs: string[] = ((product as any).productCategories?.nodes ?? []).map((n: { slug: string }) => n.slug).filter(Boolean)
-  const [resolvedReviews, relatedNodes] = await Promise.all([
+  const [resolvedReviews, relatedNodes, googlePlace] = await Promise.all([
     databaseId ? getCachedReviews(databaseId) : Promise.resolve([] as WCReview[]),
     categorySlugs.length > 0 ? getRelated(categorySlugs, String(product.id)) : Promise.resolve([] as WooProduct[]),
+    getGooglePlaceData(),
   ])
 
   const avgRating =
     resolvedReviews.length > 0
       ? resolvedReviews.reduce((sum, r) => sum + r.rating, 0) / resolvedReviews.length
-      : null
+      : (googlePlace && googlePlace.reviewCount > 0 ? googlePlace.rating : null)
 
   const breadcrumbJsonLd = {
     '@context': 'https://schema.org',
@@ -192,17 +194,19 @@ export default async function ProdutoPage({
       aggregateRating: {
         '@type': 'AggregateRating',
         ratingValue: avgRating.toFixed(1),
-        reviewCount: resolvedReviews.length,
+        reviewCount: resolvedReviews.length > 0 ? resolvedReviews.length : (googlePlace?.reviewCount ?? 0),
         bestRating: '5',
         worstRating: '1',
       },
-      review: resolvedReviews.slice(0, 5).map(r => ({
-        '@type': 'Review',
-        reviewRating: { '@type': 'Rating', ratingValue: r.rating, bestRating: '5', worstRating: '1' },
-        reviewBody: r.review.replace(/<[^>]*>/g, '').slice(0, 500),
-        author: { '@type': 'Person', name: r.reviewer },
-        datePublished: r.date_created.split('T')[0],
-      })),
+      ...(resolvedReviews.length > 0 ? {
+        review: resolvedReviews.slice(0, 5).map(r => ({
+          '@type': 'Review',
+          reviewRating: { '@type': 'Rating', ratingValue: r.rating, bestRating: '5', worstRating: '1' },
+          reviewBody: r.review.replace(/<[^>]*>/g, '').slice(0, 500),
+          author: { '@type': 'Person', name: r.reviewer },
+          datePublished: r.date_created.split('T')[0],
+        })),
+      } : {}),
     }),
   }
 
@@ -220,6 +224,7 @@ export default async function ProdutoPage({
         product={product as Parameters<typeof ProductDetailClient>[0]['product']}
         initialReviews={resolvedReviews}
         relatedProducts={relatedNodes}
+        googlePlace={googlePlace ?? undefined}
       />
     </>
   )

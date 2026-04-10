@@ -17,7 +17,10 @@ const API_KEY  = process.env.GOOGLE_PLACES_API_KEY
 const PLACE_ID = process.env.GOOGLE_PLACE_ID
 
 export async function getGooglePlaceData(): Promise<PlaceData | null> {
-  if (!API_KEY || !PLACE_ID) return null
+  if (!API_KEY || !PLACE_ID) {
+    console.error('[GooglePlaces] Missing API_KEY or PLACE_ID env vars')
+    return null
+  }
 
   try {
     const fields = 'rating,userRatingCount,reviews,googleMapsUri'
@@ -27,9 +30,17 @@ export async function getGooglePlaceData(): Promise<PlaceData | null> {
       next: { revalidate: 86400 }, // cache 24h
     })
 
-    if (!res.ok) return null
+    if (!res.ok) {
+      console.error(`[GooglePlaces] API returned ${res.status} for place ${PLACE_ID}`)
+      return null
+    }
 
     const data = await res.json()
+
+    if (!data.rating || !data.userRatingCount) {
+      console.error('[GooglePlaces] API response missing rating or userRatingCount:', JSON.stringify(data).slice(0, 200))
+      return null
+    }
 
     const reviews: GoogleReview[] = (data.reviews ?? [])
       .filter((r: { rating?: number; text?: { text?: string } }) => (r.rating ?? 0) >= 4 && r.text?.text)
@@ -47,13 +58,16 @@ export async function getGooglePlaceData(): Promise<PlaceData | null> {
         photoUri: r.authorAttribution?.photoUri,
       }))
 
+    console.log(`[GooglePlaces] Success: rating=${data.rating}, count=${data.userRatingCount}, reviews=${reviews.length}`)
+
     return {
       rating: data.rating ?? 0,
       reviewCount: data.userRatingCount ?? 0,
       reviews,
       mapsUrl: data.googleMapsUri ?? `https://www.google.com/maps/search/Jaleca+Ipatinga+MG`,
     }
-  } catch {
+  } catch (err) {
+    console.error('[GooglePlaces] Unexpected error:', err)
     return null
   }
 }
