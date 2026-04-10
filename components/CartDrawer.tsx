@@ -302,6 +302,18 @@ export default function CartDrawer() {
                 </div>
               )}
               {couponError && <p className="text-xs text-red-600">{couponError}</p>}
+              {!appliedCoupon && !couponError && (
+                <p className="text-[11px] text-muted-foreground">
+                  Primeira compra?{' '}
+                  <button
+                    type="button"
+                    onClick={() => setCouponCode('PRIMEIRACOMPRA5JALECA')}
+                    className="underline underline-offset-2 hover:text-foreground transition-colors font-medium"
+                  >
+                    Use PRIMEIRACOMPRA5JALECA
+                  </button>
+                </p>
+              )}
             </div>
 
             {/* Shipping calculator */}

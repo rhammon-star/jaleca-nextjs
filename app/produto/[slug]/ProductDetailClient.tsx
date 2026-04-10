@@ -590,11 +590,19 @@ export default function ProductDetailClient({
 
 
             {/* Rating summary */}
-            {reviews.length > 0 && (
+            {reviews.length > 0 ? (
               <div className="flex items-center gap-2 mb-4">
                 <StarRating rating={Math.round(avgRating)} size={13} />
                 <span className="text-xs text-muted-foreground">{avgRating.toFixed(1)} ({reviews.length} avaliações)</span>
               </div>
+            ) : (
+              <button
+                onClick={() => setActiveTab('avaliacoes')}
+                className="flex items-center gap-1.5 mb-4 text-xs text-muted-foreground hover:text-foreground transition-colors group"
+              >
+                <StarRating rating={0} size={12} />
+                <span className="underline underline-offset-2 group-hover:no-underline">Seja o primeiro a avaliar</span>
+              </button>
             )}
 
             {/* Price */}
@@ -748,9 +756,9 @@ export default function ProductDetailClient({
             )}
 
             {/* Stock urgency */}
-            {product.stockQuantity != null && product.stockQuantity >= 1 && product.stockQuantity <= 10 && (
+            {stockQty != null && stockQty >= 1 && stockQty <= 10 && (
               <div className="mb-3">
-                {product.stockQuantity <= 5 ? (
+                {stockQty <= 5 ? (
                   <p className="flex items-center gap-1.5 text-sm font-semibold text-red-600">
                     <Flame size={14} className="flex-shrink-0" />
                     Últimas unidades disponíveis!

@@ -33,16 +33,20 @@ const getProduct = cache(async (slug: string): Promise<ProductData | null> => {
   }
 })
 
-async function getRelated(categorySlug: string, productId: string): Promise<WooProduct[]> {
-  try {
-    const data = await graphqlClient.request<{ products: { nodes: WooProduct[] } }>(
-      GET_RELATED_PRODUCTS,
-      { categorySlug, first: 5 }
-    )
-    return data.products.nodes.filter(p => p.id !== productId).slice(0, 4)
-  } catch {
-    return []
+async function getRelated(categorySlugs: string[], productId: string): Promise<WooProduct[]> {
+  for (const categorySlug of categorySlugs) {
+    try {
+      const data = await graphqlClient.request<{ products: { nodes: WooProduct[] } }>(
+        GET_RELATED_PRODUCTS,
+        { categorySlug, first: 8 }
+      )
+      const results = data.products.nodes.filter(p => p.id !== productId).slice(0, 4)
+      if (results.length > 0) return results
+    } catch {
+      // try next category
+    }
   }
+  return []
 }
 
 async function getCachedReviews(databaseId: number): Promise<WCReview[]> {
@@ -134,10 +138,10 @@ export default async function ProdutoPage({
   ).catch(() => {})
 
   // Fetch reviews and related products in parallel — all cached persistently
-  const categorySlug = (product as any).productCategories?.nodes?.[0]?.slug
+  const categorySlugs: string[] = ((product as any).productCategories?.nodes ?? []).map((n: { slug: string }) => n.slug).filter(Boolean)
   const [resolvedReviews, relatedNodes] = await Promise.all([
     databaseId ? getCachedReviews(databaseId) : Promise.resolve([] as WCReview[]),
-    categorySlug ? getRelated(categorySlug, String(product.id)) : Promise.resolve([] as WooProduct[]),
+    categorySlugs.length > 0 ? getRelated(categorySlugs, String(product.id)) : Promise.resolve([] as WooProduct[]),
   ])
 
   const avgRating =

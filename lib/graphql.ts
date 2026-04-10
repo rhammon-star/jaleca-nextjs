@@ -223,6 +223,7 @@ export const GET_PRODUCT_BY_SLUG = `
             databaseId
             name
             stockStatus
+            stockQuantity
             price
             regularPrice
             salePrice
