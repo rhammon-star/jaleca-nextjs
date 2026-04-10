@@ -58,9 +58,16 @@ type RequestBody = {
 
 function phoneNumbers(phone: string): { area_code: string; number: string } {
   const digits = phone.replace(/\D/g, '').replace(/^55/, '')
+  // Brazilian phones: mobile 11 digits (XX9XXXXXXXX), landline 10 digits (XXXXXXXXXX)
+  if (digits.length < 10) {
+    throw new Error(`Telefone inválido: ${phone} (${digits.length} dígitos)`)
+  }
+  // Mobile: 11 digits → slice(2,11) = 9 digits. Landline: 10 digits → slice(2,10) = 8 digits.
+  // If 11 digits but slice(2,11) gives only 8 (when input was 10 digits total after strip), it's landline.
+  const numberDigits = digits.slice(2)
   return {
     area_code: digits.slice(0, 2),
-    number: digits.slice(2, 11),
+    number: numberDigits.slice(0, 9), // max 9 digits for mobile, truncate extras if any
   }
 }
 
@@ -261,10 +268,9 @@ export async function POST(request: NextRequest) {
     }
 
     // ── 4. Send order confirmation email ──────────────────────────────────────
-    // PIX/Boleto: fire-and-forget; credit card handled above after status check
-    if (paymentMethod !== 'credit_card') {
-      sendOrderConfirmation(wcOrder, billing.email).catch(() => {})
-    }
+    // PIX/Boleto: email sent only after payment confirmed (via polling or webhook)
+    // Credit card: handled above after status check
+    // Do NOT send here for PIX/Boleto — client hasn't paid yet
 
     // ── 4b. Adicionar ao carrinho do Melhor Envio ─────────────────────────────
     // Só executa se MELHOR_ENVIO_TOKEN estiver configurado (não placeholder)
@@ -279,7 +285,8 @@ export async function POST(request: NextRequest) {
         email:      billing.email,
         document:   cpf,
         address:    billing.address_1,
-        complement: billing.address_2 || '',
+        complement: '',
+        district:   billing.address_2 || '', // billing.address_2 = bairro (neighborhood)
         city:       billing.city,
         state:      billing.state,
         postalCode: billing.postcode,

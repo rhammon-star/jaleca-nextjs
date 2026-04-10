@@ -74,10 +74,25 @@ export async function POST(request: NextRequest) {
 
     const wcStatus = STATUS_MAP[pagarmeStatus]
     if (wcStatus) {
+      // Fetch current WC order status BEFORE updating — to avoid duplicate emails
+      let wasAlreadyProcessing = false
+      if (wcStatus === 'processing') {
+        try {
+          const getRes = await fetch(`${WC_API}/orders/${wcOrderId}`, {
+            headers: { Authorization: wcAuth() },
+            cache: 'no-store',
+          })
+          if (getRes.ok) {
+            const current = await getRes.json()
+            wasAlreadyProcessing = current.status !== 'pending'
+          }
+        } catch {}
+      }
+
       await updateWCOrderStatus(wcOrderId, wcStatus)
 
-      // Send confirmation email when payment is confirmed
-      if (wcStatus === 'processing') {
+      // Send confirmation email when payment is confirmed — only if first time
+      if (wcStatus === 'processing' && !wasAlreadyProcessing) {
         try {
           const orderRes = await fetch(`${WC_API}/orders/${wcOrderId}`, {
             headers: { Authorization: wcAuth() },

@@ -15,6 +15,16 @@ function wcAuth(): string {
 }
 
 async function confirmWCOrder(wcOrderId: string) {
+  // Check current status first — webhook may have already handled this
+  const getRes = await fetch(`${WC_API}/orders/${wcOrderId}`, {
+    headers: { Authorization: wcAuth() },
+    cache: 'no-store',
+  })
+  if (getRes.ok) {
+    const current = await getRes.json()
+    if (current.status !== 'pending') return // already processed, skip to avoid duplicate email
+  }
+
   // Update WooCommerce order to processing
   const res = await fetch(`${WC_API}/orders/${wcOrderId}`, {
     method: 'PUT',
