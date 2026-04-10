@@ -421,7 +421,7 @@ export default function CheckoutClient() {
       }
 
       clearCart()
-      sessionStorage.setItem('jaleca-payment', JSON.stringify(data))
+      sessionStorage.setItem('jaleca-payment', JSON.stringify({ ...data, customerEmail: email }))
       window.location.href = '/pagamento'
     } catch {
       setError('Erro ao processar pedido. Tente novamente.')

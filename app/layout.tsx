@@ -18,6 +18,7 @@ import TawkToChat from "@/components/TawkToChat";
 import BackToTop from "@/components/BackToTop";
 import CookieConsent from "@/components/CookieConsent";
 import FranqueadoBanner from "@/components/FranqueadoBanner";
+import GoogleMerchantBadge from "@/components/GoogleMerchantBadge";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const cormorant = Cormorant_Garamond({
@@ -110,6 +111,7 @@ export default function RootLayout({
                 <BackToTop />
                 <CookieConsent />
                 <FranqueadoBanner />
+                <GoogleMerchantBadge />
                 <SpeedInsights />
               </CartProvider>
             </CompareProvider>

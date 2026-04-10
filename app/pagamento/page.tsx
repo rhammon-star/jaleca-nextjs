@@ -13,6 +13,7 @@ type PaymentData = {
   pagarmeStatus: string
   orderValue?: number
   orderItems?: Array<{ id: string; name: string; price: number; quantity: number }>
+  customerEmail?: string
   // PIX
   pixQrCode?: string
   pixQrCodeUrl?: string
@@ -228,7 +229,7 @@ function PagamentoContent() {
     return () => clearTimeout(pollRef.current)
   }, [data, paid])
 
-  // Fire purchase tracking once when payment is confirmed
+  // Fire purchase tracking + Google Customer Reviews survey once when payment is confirmed
   useEffect(() => {
     if (trackFiredRef.current || !data) return
     const isCardApproved = data.paymentMethod === 'credit_card' &&
@@ -241,6 +242,39 @@ function PagamentoContent() {
       data.orderValue ?? 0,
       data.orderItems ?? []
     )
+
+    // Google Customer Reviews — Survey Opt-in
+    if (data.customerEmail) {
+      const deliveryDate = new Date()
+      let businessDays = 0
+      while (businessDays < 7) {
+        deliveryDate.setDate(deliveryDate.getDate() + 1)
+        const day = deliveryDate.getDay()
+        if (day !== 0 && day !== 6) businessDays++
+      }
+      const estimatedDelivery = deliveryDate.toISOString().split('T')[0]
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ;(window as any).renderOptIn = function () {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        ;(window as any).gapi.load('surveyoptin', function () {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          ;(window as any).gapi.surveyoptin.render({
+            merchant_id: 5759143798,
+            order_id: String(data.wcOrderId),
+            email: data.customerEmail,
+            delivery_country: 'BR',
+            estimated_delivery_date: estimatedDelivery,
+          })
+        })
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://apis.google.com/js/platform.js?onload=renderOptIn'
+      script.async = true
+      script.defer = true
+      document.head.appendChild(script)
+    }
   }, [data, paid])
 
   if (paid) {
