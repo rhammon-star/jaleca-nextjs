@@ -16,7 +16,7 @@ Site de uniformes médicos (jalecos, dômãs, conjuntos). Diretório: `/Users/rh
 - Gemini AI (gemini-2.5-flash) para blog
 - Radix UI (shadcn/ui pattern) + custom components
 
-## Status das integrações (08/04/2026)
+## Status das integrações (09/04/2026)
 - WooCommerce GraphQL: ✅ `https://wp.jaleca.com.br/graphql`
 - WooCommerce REST: ✅ Pedidos, customers
 - Carrinho: ✅ localStorage
@@ -25,8 +25,9 @@ Site de uniformes médicos (jalecos, dômãs, conjuntos). Diretório: `/Users/rh
 - Email transacional: ✅ via Brevo (`lib/email.ts`)
 - Verificação de email: ✅ (não bloqueia checkout)
 - Blog CMS com IA: ✅ (`/blog/admin`) — Gemini 2.5 flash-lite + Unsplash + 4 estilos de escrita + humanização
-- Melhor Envio shipping: ⚠️ token placeholder (OAuth2 real pendente)
+- Melhor Envio shipping: ✅ token real configurado, CNPJ `30379063000161`, renovação automática mensal
 - GA4 + Meta Pixel + Meta CAPI: ✅
+- **Rastreamento de compra browser**: ✅ `trackPurchase()` chamado em `app/pagamento/page.tsx` ao confirmar pagamento — dispara GA4 purchase + Google Ads conversion + Meta Pixel Purchase (09/04/2026)
 - Meta Pixel ID: ✅ `566059928254677` (Pixel de BM 01 - Jaleca.Jaleca)
 - Meta CAPI token: ✅ configurado
 - Meta Catálogo: ✅ 30 produtos / 559 variantes (feed: `/api/feed/google-shopping`, atualiza 1h)
@@ -41,7 +42,7 @@ Site de uniformes médicos (jalecos, dômãs, conjuntos). Diretório: `/Users/rh
   - Tag conversão AW-18072506944: ✅ verificada e funcionando — bolinha verde, origem GA4, evento `manual_event_PURCHASE`
   - Palavras-chave negativas: ✅ adicionadas (~40 termos de concorrentes: dra cherie, farcoo, coat lab, tutto bianco, etc.)
   - Campanha Shopping "Jaleca - Shopping - Produtos": ✅ publicada (R$30/dia, Maximizar cliques, CPC máx R$2,50)
-  - Meta Remarketing: ✅ nova campanha "Remarketing - Carrinho Abandonado" criada sem Advantage+ (08/04/2026, em análise ~24h)
+  - Meta Remarketing: ✅ campanha "Remarketing - Carrinho Abandonado" — anúncio criado + públicos "Carrinho Abandonado - 60 dias" + "Visitantes Site 60 dias" configurados (09/04/2026, em análise)
   - Campanha Performance Max: ⏳ criar no mês 2 após dados de conversão
 - Tawk.to chat: ✅
 - Speed Insights Vercel: ✅
@@ -175,9 +176,10 @@ Também enviar `billing: { name, address }` no nível do pedido.
 - SSH WordPress: `ssh -p 65002 u537333031@82.25.73.174`
 
 ## DNS
-- A: jaleca.com.br → 216.198.79.1 (Vercel)
+- A: jaleca.com.br → 216.198.79.1 (Vercel) — domínio primário (Production)
 - A: wp.jaleca.com.br → 82.25.73.174 (Hostinger)
 - CNAME: www → bc060d04fd865036.vercel-dns-017.com
+- www.jaleca.com.br → 308 redirect → jaleca.com.br (configurado no Vercel Domains, 09/04/2026)
 
 ## Variáveis de ambiente (Vercel)
 - `NEXT_PUBLIC_WP_URL=https://wp.jaleca.com.br` ⚠️ CRÍTICO para blog funcionar
@@ -219,16 +221,19 @@ Modificar: `lib/email.ts` (+10 funções), `vercel.json` (+2 crons), `functions.
 ## Pendente (prioridade)
 1. **Cadastro de usuário** — ✅ RESOLVIDO (09/04/2026).
 2. **Melhor Envio** — ✅ RESOLVIDO (09/04/2026). Token real configurado, integração automática ME cart, renovação mensal automática via cron.
-3. **WooCommerce SKUs duplicados** — 4 produtos afetados. Corrigir antes do próximo sync Bling.
-4. **Google Ads — Verificação do anunciante** — Adm. → Configurações → Verificação do anunciante
-5. **Google Ads — Em 7 dias** — checar termos novos para negativar; ao atingir 30 compras, trocar Search para "Maximizar conversões"
-6. **Meta Remarketing** — se não gastar em 3 dias, expandir público de 60 para 90 dias
-7. **Imagens WordPress** — EWWW Image Optimizer (algumas imagens > 8MB bloqueavam Meta)
-8. **Instagram Shopping** — aguardando sincronização Meta
-9. **Vercel Pro** — verificar prazo trial
-10. **Marketplaces via Bling** — próximo passo: conectar Mercado Livre. Ver `docs/PROJETO-MARKETPLACES-BLING.md`
-11. **Google Ads — Performance Max** — criar no mês 2
-12. **Webhook WC status pedido** — configurar em WP Admin → WooCommerce → Avançado → Webhooks → URL: `https://jaleca.com.br/api/orders/notify` + secret = JALECA_WEBHOOK_SECRET
+3. **Rastreamento de compra** — ✅ RESOLVIDO (09/04/2026). `trackPurchase()` chamado no `/pagamento` ao confirmar pagamento.
+4. **Canônico www** — ✅ RESOLVIDO (09/04/2026). www.jaleca.com.br → 308 → jaleca.com.br (configurado no Vercel).
+5. **WooCommerce SKUs duplicados** — 4 produtos afetados. Corrigir antes do próximo sync Bling.
+6. **Google Ads — Verificação do anunciante** — Adm. → Configurações → Verificação do anunciante
+7. **Google Ads — Em 7 dias** — checar termos novos para negativar; ao atingir 30 compras, trocar Search para "Maximizar conversões"
+8. **Meta Remarketing** — ✅ anúncio criado + públicos configurados (09/04/2026). Se não gastar em 3 dias, expandir público para 90 dias.
+9. **Imagens WordPress** — EWWW Image Optimizer (algumas imagens > 8MB bloqueavam Meta)
+10. **Instagram Shopping** — aguardando sincronização Meta
+11. **Vercel Pro** — verificar prazo trial
+12. **Marketplaces via Bling** — próximo passo: conectar Mercado Livre. Ver `docs/PROJETO-MARKETPLACES-BLING.md`
+13. **Google Ads — Performance Max** — criar no mês 2
+14. **Investigar "Produto não encontrado"** — 24 sessões em 404, verificar quais URLs estão quebrando
+15. **admin.jaleca.com.br** — bloquear indexação no Google via WordPress → Configurações → Leitura → desmarcar indexação
 
 ## Performance (09/04/2026)
 - Cache headers corrigidos no `next.config.ts` (regex estava quebrado — assets sem cache)
@@ -282,6 +287,17 @@ Modificar: `lib/email.ts` (+10 funções), `vercel.json` (+2 crons), `functions.
 
 ### Reset de senha (09/04/2026)
 - `reset-password/route.ts`: auth corrigida para usar WC consumer key (antes usava WP_ADMIN_USER inexistente → retornava "link expirado" incorretamente)
+
+## Implementado (09/04/2026) — Rastreamento e SEO
+- **`trackPurchase()` em `/pagamento`**: `app/pagamento/page.tsx` importa `trackPurchase` de `components/Analytics` e dispara ao confirmar pagamento (PIX/Boleto via polling `paid=true`, cartão via `cardStatus=paid`). Usa `trackFiredRef` para garantir disparo único.
+- **`orderValue` + `orderItems`** adicionados à resposta de `app/api/payment/create/route.ts` e ao `PaymentData` type — necessários para o `trackPurchase`.
+- **CAPI logging**: `.catch(() => {})` substituído por `.catch(err => console.error(...))` em `payment/create` e `payment/webhook` — erros CAPI agora aparecem nos logs Vercel.
+- **www canônico**: configurado no Vercel Domains — `www.jaleca.com.br` → 308 permanent → `jaleca.com.br`. NÃO usar redirect em `next.config.ts` (causaria loop com a config Vercel).
+- **WC Webhook**: configurado em WP Admin → URL `https://jaleca.com.br/api/orders/notify`, secret = `jaleca-hook-2026`, topic = "Pedido atualizado". Valida HMAC-SHA256.
+- **JALECA_WEBHOOK_SECRET**: valor `jaleca-hook-2026` definido no Vercel.
+- **Email template**: `wrapHtml()` em `lib/email.ts` usa header branco com logo `/logo-cropped.jpg` — padrão para todos os emails.
+- **Email "defina sua senha"**: `sendSetPasswordEmail()` em `lib/email.ts` — chamada em `/api/auth/register` (novos clientes) e `/api/auth/forgot-password`. Token 72h salvo em WC meta.
+- **CNPJ Melhor Envio**: `lib/melhor-envio.ts` → `from.document: '30379063000161'` (era placeholder `00000000000000`).
 
 ## PRDs criados (docs/)
 - `PRD-GOOGLE-ADS-MASTER-JALECA-2026.md` — estratégia completa Google Ads (campanhas, keywords, copy, CRO, projeções)
