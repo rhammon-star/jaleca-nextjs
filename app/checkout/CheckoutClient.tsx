@@ -276,7 +276,7 @@ export default function CheckoutClient() {
             number: cardNumber.replace(/\D/g, ''),
             holder_name: cardName.trim().toUpperCase(),
             exp_month: parseInt(expMonth),
-            exp_year: parseInt('20' + expYear.trim()),
+            exp_year: expYear.trim().length === 4 ? parseInt(expYear.trim()) : parseInt('20' + expYear.trim()),
             cvv: cardCvv,
             billing_address: billingAddress,
           },
@@ -293,7 +293,7 @@ export default function CheckoutClient() {
     setError('')
     setCpfLoginError('')
 
-    if (!validateCPF(cpf) && !isLoggedIn) {
+    if (!validateCPF(cpf)) {
       setError('Informe um CPF válido para continuar')
       return
     }
