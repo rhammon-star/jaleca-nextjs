@@ -215,14 +215,31 @@ export async function calculateShipping(
     if (token && token !== 'PLACEHOLDER') {
       const options = await callMelhorEnvioAPI(cleanCep, totalWeight, items)
       // Only use API result if it returned at least 2 services (PAC + SEDEX or more)
-      if (options.length >= 2) {
-        // Apply free shipping for PAC if eligible
+      if (options.length >= 1) {
+        // Determine UF for free shipping check
         const ufRes = await fetch(`https://viacep.com.br/ws/${cleanCep}/json/`).catch(() => null)
+        let uf: string | undefined
         if (ufRes?.ok) {
           const cepData = (await ufRes.json()) as ViaCEPResponse
-          if (!cepData.erro && FREE_SHIPPING_STATES.includes(cepData.uf?.toUpperCase()) && subtotal >= 499) {
-            return options.map(o => o.id === '1' ? { ...o, cost: 0 } : o)
-          }
+          if (!cepData.erro) uf = cepData.uf?.toUpperCase()
+        }
+
+        // If PAC (service 1) is missing from API response, inject fallback PAC price
+        const hasPac = options.some(o => o.id === '1')
+        if (!hasPac) {
+          const isSul = uf ? SUL_SUDESTE.includes(uf) : false
+          const pacCost = isSul ? 18.90 : 22.90
+          options.unshift({
+            id: '1',
+            label: 'PAC (Correios)',
+            cost: pacCost + 3.50,
+            delivery_time: '7 dias úteis',
+          })
+        }
+
+        // Apply free shipping for PAC if eligible
+        if (uf && FREE_SHIPPING_STATES.includes(uf) && subtotal >= 499) {
+          return options.map(o => o.id === '1' ? { ...o, cost: 0 } : o)
         }
         return options
       }
