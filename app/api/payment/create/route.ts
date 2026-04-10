@@ -251,7 +251,7 @@ export async function POST(request: NextRequest) {
             value: parseFloat(wcOrder.total || '0'),
             items: items.map(i => ({ id: String(i.product_id), quantity: i.quantity })),
           }
-        ).catch(() => {})
+        ).catch(err => console.error('[CAPI] sendMetaPurchase failed (create):', err))
       }
     }
 
@@ -312,6 +312,13 @@ export async function POST(request: NextRequest) {
       pagarmeOrderId: pagarmeOrder.id,
       pagarmeStatus: pagarmeOrder.status,
       paymentMethod,
+      orderValue: parseFloat(wcOrder.total || '0'),
+      orderItems: items.map(i => ({
+        id: String(i.variation_id || i.product_id),
+        name: i.name,
+        price: i.price,
+        quantity: i.quantity,
+      })),
     }
 
     if (paymentMethod === 'pix' && tx) {

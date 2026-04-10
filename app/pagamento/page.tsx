@@ -4,12 +4,15 @@ import { useEffect, useState, useCallback, useRef, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { CheckCircle, Clock, XCircle, Copy, Check, Loader2, ExternalLink } from 'lucide-react'
+import { trackPurchase } from '@/components/Analytics'
 
 type PaymentData = {
   paymentMethod: 'pix' | 'boleto' | 'credit_card'
   wcOrderId: number
   pagarmeOrderId: string
   pagarmeStatus: string
+  orderValue?: number
+  orderItems?: Array<{ id: string; name: string; price: number; quantity: number }>
   // PIX
   pixQrCode?: string
   pixQrCodeUrl?: string
@@ -184,6 +187,7 @@ function PagamentoContent() {
   const [data, setData] = useState<PaymentData | null>(null)
   const [paid, setPaid] = useState(false)
   const pollRef = useRef<ReturnType<typeof setTimeout>>(undefined)
+  const trackFiredRef = useRef(false)
 
   const load = useCallback(() => {
     try {
@@ -222,6 +226,21 @@ function PagamentoContent() {
 
     pollRef.current = setTimeout(poll, 5000)
     return () => clearTimeout(pollRef.current)
+  }, [data, paid])
+
+  // Fire purchase tracking once when payment is confirmed
+  useEffect(() => {
+    if (trackFiredRef.current || !data) return
+    const isCardApproved = data.paymentMethod === 'credit_card' &&
+      (data.cardStatus === 'paid' || data.pagarmeStatus === 'paid')
+    const isConfirmed = paid || isCardApproved
+    if (!isConfirmed) return
+    trackFiredRef.current = true
+    trackPurchase(
+      String(data.wcOrderId),
+      data.orderValue ?? 0,
+      data.orderItems ?? []
+    )
   }, [data, paid])
 
   if (paid) {

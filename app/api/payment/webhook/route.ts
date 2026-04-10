@@ -113,7 +113,7 @@ export async function POST(request: NextRequest) {
                     quantity: i.quantity,
                   })),
                 }
-              ).catch(() => {})
+              ).catch(err => console.error('[CAPI] sendMetaPurchase failed (webhook):', err))
             }
           }
         } catch {}
