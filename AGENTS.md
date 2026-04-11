@@ -38,6 +38,8 @@ Site de uniformes médicos (jalecos, dômãs, conjuntos). Diretório: `/Users/rh
 - Franqueado debug: ✅ `/api/franqueado/debug`
 - Google Reviews (homepage): ✅ via Places API (New) — `lib/google-places.ts`, `components/GoogleReviewsSection.tsx`
 - Google Reviews (página de produto): ✅ mesmas 57 reviews do Google exibidas quando não há avaliações WooCommerce — `ProductDetailClient.tsx` recebe `googlePlace?: PlaceData` prop, mostra badge rating + 3 reviews na aba "Avaliações"
+- aggregateRating no Product schema: ✅ usa nota Google (4.9) como fallback quando sem reviews WooCommerce (10/04/2026)
+- Alt text imagens: ✅ fallback `product.name` no código ( WooCommerce não define alt text nos products — bulk fix pendente no WP Admin )
 - Google Ads: ✅ conta 444-659-1621 — Merchant Center 5759143798 ✅ (106 produtos aprovados), GA4 530831994 ✅, faturamento ✅
   - Campanha Search "Jaleca - Search - Jalecos": ✅ R$70/dia, estratégia **Maximizar Cliques** (CPC máx R$2,50) — trocado de "Maximizar conversões" pois não havia histórico de conversões
   - Tag conversão AW-18072506944: ✅ verificada e funcionando — bolinha verde, origem GA4, evento `manual_event_PURCHASE`

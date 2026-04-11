@@ -71,6 +71,35 @@ function gender(name: string): string {
   return 'unisex'
 }
 
+// Extrai cor do nome do produto quando não há atributo "Cor" no WooCommerce
+const COLOR_NAMES: [RegExp, string][] = [
+  [/preto\s*e\s*branco/i, 'Preto e Branco'],
+  [/\bbranco\b/i, 'Branco'],
+  [/\bpreto\b/i, 'Preto'],
+  [/\bmarinho\b/i, 'Marinho'],
+  [/\bazul\b/i, 'Azul'],
+  [/\bverde\b/i, 'Verde'],
+  [/\brosa\b/i, 'Rosa'],
+  [/\bchumbo\b/i, 'Chumbo'],
+  [/\bcinza\b/i, 'Cinza'],
+  [/\bvinho\b/i, 'Vinho'],
+  [/\bbord[oô]\b/i, 'Bordô'],
+  [/\bbege\b/i, 'Bege'],
+  [/\blil[aá]s\b/i, 'Lilás'],
+  [/\blaranja\b/i, 'Laranja'],
+  [/\bvermelho\b/i, 'Vermelho'],
+  [/\bamarelo\b/i, 'Amarelo'],
+  [/\bnude\b/i, 'Nude'],
+  [/\bcaramelo\b/i, 'Caramelo'],
+]
+
+function colorFromName(name: string): string | undefined {
+  for (const [regex, label] of COLOR_NAMES) {
+    if (regex.test(name)) return label
+  }
+  return undefined
+}
+
 // Mapeia atributos WooCommerce → campos Google Shopping
 function mapAttr(attrs: Array<{ name: string; option: string }>) {
   const get = (regex: RegExp) => attrs.find(a => regex.test(a.name))?.option
@@ -184,6 +213,7 @@ export async function GET() {
         gender: g,
         quantity: p.stock_quantity ?? 1,
         ...attrs,
+        color: attrs.color ?? colorFromName(p.name),
       }))
     }
 
@@ -253,7 +283,7 @@ export async function GET() {
           price,
           gender: g,
           quantity: group.rep.stock_quantity ?? 50,
-          color: group.colorLabel || undefined,
+          color: group.colorLabel || colorFromName(p.name) || undefined,
           size: sizeValue,
           material: repAttrs.material,
           pattern: repAttrs.pattern,
