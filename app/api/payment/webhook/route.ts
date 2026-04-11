@@ -3,6 +3,51 @@ import { createHmac } from 'crypto'
 import { sendOrderConfirmation } from '@/lib/email'
 import { sendMetaPurchase } from '@/lib/meta-conversions'
 
+async function sendGA4Purchase(order: {
+  id: number
+  total: string
+  line_items?: Array<{ product_id: number; name: string; total: string; quantity: number }>
+}) {
+  const measurementId = process.env.NEXT_PUBLIC_GA4_ID
+  const apiSecret = process.env.GA4_MEASUREMENT_PROTOCOL_SECRET
+  if (!measurementId || !apiSecret) return
+
+  const value = parseFloat(order.total || '0')
+  const items = (order.line_items ?? []).map((i) => ({
+    item_id: String(i.product_id),
+    item_name: i.name,
+    price: parseFloat(i.total || '0') / (i.quantity || 1),
+    quantity: i.quantity,
+  }))
+
+  const payload = {
+    client_id: `webhook_${order.id}`,
+    events: [{
+      name: 'purchase',
+      params: {
+        transaction_id: String(order.id),
+        value,
+        currency: 'BRL',
+        items,
+      },
+    }],
+  }
+
+  try {
+    await fetch(
+      `https://www.google-analytics.com/mp/collect?measurement_id=${measurementId}&api_secret=${apiSecret}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      }
+    )
+    console.log(`[GA4 MP] Purchase sent — order ${order.id}, value R$${value}`)
+  } catch (err) {
+    console.error('[GA4 MP] Failed to send purchase:', err)
+  }
+}
+
 const WC_API = process.env.WOOCOMMERCE_API_URL!
 const WC_CK = process.env.WOOCOMMERCE_CONSUMER_KEY!
 const WC_CS = process.env.WOOCOMMERCE_CONSUMER_SECRET!
@@ -106,6 +151,9 @@ export async function POST(request: NextRequest) {
 
               // Remove from cart recovery list — customer completed purchase
               import('@/lib/brevo-cart').then(m => m.removeFromRecoveryList(email)).catch(() => {})
+
+              // GA4 Measurement Protocol — garante tracking de PIX/Boleto confirmados no servidor
+              sendGA4Purchase(order).catch(err => console.error('[GA4 MP] webhook error:', err))
 
               // Meta Conversions API — Purchase event (PIX/Boleto confirmed via webhook)
               // Must be awaited — Vercel terminates fire-and-forget before completion
