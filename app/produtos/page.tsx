@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   description: 'Explore nossa coleção completa de jalecos femininos, masculinos, scrubs e uniformes premium para profissionais da saúde. Entrega rápida para todo o Brasil.',
   alternates: { canonical: 'https://jaleca.com.br/produtos' },
   openGraph: {
-    title: 'Jalecos e Uniformes Profissionais — Jaleca',
+    title: 'Jalecos e Uniformes Profissionais | Jaleca',
     description: 'Explore nossa coleção completa de jalecos premium para profissionais da saúde.',
     url: 'https://jaleca.com.br/produtos',
     siteName: 'Jaleca',
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Jalecos e Uniformes Profissionais — Jaleca',
+    title: 'Jalecos e Uniformes Profissionais | Jaleca',
     description: 'Explore nossa coleção completa de jalecos premium para profissionais da saúde.',
     images: ['https://jaleca.com.br/og-home.jpg'],
   },

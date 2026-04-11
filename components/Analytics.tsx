@@ -160,6 +160,8 @@ function PageviewTracker() {
 
   useEffect(() => {
     if (!GA4_ID || !window.gtag) return
+    // Não rastrear rotas internas de admin
+    if (pathname.startsWith('/blog/admin')) return
     const url = pathname + (searchParams.toString() ? `?${searchParams.toString()}` : '')
     window.gtag('config', GA4_ID, { page_path: url })
     window.fbq?.('track', 'PageView')

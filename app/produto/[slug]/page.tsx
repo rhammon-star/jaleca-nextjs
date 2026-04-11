@@ -69,7 +69,10 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params
   const product = await getProduct(slug)
-  if (!product) return { title: 'Produto não encontrado — Jaleca' }
+  if (!product) {
+    console.warn(`[404] Produto não encontrado: /produto/${slug}`)
+    return { title: 'Produto não encontrado — Jaleca', robots: { index: false } }
+  }
 
   const name = String(product.name || '').replace(/ - Jaleca$/i, '')
   const shortDesc = product.shortDescription
