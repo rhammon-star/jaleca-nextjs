@@ -159,8 +159,10 @@ export async function createCreditCardOrder(params: {
   cardToken: string
   installments: number
   metadata?: Record<string, string>
+  ip?: string
+  sessionId?: string
 }): Promise<PagarmeCreditCardResult> {
-  const body = {
+  const body: Record<string, unknown> = {
     items: params.items,
     customer: params.customer,
     shipping: params.shipping,
@@ -169,6 +171,7 @@ export async function createCreditCardOrder(params: {
       address: params.billingAddress,
     },
     metadata: params.metadata,
+    device: { platform: 'web' },
     payments: [{
       payment_method: 'credit_card',
       credit_card: {
@@ -182,6 +185,10 @@ export async function createCreditCardOrder(params: {
       },
     }],
   }
+
+  if (params.ip) body.ip = params.ip
+  if (params.sessionId) body.session_id = params.sessionId
+
   return pagarmeRequest('/orders', 'POST', body)
 }
 

@@ -61,6 +61,9 @@ export default function CheckoutClient() {
   const [error, setError] = useState('')
   const [upsellProducts, setUpsellProducts] = useState<WooProduct[]>([])
 
+  // Device fingerprint (Konduto)
+  const [kondutoSessionId, setKondutoSessionId] = useState<string | undefined>(undefined)
+
   // Card fields
   const [cardNumber, setCardNumber] = useState('')
   const [cardName, setCardName] = useState('')
@@ -91,6 +94,42 @@ export default function CheckoutClient() {
   const total = subtotal + shippingCost
   const pixDiscount = paymentMethod === 'pix' ? (subtotal - couponDiscount) * 0.05 : 0
   const finalTotal = subtotal - couponDiscount - pixDiscount + shippingCost
+
+  // Load Konduto device fingerprint script when credit card is selected
+  useEffect(() => {
+    const workspaceId = process.env.NEXT_PUBLIC_KONDUTO_WORKSPACE_ID
+    if (paymentMethod !== 'credit_card' || !workspaceId) return
+
+    const existing = document.getElementById('konduto-script')
+    if (existing) {
+      // Script already loaded — just get the session ID
+      try {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const sessionId = (window as any).Konduto?.getCustomerId?.()
+        if (sessionId) setKondutoSessionId(sessionId)
+      } catch {}
+      return
+    }
+
+    // Initialize Konduto queue
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ;(window as any).__kdt = (window as any).__kdt || []
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ;(window as any).__kdt.push(['workspace_id', workspaceId])
+
+    const script = document.createElement('script')
+    script.id = 'konduto-script'
+    script.src = 'https://i.k-analytix.com/k.js'
+    script.async = true
+    script.onload = () => {
+      try {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const sessionId = (window as any).Konduto?.getCustomerId?.()
+        if (sessionId) setKondutoSessionId(sessionId)
+      } catch {}
+    }
+    document.head.appendChild(script)
+  }, [paymentMethod])
 
   // Prefill coupon from cart context
   useEffect(() => {
@@ -401,6 +440,7 @@ export default function CheckoutClient() {
         couponCode: couponCode || undefined,
         totalDiscount: couponDiscount + pixDiscount,
         pixDiscount: pixDiscount > 0 ? pixDiscount : undefined,
+        sessionId: paymentMethod === 'credit_card' ? kondutoSessionId : undefined,
       }
 
       const res = await fetch('/api/payment/create', {
