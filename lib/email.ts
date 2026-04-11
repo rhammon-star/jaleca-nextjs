@@ -691,3 +691,34 @@ export async function sendSetPasswordEmail(
   await sendMail({ to: email, subject, html: wrapHtml(content, subject) })
 }
 
+export async function sendPaymentFailed(
+  customerName: string,
+  customerEmail: string,
+  orderNumber: string | number,
+  amount: string,
+): Promise<void> {
+  const subject = 'Problema no pagamento do seu pedido — Jaleca'
+  const siteUrl = 'https://jaleca.com.br'
+
+  const content = `
+    <h2 style="font-size:26px;margin:0 0 16px;font-family:Georgia,serif;font-weight:400;">Olá, ${customerName}!</h2>
+    <p style="color:#666;margin:0 0 16px;font-size:15px;line-height:1.6;">
+      Identificamos que o pagamento do seu pedido <strong>#${orderNumber}</strong> no valor de <strong>${amount}</strong> não foi concluído — o sistema de segurança do nosso processador de pagamentos bloqueou a transação automaticamente.
+    </p>
+    <p style="color:#666;margin:0 0 24px;font-size:15px;line-height:1.6;">
+      Isso não significa nenhum problema com o seu cartão. É uma análise automática de risco que pode ocorrer por diversos fatores. Se o valor apareceu no extrato do seu cartão, fique tranquilo: é apenas uma reserva temporária que será estornada em até <strong>7 dias úteis</strong> sem que você precise fazer nada.
+    </p>
+    <p style="color:#1a1a1a;margin:0 0 8px;font-size:15px;font-weight:600;">Para finalizar sua compra, tente uma destas opções:</p>
+    <ul style="color:#666;font-size:15px;line-height:1.8;margin:0 0 24px;padding-left:20px;">
+      <li><strong>PIX</strong> — aprovação imediata, sem análise de segurança</li>
+      <li><strong>Boleto bancário</strong> — também sem restrições</li>
+      <li>Tentar novamente com o cartão (uma segunda tentativa costuma passar)</li>
+    </ul>
+    ${btn('FINALIZAR MEU PEDIDO', siteUrl + '/produtos')}
+    <p style="font-size:13px;color:#aaa;margin-top:24px;line-height:1.6;">
+      Precisa de ajuda? Fale conosco pelo WhatsApp ou em <a href="mailto:contato@jaleca.com.br" style="color:#1a1a1a;">contato@jaleca.com.br</a>.
+    </p>
+  `
+
+  await sendMail({ to: customerEmail, subject, html: wrapHtml(content, subject) })
+}

@@ -10,7 +10,7 @@ import {
 import { createOrder } from '@/lib/woocommerce'
 import type { WCOrderData } from '@/lib/woocommerce'
 import { addPoints } from '@/lib/loyalty'
-import { sendOrderConfirmation, sendInternalOrderNotification } from '@/lib/email'
+import { sendOrderConfirmation, sendInternalOrderNotification, sendPaymentFailed } from '@/lib/email'
 import { sendMetaPurchase } from '@/lib/meta-conversions'
 import { addShipmentToMECart, ME_SERVICE_MAP } from '@/lib/melhor-envio'
 
@@ -225,12 +225,21 @@ export async function POST(request: NextRequest) {
       })
     }
 
-    // For credit card: update WC immediately if payment was approved
+    // For credit card: update WC immediately based on payment result
     // (PIX/Boleto rely on polling or webhook since payment is async)
+    let creditCardPaid = false
     if (paymentMethod === 'credit_card') {
       const ccCharge = pagarmeOrder.charges?.[0]
       const isPaid = pagarmeOrder.status === 'paid' || ccCharge?.status === 'paid'
+      const isFailed = !isPaid && (
+        pagarmeOrder.status === 'failed' ||
+        ccCharge?.status === 'failed' ||
+        ccCharge?.status === 'not_authorized' ||
+        pagarmeOrder.status === 'canceled'
+      )
+
       if (isPaid) {
+        creditCardPaid = true
         try {
           const res = await fetch(`${WC_API}/orders/${wcOrder.id}`, {
             method: 'PUT',
@@ -244,7 +253,6 @@ export async function POST(request: NextRequest) {
         } catch {}
 
         // Meta Conversions API — Purchase event
-        // Must be awaited — Vercel terminates fire-and-forget before completion
         await sendMetaPurchase(
           {
             email: billing.email,
@@ -264,10 +272,34 @@ export async function POST(request: NextRequest) {
           }
         ).catch(err => console.error('[CAPI] sendMetaPurchase failed (create):', err))
       }
+
+      if (isFailed) {
+        // Update WC order to failed
+        fetch(`${WC_API}/orders/${wcOrder.id}`, {
+          method: 'PUT',
+          headers: { Authorization: wcAuth(), 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: 'failed' }),
+        }).catch(() => {})
+
+        // Notify customer about payment failure
+        const amountFormatted = `R$ ${parseFloat(wcOrder.total || '0').toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`
+        sendPaymentFailed(
+          billing.first_name,
+          billing.email,
+          wcOrder.number || String(wcOrder.id),
+          amountFormatted,
+        ).catch(() => {})
+
+        console.log(`[Payment] Credit card failed — WC order ${wcOrder.id} set to failed, customer notified`)
+      }
     }
 
-    // Award loyalty points (fire-and-forget)
-    if (customer_id && wcOrder.total) {
+    // Award loyalty points only on successful payment
+    if (creditCardPaid && customer_id && wcOrder.total) {
+      addPoints(customer_id, parseFloat(wcOrder.total)).catch(() => {})
+    }
+    // PIX/Boleto: points awarded via webhook when payment confirmed
+    if (paymentMethod !== 'credit_card' && customer_id && wcOrder.total) {
       addPoints(customer_id, parseFloat(wcOrder.total)).catch(() => {})
     }
 
@@ -277,6 +309,8 @@ export async function POST(request: NextRequest) {
     // Do NOT send here for PIX/Boleto — client hasn't paid yet
 
     // ── 4b. Adicionar ao carrinho do Melhor Envio ─────────────────────────────
+    // Só adiciona ao ME se pagamento aprovado (crédito) ou pendente (PIX/Boleto)
+    const isCreditCardFailed = paymentMethod === 'credit_card' && !creditCardPaid
     // Só executa se MELHOR_ENVIO_TOKEN estiver configurado (não placeholder)
     // Use numeric ME service ID directly when available (from live ME API), else map string IDs (fallback)
     const meServiceId = /^\d+$/.test(shipping.method_id)
@@ -284,7 +318,7 @@ export async function POST(request: NextRequest) {
       : (ME_SERVICE_MAP[shipping.method_id] ?? 2)
     const meWeight = Math.max(items.reduce((s, i) => s + 0.5 * i.quantity, 0), 0.5)
     const meTotalValue = items.reduce((s, i) => s + i.price * i.quantity, 0)
-    addShipmentToMECart({
+    if (!isCreditCardFailed) addShipmentToMECart({
       serviceId: meServiceId,
       to: {
         name:       `${billing.first_name} ${billing.last_name}`.trim(),
@@ -303,18 +337,20 @@ export async function POST(request: NextRequest) {
       weight: meWeight,
     }).catch(() => {})
 
-    // ── 4c. Notificação interna — financeiro@jaleca.com.br ────────────────────
-    const totalFormatted = `R$ ${parseFloat(wcOrder.total || '0').toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`
-    const paymentTitle = wcTitleMap[paymentMethod]
-    sendInternalOrderNotification(
-      wcOrder.id,
-      wcOrder.number || String(wcOrder.id),
-      `${billing.first_name} ${billing.last_name}`.trim(),
-      billing.email,
-      totalFormatted,
-      paymentTitle,
-      items.map(i => ({ name: i.name, quantity: i.quantity }))
-    ).catch(() => {})
+    // ── 4c. Notificação interna — só dispara se pagamento não falhou ─────────
+    if (!isCreditCardFailed) {
+      const totalFormatted = `R$ ${parseFloat(wcOrder.total || '0').toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`
+      const paymentTitle = wcTitleMap[paymentMethod]
+      sendInternalOrderNotification(
+        wcOrder.id,
+        wcOrder.number || String(wcOrder.id),
+        `${billing.first_name} ${billing.last_name}`.trim(),
+        billing.email,
+        totalFormatted,
+        paymentTitle,
+        items.map(i => ({ name: i.name, quantity: i.quantity }))
+      ).catch(() => {})
+    }
 
     // ── 5. Build response ────────────────────────────────────────────────────
     const charge = pagarmeOrder.charges?.[0]
