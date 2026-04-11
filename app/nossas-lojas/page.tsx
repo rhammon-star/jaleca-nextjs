@@ -5,8 +5,18 @@ import { franqueados } from '@/lib/franqueados'
 import StoreMapClient from '@/components/StoreMapClient'
 
 export const metadata: Metadata = {
-  title: 'Nossas Lojas',
-  description: 'Encontre a loja Jaleca mais próxima de você. Temos unidades em Minas Gerais, Espírito Santo e Paraná.',
+  title: 'Nossas Lojas — Jalecos em Ipatinga, Colatina, Caratinga e mais',
+  description: 'Encontre a loja Jaleca mais perto de você. Lojas físicas em Ipatinga, Caratinga, Colatina, Contagem, Teófilo Otoni, Guarapuava e outras cidades. Jalecos e uniformes profissionais para saúde.',
+  alternates: { canonical: 'https://jaleca.com.br/nossas-lojas' },
+  openGraph: {
+    title: 'Nossas Lojas — Jaleca Jalecos Profissionais',
+    description: 'Encontre a loja Jaleca mais perto de você. Lojas físicas em Ipatinga, Caratinga, Colatina, Contagem, Teófilo Otoni, Guarapuava e outras cidades.',
+    url: 'https://jaleca.com.br/nossas-lojas',
+    siteName: 'Jaleca',
+    locale: 'pt_BR',
+    type: 'website',
+    images: [{ url: 'https://jaleca.com.br/og-home.jpg', width: 1200, height: 630, alt: 'Lojas Jaleca' }],
+  },
 }
 
 function WhatsAppIcon() {
