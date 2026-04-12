@@ -663,6 +663,7 @@ export async function sendSetPasswordEmail(
 
   // Fetch current meta_data so we can merge (PUT replaces all meta_data)
   let existingMeta: Array<{ key: string; value: string }> = []
+  let fetchedCustomer = false
   try {
     const getRes = await fetch(`${WC_API}/customers/${customerId}`, {
       headers: { Authorization: wcAuth }, cache: 'no-store'
@@ -670,6 +671,7 @@ export async function sendSetPasswordEmail(
     if (getRes.ok) {
       const customer = await getRes.json()
       existingMeta = customer.meta_data || []
+      fetchedCustomer = true
       console.log(`[sendSetPasswordEmail] Existing meta count: ${existingMeta.length}, keys: ${existingMeta.map(m => m.key).join(', ')}`)
     } else {
       console.error(`[sendSetPasswordEmail] Failed to fetch customer ${customerId}: ${getRes.status}`)
@@ -679,12 +681,17 @@ export async function sendSetPasswordEmail(
   }
 
   // Merge new token with existing meta
-  const newMeta = [
-    ...existingMeta.filter(m => m.key !== 'email_verify_token' && m.key !== 'email_verify_expires'),
-    { key: 'email_verify_token',   value: token   },
-    { key: 'email_verify_expires', value: expires },
-  ]
-  console.log(`[sendSetPasswordEmail] Saving meta: ${JSON.stringify(newMeta)}`)
+  const newMeta = fetchedCustomer
+    ? [
+        ...existingMeta.filter(m => m.key !== 'email_verify_token' && m.key !== 'email_verify_expires'),
+        { key: 'email_verify_token',   value: token   },
+        { key: 'email_verify_expires', value: expires },
+      ]
+    : [
+        { key: 'email_verify_token',   value: token   },
+        { key: 'email_verify_expires', value: expires },
+      ]
+  console.log(`[sendSetPasswordEmail] Saving meta (fetched=${fetchedCustomer}): ${JSON.stringify(newMeta)}`)
 
   const saveRes = await fetch(`${WC_API}/customers/${customerId}`, {
     method: 'PUT',
@@ -699,6 +706,28 @@ export async function sendSetPasswordEmail(
     console.error(`[sendSetPasswordEmail] WC PUT failed for customer ${customerId}: ${saveRes?.status ?? 0} — ${body}`)
     throw new Error(`Failed to save reset token (${saveRes?.status ?? 'network error'})`)
   }
+
+  // CRITICAL: Verify token was actually saved by reading customer back
+  try {
+    const verifyRes = await fetch(`${WC_API}/customers/${customerId}`, {
+      headers: { Authorization: wcAuth }, cache: 'no-store'
+    })
+    if (verifyRes.ok) {
+      const customer = await verifyRes.json()
+      const savedToken = customer.meta_data?.find(m => m.key === 'email_verify_token')?.value
+      if (savedToken === token) {
+        console.log(`[sendSetPasswordEmail] VERIFIED: Token present in WC for customer ${customerId}`)
+      } else {
+        console.error(`[sendSetPasswordEmail] VERIFY FAILED: expected=${token.substring(0, 8)}..., got=${savedToken?.substring(0, 8) ?? 'null'}`)
+        throw new Error('Token verify failed after save')
+      }
+    }
+  } catch (err) {
+    console.error(`[sendSetPasswordEmail] Verify fetch failed:`, err)
+    throw err
+  }
+
+  console.log(`[sendSetPasswordEmail] WC PUT success for customer ${customerId}`)
 
   const resetLink = `${siteUrl}/redefinir-senha?key=${token}&login=${encodeURIComponent(email)}&id=${customerId}`
   console.log(`[sendSetPasswordEmail] Token saved for customer ${customerId}, expires ${new Date(parseInt(expires)).toISOString()}, link: ${resetLink}`)
