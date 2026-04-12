@@ -13,6 +13,7 @@ function ResetPasswordForm() {
 
   const resetKey = searchParams.get('key') || ''
   const login = searchParams.get('login') || ''
+  const customerIdParam = searchParams.get('id') || ''
 
   const [password, setPassword] = useState('')
   const [confirm, setConfirm] = useState('')
@@ -41,7 +42,7 @@ function ResetPasswordForm() {
       const res = await fetch('/api/auth/reset-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ login, resetKey, password }),
+        body: JSON.stringify({ login, resetKey, password, customerId: customerIdParam ? parseInt(customerIdParam) : undefined }),
       })
       const data = await res.json()
       if (!res.ok || data.error) {

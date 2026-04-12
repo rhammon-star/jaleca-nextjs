@@ -677,7 +677,8 @@ export async function sendSetPasswordEmail(
     throw new Error(`Failed to save reset token (${saveRes?.status ?? 'network error'})`)
   }
 
-  const resetLink = `${siteUrl}/redefinir-senha?key=${token}&login=${encodeURIComponent(email)}`
+  const resetLink = `${siteUrl}/redefinir-senha?key=${token}&login=${encodeURIComponent(email)}&id=${customerId}`
+  console.log(`[sendSetPasswordEmail] Token saved for customer ${customerId}, expires ${new Date(parseInt(expires)).toISOString()}, link: ${resetLink}`)
 
   const subject = isNewCustomer
     ? 'Sua conta Jaleca foi criada — defina sua senha'

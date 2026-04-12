@@ -27,50 +27,66 @@ async function findCustomerWithToken(customerId: number, resetKey: string): Prom
 
 export async function POST(request: NextRequest) {
   try {
-    const { login, resetKey, password } = await request.json()
+    const { login, resetKey, password, customerId } = await request.json()
 
     if (!login || !resetKey || !password) {
       return NextResponse.json({ error: 'Dados inválidos' }, { status: 400 })
     }
     if (password.length < 6) {
-      return NextResponse.json({ error: 'A senha deve ter no mínimo 6 caracteres' }, { status: 400 })
+      return NextResponse.json({ error: 'A senha deve ter no mínimo 6 caracteres.' }, { status: 400 })
     }
 
-    // Find ALL customers with this email (may have multiple from repeated checkouts)
-    const searchRes = await fetch(
-      `${WC_API}/customers?email=${encodeURIComponent(login)}&role=all&per_page=20`,
-      { headers: { Authorization: wcAuth() }, cache: 'no-store' }
-    )
-    if (!searchRes.ok) {
-      return NextResponse.json({ error: 'Erro ao buscar cliente' }, { status: 500 })
+    // If customerId is provided, fetch that customer directly (most reliable path)
+    let customers: WCCustomer[] = []
+    if (customerId) {
+      const singleRes = await fetch(`${WC_API}/customers/${customerId}`, {
+        headers: { Authorization: wcAuth() }, cache: 'no-store'
+      })
+      if (singleRes.ok) {
+        const single: WCCustomer = await singleRes.json()
+        customers = [single]
+        console.log(`[reset-password] Direct lookup customer ${customerId}: found=${single.id}`)
+      }
     }
-    const customers: WCCustomer[] = await searchRes.json()
+
+    // Fallback: search by email
+    if (customers.length === 0) {
+      const searchRes = await fetch(
+        `${WC_API}/customers?email=${encodeURIComponent(login)}&role=all&per_page=20`,
+        { headers: { Authorization: wcAuth() }, cache: 'no-store' }
+      )
+      if (!searchRes.ok) {
+        return NextResponse.json({ error: 'Erro ao buscar cliente' }, { status: 500 })
+      }
+      customers = await searchRes.json()
+      console.log(`[reset-password] Email search ${login}: found ${customers.length}`)
+    }
+
     if (!Array.isArray(customers) || customers.length === 0) {
       return NextResponse.json({ error: 'Link inválido ou expirado' }, { status: 400 })
     }
-
-    console.log(`[reset-password] found ${customers.length} customers for email ${login}`)
 
     // Check ALL customers for matching token (most recent checkout may be a different customer ID)
     let found: Awaited<ReturnType<typeof findCustomerWithToken>> = null
     for (const c of customers) {
       found = await findCustomerWithToken(c.id, resetKey)
       if (found) {
-        console.log(`[reset-password] token matched on customer ${c.id}`)
+        console.log(`[reset-password] Token matched on customer ${c.id}`)
         break
       }
     }
 
     if (!found) {
-      console.log(`[reset-password] no matching token among ${customers.length} customers`)
+      console.log(`[reset-password] No matching token. Checked ${customers.length} customers, resetKey length=${resetKey.length}`)
       return NextResponse.json({ error: 'Link inválido ou expirado' }, { status: 400 })
     }
 
     const { customer, matchingIndex, expiresEntries } = found
 
-    // Check expiry
-    const storedExpires = expiresEntries[matchingIndex]?.value ?? expiresEntries[expiresEntries.length - 1]?.value
+    // Check expiry — use the matching index entry
+    const storedExpires = expiresEntries[matchingIndex]?.value
     if (storedExpires && Date.now() > parseInt(storedExpires)) {
+      console.log(`[reset-password] Token expired. Stored=${storedExpires}, Now=${Date.now()}`)
       return NextResponse.json({ error: 'Este link expirou. Solicite um novo.' }, { status: 400 })
     }
 
@@ -92,6 +108,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Erro ao definir senha' }, { status: 500 })
     }
 
+    console.log(`[reset-password] Success for customer ${customer.id}`)
     return NextResponse.json({ success: true })
   } catch {
     return NextResponse.json({ error: 'Erro ao redefinir senha' }, { status: 500 })
