@@ -270,6 +270,7 @@ export async function calculateShipping(
 
 export type MEShipmentPayload = {
   serviceId: number          // 1=PAC, 2=SEDEX, 3=Jadlog Package, 4=Jadlog .com
+  wcOrderId?: number         // WC order ID — stored as tag in ME for later matching
   to: {
     name: string
     phone: string
@@ -341,6 +342,9 @@ export async function addShipmentToMECart(payload: MEShipmentPayload): Promise<{
       own_hand:        false,
       reverse:         false,
       non_commercial:  false,
+      tags: payload.wcOrderId
+        ? [{ tag: `wc-order-${payload.wcOrderId}`, url: '' }]
+        : [],
     },
   }
 
@@ -368,5 +372,47 @@ export async function addShipmentToMECart(payload: MEShipmentPayload): Promise<{
   } catch (err) {
     console.error('[ME Cart] Falha:', err)
     return null
+  }
+}
+
+// ── Consultar etiquetas geradas no ME por tag WC ──────────────────────────────
+
+type MEShippedOrder = {
+  id: string
+  status: string
+  tracking: string | null
+  service: { name: string }
+  tags?: Array<{ tag: string; url?: string }>
+}
+
+export async function getMEShippedOrdersByTag(wcOrderIds: number[]): Promise<MEShippedOrder[]> {
+  const token = process.env.MELHOR_ENVIO_TOKEN
+  if (!token || token === 'PLACEHOLDER' || wcOrderIds.length === 0) return []
+
+  try {
+    // Query ME orders — filter by WC order tags
+    const res = await fetch(`${API_BASE}/me/orders?per_page=50&filter[status]=posted,released,delivered`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'User-Agent': 'JalecaApp/1.0 (contato@jaleca.com.br)',
+        'Accept': 'application/json',
+      },
+    })
+    if (!res.ok) {
+      console.error('[ME Orders] API error:', res.status)
+      return []
+    }
+    const data = await res.json() as { data?: MEShippedOrder[] } | MEShippedOrder[]
+    const orders: MEShippedOrder[] = Array.isArray(data) ? data : (data.data ?? [])
+
+    // Filter orders that match any of our WC order tags
+    const tagSet = new Set(wcOrderIds.map(id => `wc-order-${id}`))
+    return orders.filter(o =>
+      o.tracking &&
+      o.tags?.some(t => tagSet.has(t.tag))
+    )
+  } catch (err) {
+    console.error('[ME Orders] Fetch error:', err)
+    return []
   }
 }

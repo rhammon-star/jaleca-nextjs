@@ -397,6 +397,7 @@ export async function POST(request: NextRequest) {
     const meTotalValue = items.reduce((s, i) => s + i.price * i.quantity, 0)
     if (!isCreditCardFailed) addShipmentToMECart({
       serviceId: meServiceId,
+      wcOrderId: wcOrder.id,
       to: {
         name:       `${billing.first_name} ${billing.last_name}`.trim(),
         phone:      billing.phone,
@@ -412,6 +413,15 @@ export async function POST(request: NextRequest) {
       products: items.map(i => ({ name: i.name, quantity: i.quantity, unitValue: i.price })),
       insuranceValue: meTotalValue,
       weight: meWeight,
+    }).then(meResult => {
+      // Save ME cart ID in WC meta for later tracking auto-detection
+      if (meResult?.id) {
+        fetch(`${WC_API}/orders/${wcOrder.id}`, {
+          method: 'PUT',
+          headers: { Authorization: wcAuth(), 'Content-Type': 'application/json' },
+          body: JSON.stringify({ meta_data: [{ key: 'jaleca_me_cart_id', value: meResult.id }] }),
+        }).catch(() => {})
+      }
     }).catch(() => {})
 
     // ── 4c. Notificação interna — só dispara se pagamento não falhou ─────────

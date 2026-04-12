@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { trackShipments } from '@/lib/melhor-envio'
+import { trackShipments, getMEShippedOrdersByTag } from '@/lib/melhor-envio'
 import {
   sendOrderInTransit,
   sendOrderOutForDelivery,
   sendOrderDelivered,
+  sendOrderShippedWithTracking,
 } from '@/lib/email'
 
 const WC_API_URL = process.env.WOOCOMMERCE_API_URL!
@@ -40,6 +41,22 @@ async function getActiveTrackingOrders(): Promise<WCOrder[]> {
   return orders.filter(o => getMeta(o, 'jaleca_tracking_active') === '1' && getMeta(o, 'jaleca_me_tag'))
 }
 
+async function getPendingTrackingOrders(): Promise<WCOrder[]> {
+  // Busca pedidos que têm jaleca_me_cart_id mas ainda não têm rastreio registrado
+  const statuses = ['processing', 'on-hold'].join(',')
+  const url = `${WC_API_URL}/orders?per_page=50&status=${statuses}`
+  const res = await fetch(url, {
+    headers: { Authorization: wcAuth() },
+    cache: 'no-store',
+  })
+  if (!res.ok) return []
+  const orders = await res.json() as WCOrder[]
+  return orders.filter(o =>
+    getMeta(o, 'jaleca_me_cart_id') &&
+    getMeta(o, 'jaleca_tracking_active') !== '1'
+  )
+}
+
 async function updateOrderMeta(orderId: number, key: string, value: string) {
   await fetch(`${WC_API_URL}/orders/${orderId}`, {
     method: 'PUT',
@@ -65,6 +82,41 @@ export async function GET(req: NextRequest) {
   }
 
   try {
+    // ── Step 0: Auto-detect newly generated labels from Melhor Envio ──────────
+    const pendingOrders = await getPendingTrackingOrders()
+    if (pendingOrders.length > 0) {
+      const wcOrderIds = pendingOrders.map(o => o.id)
+      const shippedMeOrders = await getMEShippedOrdersByTag(wcOrderIds)
+
+      for (const meOrder of shippedMeOrders) {
+        const wcOrderTag = meOrder.tags?.find(t => t.tag.startsWith('wc-order-'))?.tag
+        const wcOrderId = wcOrderTag ? parseInt(wcOrderTag.replace('wc-order-', ''), 10) : null
+        if (!wcOrderId || !meOrder.tracking) continue
+
+        const wcOrder = pendingOrders.find(o => o.id === wcOrderId)
+        if (!wcOrder) continue
+
+        const trackingCode = meOrder.tracking
+        const carrier = meOrder.service?.name || 'Transportadora'
+
+        // Register tracking in WC meta
+        await updateOrderMeta(wcOrderId, 'jaleca_tracking_code', trackingCode)
+        await updateOrderMeta(wcOrderId, 'jaleca_tracking_carrier', carrier)
+        await updateOrderMeta(wcOrderId, 'jaleca_me_tag', meOrder.id)
+        await updateOrderMeta(wcOrderId, 'jaleca_tracking_active', '1')
+        await updateOrderMeta(wcOrderId, 'jaleca_tracking_status', 'posted')
+        await updateOrderMeta(wcOrderId, 'jaleca_notified_statuses', 'shipped')
+
+        // Send "shipped" email
+        const firstName = wcOrder.billing.first_name
+        const email = wcOrder.billing.email
+        await sendOrderShippedWithTracking(wcOrderId, firstName, email, trackingCode, carrier, undefined)
+
+        console.log(`[Tracking Check-All] Auto-registrado: pedido WC #${wcOrderId} — ${carrier} ${trackingCode}`)
+      }
+    }
+
+    // ── Step 1: Check active tracking orders ─────────────────────────────────
     const orders = await getActiveTrackingOrders()
     if (orders.length === 0) {
       return NextResponse.json({ ok: true, checked: 0 })

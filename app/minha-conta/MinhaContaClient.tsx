@@ -36,6 +36,7 @@ type WCOrder = {
     image?: { src: string }
   }>
   shipping_lines: Array<{ method_title: string; total: string }>
+  meta_data?: Array<{ key: string; value: string }>
 }
 
 type WCAddress = {
@@ -89,7 +90,7 @@ const STATUS_CONFIG: Record<string, { label: string; color: string; icon: React.
   pending:    { label: 'Aguardando pagamento', color: 'bg-yellow-50 text-yellow-700 border-yellow-200', icon: <Clock size={12} />, step: 1 },
   processing: { label: 'Em processamento',     color: 'bg-blue-50 text-blue-700 border-blue-200',       icon: <Package size={12} />, step: 2 },
   on_hold:    { label: 'Aguardando',           color: 'bg-orange-50 text-orange-700 border-orange-200', icon: <AlertCircle size={12} />, step: 1 },
-  completed:  { label: 'Concluído',            color: 'bg-green-50 text-green-700 border-green-200',    icon: <CheckCircle size={12} />, step: 4 },
+  completed:  { label: 'Concluído',            color: 'bg-green-50 text-green-700 border-green-200',    icon: <CheckCircle size={12} />, step: 5 },
   cancelled:  { label: 'Cancelado',            color: 'bg-red-50 text-red-700 border-red-200',          icon: <XCircle size={12} />, step: 0 },
   refunded:   { label: 'Reembolsado',          color: 'bg-gray-50 text-gray-600 border-gray-200',       icon: <RotateCcw size={12} />, step: 0 },
   failed:     { label: 'Falhou',               color: 'bg-red-50 text-red-700 border-red-200',          icon: <XCircle size={12} />, step: 0 },
@@ -112,10 +113,12 @@ function StatusBadge({ status }: { status: string }) {
   )
 }
 
-function OrderTimeline({ status }: { status: string }) {
+function OrderTimeline({ status, trackingStatus }: { status: string; trackingStatus?: string }) {
   const cfg = STATUS_CONFIG[status]
   if (!cfg || cfg.step === 0) return null
-  const currentStep = cfg.step
+  const currentStep = (trackingStatus && TRACKING_STEP[trackingStatus])
+    ? TRACKING_STEP[trackingStatus]
+    : cfg.step
 
   return (
     <div className="py-3">
@@ -168,6 +171,35 @@ function getInitials(name: string) {
   if (parts.length === 0) return '?'
   if (parts.length === 1) return parts[0][0].toUpperCase()
   return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
+}
+
+const TRACKING_CONFIG: Record<string, { label: string; color: string }> = {
+  posted:           { label: 'Postado',          color: 'bg-blue-50 text-blue-700 border-blue-200' },
+  in_transit:       { label: 'Em trânsito',      color: 'bg-blue-50 text-blue-700 border-blue-200' },
+  out_for_delivery: { label: 'Saiu p/ entrega',  color: 'bg-orange-50 text-orange-700 border-orange-200' },
+  delivered:        { label: 'Entregue',         color: 'bg-green-50 text-green-700 border-green-200' },
+  undelivered:      { label: 'Tentativa falhou', color: 'bg-red-50 text-red-700 border-red-200' },
+}
+
+const TRACKING_STEP: Record<string, number> = {
+  posted: 3, in_transit: 4, out_for_delivery: 4, delivered: 5,
+}
+
+function getOrderTracking(order: WCOrder) {
+  const get = (key: string) => order.meta_data?.find(m => m.key === key)?.value ?? ''
+  return {
+    code:    get('jaleca_tracking_code'),
+    carrier: get('jaleca_tracking_carrier'),
+    status:  get('jaleca_tracking_status'),
+    active:  get('jaleca_tracking_active') === '1',
+  }
+}
+
+function trackingUrl(code: string, carrier: string): string {
+  if (carrier.toLowerCase().includes('jadlog')) {
+    return `https://www.jadlog.com.br/jadlog/tracking.jad?cte=${code}`
+  }
+  return `https://rastreamento.correios.com.br/app/resultado.php?objeto=${code}`
 }
 
 export default function MinhaContaClient() {
@@ -544,7 +576,36 @@ export default function MinhaContaClient() {
                           {isExpanded && (
                             <div className="border-t border-border p-4 bg-secondary/5 space-y-4">
                               {/* Timeline */}
-                              <OrderTimeline status={order.status} />
+                              {(() => {
+                                const tr = getOrderTracking(order)
+                                return (
+                                  <>
+                                    <OrderTimeline status={order.status} trackingStatus={tr.status || undefined} />
+                                    {/* Tracking block */}
+                                    {tr.code && (
+                                      <div className={`border px-4 py-3 space-y-1.5 ${TRACKING_CONFIG[tr.status]?.color ?? 'bg-blue-50 text-blue-700 border-blue-200'}`}>
+                                        <div className="flex items-center justify-between gap-2">
+                                          <div className="flex items-center gap-2">
+                                            <Truck size={14} />
+                                            <span className="text-xs font-semibold">
+                                              {TRACKING_CONFIG[tr.status]?.label ?? 'Em trânsito'} — {tr.carrier}
+                                            </span>
+                                          </div>
+                                          <a
+                                            href={trackingUrl(tr.code, tr.carrier)}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-xs underline underline-offset-2 font-semibold whitespace-nowrap"
+                                          >
+                                            Rastrear
+                                          </a>
+                                        </div>
+                                        <p className="text-xs font-mono opacity-80">{tr.code}</p>
+                                      </div>
+                                    )}
+                                  </>
+                                )
+                              })()}
 
                               {/* Items */}
                               <div className="space-y-2">
