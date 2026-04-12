@@ -658,15 +658,32 @@ export async function sendSetPasswordEmail(
   const expires = String(Date.now() + 72 * 60 * 60 * 1000) // 72h
 
   const wcAuth = 'Basic ' + Buffer.from(`${CK}:${CS}`).toString('base64')
+
+  // Fetch current meta_data so we can merge (PUT replaces all meta_data)
+  let existingMeta: Array<{ key: string; value: string }> = []
+  try {
+    const getRes = await fetch(`${WC_API}/customers/${customerId}`, {
+      headers: { Authorization: wcAuth }, cache: 'no-store'
+    })
+    if (getRes.ok) {
+      const customer = await getRes.json()
+      existingMeta = customer.meta_data || []
+    }
+  } catch (err) {
+    console.error(`[sendSetPasswordEmail] Failed to fetch existing meta for ${customerId}:`, err)
+  }
+
+  // Merge new token with existing meta
+  const newMeta = [
+    ...existingMeta.filter(m => m.key !== 'email_verify_token' && m.key !== 'email_verify_expires'),
+    { key: 'email_verify_token',   value: token   },
+    { key: 'email_verify_expires', value: expires },
+  ]
+
   const saveRes = await fetch(`${WC_API}/customers/${customerId}`, {
     method: 'PUT',
     headers: { Authorization: wcAuth, 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      meta_data: [
-        { key: 'email_verify_token',   value: token   },
-        { key: 'email_verify_expires', value: expires },
-      ],
-    }),
+    body: JSON.stringify({ meta_data: newMeta }),
   }).catch((err: unknown) => {
     console.error(`[sendSetPasswordEmail] Network error saving token for customer ${customerId}:`, err)
     return null
