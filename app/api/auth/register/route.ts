@@ -108,6 +108,7 @@ export async function POST(request: NextRequest) {
         headers: { Authorization: `Basic ${auth}`, 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email,
+          username: email,
           password,
           first_name,
           last_name,
