@@ -16,7 +16,7 @@ Site de uniformes médicos (jalecos, dômãs, conjuntos). Diretório: `/Users/rh
 - Gemini AI (gemini-2.5-flash) para blog
 - Radix UI (shadcn/ui pattern) + custom components
 
-## Status das integrações (09/04/2026)
+## Status das integrações (12/04/2026)
 - WooCommerce GraphQL: ✅ `https://wp.jaleca.com.br/graphql`
 - WooCommerce REST: ✅ Pedidos, customers
 - Carrinho: ✅ localStorage
@@ -26,38 +26,36 @@ Site de uniformes médicos (jalecos, dômãs, conjuntos). Diretório: `/Users/rh
 - Verificação de email: ✅ (não bloqueia checkout)
 - Blog CMS com IA: ✅ (`/blog/admin`) — Gemini 2.5 flash-lite + Unsplash + 4 estilos de escrita + humanização
 - Melhor Envio shipping: ✅ token real configurado, CNPJ `30379063000161`, renovação automática mensal
+- Frete: ✅ PAC/SEDEX/Jadlog via Melhor Envio, surcharge R$0 removido (12/04/2026)
 - GA4 + Meta Pixel + Meta CAPI: ✅
-- **Rastreamento de compra browser**: ✅ `trackPurchase()` chamado em `app/pagamento/page.tsx` ao confirmar pagamento — dispara GA4 purchase + Google Ads conversion + Meta Pixel Purchase (09/04/2026)
-- Meta Pixel ID: ✅ `566059928254677` (Pixel de BM 01 - Jaleca.Jaleca)
-- Meta CAPI token: ✅ configurado
+  - ⚠️ Meta CAPI erro 400 — pixel `566059928254677` token precisa ser regenerado no Meta Events Manager
+- **Rastreamento de compra browser**: ✅ `trackPurchase()` chamado em `app/pagamento/page.tsx` ao confirmar pagamento
+- Meta Pixel ID: ✅ `566059928254677`
+- Meta CAPI token: ⚠️ precisa regenerar (token atual é de Página Facebook, não serve para CAPI)
 - Meta Catálogo: ✅ 30 produtos / 559 variantes (feed: `/api/feed/google-shopping`, atualiza 1h)
 - Meta Loja Instagram + Facebook: ✅ aprovada (06/04/2026)
-- Meta Checkout URL: ✅ configurado (`/api/meta-checkout`) — redireciona para produto por cor ou /produtos (08/04/2026)
-- Meta Catálogo: ✅ 116 produtos ativos, 0 erros (08/04/2026)
-- Franqueado popup: ✅ raio 100km via geolocalização IP (Vercel headers), reset diário
-- Franqueado debug: ✅ `/api/franqueado/debug`
-- Google Reviews (homepage): ✅ via Places API (New) — `lib/google-places.ts`, `components/GoogleReviewsSection.tsx`
-- Google Reviews (página de produto): ✅ mesmas 57 reviews do Google exibidas quando não há avaliações WooCommerce — `ProductDetailClient.tsx` recebe `googlePlace?: PlaceData` prop, mostra badge rating + 3 reviews na aba "Avaliações"
-- aggregateRating no Product schema: ✅ usa nota Google (4.9) como fallback quando sem reviews WooCommerce (10/04/2026)
-- Alt text imagens: ✅ fallback `product.name` no código ( WooCommerce não define alt text nos products — bulk fix pendente no WP Admin )
-- Google Ads: ✅ conta 444-659-1621 — Merchant Center 5759143798 ✅ (106 produtos aprovados), GA4 530831994 ✅, faturamento ✅
-  - Campanha Search "Jaleca - Search - Jalecos": ✅ R$70/dia, estratégia **Maximizar Cliques** (CPC máx R$2,50) — trocado de "Maximizar conversões" pois não havia histórico de conversões
-  - Tag conversão AW-18072506944: ✅ verificada e funcionando — bolinha verde, origem GA4, evento `manual_event_PURCHASE`
-  - Palavras-chave negativas: ✅ adicionadas (~40 termos de concorrentes: dra cherie, farcoo, coat lab, tutto bianco, etc.)
-  - Campanha Shopping "Jaleca - Shopping - Produtos": ✅ publicada (R$30/dia, Maximizar cliques, CPC máx R$2,50)
-  - Meta Remarketing: ✅ campanha "Remarketing - Carrinho Abandonado" — anúncio criado + públicos "Carrinho Abandonado - 60 dias" + "Visitantes Site 60 dias" configurados (09/04/2026, em análise)
-  - Campanha Performance Max: ⏳ criar no mês 2 após dados de conversão
+- Meta Checkout URL: ✅ configurado (`/api/meta-checkout`)
+- Meta Remarketing: ✅ campanha "Remarketing - Carrinho Abandonado" — públicos 60 dias (09/04/2026, em análise)
+- Google Reviews (homepage): ✅ via Places API (New) — rating 4.9/58, cache 24h
+- Google Reviews (página de produto): ✅ badge 4.9/58 Google com 3 reviews na aba "Avaliações" (10/04/2026)
+- aggregateRating no Product schema: ✅ usa nota Google (4.9) como fallback quando sem reviews WooCommerce
+- Alt text imagens: ✅ bulk fix via SQL (674 imagens, 11/04/2026) + plugin `jaleca-auto-alt` para novos produtos
+- Google Ads: ✅ conta 444-659-1621 — Merchant Center 5759143798 ✅, GA4 530831994 ✅, faturamento ✅
+  - Campanha Search "Jaleca - Search - Jalecos": ✅ R$70/dia, Maximizar Cliques (CPC máx R$2,50)
+  - Campanha Shopping "Jaleca - Shopping - Produtos": ✅ R$30/dia, Maximizar Cliques, CPC máx R$2,50
+  - Tag conversão AW-18072506944: ✅ funcionando
+  - Palavras-chave negativas: ✅ ~40 termos de concorrentes negativados
+  - Verificação do anunciante: ⏳ em andamento (1-10 dias)
+  - Ao atingir 30 compras: trocar Search para "Maximizar conversões"
+  - Mês 2: criar Performance Max
 - Tawk.to chat: ✅
 - Speed Insights Vercel: ✅
 - Trust badges + PIX badge + Urgência estoque: ✅
 - FAQ page + FAQPage schema: ✅
-- Cores produto ordenadas alfabeticamente: ✅ (`ProductDetailClient.tsx`)
-- Cupom `PRIMEIRACOMPRA5JALECA`: ✅ criado no WooCommerce (06/04/2026)
-- Descrições de produtos: ✅ reescritas com copywriting premium (todos os 30 produtos, 06/04/2026)
-  - Estrutura: Headline → Subheadline → Parágrafo de conexão → Benefícios → Prova social → Especificações → FAQ → CTA
-  - Tom: Confiante, profissional, premium, direto
-  - SEO: naturalmente incluir "jaleco femenino", "jaleco premium", "jaleco para dentista", "jaleco confortável", "jaleco moderno"
-  - NÃO usar emojis, linguagem genérica de marketplace, ou texto robótico
+- Cores produto ordenadas alfabeticamente: ✅
+- Cupom `PRIMEIRACOMPRA5JALECA`: ✅ criado no WooCommerce
+- Descrições de produtos: ✅ copywriting premium (todos os 30 produtos, 06/04/2026)
+- SEO (11/04/2026): ✅ `middleware.ts` redirect admin.jaleca.com.br, página Nossas Lojas metadata melhorado, GBP site + descrição corrigidos
 
 ## Arquivos principais
 
