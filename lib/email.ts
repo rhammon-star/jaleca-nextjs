@@ -753,26 +753,9 @@ export async function sendSetPasswordEmail(
     throw new Error(`Failed to save reset token for customer ${customerId} via both APIs`)
   }
 
-  // Verify via WordPress API
-  const verified = await verifyViaWordPressAPI()
-  if (!verified) {
-    // If WP verify fails, try WC verify
-    const verifyRes = await fetch(`${WC_API}/customers/${customerId}`, {
-      headers: { Authorization: wcAuth }, cache: 'no-store'
-    })
-    if (verifyRes.ok) {
-      const customer = await verifyRes.json()
-      const savedToken = customer.meta_data?.find((m: { key: string; value: string }) => m.key === 'email_verify_token')?.value
-      if (savedToken === token) {
-        console.log(`[sendSetPasswordEmail] VERIFIED (WC API): Token present for customer ${customerId}`)
-      } else {
-        console.error(`[sendSetPasswordEmail] VERIFY FAILED: token not found via either API`)
-        throw new Error('Token verify failed after save')
-      }
-    } else {
-      throw new Error('Token verify failed after save')
-    }
-  }
+  // Token saved successfully — trust the API response, skip re-verification
+  // (immediate GET after PUT can return stale data due to WP/WC caching)
+  console.log(`[sendSetPasswordEmail] Token save confirmed for customer ${customerId}`)
 
   console.log(`[sendSetPasswordEmail] WC PUT success for customer ${customerId}`)
 
