@@ -16,7 +16,7 @@ Site de uniformes médicos (jalecos, dômãs, conjuntos). Diretório: `/Users/rh
 - Gemini AI (gemini-2.5-flash) para blog
 - Radix UI (shadcn/ui pattern) + custom components
 
-## Status das integrações (12/04/2026)
+## Status das integrações (13/04/2026)
 - WooCommerce GraphQL: ✅ `https://wp.jaleca.com.br/graphql`
 - WooCommerce REST: ✅ Pedidos, customers
 - Carrinho: ✅ localStorage
@@ -24,6 +24,9 @@ Site de uniformes médicos (jalecos, dômãs, conjuntos). Diretório: `/Users/rh
 - Google Search Console: ✅ sitemap submetido
 - Email transacional: ✅ via Brevo (`lib/email.ts`)
 - Verificação de email: ✅ (não bloqueia checkout)
+- **Reset de senha (13/04/2026)**: ✅ CORRIGIDO — token salvo via `/wp-json/jaleca/v1/save-token` (user_meta WordPress), não mais via WC API. Plugin jaleca-fix v2.1 instalado com endpoints save/get/clear-token + change-password.
+- **Variações sem preço (13/04/2026)**: ✅ CORRIGIDO — 3 camadas: (1) WordPress hook desativa variação sem preço ao salvar, (2) frontend filtra da seleção, (3) API bloqueia pedido com price≤0.
+- **CPF duplicado no checkout (13/04/2026)**: ✅ CORRIGIDO — clientes criados via endpoint WP não apareciam na WC REST API. Novo endpoint `/wp-json/jaleca/v1/lookup-cpf` busca por `user_meta billing_cpf`. `cpf-lookup/route.ts` tenta plugin primeiro, depois WC API.
 - Blog CMS com IA: ✅ (`/blog/admin`) — Gemini 2.5 flash-lite + Unsplash + 4 estilos de escrita + humanização
 - Melhor Envio shipping: ✅ token real configurado, CNPJ `30379063000161`, renovação automática mensal
 - Frete: ✅ PAC/SEDEX/Jadlog via Melhor Envio, surcharge R$0 removido (12/04/2026)
@@ -219,22 +222,47 @@ Documento: `docs/PROJETO-RASTREAMENTO-APROVACAO.md`
 Novos arquivos a criar: `app/api/tracking/*`, `app/api/orders/notify`, `app/api/orders/payment-reminder`, `lib/tracking.ts`
 Modificar: `lib/email.ts` (+10 funções), `vercel.json` (+2 crons), `functions.php` WP (+campos rastreio + hooks)
 
+## Plugin WordPress "Jaleca Fix" v2.2 (13/04/2026)
+Arquivo: `docs/jaleca-fix-completo.php` — instalar via Hostinger File Manager.
+Endpoints ativos em `/wp-json/jaleca/v1/`:
+- `POST /create-customer` — cria usuário WP com role customer (autenticação por header X-Jaleca-Secret)
+- `POST /save-token` — salva token reset senha em user_meta
+- `POST /get-token` — lê token reset senha de user_meta
+- `POST /change-password` — atualiza senha via wp_set_password()
+- `POST /clear-token` — limpa token após uso + marca email_verified=1
+- `GET  /lookup-cpf` — busca usuário por billing_cpf em user_meta (fix CPF duplicado)
+Secret: `jaleca-register-secret-2026` (env var `JALECA_PLUGIN_SECRET` no Vercel)
+Hook ativo: `jaleca_desativa_variacao_sem_preco` — auto-desativa variação sem preço ao salvar
+
+## CRÍTICO — Clientes WP vs WooCommerce REST API
+Clientes criados via `/wp-json/jaleca/v1/create-customer` EXISTEM no WordPress mas NÃO aparecem
+no WooCommerce REST API (`/wc/v3/customers/{id}` retorna 404).
+Por isso TODOS os endpoints que buscam/salvam dados desses clientes devem usar o plugin Jaleca:
+- Token de senha: `/wp-json/jaleca/v1/save-token` + `get-token` + `clear-token`
+- Busca por CPF: `/wp-json/jaleca/v1/lookup-cpf`
+- Atualização de senha: `/wp-json/jaleca/v1/change-password`
+NÃO usar WC REST API para essas operações (fallback apenas).
+
 ## Pendente (prioridade)
 1. **Cadastro de usuário** — ✅ RESOLVIDO (09/04/2026).
 2. **Melhor Envio** — ✅ RESOLVIDO (09/04/2026). Token real configurado, integração automática ME cart, renovação mensal automática via cron.
 3. **Rastreamento de compra** — ✅ RESOLVIDO (09/04/2026). `trackPurchase()` chamado no `/pagamento` ao confirmar pagamento.
 4. **Canônico www** — ✅ RESOLVIDO (09/04/2026). www.jaleca.com.br → 308 → jaleca.com.br (configurado no Vercel).
-5. **WooCommerce SKUs duplicados** — 4 produtos afetados. Corrigir antes do próximo sync Bling.
-6. **Google Ads — Verificação do anunciante** — Adm. → Configurações → Verificação do anunciante
-7. **Google Ads — Em 7 dias** — checar termos novos para negativar; ao atingir 30 compras, trocar Search para "Maximizar conversões"
-8. **Meta Remarketing** — ✅ anúncio criado + públicos configurados (09/04/2026). Se não gastar em 3 dias, expandir público para 90 dias.
-9. **Imagens WordPress** — EWWW Image Optimizer (algumas imagens > 8MB bloqueavam Meta)
-10. **Instagram Shopping** — aguardando sincronização Meta
-11. **Vercel Pro** — verificar prazo trial
-12. **Marketplaces via Bling** — próximo passo: conectar Mercado Livre. Ver `docs/PROJETO-MARKETPLACES-BLING.md`
-13. **Google Ads — Performance Max** — criar no mês 2
-14. **Investigar "Produto não encontrado"** — 24 sessões em 404, verificar quais URLs estão quebrando
-15. **admin.jaleca.com.br** — bloquear indexação no Google via WordPress → Configurações → Leitura → desmarcar indexação
+5. **Reset de senha** — ✅ RESOLVIDO (13/04/2026). Plugin Jaleca Fix v2.2 com endpoints token.
+6. **CPF duplicado no checkout** — ✅ RESOLVIDO (13/04/2026). Plugin lookup-cpf + cpf-lookup/route.ts atualizado.
+7. **Variações sem preço** — ✅ RESOLVIDO (13/04/2026). Hook WP + filtro frontend + bloqueio API.
+8. **Tela /minha-conta — histórico de pedidos** — ⏳ AMANHÃ. Ver todos os pedidos de compras anteriores.
+9. **WooCommerce SKUs duplicados** — 4 produtos afetados. Corrigir antes do próximo sync Bling.
+10. **Google Ads — Verificação do anunciante** — Adm. → Configurações → Verificação do anunciante
+11. **Google Ads — Em 7 dias** — checar termos novos para negativar; ao atingir 30 compras, trocar Search para "Maximizar conversões"
+12. **Meta Remarketing** — ✅ anúncio criado + públicos configurados (09/04/2026). Se não gastar em 3 dias, expandir público para 90 dias.
+13. **Imagens WordPress** — EWWW Image Optimizer (algumas imagens > 8MB bloqueavam Meta)
+14. **Instagram Shopping** — aguardando sincronização Meta
+15. **Vercel Pro** — verificar prazo trial
+16. **Marketplaces via Bling** — próximo passo: conectar Mercado Livre. Ver `docs/PROJETO-MARKETPLACES-BLING.md`
+17. **Google Ads — Performance Max** — criar no mês 2
+18. **Investigar "Produto não encontrado"** — 24 sessões em 404, verificar quais URLs estão quebrando
+19. **admin.jaleca.com.br** — bloquear indexação no Google via WordPress → Configurações → Leitura → desmarcar indexação
 
 ## Performance (09/04/2026)
 - Cache headers corrigidos no `next.config.ts` (regex estava quebrado — assets sem cache)

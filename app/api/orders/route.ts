@@ -3,6 +3,7 @@ import { createOrder, getOrders } from '@/lib/woocommerce'
 import type { WCOrderData } from '@/lib/woocommerce'
 import { sendOrderConfirmation } from '@/lib/email'
 import { addPoints } from '@/lib/loyalty'
+import { requireAuth } from '@/lib/auth'
 
 // ── Stock verification helpers ────────────────────────────────────────────────
 
@@ -83,12 +84,9 @@ const PAGARME_TITLES = {
 
 export async function GET(request: NextRequest) {
   try {
-    // Require a non-empty Bearer token
-    const authHeader = request.headers.get('Authorization') ?? ''
-    const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7).trim() : ''
-    if (!token) {
-      return NextResponse.json({ error: 'Não autorizado' }, { status: 401 })
-    }
+    // Require authentication
+    const auth = requireAuth(request)
+    if (auth instanceof NextResponse) return auth
 
     const { searchParams } = new URL(request.url)
     const customerId = searchParams.get('customerId')
@@ -96,8 +94,14 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'customerId é obrigatório' }, { status: 400 })
     }
 
-    // Token was issued by our own login endpoint — non-empty is sufficient
-    const orders = await getOrders(Number(customerId))
+    // SECURITY: Ensure the authenticated user can only access their own orders
+    const requestedCustomerId = Number(customerId)
+    if (auth.id !== requestedCustomerId) {
+      console.error(`[orders] IDOR attempt: auth.id=${auth.id} tried to access customerId=${requestedCustomerId}`)
+      return NextResponse.json({ error: 'Acesso negado' }, { status: 403 })
+    }
+
+    const orders = await getOrders(requestedCustomerId)
     return NextResponse.json(orders)
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Erro ao buscar pedidos'

@@ -10,6 +10,23 @@ function wcHeaders() {
   return { Authorization: `Basic ${Buffer.from(`${key}:${secret}`).toString('base64')}` }
 }
 
+// ── Rate limiter to prevent CPF enumeration ────────────────────────────────────
+const rateLimitMap = new Map<string, { count: number; resetAt: number }>()
+const RATE_LIMIT_WINDOW = 60 * 1000
+const RATE_LIMIT_MAX = 10
+
+function checkRateLimit(ip: string): boolean {
+  const now = Date.now()
+  const entry = rateLimitMap.get(ip)
+  if (!entry || now > entry.resetAt) {
+    rateLimitMap.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW })
+    return true
+  }
+  if (entry.count >= RATE_LIMIT_MAX) return false
+  entry.count++
+  return true
+}
+
 type WCCustomer = {
   id: number
   billing?: { cpf?: string }
@@ -42,6 +59,17 @@ async function fetchAllCustomers(): Promise<WCCustomer[]> {
 }
 
 export async function GET(request: NextRequest) {
+  // ── Rate limiting ───────────────────────────────────────────────────────────
+  const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
+               || request.headers.get('x-real-ip')
+               || 'unknown'
+  if (!checkRateLimit(ip)) {
+    return NextResponse.json({ error: 'Muitas tentativas. Tente novamente.' }, { status: 429 })
+  }
+
+  // ── Small random delay to slow down enumeration ──────────────────────────
+  await new Promise(r => setTimeout(r, Math.floor(Math.random() * 200) + 100))
+
   const { searchParams } = new URL(request.url)
   const cpf = searchParams.get('cpf')?.replace(/\D/g, '')
   if (!cpf || cpf.length !== 11) {

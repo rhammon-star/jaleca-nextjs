@@ -1,12 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getCustomer, updateCustomer } from '@/lib/woocommerce'
+import { requireAuth } from '@/lib/auth'
 
 export async function GET(request: NextRequest) {
   try {
-    const { searchParams } = new URL(request.url)
-    const userId = searchParams.get('userId')
-    if (!userId) return NextResponse.json({ error: 'userId é obrigatório' }, { status: 400 })
-    const customer = await getCustomer(Number(userId))
+    // SECURITY: Require authentication
+    const auth = requireAuth(request)
+    if (auth instanceof NextResponse) return auth
+
+    // SECURITY: User can only access their own profile (userId param ignored)
+    const customer = await getCustomer(auth.id)
     return NextResponse.json({ customer })
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Erro ao buscar perfil'
@@ -16,12 +19,13 @@ export async function GET(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   try {
-    const body = await request.json()
-    const { userId, name, email, password, phone, billing, shipping } = body
+    // SECURITY: Require authentication
+    const auth = requireAuth(request)
+    if (auth instanceof NextResponse) return auth
 
-    if (!userId) {
-      return NextResponse.json({ error: 'userId é obrigatório' }, { status: 400 })
-    }
+    const body = await request.json()
+    // SECURITY: Ignore userId from body — use authenticated user's ID
+    const { userId: _ignoredUserId, name, email, password, phone, billing, shipping } = body
 
     const updateData: Record<string, unknown> = {}
     if (name) {
@@ -35,7 +39,8 @@ export async function PUT(request: NextRequest) {
     if (billing) updateData.billing = { ...(updateData.billing as object || {}), ...billing }
     if (shipping) updateData.shipping = shipping
 
-    const customer = await updateCustomer(Number(userId), updateData)
+    // SECURITY: Always update the authenticated user's profile, not any other
+    const customer = await updateCustomer(auth.id, updateData)
 
     return NextResponse.json({
       user: {

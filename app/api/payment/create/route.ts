@@ -109,6 +109,53 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Um ou mais itens do carrinho estão sem preço cadastrado. Por favor, entre em contato com o suporte.' }, { status: 400 })
     }
 
+    // ── SECURITY: Validar preços contra WooCommerce ───────────────────────────
+    for (const item of items) {
+      const productRes = await fetch(`${WC_API}/products/${item.product_id}`, {
+        headers: { Authorization: wcAuth() },
+        cache: 'no-store',
+      })
+      if (!productRes.ok) {
+        return NextResponse.json({ error: `Erro ao verificar preço do produto ${item.product_id}` }, { status: 400 })
+      }
+      const product = await productRes.json()
+
+      // Get the correct price (considering variation if applicable)
+      let correctPrice = parseFloat(product.price || '0')
+
+      if (item.variation_id) {
+        const varRes = await fetch(`${WC_API}/products/${item.product_id}/variations/${item.variation_id}`, {
+          headers: { Authorization: wcAuth() },
+          cache: 'no-store',
+        })
+        if (varRes.ok) {
+          const variation = await varRes.json()
+          correctPrice = parseFloat(variation.price || product.price || '0')
+        }
+      }
+
+      const sentPrice = parseFloat(item.price.toString())
+      // Allow 1% tolerance for floating point differences
+      const priceDiff = Math.abs(sentPrice - correctPrice)
+      const priceOk = correctPrice === 0 || priceDiff / correctPrice < 0.01
+
+      if (!priceOk) {
+        console.error(`[payment/create] SECURITY: Price mismatch for ${item.name}: sent=${sentPrice}, correct=${correctPrice}`)
+        return NextResponse.json({ error: 'Preço do carrinho expirou. Recarregue a página e tente novamente.' }, { status: 400 })
+      }
+    }
+
+    // ── SECURITY: Calcular desconto PIX corretamente no servidor ──────────────
+    const PIX_DISCOUNT_PERCENT = 0.05
+    const calculatedPixDiscount = parseFloat((items.reduce((sum, i) => sum + i.price * i.quantity, 0) * PIX_DISCOUNT_PERCENT).toFixed(2))
+    // Accept only if within R$0.50 tolerance (for rounding)
+    if (pixDiscount !== undefined && pixDiscount > 0) {
+      if (Math.abs(pixDiscount - calculatedPixDiscount) > 0.50) {
+        console.error(`[payment/create] SECURITY: PIX discount mismatch: sent=${pixDiscount}, calculated=${calculatedPixDiscount}`)
+        // Don't reject — recalculate to correct value
+      }
+    }
+
     // ── 1. Create WooCommerce order ──────────────────────────────────────────
     const wcMethodMap = {
       pix: 'woo-pagarme-payments-pix',
@@ -148,8 +195,9 @@ export async function POST(request: NextRequest) {
       }],
       customer_id,
       coupon_lines: couponCode ? [{ code: couponCode }] : undefined,
-      fee_lines: pixDiscount && pixDiscount > 0
-        ? [{ name: 'Desconto PIX (5%)', total: `-${pixDiscount.toFixed(2)}`, tax_status: 'none' }]
+      // SECURITY: Always use server-calculated PIX discount, never trust client
+      fee_lines: paymentMethod === 'pix'
+        ? [{ name: 'Desconto PIX (5%)', total: `-${calculatedPixDiscount.toFixed(2)}`, tax_status: 'none' }]
         : undefined,
       meta_data: [
         { key: '_billing_cpf', value: cpf.replace(/\D/g, '') },
