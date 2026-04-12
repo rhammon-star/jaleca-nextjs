@@ -86,6 +86,13 @@ export async function POST(req: NextRequest) {
       await updateOrderMeta(resolvedWCOrderId, 'jaleca_tracking_status', 'posted')
       await updateOrderMeta(resolvedWCOrderId, 'jaleca_notified_statuses', 'shipped')
 
+      // Update WC order status to "enviado" so portal reflects the change
+      await fetch(`${WC_API_URL}/orders/${resolvedWCOrderId}`, {
+        method: 'PUT',
+        headers: { Authorization: wcAuth(), 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'enviado' }),
+      })
+
       await sendOrderShippedWithTracking(
         resolvedWCOrderId,
         wcOrder.billing.first_name,
@@ -94,7 +101,7 @@ export async function POST(req: NextRequest) {
         carrier,
         undefined,
       )
-      console.log(`[ME Webhook] Tracking registrado: WC #${resolvedWCOrderId} — ${carrier} ${tracking}`)
+      console.log(`[ME Webhook] Tracking registrado: WC #${resolvedWCOrderId} — ${carrier} ${tracking} → status enviado`)
     }
 
     // Update tracking status if changed

@@ -30,6 +30,7 @@ const STATUS_MAP: Record<string, Action> = {
   'wc-reembolsado':       'refunded',
   'completed':            'review_request',
   'wc-completed':         'review_request',
+  // "enviado" is handled by check-all/ME webhook with the tracking code — skip here to avoid duplicate
 }
 
 type WCLineItem = { product_id: number; name: string }

@@ -107,12 +107,19 @@ export async function GET(req: NextRequest) {
         await updateOrderMeta(wcOrderId, 'jaleca_tracking_status', 'posted')
         await updateOrderMeta(wcOrderId, 'jaleca_notified_statuses', 'shipped')
 
+        // Update WC order status to "enviado" so portal reflects the change
+        await fetch(`${WC_API_URL}/orders/${wcOrderId}`, {
+          method: 'PUT',
+          headers: { Authorization: wcAuth(), 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: 'enviado' }),
+        })
+
         // Send "shipped" email
         const firstName = wcOrder.billing.first_name
         const email = wcOrder.billing.email
         await sendOrderShippedWithTracking(wcOrderId, firstName, email, trackingCode, carrier, undefined)
 
-        console.log(`[Tracking Check-All] Auto-registrado: pedido WC #${wcOrderId} — ${carrier} ${trackingCode}`)
+        console.log(`[Tracking Check-All] Auto-registrado: pedido WC #${wcOrderId} — ${carrier} ${trackingCode} → status enviado`)
       }
     }
 
