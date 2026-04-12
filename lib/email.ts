@@ -322,6 +322,61 @@ export async function sendCartRecovery(cartItems: CartItem[], customerEmail: str
   return sendCartRecovery1h(cartItems, customerEmail)
 }
 
+// ── PIX — código enviado por email ────────────────────────────────────────────
+
+export async function sendPixPaymentEmail(params: {
+  firstName: string
+  customerEmail: string
+  orderNumber: string
+  total: string
+  pixQrCode: string
+  pixQrCodeUrl?: string
+  expiresAt?: string
+}): Promise<void> {
+  const { firstName, customerEmail, orderNumber, total, pixQrCode, pixQrCodeUrl, expiresAt } = params
+
+  let expiresLine = ''
+  if (expiresAt) {
+    const d = new Date(expiresAt)
+    const time = d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
+    expiresLine = `<p style="font-size:13px;color:#b45309;margin:8px 0 0;">⏱ Código válido até ${time} — 15 minutos</p>`
+  }
+
+  const qrSection = pixQrCodeUrl
+    ? `<div style="text-align:center;margin:20px 0;"><img src="${pixQrCodeUrl}" alt="QR Code PIX" width="180" height="180" style="border:1px solid #e5e7eb;" /></div>`
+    : ''
+
+  const content = `
+    <h2 style="font-size:22px;margin:0 0 6px;font-family:Georgia,serif;">Seu código PIX chegou!</h2>
+    <p style="color:#666;margin:0 0 20px;font-size:15px;">Olá, ${firstName}! Seu pedido <strong>#${orderNumber}</strong> está aguardando pagamento de <strong>${total}</strong>.</p>
+
+    ${qrSection}
+
+    <p style="font-size:13px;font-weight:bold;color:#1a1a1a;margin:0 0 8px;letter-spacing:1px;text-transform:uppercase;">Copiar código PIX (Copia e Cola):</p>
+    <div style="background:#f3f4f6;border:1px solid #d1d5db;padding:14px;border-radius:2px;word-break:break-all;">
+      <code style="font-size:12px;color:#1a1a1a;font-family:monospace;">${pixQrCode}</code>
+    </div>
+    ${expiresLine}
+
+    <div style="margin:24px 0;padding:16px;background:#fffbeb;border-left:3px solid #f59e0b;">
+      <p style="font-size:13px;color:#92400e;margin:0 0 6px;font-weight:bold;">Como pagar:</p>
+      <ol style="font-size:13px;color:#92400e;margin:0;padding-left:18px;">
+        <li>Abra o app do seu banco</li>
+        <li>Vá em PIX → Pagar → Copia e Cola (ou escaneie o QR Code)</li>
+        <li>Cole o código acima e confirme o pagamento</li>
+      </ol>
+    </div>
+
+    <p style="color:#888;font-size:12px;margin:16px 0 0;">Após o pagamento, você receberá a confirmação por e-mail. Pedidos não pagos em 15 minutos são cancelados automaticamente.</p>
+  `
+
+  await sendMail({
+    to: customerEmail,
+    subject: `Código PIX — Pedido #${orderNumber} Jaleca`,
+    html: wrapHtml(content, `Código PIX — Pedido #${orderNumber}`),
+  })
+}
+
 // ── Cadência automática de pedidos ────────────────────────────────────────────
 
 /** Email #1 — Lembrete pagamento pendente (+12h sem pagar) */

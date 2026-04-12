@@ -120,7 +120,7 @@ export async function createPixOrder(params: {
     metadata: params.metadata,
     payments: [{
       payment_method: 'pix',
-      pix: { expires_in: 86400 }, // 24h
+      pix: { expires_in: 900 }, // 15 min
     }],
   })
 }

@@ -10,7 +10,7 @@ import {
 import { createOrder } from '@/lib/woocommerce'
 import type { WCOrderData } from '@/lib/woocommerce'
 import { addPoints } from '@/lib/loyalty'
-import { sendOrderConfirmation, sendInternalOrderNotification, sendPaymentFailed } from '@/lib/email'
+import { sendOrderConfirmation, sendInternalOrderNotification, sendPaymentFailed, sendPixPaymentEmail } from '@/lib/email'
 import { sendMetaPurchase } from '@/lib/meta-conversions'
 import { addShipmentToMECart, ME_SERVICE_MAP } from '@/lib/melhor-envio'
 
@@ -153,6 +153,20 @@ export async function POST(request: NextRequest) {
       if (Math.abs(pixDiscount - calculatedPixDiscount) > 0.50) {
         console.error(`[payment/create] SECURITY: PIX discount mismatch: sent=${pixDiscount}, calculated=${calculatedPixDiscount}`)
         // Note: Pagar.me charge uses wcOrder.total (server-authoritative), so this mismatch is already blocked
+      }
+    }
+
+    // ── SECURITY: Verificar cupom de primeira compra ─────────────────────────
+    if (couponCode && /primeiracompra/i.test(couponCode) && customer_id) {
+      const prevOrdersRes = await fetch(
+        `${WC_API}/orders?customer=${customer_id}&per_page=5&status=processing,completed,on-hold`,
+        { headers: { Authorization: wcAuth() }, cache: 'no-store' }
+      )
+      if (prevOrdersRes.ok) {
+        const prevOrders = await prevOrdersRes.json()
+        if (Array.isArray(prevOrders) && prevOrders.length > 0) {
+          return NextResponse.json({ error: 'O cupom "PRIMEIRACOMPRA" é exclusivo para a primeira compra. Você já possui pedidos anteriores.' }, { status: 400 })
+        }
       }
     }
 
@@ -442,6 +456,19 @@ export async function POST(request: NextRequest) {
       response.pixQrCode = pixTx.qr_code
       response.pixQrCodeUrl = pixTx.qr_code_url
       response.pixExpiresAt = pixTx.expires_at
+
+      // Send PIX code via email (fire-and-forget)
+      if (billing.email && pixTx.qr_code) {
+        sendPixPaymentEmail({
+          firstName: billing.first_name,
+          customerEmail: billing.email,
+          orderNumber: wcOrder.number || String(wcOrder.id),
+          total: `R$ ${parseFloat(wcOrder.total || '0').toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`,
+          pixQrCode: pixTx.qr_code,
+          pixQrCodeUrl: pixTx.qr_code_url,
+          expiresAt: pixTx.expires_at,
+        }).catch(err => console.error('[Payment] Failed to send PIX email:', err))
+      }
     }
     if (paymentMethod === 'boleto' && tx) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

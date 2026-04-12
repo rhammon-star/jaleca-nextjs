@@ -89,6 +89,15 @@ export default function CheckoutClient() {
   const [couponError, setCouponError] = useState('')
   const [couponLoading, setCouponLoading] = useState(false)
 
+  // Form validation
+  const [submitted, setSubmitted] = useState(false)
+  function fieldBorder(value: string) {
+    return submitted && !value.trim() ? 'border-red-400' : 'border-border'
+  }
+  function fieldClass(value: string) {
+    return `w-full border ${fieldBorder(value)} bg-background px-3 py-2.5 text-sm focus:outline-none focus:border-foreground transition-colors`
+  }
+
   const subtotal = items.reduce((sum, i) => sum + parsePrice(i.price) * i.quantity, 0)
   const shippingCost = shipping?.cost ?? 0
   const total = subtotal + shippingCost
@@ -238,6 +247,28 @@ export default function CheckoutClient() {
         setCouponError(`Pedido mínimo para este cupom: R$${minAmount.toFixed(2).replace('.', ',')}`)
         return
       }
+
+      // Check first-order coupon
+      if (/primeiracompra/i.test(code) && isLoggedIn && user?.id) {
+        try {
+          const ordersRes = await fetch(`/api/orders?customerId=${user.id}`, {
+            headers: { Authorization: `Bearer ${user.token}` },
+          })
+          if (ordersRes.ok) {
+            const orders = await ordersRes.json()
+            const prevOrders = Array.isArray(orders)
+              ? orders.filter((o: { status: string }) => ['processing', 'completed', 'on-hold'].includes(o.status))
+              : []
+            if (prevOrders.length > 0) {
+              setCouponError('Este cupom é exclusivo para a primeira compra.')
+              return
+            }
+          }
+        } catch {
+          // Se não conseguir verificar, deixa passar (backend vai bloquear)
+        }
+      }
+
       setCouponCode(data.code)
       // Calculate discount based on type
       if (data.discount_type === 'percent') {
@@ -348,6 +379,7 @@ export default function CheckoutClient() {
     e.preventDefault()
     setError('')
     setCpfLoginError('')
+    setSubmitted(true)
 
     if (!validateCPF(cpf)) {
       setError('Informe um CPF válido para continuar')
@@ -356,7 +388,7 @@ export default function CheckoutClient() {
 
     const email = isLoggedIn ? user!.email : guestEmail
     if (!address.first_name || !address.last_name || !email || !address.postcode || !address.address_1 || !address.address_2 || !address.city || !address.state) {
-      setError('Preencha todos os campos obrigatórios')
+      setError('Preencha os campos destacados em vermelho')
       return
     }
     if (!shipping) {
@@ -866,7 +898,7 @@ export default function CheckoutClient() {
                       onChange={e => setAddress(p => ({ ...p, first_name: e.target.value }))}
                       required
                       autoComplete="given-name"
-                      className="w-full border border-border bg-background px-3 py-2.5 text-sm focus:outline-none focus:border-foreground transition-colors"
+                      className={fieldClass(address.first_name)}
                     />
                   </div>
                   <div>
@@ -878,7 +910,7 @@ export default function CheckoutClient() {
                       onChange={e => setAddress(p => ({ ...p, last_name: e.target.value }))}
                       required
                       autoComplete="family-name"
-                      className="w-full border border-border bg-background px-3 py-2.5 text-sm focus:outline-none focus:border-foreground transition-colors"
+                      className={fieldClass(address.last_name)}
                     />
                   </div>
                   <div>
@@ -906,7 +938,7 @@ export default function CheckoutClient() {
                       maxLength={9}
                       required
                       autoComplete="postal-code"
-                      className="w-full border border-border bg-background px-3 py-2.5 text-sm focus:outline-none focus:border-foreground transition-colors"
+                      className={fieldClass(address.postcode)}
                     />
                   </div>
                   <div className="sm:col-span-2">
@@ -919,7 +951,7 @@ export default function CheckoutClient() {
                       required
                       placeholder="Rua, Av., etc."
                       autoComplete="address-line1"
-                      className="w-full border border-border bg-background px-3 py-2.5 text-sm focus:outline-none focus:border-foreground transition-colors"
+                      className={fieldClass(address.address_1)}
                     />
                   </div>
                   <div>
@@ -931,7 +963,7 @@ export default function CheckoutClient() {
                       onChange={e => setAddress(p => ({ ...p, address_2: e.target.value }))}
                       required
                       autoComplete="address-line2"
-                      className="w-full border border-border bg-background px-3 py-2.5 text-sm focus:outline-none focus:border-foreground transition-colors"
+                      className={fieldClass(address.address_2)}
                     />
                   </div>
                   <div>
@@ -954,7 +986,7 @@ export default function CheckoutClient() {
                       onChange={e => setAddress(p => ({ ...p, city: e.target.value }))}
                       required
                       autoComplete="address-level2"
-                      className="w-full border border-border bg-background px-3 py-2.5 text-sm focus:outline-none focus:border-foreground transition-colors"
+                      className={fieldClass(address.city)}
                     />
                   </div>
                   <div>
@@ -968,7 +1000,7 @@ export default function CheckoutClient() {
                       maxLength={2}
                       placeholder="SP"
                       autoComplete="address-level1"
-                      className="w-full border border-border bg-background px-3 py-2.5 text-sm focus:outline-none focus:border-foreground transition-colors"
+                      className={fieldClass(address.state)}
                     />
                   </div>
                 </div>
@@ -1049,7 +1081,7 @@ export default function CheckoutClient() {
                               placeholder="0000 0000 0000 0000"
                               maxLength={19}
                               autoComplete="cc-number"
-                              className="w-full border border-border bg-background px-3 py-2.5 text-sm focus:outline-none focus:border-foreground transition-colors"
+                              className={fieldClass(cardNumber)}
                             />
                           </div>
                           <div>
@@ -1060,7 +1092,7 @@ export default function CheckoutClient() {
                               onChange={e => setCardName(e.target.value.toUpperCase())}
                               placeholder="NOME COMO NO CARTÃO"
                               autoComplete="cc-name"
-                              className="w-full border border-border bg-background px-3 py-2.5 text-sm focus:outline-none focus:border-foreground transition-colors"
+                              className={fieldClass(cardName)}
                             />
                           </div>
                           <div className="grid grid-cols-2 gap-3">
@@ -1076,7 +1108,7 @@ export default function CheckoutClient() {
                                 placeholder="MM/AA"
                                 maxLength={5}
                                 autoComplete="cc-exp"
-                                className="w-full border border-border bg-background px-3 py-2.5 text-sm focus:outline-none focus:border-foreground transition-colors"
+                                className={fieldClass(cardExpiry)}
                               />
                             </div>
                             <div>
@@ -1088,7 +1120,7 @@ export default function CheckoutClient() {
                                 placeholder="000"
                                 maxLength={4}
                                 autoComplete="cc-csc"
-                                className="w-full border border-border bg-background px-3 py-2.5 text-sm focus:outline-none focus:border-foreground transition-colors"
+                                className={fieldClass(cardCvv)}
                               />
                             </div>
                           </div>

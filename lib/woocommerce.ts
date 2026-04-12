@@ -143,7 +143,7 @@ export async function getOrder(id: number): Promise<WCOrder> {
 }
 
 export async function getOrders(customerId: number): Promise<WCOrder[]> {
-  return wcFetch<WCOrder[]>(`/orders?customer=${customerId}&per_page=20`)
+  return wcFetch<WCOrder[]>(`/orders?customer=${customerId}&per_page=100&orderby=date&order=desc`)
 }
 
 export async function getCustomer(id: number): Promise<WCCustomer> {
