@@ -12,7 +12,28 @@ type CidadeInfo = {
   uf: string
   tipo: 'fechada' | 'revenda' | 'propria'
   profissoes: string
+  freteGratis?: boolean
+  conteudoLocal?: string
 }
+
+const FAQ_TEMPLATE = (nome: string, estado: string) => [
+  {
+    pergunta: `Qual o prazo de entrega para jalecos em ${nome}?`,
+    resposta: `O prazo de entrega para ${nome}, ${estado}, varia de 3 a 7 dias úteis após a confirmação do pagamento. Você recebe o código de rastreamento por e-mail assim que o pedido for despachado.`,
+  },
+  {
+    pergunta: `Tem frete grátis para ${nome}?`,
+    resposta: `Oferecemos frete grátis (PAC) para ${nome} nas compras acima de R$499, válido para os estados de SP, RJ, MG e ES. Para outros estados ou valores menores, calcule o frete informando seu CEP no checkout.`,
+  },
+  {
+    pergunta: `Como funciona a troca de jalecos em ${nome}?`,
+    resposta: `Você pode solicitar a troca em até 30 dias após o recebimento. Basta entrar em contato pelo WhatsApp ou e-mail, devolver o produto sem uso e com etiqueta, e enviamos o novo tamanho sem custo.`,
+  },
+  {
+    pergunta: `Como rastrear meu pedido para ${nome}?`,
+    resposta: `Assim que o pedido for despachado, você recebe o código de rastreamento por e-mail. O acompanhamento é feito diretamente no site dos Correios ou da transportadora escolhida.`,
+  },
+]
 
 const CIDADES: Record<string, CidadeInfo> = {
   'jaleco-belo-horizonte': {
@@ -21,6 +42,8 @@ const CIDADES: Record<string, CidadeInfo> = {
     uf: 'MG',
     tipo: 'fechada',
     profissoes: 'médicos, dentistas, enfermeiros e profissionais de saúde de BH',
+    freteGratis: true,
+    conteudoLocal: 'Profissionais de saúde em Belo Horizonte, do Mater Dei à Santa Casa, encontram na Jaleca a união perfeita de estilo e conforto. Nossos jalecos são ideais para a dinâmica das clínicas e hospitais da capital mineira, garantindo elegância e funcionalidade em cada atendimento.',
   },
   'jaleco-campo-grande': {
     nome: 'Campo Grande',
@@ -28,6 +51,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     uf: 'MS',
     tipo: 'fechada',
     profissoes: 'médicos, dentistas e profissionais de saúde de Campo Grande',
+    conteudoLocal: 'Profissionais de Campo Grande, MS, da Santa Casa ao Hospital Regional, encontram na Jaleca a excelência em jalecos. Design moderno e conforto são essenciais para a rotina intensa das clínicas e hospitais da capital sul-mato-grossense.',
   },
   'jaleco-vitoria': {
     nome: 'Vitória',
@@ -35,6 +59,8 @@ const CIDADES: Record<string, CidadeInfo> = {
     uf: 'ES',
     tipo: 'fechada',
     profissoes: 'médicos, dentistas, enfermeiros e profissionais de saúde de Vitória',
+    freteGratis: true,
+    conteudoLocal: 'Em Vitória, ES, profissionais do HUCAM e das clínicas da Praia do Canto buscam distinção. Os jalecos Jaleca proporcionam elegância e praticidade, ideais para o ambiente de saúde da capital capixaba, combinando beleza e funcionalidade.',
   },
   'jaleco-barra-da-tijuca': {
     nome: 'Barra da Tijuca',
@@ -91,6 +117,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     uf: 'PR',
     tipo: 'revenda',
     profissoes: 'médicos, dentistas, enfermeiros e profissionais de saúde de Curitiba',
+    conteudoLocal: 'Para os exigentes profissionais de Curitiba, do Hospital Marcelino Champagnat aos centros médicos do Batel, a Jaleca oferece jalecos que unem inovação e sofisticação. Vista-se com a qualidade que a saúde paranaense merece.',
   },
   'jaleco-londrina': {
     nome: 'Londrina',
@@ -98,6 +125,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     uf: 'PR',
     tipo: 'revenda',
     profissoes: 'médicos, dentistas e profissionais de saúde de Londrina',
+    conteudoLocal: 'Em Londrina, PR, do Hospital Universitário à Santa Casa, a Jaleca é a escolha para jalecos que aliam conforto e estilo. Desenvolvidos para atender a dinâmica da saúde londrinense com elegância e durabilidade.',
   },
   'jaleco-governador-valadares': {
     nome: 'Governador Valadares',
@@ -154,6 +182,8 @@ const CIDADES: Record<string, CidadeInfo> = {
     uf: 'ES',
     tipo: 'propria',
     profissoes: 'médicos, dentistas, enfermeiros e profissionais de saúde de Colatina',
+    freteGratis: true,
+    conteudoLocal: 'Em Colatina, ES, seja no Hospital São José ou nas clínicas da cidade, profissionais valorizam durabilidade e design. Os jalecos da Jaleca combinam funcionalidade e elegância para o dia a dia da saúde colatinense.',
   },
 }
 
@@ -218,6 +248,8 @@ export default async function CidadePage({
 
   const products = await getProducts()
 
+  const faq = FAQ_TEMPLATE(cidade.nome, cidade.estado)
+
   const breadcrumbSchema = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
@@ -228,11 +260,25 @@ export default async function CidadePage({
     ],
   }
 
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map(({ pergunta, resposta }) => ({
+      '@type': 'Question',
+      name: pergunta,
+      acceptedAnswer: { '@type': 'Answer', text: resposta },
+    })),
+  }
+
   return (
     <main>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       {/* Hero */}
@@ -263,7 +309,7 @@ export default async function CidadePage({
           <div className="flex flex-wrap justify-center gap-6 md:gap-10 text-sm text-muted-foreground">
             <div className="flex items-center gap-2">
               <Truck size={16} className="text-foreground" />
-              <span>Entrega para {cidade.nome}</span>
+              <span>{cidade.freteGratis ? `Frete Grátis acima de R$499 para ${cidade.nome}` : `Entrega para ${cidade.nome}`}</span>
             </div>
             <div className="flex items-center gap-2">
               <RotateCcw size={16} className="text-foreground" />
@@ -296,8 +342,37 @@ export default async function CidadePage({
         </div>
       </section>
 
-      {/* Sobre entrega */}
+      {/* Conteúdo local */}
+      {cidade.conteudoLocal && (
+        <section className="py-10 px-4">
+          <div className="container max-w-2xl text-center">
+            <p className="text-muted-foreground leading-relaxed">{cidade.conteudoLocal}</p>
+          </div>
+        </section>
+      )}
+
+      {/* FAQ */}
       <section className="bg-secondary/30 py-12 px-4">
+        <div className="container max-w-2xl">
+          <h2 className="font-display text-2xl font-semibold mb-8 text-center">
+            Dúvidas sobre entrega em {cidade.nome}
+          </h2>
+          <div className="space-y-4">
+            {faq.map(({ pergunta, resposta }) => (
+              <details key={pergunta} className="border border-border bg-background group">
+                <summary className="px-5 py-4 cursor-pointer text-sm font-semibold list-none flex justify-between items-center gap-2">
+                  {pergunta}
+                  <span className="shrink-0 text-muted-foreground group-open:rotate-180 transition-transform">▾</span>
+                </summary>
+                <p className="px-5 pb-4 text-sm text-muted-foreground leading-relaxed">{resposta}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Sobre entrega */}
+      <section className="py-12 px-4">
         <div className="container max-w-2xl text-center">
           <h2 className="font-display text-2xl font-semibold mb-4">
             Enviamos para {cidade.nome}
@@ -305,6 +380,7 @@ export default async function CidadePage({
           <p className="text-muted-foreground mb-6">
             Todos os pedidos para {cidade.nome}, {cidade.estado}, são enviados com rastreamento completo.
             Prazo estimado de 3 a 7 dias úteis dependendo da modalidade de frete escolhida.
+            {cidade.freteGratis && ' Frete grátis (PAC) para compras acima de R$499.'}{' '}
             Troca garantida em até 30 dias caso o produto não sirva.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
