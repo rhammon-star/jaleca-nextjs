@@ -657,6 +657,8 @@ export async function sendSetPasswordEmail(
   const token   = crypto.randomBytes(32).toString('hex')
   const expires = String(Date.now() + 72 * 60 * 60 * 1000) // 72h
 
+  console.log(`[sendSetPasswordEmail] Called: customerId=${customerId}, email=${email}, isNewCustomer=${isNewCustomer}`)
+
   const wcAuth = 'Basic ' + Buffer.from(`${CK}:${CS}`).toString('base64')
 
   // Fetch current meta_data so we can merge (PUT replaces all meta_data)
@@ -668,6 +670,9 @@ export async function sendSetPasswordEmail(
     if (getRes.ok) {
       const customer = await getRes.json()
       existingMeta = customer.meta_data || []
+      console.log(`[sendSetPasswordEmail] Existing meta count: ${existingMeta.length}, keys: ${existingMeta.map(m => m.key).join(', ')}`)
+    } else {
+      console.error(`[sendSetPasswordEmail] Failed to fetch customer ${customerId}: ${getRes.status}`)
     }
   } catch (err) {
     console.error(`[sendSetPasswordEmail] Failed to fetch existing meta for ${customerId}:`, err)
@@ -679,6 +684,7 @@ export async function sendSetPasswordEmail(
     { key: 'email_verify_token',   value: token   },
     { key: 'email_verify_expires', value: expires },
   ]
+  console.log(`[sendSetPasswordEmail] Saving meta: ${JSON.stringify(newMeta)}`)
 
   const saveRes = await fetch(`${WC_API}/customers/${customerId}`, {
     method: 'PUT',
