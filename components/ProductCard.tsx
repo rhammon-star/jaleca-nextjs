@@ -162,12 +162,20 @@ const ProductCard = ({ product, colorFilter }: { product: WooProduct; colorFilte
         <h3 className="font-body text-sm font-medium text-foreground mb-2 leading-snug group-hover:text-primary transition-colors duration-200 line-clamp-2">
           {displayName}
         </h3>
-        <div className="flex items-center gap-2">
-          <span className="text-sm font-semibold text-foreground">
-            {isOnSale ? product.salePrice : product.price || product.regularPrice}
-          </span>
-          {isOnSale && product.regularPrice && (
-            <span className="text-xs text-muted-foreground line-through">{product.regularPrice}</span>
+        <div className="flex flex-col gap-0.5">
+          {isOnSale && product.regularPrice ? (
+            <>
+              <span className="text-[10px] text-muted-foreground">
+                De <span className="line-through">{product.regularPrice}</span>
+              </span>
+              <span className="text-sm font-semibold text-foreground">
+                Por {product.salePrice}
+              </span>
+            </>
+          ) : (
+            <span className="text-sm font-semibold text-foreground">
+              {product.price || product.regularPrice}
+            </span>
           )}
         </div>
       </div>

@@ -166,8 +166,8 @@ const Footer = () => {
                   </a>
                 </li>
                 <li>
-                  <Link href="/loja-matriz" className="hover:text-foreground transition-colors">
-                    Nossa Loja — Ipatinga, MG
+                  <Link href="/nossas-lojas" className="hover:text-foreground transition-colors">
+                    Nossas Lojas — Ipatinga, MG
                   </Link>
                 </li>
                 <li className="pt-2">
@@ -222,8 +222,9 @@ const Footer = () => {
 
       {/* Bottom bar */}
       <div className="border-t border-border bg-background py-4">
-        <div className="container text-center text-xs text-muted-foreground">
+        <div className="container text-center text-xs text-muted-foreground space-y-1">
           <p>© 2026 Jaleca — Todos os direitos reservados.</p>
+          <p>Jaleca Uniformes Profissionais LTDA — CNPJ 30.379.063/0001-61 — Ipatinga, MG</p>
         </div>
       </div>
     </footer>
