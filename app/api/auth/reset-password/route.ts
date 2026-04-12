@@ -4,6 +4,27 @@ const WC_API = process.env.WOOCOMMERCE_API_URL!
 const wcAuth = () =>
   'Basic ' + Buffer.from(`${process.env.WOOCOMMERCE_CONSUMER_KEY}:${process.env.WOOCOMMERCE_CONSUMER_SECRET}`).toString('base64')
 
+type WCCustomer = { id: number; meta_data?: Array<{ key: string; value: string }> }
+
+async function findCustomerWithToken(customerId: number, resetKey: string): Promise<{
+  customer: WCCustomer
+  matchingIndex: number
+  tokenEntries: Array<{ key: string; value: string }>
+  expiresEntries: Array<{ key: string; value: string }>
+} | null> {
+  const res = await fetch(`${WC_API}/customers/${customerId}`, {
+    headers: { Authorization: wcAuth() }, cache: 'no-store'
+  })
+  if (!res.ok) return null
+  const customer: WCCustomer = await res.json()
+  const meta = customer.meta_data || []
+  const tokenEntries = meta.filter(m => m.key === 'email_verify_token')
+  const expiresEntries = meta.filter(m => m.key === 'email_verify_expires')
+  const matchingIndex = tokenEntries.findIndex(m => m.value === resetKey)
+  if (matchingIndex !== -1) return { customer, matchingIndex, tokenEntries, expiresEntries }
+  return null
+}
+
 export async function POST(request: NextRequest) {
   try {
     const { login, resetKey, password } = await request.json()
@@ -15,45 +36,39 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'A senha deve ter no mínimo 6 caracteres' }, { status: 400 })
     }
 
-    // Find customer by email (list endpoint — sem meta_data)
+    // Find ALL customers with this email (may have multiple from repeated checkouts)
     const searchRes = await fetch(
-      `${WC_API}/customers?email=${encodeURIComponent(login)}&role=all`,
+      `${WC_API}/customers?email=${encodeURIComponent(login)}&role=all&per_page=20`,
       { headers: { Authorization: wcAuth() }, cache: 'no-store' }
     )
     if (!searchRes.ok) {
       return NextResponse.json({ error: 'Erro ao buscar cliente' }, { status: 500 })
     }
-    const customers = await searchRes.json()
+    const customers: WCCustomer[] = await searchRes.json()
     if (!Array.isArray(customers) || customers.length === 0) {
       return NextResponse.json({ error: 'Link inválido ou expirado' }, { status: 400 })
     }
 
-    // Busca cliente por ID para obter meta_data completo
-    const detailRes = await fetch(
-      `${WC_API}/customers/${customers[0].id}`,
-      { headers: { Authorization: wcAuth() }, cache: 'no-store' }
-    )
-    if (!detailRes.ok) {
-      return NextResponse.json({ error: 'Erro ao buscar cliente' }, { status: 500 })
+    console.log(`[reset-password] found ${customers.length} customers for email ${login}`)
+
+    // Check ALL customers for matching token (most recent checkout may be a different customer ID)
+    let found: Awaited<ReturnType<typeof findCustomerWithToken>> = null
+    for (const c of customers) {
+      found = await findCustomerWithToken(c.id, resetKey)
+      if (found) {
+        console.log(`[reset-password] token matched on customer ${c.id}`)
+        break
+      }
     }
-    const customer = await detailRes.json()
 
-    // Validate token from WC meta — check ALL entries (multiple may exist from repeated checkouts)
-    const meta: Array<{ key: string; value: string }> = customer.meta_data || []
-    const tokenEntries = meta.filter(m => m.key === 'email_verify_token')
-    const expiresEntries = meta.filter(m => m.key === 'email_verify_expires')
-
-    console.log(`[reset-password] customer ${customer.id}, tokenCount=${tokenEntries.length}, resetKey=${resetKey.slice(0, 8)}...`)
-
-    // Find the matching token (any of them)
-    const matchingIndex = tokenEntries.findIndex(m => m.value === resetKey)
-
-    if (matchingIndex === -1) {
-      console.log(`[reset-password] no matching token found among ${tokenEntries.length} entries`)
+    if (!found) {
+      console.log(`[reset-password] no matching token among ${customers.length} customers`)
       return NextResponse.json({ error: 'Link inválido ou expirado' }, { status: 400 })
     }
 
-    // Check expiry for the matching token (use same-index expires entry if available)
+    const { customer, matchingIndex, expiresEntries } = found
+
+    // Check expiry
     const storedExpires = expiresEntries[matchingIndex]?.value ?? expiresEntries[expiresEntries.length - 1]?.value
     if (storedExpires && Date.now() > parseInt(storedExpires)) {
       return NextResponse.json({ error: 'Este link expirou. Solicite um novo.' }, { status: 400 })
