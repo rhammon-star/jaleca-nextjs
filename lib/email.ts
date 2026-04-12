@@ -714,7 +714,7 @@ export async function sendSetPasswordEmail(
     })
     if (verifyRes.ok) {
       const customer = await verifyRes.json()
-      const savedToken = customer.meta_data?.find(m => m.key === 'email_verify_token')?.value
+      const savedToken = customer.meta_data?.find((m: { key: string; value: string }) => m.key === 'email_verify_token')?.value
       if (savedToken === token) {
         console.log(`[sendSetPasswordEmail] VERIFIED: Token present in WC for customer ${customerId}`)
       } else {
