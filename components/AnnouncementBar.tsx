@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 
 const messages = [
-  { text: '💚 Nova Coleção Outono/Inverno chegou!', href: '/produtos?novidades=true', cta: 'Ver novidades' },
+  { text: '💚 Prepare-se! Nova Coleção Outono/Inverno está chegando', href: '/produtos?novidades=true', cta: 'Ver novidades' },
   { text: '⭐ Ganhe pontos de fidelidade em cada compra', href: '/minha-conta', cta: 'Saiba mais' },
 ]
 
