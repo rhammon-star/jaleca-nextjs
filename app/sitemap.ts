@@ -194,6 +194,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     'jaleco-governador-valadares', 'jaleco-uberaba', 'jaleco-montes-claros',
     'jaleco-vila-velha', 'jaleco-cachoeiro-de-itapemirim', 'jaleco-serra',
     'jaleco-vitoria-da-conquista',
+    'jaleco-colatina',
   ]
 
   const cidadePages: MetadataRoute.Sitemap = cidadeSlugs.map(slug => ({

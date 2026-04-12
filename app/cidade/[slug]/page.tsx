@@ -10,7 +10,7 @@ type CidadeInfo = {
   nome: string
   estado: string
   uf: string
-  tipo: 'fechada' | 'revenda'
+  tipo: 'fechada' | 'revenda' | 'propria'
   profissoes: string
 }
 
@@ -147,6 +147,13 @@ const CIDADES: Record<string, CidadeInfo> = {
     uf: 'BA',
     tipo: 'revenda',
     profissoes: 'médicos, dentistas e profissionais de saúde de Vitória da Conquista',
+  },
+  'jaleco-colatina': {
+    nome: 'Colatina',
+    estado: 'Espírito Santo',
+    uf: 'ES',
+    tipo: 'propria',
+    profissoes: 'médicos, dentistas, enfermeiros e profissionais de saúde de Colatina',
   },
 }
 
