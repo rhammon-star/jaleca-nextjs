@@ -232,6 +232,12 @@ export default function CheckoutClient() {
         setCouponDiscount(0)
         return
       }
+      // Check minimum spend
+      const minAmount = parseFloat(data.minimum_amount || '0')
+      if (minAmount > 0 && subtotal < minAmount) {
+        setCouponError(`Pedido mínimo para este cupom: R$${minAmount.toFixed(2).replace('.', ',')}`)
+        return
+      }
       setCouponCode(data.code)
       // Calculate discount based on type
       if (data.discount_type === 'percent') {

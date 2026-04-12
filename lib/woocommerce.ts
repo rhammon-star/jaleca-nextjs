@@ -22,7 +22,18 @@ async function wcFetch<T>(path: string, options: RequestInit = {}): Promise<T> {
   })
   if (!res.ok) {
     const error = await res.json().catch(() => ({ message: res.statusText }))
-    throw new Error(error.message || `WooCommerce API error: ${res.status}`)
+    const rawMsg = error.message || `WooCommerce API error: ${res.status}`
+    // Strip HTML tags and decode HTML entities from WC error messages
+    const cleanMsg = rawMsg
+      .replace(/<[^>]+>/g, '')
+      .replace(/&quot;/g, '"')
+      .replace(/&amp;/g, '&')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&#(\d+);/g, (_: string, code: string) => String.fromCharCode(Number(code)))
+      .replace(/\s+/g, ' ')
+      .trim()
+    throw new Error(cleanMsg)
   }
   return res.json()
 }

@@ -89,6 +89,11 @@ export default function CartDrawer() {
         setCouponError(data.error || 'Cupom inválido')
         return
       }
+      const minAmount = parseFloat(data.minimum_amount || '0')
+      if (minAmount > 0 && subtotal < minAmount) {
+        setCouponError(`Pedido mínimo para este cupom: R$${minAmount.toFixed(2).replace('.', ',')}`)
+        return
+      }
       setAppliedCoupon({ code: data.code, discount_type: data.discount_type, amount: data.amount })
       setCouponCode('')
     } catch {
