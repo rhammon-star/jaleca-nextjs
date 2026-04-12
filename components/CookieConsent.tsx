@@ -35,7 +35,7 @@ export default function CookieConsent() {
           <p className="text-sm leading-relaxed max-w-2xl">
             Utilizamos cookies para melhorar sua experiência, personalizar conteúdo e analisar o tráfego do site.
             Ao continuar, você concorda com nossa{' '}
-            <Link href="#" className="underline underline-offset-2 hover:text-white/80 transition-colors">
+            <Link href="/privacidade" className="underline underline-offset-2 hover:text-white/80 transition-colors">
               Política de Privacidade
             </Link>.
           </p>

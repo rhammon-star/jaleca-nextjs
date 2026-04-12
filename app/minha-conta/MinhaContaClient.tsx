@@ -87,13 +87,15 @@ const GET_PRODUCTS_BY_IDS = `
 `
 
 const STATUS_CONFIG: Record<string, { label: string; color: string; icon: React.ReactNode; step: number }> = {
-  pending:    { label: 'Aguardando pagamento', color: 'bg-yellow-50 text-yellow-700 border-yellow-200', icon: <Clock size={12} />, step: 1 },
-  processing: { label: 'Em processamento',     color: 'bg-blue-50 text-blue-700 border-blue-200',       icon: <Package size={12} />, step: 2 },
-  on_hold:    { label: 'Aguardando',           color: 'bg-orange-50 text-orange-700 border-orange-200', icon: <AlertCircle size={12} />, step: 1 },
-  completed:  { label: 'Concluído',            color: 'bg-green-50 text-green-700 border-green-200',    icon: <CheckCircle size={12} />, step: 5 },
-  cancelled:  { label: 'Cancelado',            color: 'bg-red-50 text-red-700 border-red-200',          icon: <XCircle size={12} />, step: 0 },
-  refunded:   { label: 'Reembolsado',          color: 'bg-gray-50 text-gray-600 border-gray-200',       icon: <RotateCcw size={12} />, step: 0 },
-  failed:     { label: 'Falhou',               color: 'bg-red-50 text-red-700 border-red-200',          icon: <XCircle size={12} />, step: 0 },
+  pending:         { label: 'Aguardando pagamento', color: 'bg-yellow-50 text-yellow-700 border-yellow-200', icon: <Clock size={12} />, step: 1 },
+  processing:      { label: 'Em processamento',     color: 'bg-blue-50 text-blue-700 border-blue-200',       icon: <Package size={12} />, step: 2 },
+  'on-hold':       { label: 'Aguardando',           color: 'bg-orange-50 text-orange-700 border-orange-200', icon: <AlertCircle size={12} />, step: 1 },
+  'em-separacao':  { label: 'Em separação',         color: 'bg-purple-50 text-purple-700 border-purple-200', icon: <Box size={12} />, step: 3 },
+  enviado:         { label: 'Enviado',              color: 'bg-blue-50 text-blue-700 border-blue-200',       icon: <Truck size={12} />, step: 4 },
+  completed:       { label: 'Concluído',            color: 'bg-green-50 text-green-700 border-green-200',    icon: <CheckCircle size={12} />, step: 5 },
+  cancelled:       { label: 'Cancelado',            color: 'bg-red-50 text-red-700 border-red-200',          icon: <XCircle size={12} />, step: 0 },
+  refunded:        { label: 'Reembolsado',          color: 'bg-gray-50 text-gray-600 border-gray-200',       icon: <RotateCcw size={12} />, step: 0 },
+  failed:          { label: 'Falhou',               color: 'bg-red-50 text-red-700 border-red-200',          icon: <XCircle size={12} />, step: 0 },
 }
 
 const ORDER_STEPS = [

@@ -66,9 +66,10 @@ const nextConfig: NextConfig = {
       { source: '/produto/jaleco-universitario-unissex', destination: '/produto/jaleco-universitario-unissex-jaleca', permanent: true },
       { source: '/produto/macacao-paris-feminino', destination: '/produto/macacao-paris-feminino-jaleca', permanent: true },
       { source: '/produto-category/:slug*', destination: '/categoria/:slug*', permanent: true },
-      { source: '/product-category/:slug*', destination: '/categoria/:slug*', permanent: true },
+      { source: '/product-category/:slug*', destination: '/produtos', permanent: true },
       // Categorias aninhadas do site antigo → categoria simples (ex: /categoria/jalecos/jalecos-masculinos → /categoria/jalecos-masculinos)
-      { source: '/categoria/:parent/:slug', destination: '/categoria/:slug', permanent: true },
+      { source: '/categoria/:parent/:slug', destination: '/produtos', permanent: true },
+      { source: '/categoria/:slug', destination: '/produtos', permanent: true },
       { source: '/cart', destination: '/produtos', permanent: true },
       { source: '/checkout', destination: '/finalizar-compra', permanent: true },
       { source: '/my-account/:path*', destination: '/minha-conta', permanent: true },
@@ -83,10 +84,13 @@ const nextConfig: NextConfig = {
       {
         source: "/(.*)",
         headers: [
+          { key: "Content-Security-Policy", value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://embed.tawk.to; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://wp.jaleca.com.br https://lh3.googleusercontent.com https://www.facebook.com https://og:image https:; connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com https://connect.facebook.net https://api.brevo.com; frame-src 'none'; object-src 'none';" },
+          { key: "Strict-Transport-Security", value: "max-age=31536000; includeSubDomains" },
           { key: "X-Content-Type-Options", value: "nosniff" },
           { key: "X-Frame-Options", value: "DENY" },
           { key: "X-XSS-Protection", value: "1; mode=block" },
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
         ],
       },
       {

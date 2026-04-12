@@ -97,7 +97,8 @@ export default async function Home() {
     logo: 'https://jaleca.com.br/logo.svg',
     description: 'Jalecos e uniformes profissionais para profissionais da saúde.',
     sameAs: [
-      'https://www.instagram.com/jaleca.com.br',
+      'https://www.instagram.com/jaleca.oficial',
+      'https://www.facebook.com/jalecaoficial',
     ],
   };
 
@@ -125,8 +126,8 @@ export default async function Home() {
     hasMap: 'https://maps.google.com/?q=Ipatinga,MG,Brasil',
     aggregateRating: {
       '@type': 'AggregateRating',
-      ratingValue: '4.0',
-      reviewCount: '8',
+      ratingValue: '4.9',
+      reviewCount: 58,
       bestRating: '5',
       worstRating: '1',
     },

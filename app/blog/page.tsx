@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     url: 'https://jaleca.com.br/blog',
     siteName: 'Jaleca',
     locale: 'pt_BR',
-    type: 'website',
+    type: 'article',
     images: [{ url: 'https://jaleca.com.br/og-home.jpg', width: 1200, height: 630, alt: 'Blog Jaleca' }],
   },
   twitter: {

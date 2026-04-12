@@ -143,7 +143,8 @@ export async function getOrder(id: number): Promise<WCOrder> {
 }
 
 export async function getOrders(customerId: number): Promise<WCOrder[]> {
-  return wcFetch<WCOrder[]>(`/orders?customer=${customerId}&per_page=100&orderby=date&order=desc`)
+  const statuses = 'pending,processing,on-hold,completed,cancelled,refunded,failed,em-separacao,enviado'
+  return wcFetch<WCOrder[]>(`/orders?customer=${customerId}&per_page=100&orderby=date&order=desc&status=${statuses}`)
 }
 
 export async function getCustomer(id: number): Promise<WCCustomer> {
