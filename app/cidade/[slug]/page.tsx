@@ -68,6 +68,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     uf: 'RJ',
     tipo: 'fechada',
     profissoes: 'médicos, dentistas e profissionais de saúde da Barra da Tijuca',
+    conteudoLocal: 'Profissionais de saúde na Barra da Tijuca, atuando em clínicas renomadas ou no Hospital Barra D\'Or, encontram na Jaleca o jaleco feminino ideal que une estilo e conforto para sua rotina.',
   },
   'jaleco-muriae': {
     nome: 'Muriaé',
@@ -75,6 +76,8 @@ const CIDADES: Record<string, CidadeInfo> = {
     uf: 'MG',
     tipo: 'fechada',
     profissoes: 'médicos, dentistas e profissionais de saúde de Muriaé',
+    freteGratis: true,
+    conteudoLocal: 'Para os dedicados profissionais da saúde em Muriaé, seja no Hospital São Paulo ou em outras clínicas locais, a Jaleca oferece jalecos que garantem elegância e alta performance no dia a dia.',
   },
   'jaleco-marilia': {
     nome: 'Marília',
@@ -82,6 +85,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     uf: 'SP',
     tipo: 'fechada',
     profissoes: 'médicos, dentistas e profissionais de saúde de Marília',
+    conteudoLocal: 'Em Marília, polo de saúde com o complexo FAMEMA e diversos hospitais, a Jaleca veste com excelência as profissionais que buscam jalecos femininos com qualidade e design superior.',
   },
   'jaleco-itabira': {
     nome: 'Itabira',
@@ -89,6 +93,8 @@ const CIDADES: Record<string, CidadeInfo> = {
     uf: 'MG',
     tipo: 'fechada',
     profissoes: 'médicos, dentistas e profissionais de saúde de Itabira',
+    freteGratis: true,
+    conteudoLocal: 'Profissionais de saúde em Itabira, do Hospital Nossa Senhora das Dores a outros centros, contam com a qualidade e o design dos jalecos femininos Jaleca para uma imagem impecável.',
   },
   'jaleco-joao-monlevade': {
     nome: 'João Monlevade',
@@ -96,6 +102,8 @@ const CIDADES: Record<string, CidadeInfo> = {
     uf: 'MG',
     tipo: 'fechada',
     profissoes: 'médicos, dentistas e profissionais de saúde de João Monlevade',
+    freteGratis: true,
+    conteudoLocal: 'Para enfermeiras e médicas em João Monlevade, a Jaleca oferece jalecos femininos de alta qualidade, perfeitos para o Hospital Margarida e clínicas da região, unindo estilo e funcionalidade.',
   },
   'jaleco-lagoa-santa': {
     nome: 'Lagoa Santa',
@@ -103,6 +111,8 @@ const CIDADES: Record<string, CidadeInfo> = {
     uf: 'MG',
     tipo: 'fechada',
     profissoes: 'médicos, dentistas e profissionais de saúde de Lagoa Santa',
+    freteGratis: true,
+    conteudoLocal: 'Em Lagoa Santa, profissionais do Hospital São Judas Tadeu e clínicas locais encontram na Jaleca a escolha ideal para jalecos que aliam conforto, durabilidade e um toque moderno.',
   },
   'jaleco-teixeira-de-freitas': {
     nome: 'Teixeira de Freitas',
@@ -110,6 +120,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     uf: 'BA',
     tipo: 'fechada',
     profissoes: 'médicos, dentistas e profissionais de saúde de Teixeira de Freitas',
+    conteudoLocal: 'Atendendo Teixeira de Freitas, a Jaleca oferece jalecos femininos profissionais para quem atua no Hospital Municipal ou nas diversas clínicas da cidade, com muito estilo e qualidade.',
   },
   'jaleco-curitiba': {
     nome: 'Curitiba',
@@ -133,6 +144,8 @@ const CIDADES: Record<string, CidadeInfo> = {
     uf: 'MG',
     tipo: 'revenda',
     profissoes: 'médicos, dentistas e profissionais de saúde de Governador Valadares',
+    freteGratis: true,
+    conteudoLocal: 'Em Governador Valadares, do Hospital Regional ao Samaritano, a Jaleca veste com estilo e durabilidade as profissionais da saúde que buscam jalecos femininos de alto padrão.',
   },
   'jaleco-uberaba': {
     nome: 'Uberaba',
@@ -140,6 +153,8 @@ const CIDADES: Record<string, CidadeInfo> = {
     uf: 'MG',
     tipo: 'revenda',
     profissoes: 'médicos, dentistas e profissionais de saúde de Uberaba',
+    freteGratis: true,
+    conteudoLocal: 'Profissionais de saúde em Uberaba, atuando no Hospital de Clínicas da UFTM ou no Mário Palmério, encontram na Jaleca a elegância e funcionalidade necessárias em seus jalecos.',
   },
   'jaleco-montes-claros': {
     nome: 'Montes Claros',
@@ -147,6 +162,8 @@ const CIDADES: Record<string, CidadeInfo> = {
     uf: 'MG',
     tipo: 'revenda',
     profissoes: 'médicos, dentistas e profissionais de saúde de Montes Claros',
+    freteGratis: true,
+    conteudoLocal: 'Em Montes Claros, seja na Santa Casa ou no Hospital Aroldo Tourinho, a Jaleca é a escolha certa para jalecos femininos que combinam sofisticação e praticidade na jornada de trabalho.',
   },
   'jaleco-vila-velha': {
     nome: 'Vila Velha',
@@ -154,6 +171,8 @@ const CIDADES: Record<string, CidadeInfo> = {
     uf: 'ES',
     tipo: 'revenda',
     profissoes: 'médicos, dentistas e profissionais de saúde de Vila Velha',
+    freteGratis: true,
+    conteudoLocal: 'Para profissionais em Vila Velha, do Hospital Santa Mônica ao Vila Velha Hospital, a Jaleca oferece jalecos femininos que garantem conforto, durabilidade e destaque elegante no ambiente de saúde.',
   },
   'jaleco-cachoeiro-de-itapemirim': {
     nome: 'Cachoeiro de Itapemirim',
@@ -161,6 +180,8 @@ const CIDADES: Record<string, CidadeInfo> = {
     uf: 'ES',
     tipo: 'revenda',
     profissoes: 'médicos, dentistas e profissionais de saúde de Cachoeiro de Itapemirim',
+    freteGratis: true,
+    conteudoLocal: 'Em Cachoeiro de Itapemirim, profissionais da Santa Casa ou do Hospital Evangélico escolhem Jaleca para jalecos que unem design moderno e alta performance, essenciais no dia a dia.',
   },
   'jaleco-serra': {
     nome: 'Serra',
@@ -168,6 +189,8 @@ const CIDADES: Record<string, CidadeInfo> = {
     uf: 'ES',
     tipo: 'revenda',
     profissoes: 'médicos, dentistas e profissionais de saúde de Serra',
+    freteGratis: true,
+    conteudoLocal: 'Profissionais de saúde na Serra, do Hospital Jayme dos Santos Neves a outras unidades, encontram na Jaleca a qualidade e o estilo ideais para seus jalecos femininos, garantindo conforto e durabilidade.',
   },
   'jaleco-vitoria-da-conquista': {
     nome: 'Vitória da Conquista',
@@ -175,6 +198,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     uf: 'BA',
     tipo: 'revenda',
     profissoes: 'médicos, dentistas e profissionais de saúde de Vitória da Conquista',
+    conteudoLocal: 'Em Vitória da Conquista, do Hospital Geral ao São Vicente, a Jaleca é a parceira ideal para médicas e enfermeiras que buscam jalecos elegantes e duráveis, com design exclusivo.',
   },
   'jaleco-colatina': {
     nome: 'Colatina',
