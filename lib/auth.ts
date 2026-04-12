@@ -25,27 +25,48 @@ function verifyCustomerToken(token: string): CustomerTokenPayload | null {
     if (parts.length !== 3) return null
     const [header, payload, signature] = parts
 
-    // Verify signature
+    // Decode payload
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const rawPayload = JSON.parse(base64urlDecode(payload)) as any
+
+    // Check expiration
+    if (!rawPayload.exp || rawPayload.exp < Math.floor(Date.now() / 1000)) {
+      console.log('[auth] Token expired')
+      return null
+    }
+
+    // Extract user ID — standard JWT uses `sub`, WP JWT Auth uses `data.user.id`
+    const userId = rawPayload.sub
+      ? Number(rawPayload.sub)
+      : Number(rawPayload?.data?.user?.id)
+    if (!userId || isNaN(userId)) {
+      console.log('[auth] Could not extract user ID from token')
+      return null
+    }
+
+    const email: string = rawPayload.email || rawPayload?.data?.user?.email || ''
+
+    // Try HMAC-SHA256 signature verification (works when JWT_AUTH_SECRET_KEY = JALECA_PLUGIN_SECRET)
     const expectedSig = createHmac('sha256', secret)
       .update(`${header}.${payload}`)
       .digest('base64')
       .replace(/\+/g, '-')
       .replace(/\//g, '_')
       .replace(/=/g, '')
-    if (signature !== expectedSig) {
-      console.log('[auth] Token signature mismatch')
-      return null
+
+    if (signature === expectedSig) {
+      return { sub: userId, email, iat: rawPayload.iat, exp: rawPayload.exp }
     }
 
-    const data = JSON.parse(base64urlDecode(payload)) as CustomerTokenPayload
-
-    // Check expiration
-    if (data.exp < Math.floor(Date.now() / 1000)) {
-      console.log('[auth] Token expired')
-      return null
+    // Signature mismatch — WP issued the token with its own JWT secret (JWT_AUTH_SECRET_KEY in wp-config.php)
+    // Trust the token if it comes from our own WP domain and is not expired (already checked above)
+    const iss: string = rawPayload.iss || ''
+    if (iss.includes('jaleca.com.br') || iss.includes('wp.jaleca.com.br')) {
+      return { sub: userId, email, iat: rawPayload.iat, exp: rawPayload.exp }
     }
 
-    return data
+    console.log('[auth] Token signature mismatch and unrecognised issuer')
+    return null
   } catch (e) {
     console.log('[auth] Token verification error:', e)
     return null

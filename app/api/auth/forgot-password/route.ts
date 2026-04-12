@@ -24,8 +24,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: true })
     }
     const customer = customers[0]
+    const customerName = [customer.first_name, customer.last_name].filter(Boolean).join(' ') || undefined
 
-    await sendSetPasswordEmail(customer.id, email, isNewCustomer ?? false)
+    await sendSetPasswordEmail(customer.id, email, isNewCustomer ?? false, customerName)
 
     console.log(`[ForgotPassword] Email enviado para ${email}`)
     return NextResponse.json({ success: true })

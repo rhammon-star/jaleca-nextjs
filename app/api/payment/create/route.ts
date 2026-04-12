@@ -10,7 +10,7 @@ import {
 import { createOrder } from '@/lib/woocommerce'
 import type { WCOrderData } from '@/lib/woocommerce'
 import { addPoints } from '@/lib/loyalty'
-import { sendOrderConfirmation, sendInternalOrderNotification, sendPaymentFailed, sendPixPaymentEmail } from '@/lib/email'
+import { sendOrderConfirmation, sendInternalOrderNotification, sendPaymentFailed, sendPixPaymentEmail, sendBoletoEmail } from '@/lib/email'
 import { sendMetaPurchase } from '@/lib/meta-conversions'
 import { addShipmentToMECart, ME_SERVICE_MAP } from '@/lib/melhor-envio'
 
@@ -487,6 +487,19 @@ export async function POST(request: NextRequest) {
       response.boletoPdf = boletoTx.pdf
       response.boletoLine = boletoTx.line
       response.boletoDueAt = boletoTx.due_at
+
+      // Send boleto via email
+      if (billing.email && boletoTx.url) {
+        sendBoletoEmail({
+          firstName: billing.first_name,
+          customerEmail: billing.email,
+          orderNumber: wcOrder.number || String(wcOrder.id),
+          total: `R$ ${parseFloat(wcOrder.total || '0').toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`,
+          boletoUrl: boletoTx.url,
+          boletoLine: boletoTx.line,
+          boletoDueAt: boletoTx.due_at,
+        }).catch(err => console.error('[Payment] Failed to send boleto email:', err))
+      }
     }
     if (paymentMethod === 'credit_card') {
       response.cardStatus = charge?.status

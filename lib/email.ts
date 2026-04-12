@@ -700,6 +700,7 @@ export async function sendSetPasswordEmail(
   customerId: number,
   email: string,
   isNewCustomer: boolean,
+  customerName?: string,
 ): Promise<void> {
   const WC_API = process.env.WOOCOMMERCE_API_URL
   const CK     = process.env.WOOCOMMERCE_CONSUMER_KEY
@@ -764,13 +765,16 @@ export async function sendSetPasswordEmail(
   const resetLink = `${siteUrl}/redefinir-senha?key=${token}&login=${encodeURIComponent(email)}&id=${customerId}`
   console.log(`[sendSetPasswordEmail] Token saved for customer ${customerId}, expires ${new Date(parseInt(expires)).toISOString()}, link: ${resetLink}`)
 
+  const firstName = customerName ? customerName.split(' ')[0] : ''
+  const greeting = firstName ? `Olá, ${firstName}! ` : ''
+
   const subject = isNewCustomer
     ? 'Sua conta Jaleca foi criada — defina sua senha'
     : 'Redefinição de senha — Jaleca'
   const heading = isNewCustomer ? 'Bem-vindo à Jaleca!' : 'Redefinição de senha'
   const body    = isNewCustomer
-    ? 'Sua conta foi criada com sucesso. Clique no botão abaixo para definir sua senha e acessar seus pedidos. O link é válido por 72 horas.'
-    : 'Clique no botão abaixo para criar uma nova senha. O link é válido por 72 horas.'
+    ? `${greeting}Sua conta foi criada com sucesso. Clique no botão abaixo para definir sua senha e acessar seus pedidos. O link é válido por 72 horas.`
+    : `${greeting}Clique no botão abaixo para criar uma nova senha. O link é válido por 72 horas.`
   const btnText = isNewCustomer ? 'DEFINIR MINHA SENHA' : 'REDEFINIR SENHA'
 
   const content = `
@@ -781,6 +785,65 @@ export async function sendSetPasswordEmail(
   `
 
   await sendMail({ to: email, subject, html: wrapHtml(content, subject) })
+}
+
+// ── Boleto — link enviado por email ──────────────────────────────────────────
+
+export async function sendBoletoEmail(params: {
+  firstName: string
+  customerEmail: string
+  orderNumber: string
+  total: string
+  boletoUrl: string
+  boletoLine?: string
+  boletoDueAt?: string
+}): Promise<void> {
+  const { firstName, customerEmail, orderNumber, total, boletoUrl, boletoLine, boletoDueAt } = params
+
+  let dueLine = ''
+  if (boletoDueAt) {
+    const d = new Date(boletoDueAt)
+    const formatted = d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' })
+    dueLine = `<p style="font-size:13px;color:#b45309;margin:8px 0 0;">📅 Vencimento: <strong>${formatted}</strong></p>`
+  }
+
+  const lineSection = boletoLine
+    ? `
+    <p style="font-size:13px;font-weight:bold;color:#1a1a1a;margin:20px 0 8px;letter-spacing:1px;text-transform:uppercase;">Linha digitável (copiar e colar no banco):</p>
+    <div style="background:#f3f4f6;border:1px solid #d1d5db;padding:14px;border-radius:2px;word-break:break-all;">
+      <code style="font-size:12px;color:#1a1a1a;font-family:monospace;">${boletoLine}</code>
+    </div>`
+    : ''
+
+  const content = `
+    <h2 style="font-size:22px;margin:0 0 6px;font-family:Georgia,serif;">Seu boleto chegou!</h2>
+    <p style="color:#666;margin:0 0 20px;font-size:15px;">Olá, ${firstName}! Seu pedido <strong>#${orderNumber}</strong> aguarda pagamento de <strong>${total}</strong>.</p>
+
+    <div style="background:#fffbeb;border-left:3px solid #f59e0b;padding:16px;margin:0 0 20px;">
+      <p style="font-size:13px;color:#92400e;margin:0 0 6px;font-weight:bold;">Como pagar:</p>
+      <ol style="font-size:13px;color:#92400e;margin:0;padding-left:18px;line-height:1.8;">
+        <li>Clique no botão abaixo para abrir o boleto</li>
+        <li>Pague pelo seu banco ou lotérica</li>
+        <li>Você também pode usar o app do banco com a câmera (código de barras) ou colar a linha digitável</li>
+      </ol>
+    </div>
+
+    ${lineSection}
+    ${dueLine}
+
+    <div style="margin:24px 0;">
+      ${btn('ABRIR BOLETO', boletoUrl)}
+    </div>
+
+    <p style="color:#888;font-size:12px;margin:16px 0 0;">Após o pagamento, pode levar até 3 dias úteis para ser confirmado. Você receberá um e-mail quando o pagamento for aprovado.</p>
+    <p style="color:#888;font-size:12px;margin:8px 0 0;">⚠️ Pedidos não pagos até o vencimento serão cancelados automaticamente.</p>
+  `
+
+  await sendMail({
+    to: customerEmail,
+    subject: `Boleto — Pedido #${orderNumber} Jaleca`,
+    html: wrapHtml(content, `Boleto — Pedido #${orderNumber}`),
+  })
 }
 
 export async function sendPaymentFailed(

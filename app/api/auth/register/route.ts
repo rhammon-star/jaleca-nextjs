@@ -102,6 +102,24 @@ export async function POST(request: NextRequest) {
       const wpData = await wpRes.json()
       customerId = wpData.id
     } else {
+      // Check if WP endpoint rejected due to existing email
+      const wpErrData = await wpRes.json().catch(() => ({})) as { code?: string; message?: string }
+      const wpCode = wpErrData?.code || ''
+      const wpMsg = (wpErrData?.message || '').toLowerCase()
+      if (
+        wpCode === 'existing_user_login' ||
+        wpCode === 'existing_user_email' ||
+        wpCode === 'email_exists' ||
+        wpMsg.includes('email') ||
+        wpMsg.includes('já cadastrado') ||
+        wpMsg.includes('already registered')
+      ) {
+        return NextResponse.json(
+          { error: 'Este e-mail já está cadastrado. Faça login ou recupere sua senha.' },
+          { status: 409 }
+        )
+      }
+
       // Fallback: create directly via WooCommerce REST API
       const wcRes = await fetch(`${WC_API}/customers`, {
         method: 'POST',
@@ -128,12 +146,22 @@ export async function POST(request: NextRequest) {
       })
 
       if (!wcRes.ok) {
-        const errData = await wcRes.json()
-        const msg = errData?.message || errData?.data?.status || 'Erro ao criar conta'
-        if (wcRes.status === 409 || errData?.code === 'email_exists') {
-          return NextResponse.json({ error: 'Este email já está cadastrado' }, { status: 409 })
+        const errData = await wcRes.json() as { code?: string; message?: string }
+        const msg = (errData?.message || '').toLowerCase()
+        if (
+          wcRes.status === 409 ||
+          errData?.code === 'email_exists' ||
+          errData?.code === 'registration-error-email-exists' ||
+          msg.includes('email') ||
+          msg.includes('permissão') ||
+          msg.includes('permission')
+        ) {
+          return NextResponse.json(
+            { error: 'Este e-mail já está cadastrado. Faça login ou recupere sua senha.' },
+            { status: 409 }
+          )
         }
-        return NextResponse.json({ error: msg }, { status: 400 })
+        return NextResponse.json({ error: 'Erro ao criar conta. Tente novamente.' }, { status: 400 })
       }
 
       const wcData = await wcRes.json()

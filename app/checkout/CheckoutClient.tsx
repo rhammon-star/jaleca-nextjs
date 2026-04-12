@@ -387,7 +387,7 @@ export default function CheckoutClient() {
     }
 
     const email = isLoggedIn ? user!.email : guestEmail
-    if (!address.first_name || !address.last_name || !email || !address.postcode || !address.address_1 || !address.address_2 || !address.city || !address.state) {
+    if (!address.first_name || !address.last_name || !email || !address.phone || !address.postcode || !address.address_1 || !address.address_2 || !address.neighborhood || !address.city || !address.state) {
       setError('Preencha os campos destacados em vermelho')
       return
     }
@@ -914,7 +914,7 @@ export default function CheckoutClient() {
                     />
                   </div>
                   <div>
-                    <label htmlFor="addr-phone" className="block text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">Telefone</label>
+                    <label htmlFor="addr-phone" className="block text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">Telefone *</label>
                     <input
                       id="addr-phone"
                       type="tel"
@@ -922,7 +922,7 @@ export default function CheckoutClient() {
                       onChange={e => setAddress(p => ({ ...p, phone: e.target.value }))}
                       placeholder="(11) 99999-0000"
                       autoComplete="tel"
-                      className="w-full border border-border bg-background px-3 py-2.5 text-sm focus:outline-none focus:border-foreground transition-colors"
+                      className={fieldClass(address.phone)}
                     />
                   </div>
                   <div>
@@ -967,14 +967,14 @@ export default function CheckoutClient() {
                     />
                   </div>
                   <div>
-                    <label htmlFor="addr-neighborhood" className="block text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">Bairro</label>
+                    <label htmlFor="addr-neighborhood" className="block text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">Bairro *</label>
                     <input
                       id="addr-neighborhood"
                       type="text"
                       value={address.neighborhood}
                       onChange={e => setAddress(p => ({ ...p, neighborhood: e.target.value }))}
                       autoComplete="address-level3"
-                      className="w-full border border-border bg-background px-3 py-2.5 text-sm focus:outline-none focus:border-foreground transition-colors"
+                      className={fieldClass(address.neighborhood)}
                     />
                   </div>
                   <div>
@@ -1131,9 +1131,12 @@ export default function CheckoutClient() {
                               onChange={e => setInstallments(Number(e.target.value))}
                               className="w-full border border-border bg-background px-3 py-2.5 text-sm focus:outline-none focus:border-foreground transition-colors"
                             >
-                              {Array.from({ length: 3 }, (_, i) => i + 1).map(n => (
+                              {Array.from(
+                                { length: finalTotal >= 150 ? 3 : finalTotal >= 100 ? 2 : 1 },
+                                (_, i) => i + 1
+                              ).map(n => (
                                 <option key={n} value={n}>
-                                  {n}x de {formatCurrency(finalTotal / n)} {n === 1 ? '(sem juros)' : '(sem juros)'}
+                                  {n}x de {formatCurrency(finalTotal / n)} sem juros
                                 </option>
                               ))}
                             </select>
