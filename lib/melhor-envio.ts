@@ -120,9 +120,11 @@ async function callMelhorEnvioAPI(
     4: 'Jadlog .com',
   }
 
+  const ALLOWED_SERVICES = new Set([1, 2, 3, 4])
   const options: ShippingOption[] = []
 
   for (const svc of services) {
+    if (!ALLOWED_SERVICES.has(svc.id)) continue
     if (svc.error) continue
     const rawPrice = svc.custom_price ?? svc.price
     if (!rawPrice) continue
