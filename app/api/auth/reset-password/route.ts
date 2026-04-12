@@ -18,9 +18,12 @@ async function findCustomerWithToken(customerId: number, resetKey: string): Prom
   if (!res.ok) return null
   const customer: WCCustomer = await res.json()
   const meta = customer.meta_data || []
+  console.log(`[findCustomerWithToken] Customer ${customerId} meta_data keys: ${meta.map(m => m.key).join(', ')}`)
   const tokenEntries = meta.filter(m => m.key === 'email_verify_token')
   const expiresEntries = meta.filter(m => m.key === 'email_verify_expires')
-  const matchingIndex = tokenEntries.findIndex(m => m.value === resetKey)
+  console.log(`[findCustomerWithToken] ${customerId}: ${tokenEntries.length} token entries, ${expiresEntries.length} expires entries`)
+  const cleanToken = resetKey.trim()
+  const matchingIndex = tokenEntries.findIndex(m => m.value.trim() === cleanToken)
   if (matchingIndex !== -1) return { customer, matchingIndex, tokenEntries, expiresEntries }
   return null
 }
