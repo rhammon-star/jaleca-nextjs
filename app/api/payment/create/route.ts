@@ -152,7 +152,7 @@ export async function POST(request: NextRequest) {
     if (pixDiscount !== undefined && pixDiscount > 0) {
       if (Math.abs(pixDiscount - calculatedPixDiscount) > 0.50) {
         console.error(`[payment/create] SECURITY: PIX discount mismatch: sent=${pixDiscount}, calculated=${calculatedPixDiscount}`)
-        // Don't reject — recalculate to correct value
+        // Note: Pagar.me charge uses wcOrder.total (server-authoritative), so this mismatch is already blocked
       }
     }
 
@@ -224,11 +224,14 @@ export async function POST(request: NextRequest) {
     }
 
     const subtotalCents = items.reduce((sum, i) => sum + Math.round(i.price * 100) * i.quantity, 0)
-    const discountCents = totalDiscount ? toCents(totalDiscount) : 0
-    const discountedSubtotalCents = Math.max(100, subtotalCents - discountCents)
+    // SECURITY: Use authoritative WC order total (already includes coupon + PIX discount)
+    // Never trust client-supplied totalDiscount or pixDiscount for the Pagar.me charge
+    const wcTotalCents = Math.round(parseFloat(wcOrder.total || '0') * 100)
+    const shippingCents = toCents(shipping.cost)
+    const discountedSubtotalCents = Math.max(100, wcTotalCents - shippingCents)
 
     // Distribute discount proportionally across items
-    const scale = discountedSubtotalCents / subtotalCents
+    const scale = discountedSubtotalCents / Math.max(subtotalCents, 1)
     let allocated = 0
     const pagarmeItems: PagarmeItem[] = items.map((i, idx) => {
       const original = Math.round(i.price * 100) * i.quantity
