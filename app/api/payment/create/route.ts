@@ -102,6 +102,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Token do cartão é obrigatório' }, { status: 400 })
     }
 
+    // ── Bloquear itens sem preço — impede compras fraudulentas ──────────────
+    const zeroPriceItems = items.filter(i => !i.price || i.price <= 0)
+    if (zeroPriceItems.length > 0) {
+      console.error('[payment/create] BLOCKED zero-price items:', zeroPriceItems.map(i => `${i.name} (R$${i.price})`).join(', '))
+      return NextResponse.json({ error: 'Um ou mais itens do carrinho estão sem preço cadastrado. Por favor, entre em contato com o suporte.' }, { status: 400 })
+    }
+
     // ── 1. Create WooCommerce order ──────────────────────────────────────────
     const wcMethodMap = {
       pix: 'woo-pagarme-payments-pix',

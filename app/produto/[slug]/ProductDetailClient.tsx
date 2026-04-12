@@ -290,9 +290,9 @@ export default function ProductDetailClient({
 
   // Derive available values from actual variations — avoids showing all global attribute terms
   const variations = product.variations?.nodes ?? []
-  // Only show colors/sizes that have at least one in-stock variation
-  const inStockVariations = variations.filter(v => v.stockStatus !== 'OUT_OF_STOCK')
-  const activeVariations = inStockVariations.length > 0 ? inStockVariations : variations
+  // Only show colors/sizes that have at least one in-stock variation WITH a valid price
+  const inStockVariations = variations.filter(v => v.stockStatus !== 'OUT_OF_STOCK' && !!v.price && parsePrice(v.price) > 0)
+  const activeVariations = inStockVariations.length > 0 ? inStockVariations : variations.filter(v => !!v.price && parsePrice(v.price) > 0)
 
   const colorSlugs = (variations.length > 0
     ? [...new Set(activeVariations.flatMap(v => v.attributes.nodes.filter(a => isColorAttr(a)).map(a => a.value)).filter(Boolean))]
@@ -384,9 +384,11 @@ export default function ProductDetailClient({
   const prevMatchedId = matchedVariation?.id ?? colorPreviewVariation?.id
   useEffect(() => { setActiveImageIdx(0) }, [prevMatchedId])
 
+  const matchedVariationHasPrice = !matchedVariation || (!!matchedVariation.price && parsePrice(matchedVariation.price) > 0)
   const canAdd = (colorSlugs.length === 0 || selectedColor) &&
     (sizeSlugs.length === 0 || selectedSize) &&
-    !isOutOfStock
+    !isOutOfStock &&
+    matchedVariationHasPrice
 
   const { addItem } = useCart()
 
