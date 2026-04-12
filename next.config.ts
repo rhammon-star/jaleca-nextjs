@@ -68,8 +68,15 @@ const nextConfig: NextConfig = {
       { source: '/produto-category/:slug*', destination: '/categoria/:slug*', permanent: true },
       { source: '/product-category/:slug*', destination: '/produtos', permanent: true },
       // Categorias aninhadas do site antigo → categoria simples (ex: /categoria/jalecos/jalecos-masculinos → /categoria/jalecos-masculinos)
+      { source: '/categoria/:parent/:slug/', destination: '/produtos', permanent: true },
       { source: '/categoria/:parent/:slug', destination: '/produtos', permanent: true },
+      { source: '/categoria/:slug/', destination: '/produtos', permanent: true },
       { source: '/categoria/:slug', destination: '/produtos', permanent: true },
+      // URLs antigas do WordPress
+      { source: '/loja-matriz', destination: '/nossas-lojas', permanent: true },
+      { source: '/color/:slug*', destination: '/produtos', permanent: true },
+      { source: '/tag/:slug*', destination: '/produtos', permanent: true },
+      { source: '/politica-de-privacidade/', destination: '/privacidade', permanent: true },
       { source: '/cart', destination: '/produtos', permanent: true },
       { source: '/checkout', destination: '/finalizar-compra', permanent: true },
       { source: '/my-account/:path*', destination: '/minha-conta', permanent: true },
