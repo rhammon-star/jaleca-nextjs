@@ -303,17 +303,39 @@ export default function CheckoutClient() {
     }
   }
 
-  function buildCardData() {
-    // Format expiry as MM/YYYY for Cielo
-    const parts = cardExpiry.replace(/\s/g, '').split('/')
-    const month = parts[0]?.padStart(2, '0') || ''
-    const year = parts[1]?.trim().length === 2 ? `20${parts[1].trim()}` : (parts[1]?.trim() || '')
-    return {
-      number: cardNumber.replace(/\D/g, ''),
-      holder: cardName.trim(),
-      expiry: `${month}/${year}`,
-      cvv: cardCvv,
+  async function tokenizeCard(): Promise<string> {
+    const [expMonth, expYear] = cardExpiry.split('/')
+    const billingAddress = {
+      line_1: address.address_1
+        ? `${address.address_1}${address.address_2 ? ', ' + address.address_2 : ''}`.trim()
+        : 'Endereço não informado',
+      line_2: address.address_2 || '',
+      zip_code: address.postcode.replace(/\D/g, ''),
+      city: address.city,
+      state: address.state,
+      country: 'BR',
     }
+    const res = await fetch(
+      `https://api.pagar.me/core/v5/tokens?appId=${process.env.NEXT_PUBLIC_PAGARME_PUBLIC_KEY}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'card',
+          card: {
+            number: cardNumber.replace(/\D/g, ''),
+            holder_name: cardName.trim().toUpperCase(),
+            exp_month: parseInt(expMonth),
+            exp_year: expYear.trim().length === 4 ? parseInt(expYear.trim()) : parseInt('20' + expYear.trim()),
+            cvv: cardCvv,
+            billing_address: billingAddress,
+          },
+        }),
+      }
+    )
+    const data = await res.json()
+    if (!res.ok || !data.id) throw new Error(data.message || 'Erro ao processar cartão')
+    return data.id
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -395,6 +417,18 @@ export default function CheckoutClient() {
         phone: address.phone,
       }
 
+      // Tokenize card if needed
+      let cardToken: string | undefined
+      if (paymentMethod === 'credit_card') {
+        try {
+          cardToken = await tokenizeCard()
+        } catch (err) {
+          setError(err instanceof Error ? err.message : 'Erro ao processar cartão')
+          setLoading(false)
+          return
+        }
+      }
+
       const paymentData = {
         paymentMethod,
         cpf: cleanCPF(cpf),
@@ -414,11 +448,12 @@ export default function CheckoutClient() {
           cost: shipping.cost,
         },
         customer_id: resolvedCustomerId,
-        cardData: paymentMethod === 'credit_card' ? buildCardData() : undefined,
+        cardToken,
         installments,
         couponCode: couponCode || undefined,
         totalDiscount: couponDiscount + pixDiscount,
         pixDiscount: pixDiscount > 0 ? pixDiscount : undefined,
+        sessionId: paymentMethod === 'credit_card' ? kondutoSessionId : undefined,
       }
 
       const res = await fetch('/api/payment/create', {

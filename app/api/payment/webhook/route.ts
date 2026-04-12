@@ -52,14 +52,13 @@ const WC_API = process.env.WOOCOMMERCE_API_URL!
 const WC_CK = process.env.WOOCOMMERCE_CONSUMER_KEY!
 const WC_CS = process.env.WOOCOMMERCE_CONSUMER_SECRET!
 
-function verifyCieloSignature(rawBody: string, signature: string | null): boolean {
-  // Cielo sends x-hub-signature: sha256=HASH
-  if (!signature) return true // Cielo signature is optional if not configured in portal
-  const secret = process.env.CIELO_WEBHOOK_SECRET
-  if (!secret) return true
+function verifyPagarmeSignature(rawBody: string, signature: string | null): boolean {
+  if (!signature) return false
+  const secret = process.env.PAGARME_SECRET_KEY
+  if (!secret) return false
   const parts = signature.split('=')
-  if (parts.length !== 2) return false
-  const expected = createHmac('sha256', secret).update(rawBody).digest('hex')
+  if (parts.length !== 2 || parts[0] !== 'sha1') return false
+  const expected = createHmac('sha1', secret).update(rawBody).digest('hex')
   return parts[1] === expected
 }
 
@@ -75,13 +74,13 @@ async function updateWCOrderStatus(wcOrderId: string, status: string) {
   })
 }
 
-// Cielo Status → WooCommerce status map
-// Status 2 = Captured/Paid, 3 = Denied, 10 = Voided, 11 = Refunded
-const CIELO_STATUS_MAP: Record<number, string> = {
-  2: 'processing',
-  3: 'failed',
-  10: 'cancelled',
-  11: 'refunded',
+// Pagar.me → WooCommerce status map
+const STATUS_MAP: Record<string, string> = {
+  paid: 'processing',
+  pending: 'pending',
+  failed: 'failed',
+  canceled: 'cancelled',
+  chargedback: 'refunded',
 }
 
 export async function POST(request: NextRequest) {
@@ -89,45 +88,36 @@ export async function POST(request: NextRequest) {
     const rawBody = await request.text()
     const signature = request.headers.get('x-hub-signature')
 
-    if (!verifyCieloSignature(rawBody, signature)) {
+    if (!verifyPagarmeSignature(rawBody, signature)) {
       console.warn('[Webhook] Invalid signature')
       return NextResponse.json({ error: 'Invalid signature' }, { status: 401 })
     }
 
     const body = JSON.parse(rawBody)
 
-    // Cielo sends: { PaymentId, ChangeType }
-    // ChangeType 1 = payment status change
-    const paymentId: string = body.PaymentId
-    const changeType: number = body.ChangeType
+    // Pagar.me sends order or charge events
+    const eventType: string = body.type || ''
+    const orderData = body.data
 
-    if (!paymentId || changeType !== 1) {
+    if (!orderData) {
       return NextResponse.json({ ok: true })
     }
 
-    // Query Cielo for full payment status
-    const CIELO_QUERY_API = 'https://apiquery.cieloecommerce.cielo.com.br'
-    const statusRes = await fetch(`${CIELO_QUERY_API}/1/sales/${paymentId}`, {
-      headers: {
-        'MerchantId': process.env.CIELO_MERCHANT_ID!,
-        'MerchantKey': process.env.CIELO_MERCHANT_KEY!,
-      },
-      cache: 'no-store',
-    })
-
-    if (!statusRes.ok) {
-      return NextResponse.json({ ok: true })
-    }
-
-    const saleData = await statusRes.json()
-    const cieloStatus: number = saleData.Payment?.Status
-    const wcOrderId: string = saleData.MerchantOrderId  // we set orderId = wcOrder.id
+    // Extract WooCommerce order ID from metadata
+    const metadata = orderData.metadata as Record<string, string> | undefined
+    const wcOrderId = metadata?.wc_order_id
 
     if (!wcOrderId) {
       return NextResponse.json({ ok: true })
     }
 
-    const wcStatus = CIELO_STATUS_MAP[cieloStatus]
+    // Map Pagar.me status to WooCommerce
+    let pagarmeStatus = orderData.status as string
+    if (eventType.includes('charge')) {
+      pagarmeStatus = orderData.status
+    }
+
+    const wcStatus = STATUS_MAP[pagarmeStatus]
     if (wcStatus) {
       // Fetch current WC order status BEFORE updating — to avoid duplicate emails
       let wasAlreadyProcessing = false
@@ -196,6 +186,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: true })
   } catch (error) {
     console.error('[Webhook] Error:', error)
-    return NextResponse.json({ ok: true }) // Always return 200 to Cielo
+    return NextResponse.json({ ok: true }) // Always return 200 to Pagar.me
   }
 }
