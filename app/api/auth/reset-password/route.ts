@@ -38,16 +38,23 @@ export async function POST(request: NextRequest) {
     }
     const customer = await detailRes.json()
 
-    // Validate token from WC meta
+    // Validate token from WC meta — check ALL entries (multiple may exist from repeated checkouts)
     const meta: Array<{ key: string; value: string }> = customer.meta_data || []
-    const storedToken = meta.find(m => m.key === 'email_verify_token')?.value
-    const storedExpires = meta.find(m => m.key === 'email_verify_expires')?.value
+    const tokenEntries = meta.filter(m => m.key === 'email_verify_token')
+    const expiresEntries = meta.filter(m => m.key === 'email_verify_expires')
 
-    console.log(`[reset-password] customer ${customer.id}, storedToken=${storedToken ? storedToken.slice(0, 8) + '...' : 'MISSING'}, match=${storedToken === resetKey}`)
+    console.log(`[reset-password] customer ${customer.id}, tokenCount=${tokenEntries.length}, resetKey=${resetKey.slice(0, 8)}...`)
 
-    if (!storedToken || storedToken !== resetKey) {
+    // Find the matching token (any of them)
+    const matchingIndex = tokenEntries.findIndex(m => m.value === resetKey)
+
+    if (matchingIndex === -1) {
+      console.log(`[reset-password] no matching token found among ${tokenEntries.length} entries`)
       return NextResponse.json({ error: 'Link inválido ou expirado' }, { status: 400 })
     }
+
+    // Check expiry for the matching token (use same-index expires entry if available)
+    const storedExpires = expiresEntries[matchingIndex]?.value ?? expiresEntries[expiresEntries.length - 1]?.value
     if (storedExpires && Date.now() > parseInt(storedExpires)) {
       return NextResponse.json({ error: 'Este link expirou. Solicite um novo.' }, { status: 400 })
     }

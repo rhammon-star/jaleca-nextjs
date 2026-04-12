@@ -330,12 +330,28 @@ export async function POST(request: NextRequest) {
     }
 
     if (paymentMethod === 'pix') {
-      const pixPayment = payment as { QrCodeString?: string; QrCodeBase64Image?: string }
-      response.pixQrCode = pixPayment.QrCodeString
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      let pixPayment: any = payment
+      // If QR code missing, query Cielo API as fallback
+      if (!pixPayment.QrCodeString && payment.PaymentId) {
+        try {
+          const { getPaymentStatus } = await import('@/lib/cielo')
+          const queried = await getPaymentStatus(payment.PaymentId)
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          if ((queried.Payment as any)?.QrCodeString) pixPayment = queried.Payment
+          console.log('[PIX] fallback query result:', JSON.stringify(queried.Payment))
+        } catch (e) {
+          console.error('[PIX] fallback query failed:', e)
+        }
+      }
+      response.pixQrCode = pixPayment.QrCodeString || null
       response.pixQrCodeUrl = pixPayment.QrCodeBase64Image
         ? `data:image/png;base64,${pixPayment.QrCodeBase64Image}`
         : undefined
       response.pixExpiresAt = new Date(Date.now() + 24 * 3600 * 1000).toISOString()
+      if (!response.pixQrCode) {
+        console.error('[PIX] QrCodeString missing — PIX may not be activated on Cielo account. Payment:', JSON.stringify(payment))
+      }
     }
 
     if (paymentMethod === 'boleto') {

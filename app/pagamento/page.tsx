@@ -72,20 +72,26 @@ function PixView({ data }: { data: PaymentData }) {
         </div>
       )}
 
-      <div>
-        <p className="text-sm text-muted-foreground mb-2">Ou copie o código PIX:</p>
-        <div className="flex items-center gap-2 border border-border bg-secondary/20 px-3 py-2">
-          <p className="text-xs font-mono break-all text-left flex-1 select-all">{data.pixQrCode}</p>
-          <button
-            onClick={copy}
-            className="shrink-0 p-1.5 hover:bg-secondary transition-colors"
-            title="Copiar"
-          >
-            {copied ? <Check size={16} className="text-green-600" /> : <Copy size={16} />}
-          </button>
+      {data.pixQrCode ? (
+        <div>
+          <p className="text-sm text-muted-foreground mb-2">Ou copie o código PIX:</p>
+          <div className="flex items-center gap-2 border border-border bg-secondary/20 px-3 py-2">
+            <p className="text-xs font-mono break-all text-left flex-1 select-all">{data.pixQrCode}</p>
+            <button
+              onClick={copy}
+              className="shrink-0 p-1.5 hover:bg-secondary transition-colors"
+              title="Copiar"
+            >
+              {copied ? <Check size={16} className="text-green-600" /> : <Copy size={16} />}
+            </button>
+          </div>
+          {copied && <p className="text-xs text-green-600 mt-1">Copiado!</p>}
         </div>
-        {copied && <p className="text-xs text-green-600 mt-1">Copiado!</p>}
-      </div>
+      ) : (
+        <div className="bg-amber-50 border border-amber-200 px-4 py-3 text-sm text-amber-800 text-center">
+          O QR Code PIX não foi gerado. Entre em contato: <strong>contato@jaleca.com.br</strong>
+        </div>
+      )}
 
       <div className="text-sm text-muted-foreground space-y-1">
         <p>1. Abra o app do seu banco</p>

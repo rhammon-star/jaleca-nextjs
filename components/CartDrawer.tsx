@@ -397,6 +397,13 @@ export default function CartDrawer() {
               </div>
             </div>
 
+          </div>
+        )}
+      </div>
+
+        {/* Sticky footer — always visible */}
+        {items.length > 0 && (
+          <div className="px-6 pb-6 pt-3 border-t border-border bg-background space-y-2">
             <Link
               href="/finalizar-compra"
               onClick={() => {
@@ -416,7 +423,6 @@ export default function CartDrawer() {
             </button>
           </div>
         )}
-      </div>
     </>
   )
 }
