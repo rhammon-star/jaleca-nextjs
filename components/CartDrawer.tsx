@@ -159,8 +159,11 @@ export default function CartDrawer() {
           </div>
         )}
 
+        {/* Scrollable area: items + footer */}
+        <div className="flex-1 overflow-y-auto">
+
         {/* Items */}
-        <div className="flex-1 overflow-y-auto px-6 py-4">
+        <div className="px-6 py-4">
           {items.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-center gap-4">
               <ShoppingBag size={40} className="text-muted-foreground/40" />
@@ -259,8 +262,9 @@ export default function CartDrawer() {
             </div>
           )}
         </div>
+        {/* end items */}
 
-        {/* Footer */}
+        {/* Footer — inside scrollable area */}
         {items.length > 0 && (
           <div className="px-6 py-5 border-t border-border space-y-4">
             {/* Coupon */}
@@ -399,6 +403,8 @@ export default function CartDrawer() {
 
           </div>
         )}
+        </div>
+        {/* end scrollable area */}
 
         {/* Sticky footer — always visible */}
         {items.length > 0 && (
