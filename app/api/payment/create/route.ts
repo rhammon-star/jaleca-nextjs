@@ -146,8 +146,14 @@ export async function POST(request: NextRequest) {
       IdentityType: 'CPF',
       Email: billing.email,
       Address: {
-        Street: billing.address_1,
-        Number: billing.address_2 || 'S/N',
+        // address_1 = "Rua Nome, Número" — split on last comma to separate street and number
+        Street: billing.address_1.includes(',')
+          ? billing.address_1.substring(0, billing.address_1.lastIndexOf(',')).trim()
+          : billing.address_1,
+        Number: billing.address_1.includes(',')
+          ? billing.address_1.substring(billing.address_1.lastIndexOf(',') + 1).trim() || 'S/N'
+          : 'S/N',
+        Complement: billing.address_2 || undefined,
         ZipCode: billing.postcode.replace(/\D/g, ''),
         City: billing.city,
         State: billing.state,
