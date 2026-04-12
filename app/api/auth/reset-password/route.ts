@@ -43,6 +43,8 @@ export async function POST(request: NextRequest) {
     const storedToken = meta.find(m => m.key === 'email_verify_token')?.value
     const storedExpires = meta.find(m => m.key === 'email_verify_expires')?.value
 
+    console.log(`[reset-password] customer ${customer.id}, storedToken=${storedToken ? storedToken.slice(0, 8) + '...' : 'MISSING'}, match=${storedToken === resetKey}`)
+
     if (!storedToken || storedToken !== resetKey) {
       return NextResponse.json({ error: 'Link inválido ou expirado' }, { status: 400 })
     }

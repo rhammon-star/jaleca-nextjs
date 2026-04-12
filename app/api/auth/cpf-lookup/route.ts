@@ -23,7 +23,8 @@ function matchesCpf(c: WCCustomer, cpf: string): boolean {
 async function fetchAllCustomers(): Promise<WCCustomer[]> {
   const all: WCCustomer[] = []
   let page = 1
-  while (true) {
+  const deadline = Date.now() + 2500 // 2.5s max
+  while (Date.now() < deadline) {
     const res = await fetch(
       `${WC_API}/customers?role=all&per_page=100&page=${page}`,
       { headers: wcHeaders(), cache: 'no-store' }

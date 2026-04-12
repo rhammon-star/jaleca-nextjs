@@ -585,11 +585,16 @@ export async function sendInternalOrderNotification(
   orderNumber: string,
   customerName: string,
   customerEmail: string,
+  customerPhone: string,
+  customerAddress: string,
   total: string,
   paymentMethod: string,
-  items: Array<{ name: string; quantity: number }>
+  items: Array<{ name: string; quantity: number; color?: string; size?: string }>
 ): Promise<void> {
-  const itemsList = items.map(i => `<li style="margin:4px 0;">${i.quantity}× ${i.name}</li>`).join('')
+  const itemsList = items.map(i => {
+    const variant = [i.color, i.size].filter(Boolean).join(' / ')
+    return `<li style="margin:6px 0;">${i.quantity}× <strong>${i.name}</strong>${variant ? ` <span style="color:#666;">(${variant})</span>` : ''}</li>`
+  }).join('')
   const html = `<!DOCTYPE html>
 <html lang="pt-BR">
 <head><meta charset="UTF-8"/><title>Novo pedido #${orderNumber}</title></head>
@@ -603,9 +608,11 @@ export async function sendInternalOrderNotification(
         <tr><td style="padding:28px;">
           <h2 style="margin:0 0 20px;font-size:20px;">Pedido #${orderNumber}</h2>
           <table width="100%" cellpadding="0" cellspacing="0" style="font-size:14px;margin-bottom:20px;">
-            <tr><td style="padding:5px 0;color:#666;">Cliente</td><td style="padding:5px 0;"><strong>${customerName}</strong></td></tr>
+            <tr><td style="padding:5px 0;color:#666;width:110px;">Cliente</td><td style="padding:5px 0;"><strong>${customerName}</strong></td></tr>
             <tr><td style="padding:5px 0;color:#666;">Email</td><td style="padding:5px 0;">${customerEmail}</td></tr>
-            <tr><td style="padding:5px 0;color:#666;">Pagamento</td><td style="padding:5px 0;">${paymentMethod}</td></tr>
+            <tr><td style="padding:5px 0;color:#666;">Telefone</td><td style="padding:5px 0;">${customerPhone}</td></tr>
+            <tr><td style="padding:5px 0;color:#666;vertical-align:top;">Endereço</td><td style="padding:5px 0;">${customerAddress}</td></tr>
+            <tr><td style="padding:5px 0;color:#666;">Pagamento</td><td style="padding:5px 0;"><strong>${paymentMethod}</strong></td></tr>
             <tr><td style="padding:5px 0;color:#666;">Total</td><td style="padding:5px 0;"><strong style="font-size:16px;">${total}</strong></td></tr>
           </table>
           <p style="margin:0 0 8px;font-size:13px;color:#666;">Itens:</p>

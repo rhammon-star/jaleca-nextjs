@@ -3,10 +3,9 @@ import {
   createPixOrder,
   createBoletoOrder,
   createCreditCardOrder,
-  type PagarmeCustomer,
-  type PagarmeItem,
-  type PagarmeAddress,
-} from '@/lib/pagarme'
+  detectBrand,
+  type CieloCustomer,
+} from '@/lib/cielo'
 import { createOrder } from '@/lib/woocommerce'
 import type { WCOrderData } from '@/lib/woocommerce'
 import { addPoints } from '@/lib/loyalty'
@@ -24,7 +23,12 @@ function wcAuth(): string {
 
 type RequestBody = {
   paymentMethod: 'pix' | 'boleto' | 'credit_card'
-  cardToken?: string
+  cardData?: {
+    number: string
+    holder: string
+    expiry: string   // MM/YYYY
+    cvv: string
+  }
   installments?: number
   cpf: string
   billing: {
@@ -45,6 +49,8 @@ type RequestBody = {
     quantity: number
     name: string
     price: number
+    color?: string
+    size?: string
   }>
   shipping: {
     method_id: string
@@ -55,22 +61,6 @@ type RequestBody = {
   couponCode?: string
   totalDiscount?: number
   pixDiscount?: number
-  sessionId?: string
-}
-
-function phoneNumbers(phone: string): { area_code: string; number: string } {
-  const digits = phone.replace(/\D/g, '').replace(/^55/, '')
-  // Brazilian phones: mobile 11 digits (XX9XXXXXXXX), landline 10 digits (XXXXXXXXXX)
-  if (digits.length < 10) {
-    throw new Error(`Telefone inválido: ${phone} (${digits.length} dígitos)`)
-  }
-  // Mobile: 11 digits → slice(2,11) = 9 digits. Landline: 10 digits → slice(2,10) = 8 digits.
-  // If 11 digits but slice(2,11) gives only 8 (when input was 10 digits total after strip), it's landline.
-  const numberDigits = digits.slice(2)
-  return {
-    area_code: digits.slice(0, 2),
-    number: numberDigits.slice(0, 9), // max 9 digits for mobile, truncate extras if any
-  }
 }
 
 function toCents(value: number): number {
@@ -91,20 +81,20 @@ export async function POST(request: NextRequest) {
 
   try {
     const body: RequestBody = await request.json()
-    const { paymentMethod, cpf, billing, items, shipping, customer_id, cardToken, installments, couponCode, totalDiscount, pixDiscount, sessionId } = body
+    const { paymentMethod, cpf, billing, items, shipping, customer_id, cardData, installments, couponCode, totalDiscount, pixDiscount } = body
 
     if (!billing || !items?.length || !shipping) {
       return NextResponse.json({ error: 'Dados incompletos' }, { status: 400 })
     }
-    if (paymentMethod === 'credit_card' && !cardToken) {
-      return NextResponse.json({ error: 'Token do cartão é obrigatório' }, { status: 400 })
+    if (paymentMethod === 'credit_card' && !cardData) {
+      return NextResponse.json({ error: 'Dados do cartão são obrigatórios' }, { status: 400 })
     }
 
     // ── 1. Create WooCommerce order ──────────────────────────────────────────
     const wcMethodMap = {
-      pix: 'woo-pagarme-payments-pix',
-      boleto: 'woo-pagarme-payments-billet',
-      credit_card: 'woo-pagarme-payments-credit_card',
+      pix: 'cielo-pix',
+      boleto: 'cielo-boleto',
+      credit_card: 'cielo-credit_card',
     }
     const wcTitleMap = {
       pix: 'PIX',
@@ -149,97 +139,73 @@ export async function POST(request: NextRequest) {
 
     const wcOrder = await createOrder(wcOrderData)
 
-    // ── 2. Build Pagar.me params ─────────────────────────────────────────────
-    const phone = phoneNumbers(billing.phone)
-    const customer: PagarmeCustomer = {
-      name: `${billing.first_name} ${billing.last_name}`.trim(),
-      email: billing.email,
-      document: cpf.replace(/\D/g, ''),
-      document_type: 'CPF',
-      type: 'individual',
-      phones: {
-        mobile_phone: {
-          country_code: '55',
-          area_code: phone.area_code,
-          number: phone.number,
-        },
+    // ── 2. Build Cielo params ────────────────────────────────────────────────
+    const customer: CieloCustomer = {
+      Name: `${billing.first_name} ${billing.last_name}`.trim(),
+      Identity: cpf.replace(/\D/g, ''),
+      IdentityType: 'CPF',
+      Email: billing.email,
+      Address: {
+        Street: billing.address_1,
+        Number: billing.address_2 || 'S/N',
+        ZipCode: billing.postcode.replace(/\D/g, ''),
+        City: billing.city,
+        State: billing.state,
+        Country: 'BRA',
       },
     }
 
     const subtotalCents = items.reduce((sum, i) => sum + Math.round(i.price * 100) * i.quantity, 0)
     const discountCents = totalDiscount ? toCents(totalDiscount) : 0
     const discountedSubtotalCents = Math.max(100, subtotalCents - discountCents)
+    const totalAmountCents = discountedSubtotalCents + toCents(shipping.cost)
 
-    // Distribute discount proportionally across items
-    const scale = discountedSubtotalCents / subtotalCents
-    let allocated = 0
-    const pagarmeItems: PagarmeItem[] = items.map((i, idx) => {
-      const original = Math.round(i.price * 100) * i.quantity
-      let adjusted = idx < items.length - 1
-        ? Math.round(original * scale)
-        : discountedSubtotalCents - allocated
-      if (adjusted < 1) adjusted = 1
-      allocated += adjusted
-      return {
-        amount: Math.round(adjusted / i.quantity),
-        description: i.name,
-        quantity: i.quantity,
-        code: String(i.product_id),
-      }
-    })
+    const orderId = String(wcOrder.id)
 
-    const address: PagarmeAddress = {
-      line_1: `${billing.address_1}, ${billing.address_2}`.trim().replace(/,\s*$/, ''),
-      zip_code: billing.postcode.replace(/\D/g, ''),
-      city: billing.city,
-      state: billing.state,
-      country: 'BR',
-    }
-
-    const shippingParam = {
-      amount: toCents(shipping.cost),
-      description: shipping.method_title,
-      address,
-    }
-
-    const metadata = {
-      wc_order_id: String(wcOrder.id),
-      wc_order_number: String(wcOrder.number),
-    }
-
-    // ── 3. Call Pagar.me ─────────────────────────────────────────────────────
-    let pagarmeOrder
+    // ── 3. Call Cielo ────────────────────────────────────────────────────────
+    let cieloOrder
     if (paymentMethod === 'pix') {
-      pagarmeOrder = await createPixOrder({ customer, items: pagarmeItems, shipping: shippingParam, metadata })
-    } else if (paymentMethod === 'boleto') {
-      pagarmeOrder = await createBoletoOrder({ customer, items: pagarmeItems, shipping: shippingParam, metadata })
-    } else {
-      pagarmeOrder = await createCreditCardOrder({
+      cieloOrder = await createPixOrder({
+        orderId,
+        amount: totalAmountCents,
         customer,
-        items: pagarmeItems,
-        shipping: shippingParam,
-        billingAddress: address,
-        billingName: `${billing.first_name} ${billing.last_name}`.trim(),
-        cardToken: cardToken!,
+      })
+      console.log('[PIX] Cielo response:', JSON.stringify(cieloOrder))
+    } else if (paymentMethod === 'boleto') {
+      const dueDate = new Date()
+      dueDate.setDate(dueDate.getDate() + 3)
+      const dueDateStr = dueDate.toISOString().split('T')[0]
+      cieloOrder = await createBoletoOrder({
+        orderId,
+        amount: totalAmountCents,
+        customer,
+        dueDate: dueDateStr,
+      })
+    } else {
+      const brand = detectBrand(cardData!.number)
+      cieloOrder = await createCreditCardOrder({
+        orderId,
+        amount: totalAmountCents,
+        customer,
+        card: {
+          number: cardData!.number,
+          holder: cardData!.holder,
+          expiry: cardData!.expiry,
+          cvv: cardData!.cvv,
+          brand,
+        },
         installments: installments || 1,
-        metadata,
         ip: clientInfo.clientIp,
-        sessionId: sessionId,
       })
     }
 
-    // For credit card: update WC immediately based on payment result
-    // (PIX/Boleto rely on polling or webhook since payment is async)
+    // ── 4. Handle credit card result ─────────────────────────────────────────
     let creditCardPaid = false
     if (paymentMethod === 'credit_card') {
-      const ccCharge = pagarmeOrder.charges?.[0]
-      const isPaid = pagarmeOrder.status === 'paid' || ccCharge?.status === 'paid'
-      const isFailed = !isPaid && (
-        pagarmeOrder.status === 'failed' ||
-        ccCharge?.status === 'failed' ||
-        ccCharge?.status === 'not_authorized' ||
-        pagarmeOrder.status === 'canceled'
-      )
+      const payment = cieloOrder.Payment as { Status: number; ReturnCode?: string; ReturnMessage?: string }
+      // Cielo Status: 2 = Captured/Paid, 3 = Denied
+      const isPaid = payment.Status === 2 || payment.ReturnCode === '00'
+      const isFailed = !isPaid && (payment.Status === 3 || (payment.Status !== 1 && payment.Status !== 12))
 
       if (isPaid) {
         creditCardPaid = true
@@ -255,7 +221,6 @@ export async function POST(request: NextRequest) {
           }
         } catch {}
 
-        // Meta Conversions API — Purchase event
         await sendMetaPurchase(
           {
             email: billing.email,
@@ -277,14 +242,12 @@ export async function POST(request: NextRequest) {
       }
 
       if (isFailed) {
-        // Update WC order to failed
         fetch(`${WC_API}/orders/${wcOrder.id}`, {
           method: 'PUT',
           headers: { Authorization: wcAuth(), 'Content-Type': 'application/json' },
           body: JSON.stringify({ status: 'failed' }),
         }).catch(() => {})
 
-        // Notify customer about payment failure
         const amountFormatted = `R$ ${parseFloat(wcOrder.total || '0').toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`
         sendPaymentFailed(
           billing.first_name,
@@ -297,30 +260,22 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Award loyalty points only on successful payment
+    // ── 5. Loyalty points ────────────────────────────────────────────────────
     if (creditCardPaid && customer_id && wcOrder.total) {
       addPoints(customer_id, parseFloat(wcOrder.total)).catch(() => {})
     }
-    // PIX/Boleto: points awarded via webhook when payment confirmed
     if (paymentMethod !== 'credit_card' && customer_id && wcOrder.total) {
       addPoints(customer_id, parseFloat(wcOrder.total)).catch(() => {})
     }
 
-    // ── 4. Send order confirmation email ──────────────────────────────────────
-    // PIX/Boleto: email sent only after payment confirmed (via polling or webhook)
-    // Credit card: handled above after status check
-    // Do NOT send here for PIX/Boleto — client hasn't paid yet
-
-    // ── 4b. Adicionar ao carrinho do Melhor Envio ─────────────────────────────
-    // Só adiciona ao ME se pagamento aprovado (crédito) ou pendente (PIX/Boleto)
+    // ── 6. Melhor Envio + notificação interna ────────────────────────────────
     const isCreditCardFailed = paymentMethod === 'credit_card' && !creditCardPaid
-    // Só executa se MELHOR_ENVIO_TOKEN estiver configurado (não placeholder)
-    // Use numeric ME service ID directly when available (from live ME API), else map string IDs (fallback)
     const meServiceId = /^\d+$/.test(shipping.method_id)
       ? parseInt(shipping.method_id)
       : (ME_SERVICE_MAP[shipping.method_id] ?? 2)
     const meWeight = Math.max(items.reduce((s, i) => s + 0.5 * i.quantity, 0), 0.5)
     const meTotalValue = items.reduce((s, i) => s + i.price * i.quantity, 0)
+
     if (!isCreditCardFailed) addShipmentToMECart({
       serviceId: meServiceId,
       to: {
@@ -330,7 +285,7 @@ export async function POST(request: NextRequest) {
         document:   cpf,
         address:    billing.address_1,
         complement: '',
-        district:   billing.address_2 || '', // billing.address_2 = bairro (neighborhood)
+        district:   billing.address_2 || '',
         city:       billing.city,
         state:      billing.state,
         postalCode: billing.postcode,
@@ -340,32 +295,32 @@ export async function POST(request: NextRequest) {
       weight: meWeight,
     }).catch(() => {})
 
-    // ── 4c. Notificação interna — só dispara se pagamento não falhou ─────────
     if (!isCreditCardFailed) {
       const totalFormatted = `R$ ${parseFloat(wcOrder.total || '0').toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`
-      const paymentTitle = wcTitleMap[paymentMethod]
       sendInternalOrderNotification(
         wcOrder.id,
         wcOrder.number || String(wcOrder.id),
         `${billing.first_name} ${billing.last_name}`.trim(),
         billing.email,
+        billing.phone,
+        `${billing.address_1}, ${billing.address_2} — ${billing.city}/${billing.state} — CEP ${billing.postcode}`,
         totalFormatted,
-        paymentTitle,
-        items.map(i => ({ name: i.name, quantity: i.quantity }))
+        wcTitleMap[paymentMethod],
+        items.map(i => ({ name: i.name, quantity: i.quantity, color: i.color, size: i.size }))
       ).catch(() => {})
     }
 
-    // ── 5. Build response ────────────────────────────────────────────────────
-    const charge = pagarmeOrder.charges?.[0]
-    const tx = charge?.last_transaction
-
+    // ── 7. Build response ────────────────────────────────────────────────────
+    const payment = cieloOrder.Payment
     const response: Record<string, unknown> = {
       wcOrderId: wcOrder.id,
       wcOrderKey: wcOrder.order_key,
-      pagarmeOrderId: pagarmeOrder.id,
-      pagarmeStatus: pagarmeOrder.status,
+      cieloPaymentId: payment.PaymentId,
+      // Keep same field name so pagamento/page.tsx polling works
+      pagarmeOrderId: payment.PaymentId,
+      pagarmeStatus: payment.Status === 2 ? 'paid' : 'pending',
       paymentMethod,
-      orderValue: (discountedSubtotalCents + toCents(shipping.cost)) / 100,
+      orderValue: totalAmountCents / 100,
       orderItems: items.map(i => ({
         id: String(i.variation_id || i.product_id),
         name: i.name,
@@ -374,25 +329,27 @@ export async function POST(request: NextRequest) {
       })),
     }
 
-    if (paymentMethod === 'pix' && tx) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const pixTx = tx as any
-      response.pixQrCode = pixTx.qr_code
-      response.pixQrCodeUrl = pixTx.qr_code_url
-      response.pixExpiresAt = pixTx.expires_at
+    if (paymentMethod === 'pix') {
+      const pixPayment = payment as { QrCodeString?: string; QrCodeBase64Image?: string }
+      response.pixQrCode = pixPayment.QrCodeString
+      response.pixQrCodeUrl = pixPayment.QrCodeBase64Image
+        ? `data:image/png;base64,${pixPayment.QrCodeBase64Image}`
+        : undefined
+      response.pixExpiresAt = new Date(Date.now() + 24 * 3600 * 1000).toISOString()
     }
-    if (paymentMethod === 'boleto' && tx) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const boletoTx = tx as any
-      response.boletoUrl = boletoTx.url
-      response.boletoPdf = boletoTx.pdf
-      response.boletoLine = boletoTx.line
-      response.boletoDueAt = boletoTx.due_at
+
+    if (paymentMethod === 'boleto') {
+      const boletoPayment = payment as { Url?: string; DigitableLine?: string; ExpirationDate?: string }
+      response.boletoUrl = boletoPayment.Url
+      response.boletoPdf = boletoPayment.Url
+      response.boletoLine = boletoPayment.DigitableLine
+      response.boletoDueAt = boletoPayment.ExpirationDate
     }
+
     if (paymentMethod === 'credit_card') {
-      response.cardStatus = charge?.status
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      response.cardMessage = (tx as any)?.acquirer_message
+      const ccPayment = payment as { Status: number; ReturnCode?: string; ReturnMessage?: string }
+      response.cardStatus = ccPayment.Status === 2 ? 'paid' : 'not_authorized'
+      response.cardMessage = ccPayment.ReturnMessage
     }
 
     return NextResponse.json(response, { status: 201 })

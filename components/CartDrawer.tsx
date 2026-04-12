@@ -318,7 +318,10 @@ export default function CartDrawer() {
 
             {/* Shipping calculator */}
             <ShippingCalculator
-              onShippingSelected={setSelectedShipping}
+              onShippingSelected={opt => {
+                setSelectedShipping(opt)
+                try { localStorage.setItem('jaleca-selected-shipping', JSON.stringify(opt)) } catch {}
+              }}
               selectedId={selectedShipping?.id}
               subtotal={subtotal}
               onCepCalculated={(cep, state) => {

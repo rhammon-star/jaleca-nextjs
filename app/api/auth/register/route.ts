@@ -158,11 +158,13 @@ export async function POST(request: NextRequest) {
       body: JSON.stringify({ meta_data }),
     }).catch(() => {})
 
-    // Send "define your password" email directly (more reliable than browser call)
+    // Send "define your password" email directly — MUST be awaited so token is saved before response
     if (customerId) {
-      sendSetPasswordEmail(customerId, email, true).catch(err =>
+      try {
+        await sendSetPasswordEmail(customerId, email, true)
+      } catch (err) {
         console.error('[Register] Failed to send set-password email:', err)
-      )
+      }
     }
 
     // Auto-login
