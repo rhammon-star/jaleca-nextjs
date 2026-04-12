@@ -651,7 +651,8 @@ export async function sendSetPasswordEmail(
   const CS     = process.env.WOOCOMMERCE_CONSUMER_SECRET
   const siteUrl = 'https://jaleca.com.br'
 
-  if (!WC_API || !CK || !CS) return
+  const WP_URL  = process.env.NEXT_PUBLIC_WP_URL || 'https://wp.jaleca.com.br'
+  const PLUGIN_SECRET = process.env.JALECA_PLUGIN_SECRET || 'jaleca-register-secret-2026'
 
   const crypto = await import('crypto')
   const token   = crypto.randomBytes(32).toString('hex')
@@ -659,105 +660,51 @@ export async function sendSetPasswordEmail(
 
   console.log(`[sendSetPasswordEmail] Called: customerId=${customerId}, email=${email}, isNewCustomer=${isNewCustomer}`)
 
-  const wcAuth = 'Basic ' + Buffer.from(`${CK}:${CS}`).toString('base64')
-  const WP_URL = process.env.NEXT_PUBLIC_WP_URL || 'https://wp.jaleca.com.br'
-  const WP_APP_USER = process.env.WP_APP_USER || 'contato@jaleca.com.br'
-  const WP_APP_PASS = process.env.WP_APP_PASS || 'vdzLXcaqEc5mM8EPU1oJVk'
-  const wpAuth = 'Basic ' + Buffer.from(`${WP_APP_USER}:${WP_APP_PASS}`).toString('base64')
-
-  // ── Save via WordPress REST API (works for customers created via WP custom endpoint) ──
-  async function saveViaWordPressAPI(): Promise<boolean> {
-    try {
-      const res = await fetch(`${WP_URL}/wp-json/wp/v2/users/${customerId}`, {
-        method: 'POST',
-        headers: { Authorization: wpAuth, 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          meta: {
-            email_verify_token: token,
-            email_verify_expires: expires,
-          },
-        }),
-      })
-      if (res.ok) {
-        console.log(`[sendSetPasswordEmail] WordPress API save OK for customer ${customerId}`)
-        return true
-      }
-      console.error(`[sendSetPasswordEmail] WordPress API failed: ${res.status} for customer ${customerId}`)
-      return false
-    } catch (err) {
-      console.error(`[sendSetPasswordEmail] WordPress API error:`, err)
-      return false
-    }
-  }
-
-  // ── Verify token via WordPress REST API ────────────────────────────────────
-  async function verifyViaWordPressAPI(): Promise<boolean> {
-    try {
-      const res = await fetch(`${WP_URL}/wp-json/wp/v2/users/${customerId}`, {
-        headers: { Authorization: wpAuth, 'Content-Type': 'application/json' },
-      })
-      if (!res.ok) return false
-      const user = await res.json()
-      const savedToken = user.meta?.email_verify_token
-      if (savedToken === token) {
-        console.log(`[sendSetPasswordEmail] VERIFIED (WP API): Token present for customer ${customerId}`)
-        return true
-      }
-      console.error(`[sendSetPasswordEmail] VERIFY FAILED (WP API): expected=${token.substring(0, 8)}..., got=${savedToken?.substring(0, 8) ?? 'null'}`)
-      return false
-    } catch (err) {
-      console.error(`[sendSetPasswordEmail] Verify (WP API) error:`, err)
-      return false
-    }
-  }
-
-  // ── Save via WooCommerce REST API (fallback) ────────────────────────────────
-  async function saveViaWooCommerceAPI(): Promise<boolean> {
-    const existingMeta: Array<{ key: string; value: string }> = []
-    let fetchedCustomer = false
-    try {
-      const getRes = await fetch(`${WC_API}/customers/${customerId}`, {
-        headers: { Authorization: wcAuth }, cache: 'no-store'
-      })
-      if (getRes.ok) {
-        const customer = await getRes.json()
-        existingMeta.push(...(customer.meta_data || []))
-        fetchedCustomer = true
-      }
-    } catch {}
-
-    const newMeta = [
-      ...existingMeta.filter((m: { key: string; value: string }) => m.key !== 'email_verify_token' && m.key !== 'email_verify_expires'),
-      { key: 'email_verify_token', value: token },
-      { key: 'email_verify_expires', value: expires },
-    ]
-    const saveRes = await fetch(`${WC_API}/customers/${customerId}`, {
-      method: 'PUT',
-      headers: { Authorization: wcAuth, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ meta_data: newMeta }),
-    })
-    return saveRes.ok
-  }
-
-  // ── Try WordPress API first ──────────────────────────────────────────────────
+  // ── Save via Jaleca Plugin (uses WordPress user_meta — works for all WP users) ──
   let saved = false
-  saved = await saveViaWordPressAPI()
+  try {
+    const res = await fetch(`${WP_URL}/wp-json/jaleca/v1/save-token`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ secret: PLUGIN_SECRET, customer_id: customerId, token, expires }),
+    })
+    if (res.ok) {
+      console.log(`[sendSetPasswordEmail] Plugin save OK for customer ${customerId}`)
+      saved = true
+    } else {
+      const text = await res.text()
+      console.error(`[sendSetPasswordEmail] Plugin save failed: ${res.status} — ${text}`)
+    }
+  } catch (err) {
+    console.error(`[sendSetPasswordEmail] Plugin save error:`, err)
+  }
 
-  if (!saved) {
-    // Fallback to WooCommerce API
-    console.log(`[sendSetPasswordEmail] WP API failed, trying WC API for customer ${customerId}`)
-    saved = await saveViaWooCommerceAPI()
+  // ── Fallback: WooCommerce REST API (for WC-native customers) ───────────────
+  if (!saved && WC_API && CK && CS) {
+    const wcAuth = 'Basic ' + Buffer.from(`${CK}:${CS}`).toString('base64')
+    try {
+      const saveRes = await fetch(`${WC_API}/customers/${customerId}`, {
+        method: 'PUT',
+        headers: { Authorization: wcAuth, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ meta_data: [
+          { key: 'email_verify_token', value: token },
+          { key: 'email_verify_expires', value: expires },
+        ]}),
+      })
+      if (saveRes.ok) {
+        console.log(`[sendSetPasswordEmail] WC API save OK for customer ${customerId}`)
+        saved = true
+      } else {
+        console.error(`[sendSetPasswordEmail] WC API save failed: ${saveRes.status} for customer ${customerId}`)
+      }
+    } catch (err) {
+      console.error(`[sendSetPasswordEmail] WC API error:`, err)
+    }
   }
 
   if (!saved) {
-    throw new Error(`Failed to save reset token for customer ${customerId} via both APIs`)
+    throw new Error(`Failed to save reset token for customer ${customerId}`)
   }
-
-  // Token saved successfully — trust the API response, skip re-verification
-  // (immediate GET after PUT can return stale data due to WP/WC caching)
-  console.log(`[sendSetPasswordEmail] Token save confirmed for customer ${customerId}`)
-
-  console.log(`[sendSetPasswordEmail] WC PUT success for customer ${customerId}`)
 
   const resetLink = `${siteUrl}/redefinir-senha?key=${token}&login=${encodeURIComponent(email)}&id=${customerId}`
   console.log(`[sendSetPasswordEmail] Token saved for customer ${customerId}, expires ${new Date(parseInt(expires)).toISOString()}, link: ${resetLink}`)
