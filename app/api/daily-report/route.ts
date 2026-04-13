@@ -321,7 +321,7 @@ async function fetchGa4() {
     purchase:      eventMap['purchase'] ?? 0,
   }
 
-  const totalSessions = channels.reduce((s, c) => s + c.sessions, 0)
+  const totalSessions = channels.reduce((s: number, c: { sessions: number }) => s + c.sessions, 0)
 
   return { channels, channelsDay, pages, funnel, totalSessions }
 }
@@ -400,14 +400,14 @@ async function generateCroAnalysis(gsc: GscData, pm: PagarmeData, wc: WcData, ga
   const wcDay = wc.day
   const wcWeek = wc.week
 
-  const ga4Channels = ga4?.channels.map(c => `${c.channel}: ${c.sessions} sessões, bounce ${c.bounceRate}%`).join(' | ') ?? 'N/A'
+  const ga4Channels = ga4?.channels.map((c: { channel: string; sessions: number; bounceRate: number }) => `${c.channel}: ${c.sessions} sessões, bounce ${c.bounceRate}%`).join(' | ') ?? 'N/A'
   const ga4Funnel = ga4?.funnel
   const funnelText = ga4Funnel ? `
 Views de produto: ${ga4Funnel.viewItem} | Adicionou ao carrinho: ${ga4Funnel.addToCart} (${ga4Funnel.viewItem ? ((ga4Funnel.addToCart/ga4Funnel.viewItem)*100).toFixed(1) : 0}%)
 Iniciou checkout: ${ga4Funnel.beginCheckout} | Comprou: ${ga4Funnel.purchase} (${ga4Funnel.beginCheckout ? ((ga4Funnel.purchase/ga4Funnel.beginCheckout)*100).toFixed(1) : 0}% do checkout)
 Taxa geral: ${ga4?.totalSessions ? ((ga4Funnel.purchase/ga4.totalSessions)*100).toFixed(2) : 0}%` : 'N/A'
 
-  const topPages = ga4?.pages.slice(0,5).map(p=>`${p.path}: ${p.views} views, bounce ${p.bounceRate}%`).join(' | ') ?? 'N/A'
+  const topPages = ga4?.pages.slice(0,5).map((p: { path: string; views: number; bounceRate: number }) => `${p.path}: ${p.views} views, bounce ${p.bounceRate}%`).join(' | ') ?? 'N/A'
 
   const prompt = `
 Analise os dados abaixo do site jaleca.com.br e responda com clareza: o que está impedindo as conversões e o que fazer AGORA.
@@ -599,7 +599,7 @@ function buildEmail(
         <th style="padding:7px 10px;text-align:center;color:#64748b;font-weight:600;font-size:11px">Usuários</th>
         <th style="padding:7px 10px;text-align:center;color:#64748b;font-weight:600;font-size:11px">Bounce</th>
       </tr></thead>
-      <tbody>${ga4.channels.map(c => {
+      <tbody>${ga4.channels.map((c: { channel: string; sessions: number; users: number; bounceRate: number }) => {
         const bounceColor = c.bounceRate > 75 ? '#ef4444' : c.bounceRate > 50 ? '#f59e0b' : '#22c55e'
         return `<tr>
           <td style="padding:6px 10px;border-bottom:1px solid #f1f5f9">${c.channel}</td>
