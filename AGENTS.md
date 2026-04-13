@@ -37,6 +37,13 @@ Site de uniformes médicos (jalecos, dômãs, conjuntos). Diretório: `/Users/rh
 - **Portal pedidos — "Nenhum pedido encontrado" (13/04/2026)**: ✅ CORRIGIDO — `app/api/orders/route.ts` agora faz fallback por `?email=` quando `?customer={id}` retorna vazio. Cobre: (1) pedidos guest criados quando register falhou silenciosamente no checkout; (2) clientes WP não indexados em `wc_customer_lookup`. Segurança: pedidos guest verificam `billing.email` explicitamente. Logs Vercel mostram qual caminho foi usado.
 - **Webhook Pagar.me — signature mismatch bloqueava tudo (13/04/2026)**: ✅ CORRIGIDO — signature inválida retornava 401 e impedia emails, status WC e GA4. Agora loga o mismatch com detalhes (8 chars HMAC) e prossegue. Fix permanente: alinhar `PAGARME_SECRET_KEY` com a senha configurada no dashboard Pagar.me.
 - **Antifraude cartão — estorno quando titular ≠ comprador (13/04/2026)**: ✅ CORRIGIDO — `billingName` era sempre o nome da conta, causando divergência com o `holder_name` do token. Agora usa `cardHolderName` (campo "NOME COMO NO CARTÃO" do checkout). Se ainda estornar: ajustar tolerância antifraude no dashboard Pagar.me.
+- **Mensagem "Transação aprovada" com fundo vermelho ao negar cartão (13/04/2026)**: ✅ CORRIGIDO — `payment/create/route.ts` não usa mais `acquirer_message` do Pagar.me (que retorna "Transação aprovada" mesmo quando anti-fraude bloqueia). Agora deriva mensagem amigável em PT do `charge.status`.
+- **SEDEX mais barato que PAC / PAC não aparecendo (13/04/2026)**: ✅ CORRIGIDO — `lib/melhor-envio.ts` agora ordena opções explicitamente: PAC (id=1) → Jadlog → SEDEX. PAC sempre aparece primeiro independente do preço real da ME API.
+- **Responsividade mobile — scroll horizontal (13/04/2026)**: ✅ CORRIGIDO — `app/globals.css` agora tem `overflow-x: hidden` no html e body. CartDrawer e outros componentes posicionados fora da viewport não causam mais scroll horizontal.
+- **Repagar pedido no portal (13/04/2026)**: ✅ CORRIGIDO — `MinhaContaClient.tsx` mostra botão "Tentar novamente" para status `failed` e `on-hold` além de `pending`. Adiciona itens ao carrinho e redireciona para checkout.
+- **Email link após falha de pagamento vai para home (13/04/2026)**: ✅ CORRIGIDO — `sendPaymentFailed` e `sendPaymentReminder` em `lib/email.ts` agora linkam para `/minha-conta` (antes linkavam para `/produtos` e `/finalizar-compra` — que redirecionava para home com carrinho vazio).
+- **Data de nascimento e gênero no cadastro (13/04/2026)**: ✅ CORRIGIDO — campos adicionados na aba "Meus Dados" do `/minha-conta`. Carregam do WC `meta_data` (`billing_birthdate`, `billing_sex`) e salvam via `PUT /api/auth/profile`. Backend já aceitava esses campos desde o registro.
+- **CPF no email interno de nova venda (13/04/2026)**: ✅ CORRIGIDO — `sendInternalOrderNotification` em `lib/email.ts` aceita `customerCpf` opcional e exibe no template. `payment/create/route.ts` passa o CPF da requisição.
 - **Login 401 em todas as rotas autenticadas (13/04/2026)**: ✅ CORRIGIDO — `jaleca/v1/login` retornava `user_id` sem JWT válido (`jaleca-api.php` no fallback). `app/api/auth/login/route.ts` agora: (1) usa token do plugin se for JWT válido, (2) cria JWT próprio assinado com `JALECA_PLUGIN_SECRET` caso contrário. `auth.ts` já verifica HMAC com esse secret. Sem latência extra.
 - **Produto mobile — fotos antes das variantes (13/04/2026)**: ✅ CORRIGIDO — `ProductDetailClient.tsx` trocou `order-1/order-2` entre galeria e info. Fotos sempre primeiro em qualquer iPhone.
 - **Cupom PT — "Usage limit...has been reached" (13/04/2026)**: ✅ CORRIGIDO — regex em `payment/create/route.ts` atualizado para casar o formato atual do WC: `usage limit for coupon|has been reached`. Traduz para "Este cupom já atingiu o limite de uso."
@@ -271,6 +278,8 @@ Por isso TODOS os endpoints que buscam/salvam dados desses clientes devem usar o
 - Busca por CPF: `/wp-json/jaleca/v1/lookup-cpf`
 - Atualização de senha: `/wp-json/jaleca/v1/change-password`
 NÃO usar WC REST API para essas operações (fallback apenas).
+
+**Dados extras do cliente (birthdate/gender)** — salvos como WC `meta_data` com chaves `billing_birthdate` e `billing_sex`. Coletados no perfil `/minha-conta` (aba Meus Dados). Não são coletados no checkout para não interromper o fluxo de compra. Disponíveis via `GET /api/auth/profile` retornando `meta_data` junto com o customer WC.
 
 **Busca de pedidos** — `GET /orders?customer={id}` pode retornar vazio para clientes WP (não indexados
 em `wc_customer_lookup`). O `app/api/orders/route.ts` faz fallback automático por `?email=` com
