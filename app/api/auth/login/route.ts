@@ -1,4 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { createHmac } from 'crypto'
+
+const PLUGIN_SECRET = process.env.JALECA_PLUGIN_SECRET || 'jaleca-register-secret-2026'
 
 /** Returns true if the string is a valid 3-part JWT */
 function isValidJwt(token: unknown): token is string {
@@ -12,7 +15,6 @@ function extractUserIdFromToken(token: string): number | null {
     if (!payload) return null
     const padded = payload.replace(/-/g, '+').replace(/_/g, '/') + '=='.slice(0, (4 - (payload.length % 4)) % 4)
     const decoded = JSON.parse(Buffer.from(padded, 'base64').toString())
-    // WP JWT Auth plugin uses `data.user.id`; standard JWT uses `sub`
     const id = decoded?.data?.user?.id ?? decoded?.sub
     return id ? Number(id) : null
   } catch {
@@ -20,7 +22,7 @@ function extractUserIdFromToken(token: string): number | null {
   }
 }
 
-/** Call WP JWT Auth directly to get a valid JWT token */
+/** Try to get a JWT from WP JWT Auth plugin directly */
 async function getJwtDirect(wpUrl: string, email: string, password: string): Promise<string | null> {
   try {
     const res = await fetch(`${wpUrl}/wp-json/jwt-auth/v1/token`, {
@@ -34,6 +36,31 @@ async function getJwtDirect(wpUrl: string, email: string, password: string): Pro
   } catch {
     return null
   }
+}
+
+/**
+ * Create a JWT signed with JALECA_PLUGIN_SECRET.
+ * auth.ts verifyCustomerToken() already validates this via HMAC-SHA256.
+ */
+function createJalecaJwt(userId: number, email: string): string {
+  const header = Buffer.from(JSON.stringify({ alg: 'HS256', typ: 'JWT' }))
+    .toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '')
+
+  const now = Math.floor(Date.now() / 1000)
+  const payload = Buffer.from(JSON.stringify({
+    sub: userId,
+    email,
+    iss: 'https://jaleca.com.br',
+    iat: now,
+    exp: now + 60 * 60 * 24 * 30, // 30 days
+  })).toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '')
+
+  const sig = createHmac('sha256', PLUGIN_SECRET)
+    .update(`${header}.${payload}`)
+    .digest('base64')
+    .replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '')
+
+  return `${header}.${payload}.${sig}`
 }
 
 export async function POST(request: NextRequest) {
@@ -57,37 +84,39 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'E-mail ou senha incorretos' }, { status: 401 })
     }
 
-    // user_id may come directly in the response body, or must be decoded from the JWT payload
+    // Extract user ID from plugin response or JWT payload
     const userId = data.user_id ? Number(data.user_id) : extractUserIdFromToken(data.token)
 
     if (!userId) {
-      console.error('[login] Could not extract user_id from login response:', JSON.stringify(data).slice(0, 200))
+      console.error('[login] Could not extract user_id:', JSON.stringify(data).slice(0, 200))
       return NextResponse.json({ error: 'Erro ao identificar usuário' }, { status: 500 })
     }
 
-    // Use the token from jaleca/v1/login if it's a valid JWT.
-    // If not (jaleca-api.php returned user_id only or a non-JWT hash),
-    // fall back to calling jwt-auth/v1/token directly with the same credentials.
+    const userEmail: string = data.user_email || email
+
+    // 1. Use token from jaleca/v1/login if it's already a valid JWT
+    // 2. Try jwt-auth/v1/token directly
+    // 3. Create our own JWT signed with JALECA_PLUGIN_SECRET (always works)
     let token: string | null = isValidJwt(data.token) ? data.token : null
 
     if (!token) {
-      console.log(`[login] jaleca/v1/login returned no valid JWT for user ${userId} — falling back to jwt-auth/v1/token`)
+      console.log(`[login] No valid JWT from plugin for user ${userId}, trying jwt-auth/v1/token`)
       token = await getJwtDirect(wpUrl, email, password)
     }
 
     if (!token) {
-      console.error(`[login] Could not obtain JWT for user ${userId} via any method`)
-      return NextResponse.json({ error: 'Erro ao autenticar. Tente novamente.' }, { status: 500 })
+      console.log(`[login] jwt-auth/v1/token failed, issuing Jaleca-signed JWT for user ${userId}`)
+      token = createJalecaJwt(userId, userEmail)
     }
 
     const user = {
       id: userId,
       name: data.user_display_name || '',
-      email: data.user_email || email,
+      email: userEmail,
       token,
     }
 
-    console.log(`[login] Success: userId=${userId}, email=${user.email}, jwtValid=true`)
+    console.log(`[login] Success: userId=${userId}, email=${userEmail}`)
     return NextResponse.json({ user })
   } catch {
     return NextResponse.json({ error: 'Erro ao fazer login' }, { status: 401 })
