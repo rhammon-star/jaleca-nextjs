@@ -16,7 +16,7 @@ Site de uniformes médicos (jalecos, dômãs, conjuntos). Diretório: `/Users/rh
 - Gemini AI (gemini-2.5-flash) para blog
 - Radix UI (shadcn/ui pattern) + custom components
 
-## Status das integrações (12/04/2026)
+## Status das integrações (13/04/2026 — noite)
 - WooCommerce GraphQL: ✅ `https://wp.jaleca.com.br/graphql`
 - WooCommerce REST: ✅ Pedidos, customers
 - Carrinho: ✅ localStorage
@@ -55,6 +55,8 @@ Site de uniformes médicos (jalecos, dômãs, conjuntos). Diretório: `/Users/rh
 - Frete: ✅ PAC/SEDEX/Jadlog via Melhor Envio, surcharge R$0 removido (12/04/2026)
 - GA4 + Meta Pixel + Meta CAPI: ✅
   - ⚠️ Meta CAPI erro 400 — pixel `566059928254677` token precisa ser regenerado no Meta Events Manager
+- **Relatório diário automatizado (13/04/2026)**: ✅ IMPLEMENTADO — `app/api/daily-report/route.ts` — Vercel cron 22h UTC (19h BRT). Dados: GSC + Pagar.me + WooCommerce + GA4 + Meta Ads. Análise Gemini (SEO) + GPT-4.1 (CRO). Envia para rhammon@ + contato@jaleca.com.br.
+- **Meta Ads API (13/04/2026)**: ✅ INTEGRADO — App "Jaleca Comunicação" (Business, ID: `1284297553808241`). Token 60 dias em `META_ADS_TOKEN`. Conta `act_2098470580937214` em `META_ADS_ACCOUNT_ID`. ⚠️ Token expira 13/06/2026 — renovar via Graph API Explorer + exchange.
 - **Rastreamento de compra browser**: ✅ `trackPurchase()` chamado em `app/pagamento/page.tsx` ao confirmar pagamento
 - Meta Pixel ID: ✅ `566059928254677`
 - Meta CAPI token: ⚠️ precisa regenerar (token atual é de Página Facebook, não serve para CAPI)
