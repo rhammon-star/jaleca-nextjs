@@ -517,7 +517,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     let message = error instanceof Error ? error.message : 'Erro ao processar pagamento'
     // Traduzir erros comuns do WooCommerce que chegam em inglês
-    if (/coupon usage limit/i.test(message))        message = 'Este cupom já atingiu o limite de uso.'
+    if (/coupon usage limit|usage limit for coupon|has been reached/i.test(message)) message = 'Este cupom já atingiu o limite de uso.'
     if (/coupon.*already been used/i.test(message)) message = 'Você já utilizou este cupom anteriormente.'
     if (/coupon.*not applicable/i.test(message))    message = 'Este cupom não é válido para os produtos selecionados.'
     if (/coupon.*expired/i.test(message))           message = 'Este cupom está expirado.'

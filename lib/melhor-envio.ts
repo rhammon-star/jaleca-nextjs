@@ -101,7 +101,7 @@ async function callMelhorEnvioAPI(
       from: { postal_code: JALECA_CEP },
       to:   { postal_code: cepDestino },
       // Cubagem: 4 × 31 × 41 cm base, +4cm de largura por peça adicional
-      products: [{ id: 'jaleco', height: 4, width: Math.min(4 + 4 * (items - 1), 60), length: 41, weight, quantity: items, insurance_value: 0 }],
+      products: [{ id: 'jaleco', height: 4, width: Math.min(31 + 4 * (items - 1), 60), length: 41, weight, quantity: items, insurance_value: 0 }],
       services: '1,2,3,4',
       options: { insurance_value: 0, receipt: false, own_hand: false, collect: false },
     }),
@@ -332,7 +332,7 @@ export async function addShipmentToMECart(payload: MEShipmentPayload): Promise<{
     })),
     volumes: [{
       height: 4,
-      width:  Math.min(4 + 4 * (itemCount - 1), 60),
+      width:  Math.min(31 + 4 * (itemCount - 1), 60),
       length: 41,
       weight: payload.weight,
     }],

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createOrder, getOrders } from '@/lib/woocommerce'
+import { createOrder, getOrders, getOrdersByBillingEmail } from '@/lib/woocommerce'
 import type { WCOrderData } from '@/lib/woocommerce'
 import { sendOrderConfirmation } from '@/lib/email'
 import { addPoints } from '@/lib/loyalty'
@@ -101,7 +101,24 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Acesso negado' }, { status: 403 })
     }
 
-    const orders = await getOrders(requestedCustomerId)
+    let orders = await getOrders(requestedCustomerId)
+    console.log(`[orders] customer=${requestedCustomerId} → ${orders.length} orders by customer_id`)
+
+    // Fallback: if no orders found by customer_id, search by billing email.
+    // Covers two cases: (1) guest orders (customer_id=0) created when register failed silently
+    // during checkout, (2) WP-native customers not indexed in wc_customer_lookup.
+    // Security: filter to customer_id === auth.id (normal) OR customer_id === 0 (guest with this email).
+    if (orders.length === 0 && auth.email) {
+      const byEmail = await getOrdersByBillingEmail(auth.email)
+      const normalizedEmail = auth.email.toLowerCase()
+      // Double-check billing email on guest orders — guards against WC ignoring the ?email= filter
+      orders = byEmail.filter(o =>
+        o.customer_id === requestedCustomerId ||
+        (o.customer_id === 0 && o.billing?.email?.toLowerCase() === normalizedEmail)
+      )
+      console.log(`[orders] fallback by email=${auth.email} → ${byEmail.length} raw, ${orders.length} after filter`)
+    }
+
     return NextResponse.json(orders)
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Erro ao buscar pedidos'

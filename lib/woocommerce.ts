@@ -147,6 +147,12 @@ export async function getOrders(customerId: number): Promise<WCOrder[]> {
   return wcFetch<WCOrder[]>(`/orders?customer=${customerId}&per_page=100&orderby=date&order=desc&status=${statuses}`)
 }
 
+export async function getOrdersByBillingEmail(email: string): Promise<WCOrder[]> {
+  const statuses = 'pending,processing,on-hold,completed,cancelled,refunded,failed,em-separacao,enviado'
+  // WC REST API v3 maps ?email= to billing_email internally (not ?billing_email=)
+  return wcFetch<WCOrder[]>(`/orders?email=${encodeURIComponent(email)}&per_page=100&orderby=date&order=desc&status=${statuses}`)
+}
+
 export async function getCustomer(id: number): Promise<WCCustomer> {
   return wcFetch<WCCustomer>(`/customers/${id}`)
 }

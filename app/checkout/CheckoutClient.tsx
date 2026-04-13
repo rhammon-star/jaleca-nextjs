@@ -468,8 +468,9 @@ export default function CheckoutClient() {
             resolvedCustomerId = regData.user?.id
             // "Define sua senha" email is sent server-side in /api/auth/register
           }
-        } catch {
-          // Continue without account — guest order
+        } catch (regErr) {
+          console.error('[Checkout] Auto-register failed — creating as guest order:', regErr)
+          // Continue without account — guest order (fallback in /api/orders by billing_email)
         }
       }
 
