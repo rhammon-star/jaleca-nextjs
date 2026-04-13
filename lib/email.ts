@@ -395,7 +395,7 @@ export async function sendPaymentReminder(
       <p style="margin:6px 0 0;font-size:13px;color:#888;">Pague com PIX e ganhe 5% de desconto imediato.</p>
     </div>
     <p style="color:#888;font-size:13px;margin:0 0 20px;">Se já realizou o pagamento, pode ignorar este e-mail — processamos em breve.</p>
-    ${btn('Finalizar pagamento', `https://jaleca.com.br/finalizar-compra`)}
+    ${btn('Ver meu pedido', `https://jaleca.com.br/minha-conta`)}
   `
   await sendMail({ to: customerEmail, subject: `Seu pedido Jaleca aguarda pagamento 🕐`, html: wrapHtml(content, 'Pedido aguardando pagamento') })
 }
@@ -644,7 +644,8 @@ export async function sendInternalOrderNotification(
   customerAddress: string,
   total: string,
   paymentMethod: string,
-  items: Array<{ name: string; quantity: number; color?: string; size?: string }>
+  items: Array<{ name: string; quantity: number; color?: string; size?: string }>,
+  customerCpf?: string,
 ): Promise<void> {
   const itemsList = items.map(i => {
     const variant = [i.color, i.size].filter(Boolean).join(' / ')
@@ -666,6 +667,7 @@ export async function sendInternalOrderNotification(
             <tr><td style="padding:5px 0;color:#666;width:110px;">Cliente</td><td style="padding:5px 0;"><strong>${customerName}</strong></td></tr>
             <tr><td style="padding:5px 0;color:#666;">Email</td><td style="padding:5px 0;">${customerEmail}</td></tr>
             <tr><td style="padding:5px 0;color:#666;">Telefone</td><td style="padding:5px 0;">${customerPhone}</td></tr>
+            ${customerCpf ? `<tr><td style="padding:5px 0;color:#666;">CPF</td><td style="padding:5px 0;">${customerCpf}</td></tr>` : ''}
             <tr><td style="padding:5px 0;color:#666;vertical-align:top;">Endereço</td><td style="padding:5px 0;">${customerAddress}</td></tr>
             <tr><td style="padding:5px 0;color:#666;">Pagamento</td><td style="padding:5px 0;"><strong>${paymentMethod}</strong></td></tr>
             <tr><td style="padding:5px 0;color:#666;">Total</td><td style="padding:5px 0;"><strong style="font-size:16px;">${total}</strong></td></tr>
@@ -868,7 +870,7 @@ export async function sendPaymentFailed(
       <li><strong>Boleto bancário</strong> — também sem restrições</li>
       <li>Tentar novamente com o cartão (uma segunda tentativa costuma passar)</li>
     </ul>
-    ${btn('FINALIZAR MEU PEDIDO', siteUrl + '/produtos')}
+    ${btn('VER MINHA CONTA', siteUrl + '/minha-conta')}
     <p style="font-size:13px;color:#aaa;margin-top:24px;line-height:1.6;">
       Precisa de ajuda? Fale conosco pelo WhatsApp ou em <a href="mailto:contato@jaleca.com.br" style="color:#1a1a1a;">contato@jaleca.com.br</a>.
     </p>

@@ -239,6 +239,8 @@ export default function MinhaContaClient() {
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
+  const [birthdate, setBirthdate] = useState('')
+  const [gender, setGender] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [profileLoading, setProfileLoading] = useState(false)
@@ -298,6 +300,11 @@ export default function MinhaContaClient() {
           if (data.customer.billing) setBillingForm(data.customer.billing)
           if (data.customer.shipping) setShippingForm(data.customer.shipping)
           if (data.customer.billing?.phone) setPhone(data.customer.billing.phone)
+          const meta: Array<{ key: string; value: string }> = data.customer.meta_data || []
+          const getBirthdate = meta.find((m: { key: string }) => m.key === 'billing_birthdate')?.value || ''
+          const getGender = meta.find((m: { key: string }) => m.key === 'billing_sex')?.value || ''
+          if (getBirthdate) setBirthdate(getBirthdate)
+          if (getGender) setGender(getGender)
         }
       })
       .catch(() => {})
@@ -387,11 +394,16 @@ export default function MinhaContaClient() {
       if (password) updates.password = password
       if (phone) updates.phone = phone
       await updateProfile(updates)
-      if (phone) {
+      // Save extra fields (phone, birthdate, gender) via profile API
+      const extraBody: Record<string, string> = { userId: String(user?.id) }
+      if (phone) extraBody.phone = phone
+      if (birthdate) extraBody.birthdate = birthdate
+      if (gender) extraBody.gender = gender
+      if (Object.keys(extraBody).length > 1) {
         await fetch('/api/auth/profile', {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${user?.token}` },
-          body: JSON.stringify({ userId: user?.id, phone }),
+          body: JSON.stringify(extraBody),
         })
       }
       setProfileSuccess(true)
@@ -667,12 +679,12 @@ export default function MinhaContaClient() {
 
                               {/* Actions */}
                               <div className="flex flex-wrap gap-2">
-                                {order.status === 'pending' && (
+                                {(['pending', 'failed', 'on-hold'].includes(order.status)) && (
                                   <button
                                     onClick={() => handlePayNow(order)}
                                     className="flex items-center gap-2 text-xs font-semibold tracking-widest uppercase bg-ink text-background px-4 py-2 hover:bg-ink/90 transition-all"
                                   >
-                                    Pagar agora
+                                    {order.status === 'failed' ? 'Tentar novamente' : 'Pagar agora'}
                                   </button>
                                 )}
                                 <button
@@ -813,6 +825,24 @@ export default function MinhaContaClient() {
                     <input id="profile-phone" type="tel" value={phone} onChange={e => setPhone(e.target.value)} placeholder="(00) 00000-0000"
                       autoComplete="tel"
                       className="w-full border border-border bg-background px-3 py-2.5 text-sm focus:outline-none focus:border-foreground transition-colors" />
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label htmlFor="profile-birthdate" className="block text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">Data de Nascimento</label>
+                      <input id="profile-birthdate" type="date" value={birthdate} onChange={e => setBirthdate(e.target.value)}
+                        max={new Date().toISOString().split('T')[0]}
+                        className="w-full border border-border bg-background px-3 py-2.5 text-sm focus:outline-none focus:border-foreground transition-colors" />
+                    </div>
+                    <div>
+                      <label htmlFor="profile-gender" className="block text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">Gênero</label>
+                      <select id="profile-gender" value={gender} onChange={e => setGender(e.target.value)}
+                        className="w-full border border-border bg-background px-3 py-2.5 text-sm focus:outline-none focus:border-foreground transition-colors appearance-none">
+                        <option value="">Prefiro não informar</option>
+                        <option value="f">Feminino</option>
+                        <option value="m">Masculino</option>
+                        <option value="o">Outro</option>
+                      </select>
+                    </div>
                   </div>
                   <div>
                     <label htmlFor="profile-password" className="block text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">Nova Senha</label>

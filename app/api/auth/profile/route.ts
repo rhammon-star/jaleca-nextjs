@@ -25,7 +25,7 @@ export async function PUT(request: NextRequest) {
 
     const body = await request.json()
     // SECURITY: Ignore userId from body — use authenticated user's ID
-    const { userId: _ignoredUserId, name, email, password, phone, billing, shipping } = body
+    const { userId: _ignoredUserId, name, email, password, phone, billing, shipping, birthdate, gender } = body
 
     const updateData: Record<string, unknown> = {}
     if (name) {
@@ -38,6 +38,12 @@ export async function PUT(request: NextRequest) {
     if (phone) updateData.billing = { ...(billing || {}), phone }
     if (billing) updateData.billing = { ...(updateData.billing as object || {}), ...billing }
     if (shipping) updateData.shipping = shipping
+    if (birthdate || gender) {
+      const metaUpdates: Array<{ key: string; value: string }> = []
+      if (birthdate) metaUpdates.push({ key: 'billing_birthdate', value: birthdate })
+      if (gender) metaUpdates.push({ key: 'billing_sex', value: gender })
+      updateData.meta_data = metaUpdates
+    }
 
     // SECURITY: Always update the authenticated user's profile, not any other
     const customer = await updateCustomer(auth.id, updateData)

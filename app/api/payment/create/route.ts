@@ -445,7 +445,8 @@ export async function POST(request: NextRequest) {
         `${billing.address_1}, ${billing.city} - ${billing.state}`,
         totalFormatted,
         paymentTitle,
-        items.map(i => ({ name: i.name, quantity: i.quantity, color: i.color, size: i.size }))
+        items.map(i => ({ name: i.name, quantity: i.quantity, color: i.color, size: i.size })),
+        cpf || undefined,
       ).catch(() => {})
     }
 

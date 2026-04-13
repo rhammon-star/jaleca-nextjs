@@ -240,10 +240,13 @@ export async function calculateShipping(
         }
 
         // Apply free shipping for PAC if eligible
-        if (uf && FREE_SHIPPING_STATES.includes(uf) && subtotal >= 499) {
-          return options.map(o => o.id === '1' ? { ...o, cost: 0 } : o)
-        }
-        return options
+        const finalOptions = uf && FREE_SHIPPING_STATES.includes(uf) && subtotal >= 499
+          ? options.map(o => o.id === '1' ? { ...o, cost: 0 } : o)
+          : options
+
+        // Sort: PAC first (id=1), then Jadlog (id=3/4), then SEDEX (id=2)
+        const SORT_ORDER: Record<string, number> = { '1': 0, '3': 1, '4': 2, '2': 3 }
+        return finalOptions.sort((a, b) => (SORT_ORDER[a.id] ?? 9) - (SORT_ORDER[b.id] ?? 9))
       }
     }
   } catch {
