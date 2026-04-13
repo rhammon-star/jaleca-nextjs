@@ -16,11 +16,12 @@ const GSC_CLIENT_ID    = process.env.GSC_CLIENT_ID!
 const GSC_CLIENT_SECRET= process.env.GSC_CLIENT_SECRET!
 const GSC_REFRESH_TOKEN= process.env.GSC_REFRESH_TOKEN!
 const GSC_PROPERTY     = 'sc-domain:jaleca.com.br'
+const GA4_SA_JSON      = process.env.GA4_SERVICE_ACCOUNT_JSON!
+const GA4_PROPERTY_ID  = process.env.GA4_PROPERTY_ID!
 
 const RECIPIENTS = [
   { email: 'rhammon@objetivasolucao.com.br', name: 'Rhammon' },
   { email: 'contato@jaleca.com.br',          name: 'Jaleca' },
-  { email: 'financeiro@jaleca.com.br',       name: 'Financeiro Jaleca' },
 ]
 
 // ── Auth helpers ──────────────────────────────────────────────────────────────
@@ -218,6 +219,113 @@ async function fetchWc() {
   return { day: summarize(dayRaw), week: summarize(weekRaw) }
 }
 
+// ── Google Analytics 4 ───────────────────────────────────────────────────────
+
+async function getGa4Token(): Promise<string | null> {
+  try {
+    const sa = JSON.parse(GA4_SA_JSON)
+    // Build JWT for service account
+    const now = Math.floor(Date.now() / 1000)
+    const header = Buffer.from(JSON.stringify({ alg: 'RS256', typ: 'JWT' })).toString('base64url')
+    const payload = Buffer.from(JSON.stringify({
+      iss: sa.client_email,
+      scope: 'https://www.googleapis.com/auth/analytics.readonly',
+      aud: 'https://oauth2.googleapis.com/token',
+      exp: now + 3600,
+      iat: now,
+    })).toString('base64url')
+
+    // Sign with RSA private key using Node.js crypto
+    const { createSign } = await import('crypto')
+    const sign = createSign('RSA-SHA256')
+    sign.update(`${header}.${payload}`)
+    const signature = sign.sign(sa.private_key, 'base64url')
+    const jwt = `${header}.${payload}.${signature}`
+
+    const res = await fetch('https://oauth2.googleapis.com/token', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({ grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer', assertion: jwt }),
+    })
+    const d = await res.json()
+    return d.access_token ?? null
+  } catch (e) { console.error('[GA4] token error:', e); return null }
+}
+
+async function fetchGa4() {
+  const token = await getGa4Token()
+  if (!token) return null
+
+  const url = `https://analyticsdata.googleapis.com/v1beta/properties/${GA4_PROPERTY_ID}:runReport`
+  const headers = { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }
+  const dr7 = { startDate: '7daysAgo', endDate: 'yesterday' }
+  const dr1 = { startDate: 'yesterday', endDate: 'yesterday' }
+
+  async function run(body: object) {
+    const r = await fetch(url, { method: 'POST', headers, body: JSON.stringify(body) })
+    return r.json()
+  }
+
+  const [byChannel, topPages, events, byChannelDay] = await Promise.all([
+    // Sessões por canal — semana
+    run({ dateRanges: [dr7], metrics: [{ name: 'sessions' }, { name: 'activeUsers' }, { name: 'bounceRate' }],
+      dimensions: [{ name: 'sessionDefaultChannelGroup' }], limit: 10,
+      orderBys: [{ metric: { metricName: 'sessions' }, desc: true }] }),
+    // Top páginas — semana
+    run({ dateRanges: [dr7], metrics: [{ name: 'screenPageViews' }, { name: 'activeUsers' }, { name: 'bounceRate' }],
+      dimensions: [{ name: 'pagePath' }], limit: 12,
+      orderBys: [{ metric: { metricName: 'screenPageViews' }, desc: true }] }),
+    // Eventos funil — semana
+    run({ dateRanges: [dr7], metrics: [{ name: 'eventCount' }],
+      dimensions: [{ name: 'eventName' }], limit: 30,
+      orderBys: [{ metric: { metricName: 'eventCount' }, desc: true }] }),
+    // Sessões por canal — hoje
+    run({ dateRanges: [dr1], metrics: [{ name: 'sessions' }, { name: 'activeUsers' }],
+      dimensions: [{ name: 'sessionDefaultChannelGroup' }], limit: 8,
+      orderBys: [{ metric: { metricName: 'sessions' }, desc: true }] }),
+  ])
+
+  type Row = { dimensionValues: { value: string }[]; metricValues: { value: string }[] }
+
+  const channels = (byChannel.rows ?? []).map((r: Row) => ({
+    channel: r.dimensionValues[0].value,
+    sessions: +r.metricValues[0].value,
+    users: +r.metricValues[1].value,
+    bounceRate: +(+r.metricValues[2].value * 100).toFixed(1),
+  }))
+
+  const channelsDay = (byChannelDay.rows ?? []).map((r: Row) => ({
+    channel: r.dimensionValues[0].value,
+    sessions: +r.metricValues[0].value,
+    users: +r.metricValues[1].value,
+  }))
+
+  const pages = (topPages.rows ?? [])
+    .filter((r: Row) => !r.dimensionValues[0].value.startsWith('/api'))
+    .slice(0, 8)
+    .map((r: Row) => ({
+      path: r.dimensionValues[0].value,
+      views: +r.metricValues[0].value,
+      users: +r.metricValues[1].value,
+      bounceRate: +(+r.metricValues[2].value * 100).toFixed(0),
+    }))
+
+  const eventMap: Record<string, number> = {}
+  for (const r of (events.rows ?? []) as Row[]) eventMap[r.dimensionValues[0].value] = +r.metricValues[0].value
+
+  const funnel = {
+    pageViews:     eventMap['page_view'] ?? 0,
+    viewItem:      eventMap['view_item'] ?? 0,
+    addToCart:     eventMap['add_to_cart'] ?? 0,
+    beginCheckout: eventMap['begin_checkout'] ?? 0,
+    purchase:      eventMap['purchase'] ?? 0,
+  }
+
+  const totalSessions = channels.reduce((s, c) => s + c.sessions, 0)
+
+  return { channels, channelsDay, pages, funnel, totalSessions }
+}
+
 // ── AI Analysis ───────────────────────────────────────────────────────────────
 
 async function askGemini(prompt: string): Promise<string> {
@@ -285,52 +393,67 @@ Seja direto. Máximo 350 palavras. Use marcadores.
   return askGemini(prompt)
 }
 
-async function generateCroAnalysis(gsc: GscData, pm: PagarmeData, wc: WcData): Promise<string> {
+type Ga4Data = Awaited<ReturnType<typeof fetchGa4>>
+
+async function generateCroAnalysis(gsc: GscData, pm: PagarmeData, wc: WcData, ga4: Ga4Data): Promise<string> {
   const methods = Object.entries(pm.day.methods).map(([k,v])=>`${k}: ${v}`).join(', ')
   const wcDay = wc.day
   const wcWeek = wc.week
 
+  const ga4Channels = ga4?.channels.map(c => `${c.channel}: ${c.sessions} sessões, bounce ${c.bounceRate}%`).join(' | ') ?? 'N/A'
+  const ga4Funnel = ga4?.funnel
+  const funnelText = ga4Funnel ? `
+Views de produto: ${ga4Funnel.viewItem} | Adicionou ao carrinho: ${ga4Funnel.addToCart} (${ga4Funnel.viewItem ? ((ga4Funnel.addToCart/ga4Funnel.viewItem)*100).toFixed(1) : 0}%)
+Iniciou checkout: ${ga4Funnel.beginCheckout} | Comprou: ${ga4Funnel.purchase} (${ga4Funnel.beginCheckout ? ((ga4Funnel.purchase/ga4Funnel.beginCheckout)*100).toFixed(1) : 0}% do checkout)
+Taxa geral: ${ga4?.totalSessions ? ((ga4Funnel.purchase/ga4.totalSessions)*100).toFixed(2) : 0}%` : 'N/A'
+
+  const topPages = ga4?.pages.slice(0,5).map(p=>`${p.path}: ${p.views} views, bounce ${p.bounceRate}%`).join(' | ') ?? 'N/A'
+
   const prompt = `
 Analise os dados abaixo do site jaleca.com.br e responda com clareza: o que está impedindo as conversões e o que fazer AGORA.
 
-━━━ TRÁFEGO (GSC) ━━━
-Hoje: ${gsc.day.clicks} cliques, CTR ${gsc.day.ctr}%, posição ${gsc.day.position}
-Semana: ${gsc.week.clicks} cliques, CTR ${gsc.week.ctr}%
+━━━ TRÁFEGO GA4 — SEMANA ━━━
+Total sessões: ${ga4?.totalSessions ?? 'N/A'}
+Por canal (sessões | bounce): ${ga4Channels}
+
+━━━ FUNIL DE CONVERSÃO (semana) ━━━${funnelText}
+
+━━━ PÁGINAS MAIS VISITADAS ━━━
+${topPages}
+
+━━━ TRÁFEGO GSC ━━━
+Hoje: ${gsc?.day.clicks ?? 0} cliques, CTR ${gsc?.day.ctr ?? 0}%, posição ${gsc?.day.position ?? 0}
+Semana: ${gsc?.week.clicks ?? 0} cliques
 
 ━━━ PAGAMENTOS HOJE (${pm.dayDate}) ━━━
-Tentativas: ${pm.day.total} | Aprovados: ${pm.day.paid} | Falharam: ${pm.day.failed} | Pendentes: ${pm.day.pending}
+Tentativas: ${pm.day.total} | Aprovados: ${pm.day.paid} | Falharam: ${pm.day.failed}
 Receita aprovada: R$ ${pm.day.revenue.toFixed(2)} | Receita perdida: R$ ${pm.day.lost.toFixed(2)}
-Taxa conversão pagamento: ${pm.day.convRate}%
-Métodos: ${methods || 'sem dados'}
+Conversão pagamento: ${pm.day.convRate}% | Métodos: ${methods || 'sem dados'}
 
 ━━━ PAGAMENTOS SEMANA ━━━
-Tentativas: ${pm.week.total} | Aprovados: ${pm.week.paid} | Receita: R$ ${pm.week.revenue.toFixed(2)}
-Taxa conversão semana: ${pm.week.convRate}%
+${pm.week.paid}/${pm.week.total} aprovados | R$ ${pm.week.revenue.toFixed(2)} | ${pm.week.convRate}% conversão
 
-━━━ PEDIDOS WOOCOMMERCE ━━━
-Hoje: ${wcDay?.total ?? 'N/A'} pedidos | Receita: R$ ${wcDay?.revenue?.toFixed(2) ?? 'N/A'}
-Status hoje: ${wcDay ? Object.entries(wcDay.byStatus).map(([s,c])=>`${s}:${c}`).join(', ') : 'N/A'}
-Semana: ${wcWeek?.total ?? 'N/A'} pedidos | Receita: R$ ${wcWeek?.revenue?.toFixed(2) ?? 'N/A'}
-Top produtos semana: ${wcWeek?.topProducts?.map(p=>`${p.name.substring(0,30)} (${p.qty}x)`).join(', ') ?? 'N/A'}
+━━━ PEDIDOS WC ━━━
+Hoje: ${wcDay?.total ?? 0} pedidos | R$ ${wcDay?.revenue?.toFixed(2) ?? 0}
+Semana: ${wcWeek?.total ?? 0} pedidos | R$ ${wcWeek?.revenue?.toFixed(2) ?? 0}
+Top produtos: ${wcWeek?.topProducts?.map(p=>`${p.name.substring(0,30)} (${p.qty}x)`).join(', ') ?? 'N/A'}
 
-━━━ CONTEXTO DO SITE ━━━
+━━━ CONTEXTO ━━━
+- Público: enfermeiras, médicas, profissionais de saúde — ticket médio R$350
+- Frete grátis SP/RJ/MG/ES acima de R$499 | PIX 5% desconto
 - Checkout: /finalizar-compra (Next.js + Pagar.me)
-- Público: enfermeiras, médicas, profissionais de saúde
-- Ticket médio: ~R$350
-- Frete grátis SP/RJ/MG/ES acima de R$499
-- PIX com 5% desconto
 
 Responda em 4 blocos:
 
-**1. DIAGNÓSTICO** — Por que não está convertendo? Seja específico com os números.
+**1. DIAGNÓSTICO** — Por que não está convertendo? Use os números do funil e bounce por canal.
 
-**2. AÇÕES URGENTES (fazer hoje/amanhã)** — Liste 5 ações prioritárias na página/checkout para aumentar conversão imediatamente. Para cada uma: o que fazer, onde, impacto esperado.
+**2. AÇÕES URGENTES (fazer hoje/amanhã)** — 5 ações específicas: o que fazer, em qual página/elemento, impacto esperado.
 
-**3. AÇÕES SEMANA** — 3 melhorias de médio prazo que podem dobrar a conversão.
+**3. AÇÕES SEMANA** — 3 melhorias de médio prazo para dobrar a conversão.
 
-**4. ALERTA** — Algum número fora do padrão que merece atenção?
+**4. ALERTA** — Número mais preocupante do dia.
 
-Máximo 450 palavras. Seja direto como um consultor de e-commerce experiente.
+Máximo 500 palavras. Seja direto como consultor de e-commerce sênior.
 `
   return askGpt(prompt)
 }
@@ -342,6 +465,7 @@ function buildEmail(
   gsc: GscData,
   pm: PagarmeData,
   wc: WcData,
+  ga4: Ga4Data,
   seoText: string,
   croText: string,
 ): string {
@@ -464,6 +588,58 @@ function buildEmail(
     </table>
   </div>` : ''}
 
+  <!-- GA4 — Sessões por canal -->
+  ${ga4 ? `
+  <div style="background:#fff;border-radius:12px;padding:20px;margin-bottom:12px;border:1px solid #e2e8f0">
+    <p style="font-size:11px;color:#64748b;margin:0 0 14px;text-transform:uppercase;letter-spacing:.8px;font-weight:600">👥 De onde vieram — 7 dias (${ga4.totalSessions} sessões)</p>
+    <table style="width:100%;border-collapse:collapse;font-size:13px">
+      <thead><tr style="background:#f8fafc">
+        <th style="padding:7px 10px;text-align:left;color:#64748b;font-weight:600;font-size:11px">Canal</th>
+        <th style="padding:7px 10px;text-align:center;color:#64748b;font-weight:600;font-size:11px">Sessões</th>
+        <th style="padding:7px 10px;text-align:center;color:#64748b;font-weight:600;font-size:11px">Usuários</th>
+        <th style="padding:7px 10px;text-align:center;color:#64748b;font-weight:600;font-size:11px">Bounce</th>
+      </tr></thead>
+      <tbody>${ga4.channels.map(c => {
+        const bounceColor = c.bounceRate > 75 ? '#ef4444' : c.bounceRate > 50 ? '#f59e0b' : '#22c55e'
+        return `<tr>
+          <td style="padding:6px 10px;border-bottom:1px solid #f1f5f9">${c.channel}</td>
+          <td style="padding:6px 10px;border-bottom:1px solid #f1f5f9;text-align:center">${c.sessions}</td>
+          <td style="padding:6px 10px;border-bottom:1px solid #f1f5f9;text-align:center">${c.users}</td>
+          <td style="padding:6px 10px;border-bottom:1px solid #f1f5f9;text-align:center;color:${bounceColor};font-weight:600">${c.bounceRate}%</td>
+        </tr>`}).join('')}</tbody>
+    </table>
+  </div>
+
+  <!-- GA4 — Funil -->
+  <div style="background:#fff;border-radius:12px;padding:20px;margin-bottom:12px;border:1px solid #e2e8f0">
+    <p style="font-size:11px;color:#64748b;margin:0 0 14px;text-transform:uppercase;letter-spacing:.8px;font-weight:600">🔽 Funil de conversão — 7 dias</p>
+    <div style="display:flex;align-items:flex-end;gap:8px">
+      ${[
+        { label: 'Pageviews', value: ga4.funnel.pageViews, max: ga4.funnel.pageViews },
+        { label: 'Viram produto', value: ga4.funnel.viewItem, max: ga4.funnel.pageViews },
+        { label: 'Adicionou', value: ga4.funnel.addToCart, max: ga4.funnel.pageViews },
+        { label: 'Checkout', value: ga4.funnel.beginCheckout, max: ga4.funnel.pageViews },
+        { label: 'Comprou', value: ga4.funnel.purchase, max: ga4.funnel.pageViews },
+      ].map(step => {
+        const pct = step.max ? Math.round((step.value / step.max) * 100) : 0
+        const color = pct > 50 ? '#3b82f6' : pct > 10 ? '#f59e0b' : '#ef4444'
+        return `<div style="flex:1;text-align:center">
+          <p style="font-size:13px;font-weight:700;color:#1e293b;margin:0 0 4px">${step.value}</p>
+          <div style="background:#f1f5f9;border-radius:4px;height:60px;position:relative;overflow:hidden">
+            <div style="position:absolute;bottom:0;width:100%;height:${Math.max(pct,3)}%;background:${color};border-radius:4px"></div>
+          </div>
+          <p style="font-size:10px;color:#64748b;margin:4px 0 0">${step.label}</p>
+          <p style="font-size:10px;color:${color};margin:0;font-weight:600">${pct}%</p>
+        </div>`
+      }).join('')}
+    </div>
+    <p style="font-size:11px;color:#94a3b8;margin:10px 0 0;text-align:center">
+      Add-to-cart rate: <strong>${ga4.funnel.viewItem ? ((ga4.funnel.addToCart/ga4.funnel.viewItem)*100).toFixed(1) : 0}%</strong> ·
+      Checkout completion: <strong>${ga4.funnel.beginCheckout ? ((ga4.funnel.purchase/ga4.funnel.beginCheckout)*100).toFixed(1) : 0}%</strong> ·
+      Conversão geral: <strong>${ga4.totalSessions ? ((ga4.funnel.purchase/ga4.totalSessions)*100).toFixed(2) : 0}%</strong>
+    </p>
+  </div>` : ''}
+
   <!-- Análise SEO — Gemini -->
   <div style="background:#f0fdf4;border-radius:12px;padding:20px;margin-bottom:12px;border:1px solid #86efac">
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
@@ -539,23 +715,24 @@ export async function GET(request: NextRequest) {
     const gscToken = await getGscToken()
     if (!gscToken) console.warn('[daily-report] GSC token não disponível')
 
-    const [gsc, pm, wc] = await Promise.all([
+    const [gsc, pm, wc, ga4] = await Promise.all([
       gscToken ? fetchGsc(gscToken) : Promise.resolve(null),
       fetchPagarme(),
       fetchWc(),
+      fetchGa4(),
     ])
 
-    console.log(`[daily-report] Dados coletados — GSC: ${gsc?.week.clicks ?? 'N/A'} cliques | Pagar.me: ${pm.day.paid}/${pm.day.total} | WC: ${wc.day?.total ?? 'N/A'}`)
+    console.log(`[daily-report] Dados coletados — GSC: ${gsc?.week.clicks ?? 'N/A'} | Pagar.me: ${pm.day.paid}/${pm.day.total} | WC: ${wc.day?.total ?? 'N/A'} | GA4: ${ga4?.totalSessions ?? 'N/A'} sessões`)
 
     // IA em paralelo
     const [seoText, croText] = await Promise.all([
       gsc ? generateSeoAnalysis(gsc) : Promise.resolve('Dados GSC indisponíveis.'),
-      generateCroAnalysis(gsc!, pm, wc),
+      generateCroAnalysis(gsc!, pm, wc, ga4),
     ])
 
     console.log('[daily-report] Análises de IA geradas')
 
-    const html = buildEmail(dateStr, gsc!, pm, wc, seoText, croText)
+    const html = buildEmail(dateStr, gsc!, pm, wc, ga4, seoText, croText)
     const subject = `📊 Jaleca ${today.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'})} — ${pm.day.paid} pedidos aprovados · R$${pm.day.revenue.toFixed(0)} · ${pm.day.convRate}% conv`
 
     const emailResult = await sendEmail(subject, html)
