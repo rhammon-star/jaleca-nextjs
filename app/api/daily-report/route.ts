@@ -519,12 +519,12 @@ async function sendEmail(subject: string, html: string) {
 // ── Handler ───────────────────────────────────────────────────────────────────
 
 export async function GET(request: NextRequest) {
-  // Auth — aceita cron secret ou token manual
+  // Auth — mesmo padrão dos outros crons: Bearer header ou x-vercel-cron
   const authHeader = request.headers.get('authorization')
-  const { searchParams } = new URL(request.url)
-  const token = searchParams.get('token') ?? authHeader?.replace('Bearer ', '')
+  const isVercelCron = request.headers.get('x-vercel-cron') === '1'
+  const isBearer = authHeader === `Bearer ${CRON_SECRET}`
 
-  if (token !== CRON_SECRET) {
+  if (!isVercelCron && !isBearer) {
     return NextResponse.json({ error: 'Não autorizado' }, { status: 401 })
   }
 
