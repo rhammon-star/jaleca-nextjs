@@ -300,7 +300,7 @@ async function fetchGa4() {
     return r.json()
   }
 
-  const [byChannel, topPages, events, byChannelDay] = await Promise.all([
+  const [byChannel, topPages, events, byChannelDay, convByChannel] = await Promise.all([
     // Sessões por canal — semana
     run({ dateRanges: [dr7], metrics: [{ name: 'sessions' }, { name: 'activeUsers' }, { name: 'bounceRate' }],
       dimensions: [{ name: 'sessionDefaultChannelGroup' }], limit: 10,
@@ -313,10 +313,14 @@ async function fetchGa4() {
     run({ dateRanges: [dr7], metrics: [{ name: 'eventCount' }],
       dimensions: [{ name: 'eventName' }], limit: 30,
       orderBys: [{ metric: { metricName: 'eventCount' }, desc: true }] }),
-    // Sessões por canal — hoje
+    // Sessões por canal — ontem
     run({ dateRanges: [dr1], metrics: [{ name: 'sessions' }, { name: 'activeUsers' }],
       dimensions: [{ name: 'sessionDefaultChannelGroup' }], limit: 8,
       orderBys: [{ metric: { metricName: 'sessions' }, desc: true }] }),
+    // Conversões + receita por canal — semana (para Google Ads atribuição)
+    run({ dateRanges: [dr7], metrics: [{ name: 'conversions' }, { name: 'totalRevenue' }],
+      dimensions: [{ name: 'sessionDefaultChannelGroup' }], limit: 15,
+      orderBys: [{ metric: { metricName: 'conversions' }, desc: true }] }),
   ])
 
   type Row = { dimensionValues: { value: string }[]; metricValues: { value: string }[] }
@@ -357,7 +361,34 @@ async function fetchGa4() {
 
   const totalSessions = channels.reduce((s: number, c: { sessions: number }) => s + c.sessions, 0)
 
-  return { channels, channelsDay, pages, funnel, totalSessions }
+  // Google Ads — extrai Paid Search + Paid Shopping do GA4
+  type ConvRow = { dimensionValues: { value: string }[]; metricValues: { value: string }[] }
+  const convMap: Record<string, { conversions: number; revenue: number }> = {}
+  for (const r of (convByChannel.rows ?? []) as ConvRow[]) {
+    const ch = r.dimensionValues[0].value
+    convMap[ch] = { conversions: +r.metricValues[0].value, revenue: +parseFloat(r.metricValues[1].value).toFixed(2) }
+  }
+
+  const paidSearch   = channels.find((c: { channel: string }) => c.channel === 'Paid Search')
+  const paidShopping = channels.find((c: { channel: string }) => c.channel === 'Paid Shopping')
+  const paidSearchDay   = channelsDay.find((c: { channel: string }) => c.channel === 'Paid Search')
+  const paidShoppingDay = channelsDay.find((c: { channel: string }) => c.channel === 'Paid Shopping')
+
+  const googleAds = {
+    week: {
+      sessions:   (paidSearch?.sessions ?? 0) + (paidShopping?.sessions ?? 0),
+      users:      (paidSearch?.users ?? 0) + (paidShopping?.users ?? 0),
+      bounceRate: paidSearch?.bounceRate ?? 0,
+      purchases:  (convMap['Paid Search']?.conversions ?? 0) + (convMap['Paid Shopping']?.conversions ?? 0),
+      revenue:    +((convMap['Paid Search']?.revenue ?? 0) + (convMap['Paid Shopping']?.revenue ?? 0)).toFixed(2),
+    },
+    day: {
+      sessions: (paidSearchDay?.sessions ?? 0) + (paidShoppingDay?.sessions ?? 0),
+      users:    (paidSearchDay?.users ?? 0) + (paidShoppingDay?.users ?? 0),
+    },
+  }
+
+  return { channels, channelsDay, pages, funnel, totalSessions, googleAds }
 }
 
 // ── AI Analysis ───────────────────────────────────────────────────────────────
@@ -443,12 +474,21 @@ Taxa geral: ${ga4?.totalSessions ? ((ga4Funnel.purchase/ga4.totalSessions)*100).
 
   const topPages = ga4?.pages.slice(0,5).map((p: { path: string; views: number; bounceRate: number }) => `${p.path}: ${p.views} views, bounce ${p.bounceRate}%`).join(' | ') ?? 'N/A'
 
+  const gAds = ga4?.googleAds
+  const gAdsText = gAds?.week.sessions ? `
+━━━ GOOGLE ADS (via GA4 — sem gasto R$) ━━━
+Sessões pagas semana: ${gAds.week.sessions} | Usuários: ${gAds.week.users}
+Compras atribuídas: ${gAds.week.purchases} | Receita GA4: R$${gAds.week.revenue}
+Taxa conversão paga: ${gAds.week.sessions ? ((gAds.week.purchases / gAds.week.sessions) * 100).toFixed(2) : 0}% | Bounce: ${gAds.week.bounceRate}%
+Ontem: ${gAds.day.sessions} sessões pagas` : ''
+
   const prompt = `
 Analise os dados abaixo do site jaleca.com.br e responda com clareza: o que está impedindo as conversões e o que fazer AGORA.
 
 ━━━ TRÁFEGO GA4 — SEMANA ━━━
 Total sessões: ${ga4?.totalSessions ?? 'N/A'}
 Por canal (sessões | bounce): ${ga4Channels}
+${gAdsText}
 
 ━━━ FUNIL DE CONVERSÃO (semana) ━━━${funnelText}
 
@@ -699,6 +739,29 @@ function buildEmail(
     </p>` : ''}
   </div>` : ''}
 
+  <!-- Google Ads via GA4 -->
+  ${ga4?.googleAds?.week.sessions ? `
+  <div style="background:#fff;border-radius:12px;padding:20px;margin-bottom:12px;border:1px solid #e2e8f0">
+    <p style="font-size:11px;color:#64748b;margin:0 0 14px;text-transform:uppercase;letter-spacing:.8px;font-weight:600">🟢 Google Ads — via GA4 (7 dias)</p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px">
+      ${[
+        { label: 'Sessões pagas', value: ga4.googleAds.week.sessions.toLocaleString('pt-BR') },
+        { label: 'Compras atribuídas', value: String(ga4.googleAds.week.purchases) },
+        { label: 'Receita atribuída', value: `R$${ga4.googleAds.week.revenue.toLocaleString('pt-BR',{minimumFractionDigits:2})}` },
+        { label: 'Usuários pagos', value: ga4.googleAds.week.users.toLocaleString('pt-BR') },
+        { label: 'Taxa conversão', value: ga4.googleAds.week.sessions ? `${((ga4.googleAds.week.purchases / ga4.googleAds.week.sessions) * 100).toFixed(2)}%` : '0%' },
+        { label: 'Bounce rate', value: `${ga4.googleAds.week.bounceRate}%`, color: ga4.googleAds.week.bounceRate > 70 ? '#ef4444' : ga4.googleAds.week.bounceRate > 50 ? '#f59e0b' : '#22c55e' },
+      ].map(k => `<div style="background:#f8fafc;border-radius:8px;padding:10px;text-align:center">
+        <p style="font-size:10px;color:#64748b;margin:0 0 4px;text-transform:uppercase">${k.label}</p>
+        <p style="font-size:17px;font-weight:700;margin:0;color:${k.color ?? '#1e293b'}">${k.value}</p>
+      </div>`).join('')}
+    </div>
+    <p style="font-size:11px;color:#94a3b8;margin:0;text-align:center">
+      Ontem: <strong>${ga4.googleAds.day.sessions}</strong> sessões pagas · <strong>${ga4.googleAds.day.users}</strong> usuários ·
+      <span style="color:#64748b">⚠️ Dados de atribuição GA4 — gasto em R$ disponível após conectar Developer Token Google Ads API</span>
+    </p>
+  </div>` : ''}
+
   <!-- Análise SEO — Gemini -->
   <div style="background:#f0fdf4;border-radius:12px;padding:20px;margin-bottom:12px;border:1px solid #86efac">
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
@@ -727,7 +790,7 @@ function buildEmail(
   <!-- Footer -->
   <div style="text-align:center;padding:20px;color:#94a3b8;font-size:11px;line-height:1.6">
     Jaleca Daily Report · Enviado automaticamente todo dia às 19h<br>
-    Gemini SEO Expert + GPT-4.1 CRO + Google Search Console + Pagar.me + WooCommerce<br>
+    Gemini SEO Expert + GPT-4.1 CRO + GSC + GA4 + Meta Ads + Google Ads (via GA4) + Pagar.me + WooCommerce<br>
     <a href="https://jaleca.com.br" style="color:#3b82f6;text-decoration:none">jaleca.com.br</a>
   </div>
 
@@ -782,7 +845,7 @@ export async function GET(request: NextRequest) {
       fetchMetaAds(),
     ])
 
-    console.log(`[daily-report] Dados coletados — GSC: ${gsc?.week.clicks ?? 'N/A'} | Pagar.me: ${pm.day.paid}/${pm.day.total} | WC: ${wc.day?.total ?? 'N/A'} | GA4: ${ga4?.totalSessions ?? 'N/A'} sessões | Meta: R$${meta?.week?.spend ?? 'N/A'}`)
+    console.log(`[daily-report] Dados coletados — GSC: ${gsc?.week.clicks ?? 'N/A'} | Pagar.me: ${pm.day.paid}/${pm.day.total} | WC: ${wc.day?.total ?? 'N/A'} | GA4: ${ga4?.totalSessions ?? 'N/A'} sessões | GoogAds(GA4): ${ga4?.googleAds?.week.sessions ?? 0} sess/${ga4?.googleAds?.week.purchases ?? 0} conv | Meta: R$${meta?.week?.spend ?? 'N/A'}`)
 
     // IA em paralelo
     const [seoText, croText] = await Promise.all([
