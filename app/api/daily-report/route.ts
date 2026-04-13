@@ -219,6 +219,40 @@ async function fetchWc() {
   return { day: summarize(dayRaw), week: summarize(weekRaw) }
 }
 
+// ── Meta Ads ──────────────────────────────────────────────────────────────────
+
+async function fetchMetaAds() {
+  const token     = process.env.META_ADS_TOKEN
+  const accountId = process.env.META_ADS_ACCOUNT_ID
+  if (!token || !accountId) return null
+
+  try {
+    const fields = 'spend,impressions,clicks,cpm,cpc,reach,actions'
+    const [week, day] = await Promise.all([
+      fetch(`https://graph.facebook.com/v20.0/${accountId}/insights?fields=${fields}&date_preset=last_7d&access_token=${token}`).then(r => r.json()),
+      fetch(`https://graph.facebook.com/v20.0/${accountId}/insights?fields=${fields}&date_preset=yesterday&access_token=${token}`).then(r => r.json()),
+    ])
+
+    function parse(d: { data?: { spend?: string; impressions?: string; clicks?: string; cpm?: string; cpc?: string; reach?: string; actions?: {action_type:string;value:string}[] }[] }) {
+      const row = d.data?.[0]
+      if (!row) return null
+      const purchases = row.actions?.find((a: {action_type:string}) => a.action_type === 'purchase')?.value ?? '0'
+      return {
+        spend:       +parseFloat(row.spend ?? '0').toFixed(2),
+        impressions: +(row.impressions ?? '0'),
+        clicks:      +(row.clicks ?? '0'),
+        cpm:         +parseFloat(row.cpm ?? '0').toFixed(2),
+        cpc:         +parseFloat(row.cpc ?? '0').toFixed(2),
+        reach:       +(row.reach ?? '0'),
+        purchases:   +purchases,
+        roas:        row.spend && +purchases > 0 ? +((+purchases * 350) / parseFloat(row.spend)).toFixed(2) : 0,
+      }
+    }
+
+    return { week: parse(week), day: parse(day) }
+  } catch { return null }
+}
+
 // ── Google Analytics 4 ───────────────────────────────────────────────────────
 
 async function getGa4Token(): Promise<string | null> {
@@ -460,12 +494,15 @@ Máximo 500 palavras. Seja direto como consultor de e-commerce sênior.
 
 // ── Email HTML ────────────────────────────────────────────────────────────────
 
+type MetaData = Awaited<ReturnType<typeof fetchMetaAds>>
+
 function buildEmail(
   dateStr: string,
   gsc: GscData,
   pm: PagarmeData,
   wc: WcData,
   ga4: Ga4Data,
+  meta: MetaData,
   seoText: string,
   croText: string,
 ): string {
@@ -640,6 +677,28 @@ function buildEmail(
     </p>
   </div>` : ''}
 
+  <!-- Meta Ads -->
+  ${meta?.week ? `
+  <div style="background:#fff;border-radius:12px;padding:20px;margin-bottom:12px;border:1px solid #e2e8f0">
+    <p style="font-size:11px;color:#64748b;margin:0 0 14px;text-transform:uppercase;letter-spacing:.8px;font-weight:600">📘 Meta Ads — últimos 7 dias</p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px">
+      ${[
+        { label: 'Investido', value: `R$${meta.week.spend.toLocaleString('pt-BR',{minimumFractionDigits:2})}` },
+        { label: 'Impressões', value: meta.week.impressions.toLocaleString('pt-BR') },
+        { label: 'Cliques', value: meta.week.clicks.toLocaleString('pt-BR') },
+        { label: 'CPC', value: `R$${meta.week.cpc.toLocaleString('pt-BR',{minimumFractionDigits:2})}` },
+        { label: 'CPM', value: `R$${meta.week.cpm.toLocaleString('pt-BR',{minimumFractionDigits:2})}` },
+        { label: 'Alcance', value: meta.week.reach.toLocaleString('pt-BR') },
+      ].map(k => `<div style="background:#f8fafc;border-radius:8px;padding:10px;text-align:center">
+        <p style="font-size:10px;color:#64748b;margin:0 0 4px;text-transform:uppercase">${k.label}</p>
+        <p style="font-size:17px;font-weight:700;margin:0;color:#1e293b">${k.value}</p>
+      </div>`).join('')}
+    </div>
+    ${meta.day ? `<p style="font-size:12px;color:#64748b;margin:0;text-align:center">
+      Ontem: <strong>R$${meta.day.spend}</strong> investido · <strong>${meta.day.clicks}</strong> cliques · CPC <strong>R$${meta.day.cpc}</strong>
+    </p>` : ''}
+  </div>` : ''}
+
   <!-- Análise SEO — Gemini -->
   <div style="background:#f0fdf4;border-radius:12px;padding:20px;margin-bottom:12px;border:1px solid #86efac">
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
@@ -715,14 +774,15 @@ export async function GET(request: NextRequest) {
     const gscToken = await getGscToken()
     if (!gscToken) console.warn('[daily-report] GSC token não disponível')
 
-    const [gsc, pm, wc, ga4] = await Promise.all([
+    const [gsc, pm, wc, ga4, meta] = await Promise.all([
       gscToken ? fetchGsc(gscToken) : Promise.resolve(null),
       fetchPagarme(),
       fetchWc(),
       fetchGa4(),
+      fetchMetaAds(),
     ])
 
-    console.log(`[daily-report] Dados coletados — GSC: ${gsc?.week.clicks ?? 'N/A'} | Pagar.me: ${pm.day.paid}/${pm.day.total} | WC: ${wc.day?.total ?? 'N/A'} | GA4: ${ga4?.totalSessions ?? 'N/A'} sessões`)
+    console.log(`[daily-report] Dados coletados — GSC: ${gsc?.week.clicks ?? 'N/A'} | Pagar.me: ${pm.day.paid}/${pm.day.total} | WC: ${wc.day?.total ?? 'N/A'} | GA4: ${ga4?.totalSessions ?? 'N/A'} sessões | Meta: R$${meta?.week?.spend ?? 'N/A'}`)
 
     // IA em paralelo
     const [seoText, croText] = await Promise.all([
@@ -732,7 +792,7 @@ export async function GET(request: NextRequest) {
 
     console.log('[daily-report] Análises de IA geradas')
 
-    const html = buildEmail(dateStr, gsc!, pm, wc, ga4, seoText, croText)
+    const html = buildEmail(dateStr, gsc!, pm, wc, ga4, meta, seoText, croText)
     const subject = `📊 Jaleca ${today.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'})} — ${pm.day.paid} pedidos aprovados · R$${pm.day.revenue.toFixed(0)} · ${pm.day.convRate}% conv`
 
     const emailResult = await sendEmail(subject, html)
