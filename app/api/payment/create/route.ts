@@ -109,18 +109,15 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Um ou mais itens do carrinho estão sem preço cadastrado. Por favor, entre em contato com o suporte.' }, { status: 400 })
     }
 
-    // ── SECURITY: Validar preços contra WooCommerce ───────────────────────────
-    for (const item of items) {
+    // ── SECURITY: Validar preços contra WooCommerce (paralelo) ───────────────
+    const priceChecks = await Promise.all(items.map(async item => {
       const productRes = await fetch(`${WC_API}/products/${item.product_id}`, {
         headers: { Authorization: wcAuth() },
         cache: 'no-store',
       })
-      if (!productRes.ok) {
-        return NextResponse.json({ error: `Erro ao verificar preço do produto ${item.product_id}` }, { status: 400 })
-      }
+      if (!productRes.ok) return { ok: false as const, name: item.name, error: 'fetch_failed' }
       const product = await productRes.json()
 
-      // Get the correct price (considering variation if applicable)
       let correctPrice = parseFloat(product.price || '0')
 
       if (item.variation_id) {
@@ -141,8 +138,17 @@ export async function POST(request: NextRequest) {
 
       if (!priceOk) {
         console.error(`[payment/create] SECURITY: Price mismatch for ${item.name}: sent=${sentPrice}, correct=${correctPrice}`)
-        return NextResponse.json({ error: 'Preço do carrinho expirou. Recarregue a página e tente novamente.' }, { status: 400 })
       }
+      return { ok: priceOk, name: item.name, sent: sentPrice, correct: correctPrice }
+    }))
+
+    const failedFetch = priceChecks.find(c => !c.ok && 'error' in c && c.error === 'fetch_failed')
+    if (failedFetch) {
+      return NextResponse.json({ error: `Erro ao verificar preço do produto ${failedFetch.name}` }, { status: 400 })
+    }
+    const priceMismatch = priceChecks.find(c => !c.ok)
+    if (priceMismatch) {
+      return NextResponse.json({ error: 'Preço do carrinho expirou. Recarregue a página e tente novamente.' }, { status: 400 })
     }
 
     // ── SECURITY: Calcular desconto PIX corretamente no servidor ──────────────

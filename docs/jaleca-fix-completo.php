@@ -2,11 +2,79 @@
 /**
  * Plugin Name: Jaleca Fix - Create Users
  * Description: Endpoint customizado para criacao de clientes e reset de senha
- * Version: 2.1
+ * Version: 2.3
  */
 
 // Chave secreta — deve ser igual a variavel JALECA_REGISTER_SECRET no Vercel
 define('JALECA_REGISTER_SECRET', 'jaleca-register-secret-2026');
+
+// ── Suprimir emails padrão do WordPress ao criar novo usuário ────────────────
+// O Jaleca Next.js envia seus próprios emails via Brevo — os emails padrão do
+// WP são feios, sem layout e mencionam o admin. Suprimidos aqui para evitar duplicatas.
+add_filter('wp_new_user_notification_email', '__return_empty_array');
+add_filter('wp_new_user_notification_email_admin', '__return_empty_array');
+
+// ── Endpoint de login — retorna JWT + user_id explícito ──────────────────────
+// Necessário porque o WP JWT Auth plugin não retorna user_id no corpo da resposta.
+add_action('rest_api_init', function() {
+    register_rest_route('jaleca/v1', '/login', array(
+        'methods'             => 'POST',
+        'callback'            => 'jaleca_login',
+        'permission_callback' => '__return_true',
+    ));
+});
+
+function jaleca_login(WP_REST_Request $request) {
+    $username = sanitize_text_field($request->get_param('username'));
+    $password = $request->get_param('password');
+
+    if (!$username || !$password) {
+        return new WP_Error('missing', 'Username e password obrigatorios', array('status' => 400));
+    }
+
+    // Authenticate — accept both email and username
+    $user = is_email($username)
+        ? get_user_by('email', $username)
+        : get_user_by('login', $username);
+
+    if (!$user || !wp_check_password($password, $user->data->user_pass, $user->ID)) {
+        return new WP_Error('invalid_credentials', 'E-mail ou senha incorretos', array('status' => 401));
+    }
+
+    // Generate JWT via WP JWT Auth plugin (if active)
+    $token = '';
+    if (function_exists('JWT_AUTH')) {
+        // Trigger JWT Auth token generation
+        $tokenData = apply_filters('jwt_auth_token_before_dispatch', array(), $user);
+        if (!empty($tokenData['token'])) {
+            $token = $tokenData['token'];
+        }
+    }
+
+    // Fallback: generate via JWT Auth REST endpoint programmatically
+    if (!$token) {
+        $jwt_response = rest_do_request(
+            (new WP_REST_Request('POST', '/jwt-auth/v1/token'))
+                ->set_body_params(array('username' => $user->user_login, 'password' => $password))
+        );
+        if (!is_wp_error($jwt_response) && $jwt_response->get_status() === 200) {
+            $jwt_data = $jwt_response->get_data();
+            $token = $jwt_data['token'] ?? '';
+        }
+    }
+
+    if (!$token) {
+        return new WP_Error('token_failed', 'Nao foi possivel gerar token', array('status' => 500));
+    }
+
+    return rest_ensure_response(array(
+        'token'              => $token,
+        'user_id'            => $user->ID,
+        'user_email'         => $user->user_email,
+        'user_display_name'  => $user->display_name,
+        'user_nicename'      => $user->user_nicename,
+    ));
+}
 
 add_action('rest_api_init', function() {
     register_rest_route('jaleca/v1', '/create-customer', array(

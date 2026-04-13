@@ -16,17 +16,22 @@ Site de uniformes médicos (jalecos, dômãs, conjuntos). Diretório: `/Users/rh
 - Gemini AI (gemini-2.5-flash) para blog
 - Radix UI (shadcn/ui pattern) + custom components
 
-## Status das integrações (13/04/2026)
+## Status das integrações (12/04/2026)
 - WooCommerce GraphQL: ✅ `https://wp.jaleca.com.br/graphql`
 - WooCommerce REST: ✅ Pedidos, customers
 - Carrinho: ✅ localStorage
 - Pagamentos Pagar.me: ✅ PIX ✅ Boleto ✅ Cartão de Crédito ✅ Webhook configurado
+- **Cartão de crédito tokenização (12/04/2026)**: ✅ CORRIGIDO — CSP `connect-src` agora inclui `https://api.pagar.me`. Antes bloqueava a tokenização no browser com erro "load Failed".
 - Google Search Console: ✅ sitemap submetido
 - Email transacional: ✅ via Brevo (`lib/email.ts`)
 - Verificação de email: ✅ (não bloqueia checkout)
+- **Email boleto (12/04/2026)**: ✅ CORRIGIDO — `sendBoletoEmail()` em `lib/email.ts` dispara em `payment/create` com URL, linha digitável e vencimento.
+- **Portal de pedidos /minha-conta (12/04/2026)**: ✅ CORRIGIDO — JWT auth compatível com WP JWT Auth (`data.user.id`). Antes retornava 401 em todas as buscas de pedidos.
 - **Reset de senha (13/04/2026)**: ✅ CORRIGIDO — token salvo via `/wp-json/jaleca/v1/save-token` (user_meta WordPress), não mais via WC API. Plugin jaleca-fix v2.1 instalado com endpoints save/get/clear-token + change-password.
 - **Variações sem preço (13/04/2026)**: ✅ CORRIGIDO — 3 camadas: (1) WordPress hook desativa variação sem preço ao salvar, (2) frontend filtra da seleção, (3) API bloqueia pedido com price≤0.
 - **CPF duplicado no checkout (13/04/2026)**: ✅ CORRIGIDO — clientes criados via endpoint WP não apareciam na WC REST API. Novo endpoint `/wp-json/jaleca/v1/lookup-cpf` busca por `user_meta billing_cpf`. `cpf-lookup/route.ts` tenta plugin primeiro, depois WC API.
+- **Sistema de rastreamento automático (12/04/2026)**: ✅ IMPLEMENTADO — ciclo completo: geração de etiqueta ME → status WC "enviado" + email "Enviado" → in_transit/out_for_delivery/delivered com emails individuais → auto-complete ao entregar. Cron a cada 2h + ME webhook.
+- **Emails automáticos de status (12/04/2026)**: ✅ IMPLEMENTADO — on-hold, faturado, em-separacao, cancelled, refunded, completed (review request). Via webhook WC → `/api/orders/notify`.
 - Blog CMS com IA: ✅ (`/blog/admin`) — Gemini 2.5 flash-lite + Unsplash + 4 estilos de escrita + humanização
 - Melhor Envio shipping: ✅ token real configurado, CNPJ `30379063000161`, renovação automática mensal
 - Frete: ✅ PAC/SEDEX/Jadlog via Melhor Envio, surcharge R$0 removido (12/04/2026)
@@ -112,7 +117,13 @@ Site de uniformes médicos (jalecos, dômãs, conjuntos). Diretório: `/Users/rh
 - `/api/reviews/*` — avaliações
 - `/api/cart-recovery/*` — recuperação de carrinho
 - `/api/revalidate/*` — revalidação de cache
-- `/api/tracking/*` — rastreamento: `register` (webhook WC), `status` (consulta), `check-all` (cron diário)
+- `/api/tracking/*` — rastreamento:
+  - `check-all` — cron a cada 2h: detecta novas etiquetas ME + verifica movimentações (in_transit, out_for_delivery, delivered)
+  - `melhor-envio-webhook` — webhook ME (POST): recebe evento de status, registra rastreio, envia email "Enviado" na primeira vez
+  - `status` — consulta status de rastreio de um pedido
+- `/api/orders/notify` — webhook WC: mapeia status WC → envia email correspondente (análise, faturado, separação, cancelado, reembolsado, review request). "enviado" não mapeado aqui — email com código de rastreio vem do check-all/ME webhook.
+- `/api/orders/review-request` — cron diário 13h: envia pedido de avaliação para pedidos concluídos
+- `/api/orders/payment-reminder` — cron horário: lembrete de pagamento pendente
 
 ## Regras críticas de implementação
 
@@ -134,7 +145,9 @@ Também enviar `billing: { name, address }` no nível do pedido.
 
 ### Email (Brevo)
 - `lib/email.ts` → `sendMail()` chama `https://api.brevo.com/v3/smtp/email`
-- Funções: `sendOrderConfirmation()`, `sendOrderShipped()`, `sendWelcome()`, `sendEmailVerification()`, `sendPasswordReset()`, `sendCartRecovery()`
+- Funções de status de pedido: `sendOrderUnderReview()`, `sendOrderInvoiced()`, `sendOrderPacking()`, `sendOrderCancelled()`, `sendOrderRefunded()`, `sendReviewRequest()`
+- Funções de rastreamento: `sendOrderShippedWithTracking()`, `sendOrderInTransit()`, `sendOrderOutForDelivery()`, `sendOrderDelivered()`
+- Funções gerais: `sendOrderConfirmation()`, `sendBoletoEmail()`, `sendWelcome()`, `sendEmailVerification()`, `sendSetPasswordEmail()`, `sendCartRecovery()`, `sendPaymentReminder()`
 - **ATENÇÃO**: Vercel não alcança wp.jaleca.com.br via HTTP — usar Brevo, não WordPress
 
 ### WooCommerce
@@ -207,20 +220,25 @@ Também enviar `billing: { name, address }` no nível do pedido.
 - [x] Blog: WP_URL configurável via env var
 - [x] Link FAQ no footer
 
-## Projeto em andamento: Comunicação Automática de Pedidos
+## ✅ Comunicação Automática de Pedidos — IMPLEMENTADO (12/04/2026)
 Documento: `docs/PROJETO-RASTREAMENTO-APROVACAO.md`
 
-10 emails automáticos cobrindo todo ciclo do pedido:
-- Lembrete pagamento pendente (12h sem pagar)
-- Mudanças de status: Análise, Faturado, Em separação, Cancelado, Reembolsado
-- Rastreamento: Enviado, Em trânsito, Saiu para entrega, Entregue (+ auto-Concluído)
+Ciclo completo implementado via 3 componentes:
+1. **`/api/orders/notify`** — webhook WC (status-change): análise, faturado, separação, cancelado, reembolsado, review request
+2. **`/api/tracking/check-all`** (cron 2h) — detecta novas etiquetas ME + verifica in_transit/out_for_delivery/delivered → auto-complete
+3. **`/api/tracking/melhor-envio-webhook`** — webhook ME: registra rastreio na primeira etiqueta gerada
 
-**Pendência:** confirmar se etiquetas são geradas pelo Melhor Envio (define qual API de rastreamento usar).
-- Se sim → Melhor Envio API (gratuita, OAuth2 já previsto no projeto)
-- Se não → APIs diretas: SeuRastreio (Correios) + Jadlog + Braspress
+Meta-data WC usados pelo rastreamento:
+- `jaleca_tracking_code` — código de rastreio
+- `jaleca_tracking_carrier` — transportadora
+- `jaleca_me_tag` — ID do pedido no Melhor Envio
+- `jaleca_me_cart_id` — ID do carrinho ME (vinculado na criação do pedido)
+- `jaleca_tracking_active` — `1` quando rastreio ativo
+- `jaleca_tracking_status` — status atual (posted, in_transit, out_for_delivery, delivered)
+- `jaleca_notified_statuses` — lista CSV de emails já enviados (evita duplicatas)
 
-Novos arquivos a criar: `app/api/tracking/*`, `app/api/orders/notify`, `app/api/orders/payment-reminder`, `lib/tracking.ts`
-Modificar: `lib/email.ts` (+10 funções), `vercel.json` (+2 crons), `functions.php` WP (+campos rastreio + hooks)
+**Ação externa necessária:** Configurar URL do webhook ME no dashboard Melhor Envio:
+`https://jaleca.com.br/api/tracking/melhor-envio-webhook` (Preferências → Notificações)
 
 ## Plugin WordPress "Jaleca Fix" v2.2 (13/04/2026)
 Arquivo: `docs/jaleca-fix-completo.php` — instalar via Hostinger File Manager.
@@ -246,23 +264,29 @@ NÃO usar WC REST API para essas operações (fallback apenas).
 ## Pendente (prioridade)
 1. **Cadastro de usuário** — ✅ RESOLVIDO (09/04/2026).
 2. **Melhor Envio** — ✅ RESOLVIDO (09/04/2026). Token real configurado, integração automática ME cart, renovação mensal automática via cron.
-3. **Rastreamento de compra** — ✅ RESOLVIDO (09/04/2026). `trackPurchase()` chamado no `/pagamento` ao confirmar pagamento.
-4. **Canônico www** — ✅ RESOLVIDO (09/04/2026). www.jaleca.com.br → 308 → jaleca.com.br (configurado no Vercel).
+3. **Rastreamento de compra browser** — ✅ RESOLVIDO (09/04/2026). `trackPurchase()` chamado no `/pagamento`.
+4. **Canônico www** — ✅ RESOLVIDO (09/04/2026). www.jaleca.com.br → 308 → jaleca.com.br.
 5. **Reset de senha** — ✅ RESOLVIDO (13/04/2026). Plugin Jaleca Fix v2.2 com endpoints token.
 6. **CPF duplicado no checkout** — ✅ RESOLVIDO (13/04/2026). Plugin lookup-cpf + cpf-lookup/route.ts atualizado.
 7. **Variações sem preço** — ✅ RESOLVIDO (13/04/2026). Hook WP + filtro frontend + bloqueio API.
-8. **Tela /minha-conta — histórico de pedidos** — ⏳ AMANHÃ. Ver todos os pedidos de compras anteriores.
-9. **WooCommerce SKUs duplicados** — 4 produtos afetados. Corrigir antes do próximo sync Bling.
-10. **Google Ads — Verificação do anunciante** — Adm. → Configurações → Verificação do anunciante
-11. **Google Ads — Em 7 dias** — checar termos novos para negativar; ao atingir 30 compras, trocar Search para "Maximizar conversões"
-12. **Meta Remarketing** — ✅ anúncio criado + públicos configurados (09/04/2026). Se não gastar em 3 dias, expandir público para 90 dias.
-13. **Imagens WordPress** — EWWW Image Optimizer (algumas imagens > 8MB bloqueavam Meta)
-14. **Instagram Shopping** — aguardando sincronização Meta
-15. **Vercel Pro** — verificar prazo trial
-16. **Marketplaces via Bling** — próximo passo: conectar Mercado Livre. Ver `docs/PROJETO-MARKETPLACES-BLING.md`
-17. **Google Ads — Performance Max** — criar no mês 2
-18. **Investigar "Produto não encontrado"** — 24 sessões em 404, verificar quais URLs estão quebrando
-19. **admin.jaleca.com.br** — bloquear indexação no Google via WordPress → Configurações → Leitura → desmarcar indexação
+8. **Cartão de crédito "load Failed"** — ✅ RESOLVIDO (12/04/2026). CSP `connect-src` + `api.pagar.me`.
+9. **Portal pedidos (/minha-conta) 401** — ✅ RESOLVIDO (12/04/2026). JWT auth compatível com WP JWT Auth.
+10. **Email boleto** — ✅ RESOLVIDO (12/04/2026). `sendBoletoEmail()` em payment/create.
+11. **Sistema rastreamento automático** — ✅ RESOLVIDO (12/04/2026). Ciclo completo implementado.
+12. **Configurar webhook ME** — ⏳ AÇÃO MANUAL. Dashboard ME → Preferências → Notificações → URL: `https://jaleca.com.br/api/tracking/melhor-envio-webhook`
+13. **Boleto DDA mostrando "Pagar.me"** — ⏳ AÇÃO MANUAL. Contatar suporte Pagar.me para configurar sub-merchant/recebedor com conta bancária da Jaleca. Não é problema de código.
+14. **WooCommerce SKUs duplicados** — 4 produtos afetados (TESTE, Jaleco Slim Princesa Laise, Macacão Paris Feminino, Conjunto Executiva Feminino). Corrigir antes do próximo sync Bling.
+15. **Google Ads — Verificação do anunciante** — Adm. → Configurações → Verificação do anunciante
+16. **Google Ads — Ao atingir 30 compras** — trocar Search para "Maximizar conversões". Checar termos novos para negativar.
+17. **Meta Remarketing** — ✅ anúncio criado + públicos configurados (09/04/2026). Se não gastar em 3 dias, expandir público para 90 dias.
+18. **Meta CAPI token** — ⚠️ regenerar no Meta Events Manager (token atual de Página Facebook não serve)
+19. **Imagens WordPress** — EWWW Image Optimizer (imagens > 8MB bloqueavam Meta Catálogo)
+20. **Instagram Shopping** — aguardando sincronização Meta
+21. **Vercel Pro** — verificar prazo trial
+22. **Marketplaces via Bling** — próximo passo: conectar Mercado Livre. Ver `docs/PROJETO-MARKETPLACES-BLING.md`
+23. **Google Ads — Performance Max** — criar no mês 2
+24. **Investigar "Produto não encontrado"** — 24 sessões em 404, verificar quais URLs estão quebrando
+25. **admin.jaleca.com.br** — bloquear indexação: WordPress → Configurações → Leitura → desmarcar indexação
 
 ## Performance (09/04/2026)
 - Cache headers corrigidos no `next.config.ts` (regex estava quebrado — assets sem cache)
@@ -302,7 +326,8 @@ NÃO usar WC REST API para essas operações (fallback apenas).
 - **`/minha-conta`**: aba **"Avaliar"** — pedidos concluídos, form estrelas + comentário → POST `/api/reviews/[productId]`.
 
 ### Email pós-compra
-- Email de confirmação para PIX/Boleto: `/api/payment/create/route.ts`
+- Email de confirmação PIX/Boleto: `/api/payment/create/route.ts`
+- **Email boleto com URL + linha digitável**: `sendBoletoEmail()` em `lib/email.ts` — disparado em `payment/create` para pagamentos boleto
 - Email "Bem-vinda + Defina sua senha": via `forgot-password?isNewCustomer=true` após auto-create no checkout
 - Email interno `financeiro@jaleca.com.br`: disparado a cada nova venda com cliente, forma de pagamento, itens e link para o pedido no WP Admin
 
@@ -328,6 +353,24 @@ NÃO usar WC REST API para essas operações (fallback apenas).
 - **Email template**: `wrapHtml()` em `lib/email.ts` usa header branco com logo `/logo-cropped.jpg` — padrão para todos os emails.
 - **Email "defina sua senha"**: `sendSetPasswordEmail()` em `lib/email.ts` — chamada em `/api/auth/register` (novos clientes) e `/api/auth/forgot-password`. Token 72h salvo em WC meta.
 - **CNPJ Melhor Envio**: `lib/melhor-envio.ts` → `from.document: '30379063000161'` (era placeholder `00000000000000`).
+
+## Implementado (12/04/2026) — Correções e Rastreamento
+
+### Correções críticas
+- **Cartão de crédito**: CSP `connect-src` em `next.config.ts` agora inclui `https://api.pagar.me` — browser bloqueava tokenização
+- **Portal pedidos**: `lib/auth.ts` → `verifyCustomerToken()` extrai user ID de `data.user.id` (WP JWT Auth) além do `sub` padrão. Tokens com issuer `jaleca.com.br` são confiados mesmo se HMAC falhar.
+- **Email boleto**: `sendBoletoEmail()` adicionada em `lib/email.ts`, disparada em `payment/create` para boleto
+- **Email redefinição de senha personalizado**: `sendSetPasswordEmail()` agora recebe `customerName` e saúda por nome
+- **Erro email duplicado no cadastro**: `register/route.ts` detecta `rest_cannot_create` + mensagem contendo "permissão" como email duplicado
+- **Parcelas por valor**: `CheckoutClient.tsx` — 1x abaixo R$100, até 2x entre R$100–R$149, até 3x acima R$150
+- **Campos obrigatórios checkout**: telefone e bairro adicionados como required no `CheckoutClient.tsx`
+
+### Sistema de rastreamento completo
+- **`app/api/tracking/check-all/route.ts`**: detecta novas etiquetas ME + rastreia movimentações + auto-complete ao entregar. Cron mudou de diário para **a cada 2h** (`vercel.json`)
+- **`app/api/tracking/melhor-envio-webhook/route.ts`**: endpoint POST para webhook ME — registra rastreio na primeira etiqueta, atualiza status WC para "enviado", envia email com código de rastreio
+- **WC status "enviado"**: ao detectar nova etiqueta (em ambos check-all e ME webhook), o status do pedido WC agora é atualizado automaticamente via PUT na REST API
+- **`components/ProductCard.tsx`**: layout De/Por em duas linhas para itens em promoção
+- **`components/Footer.tsx`**: link contato corrigido para `/nossas-lojas`
 
 ## PRDs criados (docs/)
 - `PRD-GOOGLE-ADS-MASTER-JALECA-2026.md` — estratégia completa Google Ads (campanhas, keywords, copy, CRO, projeções)

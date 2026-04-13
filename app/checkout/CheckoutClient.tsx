@@ -185,16 +185,47 @@ export default function CheckoutClient() {
   }, [])
 
   useEffect(() => {
-    if (isLoggedIn && user) {
-      const [first, ...rest] = user.name.split(' ')
-      setAddress(prev => ({
-        ...prev,
-        first_name: first || '',
-        last_name: rest.join(' '),
-        email: user.email,
-      }))
-    }
-  }, [isLoggedIn, user])
+    if (!isLoggedIn || !user) return
+    const [first, ...rest] = user.name.split(' ')
+    setAddress(prev => ({
+      ...prev,
+      first_name: first || '',
+      last_name: rest.join(' '),
+      email: user.email,
+    }))
+
+    // Pre-fill address + phone from last order
+    fetch(`/api/orders?customerId=${user.id}`, {
+      headers: { Authorization: `Bearer ${user.token}` },
+    })
+      .then(r => r.ok ? r.json() : null)
+      .then((orders: Array<{ billing?: { first_name?: string; last_name?: string; address_1?: string; address_2?: string; city?: string; state?: string; postcode?: string; phone?: string } }> | null) => {
+        if (!Array.isArray(orders) || orders.length === 0) return
+        const b = orders[0]?.billing
+        if (!b) return
+        // billing.address_2 in WC = bairro (neighborhood), see payment/create
+        // billing.address_1 = "Rua X, 123" — split on last comma to recover street + number
+        const parts = (b.address_1 || '').split(',')
+        const street = parts.slice(0, -1).join(',').trim() || b.address_1 || ''
+        const number = parts[parts.length - 1]?.trim() || ''
+        setAddress(prev => ({
+          ...prev,
+          address_1:    street || prev.address_1,
+          address_2:    number || prev.address_2,
+          neighborhood: b.address_2 || prev.neighborhood,
+          city:         b.city || prev.city,
+          state:        b.state || prev.state,
+          postcode:     b.postcode ? formatCEP(b.postcode) : prev.postcode,
+          phone:        b.phone || prev.phone,
+        }))
+        if (b.postcode) {
+          const cleanCep = b.postcode.replace(/\D/g, '')
+          setCalculatedCep(cleanCep)
+        }
+      })
+      .catch(() => {})
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoggedIn, user?.id])
 
   async function lookupCEP(cep: string) {
     const clean = cep.replace(/\D/g, '')
@@ -544,7 +575,7 @@ export default function CheckoutClient() {
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-8 lg:gap-12 items-start">
             {/* Right column: Upsell + Order summary */}
-            <aside className="space-y-6 lg:col-start-2 lg:row-start-1">
+            <aside className="space-y-6 lg:col-start-2 lg:row-start-1 order-last lg:order-none">
             {/* Upsell / cross-sell */}
             {upsellProducts.length > 0 && (
               <div className="border border-border p-5">
@@ -919,7 +950,15 @@ export default function CheckoutClient() {
                       id="addr-phone"
                       type="tel"
                       value={address.phone}
-                      onChange={e => setAddress(p => ({ ...p, phone: e.target.value }))}
+                      onChange={e => {
+                        const digits = e.target.value.replace(/\D/g, '').slice(0, 11)
+                        let masked = digits
+                        if (digits.length > 10) masked = `(${digits.slice(0,2)}) ${digits.slice(2,7)}-${digits.slice(7)}`
+                        else if (digits.length > 6) masked = `(${digits.slice(0,2)}) ${digits.slice(2,6)}-${digits.slice(6)}`
+                        else if (digits.length > 2) masked = `(${digits.slice(0,2)}) ${digits.slice(2)}`
+                        else if (digits.length > 0) masked = `(${digits}`
+                        setAddress(p => ({ ...p, phone: masked }))
+                      }}
                       placeholder="(11) 99999-0000"
                       autoComplete="tel"
                       className={fieldClass(address.phone)}
