@@ -575,7 +575,7 @@ export default function CheckoutClient() {
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-8 lg:gap-12 items-start">
             {/* Right column: Upsell + Order summary */}
-            <aside className="space-y-6 lg:col-start-2 lg:row-start-1 order-last lg:order-none">
+            <aside className="space-y-6 lg:col-start-2 lg:row-start-1 order-2 lg:order-none">
             {/* Upsell / cross-sell */}
             {upsellProducts.length > 0 && (
               <div className="border border-border p-5">
@@ -718,7 +718,7 @@ export default function CheckoutClient() {
             </aside>
 
             {/* Left column */}
-            <div className="space-y-8 lg:col-start-1 lg:row-start-1">
+            <div className="space-y-8 lg:col-start-1 lg:row-start-1 order-1 lg:order-none">
               {/* Section 1: Identification */}
               <section className="border border-border p-6">
                 <h2 className="font-display text-xl font-semibold mb-4 flex items-center gap-2">
@@ -1187,6 +1187,10 @@ export default function CheckoutClient() {
                 </div>
               </section>
 
+            </div>
+
+            {/* Submit row: order-3 on mobile (after summary), col-1 on desktop */}
+            <div className="order-3 lg:col-start-1 space-y-4">
               {error && (
                 <div
                   role="alert"

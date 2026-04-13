@@ -14,6 +14,12 @@ define('JALECA_REGISTER_SECRET', 'jaleca-register-secret-2026');
 add_filter('wp_new_user_notification_email',       '__return_empty_array');
 add_filter('wp_new_user_notification_email_admin', '__return_empty_array');
 
+// ── Suprimir email "Sua senha foi alterada" do WordPress ──────────────────────
+// WP dispara wp_password_change_notification() ao chamar wp_set_password().
+// Esse email usa username interno e email do admin WP — feio e incorreto.
+// O Jaleca envia o próprio email bonito via Brevo.
+add_filter('send_password_change_email', '__return_false');
+
 add_action('rest_api_init', function() {
     register_rest_route('jaleca/v1', '/create-customer', array(
         'methods'             => 'POST',
