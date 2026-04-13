@@ -511,8 +511,18 @@ export async function POST(request: NextRequest) {
     }
     if (paymentMethod === 'credit_card') {
       response.cardStatus = charge?.status
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      response.cardMessage = (tx as any)?.acquirer_message
+      // Derive a user-friendly message from charge status — never use acquirer_message
+      // directly because Pagar.me returns "Transação aprovada" even on anti-fraud denials.
+      if (charge?.status !== 'paid') {
+        const acquirerMsg = ((tx as any)?.acquirer_message || '').toLowerCase()
+        if (/fundos|insufficient|saldo insuficiente/.test(acquirerMsg)) {
+          response.cardMessage = 'Saldo insuficiente. Tente outro cartão ou use PIX.'
+        } else if (/bloqueado|blocked|restricted/.test(acquirerMsg)) {
+          response.cardMessage = 'Cartão bloqueado. Verifique com seu banco ou use PIX.'
+        } else {
+          response.cardMessage = 'Pagamento não autorizado. Tente outro cartão ou use PIX.'
+        }
+      }
     }
 
     return NextResponse.json(response, { status: 201 })
