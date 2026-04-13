@@ -742,6 +742,7 @@ export async function GET(request: NextRequest) {
       ok: true,
       date: dateStr,
       gsc: gsc ? { clicks: gsc.week.clicks, position: gsc.week.position } : null,
+      ga4: ga4 ? { sessions: ga4.totalSessions, purchase: ga4.funnel.purchase, addToCart: ga4.funnel.addToCart, convRate: ga4.totalSessions ? +((ga4.funnel.purchase/ga4.totalSessions)*100).toFixed(2) : 0 } : null,
       pagarme: { paid: pm.day.paid, total: pm.day.total, revenue: pm.day.revenue },
       wc: wc.day ? { orders: wc.day.total, revenue: wc.day.revenue } : null,
       emailSent: !!emailResult.messageId,
