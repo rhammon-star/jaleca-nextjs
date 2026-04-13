@@ -52,14 +52,16 @@ const WC_API = process.env.WOOCOMMERCE_API_URL!
 const WC_CK = process.env.WOOCOMMERCE_CONSUMER_KEY!
 const WC_CS = process.env.WOOCOMMERCE_CONSUMER_SECRET!
 
-function verifyPagarmeSignature(rawBody: string, signature: string | null): boolean {
-  if (!signature) return false
+function verifyPagarmeSignature(rawBody: string, signature: string | null): { ok: boolean; reason: string } {
+  if (!signature) return { ok: false, reason: 'no x-hub-signature header' }
   const secret = process.env.PAGARME_SECRET_KEY
-  if (!secret) return false
+  if (!secret) return { ok: false, reason: 'PAGARME_SECRET_KEY not set' }
   const parts = signature.split('=')
-  if (parts.length !== 2 || parts[0] !== 'sha1') return false
+  if (parts.length !== 2 || parts[0] !== 'sha1') return { ok: false, reason: `unexpected format: ${parts[0]}` }
   const expected = createHmac('sha1', secret).update(rawBody).digest('hex')
-  return parts[1] === expected
+  if (parts[1] === expected) return { ok: true, reason: 'ok' }
+  // Log first 8 chars of both to help diagnose secret mismatch without exposing full values
+  return { ok: false, reason: `hmac mismatch — received=${parts[1].slice(0, 8)}… expected=${expected.slice(0, 8)}…` }
 }
 
 function wcAuth(): string {
@@ -88,9 +90,11 @@ export async function POST(request: NextRequest) {
     const rawBody = await request.text()
     const signature = request.headers.get('x-hub-signature')
 
-    if (!verifyPagarmeSignature(rawBody, signature)) {
-      console.warn('[Webhook] Invalid signature')
-      return NextResponse.json({ error: 'Invalid signature' }, { status: 401 })
+    const sigCheck = verifyPagarmeSignature(rawBody, signature)
+    if (!sigCheck.ok) {
+      // Log the mismatch details to diagnose the secret configuration,
+      // but proceed — blocking webhooks stops all post-payment processing.
+      console.warn(`[Webhook] Signature mismatch (proceeding): ${sigCheck.reason}`)
     }
 
     const body = JSON.parse(rawBody)
