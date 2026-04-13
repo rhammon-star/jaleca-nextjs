@@ -213,6 +213,53 @@ export default async function ProdutoPage({
     }),
   }
 
+  const faqJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'Pode lavar jaleco na máquina de lavar?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Sim! A maioria dos jalecos suporta lavagem em máquina doméstica. Use água fria ou morna, ciclo delicado ou roupas brancas, e detergente líquido neutro. Evite alvejante com cloro para não amarelar o tecido.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Como evitar que o jaleco branco amarelar?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Evite alvejante com cloro (causa amarelamento em poliéster), lave logo após o uso, seque à sombra e não use ferro em temperatura muito alta. Use bicarbonato de sódio no sabão para potencializar a brancura.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Como escolher o tamanho certo do jaleco?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Meça o busto, cintura e quadril e consulte a tabela de medidas da Jaleca. Os modelos slim ficam mais ajustados ao corpo; os clássicos têm corte mais reto. Em caso de dúvida entre dois tamanhos, escolha o maior para maior conforto.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Os jalecos da Jaleca têm elastano?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Alguns modelos possuem elastano na composição do tecido, oferecendo maior mobilidade e conforto para quem trabalha em movimento. Confira a descrição de cada produto para detalhes sobre a composição do tecido.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Qual a diferença entre jaleco de gabardine e oxford?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'O gabardine é mais leve, fresco e resistente a amassados — ideal para quem trabalha em ambientes quentes. O oxford é mais encorpado e resistente, com acabamento diferenciado. Ambos são duráveis e de fácil lavagem.',
+        },
+      },
+    ],
+  }
+
   return (
     <>
       <script
@@ -222,6 +269,10 @@ export default async function ProdutoPage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd).replace(/</g, '\\u003c') }}
       />
       <ProductDetailClient
         product={product as Parameters<typeof ProductDetailClient>[0]['product']}
