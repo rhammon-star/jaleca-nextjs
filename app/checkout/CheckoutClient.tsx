@@ -519,6 +519,7 @@ export default function CheckoutClient() {
         },
         customer_id: resolvedCustomerId,
         cardToken,
+        cardHolderName: paymentMethod === 'credit_card' ? cardName.trim() : undefined,
         installments,
         couponCode: couponCode || undefined,
         totalDiscount: couponDiscount + pixDiscount,

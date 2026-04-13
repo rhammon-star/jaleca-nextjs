@@ -58,6 +58,7 @@ type RequestBody = {
   totalDiscount?: number
   pixDiscount?: number
   sessionId?: string
+  cardHolderName?: string
 }
 
 function phoneNumbers(phone: string): { area_code: string; number: string } {
@@ -93,7 +94,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const body: RequestBody = await request.json()
-    const { paymentMethod, cpf, billing, items, shipping, customer_id, cardToken, installments, couponCode, totalDiscount, pixDiscount, sessionId } = body
+    const { paymentMethod, cpf, billing, items, shipping, customer_id, cardToken, installments, couponCode, totalDiscount, pixDiscount, sessionId, cardHolderName } = body
 
     if (!billing || !items?.length || !shipping) {
       return NextResponse.json({ error: 'Dados incompletos' }, { status: 400 })
@@ -299,7 +300,8 @@ export async function POST(request: NextRequest) {
         items: pagarmeItems,
         shipping: shippingParam,
         billingAddress: address,
-        billingName: `${billing.first_name} ${billing.last_name}`.trim(),
+        // Use card holder name typed at checkout — avoids anti-fraud when card belongs to different person
+        billingName: (cardHolderName || `${billing.first_name} ${billing.last_name}`).trim(),
         cardToken: cardToken!,
         installments: installments || 1,
         metadata,
