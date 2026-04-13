@@ -515,7 +515,14 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(response, { status: 201 })
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Erro ao processar pagamento'
+    let message = error instanceof Error ? error.message : 'Erro ao processar pagamento'
+    // Traduzir erros comuns do WooCommerce que chegam em inglês
+    if (/coupon usage limit/i.test(message))        message = 'Este cupom já atingiu o limite de uso.'
+    if (/coupon.*already been used/i.test(message)) message = 'Você já utilizou este cupom anteriormente.'
+    if (/coupon.*not applicable/i.test(message))    message = 'Este cupom não é válido para os produtos selecionados.'
+    if (/coupon.*expired/i.test(message))           message = 'Este cupom está expirado.'
+    if (/coupon.*minimum spend/i.test(message))     message = 'O valor mínimo para usar este cupom não foi atingido.'
+    if (/invalid coupon/i.test(message))            message = 'Cupom inválido.'
     console.error('[Payment] Error:', message)
     return NextResponse.json({ error: message }, { status: 400 })
   }

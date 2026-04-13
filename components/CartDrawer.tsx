@@ -426,6 +426,12 @@ export default function CartDrawer() {
               Finalizar Compra
             </Link>
             <button
+              onClick={closeCart}
+              className="w-full inline-flex items-center justify-center gap-2 border border-border py-3 text-xs font-semibold tracking-widest uppercase transition-all hover:bg-secondary/30 active:scale-[0.98]"
+            >
+              Continuar Comprando
+            </button>
+            <button
               onClick={clearCart}
               className="w-full text-xs text-muted-foreground hover:text-foreground transition-colors underline underline-offset-4 text-center"
             >

@@ -576,9 +576,9 @@ export default function CheckoutClient() {
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-8 lg:gap-12 items-start">
             {/* Right column: Upsell + Order summary */}
             <aside className="space-y-6 lg:col-start-2 lg:row-start-1 order-2 lg:order-none">
-            {/* Upsell / cross-sell */}
+            {/* Upsell / cross-sell — só desktop */}
             {upsellProducts.length > 0 && (
-              <div className="border border-border p-5">
+              <div className="border border-border p-5 hidden lg:block">
                 <h2 className="font-display text-lg font-semibold mb-4">Você também pode gostar</h2>
                 <div className="space-y-3">
                   {upsellProducts.map(product => (

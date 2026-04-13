@@ -1,7 +1,8 @@
 'use client'
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Search, ShoppingBag, Heart, Menu, X, User, ChevronDown } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { useAuth } from "@/contexts/AuthContext";
@@ -16,6 +17,17 @@ const Header = () => {
   const [authOpen, setAuthOpen] = useState(false);
   const { totalItems, openCart } = useCart();
   const { isLoggedIn, user } = useAuth();
+  const pathname = usePathname();
+
+  // Fecha o menu ao navegar para outra página
+  useEffect(() => { setMobileOpen(false) }, [pathname]);
+
+  // Bloqueia scroll do body quando menu aberto
+  useEffect(() => {
+    if (mobileOpen) document.body.style.overflow = 'hidden'
+    else document.body.style.overflow = ''
+    return () => { document.body.style.overflow = '' }
+  }, [mobileOpen]);
 
   return (
     <div className="relative z-50">
@@ -207,45 +219,69 @@ const Header = () => {
           </div>
         </div>
 
-        {/* Mobile nav */}
+        {/* Mobile nav — overlay fixo, não empurra conteúdo */}
         {mobileOpen && (
-          <nav id="mobile-nav" className="md:hidden border-t border-border bg-background animate-fade-in" aria-label="Navegação mobile">
-            <div className="container py-5 flex flex-col gap-1 text-sm font-medium tracking-wide uppercase">
-              {[
-                { label: 'Início', href: '/' },
-                { label: 'Loja', href: '/produtos' },
-                { label: 'Jalecos', href: '/produtos?cat=Jalecos' },
-                { label: 'Dólmãs', href: '/produtos?cat=Dólmãs' },
-                { label: 'Conjuntos', href: '/produtos?cat=Conjuntos' },
-                { label: 'Mais Vendidos', href: '/produtos?sort=mais-vendidos' },
-                { label: 'Blog', href: '/blog' },
-                { label: 'Lookbook', href: '/lookbook' },
-                { label: 'Nossas Lojas', href: '/nossas-lojas' },
-                { label: 'Favoritos', href: '/wishlist' },
-              ].map(item => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setMobileOpen(false)}
-                  className="py-3 border-b border-border/50 text-foreground last:border-0"
-                >
-                  {item.label}
-                </Link>
-              ))}
-              {isLoggedIn ? (
-                <Link href="/minha-conta" onClick={() => setMobileOpen(false)} className="py-3 text-foreground">
-                  Minha Conta
-                </Link>
-              ) : (
+          <>
+            {/* Backdrop */}
+            <div
+              className="fixed inset-0 z-[150] bg-black/40 md:hidden"
+              onClick={() => setMobileOpen(false)}
+              aria-hidden="true"
+            />
+            {/* Drawer */}
+            <nav
+              id="mobile-nav"
+              className="fixed top-0 left-0 h-full w-[80vw] max-w-[320px] z-[200] bg-background shadow-2xl md:hidden flex flex-col animate-fade-in"
+              aria-label="Navegação mobile"
+            >
+              {/* Header do drawer */}
+              <div className="flex items-center justify-between px-6 py-4 border-b border-border">
+                <img src="/logo.svg" alt="Jaleca" style={{ height: '48px', width: 'auto' }} />
                 <button
-                  onClick={() => { setMobileOpen(false); setAuthOpen(true) }}
-                  className="py-3 text-foreground text-left"
+                  onClick={() => setMobileOpen(false)}
+                  aria-label="Fechar menu"
+                  className="p-2 text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  Entrar / Cadastrar
+                  <X size={22} />
                 </button>
-              )}
-            </div>
-          </nav>
+              </div>
+              {/* Links */}
+              <div className="flex-1 overflow-y-auto px-6 py-4 flex flex-col gap-0 text-sm font-semibold tracking-widest uppercase">
+                {[
+                  { label: 'Início', href: '/' },
+                  { label: 'Loja', href: '/produtos' },
+                  { label: 'Jalecos', href: '/produtos?cat=Jalecos' },
+                  { label: 'Dólmãs', href: '/produtos?cat=Dólmãs' },
+                  { label: 'Conjuntos', href: '/produtos?cat=Conjuntos' },
+                  { label: 'Mais Vendidos', href: '/produtos?sort=mais-vendidos' },
+                  { label: 'Blog', href: '/blog' },
+                  { label: 'Lookbook', href: '/lookbook' },
+                  { label: 'Nossas Lojas', href: '/nossas-lojas' },
+                  { label: 'Favoritos', href: '/wishlist' },
+                ].map(item => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="py-4 border-b border-border/40 text-foreground last:border-0"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+                {isLoggedIn ? (
+                  <Link href="/minha-conta" className="py-4 text-foreground">
+                    Minha Conta
+                  </Link>
+                ) : (
+                  <button
+                    onClick={() => setAuthOpen(true)}
+                    className="py-4 text-foreground text-left"
+                  >
+                    Entrar / Cadastrar
+                  </button>
+                )}
+              </div>
+            </nav>
+          </>
         )}
       </header>
 

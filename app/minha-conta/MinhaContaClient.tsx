@@ -219,6 +219,7 @@ export default function MinhaContaClient() {
   // Orders
   const [orders, setOrders] = useState<WCOrder[]>([])
   const [ordersLoading, setOrdersLoading] = useState(false)
+  const [ordersError, setOrdersError] = useState<'expired' | 'error' | null>(null)
   const [expandedOrder, setExpandedOrder] = useState<number | null>(null)
 
   // Customer (for addresses)
@@ -268,13 +269,19 @@ export default function MinhaContaClient() {
 
   const fetchOrders = useCallback(() => {
     if (!user) return
+    if (!user.id) { setOrdersError('expired'); return }
     setOrdersLoading(true)
+    setOrdersError(null)
     fetch(`/api/orders?customerId=${user.id}`, {
       headers: { Authorization: `Bearer ${user.token}` },
     })
-      .then(r => r.json())
-      .then(data => { if (Array.isArray(data)) setOrders(data) })
-      .catch(() => {})
+      .then(r => {
+        if (r.status === 401 || r.status === 403) { setOrdersError('expired'); return null }
+        if (!r.ok) { setOrdersError('error'); return null }
+        return r.json()
+      })
+      .then(data => { if (data && Array.isArray(data)) setOrders(data) })
+      .catch(() => setOrdersError('error'))
       .finally(() => setOrdersLoading(false))
   }, [user])
 
@@ -518,6 +525,22 @@ export default function MinhaContaClient() {
                 <h2 className="font-display text-2xl font-semibold mb-6">Meus Pedidos</h2>
                 {ordersLoading ? (
                   <div className="flex justify-center py-16"><Loader2 size={24} className="animate-spin text-muted-foreground" /></div>
+                ) : ordersError === 'expired' ? (
+                  <div className="text-center py-16 border border-border">
+                    <ShoppingBag size={40} className="mx-auto mb-3 text-muted-foreground/30" />
+                    <p className="text-muted-foreground mb-2">Sua sessão expirou.</p>
+                    <p className="text-xs text-muted-foreground mb-4">Faça logout e login novamente para ver seus pedidos.</p>
+                    <Link href="/minha-conta?logout=1" className="inline-flex items-center gap-2 bg-ink text-background px-6 py-2.5 text-xs font-semibold tracking-widest uppercase hover:bg-ink/90 transition-colors">
+                      Fazer login novamente
+                    </Link>
+                  </div>
+                ) : ordersError === 'error' ? (
+                  <div className="text-center py-16 border border-border">
+                    <p className="text-muted-foreground mb-4">Erro ao carregar pedidos. Tente novamente.</p>
+                    <button onClick={fetchOrders} className="inline-flex items-center gap-2 bg-ink text-background px-6 py-2.5 text-xs font-semibold tracking-widest uppercase hover:bg-ink/90 transition-colors">
+                      Tentar novamente
+                    </button>
+                  </div>
                 ) : orders.length === 0 ? (
                   <div className="text-center py-16 border border-border">
                     <ShoppingBag size={40} className="mx-auto mb-3 text-muted-foreground/30" />

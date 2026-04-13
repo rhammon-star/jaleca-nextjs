@@ -516,8 +516,8 @@ export default function ProductDetailClient({
         ]} />
 
         <div className="grid grid-cols-1 md:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] gap-8 md:gap-16 lg:gap-20 items-start">
-          {/* Image gallery */}
-          <div className="flex flex-col gap-3">
+          {/* Image gallery — aparece depois das infos no mobile */}
+          <div className="flex flex-col gap-3 order-2 md:order-none">
             {/* Main image with zoom */}
             <div className="relative aspect-[3/4] overflow-hidden rounded-[28px] bg-secondary/20 ring-1 ring-secondary/30"
                  title="Passe o mouse para ver os detalhes">
@@ -574,8 +574,8 @@ export default function ProductDetailClient({
             )}
           </div>
 
-          {/* Info */}
-          <div className="flex flex-col md:pt-4">
+          {/* Info — aparece primeiro no mobile */}
+          <div className="flex flex-col md:pt-4 order-1 md:order-none">
             <p className="text-[11px] text-primary-text tracking-[0.28em] uppercase mb-1">Jaleca</p>
             <h1 className="font-display text-4xl lg:text-5xl font-semibold leading-[1.1] tracking-[-0.03em] mb-2 text-balance">
               {product.name.replace(/ - Jaleca$/i, '')}

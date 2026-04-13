@@ -30,7 +30,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY)
-      if (saved) setUser(JSON.parse(saved))
+      if (saved) {
+        const parsed = JSON.parse(saved)
+        // Sessão inválida: sem id, sem token ou token não é JWT (3 partes)
+        const tokenOk = parsed.token && parsed.token.split('.').length === 3
+        const idOk = parsed.id && Number(parsed.id) > 0
+        if (tokenOk && idOk) {
+          setUser(parsed)
+        } else {
+          // Limpa sessão corrompida — usuário vai precisar fazer login novamente
+          localStorage.removeItem(STORAGE_KEY)
+        }
+      }
     } catch {}
     setIsLoading(false)
   }, [])

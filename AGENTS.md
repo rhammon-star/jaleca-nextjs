@@ -22,12 +22,16 @@ Site de uniformes médicos (jalecos, dômãs, conjuntos). Diretório: `/Users/rh
 - Carrinho: ✅ localStorage
 - Pagamentos Pagar.me: ✅ PIX ✅ Boleto ✅ Cartão de Crédito ✅ Webhook configurado
 - **Cartão de crédito tokenização (12/04/2026)**: ✅ CORRIGIDO — CSP `connect-src` agora inclui `https://api.pagar.me`. Antes bloqueava a tokenização no browser com erro "load Failed".
+- **Busca GraphQL (12/04/2026)**: ✅ CORRIGIDO — CSP `connect-src` agora inclui `https://wp.jaleca.com.br`. Antes o browser bloqueava a query `SEARCH_PRODUCTS` (SearchModal é client component).
+- **Menu mobile overlay (12/04/2026)**: ✅ CORRIGIDO — era inline dentro do header, empurrava o conteúdo. Agora é drawer fixo com backdrop.
+- **Sessão corrompida / pedidos zerados (12/04/2026)**: ✅ CORRIGIDO — AuthContext valida token JWT + id>0 ao carregar localStorage. Sessões inválidas auto-limpas.
 - Google Search Console: ✅ sitemap submetido
 - Email transacional: ✅ via Brevo (`lib/email.ts`)
 - Verificação de email: ✅ (não bloqueia checkout)
 - **Email boleto (12/04/2026)**: ✅ CORRIGIDO — `sendBoletoEmail()` em `lib/email.ts` dispara em `payment/create` com URL, linha digitável e vencimento.
 - **Portal de pedidos /minha-conta (12/04/2026)**: ✅ CORRIGIDO — JWT auth compatível com WP JWT Auth (`data.user.id`). Antes retornava 401 em todas as buscas de pedidos.
 - **Reset de senha (13/04/2026)**: ✅ CORRIGIDO — token salvo via `/wp-json/jaleca/v1/save-token` (user_meta WordPress), não mais via WC API. Plugin jaleca-fix v2.1 instalado com endpoints save/get/clear-token + change-password.
+- **Email "Senha alterada" WP (12/04/2026)**: ✅ CORRIGIDO — `add_filter('send_password_change_email', '__return_false')` no `jaleca-fix-completo.php` v2.4. WP não dispara mais o email feio ao chamar `wp_set_password()`.
 - **Variações sem preço (13/04/2026)**: ✅ CORRIGIDO — 3 camadas: (1) WordPress hook desativa variação sem preço ao salvar, (2) frontend filtra da seleção, (3) API bloqueia pedido com price≤0.
 - **CPF duplicado no checkout (13/04/2026)**: ✅ CORRIGIDO — clientes criados via endpoint WP não apareciam na WC REST API. Novo endpoint `/wp-json/jaleca/v1/lookup-cpf` busca por `user_meta billing_cpf`. `cpf-lookup/route.ts` tenta plugin primeiro, depois WC API.
 - **Sistema de rastreamento automático (12/04/2026)**: ✅ IMPLEMENTADO — ciclo completo: geração de etiqueta ME → status WC "enviado" + email "Enviado" → in_transit/out_for_delivery/delivered com emails individuais → auto-complete ao entregar. Cron a cada 2h + ME webhook.
@@ -354,6 +358,21 @@ NÃO usar WC REST API para essas operações (fallback apenas).
 - **Email "defina sua senha"**: `sendSetPasswordEmail()` em `lib/email.ts` — chamada em `/api/auth/register` (novos clientes) e `/api/auth/forgot-password`. Token 72h salvo em WC meta.
 - **CNPJ Melhor Envio**: `lib/melhor-envio.ts` → `from.document: '30379063000161'` (era placeholder `00000000000000`).
 
+## Implementado (12/04/2026) — Mobile UX + Sessão + Tradução
+
+### UX Mobile — correções críticas
+- **Menu mobile overlay (12/04/2026)**: `components/Header.tsx` — menu era inline dentro do `<header>`, empurrava todo o conteúdo para baixo. Agora é drawer fixo (`fixed top-0 left-0 h-full w-[80vw] max-w-[320px] z-[200]`) com backdrop semitransparente. Auto-fecha ao navegar via `usePathname` + `useEffect`. Body scroll bloqueado quando aberto.
+- **Página de produto mobile (12/04/2026)**: `ProductDetailClient.tsx` — informações (nome/preço/CTA) aparecem antes das fotos no mobile via CSS `order-1`/`order-2`. Desktop mantém layout lado a lado.
+- **Checkout mobile layout (12/04/2026)**: `CheckoutClient.tsx` — resumo do pedido (`<aside order-2>`) aparece antes do botão Finalizar (`<div order-3>`) no mobile. Botão é 3º item do grid com `order-3 lg:col-start-1`. Upsell section oculta no mobile (`hidden lg:block`).
+- **CartDrawer "Continuar Comprando" (12/04/2026)**: `components/CartDrawer.tsx` — botão adicionado entre "Finalizar Compra" e "Limpar sacola", chama `closeCart()`.
+
+### Sessão e autenticação
+- **AuthContext — validação de sessão (12/04/2026)**: `contexts/AuthContext.tsx` — ao carregar do localStorage, valida que `token` tem 3 partes (JWT válido) e `id > 0`. Sessões corrompidas (de antes do fix JWT) são auto-limpas. Fix para: nome estranho no login, pedidos sempre mostrando 0.
+- **MinhaContaClient — estados de erro (12/04/2026)**: `app/minha-conta/MinhaContaClient.tsx` — estados `expired` e `error` para busca de pedidos. 401/403 mostra "Sua sessão expirou. Faça login novamente." com botão. Erros genéricos mostram "Tentar novamente".
+
+### Tradução de erros WooCommerce
+- **Cupom em inglês (12/04/2026)**: `app/api/payment/create/route.ts` — mensagens de erro WooCommerce em inglês traduzidas para português por regex no catch: "coupon usage limit", "already been used", "not applicable", "expired", "minimum spend", "invalid coupon".
+
 ## Implementado (12/04/2026) — Correções e Rastreamento
 
 ### Correções críticas
@@ -364,6 +383,10 @@ NÃO usar WC REST API para essas operações (fallback apenas).
 - **Erro email duplicado no cadastro**: `register/route.ts` detecta `rest_cannot_create` + mensagem contendo "permissão" como email duplicado
 - **Parcelas por valor**: `CheckoutClient.tsx` — 1x abaixo R$100, até 2x entre R$100–R$149, até 3x acima R$150
 - **Campos obrigatórios checkout**: telefone e bairro adicionados como required no `CheckoutClient.tsx`
+- **Checkout mobile layout (12/04/2026)**: `CheckoutClient.tsx` — resumo do pedido (`<aside order-2>`) aparece antes do botão Finalizar (`<div order-3>`) no mobile. Botão é 3º item do grid com `order-3 lg:col-start-1`.
+- **Login JWT (12/04/2026)**: `app/api/auth/login/route.ts` — `extractUserIdFromToken()` decodifica payload JWT base64url e extrai `data.user.id` (WP JWT Auth) ou `sub`. `user.id` nunca mais será null após login.
+- **Endereço pré-preenchido no checkout**: ao abrir o checkout logado, busca último pedido via `/api/orders` e preenche endereço/telefone automaticamente.
+- **Email notificações internas**: `lib/email.ts` — removido `rhammon@objetivasolucao.com.br` da lista de destinatários internos de nova venda. Mantém apenas `financeiro@jaleca.com.br` e `contato@jaleca.com.br`.
 
 ### Sistema de rastreamento completo
 - **`app/api/tracking/check-all/route.ts`**: detecta novas etiquetas ME + rastreia movimentações + auto-complete ao entregar. Cron mudou de diário para **a cada 2h** (`vercel.json`)
