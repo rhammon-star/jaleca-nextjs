@@ -35,6 +35,7 @@ Site de uniformes médicos (jalecos, dômãs, conjuntos). Diretório: `/Users/rh
 - **Variações sem preço (13/04/2026)**: ✅ CORRIGIDO — 3 camadas: (1) WordPress hook desativa variação sem preço ao salvar, (2) frontend filtra da seleção, (3) API bloqueia pedido com price≤0.
 - **CPF duplicado no checkout (13/04/2026)**: ✅ CORRIGIDO — clientes criados via endpoint WP não apareciam na WC REST API. Novo endpoint `/wp-json/jaleca/v1/lookup-cpf` busca por `user_meta billing_cpf`. `cpf-lookup/route.ts` tenta plugin primeiro, depois WC API.
 - **Portal pedidos — "Nenhum pedido encontrado" (13/04/2026)**: ✅ CORRIGIDO — `app/api/orders/route.ts` agora faz fallback por `?email=` quando `?customer={id}` retorna vazio. Cobre: (1) pedidos guest criados quando register falhou silenciosamente no checkout; (2) clientes WP não indexados em `wc_customer_lookup`. Segurança: pedidos guest verificam `billing.email` explicitamente. Logs Vercel mostram qual caminho foi usado.
+- **Login 401 em todas as rotas autenticadas (13/04/2026)**: ✅ CORRIGIDO — `jaleca/v1/login` retornava `user_id` sem JWT válido (`jaleca-api.php` no fallback). `app/api/auth/login/route.ts` agora: (1) usa token do plugin se for JWT válido, (2) cria JWT próprio assinado com `JALECA_PLUGIN_SECRET` caso contrário. `auth.ts` já verifica HMAC com esse secret. Sem latência extra.
 - **Produto mobile — fotos antes das variantes (13/04/2026)**: ✅ CORRIGIDO — `ProductDetailClient.tsx` trocou `order-1/order-2` entre galeria e info. Fotos sempre primeiro em qualquer iPhone.
 - **Cupom PT — "Usage limit...has been reached" (13/04/2026)**: ✅ CORRIGIDO — regex em `payment/create/route.ts` atualizado para casar o formato atual do WC: `usage limit for coupon|has been reached`. Traduz para "Este cupom já atingiu o limite de uso."
 - **Cubagem ME — largura base errada (13/04/2026)**: ✅ CORRIGIDO — `lib/melhor-envio.ts` usava `4 + 4*(items-1)` em vez de `31 + 4*(items-1)`. Largura base de 1 jaleco era 4cm em vez de 31cm, subestimando frete.
@@ -273,6 +274,12 @@ NÃO usar WC REST API para essas operações (fallback apenas).
 em `wc_customer_lookup`). O `app/api/orders/route.ts` faz fallback automático por `?email=` com
 dupla verificação de `billing.email` para pedidos guest. NÃO remover esse fallback.
 
+**Login / JWT** — `jaleca/v1/login` (jaleca-api.php no WP) retorna `user_id` mas SEM JWT válido.
+`JWT_AUTH_SECRET_KEY` não está configurado no wp-config.php do Hostinger.
+`app/api/auth/login/route.ts` resolve criando JWT próprio assinado com `JALECA_PLUGIN_SECRET`.
+`auth.ts:verifyCustomerToken()` valida via HMAC-SHA256 com esse mesmo secret. NÃO configurar
+jwt-auth/v1/token como dependência — o sistema funciona sem ele.
+
 ## Pendente (prioridade)
 1. **Cadastro de usuário** — ✅ RESOLVIDO (09/04/2026).
 2. **Melhor Envio** — ✅ RESOLVIDO (09/04/2026). Token real configurado, integração automática ME cart, renovação mensal automática via cron.
@@ -282,7 +289,7 @@ dupla verificação de `billing.email` para pedidos guest. NÃO remover esse fal
 6. **CPF duplicado no checkout** — ✅ RESOLVIDO (13/04/2026). Plugin lookup-cpf + cpf-lookup/route.ts atualizado.
 7. **Variações sem preço** — ✅ RESOLVIDO (13/04/2026). Hook WP + filtro frontend + bloqueio API.
 8. **Cartão de crédito "load Failed"** — ✅ RESOLVIDO (12/04/2026). CSP `connect-src` + `api.pagar.me`.
-9. **Portal pedidos (/minha-conta) 401** — ✅ RESOLVIDO (12/04/2026). JWT auth compatível com WP JWT Auth.
+9. **Portal pedidos (/minha-conta) 401** — ✅ RESOLVIDO (13/04/2026). `login/route.ts` emite JWT próprio quando `jaleca-api.php` não retorna token válido.
 10. **Email boleto** — ✅ RESOLVIDO (12/04/2026). `sendBoletoEmail()` em payment/create.
 11. **Sistema rastreamento automático** — ✅ RESOLVIDO (12/04/2026). Ciclo completo implementado.
 12. **Configurar webhook ME** — ⏳ AÇÃO MANUAL. Dashboard ME → Preferências → Notificações → URL: `https://jaleca.com.br/api/tracking/melhor-envio-webhook`
