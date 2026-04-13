@@ -4,6 +4,8 @@ import { getPosts } from '@/lib/wordpress'
 import type { Metadata } from 'next'
 import type { WPPost } from '@/lib/wordpress'
 
+export const revalidate = 300
+
 export const metadata: Metadata = {
   title: 'Blog — Dicas para Profissionais da Saúde',
   description: 'Artigos e dicas sobre moda profissional para profissionais da saúde. Como escolher o jaleco ideal, tendências e cuidados com o uniforme.',

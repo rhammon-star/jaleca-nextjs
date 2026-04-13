@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { verifyBlogToken, getUserById } from '@/lib/blog-auth'
 import { publishPost, uploadMedia } from '@/lib/wordpress'
 import { cookies } from 'next/headers'
+import { revalidatePath } from 'next/cache'
 
 export async function POST(request: NextRequest) {
   const cookieStore = await cookies()
@@ -72,6 +73,10 @@ export async function POST(request: NextRequest) {
       },
       credentials
     )
+
+    // Revalidar cache do blog para o post aparecer imediatamente no site
+    revalidatePath('/blog')
+    revalidatePath(`/blog/${body.slug}`)
 
     return NextResponse.json({ id: result.id, link: result.link }, { status: 201 })
   } catch (error) {
