@@ -300,8 +300,9 @@ export async function POST(request: NextRequest) {
         items: pagarmeItems,
         shipping: shippingParam,
         billingAddress: address,
-        // Use card holder name typed at checkout — avoids anti-fraud when card belongs to different person
-        billingName: (cardHolderName || `${billing.first_name} ${billing.last_name}`).trim(),
+        // billing.name must match customer.name (CPF owner) — antifraude compares these two
+        // For third-party cards: configure holder_name tolerance in Pagar.me dashboard
+        billingName: `${billing.first_name} ${billing.last_name}`.trim(),
         cardToken: cardToken!,
         installments: installments || 1,
         metadata,
