@@ -22,21 +22,6 @@ function extractUserIdFromToken(token: string): number | null {
   }
 }
 
-/** Try to get a JWT from WP JWT Auth plugin directly */
-async function getJwtDirect(wpUrl: string, email: string, password: string): Promise<string | null> {
-  try {
-    const res = await fetch(`${wpUrl}/wp-json/jwt-auth/v1/token`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username: email, password }),
-    })
-    if (!res.ok) return null
-    const data = await res.json()
-    return isValidJwt(data.token) ? data.token : null
-  } catch {
-    return null
-  }
-}
 
 /**
  * Create a JWT signed with JALECA_PLUGIN_SECRET.
@@ -94,20 +79,12 @@ export async function POST(request: NextRequest) {
 
     const userEmail: string = data.user_email || email
 
-    // 1. Use token from jaleca/v1/login if it's already a valid JWT
-    // 2. Try jwt-auth/v1/token directly
-    // 3. Create our own JWT signed with JALECA_PLUGIN_SECRET (always works)
-    let token: string | null = isValidJwt(data.token) ? data.token : null
-
-    if (!token) {
-      console.log(`[login] No valid JWT from plugin for user ${userId}, trying jwt-auth/v1/token`)
-      token = await getJwtDirect(wpUrl, email, password)
-    }
-
-    if (!token) {
-      console.log(`[login] jwt-auth/v1/token failed, issuing Jaleca-signed JWT for user ${userId}`)
-      token = createJalecaJwt(userId, userEmail)
-    }
+    // Use token from jaleca/v1/login if it's already a valid JWT,
+    // otherwise issue our own JWT signed with JALECA_PLUGIN_SECRET.
+    // (jwt-auth/v1/token skipped — JWT_AUTH_SECRET_KEY not configured on WP)
+    const token: string = isValidJwt(data.token)
+      ? data.token
+      : createJalecaJwt(userId, userEmail)
 
     const user = {
       id: userId,
