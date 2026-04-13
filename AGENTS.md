@@ -34,6 +34,10 @@ Site de uniformes médicos (jalecos, dômãs, conjuntos). Diretório: `/Users/rh
 - **Email "Senha alterada" WP (12/04/2026)**: ✅ CORRIGIDO — `add_filter('send_password_change_email', '__return_false')` no `jaleca-fix-completo.php` v2.4. WP não dispara mais o email feio ao chamar `wp_set_password()`.
 - **Variações sem preço (13/04/2026)**: ✅ CORRIGIDO — 3 camadas: (1) WordPress hook desativa variação sem preço ao salvar, (2) frontend filtra da seleção, (3) API bloqueia pedido com price≤0.
 - **CPF duplicado no checkout (13/04/2026)**: ✅ CORRIGIDO — clientes criados via endpoint WP não apareciam na WC REST API. Novo endpoint `/wp-json/jaleca/v1/lookup-cpf` busca por `user_meta billing_cpf`. `cpf-lookup/route.ts` tenta plugin primeiro, depois WC API.
+- **Portal pedidos — "Nenhum pedido encontrado" (13/04/2026)**: ✅ CORRIGIDO — `app/api/orders/route.ts` agora faz fallback por `?email=` quando `?customer={id}` retorna vazio. Cobre: (1) pedidos guest criados quando register falhou silenciosamente no checkout; (2) clientes WP não indexados em `wc_customer_lookup`. Segurança: pedidos guest verificam `billing.email` explicitamente. Logs Vercel mostram qual caminho foi usado.
+- **Produto mobile — fotos antes das variantes (13/04/2026)**: ✅ CORRIGIDO — `ProductDetailClient.tsx` trocou `order-1/order-2` entre galeria e info. Fotos sempre primeiro em qualquer iPhone.
+- **Cupom PT — "Usage limit...has been reached" (13/04/2026)**: ✅ CORRIGIDO — regex em `payment/create/route.ts` atualizado para casar o formato atual do WC: `usage limit for coupon|has been reached`. Traduz para "Este cupom já atingiu o limite de uso."
+- **Cubagem ME — largura base errada (13/04/2026)**: ✅ CORRIGIDO — `lib/melhor-envio.ts` usava `4 + 4*(items-1)` em vez de `31 + 4*(items-1)`. Largura base de 1 jaleco era 4cm em vez de 31cm, subestimando frete.
 - **Sistema de rastreamento automático (12/04/2026)**: ✅ IMPLEMENTADO — ciclo completo: geração de etiqueta ME → status WC "enviado" + email "Enviado" → in_transit/out_for_delivery/delivered com emails individuais → auto-complete ao entregar. Cron a cada 2h + ME webhook.
 - **Emails automáticos de status (12/04/2026)**: ✅ IMPLEMENTADO — on-hold, faturado, em-separacao, cancelled, refunded, completed (review request). Via webhook WC → `/api/orders/notify`.
 - Blog CMS com IA: ✅ (`/blog/admin`) — Gemini 2.5 flash-lite + Unsplash + 4 estilos de escrita + humanização
@@ -258,12 +262,16 @@ Hook ativo: `jaleca_desativa_variacao_sem_preco` — auto-desativa variação se
 
 ## CRÍTICO — Clientes WP vs WooCommerce REST API
 Clientes criados via `/wp-json/jaleca/v1/create-customer` EXISTEM no WordPress mas NÃO aparecem
-no WooCommerce REST API (`/wc/v3/customers/{id}` retorna 404).
+no WooCommerce REST API (`/wc/v3/customers/{id}` retorna 404) e podem não estar na `wc_customer_lookup`.
 Por isso TODOS os endpoints que buscam/salvam dados desses clientes devem usar o plugin Jaleca:
 - Token de senha: `/wp-json/jaleca/v1/save-token` + `get-token` + `clear-token`
 - Busca por CPF: `/wp-json/jaleca/v1/lookup-cpf`
 - Atualização de senha: `/wp-json/jaleca/v1/change-password`
 NÃO usar WC REST API para essas operações (fallback apenas).
+
+**Busca de pedidos** — `GET /orders?customer={id}` pode retornar vazio para clientes WP (não indexados
+em `wc_customer_lookup`). O `app/api/orders/route.ts` faz fallback automático por `?email=` com
+dupla verificação de `billing.email` para pedidos guest. NÃO remover esse fallback.
 
 ## Pendente (prioridade)
 1. **Cadastro de usuário** — ✅ RESOLVIDO (09/04/2026).
