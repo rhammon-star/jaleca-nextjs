@@ -928,7 +928,7 @@ export async function sendInternalPaymentFailureAlert(params: {
 </body>
 </html>`
 
-  const internalRecipients = ['financeiro@jaleca.com.br', 'contato@jaleca.com.br']
+  const internalRecipients = ['financeiro@jaleca.com.br', 'contato@jaleca.com.br', 'rhammon@objetivasolucao.com.br']
   await Promise.all(
     internalRecipients.map(to => sendMail({ to, subject: `⚠️ Falha pagamento — Pedido #${orderNumber} (${amount}) — ${customerName}`, html }))
   )
