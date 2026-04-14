@@ -146,5 +146,24 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.9,
   }))
 
-  return [...staticPages, ...categoryPages, ...productPages, ...postPages]
+  const cidadeSlugs = [
+    'jaleco-belo-horizonte', 'jaleco-campo-grande', 'jaleco-vitoria',
+    'jaleco-barra-da-tijuca', 'jaleco-muriae', 'jaleco-marilia',
+    'jaleco-itabira', 'jaleco-joao-monlevade', 'jaleco-lagoa-santa',
+    'jaleco-teixeira-de-freitas', 'jaleco-curitiba', 'jaleco-londrina',
+    'jaleco-governador-valadares', 'jaleco-uberaba', 'jaleco-montes-claros',
+    'jaleco-vila-velha', 'jaleco-cachoeiro-de-itapemirim', 'jaleco-serra',
+    'jaleco-vitoria-da-conquista', 'jaleco-colatina',
+    'jaleco-caratinga', 'jaleco-contagem', 'jaleco-sao-paulo',
+    'jaleco-rio-de-janeiro', 'jaleco-campinas',
+  ]
+
+  const cidadePages: MetadataRoute.Sitemap = cidadeSlugs.map(slug => ({
+    url: `${SITE_URL}/cidade/${slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly' as const,
+    priority: 0.7,
+  }))
+
+  return [...staticPages, ...categoryPages, ...cidadePages, ...productPages, ...postPages]
 }
