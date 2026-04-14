@@ -221,7 +221,7 @@ export async function POST(request: NextRequest) {
         ? [{ name: 'Desconto PIX (5%)', total: `-${calculatedPixDiscount.toFixed(2)}`, tax_status: 'none' }]
         : undefined,
       meta_data: [
-        { key: '_billing_cpf', value: cpf.replace(/\D/g, '') },
+        { key: 'billing_cpf', value: cpf.replace(/\D/g, '') },
       ],
     }
 
@@ -402,6 +402,7 @@ export async function POST(request: NextRequest) {
     const meServiceId = /^\d+$/.test(shipping.method_id)
       ? parseInt(shipping.method_id)
       : (ME_SERVICE_MAP[shipping.method_id] ?? 2)
+    console.log(`[ME Cart] method_id="${shipping.method_id}" method_title="${shipping.method_title}" → meServiceId=${meServiceId}`)
     const meWeight = Math.max(items.reduce((s, i) => s + 0.5 * i.quantity, 0), 0.5)
     const meTotalValue = items.reduce((s, i) => s + i.price * i.quantity, 0)
     if (!isCreditCardFailed) addShipmentToMECart({

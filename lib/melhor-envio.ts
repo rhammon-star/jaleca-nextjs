@@ -35,15 +35,16 @@ type ViaCEPResponse = {
 }
 
 // Maps our shipping IDs → Melhor Envio service IDs
-// Used to add shipment to ME cart and to label order notes
+// ME real service IDs: PAC=1, SEDEX=2, Jadlog Package=7, Jadlog .com=8
+// (IDs 3,4 são PAC Mini e SEDEX 12 — Correios, não Jadlog)
 export const ME_SERVICE_MAP: Record<string, number> = {
   pac:    1,  // PAC Correios
   sedex:  2,  // SEDEX Correios
-  jadlog: 3,  // Jadlog Package (ME service ID 3)
+  jadlog: 7,  // Jadlog Package (ME service ID 7)
   '1':    1,
   '2':    2,
-  '3':    3,
-  '4':    4,
+  '7':    7,
+  '8':    8,
 }
 
 function getFallbackOptions(uf?: string, subtotal = 0): ShippingOption[] {
@@ -102,7 +103,7 @@ async function callMelhorEnvioAPI(
       to:   { postal_code: cepDestino },
       // Cubagem: 4 × 31 × 41 cm base, +4cm de largura por peça adicional
       products: [{ id: 'jaleco', height: 4, width: Math.min(31 + 4 * (items - 1), 60), length: 41, weight, quantity: items, insurance_value: 0 }],
-      services: '1,2,3,4',
+      services: '1,2,7,8',  // PAC=1, SEDEX=2, Jadlog Package=7, Jadlog .com=8
       options: { insurance_value: 0, receipt: false, own_hand: false, collect: false },
     }),
   })
@@ -113,14 +114,17 @@ async function callMelhorEnvioAPI(
 
   const services = (await res.json()) as MelhorEnvioService[]
 
+  // Log raw service IDs returned by ME API for diagnosis
+  console.log('[ME API] Serviços retornados:', services.map(s => `id=${s.id} name=${s.name} error=${s.error ?? 'none'} price=${s.custom_price ?? s.price}`).join(' | '))
+
   const SERVICE_LABELS: Record<number, string> = {
     1: 'PAC (Correios)',
     2: 'SEDEX (Correios)',
-    3: 'Jadlog Package',
-    4: 'Jadlog .com',
+    7: 'Jadlog Package',
+    8: 'Jadlog .com',
   }
 
-  const ALLOWED_SERVICES = new Set([1, 2, 3, 4])
+  const ALLOWED_SERVICES = new Set([1, 2, 7, 8])
   const options: ShippingOption[] = []
 
   for (const svc of services) {
@@ -226,26 +230,13 @@ export async function calculateShipping(
           if (!cepData.erro) uf = cepData.uf?.toUpperCase()
         }
 
-        // If PAC (service 1) is missing from API response, inject fallback PAC price
-        const hasPac = options.some(o => o.id === '1')
-        if (!hasPac) {
-          const isSul = uf ? SUL_SUDESTE.includes(uf) : false
-          const pacCost = isSul ? 18.90 : 22.90
-          options.unshift({
-            id: '1',
-            label: 'PAC (Correios)',
-            cost: pacCost + 3.50,
-            delivery_time: '7 dias úteis',
-          })
-        }
-
         // Apply free shipping for PAC if eligible
         const finalOptions = uf && FREE_SHIPPING_STATES.includes(uf) && subtotal >= 499
           ? options.map(o => o.id === '1' ? { ...o, cost: 0 } : o)
           : options
 
-        // Sort: PAC first (id=1), then Jadlog (id=3/4), then SEDEX (id=2)
-        const SORT_ORDER: Record<string, number> = { '1': 0, '3': 1, '4': 2, '2': 3 }
+        // Sort: PAC first (id=1), then Jadlog (id=7/8), then SEDEX (id=2)
+        const SORT_ORDER: Record<string, number> = { '1': 0, '7': 1, '8': 2, '2': 3 }
         return finalOptions.sort((a, b) => (SORT_ORDER[a.id] ?? 9) - (SORT_ORDER[b.id] ?? 9))
       }
     }
