@@ -20,6 +20,13 @@ declare global {
   }
 }
 
+// Lê o cookie _fbc (Meta Click ID) gerado quando usuário clica em anúncio Meta
+function getFbc(): string | undefined {
+  if (typeof document === 'undefined') return undefined
+  const match = document.cookie.match(/(?:^|;\s*)_fbc=([^;]+)/)
+  return match?.[1]
+}
+
 export function trackEvent(name: string, params?: Record<string, unknown>) {
   if (typeof window === 'undefined') return
   window.gtag?.('event', name, params)
@@ -62,12 +69,14 @@ export function trackPurchase(
   })
 
   // Meta Pixel
+  const purchaseFbc = getFbc()
   window.fbq?.('track', 'Purchase', {
     value,
     currency: 'BRL',
     contents: items.map(i => ({ id: i.id, quantity: i.quantity })),
     content_type: 'product',
     num_items: items.reduce((s, i) => s + i.quantity, 0),
+    ...(purchaseFbc && { fbc: purchaseFbc }),
   })
 }
 
@@ -76,6 +85,7 @@ export function trackViewItem(product: {
   name: string
   price: string
   category?: string
+  email?: string
 }) {
   if (typeof window === 'undefined') return
 
@@ -89,6 +99,7 @@ export function trackViewItem(product: {
   })
 
   // Meta Pixel
+  const viewFbc = getFbc()
   window.fbq?.('track', 'ViewContent', {
     value: price,
     currency: 'BRL',
@@ -96,6 +107,8 @@ export function trackViewItem(product: {
     content_name: product.name,
     content_type: 'product_group',
     content_category: product.category ?? 'Uniformes Profissionais',
+    ...(viewFbc && { fbc: viewFbc }),
+    ...(product.email && { em: product.email }),
   })
 }
 
@@ -109,10 +122,12 @@ export function trackInitiateCheckout(value: number, numItems: number) {
   })
 
   // Meta Pixel
+  const checkoutFbc = getFbc()
   window.fbq?.('track', 'InitiateCheckout', {
     value,
     currency: 'BRL',
     num_items: numItems,
+    ...(checkoutFbc && { fbc: checkoutFbc }),
   })
 }
 
@@ -154,11 +169,13 @@ export function trackAddToCart(product: {
   })
 
   // Meta Pixel
+  const cartFbc = getFbc()
   window.fbq?.('track', 'AddToCart', {
     value: price * qty,
     currency: 'BRL',
     contents: [{ id: product.id, quantity: qty }],
     content_type: 'product_group',
+    ...(cartFbc && { fbc: cartFbc }),
   })
 }
 

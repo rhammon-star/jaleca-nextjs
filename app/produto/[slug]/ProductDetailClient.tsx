@@ -421,6 +421,7 @@ export default function ProductDetailClient({
       name: product.name.replace(/ - Jaleca$/i, ''),
       price: product.price ?? '',
       category: product.productCategories?.nodes[0]?.name,
+      email: user?.email,
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
