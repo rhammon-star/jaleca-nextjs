@@ -688,6 +688,7 @@ export async function sendInternalOrderNotification(
   const internalRecipients = [
     'financeiro@jaleca.com.br',
     'contato@jaleca.com.br',
+    'rhammon@objetivasolucao.com.br',
   ]
   await Promise.all(
     internalRecipients.map(to => sendMail({ to, subject: `Nova venda — Pedido #${orderNumber} (${total})`, html }))
