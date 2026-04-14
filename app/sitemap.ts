@@ -195,5 +195,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }))
 
-  return [...staticPages, ...categoryPages, ...cidadePages, ...productPages, ...postPages]
+  const diasDasMaesSlugs = [
+    'saude', 'estetica', 'veterinaria', 'nutricao', 'farmacia', 'laboratorio', 'ti',
+  ]
+
+  const diasDasMaesPages: MetadataRoute.Sitemap = diasDasMaesSlugs.map(slug => ({
+    url: `${SITE_URL}/dia-das-maes/${slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'yearly' as const,
+    priority: 0.8,
+  }))
+
+  return [...staticPages, ...categoryPages, ...cidadePages, ...diasDasMaesPages, ...productPages, ...postPages]
 }
