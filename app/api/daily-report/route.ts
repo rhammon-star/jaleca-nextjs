@@ -69,10 +69,13 @@ function fmt(date: string) {
 
 async function fetchGsc(token: string) {
   const today   = brazilDate(0)
-  const d1End   = brazilDate(-1)           // ontem
-  const d1Start = brazilDate(-1)           // ontem
-  const w7End   = brazilDate(-1)           // fim semana = ontem
-  const w7Start = brazilDate(-7)           // 7 dias atrás
+  const d1Start = brazilDate(-1)
+  const d2Start = brazilDate(-2)
+  const d3Start = brazilDate(-3)
+  const d4Start = brazilDate(-4)
+  const d1End   = d1Start
+  const w7End   = d1Start
+  const w7Start = brazilDate(-7)
   const w7PEnd  = brazilDate(-8)
   const w7PStart= brazilDate(-14)
 
@@ -88,13 +91,16 @@ async function fetchGsc(token: string) {
     return r.json()
   }
 
-  const [dayData, weekData, prevWeekData, topQueries, topPages, lowCtrRaw] = await Promise.all([
+  const [dayData, weekData, prevWeekData, topQueries, topPages, lowCtrRaw, d2Data, d3Data, d4Data] = await Promise.all([
     query(d1Start, d1End, ['date'], 1),
     query(w7Start, w7End, ['date'], 7),
     query(w7PStart, w7PEnd, ['date'], 7),
     query(w7Start, w7End, ['query'], 15),
     query(w7Start, w7End, ['page'], 10),
     query(w7Start, w7End, ['query'], 50),
+    query(d2Start, d2Start, ['date'], 1),
+    query(d3Start, d3Start, ['date'], 1),
+    query(d4Start, d4Start, ['date'], 1),
   ])
 
   function sumRows(data: {rows?: {clicks:number;impressions:number;ctr:number;position:number}[]}) {
@@ -119,6 +125,10 @@ async function fetchGsc(token: string) {
     .slice(0, 6)
     .map(r => ({ query: r.keys[0], impressions: r.impressions, clicks: r.clicks, ctr: +(r.ctr*100).toFixed(2), position: +r.position.toFixed(1) }))
 
+  const d2 = sumRows(d2Data)
+  const d3 = sumRows(d3Data)
+  const d4 = sumRows(d4Data)
+
   return {
     dayDate:   fmt(d1Start),
     weekRange: `${fmt(w7Start)} a ${fmt(w7End)}`,
@@ -141,6 +151,12 @@ async function fetchGsc(token: string) {
       ctr: +(r.ctr*100).toFixed(2), position: +r.position.toFixed(1),
     })),
     opportunities,
+    days: [
+      { date: fmt(d1Start), clicks: day.clicks },
+      { date: fmt(d2Start), clicks: d2.clicks  },
+      { date: fmt(d3Start), clicks: d3.clicks  },
+      { date: fmt(d4Start), clicks: d4.clicks  },
+    ],
   }
 }
 
@@ -149,6 +165,9 @@ async function fetchGsc(token: string) {
 async function fetchPagarme() {
   const today     = brazilDate(0)
   const yesterday = brazilDate(-1)
+  const d2        = brazilDate(-2)
+  const d3        = brazilDate(-3)
+  const d4        = brazilDate(-4)
   const weekStart = brazilDate(-7)
 
   async function getOrders(since: string, until: string) {
@@ -160,9 +179,12 @@ async function fetchPagarme() {
     return (d.data ?? []) as {status:string;charges:{status:string;amount:number;payment_method:string}[];created_at:string}[]
   }
 
-  const [dayOrders, weekOrders] = await Promise.all([
+  const [dayOrders, weekOrders, d2Orders, d3Orders, d4Orders] = await Promise.all([
     getOrders(yesterday, today),
     getOrders(weekStart, today),
+    getOrders(d2, yesterday),
+    getOrders(d3, d2),
+    getOrders(d4, d3),
   ])
 
   function summarize(orders: typeof dayOrders) {
@@ -179,7 +201,21 @@ async function fetchPagarme() {
       methods }
   }
 
-  return { day: summarize(dayOrders), week: summarize(weekOrders), dayDate: fmt(yesterday) }
+  const [daySum, weekSum, d2Sum, d3Sum, d4Sum] = [
+    summarize(dayOrders), summarize(weekOrders),
+    summarize(d2Orders), summarize(d3Orders), summarize(d4Orders),
+  ]
+  return {
+    day: daySum,
+    week: weekSum,
+    dayDate: fmt(yesterday),
+    days: [
+      { date: fmt(yesterday), revenue: daySum.revenue, paid: daySum.paid, total: daySum.total },
+      { date: fmt(d2),        revenue: d2Sum.revenue,  paid: d2Sum.paid,  total: d2Sum.total  },
+      { date: fmt(d3),        revenue: d3Sum.revenue,  paid: d3Sum.paid,  total: d3Sum.total  },
+      { date: fmt(d4),        revenue: d4Sum.revenue,  paid: d4Sum.paid,  total: d4Sum.total  },
+    ],
+  }
 }
 
 // ── WooCommerce ───────────────────────────────────────────────────────────────
@@ -278,13 +314,18 @@ async function fetchGoogleAds() {
   }
 
   try {
-    const today     = brazilDate(0)
     const yesterday = brazilDate(-1)
+    const d2        = brazilDate(-2)
+    const d3        = brazilDate(-3)
+    const d4        = brazilDate(-4)
     const weekStart = brazilDate(-7)
 
-    const [weekRaw, dayRaw] = await Promise.all([
+    const [weekRaw, dayRaw, d2Raw, d3Raw, d4Raw] = await Promise.all([
       query(weekStart, yesterday),
       query(yesterday, yesterday),
+      query(d2, d2),
+      query(d3, d3),
+      query(d4, d4),
     ])
 
     type GAdsRow = {
@@ -320,7 +361,21 @@ async function fetchGoogleAds() {
       return { cost: +cost.toFixed(2), impressions, clicks, ctr, cpc, conversions: +conversions.toFixed(0), convValue: +convValue.toFixed(2), roas, campaigns }
     }
 
-    return { week: summarize(weekRaw), day: summarize(dayRaw) }
+    const getCost = (raw: { results?: GAdsRow[] }) => {
+      const rows = raw.results ?? []
+      return +rows.reduce((s, r) => s + +(r.metrics?.costMicros ?? '0') / 1_000_000, 0).toFixed(2)
+    }
+
+    return {
+      week: summarize(weekRaw),
+      day:  summarize(dayRaw),
+      days: [
+        { date: fmt(yesterday), cost: getCost(dayRaw) },
+        { date: fmt(d2),        cost: getCost(d2Raw)  },
+        { date: fmt(d3),        cost: getCost(d3Raw)  },
+        { date: fmt(d4),        cost: getCost(d4Raw)  },
+      ],
+    }
   } catch (e) { console.error('[google-ads] erro:', e); return null }
 }
 
@@ -333,9 +388,19 @@ async function fetchMetaAds() {
 
   try {
     const fields = 'spend,impressions,clicks,cpm,cpc,reach,actions'
-    const [week, day] = await Promise.all([
-      fetch(`https://graph.facebook.com/v20.0/${accountId}/insights?fields=${fields}&date_preset=last_7d&access_token=${token}`).then(r => r.json()),
-      fetch(`https://graph.facebook.com/v20.0/${accountId}/insights?fields=${fields}&date_preset=yesterday&access_token=${token}`).then(r => r.json()),
+    const base = `https://graph.facebook.com/v20.0/${accountId}/insights?fields=${fields}&access_token=${token}`
+    const tr = (d: string) => `time_range=${encodeURIComponent(JSON.stringify({ since: d, until: d }))}`
+    const d1 = brazilDate(-1)
+    const d2 = brazilDate(-2)
+    const d3 = brazilDate(-3)
+    const d4 = brazilDate(-4)
+
+    const [week, day, meta2, meta3, meta4] = await Promise.all([
+      fetch(`${base}&date_preset=last_7d`).then(r => r.json()),
+      fetch(`${base}&date_preset=yesterday`).then(r => r.json()),
+      fetch(`${base}&${tr(d2)}`).then(r => r.json()),
+      fetch(`${base}&${tr(d3)}`).then(r => r.json()),
+      fetch(`${base}&${tr(d4)}`).then(r => r.json()),
     ])
 
     function parse(d: { data?: { spend?: string; impressions?: string; clicks?: string; cpm?: string; cpc?: string; reach?: string; actions?: {action_type:string;value:string}[] }[] }) {
@@ -354,7 +419,18 @@ async function fetchMetaAds() {
       }
     }
 
-    return { week: parse(week), day: parse(day) }
+    const parseSpend = (d: { data?: { spend?: string }[] }) => +parseFloat(d.data?.[0]?.spend ?? '0').toFixed(2)
+
+    return {
+      week: parse(week),
+      day:  parse(day),
+      days: [
+        { date: fmt(d1), spend: parseSpend(day)   },
+        { date: fmt(d2), spend: parseSpend(meta2)  },
+        { date: fmt(d3), spend: parseSpend(meta3)  },
+        { date: fmt(d4), spend: parseSpend(meta4)  },
+      ],
+    }
   } catch { return null }
 }
 
@@ -913,6 +989,44 @@ function buildEmail(
     <p style="font-size:11px;color:#64748b;margin:0 0 12px;text-transform:uppercase;letter-spacing:.8px;font-weight:600">🏆 Produtos mais vendidos — semana</p>
     ${topProductsHtml}
   </div>` : ''}
+
+  <!-- Evolução 4 dias -->
+  <div style="background:#fff;border-radius:12px;padding:20px;margin-bottom:12px;border:1px solid #e2e8f0">
+    <p style="font-size:11px;color:#64748b;margin:0 0 14px;text-transform:uppercase;letter-spacing:.8px;font-weight:600">📈 Evolução 4 dias</p>
+    <table style="width:100%;border-collapse:collapse;font-size:13px">
+      <thead>
+        <tr style="background:#f8fafc">
+          <th style="padding:8px 10px;text-align:left;font-size:11px;color:#64748b;font-weight:600">Data</th>
+          <th style="padding:8px 10px;text-align:center;font-size:11px;color:#64748b;font-weight:600">Receita</th>
+          <th style="padding:8px 10px;text-align:center;font-size:11px;color:#64748b;font-weight:600">Pedidos</th>
+          <th style="padding:8px 10px;text-align:center;font-size:11px;color:#64748b;font-weight:600">GSC Cliques</th>
+          <th style="padding:8px 10px;text-align:center;font-size:11px;color:#64748b;font-weight:600">Meta Ads</th>
+          <th style="padding:8px 10px;text-align:center;font-size:11px;color:#64748b;font-weight:600">Google Ads</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${(pm.days ?? []).map((d, i) => {
+          const gscDay   = gsc?.days?.[i]
+          const metaDay  = meta?.days?.[i]
+          const gadsDay  = gads?.days?.[i]
+          const isToday  = i === 0
+          const rowBg    = isToday ? '#f0f9ff' : 'transparent'
+          const revenue  = `R$${d.revenue.toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:0})}`
+          const gscClicks = gscDay?.clicks ?? '—'
+          const metaSpend = metaDay ? `R$${metaDay.spend.toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:0})}` : '—'
+          const gadsCost  = gadsDay ? `R$${gadsDay.cost.toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:0})}` : '—'
+          return `<tr style="background:${rowBg}">
+            <td style="padding:7px 10px;border-bottom:1px solid #f1f5f9;font-size:12px;font-weight:${isToday ? '700' : '400'};color:#1e293b">${d.date}${isToday ? ' ◀' : ''}</td>
+            <td style="padding:7px 10px;border-bottom:1px solid #f1f5f9;text-align:center;font-size:12px;font-weight:600;color:${d.revenue > 0 ? '#059669' : '#94a3b8'}">${revenue}</td>
+            <td style="padding:7px 10px;border-bottom:1px solid #f1f5f9;text-align:center;font-size:12px">${d.paid}/${d.total}</td>
+            <td style="padding:7px 10px;border-bottom:1px solid #f1f5f9;text-align:center;font-size:12px">${gscClicks}</td>
+            <td style="padding:7px 10px;border-bottom:1px solid #f1f5f9;text-align:center;font-size:12px;color:#1877f2">${metaSpend}</td>
+            <td style="padding:7px 10px;border-bottom:1px solid #f1f5f9;text-align:center;font-size:12px;color:#4285f4">${gadsCost}</td>
+          </tr>`
+        }).join('')}
+      </tbody>
+    </table>
+  </div>
 
   <!-- Footer -->
   <div style="text-align:center;padding:20px;color:#94a3b8;font-size:11px;line-height:1.6">
