@@ -278,10 +278,11 @@ async function fetchGoogleAds() {
   const devToken      = process.env.GOOGLE_ADS_DEVELOPER_TOKEN
   const customerId    = process.env.GOOGLE_ADS_CUSTOMER_ID
   const loginCustomer = process.env.GOOGLE_ADS_LOGIN_CUSTOMER_ID
-  if (!devToken || !customerId) return null
+  if (!devToken || !customerId) { console.warn('[google-ads] vars ausentes — devToken:', !!devToken, 'customerId:', !!customerId); return null }
 
   const token = await getGoogleAdsToken()
-  if (!token) { console.warn('[google-ads] token indisponível'); return null }
+  if (!token) { console.warn('[google-ads] token OAuth indisponível'); return null }
+  console.log('[google-ads] token OAuth obtido, chamando API...')
 
   const url = `https://googleads.googleapis.com/v20/customers/${customerId}/googleAds:search`
   const headers: Record<string, string> = {
@@ -310,7 +311,9 @@ async function fetchGoogleAds() {
       ORDER BY metrics.cost_micros DESC
       LIMIT 20`
     const r = await fetch(url, { method: 'POST', headers, body: JSON.stringify({ query: gaql }) })
-    return r.json()
+    const json = await r.json()
+    if (!r.ok || json.error) console.error('[google-ads] API error:', JSON.stringify(json).slice(0, 300))
+    return json
   }
 
   try {
