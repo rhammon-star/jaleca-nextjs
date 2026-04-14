@@ -49,6 +49,7 @@ export async function POST(request: NextRequest) {
     const credentials = { username: wpUsername, appPassword: wpAppPassword }
 
     let featuredMediaId: number | undefined
+    let imageWarning: string | undefined
     if (body.imageUrl) {
       try {
         featuredMediaId = await uploadMedia(
@@ -56,8 +57,9 @@ export async function POST(request: NextRequest) {
           `${body.slug}.jpg`,
           credentials
         )
-      } catch {
-        // Continue without featured image
+      } catch (imgErr) {
+        imageWarning = imgErr instanceof Error ? imgErr.message : 'Erro ao fazer upload da imagem'
+        console.error('[blog/publish] uploadMedia falhou:', imageWarning, '| URL:', body.imageUrl)
       }
     }
 
@@ -78,7 +80,7 @@ export async function POST(request: NextRequest) {
     revalidatePath('/blog')
     revalidatePath(`/blog/${body.slug}`)
 
-    return NextResponse.json({ id: result.id, link: result.link }, { status: 201 })
+    return NextResponse.json({ id: result.id, link: result.link, imageWarning }, { status: 201 })
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Erro ao publicar post'
     return NextResponse.json({ error: message }, { status: 500 })

@@ -88,17 +88,29 @@ export async function uploadMedia(
   credentials: { username: string; appPassword: string }
 ): Promise<number> {
   // Download image first
-  const imgRes = await fetch(imageUrl)
-  if (!imgRes.ok) throw new Error('Failed to download image')
+  const imgRes = await fetch(imageUrl, { redirect: 'follow' })
+  if (!imgRes.ok) throw new Error(`Failed to download image: ${imgRes.status} ${imgRes.statusText}`)
   const buffer = await imgRes.arrayBuffer()
-  const contentType = imgRes.headers.get('content-type') || 'image/jpeg'
+  const contentType = imgRes.headers.get('content-type')?.split(';')[0].trim() || 'image/jpeg'
+
+  // Fix filename extension to match actual content-type
+  const extMap: Record<string, string> = {
+    'image/jpeg': '.jpg',
+    'image/png': '.png',
+    'image/webp': '.webp',
+    'image/gif': '.gif',
+    'image/avif': '.avif',
+  }
+  const ext = extMap[contentType] ?? '.jpg'
+  const baseName = filename.replace(/\.[^.]+$/, '')
+  const finalFilename = `${baseName}${ext}`
 
   const res = await fetch(`${WP_URL}/media`, {
     method: 'POST',
     headers: {
       Authorization: getAuthHeader(credentials),
       'Content-Type': contentType,
-      'Content-Disposition': `attachment; filename="${filename}"`,
+      'Content-Disposition': `attachment; filename="${finalFilename}"`,
     },
     body: buffer,
   })

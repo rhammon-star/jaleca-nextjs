@@ -299,6 +299,9 @@ export default function NovoPostClient() {
       }
       setSaveStatus('saved')
       setSaveLink(data.link ?? '')
+      if (data.imageWarning) {
+        setSaveError(`Post publicado, mas sem foto: ${data.imageWarning}`)
+      }
     } catch (err) {
       setSaveStatus('error')
       setSaveError((err as Error).message || 'Erro ao salvar post')
