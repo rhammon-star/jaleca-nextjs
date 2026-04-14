@@ -4,14 +4,14 @@ import { graphqlClient, GET_PRODUCTS } from '@/lib/graphql'
 import ProductsClient from '@/app/produtos/ProductsClient'
 import type { WooProduct } from '@/components/ProductCard'
 import type { Metadata } from 'next'
-import { Truck, RotateCcw, ShieldCheck, Star, Gift } from 'lucide-react'
+import { Truck, RotateCcw, ShieldCheck, Star, Gift, Heart } from 'lucide-react'
 
 type NichoInfo = {
   titulo: string
   subtitulo: string
   profissoes: string
   profissaoLabel: string
-  conteudo: string
+  conteudoParagrafos: string[]
   emoji: string
 }
 
@@ -41,7 +41,14 @@ const NICHOS: Record<string, NichoInfo> = {
     profissoes: 'médicas, enfermeiras, dentistas, fisioterapeutas e profissionais de saúde',
     profissaoLabel: 'profissional de saúde',
     emoji: '🩺',
-    conteudo: 'Sua mãe dedica a vida a cuidar das pessoas — agora é a sua vez de cuidar dela. Um jaleco Jaleca é um presente que une carinho e praticidade: tecido premium que não amassa, corte que valoriza, e durabilidade para a rotina intensa de médicas, enfermeiras, dentistas e fisioterapeutas. Mais do que um uniforme, é um símbolo de reconhecimento pelo trabalho que ela faz todos os dias.',
+    conteudoParagrafos: [
+      'Procurando um presente criativo para o Dia das Mães para uma médica, enfermeira ou dentista? Um jaleco de qualidade é uma das ideias de presente mais significativas que existem — porque é algo que ela vai usar todo dia, no trabalho que ela ama.',
+      'Profissionais de saúde passam horas de jaleco. Uma médica usa o jaleco por toda a jornada no hospital ou na clínica. Uma enfermeira percorre corredores inteiros com o mesmo uniforme. Uma dentista recebe paciente após paciente. O jaleco não é só uma peça de roupa — é parte da identidade profissional delas.',
+      'Por isso, quando o jaleco é bom, faz diferença. Tecido que não abafa, corte que valoriza, acabamento que dura lavagem após lavagem. Os jalecos Jaleca são desenvolvidos pensando nisso: conforto para longas jornadas, elegância que transmite confiança e qualidade que não decepciona.',
+      'Ideias de presente para mãe médica no Dia das Mães podem incluir kits completos — jaleco + dólmã ou jaleco + conjunto — para ela ter opções durante a semana. Para mãe enfermeira, um jaleco de manga curta ou longa dependendo do ambiente em que ela trabalha. Para mãe dentista, modelos mais ajustados que ficam bonitos mesmo usando máscara e luvas.',
+      'A Jaleca tem mais de 8 anos vestindo profissionais de saúde no Brasil. São mais de 500 avaliações com nota média 4.9 — porque o produto entrega o que promete. Tecido importado, costura reforçada, bolsos funcionais. Um presente que ela vai receber com emoção e usar com orgulho.',
+      'Aproveite: frete grátis (PAC) para SP, RJ, MG e ES nas compras acima de R$499. Troca garantida em até 30 dias. Compra 100% segura. Escolha o presente perfeito para a sua mãe logo abaixo.',
+    ],
   },
   estetica: {
     titulo: 'Presente de Dia das Mães para Esteticista',
@@ -49,7 +56,14 @@ const NICHOS: Record<string, NichoInfo> = {
     profissoes: 'esteticistas, cosmetólogas, micropigmentadoras e profissionais de beleza',
     profissaoLabel: 'esteticista ou profissional de beleza',
     emoji: '💆',
-    conteudo: 'Para a mãe que faz as outras se sentirem lindas, um jaleco Jaleca é o presente ideal. Com tecido macio, corte moderno e acabamento impecável, os jalecos Jaleca são perfeitos para o ambiente do salão, da clínica de estética ou do espaço de micropigmentação. Um presente que ela vai usar com orgulho todos os dias — e que reflete todo o cuidado que você tem por ela.',
+    conteudoParagrafos: [
+      'Procurando ideias de presente criativo para o Dia das Mães para uma esteticista ou profissional de beleza? Um jaleco elegante e confortável é exatamente o tipo de presente que ela não compra pra si mesma — mas que faz toda a diferença no dia a dia dela.',
+      'A rotina de uma esteticista é intensa. Horas em pé, atendimentos consecutivos, movimentos constantes. O jaleco precisa acompanhar isso: tecido que não amassa, que não abafa, que deixa ela livre para trabalhar. E que, ao mesmo tempo, transmita a elegância que o ambiente de estética exige.',
+      'Os jalecos Jaleca têm esse equilíbrio. O tecido é macio e respirável, o corte valoriza a silhueta sem apertar, e o acabamento é impecável — do botão à costura. Uma esteticista com um jaleco Jaleca chega ao trabalho com confiança e termina o dia sem aquela sensação de desconforto.',
+      'Presente para mãe esteticista no Dia das Mães pode ser um jaleco clássico branco, que combina com qualquer ambiente, ou um modelo colorido para quem gosta de personalidade. A Jaleca tem opções para todos os estilos — e tamanhos de PP ao G3 para garantir o caimento perfeito.',
+      'Micropigmentadoras e cosmetólogas também encontram aqui o jaleco ideal. Modelos que ficam bonitos nas fotos do antes e depois, que não soltam pano no cliente e que lavam fácil. Presente funcional, bonito e cheio de significado.',
+      'Troca grátis em até 30 dias se o tamanho não ficar certo. Entrega com rastreamento para todo o Brasil. Aproveite e escolha o presente perfeito para ela logo abaixo.',
+    ],
   },
   veterinaria: {
     titulo: 'Presente de Dia das Mães para Veterinária',
@@ -57,7 +71,14 @@ const NICHOS: Record<string, NichoInfo> = {
     profissoes: 'veterinárias, zootecnistas e profissionais de medicina veterinária',
     profissaoLabel: 'veterinária',
     emoji: '🐾',
-    conteudo: 'Sua mãe escolheu uma profissão movida pelo amor aos animais. Presenteie ela com um jaleco Jaleca: resistente, confortável e com design que mantém a elegância mesmo na rotina agitada das clínicas veterinárias. Tecido de qualidade que facilita a limpeza e o cuidado, corte que garante liberdade de movimento. Um presente que combina funcionalidade e afeto.',
+    conteudoParagrafos: [
+      'Sua mãe escolheu uma das profissões mais desafiadoras e mais bonitas que existem. Cuidar de animais exige dedicação, resistência e muito amor. Se você está procurando um presente criativo para o Dia das Mães para veterinária, um jaleco de qualidade é uma ideia que ela vai adorar.',
+      'Veterinárias usam o jaleco em atendimentos clínicos, cirurgias, exames e visitas a campo. Precisa ser resistente — aguentar o contato com animais, fácil de lavar, sem perder a forma. Mas também precisa ser confortável, porque a jornada é longa e exigente.',
+      'Os jalecos Jaleca são feitos para isso. Tecido de alta qualidade que resiste a lavagens frequentes sem desbotar ou encolher. Costura reforçada nos pontos de tensão. Bolsos espaçosos e funcionais para quem precisa ter tudo à mão durante o atendimento. Um jaleco que dura de verdade.',
+      'Presente para mãe veterinária no Dia das Mães pode ser um modelo clássico branco — o mais usado em clínicas — ou um dólmã para quem prefere praticidade. Para quem trabalha em pet shops ou clínicas com visual mais moderno, modelos coloridos ou com detalhes são uma ótima pedida.',
+      'Ideias de presente para mãe que ama animais vão além dos mimos óbvios. Um jaleco que ela vai usar todos os dias é um presente com significado real — que lembra o quanto você valoriza a escolha dela, a profissão que ela exerce com tanto cuidado.',
+      'Tamanhos de PP ao G3. Troca grátis em 30 dias. Entrega com rastreamento para todo o Brasil. Escolha o presente certo para ela logo abaixo.',
+    ],
   },
   nutricao: {
     titulo: 'Presente de Dia das Mães para Nutricionista',
@@ -65,7 +86,14 @@ const NICHOS: Record<string, NichoInfo> = {
     profissoes: 'nutricionistas, dietistas e profissionais de nutrição',
     profissaoLabel: 'nutricionista',
     emoji: '🥗',
-    conteudo: 'Para a mãe que orienta pessoas a terem uma vida mais saudável, um jaleco Jaleca é um presente com significado. Elegante para atendimentos em consultório, confortável para longas jornadas, com tecido premium que mantém a aparência profissional o dia todo. Mostre que você reconhece e admira o trabalho dela com um presente que ela vai usar com prazer.',
+    conteudoParagrafos: [
+      'Procurando ideia de presente criativo para o Dia das Mães para nutricionista? Um jaleco elegante e de qualidade é uma das melhores opções — presente prático, bonito e com significado para quem usa jaleco todos os dias no trabalho.',
+      'Nutricionistas atendem em consultórios, hospitais, clínicas de saúde e empresas. A imagem que transmitem importa: um jaleco bem cuidado passa profissionalismo e confiança para o paciente logo no primeiro momento. Por isso, a qualidade do jaleco faz diferença real na rotina dela.',
+      'Os jalecos Jaleca têm tecido que mantém a aparência impecável mesmo depois de horas de uso. Não amassa, não abafa, não puxa. O corte é pensado para valorizar sem apertar — importante para quem fica em pé a maior parte do dia, circulando entre pacientes e revisando planos alimentares.',
+      'Presente para mãe nutricionista no Dia das Mães pode ser um jaleco branco clássico ou um modelo com detalhes coloridos para quem gosta de um toque de personalidade. Dólmãs são outra opção muito usada por nutricionistas — práticos, confortáveis e com visual limpo.',
+      'Se você não sabe o tamanho dela, não se preocupe: oferecemos troca grátis em até 30 dias. Escolha um tamanho e, se não ficar perfeito, é só trocar sem custo. Temos tamanhos de PP ao G3 para atender todos os biotipos.',
+      'Frete para todo o Brasil com rastreamento. Frete grátis (PAC) para SP, RJ, MG e ES acima de R$499. Escolha o presente ideal para a sua mãe nutricionista logo abaixo.',
+    ],
   },
   farmacia: {
     titulo: 'Presente de Dia das Mães para Farmacêutica',
@@ -73,7 +101,14 @@ const NICHOS: Record<string, NichoInfo> = {
     profissoes: 'farmacêuticas, bioquímicas e profissionais de farmácia',
     profissaoLabel: 'farmacêutica ou bioquímica',
     emoji: '💊',
-    conteudo: 'Farmacêuticas passam horas de jaleco, atendendo, analisando e orientando. Um jaleco Jaleca transforma esse uniforme diário em algo que ela vai querer vestir — tecido confortável para longas jornadas, corte moderno e acabamento que dura lavagem após lavagem. Um presente prático e cheio de carinho para a mãe que cuida da saúde de todos.',
+    conteudoParagrafos: [
+      'Se você está buscando uma ideia de presente para o Dia das Mães para farmacêutica ou bioquímica, um jaleco de qualidade é uma escolha acertada. É o presente que ela não compra pra si mesma, mas que vai agradecer muito quando receber.',
+      'Farmacêuticas passam horas de jaleco. No balcão da farmácia, no laboratório de manipulação, na clínica ou no hospital. O jaleco é parte da identidade profissional delas — e quando é um jaleco bom, ela percebe a diferença desde o primeiro dia.',
+      'Os jalecos Jaleca têm tecido importado que não abafa e não amassa fácil. Costura reforçada para aguentar o uso frequente e as lavagens da rotina. Bolsos bem posicionados para quem precisa ter caneta, bloco de anotações e outros itens à mão o tempo todo. Um jaleco funcional e elegante ao mesmo tempo.',
+      'Presente para mãe farmacêutica no Dia das Mães pode ser um jaleco manga longa para quem trabalha em ambiente com ar-condicionado intenso, ou manga curta para quem prefere praticidade. O branco clássico nunca erra — é o padrão da profissão. Mas se ela gosta de personalidade, temos modelos com detalhes e cores.',
+      'Bioquímicas que trabalham em laboratórios de análises clínicas também encontram aqui os modelos ideais — resistentes, fáceis de lavar e que mantêm a aparência profissional mesmo em jornadas longas.',
+      'Tamanhos de PP ao G3. Troca grátis em 30 dias se não ficar bom. Entrega com rastreamento para todo o Brasil. Escolha o presente certo para a sua mãe logo abaixo.',
+    ],
   },
   laboratorio: {
     titulo: 'Presente de Dia das Mães para Laboratorista',
@@ -81,15 +116,29 @@ const NICHOS: Record<string, NichoInfo> = {
     profissoes: 'laboratoristas, biomédicas, bioquímicas e profissionais de laboratório',
     profissaoLabel: 'laboratorista ou biomédica',
     emoji: '🔬',
-    conteudo: 'No laboratório, o jaleco não é opcional — é essencial. Para a mãe que trabalha com análises clínicas, bioquímica ou pesquisa, um jaleco Jaleca é o presente certo: tecido resistente que protege, corte que facilita os movimentos e design que traz elegância mesmo no ambiente técnico. Um presente que une cuidado e admiração pela profissão dela.',
+    conteudoParagrafos: [
+      'Procurando um presente criativo para o Dia das Mães para biomédica, laboratorista ou profissional de análises clínicas? Um jaleco de qualidade é a escolha ideal — presente funcional, elegante e com significado para quem usa jaleco todos os dias.',
+      'No laboratório, o jaleco é proteção e identidade ao mesmo tempo. Precisa ser resistente a reagentes e lavagens frequentes, fechar bem, ter mangas que não atrapalhem o trabalho. Mas também precisa ser confortável — porque a jornada dentro de um laboratório é longa e exige concentração.',
+      'Os jalecos Jaleca têm tecido de alta qualidade que aguentam lavagens frequentes sem deformar ou desbotar. O corte oferece liberdade de movimentos — importante para quem trabalha com pipetas, microscópios e equipamentos que exigem precisão. Bolsos bem posicionados para quem precisa ter tudo à mão.',
+      'Presente para mãe biomédica no Dia das Mães pode ser um jaleco manga longa fechado — o mais indicado para ambientes de laboratório — ou um modelo mais versátil para quem circula entre laboratório e atendimento ao paciente. O branco clássico é o padrão da área, mas modelos com detalhes também fazem sucesso.',
+      'Ideias de presente para mãe que trabalha com ciência vão muito além do óbvio. Um jaleco Jaleca é um presente que ela vai receber com alegria e usar com orgulho — porque mostra que você entende e valoriza o trabalho dela.',
+      'Tamanhos de PP ao G3. Troca grátis em 30 dias. Frete com rastreamento para todo o Brasil. Frete grátis para SP, RJ, MG e ES acima de R$499. Veja as opções logo abaixo.',
+    ],
   },
   ti: {
     titulo: 'Presente de Dia das Mães para Profissional de TI',
     subtitulo: 'Para a mãe que trabalha com tecnologia — conforto e estilo do jeito dela',
-    profissoes: 'analistas, desenvolvedoras, técnicas de laboratório de TI e profissionais de tecnologia',
+    profissoes: 'técnicas de laboratório de TI, analistas de campo, pesquisadoras e profissionais de tecnologia',
     profissaoLabel: 'profissional de tecnologia',
     emoji: '💻',
-    conteudo: 'Muitas profissionais de tecnologia — técnicas em lab de hardware, pesquisadoras, analistas de campo — usam jaleco na rotina. Para a mãe que alia precisão e inteligência no trabalho, um jaleco Jaleca é um presente diferenciado: confortável para longas jornadas, moderno e com tecido de qualidade. Um presente que mostra que você prestou atenção no que ela faz e no que ela merece.',
+    conteudoParagrafos: [
+      'Sua mãe trabalha com tecnologia — e você quer dar um presente diferente e com significado neste Dia das Mães. Um jaleco pode ser exatamente o que ela precisa e não sabia que queria.',
+      'Muitas profissionais de TI usam jaleco na rotina: técnicas que trabalham em laboratórios de hardware, analistas de campo que visitam datacenters, pesquisadoras em ambientes controlados, profissionais que atuam em salas limpas. Nesses ambientes, o jaleco é obrigatório — e um jaleco de qualidade faz toda a diferença.',
+      'Os jalecos Jaleca têm tecido confortável e resistente, perfeito para jornadas longas em ambientes com ar-condicionado intenso. O corte é moderno, o acabamento é impecável e os bolsos são funcionais — importantes para quem precisa ter ferramentas, canetas e acessórios sempre à mão.',
+      'Presente para mãe que trabalha com tecnologia no Dia das Mães é uma escolha diferenciada — que mostra que você prestou atenção no que ela faz e quer presentear com algo que tem uso real. Não é mais uma caneca ou um quadro: é um presente que ela vai usar no trabalho que ela ama.',
+      'Se ela não usa jaleco no trabalho, um dólmã ou conjunto profissional Jaleca também é uma ótima ideia — confortável para trabalhar em home office, prático para dias de reunião presencial, com um visual cuidado e profissional.',
+      'Tamanhos de PP ao G3. Troca grátis em 30 dias se não ficar perfeito. Entrega com rastreamento para todo o Brasil. Escolha o presente certo para ela logo abaixo.',
+    ],
   },
 }
 
@@ -115,12 +164,12 @@ export async function generateMetadata({
   if (!nicho) return { title: 'Página não encontrada' }
 
   const title = `${nicho.titulo} | Jaleca`
-  const description = `Presenteie sua mãe ${nicho.profissaoLabel} com um jaleco Jaleca. Qualidade premium, tecido confortável, tamanhos PP ao G3. Entrega rápida, troca grátis. O presente ideal para o Dia das Mães.`
+  const description = `Presenteie sua mãe ${nicho.profissaoLabel} com um jaleco Jaleca. Qualidade premium, tecido confortável, tamanhos PP ao G3. Entrega rápida, troca grátis em 30 dias. O presente ideal para o Dia das Mães.`
 
   return {
     title,
     description,
-    keywords: `presente dia das mães ${nicho.profissaoLabel}, jaleco dia das mães, jaleco presente mãe, jaleco para ${nicho.profissaoLabel}, jaleca dia das mães`,
+    keywords: `presente dia das mães ${nicho.profissaoLabel}, jaleco dia das mães, presente criativo dia das mães, jaleco para ${nicho.profissaoLabel}, ideias de presente dia das mães, jaleca dia das mães`,
     alternates: { canonical: `https://jaleca.com.br/dia-das-maes/${slug}` },
     openGraph: {
       title,
@@ -186,6 +235,15 @@ export default async function DiasDasMaesPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
+      {/* Banner Dia das Mães */}
+      <div className="bg-rose-50 border-b border-rose-100 py-3 px-4 text-center">
+        <p className="text-sm text-rose-700 font-medium flex items-center justify-center gap-2">
+          <Heart size={14} className="fill-rose-400 text-rose-400" />
+          Dia das Mães — Presente com significado, entrega rápida e troca grátis em 30 dias
+          <Heart size={14} className="fill-rose-400 text-rose-400" />
+        </p>
+      </div>
+
       {/* Hero */}
       <section className="bg-[#1a1a1a] text-white py-14 px-4">
         <div className="container max-w-3xl text-center">
@@ -247,10 +305,14 @@ export default async function DiasDasMaesPage({
         </div>
       </section>
 
-      {/* Conteúdo do nicho */}
-      <section className="py-10 px-4">
-        <div className="container max-w-2xl text-center">
-          <p className="text-muted-foreground leading-relaxed">{nicho.conteudo}</p>
+      {/* Conteúdo expandido */}
+      <section className="py-12 px-4 border-t border-border">
+        <div className="container max-w-2xl">
+          <div className="space-y-4 text-muted-foreground leading-relaxed">
+            {nicho.conteudoParagrafos.map((paragrafo, i) => (
+              <p key={i}>{paragrafo}</p>
+            ))}
+          </div>
         </div>
       </section>
 
