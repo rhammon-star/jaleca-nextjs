@@ -247,7 +247,7 @@ async function fetchGoogleAds() {
   const token = await getGoogleAdsToken()
   if (!token) { console.warn('[google-ads] token indisponível'); return null }
 
-  const url = `https://googleads.googleapis.com/v18/customers/${customerId}/googleAds:search`
+  const url = `https://googleads.googleapis.com/v20/customers/${customerId}/googleAds:search`
   const headers: Record<string, string> = {
     Authorization:    `Bearer ${token}`,
     'developer-token': devToken,
