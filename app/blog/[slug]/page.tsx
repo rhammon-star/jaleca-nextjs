@@ -42,11 +42,15 @@ export async function generateMetadata({
   if (!post) return { title: 'Post não encontrado — Jaleca' }
 
   const title = stripHtml(post.title.rendered)
-  const description = stripHtml(post.excerpt.rendered).slice(0, 160)
+  const rawExcerpt = stripHtml(post.excerpt.rendered).slice(0, 155)
+  // Se o excerpt for vazio ou muito curto, usa fallback com CTA
+  const description = rawExcerpt.length > 50
+    ? rawExcerpt
+    : `${title}. Dicas práticas para profissionais da saúde — médicas, dentistas e enfermeiras. Confira no Blog Jaleca.`
   const imageUrl = getFeaturedImageUrl(post)
 
   return {
-    title: `${title} — Jaleca Blog`,
+    title: `${title} | Blog Jaleca`,
     description,
     alternates: { canonical: `https://jaleca.com.br/blog/${slug}` },
     openGraph: {

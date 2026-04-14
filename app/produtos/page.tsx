@@ -24,12 +24,12 @@ async function getAllProducts(): Promise<WooProduct[]> {
 }
 
 export const metadata: Metadata = {
-  title: 'Jalecos e Uniformes Profissionais',
-  description: 'Explore nossa coleção completa de jalecos femininos, masculinos, scrubs e uniformes premium para profissionais da saúde. Entrega rápida para todo o Brasil.',
+  title: 'Comprar Jaleco Feminino e Masculino — Frete Grátis no Sudeste',
+  description: 'Jalecos femininos e masculinos para médicas, dentistas e enfermeiras. Tamanhos PP ao G3, tecido premium, entrega rápida. Frete grátis no Sudeste acima de R$499.',
   alternates: { canonical: 'https://jaleca.com.br/produtos' },
   openGraph: {
-    title: 'Jalecos e Uniformes Profissionais | Jaleca',
-    description: 'Explore nossa coleção completa de jalecos premium para profissionais da saúde.',
+    title: 'Comprar Jaleco Feminino e Masculino | Jaleca',
+    description: 'Jalecos femininos e masculinos para médicas, dentistas e enfermeiras. Tamanhos PP ao G3, frete grátis no Sudeste.',
     url: 'https://jaleca.com.br/produtos',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -47,16 +47,26 @@ export const metadata: Metadata = {
 const collectionPageSchema = {
   '@context': 'https://schema.org',
   '@type': 'CollectionPage',
-  name: 'Jalecos e Uniformes Profissionais — Jaleca',
-  description: 'Coleção completa de jalecos femininos, masculinos, scrubs e uniformes premium para profissionais da saúde.',
+  name: 'Comprar Jaleco Feminino e Masculino — Jaleca',
+  description: 'Jalecos femininos e masculinos para médicas, dentistas e enfermeiras. Tamanhos PP ao G3, tecido premium, entrega rápida. Frete grátis no Sudeste acima de R$499.',
   url: 'https://jaleca.com.br/produtos',
+  publisher: { '@id': 'https://jaleca.com.br/#organization' },
   breadcrumb: {
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Início', item: 'https://jaleca.com.br' },
-      { '@type': 'ListItem', position: 2, name: 'Produtos', item: 'https://jaleca.com.br/produtos' },
+      { '@type': 'ListItem', position: 2, name: 'Jalecos e Uniformes', item: 'https://jaleca.com.br/produtos' },
     ],
   },
+}
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Início', item: 'https://jaleca.com.br' },
+    { '@type': 'ListItem', position: 2, name: 'Todos os Jalecos e Uniformes', item: 'https://jaleca.com.br/produtos' },
+  ],
 }
 
 export default async function ProdutosPage({
@@ -71,9 +81,11 @@ export default async function ProdutosPage({
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(collectionPageSchema).replace(/</g, '\\u003c'),
-        }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionPageSchema).replace(/</g, '\\u003c') }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }}
       />
       <ProductsClient
         key={`${cat ?? ''}-${genero ?? ''}-${cor ?? ''}-${sale ?? ''}-${novidades ?? ''}`}
