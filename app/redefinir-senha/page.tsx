@@ -6,6 +6,7 @@
 import { useState, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { useAuth } from '@/contexts/AuthContext'
 
 function ResetPasswordForm() {
   const searchParams = useSearchParams()
@@ -14,6 +15,8 @@ function ResetPasswordForm() {
   const resetKey = searchParams.get('key') || ''
   const login = searchParams.get('login') || ''
   const customerIdParam = searchParams.get('id') || ''
+
+  const { login: authLogin } = useAuth()
 
   const [password, setPassword] = useState('')
   const [confirm, setConfirm] = useState('')
@@ -49,7 +52,13 @@ function ResetPasswordForm() {
         setError(data.error || 'Erro ao redefinir senha.')
       } else {
         setSuccess(true)
-        setTimeout(() => router.push('/minha-conta'), 3000)
+        // Auto-login com a nova senha antes de redirecionar
+        try {
+          await authLogin(login, password)
+        } catch {
+          // Login falhou — redireciona mesmo assim (usuário pode logar manualmente)
+        }
+        setTimeout(() => router.push('/minha-conta'), 2000)
       }
     } catch {
       setError('Erro de conexão. Tente novamente.')

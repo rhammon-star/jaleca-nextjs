@@ -19,6 +19,14 @@ const Header = () => {
   const { isLoggedIn, user } = useAuth();
   const pathname = usePathname();
 
+  // Auto-abre login quando redirecionado de minha-conta sem sessão
+  useEffect(() => {
+    if (!isLoggedIn && typeof window !== 'undefined' && sessionStorage.getItem('jaleca-open-login') === '1') {
+      sessionStorage.removeItem('jaleca-open-login')
+      setAuthOpen(true)
+    }
+  }, [isLoggedIn]);
+
   // Fecha o menu ao navegar para outra página
   useEffect(() => { setMobileOpen(false) }, [pathname]);
 

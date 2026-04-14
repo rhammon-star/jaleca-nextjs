@@ -257,7 +257,10 @@ export default function MinhaContaClient() {
   const [sameAsBilling, setSameAsBilling] = useState(false)
 
   useEffect(() => {
-    if (!isLoading && !isLoggedIn) router.push('/')
+    if (!isLoading && !isLoggedIn) {
+      sessionStorage.setItem('jaleca-open-login', '1')
+      router.push('/')
+    }
   }, [isLoggedIn, isLoading, router])
 
   useEffect(() => {
