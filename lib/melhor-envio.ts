@@ -220,7 +220,6 @@ export async function calculateShipping(
     const token = process.env.MELHOR_ENVIO_TOKEN
     if (token && token !== 'PLACEHOLDER') {
       const options = await callMelhorEnvioAPI(cleanCep, totalWeight, items)
-      // Only use API result if it returned at least 2 services (PAC + SEDEX or more)
       if (options.length >= 1) {
         // Determine UF for free shipping check
         const ufRes = await fetch(`https://viacep.com.br/ws/${cleanCep}/json/`).catch(() => null)
@@ -231,9 +230,23 @@ export async function calculateShipping(
         }
 
         // Apply free shipping for PAC if eligible
-        const finalOptions = uf && FREE_SHIPPING_STATES.includes(uf) && subtotal >= 499
+        let finalOptions = uf && FREE_SHIPPING_STATES.includes(uf) && subtotal >= 499
           ? options.map(o => o.id === '1' ? { ...o, cost: 0 } : o)
-          : options
+          : [...options]
+
+        // Se ME não retornou PAC ou Jadlog, completa com fallback regional
+        const ids = new Set(finalOptions.map(o => o.id))
+        const fb = getFallbackOptions(uf, subtotal)
+        if (!ids.has('1')) {
+          const pac = fb.find(o => o.id === 'pac')
+          if (pac) finalOptions.push({ ...pac, id: '1' })
+          console.log('[ME API] PAC ausente — usando fallback regional')
+        }
+        if (!ids.has('7') && !ids.has('8')) {
+          const jadlog = fb.find(o => o.id === 'jadlog')
+          if (jadlog) finalOptions.push({ ...jadlog, id: '7' })
+          console.log('[ME API] Jadlog ausente — usando fallback regional')
+        }
 
         // Sort: PAC first (id=1), then Jadlog (id=7/8), then SEDEX (id=2)
         const SORT_ORDER: Record<string, number> = { '1': 0, '7': 1, '8': 2, '2': 3 }
