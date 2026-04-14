@@ -206,7 +206,7 @@ export default function RootLayout({
           </WishlistProvider>
         </AuthProvider>
         {/* ContentSquare — gravação de sessão e heatmaps */}
-        <Script src="https://t.contentsquare.net/uxa/d63ab31369d59.js" strategy="afterInteractive" />
+        <Script src="https://t.contentsquare.net/uxa/d63ab31369d59.js" strategy="beforeInteractive" />
       </body>
     </html>
   );
