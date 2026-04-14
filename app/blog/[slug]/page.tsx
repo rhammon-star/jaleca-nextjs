@@ -24,6 +24,13 @@ function stripHtml(html: string): string {
   return html.replace(/<[^>]*>/g, '').replace(/&[a-z]+;/gi, ' ').trim()
 }
 
+// WordPress content may include <h1> tags — demote to <h2> to avoid duplicate H1
+function demoteH1(html: string): string {
+  return html
+    .replace(/<h1(\s[^>]*)?>/gi, (_, attrs) => `<h2${attrs ?? ''}>`)
+    .replace(/<\/h1>/gi, '</h2>')
+}
+
 function formatDate(dateStr: string): string {
   return new Date(dateStr).toLocaleDateString('pt-BR', {
     day: '2-digit',
@@ -224,7 +231,7 @@ export default async function BlogPostPage({
               prose-ol:text-foreground prose-ol:my-4 prose-ol:pl-6
               prose-li:my-2 prose-li:leading-relaxed
               prose-img:rounded-none prose-img:my-6"
-            dangerouslySetInnerHTML={{ __html: post.content.rendered }}
+            dangerouslySetInnerHTML={{ __html: demoteH1(post.content.rendered) }}
           />
 
           {/* Footer */}

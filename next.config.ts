@@ -68,10 +68,15 @@ const nextConfig: NextConfig = {
       { source: '/produto-category/:slug*', destination: '/categoria/:slug*', permanent: true },
       { source: '/product-category/:slug*', destination: '/produtos', permanent: true },
       // Categorias aninhadas do site antigo → categoria simples (ex: /categoria/jalecos/jalecos-masculinos → /categoria/jalecos-masculinos)
-      { source: '/categoria/:parent/:slug/', destination: '/produtos', permanent: true },
-      { source: '/categoria/:parent/:slug', destination: '/produtos', permanent: true },
-      { source: '/categoria/:slug/', destination: '/produtos', permanent: true },
-      { source: '/categoria/:slug', destination: '/produtos', permanent: true },
+      { source: '/categoria/:parent/:slug/', destination: '/categoria/:slug', permanent: true },
+      { source: '/categoria/:parent/:slug', destination: '/categoria/:slug', permanent: true },
+      // Slugs antigos do WooCommerce que não existem no Next.js → /produtos
+      { source: '/categoria/dolmas', destination: '/categoria/domas', permanent: true },
+      { source: '/categoria/dolmas-femininas', destination: '/categoria/domas-femininas', permanent: true },
+      { source: '/categoria/dolmas-masculinas', destination: '/categoria/domas-masculinas', permanent: true },
+      { source: '/categoria/scrubs', destination: '/categoria/conjuntos', permanent: true },
+      // Blog posts com slug errado → slug correto (404 detectado no Screaming Frog)
+      { source: '/blog/como-escolher-o-jaleco-ideal-para-sua-especialidade-medica', destination: '/blog/como-escolher-jaleco-ideal-especialidade-medica-2', permanent: true },
       // URLs antigas do WordPress
       { source: '/loja-matriz', destination: '/nossas-lojas', permanent: true },
       { source: '/color/:slug*', destination: '/produtos', permanent: true },
