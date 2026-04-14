@@ -54,8 +54,10 @@ const WC_CS = process.env.WOOCOMMERCE_CONSUMER_SECRET!
 
 function verifyPagarmeSignature(rawBody: string, signature: string | null): { ok: boolean; reason: string } {
   if (!signature) return { ok: false, reason: 'no x-hub-signature header' }
-  const secret = process.env.PAGARME_SECRET_KEY
-  if (!secret) return { ok: false, reason: 'PAGARME_SECRET_KEY not set' }
+  // PAGARME_WEBHOOK_SECRET = senha configurada no dashboard Pagar.me (Webhooks)
+  // Diferente de PAGARME_SECRET_KEY que é a chave da API REST
+  const secret = process.env.PAGARME_WEBHOOK_SECRET || process.env.PAGARME_SECRET_KEY
+  if (!secret) return { ok: false, reason: 'PAGARME_WEBHOOK_SECRET not set' }
   const parts = signature.split('=')
   if (parts.length !== 2 || parts[0] !== 'sha1') return { ok: false, reason: `unexpected format: ${parts[0]}` }
   const expected = createHmac('sha1', secret).update(rawBody).digest('hex')
