@@ -19,7 +19,7 @@ export async function GET(req: Request) {
     from: { postal_code: '35160294' },
     to: { postal_code: cep },
     products: [{ id: 'jaleco', height: 31, width: 4, length: 41, weight: 0.6, quantity: 1, insurance_value: 0 }],
-    services: '1,2,7,8',
+    // sem filtro de services = retorna TODOS os disponíveis na conta
     options: { insurance_value: 0, receipt: false, own_hand: false, collect: false },
   }
 
