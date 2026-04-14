@@ -48,7 +48,9 @@ export async function POST(req: NextRequest) {
     const tags: Array<{ tag: string }> = body.tags ?? []
 
     if (!meOrderId) {
-      return NextResponse.json({ error: 'Missing order id' }, { status: 400 })
+      // ME envia uma requisição de teste ao cadastrar o webhook — retornar 200 para validar
+      console.log('[ME Webhook] Requisição de teste recebida (sem order id) — OK')
+      return NextResponse.json({ ok: true })
     }
 
     // Extract WC order ID from tags (format: "wc-order-62312")
