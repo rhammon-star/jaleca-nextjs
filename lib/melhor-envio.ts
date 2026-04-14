@@ -130,9 +130,8 @@ async function callMelhorEnvioAPI(
 
   for (const svc of services) {
     if (!ALLOWED_SERVICES.has(svc.id)) continue
-    if (svc.error) continue
     const rawPrice = svc.custom_price ?? svc.price
-    if (!rawPrice) continue
+    if (!rawPrice) continue  // sem preço = indisponível (svc.error ignorado quando há preço)
     const cost = parseFloat(rawPrice)
     if (isNaN(cost) || cost <= 0) continue
     const deliveryDays = svc.delivery_time ?? 7

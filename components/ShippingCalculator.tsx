@@ -44,6 +44,15 @@ export default function ShippingCalculator({ onShippingSelected, selectedId, ini
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  // Recalculate when quantity or subtotal changes (only if already calculated)
+  useEffect(() => {
+    if (!calculated) return
+    const clean = cep.replace(/\D/g, '')
+    if (clean.length !== 8) return
+    calculate(clean)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [itemCount, subtotal])
+
   async function calculate(clean: string) {
     setError('')
     setLoading(true)
