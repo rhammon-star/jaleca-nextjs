@@ -16,7 +16,7 @@ Site de uniformes médicos (jalecos, dômãs, conjuntos). Diretório: `/Users/rh
 - Gemini AI (gemini-2.5-flash) para blog
 - Radix UI (shadcn/ui pattern) + custom components
 
-## Status das integrações (13/04/2026 — noite)
+## Status das integrações (14/04/2026)
 - WooCommerce GraphQL: ✅ `https://wp.jaleca.com.br/graphql`
 - WooCommerce REST: ✅ Pedidos, customers
 - Carrinho: ✅ localStorage
@@ -39,11 +39,25 @@ Site de uniformes médicos (jalecos, dômãs, conjuntos). Diretório: `/Users/rh
 - **Antifraude cartão — estorno quando titular ≠ comprador (13/04/2026)**: ✅ CORRIGIDO — `billingName` era sempre o nome da conta, causando divergência com o `holder_name` do token. Agora usa `cardHolderName` (campo "NOME COMO NO CARTÃO" do checkout). Se ainda estornar: ajustar tolerância antifraude no dashboard Pagar.me.
 - **Mensagem "Transação aprovada" com fundo vermelho ao negar cartão (13/04/2026)**: ✅ CORRIGIDO — `payment/create/route.ts` não usa mais `acquirer_message` do Pagar.me (que retorna "Transação aprovada" mesmo quando anti-fraude bloqueia). Agora deriva mensagem amigável em PT do `charge.status`.
 - **SEDEX mais barato que PAC / PAC não aparecendo (13/04/2026)**: ✅ CORRIGIDO — `lib/melhor-envio.ts` agora ordena opções explicitamente: PAC (id=1) → Jadlog → SEDEX. PAC sempre aparece primeiro independente do preço real da ME API.
+  - ⚠️ ATENÇÃO: IDs ME foram corrigidos novamente em 14/04/2026 (ver bug acima).
 - **Responsividade mobile — scroll horizontal (13/04/2026)**: ✅ CORRIGIDO — `app/globals.css` agora tem `overflow-x: hidden` no html e body. CartDrawer e outros componentes posicionados fora da viewport não causam mais scroll horizontal.
 - **Repagar pedido no portal (13/04/2026)**: ✅ CORRIGIDO — `MinhaContaClient.tsx` mostra botão "Tentar novamente" para status `failed` e `on-hold` além de `pending`. Adiciona itens ao carrinho e redireciona para checkout.
 - **Email link após falha de pagamento vai para home (13/04/2026)**: ✅ CORRIGIDO — `sendPaymentFailed` e `sendPaymentReminder` em `lib/email.ts` agora linkam para `/minha-conta` (antes linkavam para `/produtos` e `/finalizar-compra` — que redirecionava para home com carrinho vazio).
 - **Data de nascimento e gênero no cadastro (13/04/2026)**: ✅ CORRIGIDO — campos adicionados na aba "Meus Dados" do `/minha-conta`. Carregam do WC `meta_data` (`billing_birthdate`, `billing_sex`) e salvam via `PUT /api/auth/profile`. Backend já aceitava esses campos desde o registro.
 - **CPF no email interno de nova venda (13/04/2026)**: ✅ CORRIGIDO — `sendInternalOrderNotification` em `lib/email.ts` aceita `customerCpf` opcional e exibe no template. `payment/create/route.ts` passa o CPF da requisição.
+- **CPF não aparecia no pedido WC admin (14/04/2026)**: ✅ CORRIGIDO — `payment/create/route.ts` usava chave `_billing_cpf` (private meta WP, escondida no admin). Corrigido para `billing_cpf` (sem underscore) → aparece em Custom Fields do pedido.
+- **Jadlog aparecia com serviço errado no ME cart (14/04/2026)**: ✅ CORRIGIDO — IDs de serviço ME para Jadlog eram 3,4 (PAC Mini e SEDEX 12 dos Correios). IDs corretos: Jadlog Package=7, Jadlog .com=8. `services: '1,2,7,8'`, `SERVICE_LABELS`, `ALLOWED_SERVICES`, `ME_SERVICE_MAP` e `SORT_ORDER` corrigidos em `lib/melhor-envio.ts`.
+- **PAC fantasma no frete (14/04/2026)**: ✅ CORRIGIDO — `lib/melhor-envio.ts` injetava PAC mesmo quando a ME API respondia sem PAC (rota indisponível). Removida injeção forçada. Fallback completo mantido apenas quando API falha por erro de rede/token.
+- **Webhook Pagar.me charge.paid sem wc_order_id (14/04/2026)**: ✅ CORRIGIDO — para evento `charge.paid`, `body.data` é a cobrança (não o pedido). `wc_order_id` estava em `data.order.metadata`, não em `data.metadata`. Webhook agora verifica ambos. Variável `PAGARME_WEBHOOK_SECRET` separada de `PAGARME_SECRET_KEY` (API key). Log: `[Webhook] type=... status=... wcOrderId=...`
+- **Webhook ME validação 400 (14/04/2026)**: ✅ CORRIGIDO — ME envia POST de teste ao cadastrar webhook; endpoint retornava 400 (Missing order id). Agora retorna 200 para requisições sem order id.
+- **Webhook ME configurado (14/04/2026)**: ✅ CONFIGURADO — `app.melhorenvio.com.br` → Integrações → Área Dev. → Jaleca → Novo Webhook. URL: `https://jaleca.com.br/api/tracking/melhor-envio-webhook`. Evento: Atualização das etiquetas criadas e editadas.
+- **Alerta interno de falha de pagamento (14/04/2026)**: ✅ IMPLEMENTADO — `sendInternalPaymentFailureAlert()` em `lib/email.ts`. Disparado em `payment/create` (cartão recusado síncronos) e `payment/webhook` (charge.payment_failed, PIX expirado). Email para financeiro@ + contato@ + rhammon@objetivasolucao.com.br com: nome/email/telefone cliente (link WA), motivo, valor, link WC admin.
+- **Mensagem de ajuda no checkout após falha (14/04/2026)**: ✅ IMPLEMENTADO — `CheckoutClient.tsx` exibe bloco âmbar quando `paymentFailed=true` com botões WhatsApp (5531992901940) e email (contato@jaleca.com.br). Só aparece em erros de pagamento, não em validações de formulário.
+- **Frete ME — dimensões, peso e quantidade (14/04/2026)**: ✅ CORRIGIDO — `lib/melhor-envio.ts` tinha height e width trocados. Padrão correto: Largura=4cm (width, escala ×N), Altura=31cm (height, fixo), Comprimento=41cm (length, fixo), Peso=0.6kg/item. `ShippingCalculator` agora recebe prop `itemCount` e passa ao `/api/shipping`. `CartDrawer` e `CheckoutClient` passam quantidade real do carrinho. `payment/create` também usa 0.6kg/item para ME cart.
+- **Alerta interno nova venda — destinatários (14/04/2026)**: ✅ CORRIGIDO — `sendInternalOrderNotification` em `lib/email.ts` enviava apenas para `financeiro@` e `contato@` (rhammon@ havia sido removido em sessão anterior). Restaurado: financeiro@ + contato@ + rhammon@objetivasolucao.com.br. Logging do `.catch` também melhorado (antes `.catch(() => {})` silencioso; agora loga o erro nos logs Vercel).
+- **Pedidos não apareciam após definir senha (14/04/2026)**: ✅ CORRIGIDO — `redefinir-senha/page.tsx` não fazia login automático após salvar a senha. Agora chama `authLogin(email, newPassword)` antes de redirecionar para `/minha-conta`. Usuário chega autenticado e pedidos carregam imediatamente.
+- **"Ver meu pedido" no email abria conta sem sessão (14/04/2026)**: ✅ CORRIGIDO — `MinhaContaClient.tsx` ao detectar usuário não logado, salva flag `jaleca-open-login` em `sessionStorage` e redireciona para `/`. `Header.tsx` detecta a flag e abre `AuthModal` automaticamente para o usuário logar.
+- **SEO cidades (14/04/2026)**: ✅ — **51 páginas /cidade/** no total. `/cidade/` desbloqueado do robots.txt (estava no disallow mas no sitemap — contradição corrigida). Caratinga removida (franquia). **⚠️ REGRA: NÃO criar /cidade/ onde há franquia** — cidades bloqueadas: Caratinga, Ipatinga, Teófilo Otoni, Guarapuava (Contagem e Colatina têm franquia mas mantêm página por decisão do dono). Novas adicionadas: Porto Alegre, Goiânia, Florianópolis + top 30 Brasil (Brasília, Salvador, Fortaleza, Recife, Manaus, Belém, Guarulhos, São Luís, Maceió, Natal, Teresina, João Pessoa, Ribeirão Preto, São José dos Campos, Uberlândia) + 9 MG (Juiz de Fora, Betim, Sete Lagoas, Divinópolis, Poços de Caldas, Patos de Minas, Pouso Alegre, Varginha, Barbacena). Blog: título truncado em 55 chars + `robots index:true`. Sitemap resubmetido ao GSC.
 - **Login 401 em todas as rotas autenticadas (13/04/2026)**: ✅ CORRIGIDO — `jaleca/v1/login` retornava `user_id` sem JWT válido (`jaleca-api.php` no fallback). `app/api/auth/login/route.ts` agora: (1) usa token do plugin se for JWT válido, (2) cria JWT próprio assinado com `JALECA_PLUGIN_SECRET` caso contrário. `auth.ts` já verifica HMAC com esse secret. Sem latência extra.
 - **Produto mobile — fotos antes das variantes (13/04/2026)**: ✅ CORRIGIDO — `ProductDetailClient.tsx` trocou `order-1/order-2` entre galeria e info. Fotos sempre primeiro em qualquer iPhone.
 - **Cupom PT — "Usage limit...has been reached" (13/04/2026)**: ✅ CORRIGIDO — regex em `payment/create/route.ts` atualizado para casar o formato atual do WC: `usage limit for coupon|has been reached`. Traduz para "Este cupom já atingiu o limite de uso."
@@ -194,7 +208,8 @@ Também enviar `billing: { name, address }` no nível do pedido.
 - Se estado é SP/RJ/ES/MG e valor < R$499: barra de progresso
 - Subtotal passado ao ShippingCalculator → `/api/shipping` → `calculateShipping(cep, weight, items, subtotal)`
 - SEDEX e Jadlog sempre pagos (Jadlog adicionado em 09/04/2026)
-- Cubagem: 4×31×41 cm base, +4cm largura por peça adicional (`lib/melhor-envio.ts`)
+- Embalagem padrão ME (14/04/2026 — CORRIGIDO): `height=31, width=4×N, length=41, weight=0.6×N` — `lib/melhor-envio.ts`. Width e height estavam trocados antes.
+- `ShippingCalculator` recebe prop `itemCount` (de `CartDrawer` e `CheckoutClient`) e envia ao `/api/shipping` para cubagem correta por quantidade
 
 ### Produtos
 - Query GraphQL usa `variations(first: 100)` — limite padrão WPGraphQL é 10
@@ -315,7 +330,7 @@ jwt-auth/v1/token como dependência — o sistema funciona sem ele.
 9. **Portal pedidos (/minha-conta) 401** — ✅ RESOLVIDO (13/04/2026). `login/route.ts` emite JWT próprio quando `jaleca-api.php` não retorna token válido.
 10. **Email boleto** — ✅ RESOLVIDO (12/04/2026). `sendBoletoEmail()` em payment/create.
 11. **Sistema rastreamento automático** — ✅ RESOLVIDO (12/04/2026). Ciclo completo implementado.
-12. **Configurar webhook ME** — ⏳ AÇÃO MANUAL. Dashboard ME → Preferências → Notificações → URL: `https://jaleca.com.br/api/tracking/melhor-envio-webhook`
+12. **Configurar webhook ME** — ✅ RESOLVIDO (14/04/2026). Configurado em app.melhorenvio.com.br → Integrações → Área Dev. → Jaleca → Novo Webhook.
 13. **Boleto DDA mostrando "Pagar.me"** — ⏳ AÇÃO MANUAL. Contatar suporte Pagar.me para configurar sub-merchant/recebedor com conta bancária da Jaleca. Não é problema de código.
 14. **WooCommerce SKUs duplicados** — 4 produtos afetados (TESTE, Jaleco Slim Princesa Laise, Macacão Paris Feminino, Conjunto Executiva Feminino). Corrigir antes do próximo sync Bling.
 15. **Google Ads — Verificação do anunciante** — Adm. → Configurações → Verificação do anunciante
@@ -377,7 +392,8 @@ jwt-auth/v1/token como dependência — o sistema funciona sem ele.
 - PAC + SEDEX + Jadlog sempre exibidos — se API retornar < 2 opções, usa fallback regional
 - Fallback: PAC R$18,90 / Jadlog R$22,90 / SEDEX R$35,90 (Sul/Sudeste); PAC grátis acima R$499 para SP/RJ/MG/ES
 - **Token real ME configurado** — expira ~30 dias, renovação automática via cron (dia 1 de cada mês, `app/api/melhor-envio/refresh/route.ts`)
-- **ME cart automático**: pedido pago → `addShipmentToMECart()` em `lib/melhor-envio.ts` → aparece no carrinho ME com serviço correto (PAC=1, SEDEX=2, Jadlog=7)
+- **ME cart automático**: pedido pago → `addShipmentToMECart()` em `lib/melhor-envio.ts` → aparece no carrinho ME com serviço correto
+- **IDs corretos ME (confirmado 14/04/2026)**: PAC=1, SEDEX=2, Jadlog Package=7, Jadlog .com=8. IDs 3,4 são PAC Mini e SEDEX 12 (Correios) — NÃO são Jadlog.
 - `ME_SERVICE_MAP`: mapa de IDs de serviço exportado de `lib/melhor-envio.ts`
 - **WordPress SMTP**: WP Mail SMTP configurado com Brevo (smtp-relay.brevo.com:587) → notas de pedido WC chegam no email do cliente
 - **Variáveis ME no Vercel**: `MELHOR_ENVIO_TOKEN`, `MELHOR_ENVIO_REFRESH_TOKEN`, `MELHOR_ENVIO_CLIENT_ID` (23800), `MELHOR_ENVIO_CLIENT_SECRET`, `VERCEL_API_TOKEN`
