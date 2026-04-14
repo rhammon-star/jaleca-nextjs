@@ -254,6 +254,33 @@ const CIDADES: Record<string, CidadeInfo> = {
     freteGratis: true,
     conteudoLocal: 'Em Campinas, polo médico do interior paulista, a Jaleca fornece jalecos premium para profissionais do Unicamp e das clínicas da cidade. Frete grátis para SP acima de R$499.',
   },
+  'jaleco-porto-alegre': {
+    nome: 'Porto Alegre',
+    estado: 'Rio Grande do Sul',
+    uf: 'RS',
+    tipo: 'fechada',
+    profissoes: 'médicos, dentistas, enfermeiros e profissionais de saúde de Porto Alegre',
+    freteGratis: false,
+    conteudoLocal: 'Em Porto Alegre, capital gaúcha com um dos maiores complexos hospitalares do Brasil, do Hospital de Clínicas ao Santa Casa, profissionais de saúde exigentes escolhem a Jaleca por jalecos que unem elegância, durabilidade e conforto para longas jornadas.',
+  },
+  'jaleco-goiania': {
+    nome: 'Goiânia',
+    estado: 'Goiás',
+    uf: 'GO',
+    tipo: 'fechada',
+    profissoes: 'médicos, dentistas, enfermeiros e profissionais de saúde de Goiânia',
+    freteGratis: false,
+    conteudoLocal: 'Goiânia é um dos maiores polos de saúde do Centro-Oeste. Profissionais do Hospital das Clínicas da UFG e dos centros médicos do Setor Bueno encontram na Jaleca jalecos com tecido premium, corte moderno e entrega rápida para toda a capital goiana.',
+  },
+  'jaleco-florianopolis': {
+    nome: 'Florianópolis',
+    estado: 'Santa Catarina',
+    uf: 'SC',
+    tipo: 'fechada',
+    profissoes: 'médicos, dentistas, enfermeiros e profissionais de saúde de Florianópolis',
+    freteGratis: false,
+    conteudoLocal: 'Em Florianópolis, capital catarinense com alto IDH e crescente setor de saúde, do HU-UFSC às clínicas da Trindade e Kobrasol, a Jaleca veste profissionais que valorizam qualidade, estilo e conforto em seus jalecos.',
+  },
 }
 
 async function getProducts(): Promise<WooProduct[]> {

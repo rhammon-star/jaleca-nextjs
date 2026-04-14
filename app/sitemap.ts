@@ -156,6 +156,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     'jaleco-vitoria-da-conquista', 'jaleco-colatina',
     'jaleco-caratinga', 'jaleco-contagem', 'jaleco-sao-paulo',
     'jaleco-rio-de-janeiro', 'jaleco-campinas',
+    'jaleco-porto-alegre', 'jaleco-goiania', 'jaleco-florianopolis',
   ]
 
   const cidadePages: MetadataRoute.Sitemap = cidadeSlugs.map(slug => ({

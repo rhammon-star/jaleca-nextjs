@@ -48,25 +48,32 @@ export async function generateMetadata({
   const post = await getPostBySlug(slug)
   if (!post) return { title: 'Post não encontrado — Jaleca' }
 
-  const title = stripHtml(post.title.rendered)
+  const rawTitle = stripHtml(post.title.rendered)
+  // Trunca título em ~55 chars para caber " | Jaleca" dentro do limite de ~60 do Google
+  const truncatedTitle = rawTitle.length > 55
+    ? rawTitle.slice(0, 55).replace(/\s+\S*$/, '')
+    : rawTitle
+  const title = `${truncatedTitle} | Jaleca`
+
   const rawExcerpt = stripHtml(post.excerpt.rendered).slice(0, 155)
   // Se o excerpt for vazio ou muito curto, usa fallback com CTA
   const description = rawExcerpt.length > 50
     ? rawExcerpt
-    : `${title}. Dicas práticas para profissionais da saúde — médicas, dentistas e enfermeiras. Confira no Blog Jaleca.`
+    : `${rawTitle}. Dicas práticas para profissionais da saúde — médicas, dentistas e enfermeiras. Confira no Blog Jaleca.`
   const imageUrl = getFeaturedImageUrl(post)
 
   return {
-    title: `${title} | Blog Jaleca`,
+    title,
     description,
+    robots: { index: true, follow: true },
     alternates: { canonical: `https://jaleca.com.br/blog/${slug}` },
     openGraph: {
-      title,
+      title: rawTitle,
       description,
       url: `https://jaleca.com.br/blog/${slug}`,
       siteName: 'Jaleca',
       locale: 'pt_BR',
-      images: imageUrl ? [{ url: imageUrl, alt: title }] : [],
+      images: imageUrl ? [{ url: imageUrl, alt: rawTitle }] : [],
       type: 'article',
       publishedTime: post.date,
       modifiedTime: post.modified,
