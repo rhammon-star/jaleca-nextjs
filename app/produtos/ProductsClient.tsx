@@ -117,7 +117,7 @@ const SORT_LABELS: Record<SortOption, string> = {
   newest: "Novidades",
 };
 
-type Props = { products: WooProduct[]; initialCat?: string; initialSale?: boolean; initialNovidades?: boolean; initialGenero?: string; initialCor?: string };
+type Props = { products: WooProduct[]; initialCat?: string; initialSale?: boolean; initialNovidades?: boolean; initialGenero?: string; initialCor?: string; pageTitle?: string; pageDescription?: string };
 
 const FilterPanel = ({
   selectedCategory, setSelectedCategory,
@@ -216,7 +216,7 @@ function resolveInitialCor(c?: string): string | null {
   return match ?? null;
 }
 
-export default function ProductsClient({ products, initialCat = "Todos", initialSale = false, initialNovidades = false, initialGenero, initialCor }: Props) {
+export default function ProductsClient({ products, initialCat = "Todos", initialSale = false, initialNovidades = false, initialGenero, initialCor, pageTitle, pageDescription }: Props) {
   const [selectedCategory, setSelectedCategory] = useState(initialCat);
   const [selectedGender, setSelectedGender] = useState(() => resolveInitialGender(initialGenero));
   const [saleOnly] = useState(initialSale);
@@ -276,7 +276,7 @@ export default function ProductsClient({ products, initialCat = "Todos", initial
         ]} />
         <div className="mb-6 flex items-end justify-between gap-4">
           <div>
-            <h1 className="font-display text-3xl md:text-4xl font-semibold mb-1">Nossos Produtos</h1>
+            <h1 className="font-display text-3xl md:text-4xl font-semibold mb-1">{pageTitle ?? 'Nossos Produtos'}</h1>
             <p className="text-muted-foreground text-sm">
               {filtered.length} produto{filtered.length !== 1 ? "s" : ""} encontrado{filtered.length !== 1 ? "s" : ""}
             </p>

@@ -164,7 +164,28 @@ export default async function CategoriaPage({
           __html: JSON.stringify(collectionPageSchema).replace(/</g, '\\u003c'),
         }}
       />
-      <ProductsClient products={products} initialCat={cat.filterLabel ?? cat.label} />
+      <ProductsClient
+        products={products}
+        initialCat={cat.filterLabel ?? cat.label}
+        pageTitle={`${cat.label} Premium — Jaleca`}
+        pageDescription={cat.description}
+      />
+
+      {/* SEO text block — visible to crawlers, useful para usuário */}
+      <section aria-label={`Sobre ${cat.label}`} className="container pb-10">
+        <div className="border-t border-border pt-8 max-w-3xl">
+          <h2 className="font-display text-xl font-semibold mb-3">{cat.label} para Profissionais da Saúde</h2>
+          <p className="text-sm text-muted-foreground leading-relaxed mb-4">{cat.description}</p>
+          <h3 className="text-sm font-semibold mb-2">Por que escolher a Jaleca?</h3>
+          <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside">
+            <li>Tecido premium com durabilidade comprovada em uso clínico</li>
+            <li>Tamanhos PP ao G3 para todos os biótipos</li>
+            <li>Entrega rápida para todo o Brasil — frete grátis no Sudeste acima de R$499</li>
+            <li>Troca fácil em até 30 dias após o recebimento</li>
+          </ul>
+        </div>
+      </section>
+
       {/* Cross-category navigation for SEO internal linking */}
       <nav aria-label="Outras categorias" className="container pb-8">
         <p className="text-xs font-semibold tracking-[0.2em] uppercase text-muted-foreground mb-3">

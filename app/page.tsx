@@ -89,26 +89,13 @@ export default async function Home() {
     getGooglePlaceData(),
   ]);
 
-  const organizationJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Organization',
-    name: 'Jaleca',
-    url: 'https://jaleca.com.br',
-    logo: 'https://jaleca.com.br/logo.svg',
-    description: 'Jalecos e uniformes profissionais para profissionais da saúde.',
-    sameAs: [
-      'https://www.instagram.com/jaleca.oficial',
-      'https://www.facebook.com/jalecaoficial',
-    ],
-  };
-
   const localBusinessJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'ClothingStore',
     '@id': 'https://jaleca.com.br/#localbusiness',
-    name: 'Jaleca — Jalecos e Mimos',
-    image: 'https://jaleca.com.br/logo.svg',
-    description: 'Loja de jalecos e uniformes profissionais para médicos, enfermeiros, dentistas e profissionais da saúde. Loja física em Ipatinga, MG e loja online para todo o Brasil.',
+    name: 'Jaleca — Jalecos e Uniformes Profissionais',
+    image: ['https://jaleca.com.br/og-home.jpg', 'https://jaleca.com.br/logo.svg'],
+    description: 'Loja de jalecos e uniformes profissionais para médicos, enfermeiros, dentistas e profissionais da saúde. Loja física em Ipatinga, MG e e-commerce para todo o Brasil com frete grátis no Sudeste.',
     url: 'https://jaleca.com.br',
     telephone: '+55-31-3367-2467',
     address: {
@@ -122,29 +109,18 @@ export default async function Home() {
       { '@type': 'OpeningHoursSpecification', dayOfWeek: 'Saturday', opens: '09:00', closes: '12:00' },
     ],
     priceRange: '$$',
-    servesCuisine: undefined,
-    hasMap: 'https://maps.google.com/?q=Ipatinga,MG,Brasil',
+    hasMap: 'https://maps.google.com/?q=Jaleca+Ipatinga+MG',
+    parentOrganization: { '@id': 'https://jaleca.com.br/#organization' },
+    sameAs: [
+      'https://www.instagram.com/jaleca.oficial',
+      'https://www.facebook.com/jalecaoficial',
+    ],
     aggregateRating: {
       '@type': 'AggregateRating',
-      ratingValue: '4.9',
-      reviewCount: 58,
+      ratingValue: String(googlePlace?.rating ?? '4.9'),
+      reviewCount: googlePlace?.reviewCount ?? 58,
       bestRating: '5',
       worstRating: '1',
-    },
-  };
-
-  const websiteJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'WebSite',
-    name: 'Jaleca',
-    url: 'https://jaleca.com.br',
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: {
-        '@type': 'EntryPoint',
-        urlTemplate: 'https://jaleca.com.br/produtos?busca={search_term_string}',
-      },
-      'query-input': 'required name=search_term_string',
     },
   };
 
@@ -152,21 +128,7 @@ export default async function Home() {
     <>
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{
-        __html: JSON.stringify(organizationJsonLd).replace(/</g, '\\u003c'),
-      }}
-    />
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{
-        __html: JSON.stringify(localBusinessJsonLd).replace(/</g, '\\u003c'),
-      }}
-    />
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{
-        __html: JSON.stringify(websiteJsonLd).replace(/</g, '\\u003c'),
-      }}
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd).replace(/</g, '\\u003c') }}
     />
     <main className="bg-background">
       <TrustBadgeBar />

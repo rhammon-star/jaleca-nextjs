@@ -96,38 +96,67 @@ export default async function BlogPostPage({
 
   const jsonLd = {
     '@context': 'https://schema.org',
-    '@type': 'Article',
+    '@type': 'BlogPosting',
     headline: title,
     description: excerpt,
     image: imageUrl ?? undefined,
     datePublished: post.date,
     dateModified: post.modified,
+    inLanguage: 'pt-BR',
     author: {
-      '@type': 'Person',
-      name: author,
+      '@type': 'Organization',
+      name: 'Jaleca',
+      '@id': 'https://jaleca.com.br/#organization',
+      url: 'https://jaleca.com.br',
     },
     publisher: {
       '@type': 'Organization',
+      '@id': 'https://jaleca.com.br/#organization',
       name: 'Jaleca',
       url: 'https://jaleca.com.br',
       logo: {
         '@type': 'ImageObject',
         url: 'https://jaleca.com.br/logo.svg',
+        width: 200,
+        height: 60,
       },
     },
     mainEntityOfPage: {
       '@type': 'WebPage',
       '@id': `https://jaleca.com.br/blog/${post.slug}`,
     },
+    isPartOf: {
+      '@type': 'Blog',
+      '@id': 'https://jaleca.com.br/blog',
+      name: 'Blog Jaleca',
+      publisher: { '@id': 'https://jaleca.com.br/#organization' },
+    },
+    about: {
+      '@type': 'Thing',
+      name: 'Uniformes Profissionais para Saúde',
+    },
+    keywords: categories.map(c => c.name).join(', ') || 'jaleco, uniforme profissional, saúde',
+  }
+
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Início', item: 'https://jaleca.com.br' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://jaleca.com.br/blog' },
+      { '@type': 'ListItem', position: 3, name: title, item: `https://jaleca.com.br/blog/${post.slug}` },
+    ],
   }
 
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c'),
-        }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd).replace(/</g, '\\u003c') }}
       />
       <main className="py-8 md:py-12">
         <div className="container max-w-3xl">

@@ -71,6 +71,85 @@ export const metadata: Metadata = {
   },
 };
 
+const organizationJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': 'https://jaleca.com.br/#organization',
+  name: 'Jaleca',
+  legalName: 'Jaleca Uniformes Profissionais',
+  url: 'https://jaleca.com.br',
+  logo: {
+    '@type': 'ImageObject',
+    url: 'https://jaleca.com.br/logo.svg',
+    width: 200,
+    height: 60,
+  },
+  image: 'https://jaleca.com.br/og-home.jpg',
+  description: 'Jalecos femininos e masculinos premium para profissionais da saúde. Médicas, dentistas, enfermeiras e farmacêuticas encontram na Jaleca uniformes modernos, elegantes e de alta qualidade com entrega rápida para todo o Brasil.',
+  foundingDate: '2020',
+  address: {
+    '@type': 'PostalAddress',
+    addressCountry: 'BR',
+    addressRegion: 'MG',
+    addressLocality: 'Belo Horizonte',
+  },
+  contactPoint: [
+    {
+      '@type': 'ContactPoint',
+      contactType: 'customer service',
+      availableLanguage: 'Portuguese',
+      contactOption: 'TollFree',
+    },
+  ],
+  sameAs: [
+    'https://www.instagram.com/jaleca.oficial',
+    'https://www.facebook.com/jalecaoficial',
+  ],
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Uniformes Profissionais para Saúde',
+    itemListElement: [
+      { '@type': 'OfferCatalog', name: 'Jalecos Femininos', url: 'https://jaleca.com.br/categoria/jalecos-femininos' },
+      { '@type': 'OfferCatalog', name: 'Jalecos Masculinos', url: 'https://jaleca.com.br/categoria/jalecos-masculinos' },
+      { '@type': 'OfferCatalog', name: 'Dólmãs Profissionais', url: 'https://jaleca.com.br/categoria/domas' },
+      { '@type': 'OfferCatalog', name: 'Conjuntos Scrub', url: 'https://jaleca.com.br/categoria/conjuntos' },
+      { '@type': 'OfferCatalog', name: 'Acessórios para Saúde', url: 'https://jaleca.com.br/categoria/acessorios' },
+    ],
+  },
+  knowsAbout: [
+    'Jalecos femininos para médicas',
+    'Uniformes para profissionais da saúde',
+    'Jalecos masculinos para médicos',
+    'Pijamas cirúrgicos e conjuntos scrub',
+    'Dólmãs profissionais',
+    'Moda profissional para área da saúde',
+  ],
+  slogan: 'Elegância clínica para profissionais da saúde',
+  areaServed: {
+    '@type': 'Country',
+    name: 'Brasil',
+  },
+}
+
+const webSiteJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': 'https://jaleca.com.br/#website',
+  url: 'https://jaleca.com.br',
+  name: 'Jaleca',
+  description: 'Jalecos femininos e masculinos para profissionais da saúde',
+  publisher: { '@id': 'https://jaleca.com.br/#organization' },
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: 'https://jaleca.com.br/produtos?q={search_term_string}',
+    },
+    'query-input': 'required name=search_term_string',
+  },
+  inLanguage: 'pt-BR',
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -79,6 +158,14 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className={`h-full antialiased ${cormorant.variable} ${dmSans.variable}`}>
       <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd).replace(/</g, '\\u003c') }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteJsonLd).replace(/</g, '\\u003c') }}
+        />
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/icon.png" type="image/png" />
         <link rel="apple-touch-icon" href="/icon.png" />

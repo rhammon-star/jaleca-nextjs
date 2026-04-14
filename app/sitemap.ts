@@ -132,24 +132,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }))
 
-  const cidadeSlugs = [
-    'jaleco-belo-horizonte', 'jaleco-campo-grande', 'jaleco-vitoria',
-    'jaleco-barra-da-tijuca', 'jaleco-muriae', 'jaleco-marilia',
-    'jaleco-itabira', 'jaleco-joao-monlevade', 'jaleco-lagoa-santa',
-    'jaleco-teixeira-de-freitas', 'jaleco-curitiba', 'jaleco-londrina',
-    'jaleco-governador-valadares', 'jaleco-uberaba', 'jaleco-montes-claros',
-    'jaleco-vila-velha', 'jaleco-cachoeiro-de-itapemirim', 'jaleco-serra',
-    'jaleco-vitoria-da-conquista',
-    'jaleco-colatina',
+  const categorySlugs = [
+    'jalecos', 'jalecos-femininos', 'jalecos-masculinos',
+    'domas', 'domas-femininas', 'domas-masculinas',
+    'conjuntos', 'conjuntos-femininos', 'conjuntos-masculinos',
+    'acessorios',
   ]
 
-  const cidadePages: MetadataRoute.Sitemap = cidadeSlugs.map(slug => ({
-    url: `${SITE_URL}/cidade/${slug}`,
+  const categoryPages: MetadataRoute.Sitemap = categorySlugs.map(slug => ({
+    url: `${SITE_URL}/categoria/${slug}`,
     lastModified: new Date(),
-    changeFrequency: 'monthly' as const,
-    priority: 0.8,
+    changeFrequency: 'weekly' as const,
+    priority: 0.9,
   }))
 
-  // NOTE: /cidade/* pages removed from sitemap — those pages don't exist
-  return [...staticPages, ...productPages, ...postPages]
+  return [...staticPages, ...categoryPages, ...productPages, ...postPages]
 }
