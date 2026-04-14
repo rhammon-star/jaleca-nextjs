@@ -164,12 +164,28 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     'jaleco-vitoria-da-conquista', 'jaleco-teixeira-de-freitas',
     // Norte
     'jaleco-manaus', 'jaleco-belem',
-    // MG interior
+    // MG interior + ex-franquia
+    'jaleco-ipatinga',
     'jaleco-juiz-de-fora', 'jaleco-betim', 'jaleco-sete-lagoas', 'jaleco-divinopolis',
     'jaleco-pocos-de-caldas', 'jaleco-patos-de-minas', 'jaleco-pouso-alegre',
     'jaleco-varginha', 'jaleco-barbacena',
     'jaleco-muriae', 'jaleco-marilia', 'jaleco-itabira', 'jaleco-joao-monlevade',
     'jaleco-lagoa-santa',
+    // Capitais restantes
+    'jaleco-cuiaba', 'jaleco-aracaju', 'jaleco-porto-velho', 'jaleco-macapa',
+    'jaleco-boa-vista', 'jaleco-rio-branco', 'jaleco-palmas',
+    // SP interior
+    'jaleco-sorocaba', 'jaleco-sao-jose-do-rio-preto', 'jaleco-santos',
+    'jaleco-jundiai', 'jaleco-bauru',
+    // Sul
+    'jaleco-joinville', 'jaleco-caxias-do-sul', 'jaleco-maringa',
+    'jaleco-ponta-grossa', 'jaleco-blumenau',
+    // RJ interior
+    'jaleco-niteroi', 'jaleco-campos-dos-goytacazes',
+    // Nordeste interior
+    'jaleco-feira-de-santana', 'jaleco-campina-grande', 'jaleco-mossoro',
+    // GO interior
+    'jaleco-anapolis',
   ]
 
   const cidadePages: MetadataRoute.Sitemap = cidadeSlugs.map(slug => ({
