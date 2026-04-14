@@ -219,6 +219,111 @@ async function fetchWc() {
   return { day: summarize(dayRaw), week: summarize(weekRaw) }
 }
 
+// ── Google Ads API ────────────────────────────────────────────────────────────
+
+async function getGoogleAdsToken(): Promise<string | null> {
+  try {
+    const res = await fetch('https://oauth2.googleapis.com/token', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        client_id:     process.env.GOOGLE_ADS_CLIENT_ID!,
+        client_secret: process.env.GOOGLE_ADS_CLIENT_SECRET!,
+        refresh_token: process.env.GOOGLE_ADS_REFRESH_TOKEN!,
+        grant_type:    'refresh_token',
+      }),
+    })
+    const d = await res.json()
+    return d.access_token ?? null
+  } catch { return null }
+}
+
+async function fetchGoogleAds() {
+  const devToken      = process.env.GOOGLE_ADS_DEVELOPER_TOKEN
+  const customerId    = process.env.GOOGLE_ADS_CUSTOMER_ID
+  const loginCustomer = process.env.GOOGLE_ADS_LOGIN_CUSTOMER_ID
+  if (!devToken || !customerId) return null
+
+  const token = await getGoogleAdsToken()
+  if (!token) { console.warn('[google-ads] token indisponível'); return null }
+
+  const url = `https://googleads.googleapis.com/v18/customers/${customerId}/googleAds:search`
+  const headers: Record<string, string> = {
+    Authorization:    `Bearer ${token}`,
+    'developer-token': devToken,
+    'Content-Type':   'application/json',
+  }
+  if (loginCustomer) headers['login-customer-id'] = loginCustomer
+
+  async function query(startDate: string, endDate: string) {
+    const gaql = `
+      SELECT
+        campaign.name,
+        campaign.status,
+        metrics.cost_micros,
+        metrics.impressions,
+        metrics.clicks,
+        metrics.ctr,
+        metrics.average_cpc,
+        metrics.conversions,
+        metrics.conversions_value,
+        metrics.search_impression_share
+      FROM campaign
+      WHERE segments.date BETWEEN '${startDate}' AND '${endDate}'
+        AND campaign.status != 'REMOVED'
+      ORDER BY metrics.cost_micros DESC
+      LIMIT 20`
+    const r = await fetch(url, { method: 'POST', headers, body: JSON.stringify({ query: gaql }) })
+    return r.json()
+  }
+
+  try {
+    const today     = brazilDate(0)
+    const yesterday = brazilDate(-1)
+    const weekStart = brazilDate(-7)
+
+    const [weekRaw, dayRaw] = await Promise.all([
+      query(weekStart, yesterday),
+      query(yesterday, yesterday),
+    ])
+
+    type GAdsRow = {
+      campaign?: { name: string; status: string }
+      metrics?: {
+        costMicros?: string; impressions?: string; clicks?: string; ctr?: string
+        averageCpc?: string; conversions?: string; conversionsValue?: string
+        searchImpressionShare?: string
+      }
+    }
+
+    function summarize(raw: { results?: GAdsRow[] }) {
+      const rows = raw.results ?? []
+      if (!rows.length) return null
+      let cost = 0, impressions = 0, clicks = 0, conversions = 0, convValue = 0
+      const campaigns: { name: string; cost: number; clicks: number; conversions: number }[] = []
+      for (const r of rows) {
+        const m = r.metrics ?? {}
+        const c = +(m.costMicros ?? '0') / 1_000_000
+        cost        += c
+        impressions += +(m.impressions ?? '0')
+        clicks      += +(m.clicks ?? '0')
+        conversions += +parseFloat(m.conversions ?? '0').toFixed(2)
+        convValue   += +parseFloat(m.conversionsValue ?? '0').toFixed(2)
+        if (r.campaign?.name) campaigns.push({
+          name: r.campaign.name, cost: +c.toFixed(2),
+          clicks: +(m.clicks ?? '0'), conversions: +parseFloat(m.conversions ?? '0').toFixed(0),
+        })
+      }
+      const cpc  = clicks ? +(cost / clicks).toFixed(2) : 0
+      const roas = cost  ? +(convValue / cost).toFixed(2) : 0
+      const ctr  = impressions ? +((clicks / impressions) * 100).toFixed(2) : 0
+      return { cost: +cost.toFixed(2), impressions, clicks, ctr, cpc, conversions: +conversions.toFixed(0), convValue: +convValue.toFixed(2), roas, campaigns }
+    }
+
+    return { week: summarize(weekRaw), day: summarize(dayRaw) }
+  } catch (e) { console.error('[google-ads] erro:', e); return null }
+}
+
 // ── Meta Ads ──────────────────────────────────────────────────────────────────
 
 async function fetchMetaAds() {
@@ -535,6 +640,7 @@ Máximo 500 palavras. Seja direto como consultor de e-commerce sênior.
 // ── Email HTML ────────────────────────────────────────────────────────────────
 
 type MetaData = Awaited<ReturnType<typeof fetchMetaAds>>
+type GoogleAdsData = Awaited<ReturnType<typeof fetchGoogleAds>>
 
 function buildEmail(
   dateStr: string,
@@ -543,6 +649,7 @@ function buildEmail(
   wc: WcData,
   ga4: Ga4Data,
   meta: MetaData,
+  gads: GoogleAdsData,
   seoText: string,
   croText: string,
 ): string {
@@ -739,27 +846,47 @@ function buildEmail(
     </p>` : ''}
   </div>` : ''}
 
-  <!-- Google Ads via GA4 -->
-  ${ga4?.googleAds?.week.sessions ? `
+  <!-- Google Ads API -->
+  ${gads?.week ? `
   <div style="background:#fff;border-radius:12px;padding:20px;margin-bottom:12px;border:1px solid #e2e8f0">
-    <p style="font-size:11px;color:#64748b;margin:0 0 14px;text-transform:uppercase;letter-spacing:.8px;font-weight:600">🟢 Google Ads — via GA4 (7 dias)</p>
+    <p style="font-size:11px;color:#64748b;margin:0 0 14px;text-transform:uppercase;letter-spacing:.8px;font-weight:600">🟢 Google Ads — últimos 7 dias</p>
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px">
       ${[
-        { label: 'Sessões pagas', value: ga4.googleAds.week.sessions.toLocaleString('pt-BR') },
-        { label: 'Compras atribuídas', value: String(ga4.googleAds.week.purchases) },
-        { label: 'Receita atribuída', value: `R$${ga4.googleAds.week.revenue.toLocaleString('pt-BR',{minimumFractionDigits:2})}` },
-        { label: 'Usuários pagos', value: ga4.googleAds.week.users.toLocaleString('pt-BR') },
-        { label: 'Taxa conversão', value: ga4.googleAds.week.sessions ? `${((ga4.googleAds.week.purchases / ga4.googleAds.week.sessions) * 100).toFixed(2)}%` : '0%' },
-        { label: 'Bounce rate', value: `${ga4.googleAds.week.bounceRate}%`, color: ga4.googleAds.week.bounceRate > 70 ? '#ef4444' : ga4.googleAds.week.bounceRate > 50 ? '#f59e0b' : '#22c55e' },
+        { label: 'Investido', value: `R$${gads.week.cost.toLocaleString('pt-BR',{minimumFractionDigits:2})}` },
+        { label: 'Cliques', value: gads.week.clicks.toLocaleString('pt-BR') },
+        { label: 'Impressões', value: gads.week.impressions.toLocaleString('pt-BR') },
+        { label: 'CPC médio', value: `R$${gads.week.cpc.toLocaleString('pt-BR',{minimumFractionDigits:2})}` },
+        { label: 'Conversões', value: String(gads.week.conversions) },
+        { label: 'ROAS', value: String(gads.week.roas), color: gads.week.roas >= 3 ? '#22c55e' : gads.week.roas >= 1 ? '#f59e0b' : '#ef4444' },
       ].map(k => `<div style="background:#f8fafc;border-radius:8px;padding:10px;text-align:center">
         <p style="font-size:10px;color:#64748b;margin:0 0 4px;text-transform:uppercase">${k.label}</p>
         <p style="font-size:17px;font-weight:700;margin:0;color:${k.color ?? '#1e293b'}">${k.value}</p>
       </div>`).join('')}
     </div>
-    <p style="font-size:11px;color:#94a3b8;margin:0;text-align:center">
-      Ontem: <strong>${ga4.googleAds.day.sessions}</strong> sessões pagas · <strong>${ga4.googleAds.day.users}</strong> usuários ·
-      <span style="color:#64748b">⚠️ Dados de atribuição GA4 — gasto em R$ disponível após conectar Developer Token Google Ads API</span>
-    </p>
+    ${gads.week.campaigns?.length ? `
+    <div style="margin-top:10px">
+      ${gads.week.campaigns.slice(0,4).map(c => `
+      <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #f1f5f9;font-size:12px">
+        <span style="color:#374151">${c.name.substring(0,45)}</span>
+        <span style="color:#64748b">R$${c.cost.toFixed(0)} · ${c.clicks} cliques · ${c.conversions} conv</span>
+      </div>`).join('')}
+    </div>` : ''}
+    ${gads.day ? `<p style="font-size:12px;color:#64748b;margin:10px 0 0;text-align:center">
+      Ontem: <strong>R$${gads.day.cost}</strong> investido · <strong>${gads.day.clicks}</strong> cliques · <strong>${gads.day.conversions}</strong> conversões
+    </p>` : ''}
+  </div>` : ga4?.googleAds?.week.sessions ? `
+  <div style="background:#fff;border-radius:12px;padding:20px;margin-bottom:12px;border:1px solid #e2e8f0">
+    <p style="font-size:11px;color:#64748b;margin:0 0 14px;text-transform:uppercase;letter-spacing:.8px;font-weight:600">🟢 Google Ads — via GA4 (7 dias)</p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+      ${[
+        { label: 'Sessões pagas', value: ga4.googleAds.week.sessions.toLocaleString('pt-BR') },
+        { label: 'Compras atribuídas', value: String(ga4.googleAds.week.purchases) },
+        { label: 'Receita GA4', value: `R$${ga4.googleAds.week.revenue.toLocaleString('pt-BR',{minimumFractionDigits:2})}` },
+      ].map(k => `<div style="background:#f8fafc;border-radius:8px;padding:10px;text-align:center">
+        <p style="font-size:10px;color:#64748b;margin:0 0 4px;text-transform:uppercase">${k.label}</p>
+        <p style="font-size:17px;font-weight:700;margin:0;color:#1e293b">${k.value}</p>
+      </div>`).join('')}
+    </div>
   </div>` : ''}
 
   <!-- Análise SEO — Gemini -->
@@ -837,15 +964,16 @@ export async function GET(request: NextRequest) {
     const gscToken = await getGscToken()
     if (!gscToken) console.warn('[daily-report] GSC token não disponível')
 
-    const [gsc, pm, wc, ga4, meta] = await Promise.all([
+    const [gsc, pm, wc, ga4, meta, gads] = await Promise.all([
       gscToken ? fetchGsc(gscToken) : Promise.resolve(null),
       fetchPagarme(),
       fetchWc(),
       fetchGa4(),
       fetchMetaAds(),
+      fetchGoogleAds(),
     ])
 
-    console.log(`[daily-report] Dados coletados — GSC: ${gsc?.week.clicks ?? 'N/A'} | Pagar.me: ${pm.day.paid}/${pm.day.total} | WC: ${wc.day?.total ?? 'N/A'} | GA4: ${ga4?.totalSessions ?? 'N/A'} sessões | GoogAds(GA4): ${ga4?.googleAds?.week.sessions ?? 0} sess/${ga4?.googleAds?.week.purchases ?? 0} conv | Meta: R$${meta?.week?.spend ?? 'N/A'}`)
+    console.log(`[daily-report] Dados coletados — GSC: ${gsc?.week.clicks ?? 'N/A'} | Pagar.me: ${pm.day.paid}/${pm.day.total} | WC: ${wc.day?.total ?? 'N/A'} | GA4: ${ga4?.totalSessions ?? 'N/A'} sessões | GoogAds: R$${gads?.week?.cost ?? 'N/A'} / ${gads?.week?.conversions ?? 'N/A'} conv | Meta: R$${meta?.week?.spend ?? 'N/A'}`)
 
     // IA em paralelo
     const [seoText, croText] = await Promise.all([
@@ -855,7 +983,7 @@ export async function GET(request: NextRequest) {
 
     console.log('[daily-report] Análises de IA geradas')
 
-    const html = buildEmail(dateStr, gsc!, pm, wc, ga4, meta, seoText, croText)
+    const html = buildEmail(dateStr, gsc!, pm, wc, ga4, meta, gads, seoText, croText)
     const subject = `📊 Jaleca ${today.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'})} — ${pm.day.paid} pedidos aprovados · R$${pm.day.revenue.toFixed(0)} · ${pm.day.convRate}% conv`
 
     const emailResult = await sendEmail(subject, html)
