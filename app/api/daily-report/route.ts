@@ -1083,11 +1083,13 @@ export async function GET(request: NextRequest) {
       fetchPagarme(),
       fetchWc(),
       fetchGa4(),
-      fetchMetaAds(),
-      fetchGoogleAds(),
+      fetchMetaAds().catch(e => { console.error('[meta-ads] falha:', e); return null }),
+      fetchGoogleAds().catch(e => { console.error('[google-ads] falha:', e); return null }),
     ])
 
     console.log(`[daily-report] Dados coletados — GSC: ${gsc?.week.clicks ?? 'N/A'} | Pagar.me: ${pm.day.paid}/${pm.day.total} | WC: ${wc.day?.total ?? 'N/A'} | GA4: ${ga4?.totalSessions ?? 'N/A'} sessões | GoogAds: R$${gads?.week?.cost ?? 'N/A'} / ${gads?.week?.conversions ?? 'N/A'} conv | Meta: R$${meta?.week?.spend ?? 'N/A'}`)
+    if (!meta) console.warn('[daily-report] Meta Ads retornou null — token expirado ou variável ausente')
+    if (!gads) console.warn('[daily-report] Google Ads retornou null — token ou variável ausente')
 
     // IA em paralelo
     const [seoText, croText] = await Promise.all([
@@ -1110,6 +1112,8 @@ export async function GET(request: NextRequest) {
       ga4: ga4 ? { sessions: ga4.totalSessions, purchase: ga4.funnel.purchase, addToCart: ga4.funnel.addToCart, convRate: ga4.totalSessions ? +((ga4.funnel.purchase/ga4.totalSessions)*100).toFixed(2) : 0 } : null,
       pagarme: { paid: pm.day.paid, total: pm.day.total, revenue: pm.day.revenue },
       wc: wc.day ? { orders: wc.day.total, revenue: wc.day.revenue } : null,
+      meta: meta?.week ? { spend7d: meta.week.spend, clicks7d: meta.week.clicks, cpc7d: meta.week.cpc, reach7d: meta.week.reach, spendOntem: meta.day?.spend ?? null } : null,
+      googleAds: gads?.week ? { cost7d: gads.week.cost, clicks7d: gads.week.clicks, conversions7d: gads.week.conversions, cpc7d: gads.week.cpc, costOntem: gads.day?.cost ?? null } : null,
       emailSent: !!emailResult.messageId,
     })
   } catch (error) {
