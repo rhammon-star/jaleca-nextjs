@@ -878,3 +878,58 @@ export async function sendPaymentFailed(
 
   await sendMail({ to: customerEmail, subject, html: wrapHtml(content, subject) })
 }
+
+// ── Alerta interno — falha de pagamento ──────────────────────────────────────
+export async function sendInternalPaymentFailureAlert(params: {
+  orderId: number | string
+  orderNumber: string
+  customerName: string
+  customerEmail: string
+  customerPhone?: string
+  paymentMethod: string
+  failureReason: string
+  amount: string
+  pagarmeOrderId?: string
+}): Promise<void> {
+  const { orderId, orderNumber, customerName, customerEmail, customerPhone, paymentMethod, failureReason, amount, pagarmeOrderId } = params
+
+  const waLink = `https://wa.me/55${customerPhone?.replace(/\D/g, '')}`
+  const wcAdminLink = `https://wp.jaleca.com.br/wp-admin/post.php?post=${orderId}&action=edit`
+
+  const html = `<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"/><title>Falha de pagamento #${orderNumber}</title></head>
+<body style="margin:0;padding:0;background:#f5f5f0;font-family:Arial,sans-serif;color:#1a1a1a;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="padding:24px 16px;">
+    <tr><td align="center">
+      <table width="560" cellpadding="0" cellspacing="0" style="background:#fff;border:1px solid #e5e5e5;max-width:560px;width:100%;">
+        <tr><td style="background:#c0392b;padding:18px 28px;">
+          <p style="margin:0;color:#fff;font-size:11px;letter-spacing:3px;text-transform:uppercase;">Jaleca — Falha de Pagamento</p>
+        </td></tr>
+        <tr><td style="padding:28px;">
+          <h2 style="margin:0 0 20px;font-size:20px;">⚠️ Pedido #${orderNumber} — pagamento recusado</h2>
+          <table width="100%" cellpadding="0" cellspacing="0" style="font-size:14px;margin-bottom:20px;">
+            <tr><td style="padding:5px 0;color:#666;width:120px;">Cliente</td><td style="padding:5px 0;"><strong>${customerName}</strong></td></tr>
+            <tr><td style="padding:5px 0;color:#666;">Email</td><td style="padding:5px 0;">${customerEmail}</td></tr>
+            ${customerPhone ? `<tr><td style="padding:5px 0;color:#666;">Telefone</td><td style="padding:5px 0;"><a href="${waLink}" style="color:#1a1a1a;">${customerPhone}</a></td></tr>` : ''}
+            <tr><td style="padding:5px 0;color:#666;">Pagamento</td><td style="padding:5px 0;">${paymentMethod}</td></tr>
+            <tr><td style="padding:5px 0;color:#666;">Valor</td><td style="padding:5px 0;"><strong>${amount}</strong></td></tr>
+            <tr><td style="padding:5px 0;color:#666;">Motivo</td><td style="padding:5px 0;color:#c0392b;"><strong>${failureReason}</strong></td></tr>
+            ${pagarmeOrderId ? `<tr><td style="padding:5px 0;color:#666;">Pagar.me ID</td><td style="padding:5px 0;font-size:12px;color:#999;">${pagarmeOrderId}</td></tr>` : ''}
+          </table>
+          <a href="${wcAdminLink}" style="display:inline-block;background:#1a1a1a;color:#fff;padding:12px 24px;text-decoration:none;font-size:12px;letter-spacing:2px;margin-right:12px;">
+            VER PEDIDO
+          </a>
+          ${customerPhone ? `<a href="${waLink}" style="display:inline-block;background:#25d366;color:#fff;padding:12px 24px;text-decoration:none;font-size:12px;letter-spacing:2px;">CONTATAR CLIENTE</a>` : ''}
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`
+
+  const internalRecipients = ['financeiro@jaleca.com.br', 'contato@jaleca.com.br']
+  await Promise.all(
+    internalRecipients.map(to => sendMail({ to, subject: `⚠️ Falha pagamento — Pedido #${orderNumber} (${amount}) — ${customerName}`, html }))
+  )
+}

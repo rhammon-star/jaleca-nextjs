@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createHmac } from 'crypto'
-import { sendOrderConfirmation } from '@/lib/email'
+import { sendOrderConfirmation, sendInternalPaymentFailureAlert } from '@/lib/email'
 import { sendMetaPurchase } from '@/lib/meta-conversions'
 
 async function sendGA4Purchase(order: {
@@ -190,6 +190,35 @@ export async function POST(request: NextRequest) {
                 }
               ).catch(err => console.error('[CAPI] sendMetaPurchase failed (webhook):', err))
             }
+          }
+        } catch {}
+      }
+
+      // Alerta interno para falhas de pagamento (charge.payment_failed)
+      if (wcStatus === 'failed') {
+        try {
+          const orderRes = await fetch(`${WC_API}/orders/${wcOrderId}`, {
+            headers: { Authorization: wcAuth() }, cache: 'no-store',
+          })
+          if (orderRes.ok) {
+            const order = await orderRes.json()
+            const methodMap: Record<string, string> = {
+              'woo-pagarme-payments-pix': 'PIX',
+              'woo-pagarme-payments-billet': 'Boleto',
+              'woo-pagarme-payments-credit_card': 'Cartão de Crédito',
+            }
+            const method = methodMap[order.payment_method] ?? order.payment_method_title ?? 'Desconhecido'
+            const amount = `R$ ${parseFloat(order.total || '0').toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`
+            sendInternalPaymentFailureAlert({
+              orderId:       order.id,
+              orderNumber:   order.number || String(order.id),
+              customerName:  `${order.billing?.first_name} ${order.billing?.last_name}`.trim(),
+              customerEmail: order.billing?.email ?? '',
+              customerPhone: order.billing?.phone,
+              paymentMethod: method,
+              failureReason: `Pagamento não confirmado (evento: ${eventType})`,
+              amount,
+            }).catch(() => {})
           }
         } catch {}
       }

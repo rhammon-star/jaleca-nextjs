@@ -60,6 +60,7 @@ export default function CheckoutClient() {
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('pix')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [paymentFailed, setPaymentFailed] = useState(false)
   const [upsellProducts, setUpsellProducts] = useState<WooProduct[]>([])
 
   // Device fingerprint (Konduto)
@@ -410,6 +411,7 @@ export default function CheckoutClient() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setError('')
+    setPaymentFailed(false)
     setCpfLoginError('')
     setSubmitted(true)
 
@@ -536,12 +538,14 @@ export default function CheckoutClient() {
       const data = await res.json()
       if (!res.ok) {
         setError(data.error || 'Erro ao processar pagamento')
+        setPaymentFailed(true)
         return
       }
 
       // For credit card, only clear cart if payment was approved
       if (paymentMethod === 'credit_card' && data.cardStatus !== 'paid') {
         setError(data.cardMessage || 'Pagamento não autorizado. Verifique os dados do cartão e tente novamente.')
+        setPaymentFailed(true)
         return
       }
 
@@ -1198,12 +1202,32 @@ export default function CheckoutClient() {
             {/* Submit row: order-3 on mobile (after summary), col-1 on desktop */}
             <div className="order-3 lg:col-start-1 space-y-4">
               {error && (
-                <div
-                  role="alert"
-                  aria-live="assertive"
-                  className="p-3 bg-red-50 border border-red-200 text-red-700 text-sm"
-                >
-                  {error}
+                <div role="alert" aria-live="assertive" className="space-y-3">
+                  <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-sm">
+                    {error}
+                  </div>
+                  {paymentFailed && (
+                    <div className="p-3 bg-amber-50 border border-amber-200 text-sm text-amber-900">
+                      <p className="font-semibold mb-2">Precisa de ajuda?</p>
+                      <p className="text-xs text-amber-800 mb-3">Nossa equipe pode te ajudar a finalizar a compra agora.</p>
+                      <div className="flex flex-col sm:flex-row gap-2">
+                        <a
+                          href="https://wa.me/5531992901940?text=Olá!%20Tive%20um%20problema%20no%20pagamento%20do%20site%20e%20preciso%20de%20ajuda."
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center justify-center gap-2 px-4 py-2 bg-[#25d366] text-white text-xs font-semibold tracking-wider uppercase hover:bg-[#1ebe57] transition-colors"
+                        >
+                          WhatsApp
+                        </a>
+                        <a
+                          href="mailto:contato@jaleca.com.br?subject=Problema%20no%20pagamento"
+                          className="flex items-center justify-center gap-2 px-4 py-2 border border-amber-900 text-amber-900 text-xs font-semibold tracking-wider uppercase hover:bg-amber-900 hover:text-white transition-colors"
+                        >
+                          contato@jaleca.com.br
+                        </a>
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
 

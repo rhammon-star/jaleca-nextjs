@@ -10,7 +10,7 @@ import {
 import { createOrder } from '@/lib/woocommerce'
 import type { WCOrderData } from '@/lib/woocommerce'
 import { addPoints } from '@/lib/loyalty'
-import { sendOrderConfirmation, sendInternalOrderNotification, sendPaymentFailed, sendPixPaymentEmail, sendBoletoEmail } from '@/lib/email'
+import { sendOrderConfirmation, sendInternalOrderNotification, sendPaymentFailed, sendPixPaymentEmail, sendBoletoEmail, sendInternalPaymentFailureAlert } from '@/lib/email'
 import { sendMetaPurchase } from '@/lib/meta-conversions'
 import { addShipmentToMECart, ME_SERVICE_MAP } from '@/lib/melhor-envio'
 
@@ -375,6 +375,21 @@ export async function POST(request: NextRequest) {
           wcOrder.number || String(wcOrder.id),
           amountFormatted,
         ).catch(() => {})
+
+        // Alerta interno para equipe Jaleca
+        const ccCharge2 = pagarmeOrder.charges?.[0]
+        const failReason = ccCharge2?.status === 'not_authorized' ? 'Não autorizado' : (ccCharge2?.status || pagarmeOrder.status || 'Recusado')
+        sendInternalPaymentFailureAlert({
+          orderId:       wcOrder.id,
+          orderNumber:   wcOrder.number || String(wcOrder.id),
+          customerName:  `${billing.first_name} ${billing.last_name}`.trim(),
+          customerEmail: billing.email,
+          customerPhone: billing.phone,
+          paymentMethod: 'Cartão de Crédito',
+          failureReason: failReason,
+          amount:        amountFormatted,
+          pagarmeOrderId: pagarmeOrder.id,
+        }).catch(() => {})
 
         console.log(`[Payment] Credit card failed — WC order ${wcOrder.id} set to failed, customer notified`)
       }
