@@ -11,6 +11,7 @@ import ShippingCalculator, { type ShippingOption } from '@/components/ShippingCa
 import { graphqlClient, GET_PRODUCTS } from '@/lib/graphql'
 import type { WooProduct } from '@/components/ProductCard'
 import { formatCPF, validateCPF, cleanCPF } from '@/lib/cpf'
+import { trackAddPaymentInfo } from '@/components/Analytics'
 
 type AddressForm = {
   first_name: string
@@ -1090,7 +1091,10 @@ export default function CheckoutClient() {
                           name="payment"
                           value={method}
                           checked={paymentMethod === method}
-                          onChange={() => setPaymentMethod(method)}
+                          onChange={() => {
+                            setPaymentMethod(method)
+                            trackAddPaymentInfo(finalTotal, method)
+                          }}
                           className="accent-foreground"
                         />
                         <div>

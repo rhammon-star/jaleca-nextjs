@@ -67,7 +67,7 @@ export function trackPurchase(
     currency: 'BRL',
     contents: items.map(i => ({ id: i.id, quantity: i.quantity })),
     content_type: 'product',
-    order_id: orderId,
+    num_items: items.reduce((s, i) => s + i.quantity, 0),
   })
 }
 
@@ -95,6 +95,7 @@ export function trackViewItem(product: {
     content_ids: [product.id],
     content_name: product.name,
     content_type: 'product_group',
+    content_category: product.category ?? 'Uniformes Profissionais',
   })
 }
 
@@ -123,6 +124,15 @@ export function trackSearch(term: string) {
 
   // Meta Pixel
   window.fbq?.('track', 'Search', { search_string: term })
+}
+
+export function trackAddPaymentInfo(value: number, method: string) {
+  if (typeof window === 'undefined') return
+  window.fbq?.('track', 'AddPaymentInfo', {
+    value,
+    currency: 'BRL',
+    content_category: method,
+  })
 }
 
 export function trackAddToCart(product: {
