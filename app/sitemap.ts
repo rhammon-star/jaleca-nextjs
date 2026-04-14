@@ -165,6 +165,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Norte
     'jaleco-manaus', 'jaleco-belem',
     // MG interior
+    'jaleco-juiz-de-fora', 'jaleco-betim', 'jaleco-sete-lagoas', 'jaleco-divinopolis',
+    'jaleco-pocos-de-caldas', 'jaleco-patos-de-minas', 'jaleco-pouso-alegre',
+    'jaleco-varginha', 'jaleco-barbacena',
     'jaleco-muriae', 'jaleco-marilia', 'jaleco-itabira', 'jaleco-joao-monlevade',
     'jaleco-lagoa-santa',
   ]
