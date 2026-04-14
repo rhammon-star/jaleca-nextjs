@@ -333,6 +333,7 @@ export default function CartDrawer() {
               }}
               selectedId={selectedShipping?.id}
               subtotal={subtotal}
+              itemCount={totalItems}
               onCepCalculated={(cep, state) => {
                 try {
                   localStorage.setItem('jaleca-checkout-cep', cep)

@@ -418,7 +418,8 @@ export async function POST(request: NextRequest) {
       ? parseInt(shipping.method_id)
       : (ME_SERVICE_MAP[shipping.method_id] ?? 2)
     console.log(`[ME Cart] method_id="${shipping.method_id}" method_title="${shipping.method_title}" → meServiceId=${meServiceId}`)
-    const meWeight = Math.max(items.reduce((s, i) => s + 0.5 * i.quantity, 0), 0.5)
+    const meTotalItems = items.reduce((s, i) => s + i.quantity, 0)
+    const meWeight = Math.max(0.6 * meTotalItems, 0.6)
     const meTotalValue = items.reduce((s, i) => s + i.price * i.quantity, 0)
     if (!isCreditCardFailed) addShipmentToMECart({
       serviceId: meServiceId,
@@ -464,7 +465,7 @@ export async function POST(request: NextRequest) {
         paymentTitle,
         items.map(i => ({ name: i.name, quantity: i.quantity, color: i.color, size: i.size })),
         cpf || undefined,
-      ).catch(() => {})
+      ).catch((err) => console.error('[payment/create] sendInternalOrderNotification failed:', err))
     }
 
     // ── 5. Build response ────────────────────────────────────────────────────

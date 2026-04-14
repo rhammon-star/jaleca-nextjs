@@ -101,8 +101,9 @@ async function callMelhorEnvioAPI(
     body: JSON.stringify({
       from: { postal_code: JALECA_CEP },
       to:   { postal_code: cepDestino },
-      // Cubagem: 4 × 31 × 41 cm base, +4cm de largura por peça adicional
-      products: [{ id: 'jaleco', height: 4, width: Math.min(31 + 4 * (items - 1), 60), length: 41, weight, quantity: items, insurance_value: 0 }],
+      // Embalagem padrão: Largura=4cm, Altura=31cm, Comprimento=41cm, Peso=0.6kg/peça
+      // Largura (width) aumenta +4cm por peça adicional (empilhamento de jalecos dobrados)
+      products: [{ id: 'jaleco', height: 31, width: Math.min(4 * items, 60), length: 41, weight: Math.max(0.6 * items, 0.6), quantity: 1, insurance_value: 0 }],
       services: '1,2,7,8',  // PAC=1, SEDEX=2, Jadlog Package=7, Jadlog .com=8
       options: { insurance_value: 0, receipt: false, own_hand: false, collect: false },
     }),
@@ -213,7 +214,7 @@ export async function calculateShipping(
   subtotal = 0
 ): Promise<ShippingOption[]> {
   const cleanCep = cepDestino.replace(/\D/g, '')
-  const totalWeight = Math.max(weight * items, 0.5)
+  const totalWeight = Math.max(0.6 * items, 0.6)
 
   // Try real API first
   try {
@@ -325,10 +326,10 @@ export async function addShipmentToMECart(payload: MEShipmentPayload): Promise<{
       unitary_value:  p.unitValue,
     })),
     volumes: [{
-      height: 4,
-      width:  Math.min(31 + 4 * (itemCount - 1), 60),
+      height: 31,
+      width:  Math.min(4 * itemCount, 60),
       length: 41,
-      weight: payload.weight,
+      weight: Math.max(0.6 * itemCount, 0.6),
     }],
     options: {
       insurance_value: payload.insuranceValue,
