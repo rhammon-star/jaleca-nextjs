@@ -147,16 +147,26 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }))
 
   const cidadeSlugs = [
-    'jaleco-belo-horizonte', 'jaleco-campo-grande', 'jaleco-vitoria',
-    'jaleco-barra-da-tijuca', 'jaleco-muriae', 'jaleco-marilia',
-    'jaleco-itabira', 'jaleco-joao-monlevade', 'jaleco-lagoa-santa',
-    'jaleco-teixeira-de-freitas', 'jaleco-curitiba', 'jaleco-londrina',
-    'jaleco-governador-valadares', 'jaleco-uberaba', 'jaleco-montes-claros',
-    'jaleco-vila-velha', 'jaleco-cachoeiro-de-itapemirim', 'jaleco-serra',
-    'jaleco-vitoria-da-conquista', 'jaleco-colatina',
-    'jaleco-caratinga', 'jaleco-contagem', 'jaleco-sao-paulo',
-    'jaleco-rio-de-janeiro', 'jaleco-campinas',
-    'jaleco-porto-alegre', 'jaleco-goiania', 'jaleco-florianopolis',
+    // Sudeste
+    'jaleco-sao-paulo', 'jaleco-rio-de-janeiro', 'jaleco-belo-horizonte',
+    'jaleco-campinas', 'jaleco-ribeirao-preto', 'jaleco-sao-jose-dos-campos',
+    'jaleco-guarulhos', 'jaleco-contagem', 'jaleco-uberlandia',
+    'jaleco-uberaba', 'jaleco-montes-claros', 'jaleco-governador-valadares',
+    'jaleco-vitoria', 'jaleco-vila-velha', 'jaleco-serra', 'jaleco-cachoeiro-de-itapemirim',
+    'jaleco-colatina', 'jaleco-barra-da-tijuca',
+    // Sul
+    'jaleco-curitiba', 'jaleco-porto-alegre', 'jaleco-florianopolis', 'jaleco-londrina',
+    // Centro-Oeste
+    'jaleco-brasilia', 'jaleco-goiania', 'jaleco-campo-grande',
+    // Nordeste
+    'jaleco-salvador', 'jaleco-fortaleza', 'jaleco-recife', 'jaleco-natal',
+    'jaleco-joao-pessoa', 'jaleco-sao-luis', 'jaleco-maceio', 'jaleco-teresina',
+    'jaleco-vitoria-da-conquista', 'jaleco-teixeira-de-freitas',
+    // Norte
+    'jaleco-manaus', 'jaleco-belem',
+    // MG interior
+    'jaleco-muriae', 'jaleco-marilia', 'jaleco-itabira', 'jaleco-joao-monlevade',
+    'jaleco-lagoa-santa',
   ]
 
   const cidadePages: MetadataRoute.Sitemap = cidadeSlugs.map(slug => ({
