@@ -37,7 +37,7 @@ const FAQ_TEMPLATE = (nicho: NichoInfo) => [
 const NICHOS: Record<string, NichoInfo> = {
   saude: {
     titulo: 'Presente de Dia das Mães para Profissional de Saúde',
-    subtitulo: 'O jaleco que ela merece — elegante, confortável e feito pra rotina dela',
+    subtitulo: 'Um presente que ela vai usar todo dia. De verdade.',
     profissoes: 'médicas, enfermeiras, dentistas, fisioterapeutas e profissionais de saúde',
     profissaoLabel: 'profissional de saúde',
     emoji: '🩺',
@@ -52,7 +52,7 @@ const NICHOS: Record<string, NichoInfo> = {
   },
   estetica: {
     titulo: 'Presente de Dia das Mães para Esteticista',
-    subtitulo: 'Ela cuida da beleza das outras — agora é a sua vez',
+    subtitulo: 'Ela cuida de todo mundo. Quem cuida dela?',
     profissoes: 'esteticistas, cosmetólogas, micropigmentadoras e profissionais de beleza',
     profissaoLabel: 'esteticista ou profissional de beleza',
     emoji: '💆',
@@ -66,7 +66,7 @@ const NICHOS: Record<string, NichoInfo> = {
   },
   veterinaria: {
     titulo: 'Presente de Dia das Mães para Veterinária',
-    subtitulo: 'Pra mãe que cuida de todo bicho que aparece — um jaleco à altura',
+    subtitulo: 'Ela cuida de todo bicho que aparece. Merece um presente à altura.',
     profissoes: 'veterinárias, zootecnistas e profissionais de medicina veterinária',
     profissaoLabel: 'veterinária',
     emoji: '🐾',
@@ -80,7 +80,7 @@ const NICHOS: Record<string, NichoInfo> = {
   },
   nutricao: {
     titulo: 'Presente de Dia das Mães para Nutricionista',
-    subtitulo: 'Ela orienta a saúde das pessoas — presenteie com algo que ela usa todo dia',
+    subtitulo: 'Um jaleco que some no corpo. Do jeito que tem que ser.',
     profissoes: 'nutricionistas, dietistas e profissionais de nutrição',
     profissaoLabel: 'nutricionista',
     emoji: '🥗',
@@ -94,7 +94,7 @@ const NICHOS: Record<string, NichoInfo> = {
   },
   farmacia: {
     titulo: 'Presente de Dia das Mães para Farmacêutica',
-    subtitulo: 'Pra mãe que trabalha com saúde e responsabilidade — um jaleco que combina',
+    subtitulo: 'Ela usa jaleco todo dia. Que seja um bom.',
     profissoes: 'farmacêuticas, bioquímicas e profissionais de farmácia',
     profissaoLabel: 'farmacêutica ou bioquímica',
     emoji: '💊',
@@ -108,7 +108,7 @@ const NICHOS: Record<string, NichoInfo> = {
   },
   laboratorio: {
     titulo: 'Presente de Dia das Mães para Laboratorista',
-    subtitulo: 'Pra mãe que trabalha com ciência todo dia — um jaleco que faz jus',
+    subtitulo: 'Ela trabalha com precisão. O jaleco dela também tem que ser.',
     profissoes: 'laboratoristas, biomédicas, bioquímicas e profissionais de laboratório',
     profissaoLabel: 'laboratorista ou biomédica',
     emoji: '🔬',
@@ -122,7 +122,7 @@ const NICHOS: Record<string, NichoInfo> = {
   },
   ti: {
     titulo: 'Presente de Dia das Mães para Profissional de TI',
-    subtitulo: 'Pra mãe que trabalha com tecnologia — conforto e estilo do jeito dela',
+    subtitulo: 'Sai da caneca. Dá algo que ela vai usar de verdade.',
     profissoes: 'técnicas de laboratório de TI, analistas de campo, pesquisadoras e profissionais de tecnologia',
     profissaoLabel: 'profissional de tecnologia',
     emoji: '💻',
