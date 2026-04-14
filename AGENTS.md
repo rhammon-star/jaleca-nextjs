@@ -16,7 +16,7 @@ Site de uniformes médicos (jalecos, dômãs, conjuntos). Diretório: `/Users/rh
 - Gemini AI (gemini-2.5-flash) para blog
 - Radix UI (shadcn/ui pattern) + custom components
 
-## Status das integrações (13/04/2026 — madrugada)
+## Status das integrações (13/04/2026 — noite)
 - WooCommerce GraphQL: ✅ `https://wp.jaleca.com.br/graphql`
 - WooCommerce REST: ✅ Pedidos, customers
 - Carrinho: ✅ localStorage
@@ -61,7 +61,15 @@ Site de uniformes médicos (jalecos, dômãs, conjuntos). Diretório: `/Users/rh
 - **Meta CAPI token (13/04/2026 madrugada)**: ✅ CORRIGIDO — token anterior era de Página Facebook (inválido). Novo token gerado em Events Manager → "Configurar sem Dataset Quality API". Pixel `566059928254677`. Salvo como `META_CONVERSIONS_API_TOKEN` no Vercel.
 - **Rastreamento de compra browser**: ✅ `trackPurchase()` chamado em `app/pagamento/page.tsx` ao confirmar pagamento
 - Meta Pixel ID: ✅ `566059928254677`
-- Meta CAPI token: ⚠️ precisa regenerar (token atual é de Página Facebook, não serve para CAPI)
+- Meta CAPI token: ✅ corrigido (madrugada 13/04/2026)
+- **Meta Pixel EMQ — qualidade de eventos (13/04/2026 noite)**: ✅ MELHORADO — commits 21ecfee + 2eb671c:
+  - `Purchase`: removido `order_id` não-padrão, adicionado `num_items`
+  - `ViewContent`: adicionado `content_category` (causa do score 3.0/10) + `email` quando logado
+  - `AddPaymentInfo`: implementado (estava parado há 14 dias) — dispara ao selecionar PIX/Boleto/Cartão
+  - `fbc` (Meta Click ID): adicionado em todos os eventos via cookie `_fbc` — recomendação #1 Meta (+100% conversões reportadas)
+- **ContentSquare (13/04/2026 noite)**: ✅ INSTALADO — `app/layout.tsx` — gravação de sessão + heatmaps. Script: `https://t.contentsquare.net/uxa/d63ab31369d59.js` Project ID 741528. Revisar dados no fds 18-19/04.
+- **SEO — H1 duplo no blog (13/04/2026 noite)**: ✅ CORRIGIDO — `app/blog/[slug]/page.tsx` — função `demoteH1()` converte `<h1>` do conteúdo WordPress para `<h2>` antes de renderizar.
+- **SEO — redirect 404 blog (13/04/2026 noite)**: ✅ CORRIGIDO — `next.config.ts` — redirect 301 do slug errado para slug correto detectado no Screaming Frog.
 - Meta Catálogo: ✅ 30 produtos / 559 variantes (feed: `/api/feed/google-shopping`, atualiza 1h)
 - Meta Loja Instagram + Facebook: ✅ aprovada (06/04/2026)
 - Meta Checkout URL: ✅ configurado (`/api/meta-checkout`)
