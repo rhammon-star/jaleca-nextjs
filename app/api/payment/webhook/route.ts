@@ -110,14 +110,20 @@ export async function POST(request: NextRequest) {
     }
 
     // Extract WooCommerce order ID from metadata
-    const metadata = orderData.metadata as Record<string, string> | undefined
-    const wcOrderId = metadata?.wc_order_id
+    // charge.paid → data = charge (metadata pode estar no order pai: data.order.metadata)
+    // order.paid  → data = order  (metadata está direto em data.metadata)
+    const directMeta  = orderData.metadata as Record<string, string> | undefined
+    const nestedMeta  = orderData.order?.metadata as Record<string, string> | undefined
+    const wcOrderId   = directMeta?.wc_order_id ?? nestedMeta?.wc_order_id
+
+    console.log(`[Webhook] type=${eventType} status=${orderData.status} wcOrderId=${wcOrderId ?? 'NOT FOUND'}`)
 
     if (!wcOrderId) {
       return NextResponse.json({ ok: true })
     }
 
     // Map Pagar.me status to WooCommerce
+    // Para charge.paid: usa status da cobrança. Para order.paid: usa status do pedido.
     let pagarmeStatus = orderData.status as string
     if (eventType.includes('charge')) {
       pagarmeStatus = orderData.status
