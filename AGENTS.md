@@ -358,7 +358,7 @@ jwt-auth/v1/token como dependência — o sistema funciona sem ele.
 22. **Marketplaces via Bling** — próximo passo: conectar Mercado Livre. Ver `docs/PROJETO-MARKETPLACES-BLING.md`
 23. **Google Ads — Performance Max** — criar no mês 2
 24. **Investigar "Produto não encontrado"** — 24 sessões em 404, verificar quais URLs estão quebrando
-25. **admin.jaleca.com.br** — bloquear indexação: WordPress → Configurações → Leitura → desmarcar indexação
+25. **admin.jaleca.com.br** — ✅ RESOLVIDO (15/04/2026) — X-Robots-Tag: noindex adicionado no middleware (commit 0423a91) + URL removida via GSC → Remoção de URLs.
 
 ## Performance (09/04/2026)
 - Cache headers corrigidos no `next.config.ts` (regex estava quebrado — assets sem cache)
