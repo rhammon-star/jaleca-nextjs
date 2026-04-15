@@ -346,6 +346,7 @@ jwt-auth/v1/token como dependência — o sistema funciona sem ele.
 11. **Sistema rastreamento automático** — ✅ RESOLVIDO (12/04/2026). Ciclo completo implementado.
 12. **Configurar webhook ME** — ✅ RESOLVIDO (14/04/2026). Configurado em app.melhorenvio.com.br → Integrações → Área Dev. → Jaleca → Novo Webhook.
 13. **Boleto DDA mostrando "Pagar.me"** — ⏳ AÇÃO MANUAL. Contatar suporte Pagar.me para configurar sub-merchant/recebedor com conta bancária da Jaleca. Não é problema de código.
+13b. **Relatório diário — migrar Pagar.me → Cielo (16/04/2026)**: ✅ FEITO — `fetchPagarme()` substituído por `fetchCielo()` em `app/api/daily-report/route.ts`. Usa Cielo Query API (`/1/sales?StartDate&EndDate`). Status: 2=pago, 3/13=falha, 1/12=pendente. Commit `3559700`.
 14. **WooCommerce SKUs duplicados** — 4 produtos afetados (TESTE, Jaleco Slim Princesa Laise, Macacão Paris Feminino, Conjunto Executiva Feminino). Corrigir antes do próximo sync Bling.
 15. **Google Ads — Verificação do anunciante** — Adm. → Configurações → Verificação do anunciante
 16. **Google Ads — Ao atingir 30 compras** — trocar Search para "Maximizar conversões". Checar termos novos para negativar.
