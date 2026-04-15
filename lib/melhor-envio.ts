@@ -107,8 +107,8 @@ async function callMelhorEnvioAPI(
       // Embalagem padrão: Largura=4cm, Altura=31cm, Comprimento=41cm, Peso=0.6kg/peça
       // Largura (width) aumenta +4cm por peça adicional (empilhamento de jalecos dobrados)
       products: [{ id: 'jaleco', height: 31, width: Math.min(4 * items, 60), length: 41, weight: Math.max(0.6 * items, 0.6), quantity: 1, insurance_value: 0 }],
-      // Solicita todos os serviços disponíveis — filtramos por preço, não por ID fixo
-      // Isso garante que Jadlog apareça independente do ID que a conta ME usa
+      // IDs 1,2 = PAC e SEDEX; 3,4,7,8 = possíveis IDs Jadlog dependendo do contrato ME
+      services: '1,2,3,4,7,8',
       options: { insurance_value: 0, receipt: false, own_hand: false, collect: false },
     }),
   })
