@@ -53,19 +53,11 @@ export function trackPurchase(
     })),
   })
 
-  // Google Ads conversion — event name must match GA4 import in Google Ads
+  // Google Ads conversion — imported from GA4 via 'manual_event_PURCHASE' event name
   window.gtag?.('event', 'manual_event_PURCHASE', {
     transaction_id: orderId,
     value,
     currency: 'BRL',
-  })
-
-  // Also fire direct Google Ads conversion tag (belt and suspenders)
-  window.gtag?.('event', 'conversion', {
-    send_to: GOOGLE_ADS_ID,
-    value,
-    currency: 'BRL',
-    transaction_id: orderId,
   })
 
   // Meta Pixel
