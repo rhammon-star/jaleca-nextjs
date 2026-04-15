@@ -61,8 +61,8 @@ export async function GET(req: NextRequest) {
       return NextResponse.redirect(path ? `${base}${path}` : base, 302)
     }
 
-    // Múltiplos produtos → loja
-    return NextResponse.redirect(`${base}/produtos`, 302)
+    // Múltiplos produtos → página que pré-popula carrinho e redireciona para checkout
+    return NextResponse.redirect(`${base}/meta-checkout?products=${encodeURIComponent(productsParam)}`, 302)
   }
 
   // Formato alternativo: id=RETAILER_ID
