@@ -82,7 +82,7 @@ Disparar alerta se:
 | Correção tag Google Ads | ✅ FEITO | 15/04/2026 |
 | Pedido de teste para validar conversão | ✅ FEITO | 15/04/2026 |
 | Verificar conversão no Google Ads | ⏳ Pendente | 16/04/2026 |
-| Pausar Awareness Meta | ⏳ Pendente | — |
-| Reativar Remarketing Meta | ⏳ Pendente | — |
-| Criar campanha Vendas público frio | ⏳ Pendente | — |
+| Pausar Awareness Meta | ✅ FEITO via API | 15/04/2026 |
+| Reativar Remarketing Meta | ✅ FEITO via API | 15/04/2026 |
+| Criar campanha Vendas público frio | ⏳ Pendente criativo | — |
 | Atingir 15 conv. → mudar lance Google | ⏳ Pendente | — |
