@@ -6,7 +6,8 @@ const CRON_SECRET      = process.env.CRON_SECRET!
 const GEMINI_API_KEY   = process.env.GEMINI_API_KEY!
 const OPENAI_API_KEY   = process.env.OPENAI_API_KEY!
 const BREVO_API_KEY    = process.env.BREVO_API_KEY!
-const PAGARME_SECRET   = process.env.PAGARME_SECRET_KEY!
+const CIELO_MERCHANT_ID  = process.env.CIELO_MERCHANT_ID!
+const CIELO_MERCHANT_KEY = process.env.CIELO_MERCHANT_KEY!
 const WC_API_URL       = process.env.WOOCOMMERCE_API_URL!
 const WC_CK            = process.env.WOOCOMMERCE_CONSUMER_KEY!
 const WC_CS            = process.env.WOOCOMMERCE_CONSUMER_SECRET!
@@ -30,8 +31,8 @@ function wcAuth() {
   return 'Basic ' + Buffer.from(`${WP_USER}:${WP_PASS}`).toString('base64')
 }
 
-function pagarmeAuth() {
-  return 'Basic ' + Buffer.from(`${PAGARME_SECRET}:`).toString('base64')
+function cieloQueryHeaders() {
+  return { 'MerchantId': CIELO_MERCHANT_ID, 'MerchantKey': CIELO_MERCHANT_KEY }
 }
 
 async function getGscToken(): Promise<string | null> {
@@ -160,9 +161,11 @@ async function fetchGsc(token: string) {
   }
 }
 
-// ── Pagar.me ──────────────────────────────────────────────────────────────────
+// ── Cielo ─────────────────────────────────────────────────────────────────────
 
-async function fetchPagarme() {
+const CIELO_QUERY_BASE = 'https://apiquery.cieloecommerce.cielo.com.br'
+
+async function fetchCielo() {
   const today     = brazilDate(0)
   const yesterday = brazilDate(-1)
   const d2        = brazilDate(-2)
@@ -170,40 +173,42 @@ async function fetchPagarme() {
   const d4        = brazilDate(-4)
   const weekStart = brazilDate(-7)
 
-  async function getOrders(since: string, until: string) {
-    const r = await fetch(
-      `https://api.pagar.me/core/v5/orders?created_since=${since}T03:00:00Z&created_until=${until}T02:59:59Z&size=200`,
-      { headers: { Authorization: pagarmeAuth() } }
-    )
+  async function getSales(startDate: string, endDate: string) {
+    const params = new URLSearchParams({ StartDate: startDate, EndDate: endDate, PageNumber: '1', PageSize: '200' })
+    const r = await fetch(`${CIELO_QUERY_BASE}/1/sales?${params}`, { headers: cieloQueryHeaders() })
+    if (!r.ok) return []
     const d = await r.json()
-    return (d.data ?? []) as {status:string;charges:{status:string;amount:number;payment_method:string}[];created_at:string}[]
+    return (d.Sales ?? []) as { Status: number; Amount: number; PaymentType: string }[]
   }
 
-  const [dayOrders, weekOrders, d2Orders, d3Orders, d4Orders] = await Promise.all([
-    getOrders(yesterday, today),
-    getOrders(weekStart, today),
-    getOrders(d2, yesterday),
-    getOrders(d3, d2),
-    getOrders(d4, d3),
+  const [daySales, weekSales, d2Sales, d3Sales, d4Sales] = await Promise.all([
+    getSales(yesterday, today),
+    getSales(weekStart, today),
+    getSales(d2, yesterday),
+    getSales(d3, d2),
+    getSales(d4, d3),
   ])
 
-  function summarize(orders: typeof dayOrders) {
-    const paid    = orders.filter(o => o.status === 'paid')
-    const failed  = orders.filter(o => ['failed','canceled'].includes(o.status))
-    const pending = orders.filter(o => ['pending','waiting_payment'].includes(o.status))
-    const revenue = paid.reduce((s,o) => s + o.charges.filter(c=>c.status==='paid').reduce((x,c)=>x+c.amount,0), 0) / 100
-    const lost    = failed.reduce((s,o) => s + o.charges.reduce((x,c)=>x+c.amount,0), 0) / 100
-    const methods: Record<string,number> = {}
-    for (const o of orders) for (const c of o.charges) methods[c.payment_method] = (methods[c.payment_method]??0)+1
-    return { total: orders.length, paid: paid.length, failed: failed.length, pending: pending.length,
+  // Status Cielo: 2=PaymentConfirmed, 3=Denied, 1=NotFinished, 10=Voided, 11=Refunded, 12=Pending, 13=Aborted
+  function summarize(sales: typeof daySales) {
+    const paid    = sales.filter(s => s.Status === 2)
+    const failed  = sales.filter(s => [3, 13].includes(s.Status))
+    const pending = sales.filter(s => [1, 12].includes(s.Status))
+    const revenue = paid.reduce((s, o) => s + o.Amount, 0) / 100
+    const lost    = failed.reduce((s, o) => s + o.Amount, 0) / 100
+    const methods: Record<string, number> = {}
+    for (const s of sales) methods[s.PaymentType] = (methods[s.PaymentType] ?? 0) + 1
+    return {
+      total: sales.length, paid: paid.length, failed: failed.length, pending: pending.length,
       revenue: +revenue.toFixed(2), lost: +lost.toFixed(2),
-      convRate: orders.length ? +((paid.length/orders.length)*100).toFixed(1) : 0,
-      methods }
+      convRate: sales.length ? +((paid.length / sales.length) * 100).toFixed(1) : 0,
+      methods,
+    }
   }
 
   const [daySum, weekSum, d2Sum, d3Sum, d4Sum] = [
-    summarize(dayOrders), summarize(weekOrders),
-    summarize(d2Orders), summarize(d3Orders), summarize(d4Orders),
+    summarize(daySales), summarize(weekSales),
+    summarize(d2Sales), summarize(d3Sales), summarize(d4Sales),
   ]
   return {
     day: daySum,
@@ -606,7 +611,7 @@ async function askGpt(prompt: string): Promise<string> {
 }
 
 type GscData = Awaited<ReturnType<typeof fetchGsc>>
-type PagarmeData = Awaited<ReturnType<typeof fetchPagarme>>
+type CieloData = Awaited<ReturnType<typeof fetchCielo>>
 type WcData = Awaited<ReturnType<typeof fetchWc>>
 
 async function generateSeoAnalysis(gsc: GscData): Promise<string> {
@@ -644,7 +649,7 @@ Seja direto. Máximo 350 palavras. Use marcadores.
 
 type Ga4Data = Awaited<ReturnType<typeof fetchGa4>>
 
-async function generateCroAnalysis(gsc: GscData, pm: PagarmeData, wc: WcData, ga4: Ga4Data): Promise<string> {
+async function generateCroAnalysis(gsc: GscData, pm: CieloData, wc: WcData, ga4: Ga4Data): Promise<string> {
   const methods = Object.entries(pm.day.methods).map(([k,v])=>`${k}: ${v}`).join(', ')
   const wcDay = wc.day
   const wcWeek = wc.week
@@ -699,7 +704,7 @@ Top produtos: ${wcWeek?.topProducts?.map(p=>`${p.name.substring(0,30)} (${p.qty}
 ━━━ CONTEXTO ━━━
 - Público: enfermeiras, médicas, profissionais de saúde — ticket médio R$350
 - Frete grátis SP/RJ/MG/ES acima de R$499 | PIX 5% desconto
-- Checkout: /finalizar-compra (Next.js + Pagar.me)
+- Checkout: /finalizar-compra (Next.js + Cielo)
 
 Responda em 4 blocos:
 
@@ -724,7 +729,7 @@ type GoogleAdsData = Awaited<ReturnType<typeof fetchGoogleAds>>
 function buildEmail(
   dateStr: string,
   gsc: GscData,
-  pm: PagarmeData,
+  pm: CieloData,
   wc: WcData,
   ga4: Ga4Data,
   meta: MetaData,
@@ -776,7 +781,7 @@ function buildEmail(
   <div style="background:linear-gradient(135deg,#1e293b 0%,#334155 100%);border-radius:16px;padding:28px;margin-bottom:16px;text-align:center">
     <p style="color:#94a3b8;font-size:12px;margin:0 0 4px;text-transform:uppercase;letter-spacing:1px">Relatório Diário</p>
     <h1 style="color:#fff;margin:0;font-size:22px;font-weight:700">Jaleca — ${dateStr}</h1>
-    <p style="color:#64748b;margin:6px 0 0;font-size:12px">Gerado às 19h BRT · GSC + Pagar.me + WooCommerce + IA</p>
+    <p style="color:#64748b;margin:6px 0 0;font-size:12px">Gerado às 19h BRT · GSC + Cielo + WooCommerce + IA</p>
   </div>
 
   <!-- KPIs do DIA -->
@@ -815,7 +820,7 @@ function buildEmail(
     </div>
     <div style="margin-top:12px;padding:10px 14px;background:#f0fdf4;border-radius:8px;border-left:3px solid #22c55e">
       <span style="font-size:13px;color:#166534">
-        <strong>Semana Pagar.me:</strong> ${pm.week.paid}/${pm.week.total} aprovados · R$${pm.week.revenue.toFixed(2)} receita · ${pm.week.convRate}% conversão
+        <strong>Semana Cielo:</strong> ${pm.week.paid}/${pm.week.total} aprovados · R$${pm.week.revenue.toFixed(2)} receita · ${pm.week.convRate}% conversão
       </span>
     </div>
   </div>
@@ -1034,7 +1039,7 @@ function buildEmail(
   <!-- Footer -->
   <div style="text-align:center;padding:20px;color:#94a3b8;font-size:11px;line-height:1.6">
     Jaleca Daily Report · Enviado automaticamente todo dia às 19h<br>
-    Gemini SEO Expert + GPT-4.1 CRO + GSC + GA4 + Meta Ads + Google Ads (via GA4) + Pagar.me + WooCommerce<br>
+    Gemini SEO Expert + GPT-4.1 CRO + GSC + GA4 + Meta Ads + Google Ads (via GA4) + Cielo + WooCommerce<br>
     <a href="https://jaleca.com.br" style="color:#3b82f6;text-decoration:none">jaleca.com.br</a>
   </div>
 
@@ -1083,14 +1088,14 @@ export async function GET(request: NextRequest) {
 
     const [gsc, pm, wc, ga4, meta, gads] = await Promise.all([
       gscToken ? fetchGsc(gscToken) : Promise.resolve(null),
-      fetchPagarme(),
+      fetchCielo(),
       fetchWc(),
       fetchGa4(),
       fetchMetaAds().catch(e => { console.error('[meta-ads] falha:', e); return null }),
       fetchGoogleAds().catch(e => { console.error('[google-ads] falha:', e); return null }),
     ])
 
-    console.log(`[daily-report] Dados coletados — GSC: ${gsc?.week.clicks ?? 'N/A'} | Pagar.me: ${pm.day.paid}/${pm.day.total} | WC: ${wc.day?.total ?? 'N/A'} | GA4: ${ga4?.totalSessions ?? 'N/A'} sessões | GoogAds: R$${gads?.week?.cost ?? 'N/A'} / ${gads?.week?.conversions ?? 'N/A'} conv | Meta: R$${meta?.week?.spend ?? 'N/A'}`)
+    console.log(`[daily-report] Dados coletados — GSC: ${gsc?.week.clicks ?? 'N/A'} | Cielo: ${pm.day.paid}/${pm.day.total} | WC: ${wc.day?.total ?? 'N/A'} | GA4: ${ga4?.totalSessions ?? 'N/A'} sessões | GoogAds: R$${gads?.week?.cost ?? 'N/A'} / ${gads?.week?.conversions ?? 'N/A'} conv | Meta: R$${meta?.week?.spend ?? 'N/A'}`)
     if (!meta) console.warn('[daily-report] Meta Ads retornou null — token expirado ou variável ausente')
     if (!gads) console.warn('[daily-report] Google Ads retornou null — token ou variável ausente')
 
@@ -1113,7 +1118,7 @@ export async function GET(request: NextRequest) {
       date: dateStr,
       gsc: gsc ? { clicks: gsc.week.clicks, position: gsc.week.position } : null,
       ga4: ga4 ? { sessions: ga4.totalSessions, purchase: ga4.funnel.purchase, addToCart: ga4.funnel.addToCart, convRate: ga4.totalSessions ? +((ga4.funnel.purchase/ga4.totalSessions)*100).toFixed(2) : 0 } : null,
-      pagarme: { paid: pm.day.paid, total: pm.day.total, revenue: pm.day.revenue },
+      cielo: { paid: pm.day.paid, total: pm.day.total, revenue: pm.day.revenue },
       wc: wc.day ? { orders: wc.day.total, revenue: wc.day.revenue } : null,
       meta: meta?.week ? { spend7d: meta.week.spend, clicks7d: meta.week.clicks, cpc7d: meta.week.cpc, reach7d: meta.week.reach, spendOntem: meta.day?.spend ?? null } : null,
       googleAds: gads?.week ? { cost7d: gads.week.cost, clicks7d: gads.week.clicks, conversions7d: gads.week.conversions, cpc7d: gads.week.cpc, costOntem: gads.day?.cost ?? null } : null,
