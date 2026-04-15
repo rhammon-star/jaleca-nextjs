@@ -461,6 +461,7 @@ jwt-auth/v1/token como dependência — o sistema funciona sem ele.
 - **`components/Footer.tsx`**: link contato corrigido para `/nossas-lojas`
 
 ## PRDs criados (docs/)
+- `PRD-PROTOCOLO-OTIMIZACAO-ADS-2026.md` — protocolo completo Meta + Google Ads + SEO (Gemini, 15/04/2026) — KPIs, guardrails, ações priorizadas
 - `PRD-GOOGLE-ADS-MASTER-JALECA-2026.md` — estratégia completa Google Ads (campanhas, keywords, copy, CRO, projeções)
 - `PRD-APRESENTACAO-PROJECAO-12-MESES.md` — projeção financeira 3 cenários para Manus gerar apresentação
 - `PRD-BLOG-IA-HUMANIZADA.md` — blacklist de palavras de IA + regras para conteúdo humano
