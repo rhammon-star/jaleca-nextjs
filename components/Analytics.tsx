@@ -67,7 +67,7 @@ export function trackPurchase(
     currency: 'BRL',
   })
 
-  // Meta Pixel
+  // Meta Pixel — eventID deve coincidir com CAPI para deduplicação correta
   const purchaseFbc = getFbc()
   window.fbq?.('track', 'Purchase', {
     value,
@@ -76,7 +76,7 @@ export function trackPurchase(
     content_type: 'product',
     num_items: items.reduce((s, i) => s + i.quantity, 0),
     ...(purchaseFbc && { fbc: purchaseFbc }),
-  })
+  }, { eventID: `purchase_${orderId}` })
 }
 
 export function trackViewItem(product: {
