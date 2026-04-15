@@ -36,15 +36,16 @@ type ViaCEPResponse = {
 
 // Maps our shipping IDs → Melhor Envio service IDs
 // ME service IDs confirmados via API (conta Jaleca):
-// PAC=1, SEDEX=2, Jadlog .Package=3, Jadlog .Com=4
+// PAC=1, SEDEX=2, Jadlog .Package=7, Jadlog .Com=8
+// ATENÇÃO: IDs 3,4 são PAC Mini e SEDEX 12 (Correios) — NÃO são Jadlog
 export const ME_SERVICE_MAP: Record<string, number> = {
   pac:    1,  // PAC Correios
   sedex:  2,  // SEDEX Correios
-  jadlog: 3,  // Jadlog .Package
+  jadlog: 7,  // Jadlog .Package
   '1':    1,
   '2':    2,
-  '3':    3,
-  '4':    4,
+  '7':    7,
+  '8':    8,
 }
 
 function getFallbackOptions(uf?: string, subtotal = 0): ShippingOption[] {
@@ -104,7 +105,7 @@ async function callMelhorEnvioAPI(
       // Embalagem padrão: Largura=4cm, Altura=31cm, Comprimento=41cm, Peso=0.6kg/peça
       // Largura (width) aumenta +4cm por peça adicional (empilhamento de jalecos dobrados)
       products: [{ id: 'jaleco', height: 31, width: Math.min(4 * items, 60), length: 41, weight: Math.max(0.6 * items, 0.6), quantity: 1, insurance_value: 0 }],
-      services: '1,2,3,4',  // PAC=1, SEDEX=2, Jadlog .Package=3, Jadlog .Com=4
+      services: '1,2,7,8',  // PAC=1, SEDEX=2, Jadlog .Package=7, Jadlog .Com=8
       options: { insurance_value: 0, receipt: false, own_hand: false, collect: false },
     }),
   })
@@ -121,11 +122,11 @@ async function callMelhorEnvioAPI(
   const SERVICE_LABELS: Record<number, string> = {
     1: 'PAC (Correios)',
     2: 'SEDEX (Correios)',
-    3: 'Jadlog .Package',
-    4: 'Jadlog .Com',
+    7: 'Jadlog .Package',
+    8: 'Jadlog .Com',
   }
 
-  const ALLOWED_SERVICES = new Set([1, 2, 3, 4])
+  const ALLOWED_SERVICES = new Set([1, 2, 7, 8])
   const options: ShippingOption[] = []
 
   for (const svc of services) {
@@ -234,8 +235,8 @@ export async function calculateShipping(
           ? options.map(o => o.id === '1' ? { ...o, cost: 0 } : o)
           : options
 
-        // Sort: PAC first (id=1), then Jadlog (id=3/4), then SEDEX (id=2)
-        const SORT_ORDER: Record<string, number> = { '1': 0, '3': 1, '4': 2, '2': 3 }
+        // Sort: PAC first (id=1), then Jadlog (id=7/8), then SEDEX (id=2)
+        const SORT_ORDER: Record<string, number> = { '1': 0, '7': 1, '8': 2, '2': 3 }
         return finalOptions.sort((a, b) => (SORT_ORDER[a.id] ?? 9) - (SORT_ORDER[b.id] ?? 9))
       }
     }
