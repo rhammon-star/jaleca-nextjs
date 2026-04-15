@@ -60,6 +60,13 @@ export function trackPurchase(
     currency: 'BRL',
   })
 
+  // Google Ads direct conversion tag (belt-and-suspenders — independent of GA4)
+  window.gtag?.('event', 'conversion_event_purchase', {
+    transaction_id: orderId,
+    value,
+    currency: 'BRL',
+  })
+
   // Meta Pixel
   const purchaseFbc = getFbc()
   window.fbq?.('track', 'Purchase', {
