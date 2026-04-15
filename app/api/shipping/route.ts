@@ -32,15 +32,16 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'CEP inválido' }, { status: 400 })
     }
 
-    // Validate CEP via ViaCEP to get address info
-    const viaCepRes = await fetch(`https://viacep.com.br/ws/${cleanCep}/json/`)
-    if (!viaCepRes.ok) {
-      return NextResponse.json({ error: 'Erro ao consultar CEP' }, { status: 400 })
-    }
-
-    const cepData = (await viaCepRes.json()) as ViaCEPResponse
-    if (cepData.erro) {
-      return NextResponse.json({ error: 'CEP não encontrado' }, { status: 400 })
+    // Consulta ViaCEP para obter endereço — falha graciosamente se indisponível
+    let cepData: ViaCEPResponse | null = null
+    try {
+      const viaCepRes = await fetch(`https://viacep.com.br/ws/${cleanCep}/json/`, { signal: AbortSignal.timeout(5000) })
+      if (viaCepRes.ok) {
+        const data = (await viaCepRes.json()) as ViaCEPResponse
+        if (!data.erro) cepData = data
+      }
+    } catch {
+      // ViaCEP indisponível — continua sem dados de endereço
     }
 
     const rawOptions = await calculateShipping(cleanCep, weight, items, subtotal)
@@ -51,12 +52,12 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       options,
-      address: {
+      address: cepData ? {
         city:         cepData.localidade,
         state:        cepData.uf,
         neighborhood: cepData.bairro,
         street:       cepData.logradouro,
-      },
+      } : null,
     })
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Erro ao calcular frete'
