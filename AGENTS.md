@@ -27,8 +27,8 @@ Site de uniformes médicos (jalecos, dômãs, conjuntos). Diretório: `/Users/rh
   - MerchantOrderId = WC order ID (vínculo entre Cielo e WooCommerce)
   - PIX: chave aprovada, QrCodeBase64Image + QrCodeString retornados com sucesso
   - Boleto: ⏳ não testado ainda
-  - Cartão: ⏳ não testado ainda
-  - Conta bancária: ⚠️ Bancoob e BB rejeitados no dashboard Cielo — resolver com suporte Cielo
+  - Cartão: ✅ TESTADO E FUNCIONANDO (15/04/2026)
+  - Conta bancária: ⚠️ Bancoob e BB rejeitados no dashboard Cielo — dinheiro retido, resolver com suporte em 16/04/2026
 - **Cartão de crédito tokenização (12/04/2026)**: ✅ MIGRADO — Cielo não usa tokenização frontend. Dados do cartão coletados no checkout e enviados diretamente ao nosso backend → Cielo API.
 - **Busca GraphQL (12/04/2026)**: ✅ CORRIGIDO — CSP `connect-src` agora inclui `https://wp.jaleca.com.br`. Antes o browser bloqueava a query `SEARCH_PRODUCTS` (SearchModal é client component).
 - **Menu mobile overlay (12/04/2026)**: ✅ CORRIGIDO — era inline dentro do header, empurrava o conteúdo. Agora é drawer fixo com backdrop.
@@ -85,6 +85,9 @@ Site de uniformes médicos (jalecos, dômãs, conjuntos). Diretório: `/Users/rh
 - **Meta CAPI token (13/04/2026 madrugada)**: ✅ CORRIGIDO — token anterior era de Página Facebook (inválido). Novo token gerado em Events Manager → "Configurar sem Dataset Quality API". Pixel `566059928254677`. Salvo como `META_CONVERSIONS_API_TOKEN` no Vercel.
 - **Rastreamento de compra browser**: ✅ `trackPurchase()` chamado em `app/pagamento/page.tsx` ao confirmar pagamento
 - **Google Ads conversão direta (15/04/2026)**: ✅ CORRIGIDO — `components/Analytics.tsx` — 3 camadas de rastreamento em cada compra: (1) GA4 `purchase` → importação Google Ads, (2) GA4 `manual_event_PURCHASE` → importação Google Ads, (3) `conversion_event_purchase` → Google Ads direto independente de GA4. Antes havia `send_to: 'AW-18072506944'` sem label de conversão (código morto — não rastreava nada). Commits: `d592c18` + `d7bb8be`.
+- **Meta Ads reestruturação (15/04/2026)**: ✅ via API — Awareness pausada (ROAS 0,83x), Remarketing reativada (ROAS 4,9x, orçamento R$20/dia), Lookalike mantida pausada (ROAS 0,85x). Campanha pública frio aguardando criativo (vídeo Reels 9:16 ou carrossel).
+- **Google Ads keywords (15/04/2026)**: ✅ via API — negativos [jaleco] e [jalecos] (correspondência exata) adicionados na campanha Search. Keywords auditadas: sem broad puro, tudo frase/exato.
+- **PRDs ADS criados (15/04/2026)**: docs/PRD-PROTOCOLO-OTIMIZACAO-ADS-2026.md + docs/PRD-ESTRATEGIA-KEYWORDS-JALECO-2026.md + docs/PRD-META-ADS-PERFORMANCE-2026.md + docs/PRD-CAMPANHA-AQUISICAO-META-2026.md
 - Meta Pixel ID: ✅ `566059928254677`
 - Meta CAPI token: ✅ corrigido (madrugada 13/04/2026)
 - **Meta Pixel EMQ — qualidade de eventos (13/04/2026 noite)**: ✅ MELHORADO — commits 21ecfee + 2eb671c:
@@ -461,7 +464,10 @@ jwt-auth/v1/token como dependência — o sistema funciona sem ele.
 - **`components/Footer.tsx`**: link contato corrigido para `/nossas-lojas`
 
 ## PRDs criados (docs/)
-- `PRD-PROTOCOLO-OTIMIZACAO-ADS-2026.md` — protocolo completo Meta + Google Ads + SEO (Gemini, 15/04/2026) — KPIs, guardrails, ações priorizadas
+- `PRD-PROTOCOLO-OTIMIZACAO-ADS-2026.md` — protocolo geral Meta + Google Ads + SEO (Gemini, 15/04/2026)
+- `PRD-ESTRATEGIA-KEYWORDS-JALECO-2026.md` — arquitetura de lances: "jaleco" só Shopping, cauda longa na Search
+- `PRD-META-ADS-PERFORMANCE-2026.md` — diretrizes Meta Ads: guardrails, remarketing, aquisição
+- `PRD-CAMPANHA-AQUISICAO-META-2026.md` — estrutura campanha público frio: vídeo Reels 9:16 (prioridade) ou carrossel
 - `PRD-GOOGLE-ADS-MASTER-JALECA-2026.md` — estratégia completa Google Ads (campanhas, keywords, copy, CRO, projeções)
 - `PRD-APRESENTACAO-PROJECAO-12-MESES.md` — projeção financeira 3 cenários para Manus gerar apresentação
 - `PRD-BLOG-IA-HUMANIZADA.md` — blacklist de palavras de IA + regras para conteúdo humano
