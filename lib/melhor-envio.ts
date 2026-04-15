@@ -35,19 +35,16 @@ type ViaCEPResponse = {
 }
 
 // Maps our shipping IDs → Melhor Envio service IDs
-// PAC=1, SEDEX=2. Jadlog varia por conta: Package=3 ou 7, .Com=4 ou 8
-// O ID real é descoberto pela API (callMelhorEnvioAPI devolve o id da ME).
-// Este mapa só é usado no fallback regional (quando ME API falha).
+// IDs CONFIRMADOS para esta conta (15/04/2026):
+// PAC=1, SEDEX=2, Jadlog .Package=3, Jadlog .Com=4
 export const ME_SERVICE_MAP: Record<string, number> = {
-  pac:    1,  // PAC Correios
-  sedex:  2,  // SEDEX Correios
-  jadlog: 3,  // Jadlog .Package (fallback — ID confirmado para esta conta em 10/04)
+  pac:    1,
+  sedex:  2,
+  jadlog: 3,  // Jadlog .Package
   '1':    1,
   '2':    2,
   '3':    3,
   '4':    4,
-  '7':    7,
-  '8':    8,
 }
 
 function getFallbackOptions(uf?: string, subtotal = 0): ShippingOption[] {
@@ -108,7 +105,7 @@ async function callMelhorEnvioAPI(
       // Largura (width) aumenta +4cm por peça adicional (empilhamento de jalecos dobrados)
       products: [{ id: 'jaleco', height: 31, width: Math.min(4 * items, 60), length: 41, weight: Math.max(0.6 * items, 0.6), quantity: 1, insurance_value: 0 }],
       // IDs 1,2 = PAC e SEDEX; 3,4,7,8 = possíveis IDs Jadlog dependendo do contrato ME
-      services: '1,2,3,4,7,8',
+      services: '1,2,3,4',  // PAC=1, SEDEX=2, Jadlog .Package=3, Jadlog .Com=4 (IDs confirmados 15/04)
       options: { insurance_value: 0, receipt: false, own_hand: false, collect: false },
     }),
   })
@@ -314,7 +311,7 @@ export async function addShipmentToMECart(payload: MEShipmentPayload): Promise<{
       name:        'Jaleca',
       phone:       '3134461777',
       email:       'contato@jaleca.com.br',
-      document:    '30379063000161',   // CNPJ Jaleca
+      document:    '11439632618',   // CPF do titular da conta ME (conta PF)
       address:     'Rua Coronel Joao Pessoa, 408',
       complement:  'Loja',
       district:    'Centro',
