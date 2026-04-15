@@ -35,15 +35,17 @@ type ViaCEPResponse = {
 }
 
 // Maps our shipping IDs → Melhor Envio service IDs
-// ME service IDs confirmados via API (conta Jaleca):
-// PAC=1, SEDEX=2, Jadlog .Package=7, Jadlog .Com=8
-// ATENÇÃO: IDs 3,4 são PAC Mini e SEDEX 12 (Correios) — NÃO são Jadlog
+// PAC=1, SEDEX=2. Jadlog varia por conta: Package=3 ou 7, .Com=4 ou 8
+// O ID real é descoberto pela API (callMelhorEnvioAPI devolve o id da ME).
+// Este mapa só é usado no fallback regional (quando ME API falha).
 export const ME_SERVICE_MAP: Record<string, number> = {
   pac:    1,  // PAC Correios
   sedex:  2,  // SEDEX Correios
-  jadlog: 7,  // Jadlog .Package
+  jadlog: 3,  // Jadlog .Package (fallback — ID confirmado para esta conta em 10/04)
   '1':    1,
   '2':    2,
+  '3':    3,
+  '4':    4,
   '7':    7,
   '8':    8,
 }
@@ -105,7 +107,8 @@ async function callMelhorEnvioAPI(
       // Embalagem padrão: Largura=4cm, Altura=31cm, Comprimento=41cm, Peso=0.6kg/peça
       // Largura (width) aumenta +4cm por peça adicional (empilhamento de jalecos dobrados)
       products: [{ id: 'jaleco', height: 31, width: Math.min(4 * items, 60), length: 41, weight: Math.max(0.6 * items, 0.6), quantity: 1, insurance_value: 0 }],
-      services: '1,2,7,8',  // PAC=1, SEDEX=2, Jadlog .Package=7, Jadlog .Com=8
+      // Solicita todos os serviços disponíveis — filtramos por preço, não por ID fixo
+      // Isso garante que Jadlog apareça independente do ID que a conta ME usa
       options: { insurance_value: 0, receipt: false, own_hand: false, collect: false },
     }),
   })
@@ -119,20 +122,32 @@ async function callMelhorEnvioAPI(
   // Log raw service IDs returned by ME API for diagnosis
   console.log('[ME API] Serviços retornados:', services.map(s => `id=${s.id} name=${s.name} error=${s.error ?? 'none'} price=${s.custom_price ?? s.price}`).join(' | '))
 
+  // Serviços que NÃO queremos mostrar (ex: motoboy, carta registrada, etc.)
+  const BLOCKED_SERVICES = new Set([5, 6, 9, 10, 11, 12, 13, 14, 15, 16, 17])
+
+  // Nomes amigáveis para serviços conhecidos; fallback usa svc.name da API
   const SERVICE_LABELS: Record<number, string> = {
     1: 'PAC (Correios)',
     2: 'SEDEX (Correios)',
+    3: 'Jadlog .Package',
+    4: 'Jadlog .Com',
     7: 'Jadlog .Package',
     8: 'Jadlog .Com',
   }
 
-  const ALLOWED_SERVICES = new Set([1, 2, 7, 8])
+  // Ordem de exibição: Correios econômico primeiro, Jadlog depois, SEDEX por último
+  const SORT_PRIORITY: Record<number, number> = {
+    1: 0,  // PAC
+    3: 1, 4: 1, 7: 1, 8: 1,  // Jadlog
+    2: 2,  // SEDEX
+  }
+
   const options: ShippingOption[] = []
 
   for (const svc of services) {
-    if (!ALLOWED_SERVICES.has(svc.id)) continue
+    if (BLOCKED_SERVICES.has(svc.id)) continue
     const rawPrice = svc.custom_price ?? svc.price
-    if (!rawPrice) continue  // sem preço = indisponível (svc.error ignorado quando há preço)
+    if (!rawPrice) continue  // sem preço = serviço indisponível para este CEP
     const cost = parseFloat(rawPrice)
     if (isNaN(cost) || cost <= 0) continue
     const deliveryDays = svc.delivery_time ?? 7
@@ -143,6 +158,8 @@ async function callMelhorEnvioAPI(
       delivery_time: `${deliveryDays} dia${deliveryDays !== 1 ? 's' : ''} útil${deliveryDays !== 1 ? 'eis' : ''}`,
     })
   }
+
+  options.sort((a, b) => (SORT_PRIORITY[Number(a.id)] ?? 5) - (SORT_PRIORITY[Number(b.id)] ?? 5))
 
   return options
 }
@@ -235,8 +252,8 @@ export async function calculateShipping(
           ? options.map(o => o.id === '1' ? { ...o, cost: 0 } : o)
           : options
 
-        // Sort: PAC first (id=1), then Jadlog (id=7/8), then SEDEX (id=2)
-        const SORT_ORDER: Record<string, number> = { '1': 0, '7': 1, '8': 2, '2': 3 }
+        // Sort: PAC (1) → Jadlog (3,4,7,8) → SEDEX (2)
+        const SORT_ORDER: Record<string, number> = { '1': 0, '3': 1, '4': 1, '7': 1, '8': 1, '2': 2 }
         return finalOptions.sort((a, b) => (SORT_ORDER[a.id] ?? 9) - (SORT_ORDER[b.id] ?? 9))
       }
     }
