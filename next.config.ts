@@ -77,6 +77,12 @@ const nextConfig: NextConfig = {
       { source: '/categoria/scrubs', destination: '/categoria/conjuntos', permanent: true },
       // Blog posts com slug errado → slug correto (404 detectado no Screaming Frog)
       { source: '/blog/como-escolher-o-jaleco-ideal-para-sua-especialidade-medica', destination: '/blog/como-escolher-jaleco-ideal-especialidade-medica-2', permanent: true },
+      // /produtos/{categoria} → /produtos?categoria=X
+      { source: '/produtos/jalecos', destination: '/produtos?categoria=Jalecos', permanent: true },
+      { source: '/produtos/conjuntos', destination: '/produtos?categoria=Conjuntos', permanent: true },
+      { source: '/produtos/dolmas', destination: '/produtos?categoria=D%C3%B3lm%C3%A3s', permanent: true },
+      { source: '/produtos/domas', destination: '/produtos?categoria=D%C3%B3lm%C3%A3s', permanent: true },
+      { source: '/produtos/acessorios', destination: '/produtos?categoria=Acess%C3%B3rios', permanent: true },
       // URLs antigas do WordPress
       { source: '/loja-matriz', destination: '/nossas-lojas', permanent: true },
       { source: '/color/:slug*', destination: '/produtos', permanent: true },
