@@ -3,10 +3,9 @@ import {
   createPixOrder,
   createBoletoOrder,
   createCreditCardOrder,
-  type PagarmeCustomer,
-  type PagarmeItem,
-  type PagarmeAddress,
-} from '@/lib/pagarme'
+  detectBrand,
+  type CieloCustomer,
+} from '@/lib/cielo'
 import { createOrder } from '@/lib/woocommerce'
 import type { WCOrderData } from '@/lib/woocommerce'
 import { addPoints } from '@/lib/loyalty'
@@ -24,7 +23,7 @@ function wcAuth(): string {
 
 type RequestBody = {
   paymentMethod: 'pix' | 'boleto' | 'credit_card'
-  cardToken?: string
+  cardData?: { number: string; holder: string; expiry: string; cvv: string }
   installments?: number
   cpf: string
   billing: {
@@ -57,8 +56,6 @@ type RequestBody = {
   couponCode?: string
   totalDiscount?: number
   pixDiscount?: number
-  sessionId?: string
-  cardHolderName?: string
 }
 
 function phoneNumbers(phone: string): { area_code: string; number: string } {
@@ -94,13 +91,13 @@ export async function POST(request: NextRequest) {
 
   try {
     const body: RequestBody = await request.json()
-    const { paymentMethod, cpf, billing, items, shipping, customer_id, cardToken, installments, couponCode, totalDiscount, pixDiscount, sessionId, cardHolderName } = body
+    const { paymentMethod, cpf, billing, items, shipping, customer_id, cardData, installments, couponCode, totalDiscount, pixDiscount } = body
 
     if (!billing || !items?.length || !shipping) {
       return NextResponse.json({ error: 'Dados incompletos' }, { status: 400 })
     }
-    if (paymentMethod === 'credit_card' && !cardToken) {
-      return NextResponse.json({ error: 'Token do cartão é obrigatório' }, { status: 400 })
+    if (paymentMethod === 'credit_card' && !cardData) {
+      return NextResponse.json({ error: 'Dados do cartão são obrigatórios' }, { status: 400 })
     }
 
     // ── Bloquear itens sem preço — impede compras fraudulentas ──────────────
@@ -179,9 +176,9 @@ export async function POST(request: NextRequest) {
 
     // ── 1. Create WooCommerce order ──────────────────────────────────────────
     const wcMethodMap = {
-      pix: 'woo-pagarme-payments-pix',
-      boleto: 'woo-pagarme-payments-billet',
-      credit_card: 'woo-pagarme-payments-credit_card',
+      pix: 'cielo-pix',
+      boleto: 'cielo-boleto',
+      credit_card: 'cielo-credit-card',
     }
     const wcTitleMap = {
       pix: 'PIX',
@@ -225,104 +222,77 @@ export async function POST(request: NextRequest) {
       ],
     }
 
-    const wcOrder = await createOrder(wcOrderData)
+    let wcOrder = await createOrder(wcOrderData).catch(async (err: Error) => {
+      // WC rejeita customer_id de usuários WP não indexados na wc_customer_lookup
+      // Retenta como pedido guest (customer_id removido)
+      if (/customer|cliente/i.test(err.message)) {
+        console.warn('[payment/create] WC customer_id rejected, retrying as guest:', err.message)
+        const guestOrderData = { ...wcOrderData, customer_id: undefined }
+        return createOrder(guestOrderData)
+      }
+      throw err
+    })
 
-    // ── 2. Build Pagar.me params ─────────────────────────────────────────────
-    const phone = phoneNumbers(billing.phone)
-    const customer: PagarmeCustomer = {
-      name: `${billing.first_name} ${billing.last_name}`.trim(),
-      email: billing.email,
-      document: cpf.replace(/\D/g, ''),
-      document_type: 'CPF',
-      type: 'individual',
-      phones: {
-        mobile_phone: {
-          country_code: '55',
-          area_code: phone.area_code,
-          number: phone.number,
-        },
+    // ── 2. Build Cielo params ────────────────────────────────────────────────
+    const wcTotalCents = Math.round(parseFloat(wcOrder.total || '0') * 100)
+    const amountCents = Math.max(100, wcTotalCents)
+
+    const customer: CieloCustomer = {
+      Name: `${billing.first_name} ${billing.last_name}`.trim(),
+      Identity: cpf.replace(/\D/g, ''),
+      IdentityType: 'CPF',
+      Email: billing.email,
+      Address: {
+        Street: billing.address_1,
+        Number: 'S/N',
+        Complement: billing.address_2 || '',
+        ZipCode: billing.postcode.replace(/\D/g, ''),
+        City: billing.city,
+        State: billing.state,
+        Country: 'BRA',
       },
     }
 
-    const subtotalCents = items.reduce((sum, i) => sum + Math.round(i.price * 100) * i.quantity, 0)
-    // SECURITY: Use authoritative WC order total (already includes coupon + PIX discount)
-    // Never trust client-supplied totalDiscount or pixDiscount for the Pagar.me charge
-    const wcTotalCents = Math.round(parseFloat(wcOrder.total || '0') * 100)
-    const shippingCents = toCents(shipping.cost)
-    const discountedSubtotalCents = Math.max(100, wcTotalCents - shippingCents)
+    // Use WC order ID as MerchantOrderId — Cielo webhook will return this to identify the WC order
+    const orderId = String(wcOrder.id)
 
-    // Distribute discount proportionally across items
-    const scale = discountedSubtotalCents / Math.max(subtotalCents, 1)
-    let allocated = 0
-    const pagarmeItems: PagarmeItem[] = items.map((i, idx) => {
-      const original = Math.round(i.price * 100) * i.quantity
-      let adjusted = idx < items.length - 1
-        ? Math.round(original * scale)
-        : discountedSubtotalCents - allocated
-      if (adjusted < 1) adjusted = 1
-      allocated += adjusted
-      return {
-        amount: Math.round(adjusted / i.quantity),
-        description: i.name,
-        quantity: i.quantity,
-        code: String(i.product_id),
-      }
-    })
-
-    const address: PagarmeAddress = {
-      line_1: `${billing.address_1}, ${billing.address_2}`.trim().replace(/,\s*$/, ''),
-      zip_code: billing.postcode.replace(/\D/g, ''),
-      city: billing.city,
-      state: billing.state,
-      country: 'BR',
-    }
-
-    const shippingParam = {
-      amount: toCents(shipping.cost),
-      description: shipping.method_title,
-      address,
-    }
-
-    const metadata = {
-      wc_order_id: String(wcOrder.id),
-      wc_order_number: String(wcOrder.number),
-    }
-
-    // ── 3. Call Pagar.me ─────────────────────────────────────────────────────
-    let pagarmeOrder
+    // ── 3. Call Cielo ────────────────────────────────────────────────────────
+    let cieloResult
     if (paymentMethod === 'pix') {
-      pagarmeOrder = await createPixOrder({ customer, items: pagarmeItems, shipping: shippingParam, metadata })
+      cieloResult = await createPixOrder({ orderId, amount: amountCents, customer })
     } else if (paymentMethod === 'boleto') {
-      pagarmeOrder = await createBoletoOrder({ customer, items: pagarmeItems, shipping: shippingParam, metadata })
+      const dueDate = new Date()
+      dueDate.setDate(dueDate.getDate() + 3)
+      const dueDateStr = dueDate.toISOString().split('T')[0]
+      cieloResult = await createBoletoOrder({ orderId, amount: amountCents, customer, dueDate: dueDateStr })
     } else {
-      pagarmeOrder = await createCreditCardOrder({
+      const brand = detectBrand(cardData!.number)
+      cieloResult = await createCreditCardOrder({
+        orderId,
+        amount: amountCents,
         customer,
-        items: pagarmeItems,
-        shipping: shippingParam,
-        billingAddress: address,
-        // billing.name must match customer.name (CPF owner) — antifraude compares these two
-        // For third-party cards: configure holder_name tolerance in Pagar.me dashboard
-        billingName: `${billing.first_name} ${billing.last_name}`.trim(),
-        cardToken: cardToken!,
+        card: {
+          number: cardData!.number,
+          holder: cardData!.holder,
+          expiry: cardData!.expiry,
+          cvv: cardData!.cvv,
+          brand,
+        },
         installments: installments || 1,
-        metadata,
         ip: clientInfo.clientIp,
-        sessionId: sessionId,
       })
     }
+
+    const cieloPaymentId = cieloResult.Payment.PaymentId
 
     // For credit card: update WC immediately based on payment result
     // (PIX/Boleto rely on polling or webhook since payment is async)
     let creditCardPaid = false
     if (paymentMethod === 'credit_card') {
-      const ccCharge = pagarmeOrder.charges?.[0]
-      const isPaid = pagarmeOrder.status === 'paid' || ccCharge?.status === 'paid'
-      const isFailed = !isPaid && (
-        pagarmeOrder.status === 'failed' ||
-        ccCharge?.status === 'failed' ||
-        ccCharge?.status === 'not_authorized' ||
-        pagarmeOrder.status === 'canceled'
-      )
+      // Cielo: Status 2 = PaymentConfirmed, ReturnCode "00" = success, Status 3 = Denied
+      const ccPayment = cieloResult.Payment as import('@/lib/cielo').CieloCreditResult['Payment']
+      const isPaid = ccPayment.Status === 2 && ccPayment.ReturnCode === '00'
+      const isFailed = !isPaid && (ccPayment.Status === 3 || ccPayment.Status === 0)
 
       if (isPaid) {
         creditCardPaid = true
@@ -377,8 +347,7 @@ export async function POST(request: NextRequest) {
         ).catch(() => {})
 
         // Alerta interno para equipe Jaleca
-        const ccCharge2 = pagarmeOrder.charges?.[0]
-        const failReason = ccCharge2?.status === 'not_authorized' ? 'Não autorizado' : (ccCharge2?.status || pagarmeOrder.status || 'Recusado')
+        const failReason = ccPayment.ReturnMessage || `Status Cielo: ${ccPayment.Status}`
         sendInternalPaymentFailureAlert({
           orderId:       wcOrder.id,
           orderNumber:   wcOrder.number || String(wcOrder.id),
@@ -388,7 +357,6 @@ export async function POST(request: NextRequest) {
           paymentMethod: 'Cartão de Crédito',
           failureReason: failReason,
           amount:        amountFormatted,
-          pagarmeOrderId: pagarmeOrder.id,
         }).catch(() => {})
 
         console.log(`[Payment] Credit card failed — WC order ${wcOrder.id} set to failed, customer notified`)
@@ -469,16 +437,13 @@ export async function POST(request: NextRequest) {
     }
 
     // ── 5. Build response ────────────────────────────────────────────────────
-    const charge = pagarmeOrder.charges?.[0]
-    const tx = charge?.last_transaction
-
     const response: Record<string, unknown> = {
       wcOrderId: wcOrder.id,
       wcOrderKey: wcOrder.order_key,
-      pagarmeOrderId: pagarmeOrder.id,
-      pagarmeStatus: pagarmeOrder.status,
+      cieloPaymentId,
+      cieloStatus: cieloResult.Payment.Status,
       paymentMethod,
-      orderValue: (discountedSubtotalCents + toCents(shipping.cost)) / 100,
+      orderValue: amountCents / 100,
       orderItems: items.map(i => ({
         id: String(i.variation_id || i.product_id),
         name: i.name,
@@ -487,56 +452,56 @@ export async function POST(request: NextRequest) {
       })),
     }
 
-    if (paymentMethod === 'pix' && tx) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const pixTx = tx as any
-      response.pixQrCode = pixTx.qr_code
-      response.pixQrCodeUrl = pixTx.qr_code_url
-      response.pixExpiresAt = pixTx.expires_at
+    if (paymentMethod === 'pix') {
+      const pixResult = cieloResult as import('@/lib/cielo').CieloPixResult
+      const pixCode = pixResult.Payment.QrCodeString
+      // Cielo returns base64 image — prefix for use as img src
+      const pixImageBase64 = pixResult.Payment.QrCodeBase64Image
+      const pixImgSrc = pixImageBase64 ? `data:image/png;base64,${pixImageBase64}` : undefined
+      const expiresAt = pixResult.Payment.ExpirationDate
 
-      // Send PIX code via email (fire-and-forget)
-      if (billing.email && pixTx.qr_code) {
+      response.pixQrCode = pixCode
+      response.pixQrCodeUrl = pixImgSrc
+      response.pixExpiresAt = expiresAt
+
+      if (billing.email && pixCode) {
         sendPixPaymentEmail({
           firstName: billing.first_name,
           customerEmail: billing.email,
           orderNumber: wcOrder.number || String(wcOrder.id),
           total: `R$ ${parseFloat(wcOrder.total || '0').toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`,
-          pixQrCode: pixTx.qr_code,
-          pixQrCodeUrl: pixTx.qr_code_url,
-          expiresAt: pixTx.expires_at,
+          pixQrCode: pixCode,
+          pixQrCodeUrl: pixImgSrc || '',
+          expiresAt: expiresAt || '',
         }).catch(err => console.error('[Payment] Failed to send PIX email:', err))
       }
     }
-    if (paymentMethod === 'boleto' && tx) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const boletoTx = tx as any
-      response.boletoUrl = boletoTx.url
-      response.boletoPdf = boletoTx.pdf
-      response.boletoLine = boletoTx.line
-      response.boletoDueAt = boletoTx.due_at
+    if (paymentMethod === 'boleto') {
+      const boletoResult = cieloResult as import('@/lib/cielo').CieloBoletoResult
+      response.boletoUrl = boletoResult.Payment.Url
+      response.boletoLine = boletoResult.Payment.DigitableLine
+      response.boletoDueAt = boletoResult.Payment.ExpirationDate
 
-      // Send boleto via email
-      if (billing.email && boletoTx.url) {
+      if (billing.email && boletoResult.Payment.Url) {
         sendBoletoEmail({
           firstName: billing.first_name,
           customerEmail: billing.email,
           orderNumber: wcOrder.number || String(wcOrder.id),
           total: `R$ ${parseFloat(wcOrder.total || '0').toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`,
-          boletoUrl: boletoTx.url,
-          boletoLine: boletoTx.line,
-          boletoDueAt: boletoTx.due_at,
+          boletoUrl: boletoResult.Payment.Url,
+          boletoLine: boletoResult.Payment.DigitableLine || '',
+          boletoDueAt: boletoResult.Payment.ExpirationDate || '',
         }).catch(err => console.error('[Payment] Failed to send boleto email:', err))
       }
     }
     if (paymentMethod === 'credit_card') {
-      response.cardStatus = charge?.status
-      // Derive a user-friendly message from charge status — never use acquirer_message
-      // directly because Pagar.me returns "Transação aprovada" even on anti-fraud denials.
-      if (charge?.status !== 'paid') {
-        const acquirerMsg = ((tx as any)?.acquirer_message || '').toLowerCase()
-        if (/fundos|insufficient|saldo insuficiente/.test(acquirerMsg)) {
+      const ccResult = cieloResult as import('@/lib/cielo').CieloCreditResult
+      response.cardStatus = ccResult.Payment.Status === 2 ? 'approved' : 'denied'
+      if (ccResult.Payment.Status !== 2) {
+        const returnMsg = (ccResult.Payment.ReturnMessage || '').toLowerCase()
+        if (/insufficient|saldo|sem limite/.test(returnMsg)) {
           response.cardMessage = 'Saldo insuficiente. Tente outro cartão ou use PIX.'
-        } else if (/bloqueado|blocked|restricted/.test(acquirerMsg)) {
+        } else if (/bloqueado|blocked|restricted/.test(returnMsg)) {
           response.cardMessage = 'Cartão bloqueado. Verifique com seu banco ou use PIX.'
         } else {
           response.cardMessage = 'Pagamento não autorizado. Tente outro cartão ou use PIX.'

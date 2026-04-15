@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Jaleca Fix - Create Users
  * Description: Endpoint customizado para criacao de clientes e reset de senha
- * Version: 2.3
+ * Version: 2.4
  */
 
 // Chave secreta — deve ser igual a variavel JALECA_REGISTER_SECRET no Vercel
@@ -221,6 +221,37 @@ function jaleca_lookup_cpf(WP_REST_Request $request) {
     }
 
     return rest_ensure_response(array('found' => false));
+}
+
+// ── Auto-preenche EAN-13 na variação ao salvar (se campo GTIN vazio) ──────────
+add_action('woocommerce_save_product_variation', 'jaleca_auto_ean13', 10, 2);
+
+function jaleca_calc_ean13($base12) {
+    $sum = 0;
+    for ($i = 0; $i < 12; $i++) {
+        $d    = intval($base12[$i]);
+        $sum += ($i % 2 === 0) ? $d : $d * 3;
+    }
+    $check = (10 - ($sum % 10)) % 10;
+    return $base12 . $check;
+}
+
+function jaleca_gerar_ean($sku) {
+    $numeric = preg_replace('/\D/', '', $sku);
+    $numeric = str_pad(substr($numeric, -9), 9, '0', STR_PAD_LEFT);
+    $base12  = '789' . $numeric;
+    return jaleca_calc_ean13($base12);
+}
+
+function jaleca_auto_ean13($variation_id, $i) {
+    $existing = get_post_meta($variation_id, '_global_unique_id', true);
+    if (!empty($existing)) return; // ja tem EAN, nao sobrescreve
+
+    $sku = get_post_meta($variation_id, '_sku', true);
+    if (empty($sku)) $sku = strval($variation_id);
+
+    $ean = jaleca_gerar_ean($sku);
+    update_post_meta($variation_id, '_global_unique_id', $ean);
 }
 
 // Desativa automaticamente variacoes sem preco ao salvar no WC Admin

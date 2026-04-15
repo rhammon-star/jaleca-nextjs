@@ -9,8 +9,8 @@ import { trackPurchase } from '@/components/Analytics'
 type PaymentData = {
   paymentMethod: 'pix' | 'boleto' | 'credit_card'
   wcOrderId: number
-  pagarmeOrderId: string
-  pagarmeStatus: string
+  cieloPaymentId: string
+  cieloStatus: number
   orderValue?: number
   orderItems?: Array<{ id: string; name: string; price: number; quantity: number }>
   customerEmail?: string
@@ -20,7 +20,6 @@ type PaymentData = {
   pixExpiresAt?: string
   // Boleto
   boletoUrl?: string
-  boletoPdf?: string
   boletoLine?: string
   boletoDueAt?: string
   // Card
@@ -145,23 +144,13 @@ function BoletoView({ data }: { data: PaymentData }) {
             Ver Boleto
           </a>
         )}
-        {data.boletoPdf && (
-          <a
-            href={data.boletoPdf}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 border border-border px-6 py-3 text-xs font-semibold tracking-widest uppercase hover:bg-secondary/20 transition-all"
-          >
-            Baixar PDF
-          </a>
-        )}
       </div>
     </div>
   )
 }
 
 function CardView({ data }: { data: PaymentData }) {
-  const approved = data.cardStatus === 'paid' || data.pagarmeStatus === 'paid'
+  const approved = data.cardStatus === 'approved'
 
   return (
     <div className="text-center space-y-4">
@@ -216,11 +205,11 @@ function PagamentoContent() {
 
   // Poll payment status for PIX and boleto
   useEffect(() => {
-    if (!data?.pagarmeOrderId || data.paymentMethod === 'credit_card' || paid) return
+    if (!data?.cieloPaymentId || data.paymentMethod === 'credit_card' || paid) return
 
     const poll = async () => {
       try {
-        const res = await fetch(`/api/payment/status?id=${data.pagarmeOrderId}&wc=${data.wcOrderId}`)
+        const res = await fetch(`/api/payment/status?paymentId=${data.cieloPaymentId}&wc=${data.wcOrderId}`)
         const json = await res.json()
         if (json.paid) {
           setPaid(true)
@@ -238,8 +227,7 @@ function PagamentoContent() {
   // Fire purchase tracking + Google Customer Reviews survey once when payment is confirmed
   useEffect(() => {
     if (trackFiredRef.current || !data) return
-    const isCardApproved = data.paymentMethod === 'credit_card' &&
-      (data.cardStatus === 'paid' || data.pagarmeStatus === 'paid')
+    const isCardApproved = data.paymentMethod === 'credit_card' && data.cardStatus === 'approved'
     const isConfirmed = paid || isCardApproved
     if (!isConfirmed) return
     trackFiredRef.current = true
@@ -319,7 +307,7 @@ function PagamentoContent() {
     <main className="py-12">
       <div className="container max-w-lg">
         <div className="text-center mb-8">
-          {data.paymentMethod === 'credit_card' && (data.cardStatus === 'paid' || data.pagarmeStatus === 'paid') ? (
+          {data.paymentMethod === 'credit_card' && data.cardStatus === 'approved' ? (
             <CheckCircle size={48} className="text-green-600 mx-auto mb-3" />
           ) : data.paymentMethod !== 'credit_card' ? (
             <Clock size={48} className="text-amber-500 mx-auto mb-3" />

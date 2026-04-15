@@ -373,39 +373,15 @@ export default function CheckoutClient() {
     }
   }
 
-  async function tokenizeCard(): Promise<string> {
+  function getCardData() {
     const [expMonth, expYear] = cardExpiry.split('/')
-    const billingAddress = {
-      line_1: address.address_1
-        ? `${address.address_1}${address.address_2 ? ', ' + address.address_2 : ''}`.trim()
-        : 'Endereço não informado',
-      line_2: address.address_2 || '',
-      zip_code: address.postcode.replace(/\D/g, ''),
-      city: address.city,
-      state: address.state,
-      country: 'BR',
+    const year = expYear.trim().length === 2 ? '20' + expYear.trim() : expYear.trim()
+    return {
+      number: cardNumber.replace(/\D/g, ''),
+      holder: cardName.trim().toUpperCase(),
+      expiry: `${expMonth.trim().padStart(2,'0')}/${year}`,
+      cvv: cardCvv,
     }
-    const res = await fetch(
-      `https://api.pagar.me/core/v5/tokens?appId=${process.env.NEXT_PUBLIC_PAGARME_PUBLIC_KEY}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          type: 'card',
-          card: {
-            number: cardNumber.replace(/\D/g, ''),
-            holder_name: cardName.trim().toUpperCase(),
-            exp_month: parseInt(expMonth),
-            exp_year: expYear.trim().length === 4 ? parseInt(expYear.trim()) : parseInt('20' + expYear.trim()),
-            cvv: cardCvv,
-            billing_address: billingAddress,
-          },
-        }),
-      }
-    )
-    const data = await res.json()
-    if (!res.ok || !data.id) throw new Error(data.message || 'Erro ao processar cartão')
-    return data.id
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -490,18 +466,6 @@ export default function CheckoutClient() {
         phone: address.phone,
       }
 
-      // Tokenize card if needed
-      let cardToken: string | undefined
-      if (paymentMethod === 'credit_card') {
-        try {
-          cardToken = await tokenizeCard()
-        } catch (err) {
-          setError(err instanceof Error ? err.message : 'Erro ao processar cartão')
-          setLoading(false)
-          return
-        }
-      }
-
       const paymentData = {
         paymentMethod,
         cpf: cleanCPF(cpf),
@@ -521,13 +485,11 @@ export default function CheckoutClient() {
           cost: shipping.cost,
         },
         customer_id: resolvedCustomerId,
-        cardToken,
-        cardHolderName: paymentMethod === 'credit_card' ? cardName.trim() : undefined,
+        cardData: paymentMethod === 'credit_card' ? getCardData() : undefined,
         installments,
         couponCode: couponCode || undefined,
         totalDiscount: couponDiscount + pixDiscount,
         pixDiscount: pixDiscount > 0 ? pixDiscount : undefined,
-        sessionId: paymentMethod === 'credit_card' ? kondutoSessionId : undefined,
       }
 
       const res = await fetch('/api/payment/create', {
@@ -543,7 +505,7 @@ export default function CheckoutClient() {
       }
 
       // For credit card, only clear cart if payment was approved
-      if (paymentMethod === 'credit_card' && data.cardStatus !== 'paid') {
+      if (paymentMethod === 'credit_card' && data.cardStatus !== 'approved') {
         setError(data.cardMessage || 'Pagamento não autorizado. Verifique os dados do cartão e tente novamente.')
         setPaymentFailed(true)
         return

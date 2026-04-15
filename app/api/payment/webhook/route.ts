@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createHmac } from 'crypto'
 import { sendOrderConfirmation, sendInternalPaymentFailureAlert } from '@/lib/email'
 import { sendMetaPurchase } from '@/lib/meta-conversions'
+import { getPaymentStatus } from '@/lib/cielo'
 
 async function sendGA4Purchase(order: {
   id: number
@@ -52,20 +52,6 @@ const WC_API = process.env.WOOCOMMERCE_API_URL!
 const WC_CK = process.env.WOOCOMMERCE_CONSUMER_KEY!
 const WC_CS = process.env.WOOCOMMERCE_CONSUMER_SECRET!
 
-function verifyPagarmeSignature(rawBody: string, signature: string | null): { ok: boolean; reason: string } {
-  if (!signature) return { ok: false, reason: 'no x-hub-signature header' }
-  // PAGARME_WEBHOOK_SECRET = senha configurada no dashboard Pagar.me (Webhooks)
-  // Diferente de PAGARME_SECRET_KEY que é a chave da API REST
-  const secret = process.env.PAGARME_WEBHOOK_SECRET || process.env.PAGARME_SECRET_KEY
-  if (!secret) return { ok: false, reason: 'PAGARME_WEBHOOK_SECRET not set' }
-  const parts = signature.split('=')
-  if (parts.length !== 2 || parts[0] !== 'sha1') return { ok: false, reason: `unexpected format: ${parts[0]}` }
-  const expected = createHmac('sha1', secret).update(rawBody).digest('hex')
-  if (parts[1] === expected) return { ok: true, reason: 'ok' }
-  // Log first 8 chars of both to help diagnose secret mismatch without exposing full values
-  return { ok: false, reason: `hmac mismatch — received=${parts[1].slice(0, 8)}… expected=${expected.slice(0, 8)}…` }
-}
-
 function wcAuth(): string {
   return `Basic ${Buffer.from(`${WC_CK}:${WC_CS}`).toString('base64')}`
 }
@@ -78,155 +64,132 @@ async function updateWCOrderStatus(wcOrderId: string, status: string) {
   })
 }
 
-// Pagar.me → WooCommerce status map
-const STATUS_MAP: Record<string, string> = {
-  paid: 'processing',
-  pending: 'pending',
-  failed: 'failed',
-  canceled: 'cancelled',
-  chargedback: 'refunded',
+// Cielo status → WooCommerce status
+const STATUS_MAP: Record<number, string> = {
+  2: 'processing',  // PaymentConfirmed
+  3: 'failed',      // Denied
+  10: 'cancelled',  // Voided
+  11: 'refunded',   // Refunded
 }
 
 export async function POST(request: NextRequest) {
   try {
-    const rawBody = await request.text()
-    const signature = request.headers.get('x-hub-signature')
+    const body = await request.json()
 
-    const sigCheck = verifyPagarmeSignature(rawBody, signature)
-    if (!sigCheck.ok) {
-      // Log the mismatch details to diagnose the secret configuration,
-      // but proceed — blocking webhooks stops all post-payment processing.
-      console.warn(`[Webhook] Signature mismatch (proceeding): ${sigCheck.reason}`)
-    }
+    // Cielo sends: { PaymentId: "uuid", ChangeType: 1 }
+    const { PaymentId, ChangeType } = body
 
-    const body = JSON.parse(rawBody)
-
-    // Pagar.me sends order or charge events
-    const eventType: string = body.type || ''
-    const orderData = body.data
-
-    if (!orderData) {
+    if (!PaymentId) {
       return NextResponse.json({ ok: true })
     }
 
-    // Extract WooCommerce order ID from metadata
-    // charge.paid → data = charge (metadata pode estar no order pai: data.order.metadata)
-    // order.paid  → data = order  (metadata está direto em data.metadata)
-    const directMeta  = orderData.metadata as Record<string, string> | undefined
-    const nestedMeta  = orderData.order?.metadata as Record<string, string> | undefined
-    const wcOrderId   = directMeta?.wc_order_id ?? nestedMeta?.wc_order_id
+    console.log(`[Webhook Cielo] PaymentId=${PaymentId} ChangeType=${ChangeType}`)
 
-    console.log(`[Webhook] type=${eventType} status=${orderData.status} wcOrderId=${wcOrderId ?? 'NOT FOUND'}`)
+    // Query Cielo to get actual payment status + MerchantOrderId (= WC order ID)
+    const cieloData = await getPaymentStatus(PaymentId)
+    const cieloStatus = cieloData.Payment.Status
+    // MerchantOrderId is the WC order ID we set when creating the payment
+    const wcOrderId = (cieloData as Record<string, unknown>).MerchantOrderId as string | undefined
+
+    console.log(`[Webhook Cielo] status=${cieloStatus} wcOrderId=${wcOrderId ?? 'NOT FOUND'}`)
 
     if (!wcOrderId) {
       return NextResponse.json({ ok: true })
     }
 
-    // Map Pagar.me status to WooCommerce
-    // Para charge.paid: usa status da cobrança. Para order.paid: usa status do pedido.
-    let pagarmeStatus = orderData.status as string
-    if (eventType.includes('charge')) {
-      pagarmeStatus = orderData.status
+    const wcStatus = STATUS_MAP[cieloStatus]
+    if (!wcStatus) {
+      return NextResponse.json({ ok: true })
     }
 
-    const wcStatus = STATUS_MAP[pagarmeStatus]
-    if (wcStatus) {
-      // Fetch current WC order status BEFORE updating — to avoid duplicate emails
-      let wasAlreadyProcessing = false
-      if (wcStatus === 'processing') {
-        try {
-          const getRes = await fetch(`${WC_API}/orders/${wcOrderId}`, {
-            headers: { Authorization: wcAuth() },
-            cache: 'no-store',
-          })
-          if (getRes.ok) {
-            const current = await getRes.json()
-            wasAlreadyProcessing = current.status !== 'pending'
+    // Check current WC status to avoid duplicate email
+    let wasAlreadyProcessing = false
+    if (wcStatus === 'processing') {
+      try {
+        const getRes = await fetch(`${WC_API}/orders/${wcOrderId}`, {
+          headers: { Authorization: wcAuth() },
+          cache: 'no-store',
+        })
+        if (getRes.ok) {
+          const current = await getRes.json()
+          wasAlreadyProcessing = current.status !== 'pending'
+        }
+      } catch {}
+    }
+
+    await updateWCOrderStatus(wcOrderId, wcStatus)
+
+    // Payment confirmed — send email + tracking
+    if (wcStatus === 'processing' && !wasAlreadyProcessing) {
+      try {
+        const orderRes = await fetch(`${WC_API}/orders/${wcOrderId}`, {
+          headers: { Authorization: wcAuth() },
+          cache: 'no-store',
+        })
+        if (orderRes.ok) {
+          const order = await orderRes.json()
+          const email = order.billing?.email
+          if (email) {
+            sendOrderConfirmation(order, email).catch(() => {})
+            import('@/lib/brevo-cart').then(m => m.removeFromRecoveryList(email)).catch(() => {})
+            sendGA4Purchase(order).catch(err => console.error('[GA4 MP] webhook error:', err))
+            await sendMetaPurchase(
+              {
+                email: order.billing?.email,
+                phone: order.billing?.phone,
+                firstName: order.billing?.first_name,
+                lastName: order.billing?.last_name,
+                city: order.billing?.city,
+                state: order.billing?.state,
+                zip: order.billing?.postcode,
+                country: order.billing?.country,
+              },
+              {
+                orderId: String(order.id),
+                value: parseFloat(order.total || '0'),
+                items: order.line_items?.map((i: { product_id: number; quantity: number }) => ({
+                  id: String(i.product_id),
+                  quantity: i.quantity,
+                })),
+              }
+            ).catch(err => console.error('[CAPI] sendMetaPurchase failed (webhook):', err))
           }
-        } catch {}
-      }
+        }
+      } catch {}
+    }
 
-      await updateWCOrderStatus(wcOrderId, wcStatus)
-
-      // Send confirmation email when payment is confirmed — only if first time
-      if (wcStatus === 'processing' && !wasAlreadyProcessing) {
-        try {
-          const orderRes = await fetch(`${WC_API}/orders/${wcOrderId}`, {
-            headers: { Authorization: wcAuth() },
-            cache: 'no-store',
-          })
-          if (orderRes.ok) {
-            const order = await orderRes.json()
-            const email = order.billing?.email
-            if (email) {
-              sendOrderConfirmation(order, email).catch(() => {})
-
-              // Remove from cart recovery list — customer completed purchase
-              import('@/lib/brevo-cart').then(m => m.removeFromRecoveryList(email)).catch(() => {})
-
-              // GA4 Measurement Protocol — garante tracking de PIX/Boleto confirmados no servidor
-              sendGA4Purchase(order).catch(err => console.error('[GA4 MP] webhook error:', err))
-
-              // Meta Conversions API — Purchase event (PIX/Boleto confirmed via webhook)
-              // Must be awaited — Vercel terminates fire-and-forget before completion
-              await sendMetaPurchase(
-                {
-                  email: order.billing?.email,
-                  phone: order.billing?.phone,
-                  firstName: order.billing?.first_name,
-                  lastName: order.billing?.last_name,
-                  city: order.billing?.city,
-                  state: order.billing?.state,
-                  zip: order.billing?.postcode,
-                  country: order.billing?.country,
-                },
-                {
-                  orderId: String(order.id),
-                  value: parseFloat(order.total || '0'),
-                  items: order.line_items?.map((i: { product_id: number; quantity: number }) => ({
-                    id: String(i.product_id),
-                    quantity: i.quantity,
-                  })),
-                }
-              ).catch(err => console.error('[CAPI] sendMetaPurchase failed (webhook):', err))
-            }
+    // Payment failed alert
+    if (wcStatus === 'failed') {
+      try {
+        const orderRes = await fetch(`${WC_API}/orders/${wcOrderId}`, {
+          headers: { Authorization: wcAuth() }, cache: 'no-store',
+        })
+        if (orderRes.ok) {
+          const order = await orderRes.json()
+          const methodMap: Record<string, string> = {
+            'cielo-pix': 'PIX',
+            'cielo-boleto': 'Boleto',
+            'cielo-credit-card': 'Cartão de Crédito',
           }
-        } catch {}
-      }
-
-      // Alerta interno para falhas de pagamento (charge.payment_failed)
-      if (wcStatus === 'failed') {
-        try {
-          const orderRes = await fetch(`${WC_API}/orders/${wcOrderId}`, {
-            headers: { Authorization: wcAuth() }, cache: 'no-store',
-          })
-          if (orderRes.ok) {
-            const order = await orderRes.json()
-            const methodMap: Record<string, string> = {
-              'woo-pagarme-payments-pix': 'PIX',
-              'woo-pagarme-payments-billet': 'Boleto',
-              'woo-pagarme-payments-credit_card': 'Cartão de Crédito',
-            }
-            const method = methodMap[order.payment_method] ?? order.payment_method_title ?? 'Desconhecido'
-            const amount = `R$ ${parseFloat(order.total || '0').toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`
-            sendInternalPaymentFailureAlert({
-              orderId:       order.id,
-              orderNumber:   order.number || String(order.id),
-              customerName:  `${order.billing?.first_name} ${order.billing?.last_name}`.trim(),
-              customerEmail: order.billing?.email ?? '',
-              customerPhone: order.billing?.phone,
-              paymentMethod: method,
-              failureReason: `Pagamento não confirmado (evento: ${eventType})`,
-              amount,
-            }).catch(() => {})
-          }
-        } catch {}
-      }
+          const method = methodMap[order.payment_method] ?? order.payment_method_title ?? 'Desconhecido'
+          const amount = `R$ ${parseFloat(order.total || '0').toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`
+          sendInternalPaymentFailureAlert({
+            orderId:       order.id,
+            orderNumber:   order.number || String(order.id),
+            customerName:  `${order.billing?.first_name} ${order.billing?.last_name}`.trim(),
+            customerEmail: order.billing?.email ?? '',
+            customerPhone: order.billing?.phone,
+            paymentMethod: method,
+            failureReason: `Pagamento negado Cielo (status ${cieloStatus})`,
+            amount,
+          }).catch(() => {})
+        }
+      } catch {}
     }
 
     return NextResponse.json({ ok: true })
   } catch (error) {
-    console.error('[Webhook] Error:', error)
-    return NextResponse.json({ ok: true }) // Always return 200 to Pagar.me
+    console.error('[Webhook Cielo] Error:', error)
+    return NextResponse.json({ ok: true })
   }
 }

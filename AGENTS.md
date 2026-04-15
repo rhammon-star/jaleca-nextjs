@@ -11,17 +11,25 @@ Site de uniformes médicos (jalecos, dômãs, conjuntos). Diretório: `/Users/rh
 ## Stack
 - Next.js 16, React 19, TypeScript, Tailwind CSS v3.4
 - WooCommerce GraphQL + REST API (`https://wp.jaleca.com.br/graphql`)
-- Pagar.me v5 (direto, sem plugin WC)
+- **Cielo E-commerce 3.0** (direto, sem plugin WC) — migrado de Pagar.me em 15/04/2026
 - Brevo (Sendinblue) para email transacional
 - Gemini AI (gemini-2.5-flash) para blog
 - Radix UI (shadcn/ui pattern) + custom components
 
-## Status das integrações (14/04/2026)
+## Status das integrações (15/04/2026)
 - WooCommerce GraphQL: ✅ `https://wp.jaleca.com.br/graphql`
 - WooCommerce REST: ✅ Pedidos, customers
 - Carrinho: ✅ localStorage
-- Pagamentos Pagar.me: ✅ PIX ✅ Boleto ✅ Cartão de Crédito ✅ Webhook configurado
-- **Cartão de crédito tokenização (12/04/2026)**: ✅ CORRIGIDO — CSP `connect-src` agora inclui `https://api.pagar.me`. Antes bloqueava a tokenização no browser com erro "load Failed".
+- **Pagamentos Cielo (15/04/2026)**: ✅ PIX ✅ Webhook configurado — testado e funcionando
+  - Merchant ID: `edab5f0e-dff5-4ea8-9f4c-3498f657dc56`
+  - Webhook: `https://jaleca.com.br/api/payment/webhook` (eventos: PaymentStatusChanged, RecurrentPaymentCreated)
+  - Cielo status codes: 2=PaymentConfirmed, 3=Denied, 10=Voided, 11=Refunded
+  - MerchantOrderId = WC order ID (vínculo entre Cielo e WooCommerce)
+  - PIX: chave aprovada, QrCodeBase64Image + QrCodeString retornados com sucesso
+  - Boleto: ⏳ não testado ainda
+  - Cartão: ⏳ não testado ainda
+  - Conta bancária: ⚠️ Bancoob e BB rejeitados no dashboard Cielo — resolver com suporte Cielo
+- **Cartão de crédito tokenização (12/04/2026)**: ✅ MIGRADO — Cielo não usa tokenização frontend. Dados do cartão coletados no checkout e enviados diretamente ao nosso backend → Cielo API.
 - **Busca GraphQL (12/04/2026)**: ✅ CORRIGIDO — CSP `connect-src` agora inclui `https://wp.jaleca.com.br`. Antes o browser bloqueava a query `SEARCH_PRODUCTS` (SearchModal é client component).
 - **Menu mobile overlay (12/04/2026)**: ✅ CORRIGIDO — era inline dentro do header, empurrava o conteúdo. Agora é drawer fixo com backdrop.
 - **Sessão corrompida / pedidos zerados (12/04/2026)**: ✅ CORRIGIDO — AuthContext valida token JWT + id>0 ao carregar localStorage. Sessões inválidas auto-limpas.
