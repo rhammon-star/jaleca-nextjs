@@ -377,8 +377,8 @@ export async function addShipmentToMECart(payload: MEShipmentPayload): Promise<{
       return null
     }
 
-    const data = (await res.json()) as { id: string }
-    console.log(`[ME Cart] Envio adicionado ao carrinho: ${data.id}`)
+    const data = (await res.json()) as { id: string; service?: { id: number; name: string } }
+    console.log(`[ME Cart] Envio adicionado: id=${data.id} service_id=${data.service?.id} service_name=${data.service?.name}`)
     return data
   } catch (err) {
     console.error('[ME Cart] Falha:', err)
