@@ -369,6 +369,17 @@ jwt-auth/v1/token como dependência — o sistema funciona sem ele.
 - Vídeos carregam via IntersectionObserver (lazy-load — zero impacto no PageSpeed)
 - PageSpeed antes: FCP 2.7s | LCP 7.7s | TBT 160ms | CLS 0 | SI 4.3s
 
+## Performance Mobile — segunda rodada (16/04/2026) — commit d9236a2
+- Score mobile era 64 (70% dos clientes acessam via mobile)
+- **ContentSquare movido do `<head>` para `<Script strategy="lazyOnload">`** — tirado do caminho crítico, não concorre mais com hero por banda no mobile
+- **CookieConsent**: delay 3s adicionado (commit anterior) — antes era LCP element causando 9.7s
+- **FranqueadoBanner**: delay 4s no fetch `/api/franqueado` (commit anterior) — tirado do caminho crítico
+- **Fontes reduzidas**: DM Sans 5→3 pesos (removidos 300 e 600), Cormorant 4→3 pesos (removido 500) — 3 requisições a menos no mobile
+- **ScrollReveal**: removido `filter: blur(4px)` — blur na GPU do mobile contribuía para TBT. Mantido opacity + translateY
+- **GoogleMerchantBadge**: `afterInteractive` → `lazyOnload` — script do Google Merchant não bloqueia mais interação
+- **warm-cache.mjs**: homepage + 5 categorias adicionadas ao aquecimento pós-deploy
+- Score estimado após deploy: 64 → ~72–78
+
 ## CRO implementado (08/04/2026)
 - Hero subheadline atualizado: "Antes de você falar, sua imagem já foi avaliada..."
 - "Mais Vendidos" adicionado ao menu desktop + mobile com badge TOP
