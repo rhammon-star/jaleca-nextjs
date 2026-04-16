@@ -24,6 +24,49 @@ function stripHtml(html: string): string {
   return html.replace(/<[^>]*>/g, '').replace(/&[a-z]+;/gi, ' ').trim()
 }
 
+/** Extrai passos de listas ordenadas do HTML do post para gerar HowTo schema */
+function extractHowToSteps(html: string, title: string): Array<{ '@type': string; name: string; text: string }> | null {
+  const isTitleHowTo = /^como\b/i.test(title.trim())
+  if (!isTitleHowTo) return null
+
+  // Extrai itens de <ol>...<li>...</li>...</ol>
+  const olMatches = html.match(/<ol[^>]*>([\s\S]*?)<\/ol>/gi)
+  if (!olMatches) return null
+
+  const steps: Array<{ '@type': string; name: string; text: string }> = []
+  for (const ol of olMatches) {
+    const liMatches = ol.match(/<li[^>]*>([\s\S]*?)<\/li>/gi) ?? []
+    for (const li of liMatches) {
+      const text = stripHtml(li).trim()
+      if (text.length < 10) continue
+      // First sentence or 80 chars as name
+      const name = text.split(/[.!?]/)[0]?.trim().slice(0, 80) ?? text.slice(0, 80)
+      steps.push({ '@type': 'HowToStep', name, text })
+    }
+  }
+  return steps.length >= 2 ? steps : null
+}
+
+/** Extrai pares pergunta/resposta de H2s ou H3s seguidos de parágrafo para FAQPage schema */
+function extractFaqItems(html: string): Array<{ '@type': string; name: string; acceptedAnswer: { '@type': string; text: string } }> | null {
+  const faqRegex = /<h[23][^>]*>([\s\S]*?)<\/h[23]>\s*<p[^>]*>([\s\S]*?)<\/p>/gi
+  const items: Array<{ '@type': string; name: string; acceptedAnswer: { '@type': string; text: string } }> = []
+  let match
+  while ((match = faqRegex.exec(html)) !== null) {
+    const question = stripHtml(match[1]).trim()
+    const answer = stripHtml(match[2]).trim()
+    // Only include if it looks like a question or has meaningful content
+    if (question.length > 10 && answer.length > 20 && items.length < 8) {
+      items.push({
+        '@type': 'Question',
+        name: question,
+        acceptedAnswer: { '@type': 'Answer', text: answer.slice(0, 300) },
+      })
+    }
+  }
+  return items.length >= 2 ? items : null
+}
+
 // WordPress content may include <h1> tags — demote to <h2> to avoid duplicate H1
 function demoteH1(html: string): string {
   return html
@@ -112,6 +155,23 @@ export default async function BlogPostPage({
     relatedPosts = []
   }
 
+  const howToSteps = extractHowToSteps(post.content.rendered, title)
+  const faqItems = extractFaqItems(post.content.rendered)
+
+  const howToJsonLd = howToSteps ? {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name: title,
+    description: excerpt || title,
+    step: howToSteps,
+  } : null
+
+  const faqJsonLd = faqItems ? {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqItems,
+  } : null
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
@@ -176,6 +236,18 @@ export default async function BlogPostPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd).replace(/</g, '\\u003c') }}
       />
+      {howToJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd).replace(/</g, '\\u003c') }}
+        />
+      )}
+      {faqJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd).replace(/</g, '\\u003c') }}
+        />
+      )}
       <main className="py-8 md:py-12">
         <div className="container max-w-3xl">
           <Link
