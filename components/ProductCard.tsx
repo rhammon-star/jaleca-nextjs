@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Heart, GitCompareArrows } from "lucide-react";
 import { useCompare } from "@/contexts/CompareContext";
 import { useWishlist } from "@/contexts/WishlistContext";
+import { isBestSeller } from "@/lib/best-sellers";
 
 type VariationAttr = { name: string; value: string }
 type Variation = { id: string; name: string; stockStatus: string; price?: string; regularPrice?: string; salePrice?: string; image?: { sourceUrl: string; altText: string }; attributes: { nodes: VariationAttr[] } }
@@ -108,18 +109,25 @@ const ProductCard = ({ product, colorFilter }: { product: WooProduct; colorFilte
         {/* Dark overlay gradient */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/0 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400" />
 
+        {/* Best-seller badge */}
+        {isBestSeller(product.slug) && (
+          <span className="absolute top-3 left-3 bg-[#c4a97d] text-white text-[10px] font-bold tracking-widest uppercase px-2.5 py-1 z-10 flex items-center gap-1">
+            🏆 MAIS VENDIDO
+          </span>
+        )}
+
         {/* Discount badge */}
-        {discount && (
+        {!isBestSeller(product.slug) && discount && (
           <span className="absolute top-3 left-3 bg-red-500 text-white text-[10px] font-bold tracking-widest uppercase px-2.5 py-1 z-10">
             -{discount}%
           </span>
         )}
-        {!discount && isOnSale && (
+        {!isBestSeller(product.slug) && !discount && isOnSale && (
           <span className="absolute top-3 left-3 bg-red-500 text-white text-[10px] font-bold tracking-widest uppercase px-2.5 py-1 z-10">
             SALE
           </span>
         )}
-        {hasPartialSale && (
+        {!isBestSeller(product.slug) && hasPartialSale && (
           <span className="absolute top-3 left-3 bg-[#c4a97d] text-white text-[10px] font-bold tracking-widest uppercase px-2.5 py-1 z-10">
             PROMO
           </span>

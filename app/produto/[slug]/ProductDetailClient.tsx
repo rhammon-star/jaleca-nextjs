@@ -15,6 +15,8 @@ import SizeAdvisorModal from '@/components/SizeAdvisorModal'
 import BackInStockButton from '@/components/BackInStockButton'
 import ProductCard, { type WooProduct } from '@/components/ProductCard'
 import RecentlyViewed from '@/components/RecentlyViewed'
+import UrgencyToast from '@/components/UrgencyToast'
+import { isBestSeller } from '@/lib/best-sellers'
 import type { PlaceData } from '@/lib/google-places'
 
 type AttributeTerm = { slug: string; name: string }
@@ -582,6 +584,14 @@ export default function ProductDetailClient({
               {product.name.replace(/ - Jaleca$/i, '')}
             </h1>
 
+            {/* Campeão de Vendas badge — only for best-sellers */}
+            {isBestSeller(product.slug) && (
+              <div className="inline-flex items-center gap-2 bg-[#1a1a1a] text-[#c4a97d] px-4 py-2 mb-4 self-start">
+                <span className="text-sm">🏆</span>
+                <span className="text-[10px] font-bold tracking-[0.25em] uppercase">Campeão de Vendas</span>
+              </div>
+            )}
+
             {/* Trust block — prova social abaixo do título */}
             <div className="flex flex-wrap gap-x-4 gap-y-1.5 mb-4">
               <span className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
@@ -1082,6 +1092,8 @@ export default function ProductDetailClient({
         onClose={() => setShowAdvisor(false)}
       />
     )}
+
+    {isBestSeller(product.slug) && <UrgencyToast />}
 
     </>
   )

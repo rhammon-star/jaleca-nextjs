@@ -9,6 +9,7 @@ import ProductCard, { type WooProduct } from "@/components/ProductCard";
 import ScrollReveal from "@/components/ScrollReveal";
 import { Button } from "@/components/ui/button";
 import CategoryCard from "@/components/CategoryCard";
+import { isBestSeller } from "@/lib/best-sellers";
 
 export const revalidate = 3600;
 
@@ -65,6 +66,14 @@ const GET_FEATURED_PRODUCTS = `
   }
 `
 
+function sortBestSellersFirst(products: WooProduct[]): WooProduct[] {
+  return [...products].sort((a, b) => {
+    const aBS = isBestSeller(a.slug) ? 0 : 1
+    const bBS = isBestSeller(b.slug) ? 0 : 1
+    return aBS - bBS
+  })
+}
+
 async function getFeaturedProducts(): Promise<WooProduct[]> {
   try {
     const data = await graphqlClient.request<{ products: { nodes: WooProduct[] } }>(
@@ -75,9 +84,9 @@ async function getFeaturedProducts(): Promise<WooProduct[]> {
       const fallback = await graphqlClient.request<{ products: { nodes: WooProduct[] } }>(
         GET_PRODUCTS, { first: 8 }
       );
-      return fallback.products.nodes;
+      return sortBestSellersFirst(fallback.products.nodes);
     }
-    return data.products.nodes;
+    return sortBestSellersFirst(data.products.nodes);
   } catch {
     return [];
   }
