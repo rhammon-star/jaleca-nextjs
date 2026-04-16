@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
   const toRevalidate: string[] = Array.isArray(paths) ? paths : ['/produtos']
 
   // Invalida o cache de produtos (unstable_cache tag)
-  revalidateTag('products')
+  revalidateTag('products', 'hours')
 
   for (const path of toRevalidate) {
     revalidatePath(path)
