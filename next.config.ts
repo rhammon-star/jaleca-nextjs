@@ -34,6 +34,7 @@ const nextConfig: NextConfig = {
       },
       // Categorias inexistentes geradas por IA → páginas reais
       { source: '/categoria/jalecos-personalizados', destination: '/produtos', permanent: true },
+      { source: '/categoria/calcas', destination: '/produtos', permanent: true },
       { source: '/categoria/scrub', destination: '/categoria/conjuntos', permanent: true },
       { source: '/categoria/calcados', destination: '/produtos', permanent: true },
       { source: '/categoria/uniformes', destination: '/produtos', permanent: true },
@@ -77,6 +78,8 @@ const nextConfig: NextConfig = {
       { source: '/categoria/scrubs', destination: '/categoria/conjuntos', permanent: true },
       // Blog posts com slug errado → slug correto (404 detectado no Screaming Frog)
       { source: '/blog/como-escolher-o-jaleco-ideal-para-sua-especialidade-medica', destination: '/blog/como-escolher-jaleco-ideal-especialidade-medica-2', permanent: true },
+      { source: '/blog/jaleco-branco-ou-colorido-o-que-usar-na-clinica-2', destination: '/blog', permanent: true },
+      { source: '/blog/jaleco-branco-ou-colorido-o-que-usar-na-clinica', destination: '/blog', permanent: true },
       // /produtos/{categoria} → /produtos?categoria=X
       { source: '/produtos/jalecos', destination: '/produtos?categoria=Jalecos', permanent: true },
       { source: '/produtos/conjuntos', destination: '/produtos?categoria=Conjuntos', permanent: true },
