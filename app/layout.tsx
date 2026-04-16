@@ -19,7 +19,6 @@ import BackToTop from "@/components/BackToTop";
 import CookieConsent from "@/components/CookieConsent";
 import Script from "next/script";
 import FranqueadoBanner from "@/components/FranqueadoBanner";
-import GoogleMerchantBadge from "@/components/GoogleMerchantBadge";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const cormorant = Cormorant_Garamond({
@@ -174,8 +173,8 @@ export default function RootLayout({
         <link rel="preload" as="image" href="/jaleco-hero-desktop.webp" type="image/webp" media="(min-width: 768px)" fetchPriority="high" />
         <link rel="preconnect" href="https://connect.facebook.net" />
         <link rel="preconnect" href="https://www.googletagmanager.com" />
-        <link rel="preconnect" href="https://wp.jaleca.com.br" />
-        <link rel="preconnect" href="https://lh3.googleusercontent.com" />
+        <link rel="dns-prefetch" href="https://wp.jaleca.com.br" />
+        <link rel="dns-prefetch" href="https://lh3.googleusercontent.com" />
         <link rel="dns-prefetch" href="https://embed.tawk.to" />
         <link rel="dns-prefetch" href="https://t.contentsquare.net" />
       </head>
@@ -201,7 +200,6 @@ export default function RootLayout({
                 <BackToTop />
                 <CookieConsent />
                 <FranqueadoBanner />
-                <GoogleMerchantBadge />
                 <SpeedInsights />
                 <Script
                   src="https://t.contentsquare.net/uxa/d63ab31369d59.js"
