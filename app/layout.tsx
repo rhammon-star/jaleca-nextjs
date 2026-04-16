@@ -19,6 +19,7 @@ import BackToTop from "@/components/BackToTop";
 import CookieConsent from "@/components/CookieConsent";
 import Script from "next/script";
 import FranqueadoBanner from "@/components/FranqueadoBanner";
+import GoogleMerchantBadge from "@/components/GoogleMerchantBadge";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const cormorant = Cormorant_Garamond({
@@ -200,6 +201,7 @@ export default function RootLayout({
                 <BackToTop />
                 <CookieConsent />
                 <FranqueadoBanner />
+                <GoogleMerchantBadge />
                 <SpeedInsights />
                 <Script
                   src="https://t.contentsquare.net/uxa/d63ab31369d59.js"
