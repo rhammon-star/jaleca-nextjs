@@ -7,7 +7,8 @@
 import crypto from 'crypto'
 
 const PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID
-const ACCESS_TOKEN = process.env.META_CONVERSIONS_API_TOKEN
+// Strip any stray \n or whitespace that may be introduced when pasting the token in Vercel
+const ACCESS_TOKEN = process.env.META_CONVERSIONS_API_TOKEN?.replace(/\\n/g, '').trim()
 const API_URL = `https://graph.facebook.com/v19.0/${PIXEL_ID}/events`
 
 function hash(value: string): string {
