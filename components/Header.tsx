@@ -61,6 +61,8 @@ const Header = () => {
                 <img
                   src="/logo.svg"
                   alt="Jaleca"
+                  width={220}
+                  height={110}
                   style={{ height: '110px', width: 'auto', display: 'block' }}
                 />
               </Link>
@@ -174,14 +176,14 @@ const Header = () => {
               <LoyaltyBadge />
               <button
                 onClick={() => setSearchOpen(true)}
-                className="p-2 text-muted-foreground hover:text-foreground transition-colors active:scale-95"
+                className="p-3 text-muted-foreground hover:text-foreground transition-colors active:scale-95"
                 aria-label="Buscar"
               >
                 <Search size={19} />
               </button>
               <Link
                 href="/wishlist"
-                className="flex p-2 text-muted-foreground hover:text-foreground transition-colors active:scale-95"
+                className="flex p-3 text-muted-foreground hover:text-foreground transition-colors active:scale-95"
                 aria-label="Favoritos"
               >
                 <Heart size={19} />
@@ -189,7 +191,7 @@ const Header = () => {
               {isLoggedIn ? (
                 <Link
                   href="/minha-conta"
-                  className="flex items-center gap-1.5 p-2 text-muted-foreground hover:text-foreground transition-colors active:scale-95"
+                  className="flex items-center gap-1.5 p-3 text-muted-foreground hover:text-foreground transition-colors active:scale-95"
                   aria-label="Minha conta"
                 >
                   <User size={19} />
@@ -200,7 +202,7 @@ const Header = () => {
               ) : (
                 <button
                   onClick={() => setAuthOpen(true)}
-                  className="p-2 text-muted-foreground hover:text-foreground transition-colors active:scale-95"
+                  className="p-3 text-muted-foreground hover:text-foreground transition-colors active:scale-95"
                   aria-label="Entrar"
                 >
                   <User size={19} />
@@ -208,7 +210,7 @@ const Header = () => {
               )}
               <button
                 onClick={openCart}
-                className="relative p-2 text-muted-foreground hover:text-foreground transition-colors active:scale-95"
+                className="relative p-3 text-muted-foreground hover:text-foreground transition-colors active:scale-95"
                 aria-label="Carrinho"
               >
                 <ShoppingBag size={19} />

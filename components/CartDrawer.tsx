@@ -174,7 +174,7 @@ export default function CartDrawer() {
               <ShoppingBag size={40} className="text-muted-foreground/40" />
               <p className="text-muted-foreground text-sm">Sua sacola está vazia</p>
               <div className="space-y-3 w-full px-4">
-                <p className="text-[11px] text-muted-foreground/70">Veja algumas sugestões:</p>
+                <p className="text-[11px] text-muted-foreground">Veja algumas sugestões:</p>
                 <Link
                   href="/produtos"
                   className="flex items-center justify-center gap-2 w-full border border-border py-3 text-xs font-semibold tracking-wide uppercase hover:bg-muted transition-colors"

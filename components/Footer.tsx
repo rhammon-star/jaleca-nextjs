@@ -111,7 +111,7 @@ const Footer = () => {
                 {[
                   { label: 'Todos os Produtos', href: '/produtos' },
                   { label: 'Jalecos', href: '/categoria/jalecos' },
-                  { label: 'Conjuntos', href: '/categoria/conjuntos' },
+                  { label: 'Conjuntos', href: '/produtos?cat=Conjuntos' },
                   { label: 'Novidades', href: '/produtos?novidades=true' },
                   { label: 'Promoções', href: '/produtos?sale=true' },
                 ].map(l => (

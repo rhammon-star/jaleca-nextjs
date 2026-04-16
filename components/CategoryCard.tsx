@@ -79,9 +79,9 @@ export default function CategoryCard({ title, subtitle, href, bg, accent, video 
         <p className={`text-[10px] font-semibold tracking-[0.3em] uppercase ${video ? 'text-white/70 group-hover:text-white/90' : accent} mb-1`}>
           {subtitle}
         </p>
-        <h3 className={`font-display text-2xl md:text-3xl font-semibold ${video ? 'text-white' : accent} mb-3`}>
+        <h2 className={`font-display text-2xl md:text-3xl font-semibold ${video ? 'text-white' : accent} mb-3`}>
           {title}
-        </h3>
+        </h2>
         <span className={`inline-flex items-center gap-1.5 text-xs font-semibold tracking-widest uppercase ${video ? 'text-white' : accent} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}>
           Explorar →
         </span>
