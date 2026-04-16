@@ -77,6 +77,7 @@ export default function GoogleReviewsSection({ place }: { place: PlaceData }) {
                       className="w-9 h-9 rounded-full object-cover"
                       width={36}
                       height={36}
+                      loading="lazy"
                     />
                   ) : (
                     <div className="w-9 h-9 rounded-full bg-[#c4a97d]/20 flex items-center justify-center text-sm font-semibold text-[#c4a97d]">

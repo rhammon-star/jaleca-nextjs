@@ -55,7 +55,7 @@ export async function getGooglePlaceData(): Promise<PlaceData | null> {
         rating: r.rating,
         relativeTime: r.relativePublishTimeDescription ?? '',
         text: r.text?.text ?? '',
-        photoUri: r.authorAttribution?.photoUri,
+        photoUri: r.authorAttribution?.photoUri?.replace('=s128', '=s72'),
       }))
 
     console.log(`[GooglePlaces] Success: rating=${data.rating}, count=${data.userRatingCount}, reviews=${reviews.length}`)
