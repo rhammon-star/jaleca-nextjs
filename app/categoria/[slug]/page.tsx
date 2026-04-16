@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import { unstable_cache } from 'next/cache'
 import { graphqlClient, GET_PRODUCTS } from '@/lib/graphql'
 import ProductsClient from '@/app/produtos/ProductsClient'
 import type { WooProduct } from '@/components/ProductCard'
@@ -74,17 +75,21 @@ const CATEGORY_MAP: Record<string, { label: string; description: string; keyword
   },
 }
 
-async function getProducts(): Promise<WooProduct[]> {
-  try {
-    const data = await graphqlClient.request<{ products: { nodes: WooProduct[] } }>(
-      GET_PRODUCTS,
-      { first: 100 }
-    )
-    return data.products.nodes
-  } catch {
-    return []
-  }
-}
+const getProducts = unstable_cache(
+  async (): Promise<WooProduct[]> => {
+    try {
+      const data = await graphqlClient.request<{ products: { nodes: WooProduct[] } }>(
+        GET_PRODUCTS,
+        { first: 100 }
+      )
+      return data.products.nodes
+    } catch {
+      return []
+    }
+  },
+  ['all-products'],
+  { revalidate: 3600, tags: ['products'] }
+)
 
 export async function generateMetadata({
   params,

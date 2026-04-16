@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { unstable_cache } from 'next/cache'
 import { graphqlClient, GET_PRODUCTS } from '@/lib/graphql'
 import ProductsClient from './ProductsClient'
 import type { WooProduct } from '@/components/ProductCard'
@@ -7,21 +8,25 @@ export const dynamic = 'force-dynamic'
 
 type ProductsPage = { products: { pageInfo: { hasNextPage: boolean; endCursor: string }; nodes: WooProduct[] } }
 
-async function getAllProducts(): Promise<WooProduct[]> {
-  const all: WooProduct[] = []
-  let cursor: string | null = null
-  try {
-    do {
-      const data: ProductsPage = await graphqlClient.request<ProductsPage>(GET_PRODUCTS, { first: 24, after: cursor })
-      all.push(...data.products.nodes)
-      cursor = data.products.pageInfo.hasNextPage ? data.products.pageInfo.endCursor : null
-    } while (cursor)
-  } catch (e) {
-    console.error('[getAllProducts] GraphQL error:', e)
-    if (all.length === 0) return []
-  }
-  return all
-}
+const getAllProducts = unstable_cache(
+  async (): Promise<WooProduct[]> => {
+    const all: WooProduct[] = []
+    let cursor: string | null = null
+    try {
+      do {
+        const data: ProductsPage = await graphqlClient.request<ProductsPage>(GET_PRODUCTS, { first: 24, after: cursor })
+        all.push(...data.products.nodes)
+        cursor = data.products.pageInfo.hasNextPage ? data.products.pageInfo.endCursor : null
+      } while (cursor)
+    } catch (e) {
+      console.error('[getAllProducts] GraphQL error:', e)
+      if (all.length === 0) return []
+    }
+    return all
+  },
+  ['all-products'],
+  { revalidate: 3600, tags: ['products'] }
+)
 
 export const metadata: Metadata = {
   title: 'Jalecos e Uniformes Médicos | Jaleca — Femininos e Masculinos | Frete Grátis Sudeste',

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { revalidatePath } from 'next/cache'
+import { revalidatePath, revalidateTag } from 'next/cache'
 
 export async function POST(req: NextRequest) {
   const secret = req.headers.get('x-revalidate-secret')
@@ -9,6 +9,9 @@ export async function POST(req: NextRequest) {
 
   const { paths } = await req.json().catch(() => ({ paths: ['/produtos'] }))
   const toRevalidate: string[] = Array.isArray(paths) ? paths : ['/produtos']
+
+  // Invalida o cache de produtos (unstable_cache tag)
+  revalidateTag('products')
 
   for (const path of toRevalidate) {
     revalidatePath(path)
