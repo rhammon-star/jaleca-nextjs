@@ -105,13 +105,14 @@ const nextConfig: NextConfig = {
       {
         source: "/(.*)",
         headers: [
-          { key: "Content-Security-Policy", value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://embed.tawk.to https://t.contentsquare.net https://www.gstatic.com https://googleads.g.doubleclick.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://wp.jaleca.com.br https://lh3.googleusercontent.com https://www.facebook.com https:; connect-src 'self' https://wp.jaleca.com.br https://www.google-analytics.com https://www.googletagmanager.com https://connect.facebook.net https://api.brevo.com https://api.pagar.me https://t.contentsquare.net https://c.ba.contentsquare.net https://tcvsapi.contentsquare.com https://www.google.com https://googleads.g.doubleclick.net https://www.googleadservices.com; worker-src 'self' blob:; frame-src 'none'; object-src 'none';" },
-          { key: "Strict-Transport-Security", value: "max-age=31536000; includeSubDomains" },
+          { key: "Content-Security-Policy", value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://embed.tawk.to https://t.contentsquare.net https://www.gstatic.com https://googleads.g.doubleclick.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://wp.jaleca.com.br https://lh3.googleusercontent.com https://www.facebook.com https:; connect-src 'self' https://wp.jaleca.com.br https://www.google-analytics.com https://www.googletagmanager.com https://connect.facebook.net https://api.brevo.com https://api.pagar.me https://t.contentsquare.net https://c.ba.contentsquare.net https://tcvsapi.contentsquare.com https://www.google.com https://googleads.g.doubleclick.net https://www.googleadservices.com https://conversionsapigateway.com https://*.conversionsapigateway.com https://*.a.run.app; worker-src 'self' blob:; frame-src https://www.google.com https://bid.g.doubleclick.net; object-src 'none';" },
+          { key: "Strict-Transport-Security", value: "max-age=31536000; includeSubDomains; preload" },
           { key: "X-Content-Type-Options", value: "nosniff" },
           { key: "X-Frame-Options", value: "DENY" },
           { key: "X-XSS-Protection", value: "1; mode=block" },
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
           { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
+          { key: "Cross-Origin-Opener-Policy", value: "same-origin-allow-popups" },
         ],
       },
       {
