@@ -607,7 +607,7 @@ export default function CheckoutClient() {
                       <div className="flex-1 min-w-0">
                         <p className="text-xs font-medium truncate">{item.name}</p>
                         <p className="text-[11px] text-muted-foreground">
-                          {[item.color, item.size].filter(Boolean).join(' / ')}
+                          {[item.color ? item.color.charAt(0).toUpperCase() + item.color.slice(1) : null, item.size].filter(Boolean).join(' / ')}
                         </p>
                         <div className="flex justify-between items-center mt-1">
                           <span className="text-[11px] text-muted-foreground">Qtd: {item.quantity}</span>
