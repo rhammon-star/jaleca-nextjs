@@ -9,11 +9,16 @@ function auth() {
 }
 
 // Retorna dados mínimos de um produto para pré-popular o carrinho
+// Suporta retailer IDs do feed Meta como "62358_unica" ou "61201_azul-pastel"
 export async function GET(req: NextRequest) {
   const id = req.nextUrl.searchParams.get('id')
   if (!id) return NextResponse.json({ error: 'Missing id' }, { status: 400 })
 
-  const res = await fetch(`${WC_URL}/products/${id}`, {
+  // Extrai só a parte numérica: "62358_unica" → "62358"
+  const numericId = id.match(/^(\d+)/)?.[1] ?? id
+  const colorKey = id.includes('_') ? id.replace(/^\d+_/, '').replace(/_/g, ' ') : undefined
+
+  const res = await fetch(`${WC_URL}/products/${numericId}`, {
     headers: { Authorization: auth() },
     next: { revalidate: 300 },
   })
@@ -29,6 +34,7 @@ export async function GET(req: NextRequest) {
     name: p.name,
     image: p.images?.[0]?.src,
     price: `R$\u00a0${parseFloat(price).toFixed(2).replace('.', ',')}`,
+    ...(colorKey && { color: colorKey }),
     quantity: 1,
     addedAt: Date.now(),
   })
