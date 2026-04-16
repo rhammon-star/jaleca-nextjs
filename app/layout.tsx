@@ -24,14 +24,14 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "600", "700"],
   variable: "--font-display",
   display: "swap",
 });
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["400", "500", "700"],
   variable: "--font-body",
   display: "swap",
 });
@@ -176,7 +176,6 @@ export default function RootLayout({
         <link rel="preconnect" href="https://www.googletagmanager.com" />
         <link rel="preconnect" href="https://wp.jaleca.com.br" />
         <link rel="dns-prefetch" href="https://embed.tawk.to" />
-        <script src="https://t.contentsquare.net/uxa/d63ab31369d59.js" async />
       </head>
       <body className="min-h-full flex flex-col">
         <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[999] focus:bg-background focus:border focus:border-border focus:px-4 focus:py-2 focus:text-sm focus:font-semibold">
@@ -202,6 +201,10 @@ export default function RootLayout({
                 <FranqueadoBanner />
                 <GoogleMerchantBadge />
                 <SpeedInsights />
+                <Script
+                  src="https://t.contentsquare.net/uxa/d63ab31369d59.js"
+                  strategy="lazyOnload"
+                />
               </CartProvider>
             </CompareProvider>
           </WishlistProvider>

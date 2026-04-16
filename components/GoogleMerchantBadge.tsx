@@ -7,7 +7,7 @@ export default function GoogleMerchantBadge() {
     <Script
       id="merchantWidgetScript"
       src="https://www.gstatic.com/shopping/merchant/merchantwidget.js"
-      strategy="afterInteractive"
+      strategy="lazyOnload"
       onLoad={() => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         ;(window as any).merchantwidget?.start({ merchant_id: 5759143798 })

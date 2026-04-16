@@ -32,8 +32,31 @@ async function sleep(ms) {
   return new Promise(r => setTimeout(r, ms))
 }
 
+async function warmStaticPages() {
+  const pages = [
+    '/',
+    '/produtos',
+    '/categoria/jalecos-femininos',
+    '/categoria/jalecos-masculinos',
+    '/categoria/conjuntos',
+    '/categoria/domas',
+  ]
+  for (const path of pages) {
+    try {
+      const res = await fetch(`${SITE_URL}${path}`, { headers: { 'User-Agent': 'Jaleca-Cache-Warmer/1.0' } })
+      console.log(`[${res.status}] ${SITE_URL}${path}`)
+    } catch (e) {
+      console.error(`[ERR] ${SITE_URL}${path} — ${e.message}`)
+    }
+    await sleep(500)
+  }
+}
+
 async function main() {
-  console.log('Buscando slugs dos produtos...')
+  console.log('Aquecendo páginas principais...')
+  await warmStaticPages()
+
+  console.log('\nBuscando slugs dos produtos...')
   const slugs = await getSlugs()
   console.log(`${slugs.length} produtos encontrados. Iniciando aquecimento...\n`)
 
