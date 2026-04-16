@@ -5,6 +5,7 @@ import { X, Search, Loader2 } from 'lucide-react'
 import Link from 'next/link'
 import { graphqlClient, SEARCH_PRODUCTS } from '@/lib/graphql'
 import { trackSearch } from '@/components/Analytics'
+import { isBestSeller } from '@/lib/best-sellers'
 
 type SearchProduct = {
   id: string
@@ -60,8 +61,11 @@ export default function SearchModal({ isOpen, onClose }: Props) {
     setLoading(true)
     try {
       const data = await graphqlClient.request<SearchResult>(SEARCH_PRODUCTS, { search: term, first: 8 })
-      setResults(data.products.nodes)
-      if (data.products.nodes.length > 0) trackSearch(term)
+      const sorted = [...data.products.nodes].sort(
+        (a, b) => (isBestSeller(a.slug) ? 0 : 1) - (isBestSeller(b.slug) ? 0 : 1)
+      )
+      setResults(sorted)
+      if (sorted.length > 0) trackSearch(term)
     } catch {
       setResults([])
     } finally {
