@@ -288,19 +288,19 @@ const Header = () => {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="py-4 border-b border-border/40 text-foreground last:border-0"
+                  className="py-4 px-2 -mx-2 border-b border-border/40 text-foreground last:border-0 hover:text-primary hover:bg-secondary/30 active:bg-secondary/50 transition-colors duration-150 rounded-sm"
                 >
                   {item.label}
                 </Link>
               ))}
               {isLoggedIn ? (
-                <Link href="/minha-conta" className="py-4 text-foreground">
+                <Link href="/minha-conta" className="py-4 px-2 -mx-2 text-foreground hover:text-primary hover:bg-secondary/30 active:bg-secondary/50 transition-colors duration-150 rounded-sm">
                   Minha Conta
                 </Link>
               ) : (
                 <button
                   onClick={() => setAuthOpen(true)}
-                  className="py-4 text-foreground text-left"
+                  className="py-4 px-2 -mx-2 w-full text-foreground text-left hover:text-primary hover:bg-secondary/30 active:bg-secondary/50 transition-colors duration-150 rounded-sm"
                 >
                   Entrar / Cadastrar
                 </button>
