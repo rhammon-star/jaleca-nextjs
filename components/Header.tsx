@@ -30,11 +30,25 @@ const Header = () => {
   // Fecha o menu ao navegar para outra página
   useEffect(() => { setMobileOpen(false) }, [pathname]);
 
-  // Bloqueia scroll do body quando menu aberto
+  // Bloqueia scroll do body quando menu aberto (fix iOS Safari: overflow:hidden não funciona)
   useEffect(() => {
-    if (mobileOpen) document.body.style.overflow = 'hidden'
-    else document.body.style.overflow = ''
-    return () => { document.body.style.overflow = '' }
+    if (mobileOpen) {
+      const scrollY = window.scrollY
+      document.body.style.position = 'fixed'
+      document.body.style.top = `-${scrollY}px`
+      document.body.style.width = '100%'
+    } else {
+      const top = document.body.style.top
+      document.body.style.position = ''
+      document.body.style.top = ''
+      document.body.style.width = ''
+      if (top) window.scrollTo(0, -parseInt(top || '0'))
+    }
+    return () => {
+      document.body.style.position = ''
+      document.body.style.top = ''
+      document.body.style.width = ''
+    }
   }, [mobileOpen]);
 
   return (
