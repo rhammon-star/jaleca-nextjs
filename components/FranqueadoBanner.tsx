@@ -17,15 +17,19 @@ export default function FranqueadoBanner() {
     const dismissed = localStorage.getItem(STORAGE_KEY)
     if (dismissed === today) return
 
-    fetch('/api/franqueado')
-      .then(r => r.json())
-      .then((data: FranqueadoWithDist | null) => {
-        if (data) {
-          setFranqueado(data)
-          setVisible(true)
-        }
-      })
-      .catch(() => null)
+    const timer = setTimeout(() => {
+      fetch('/api/franqueado')
+        .then(r => r.json())
+        .then((data: FranqueadoWithDist | null) => {
+          if (data) {
+            setFranqueado(data)
+            setVisible(true)
+          }
+        })
+        .catch(() => null)
+    }, 4000)
+
+    return () => clearTimeout(timer)
   }, [])
 
   function dismiss() {

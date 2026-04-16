@@ -8,7 +8,10 @@ export default function CookieConsent() {
 
   useEffect(() => {
     const consent = localStorage.getItem('jaleca-cookie-consent')
-    if (!consent) setVisible(true)
+    if (!consent) {
+      const timer = setTimeout(() => setVisible(true), 3000)
+      return () => clearTimeout(timer)
+    }
   }, [])
 
   function accept() {
