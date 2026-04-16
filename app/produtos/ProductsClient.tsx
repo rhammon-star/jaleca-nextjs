@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import { SlidersHorizontal, X, ChevronDown } from "lucide-react";
 import { categories, colorOptions, sizeOptions, genderOptions } from "@/lib/products";
 import ProductCard, { type WooProduct } from "@/components/ProductCard";
+import { isBestSeller } from "@/lib/best-sellers";
 import ScrollReveal from "@/components/ScrollReveal";
 import Breadcrumb from "@/components/Breadcrumb";
 
@@ -249,7 +250,8 @@ export default function ProductsClient({ products, initialCat = "Todos", initial
     if (sortBy === "newest") {
       return [...base].reverse();
     }
-    return base;
+    // relevance: best-sellers primeiro
+    return [...base].sort((a, b) => (isBestSeller(a.slug) ? 0 : 1) - (isBestSeller(b.slug) ? 0 : 1));
   }, [products, selectedCategory, selectedGender, selectedColor, selectedSize, sortBy, saleOnly, initialNovidades]);
 
   const visible = filtered.slice(0, visibleCount);
