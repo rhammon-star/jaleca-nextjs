@@ -360,6 +360,13 @@ jwt-auth/v1/token como dependência — o sistema funciona sem ele.
 24. **Investigar "Produto não encontrado"** — 24 sessões em 404, verificar quais URLs estão quebrando
 25. **admin.jaleca.com.br** — ✅ RESOLVIDO (15/04/2026) — X-Robots-Tag: noindex adicionado no middleware (commit 0423a91) + URL removida via GSC → Remoção de URLs.
 
+## SEO — Otimizações (16/04/2026)
+- **Meta titles categorias** — ✅ RESOLVIDO (16/04/2026) — Commit `3e8ec21`. CATEGORY_MAP agora tem campo `title` por categoria. `jalecos-femininos`: inclui modelos (Slim, Princesa, Elastex) + frete grátis estados. `conjuntos`: inclui Scrub + Pijamas Cirúrgicos. `dólmãs`: título descritivo com intent.
+- **Meta title /produtos** — ✅ RESOLVIDO (16/04/2026) — Commit `3e8ec21`. Title agora começa com "Jalecos" (keyword genérica, 89 impressões, pos 36). Description inclui toda a linha de produtos + keywords.
+- **HowTo + FAQPage schema automático no blog** — ✅ IMPLEMENTADO (16/04/2026) — Commit `b67634e`. `app/blog/[slug]/page.tsx`: `extractHowToSteps()` gera HowTo schema para posts "Como..." com `<ol>`. `extractFaqItems()` gera FAQPage schema de H2/H3+parágrafo. Afeta todos os posts automaticamente.
+- **Blog "Como Lavar Jaleco" otimizado para Featured Snippet** — ✅ RESOLVIDO (16/04/2026). Post ID 62454 reescrito com: resposta direta 50 palavras no topo, H2 "Como Lavar Jaleco: Passo a Passo" + lista numerada 6 passos, 7 seções FAQ, links internos para categorias. 3 fotos adicionadas (IDs WP: 62524, 62525, 62526). Posição atual: 8.1 — Featured Snippet esperado em 3-14 dias.
+- **Credenciais WP Admin** — `contato@jaleca.com.br` + App Password via `WP_ADMIN_APP_PASSWORD` (Vercel Production). `WP_APP_PASS` (antigo) está inválido — não usar.
+
 ## Performance (09/04/2026)
 - Cache headers corrigidos no `next.config.ts` (regex estava quebrado — assets sem cache)
 - Preconnect adicionado: Facebook, Google Tag Manager, wp.jaleca.com.br
