@@ -20,10 +20,18 @@ declare global {
   }
 }
 
-// Lê o cookie _fbc (Meta Click ID) gerado quando usuário clica em anúncio Meta
+// Lê o cookie _fbc (Meta Click ID) — presente apenas quando usuário veio de anúncio Meta
 function getFbc(): string | undefined {
   if (typeof document === 'undefined') return undefined
   const match = document.cookie.match(/(?:^|;\s*)_fbc=([^;]+)/)
+  return match?.[1]
+}
+
+// Lê o cookie _fbp (Meta Browser ID) — gerado automaticamente para TODOS os visitantes pelo Pixel
+// É o sinal de identidade mais importante para usuários anônimos (melhora match quality)
+function getFbp(): string | undefined {
+  if (typeof document === 'undefined') return undefined
+  const match = document.cookie.match(/(?:^|;\s*)_fbp=([^;]+)/)
   return match?.[1]
 }
 
@@ -69,6 +77,7 @@ export function trackPurchase(
 
   // Meta Pixel — eventID deve coincidir com CAPI para deduplicação correta
   const purchaseFbc = getFbc()
+  const purchaseFbp = getFbp()
   window.fbq?.('track', 'Purchase', {
     value,
     currency: 'BRL',
@@ -76,6 +85,7 @@ export function trackPurchase(
     content_type: 'product',
     num_items: items.reduce((s, i) => s + i.quantity, 0),
     ...(purchaseFbc && { fbc: purchaseFbc }),
+    ...(purchaseFbp && { fbp: purchaseFbp }),
   }, { eventID: `purchase_${orderId}` })
 }
 
@@ -99,14 +109,16 @@ export function trackViewItem(product: {
 
   // Meta Pixel
   const viewFbc = getFbc()
+  const viewFbp = getFbp()
   window.fbq?.('track', 'ViewContent', {
     value: price,
     currency: 'BRL',
     content_ids: [product.id],
     content_name: product.name,
-    content_type: 'product_group',
+    content_type: 'product',
     content_category: product.category ?? 'Uniformes Profissionais',
     ...(viewFbc && { fbc: viewFbc }),
+    ...(viewFbp && { fbp: viewFbp }),
     ...(product.email && { em: product.email }),
   })
 }
@@ -122,11 +134,13 @@ export function trackInitiateCheckout(value: number, numItems: number) {
 
   // Meta Pixel
   const checkoutFbc = getFbc()
+  const checkoutFbp = getFbp()
   window.fbq?.('track', 'InitiateCheckout', {
     value,
     currency: 'BRL',
     num_items: numItems,
     ...(checkoutFbc && { fbc: checkoutFbc }),
+    ...(checkoutFbp && { fbp: checkoutFbp }),
   })
 }
 
@@ -169,12 +183,14 @@ export function trackAddToCart(product: {
 
   // Meta Pixel
   const cartFbc = getFbc()
+  const cartFbp = getFbp()
   window.fbq?.('track', 'AddToCart', {
     value: price * qty,
     currency: 'BRL',
     contents: [{ id: product.id, quantity: qty }],
-    content_type: 'product_group',
+    content_type: 'product',
     ...(cartFbc && { fbc: cartFbc }),
+    ...(cartFbp && { fbp: cartFbp }),
   })
 }
 
