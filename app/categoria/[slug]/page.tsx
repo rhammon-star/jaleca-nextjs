@@ -5,60 +5,70 @@ import ProductsClient from '@/app/produtos/ProductsClient'
 import type { WooProduct } from '@/components/ProductCard'
 import type { Metadata } from 'next'
 
-const CATEGORY_MAP: Record<string, { label: string; description: string; keywords: string; filterLabel?: string }> = {
+const CATEGORY_MAP: Record<string, { label: string; description: string; keywords: string; filterLabel?: string; title?: string }> = {
   jalecos: {
     label: 'Jalecos',
-    description: 'Jalecos femininos e masculinos premium para médicos, enfermeiros, dentistas e cirurgiões. Modelos slim fit, clássicos, brancos e coloridos com tecido stretch anti-microbiano e acabamento refinado. Tamanhos PP ao G3, entrega rápida para todo o Brasil.',
-    keywords: 'jaleco feminino, jaleco masculino, jaleco branco, jaleco médico, jaleco enfermagem, jaleco dentista, jaleco cirurgião, jaleco slim, jaleco profissional, comprar jaleco',
+    title: 'Jalecos para Médicos e Profissionais da Saúde | Jaleca',
+    description: 'Jalecos femininos e masculinos para médicos, enfermeiros, dentistas e farmacêuticos. Modelos slim fit, Princesa, Duquesa, Elastex — brancos, pretos e coloridos. Tecido premium, tamanhos PP ao G3, frete grátis no Sudeste acima de R$499.',
+    keywords: 'jalecos, jaleco feminino, jaleco masculino, jaleco branco, jaleco médico, jaleco enfermagem, jaleco dentista, jaleco slim, jaleco profissional, comprar jaleco',
   },
   'jalecos-femininos': {
     label: 'Jalecos Femininos',
+    title: 'Jalecos Femininos | Jaleca — Slim, Princesa, Elastex | Frete Grátis SP/MG/RJ/ES',
     filterLabel: 'Jalecos',
-    description: 'Jalecos femininos premium para médicas, dentistas e enfermeiras. Modelos slim fit acinturados, com zíper central, zíper lateral e botões — brancos, pretos e coloridos. Tecido confortável, caimento elegante e aparência profissional superior. Tamanhos PP ao G3, entrega rápida para todo o Brasil.',
-    keywords: 'jaleco feminino, jaleco feminino slim, jaleco feminino médica, jaleco feminino dentista, jaleco feminino enfermagem, jaleco feminino branco, jaleco feminino colorido, jaleco feminino premium, comprar jaleco feminino, jaleco para médica, jaleco para dentista feminino',
+    description: 'Jalecos femininos para médicas, dentistas e enfermeiras. Modelos Slim, Princesa, Duquesa e Elastex — brancos, pretos e coloridos. Corte acinturado, tecido de alta performance. Tamanhos PP ao G3 com frete grátis no Sudeste acima de R$499.',
+    keywords: 'jaleco feminino, jalecos femininos, jaleco slim feminino, jaleco princesa, jaleco duquesa, jaleco elastex, comprar jaleco feminino, jaleco médica, jaleco dentista feminino, jaleco enfermagem feminino',
   },
   'jalecos-masculinos': {
     label: 'Jalecos Masculinos',
+    title: 'Jalecos Masculinos | Jaleca — Slim Moderno | Frete Grátis Sudeste',
     filterLabel: 'Jalecos',
-    description: 'Jalecos masculinos premium para médicos, dentistas e enfermeiros. Modelos slim fit modernos com zíper e botões, brancos, pretos e coloridos. Tecido de alta performance, corte anatômico e aparência profissional impecável. Tamanhos PP ao G3, entrega rápida para todo o Brasil.',
-    keywords: 'jaleco masculino, jaleco masculino slim, jaleco masculino médico, jaleco masculino dentista, jaleco masculino enfermagem, jaleco masculino branco, jaleco masculino preto, jaleco para médico, comprar jaleco masculino',
+    description: 'Jalecos masculinos para médicos, dentistas e enfermeiros. Modelos slim fit com zíper e botões, brancos, pretos e coloridos. Corte anatômico, tecido de alta performance. Tamanhos PP ao G3, frete grátis no Sudeste acima de R$499.',
+    keywords: 'jaleco masculino, jalecos masculinos, jaleco slim masculino, jaleco masculino branco, jaleco masculino preto, jaleco médico masculino, comprar jaleco masculino',
   },
   domas: {
     label: 'Dólmãs',
+    title: 'Dólmãs para Profissionais da Saúde | Jaleca — Femininas e Masculinas',
     description: 'Dólmãs profissionais femininas e masculinas para médicos, enfermeiros e cirurgiões. Tecido de alta performance, modelagem ergonômica e conforto para longas jornadas. Disponível em PP ao G3.',
-    keywords: 'doma médica, doma feminina, doma masculina, doma cirúrgica, uniforme cirúrgico, roupa hospitalar, doma colorida',
+    keywords: 'dólmã médica, dólmã feminina, dólmã masculina, dólmã cozinheiro, uniforme cirúrgico, roupa hospitalar, doma colorida, dólmã profissional',
   },
   'domas-femininas': {
     label: 'Dólmãs Femininas',
+    title: 'Dólmãs Femininas para Profissionais da Saúde | Jaleca',
     filterLabel: 'Dólmãs',
     description: 'Dólmãs femininas premium para médicas, enfermeiras e profissionais da saúde. Modelagem ergonômica, tecido de alta performance e corte elegante para longas jornadas. Tamanhos PP ao G3.',
-    keywords: 'doma feminina, doma médica feminina, doma enfermagem feminina, uniforme feminino saúde, roupa hospitalar feminina',
+    keywords: 'dólmã feminina, dólmã médica feminina, dólmã enfermagem feminina, uniforme feminino saúde, roupa hospitalar feminina',
   },
   'domas-masculinas': {
     label: 'Dólmãs Masculinas',
+    title: 'Dólmãs Masculinas para Profissionais da Saúde | Jaleca',
     filterLabel: 'Dólmãs',
     description: 'Dólmãs masculinas premium para médicos, enfermeiros e profissionais da saúde. Modelagem ergonômica, tecido de alta performance e corte moderno para longas jornadas. Tamanhos PP ao G3.',
-    keywords: 'doma masculina, doma médica masculina, doma enfermagem masculina, uniforme masculino saúde, roupa hospitalar masculina',
+    keywords: 'dólmã masculina, dólmã médica masculina, dólmã enfermagem masculina, uniforme masculino saúde, roupa hospitalar masculina',
   },
   conjuntos: {
     label: 'Conjuntos',
-    description: 'Conjuntos profissionais para saúde com conforto, elastano e acabamento premium. Ideais para médicos, enfermeiros e técnicos de saúde. Modelos femininos e masculinos.',
-    keywords: 'conjunto médico, conjunto hospitalar, conjunto enfermagem, conjunto uniforme saúde, conjunto feminino médico',
+    title: 'Conjuntos Scrub Femininos e Masculinos | Jaleca | Frete Grátis Sudeste',
+    description: 'Conjuntos scrub e pijamas cirúrgicos para médicos, enfermeiros e profissionais da saúde. Calça + blusa com elastano, confortáveis para longas jornadas, cores variadas. Modelos femininos e masculinos, tamanhos PP ao G3.',
+    keywords: 'conjunto scrub, conjunto médico, conjunto hospitalar, pijama cirúrgico, conjunto enfermagem, scrub feminino, scrub masculino, conjunto uniforme saúde',
   },
   'conjuntos-femininos': {
     label: 'Conjuntos Femininos',
+    title: 'Conjuntos Scrub Femininos | Jaleca — Pijamas Cirúrgicos para Saúde',
     filterLabel: 'Conjuntos',
     description: 'Conjuntos scrub femininos e pijamas cirúrgicos para profissionais da saúde. Calça + blusa com elastano, confortáveis para longas jornadas, cores variadas. Tamanhos PP ao G3.',
     keywords: 'conjunto scrub feminino, pijama cirúrgico feminino, conjunto médico feminino, scrub feminino, conjunto enfermagem feminino, pijama cirúrgico',
   },
   'conjuntos-masculinos': {
     label: 'Conjuntos Masculinos',
+    title: 'Conjuntos Scrub Masculinos | Jaleca — Pijamas Cirúrgicos para Saúde',
     filterLabel: 'Conjuntos',
     description: 'Conjuntos scrub masculinos e pijamas cirúrgicos para profissionais da saúde. Calça + blusa com elastano, confortáveis para longas jornadas, cores variadas. Tamanhos PP ao G3.',
     keywords: 'conjunto scrub masculino, pijama cirúrgico masculino, conjunto médico masculino, scrub masculino, conjunto enfermagem masculino',
   },
   acessorios: {
     label: 'Acessórios',
+    title: 'Acessórios para Profissionais da Saúde | Jaleca — Toucas e Mais',
     description: 'Acessórios para profissionais da saúde: toucas, aventais e complementos para completar seu uniforme médico. Qualidade e praticidade para o dia a dia clínico.',
     keywords: 'acessórios médicos, touca cirúrgica, avental, complementos uniforme saúde, acessórios enfermagem',
   },
@@ -85,7 +95,7 @@ export async function generateMetadata({
   const cat = CATEGORY_MAP[slug]
   if (!cat) return { title: 'Categoria não encontrada' }
 
-  const pageTitle = `${cat.label} Premium | Jaleca — Moda Profissional para Saúde`
+  const pageTitle = cat.title ?? `${cat.label} Premium | Jaleca — Moda Profissional para Saúde`
 
   return {
     title: pageTitle,
