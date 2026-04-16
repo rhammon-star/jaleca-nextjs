@@ -97,7 +97,9 @@ function MetaCheckoutInner() {
         localStorage.setItem('jaleca-cart', JSON.stringify(existing))
       }
 
-      router.replace('/finalizar-compra')
+      // Usa window.location para forçar reload completo —
+      // garante que CartContext leia o localStorage já atualizado
+      window.location.href = '/finalizar-compra'
     }
 
     populateCart()
