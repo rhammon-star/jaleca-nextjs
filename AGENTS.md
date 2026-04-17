@@ -359,6 +359,7 @@ jwt-auth/v1/token como dependência — o sistema funciona sem ele.
 23. **Google Ads — Performance Max** — criar no mês 2
 24. **Investigar "Produto não encontrado"** — 24 sessões em 404, verificar quais URLs estão quebrando
 25. **admin.jaleca.com.br** — ✅ RESOLVIDO (15/04/2026) — X-Robots-Tag: noindex adicionado no middleware (commit 0423a91) + URL removida via GSC → Remoção de URLs.
+26. **⚠️ Meta Ads — Anúncios de vídeo PENDENTES (17/04/2026)** — Campanhas e ad sets criados via API, mas criativo de vídeo precisa ser adicionado MANUALMENTE no Meta Ads Manager. Ver instruções completas abaixo.
 
 ## SEO — Otimizações (16/04/2026)
 - **Meta titles categorias** — ✅ RESOLVIDO (16/04/2026) — Commit `3e8ec21`. CATEGORY_MAP agora tem campo `title` por categoria. `jalecos-femininos`: inclui modelos (Slim, Princesa, Elastex) + frete grátis estados. `conjuntos`: inclui Scrub + Pijamas Cirúrgicos. `dólmãs`: título descritivo com intent.
@@ -387,8 +388,39 @@ jwt-auth/v1/token como dependência — o sistema funciona sem ele.
 - **warm-cache.mjs**: homepage + 5 categorias adicionadas ao aquecimento pós-deploy
 - Score estimado após deploy: 64 → ~72–78
 
+## Meta Ads — Campanhas Prospecção Vídeo Abr 2026 (17/04/2026)
+
+### ⚠️ PENDENTE: Criar anúncios de vídeo manualmente no Meta Ads Manager
+
+As 3 campanhas e ad sets foram criados via API. O vídeo está na Business Creative Library (não acessível via Marketing API token). O anúncio precisa ser criado manualmente.
+
+**Estrutura criada (17/04/2026):**
+| Campanha | Ad Set | Status |
+|---|---|---|
+| Prospecção - Lookalike - Vídeo Abr 2026 | Lookalike 1% BR - Mulheres 22-50 | Ativo, sem anúncio |
+| Prospecção - Saúde e Beleza - Vídeo Abr 2026 | Saúde - Profissionais Saude BR | Ativo, sem anúncio |
+| Prospecção - Saúde e Beleza - Vídeo Abr 2026 | Beleza - Manicure Salao Cosmetologia | Ativo, sem anúncio |
+
+**Como criar o anúncio (repetir para cada ad set):**
+1. Meta Ads Manager → campanha correspondente → ad set → aba **Anúncios** → **+ Criar**
+2. Formato: **Vídeo único**
+3. Vídeo: `Jaleco-Jaleca-Slim-branco.MP4` (ID: `1694667288205376`, está na Business Creative Library)
+4. Texto: `Antes de você se apresentar, seu jaleco já foi avaliado.\nVista o que você merece.\n3x sem juros · Frete Grátis SP, RJ, MG, ES`
+5. Título: `Jalecos Jaleca — Compre Agora`
+6. Botão CTA: **Comprar agora**
+7. URL destino: `https://jaleca.com.br/produtos?categoria=jalecos-femininos`
+8. Publicar → repetir para os outros 2 ad sets
+9. Após os 3: clicar **Revisar e publicar** para resolver "Edições não publicadas"
+10. Deletar ad set rascunho "Novo conjunto de anúncios de Vendas" (criado por acidente)
+
+**Por que a API não consegue:** vídeo está em Business Creative Library (`act_2098470580937214`), não na Ad Account. Token de Marketing API não tem `pages_read_engagement`. Solução definitiva: usar token de Página com esse escopo.
+
+**Conta Meta:** `act_2098470580937214` | Token expira: 13/06/2026 (`META_ADS_TOKEN`)
+
+---
+
 ## Best-sellers e Busca (17/04/2026)
-- **Best-sellers list** (`lib/best-sellers.ts`): posições 0-1 são DESTAQUES definidos pelo dono (Slim Tradicional Fem + Masc), posições 2+ são mais vendidos reais do WooCommerce por `total_sales`. NÃO alterar posições 0-1 sem autorização do dono.
+- **Best-sellers list** (`lib/best-sellers.ts`): APENAS 2 produtos definidos pelo dono — Slim Tradicional Fem + Masc. NÃO adicionar outros sem autorização. NÃO integrar com total_sales WooCommerce.
 - **Busca com best-sellers no topo (17/04/2026)**: ✅ CORRIGIDO — `SearchModal.tsx` agora busca 20 resultados (era 8), ordena pelo rank em `BEST_SELLER_SLUGS` e mostra top 10. Os 2 destaques sempre aparecem primeiro.
 - **Cache de produtos nunca mais vazio (17/04/2026)**: ✅ CORRIGIDO — `unstable_cache` em `app/produtos/page.tsx` e `app/categoria/[slug]/page.tsx` agora faz `throw` quando retorna 0 produtos (impede cache de `[]`). Fallback busca direto sem cache. Antes: se WooCommerce falhasse durante deploy, o site ficava sem produtos por 1h.
 - **URL param ?categoria= (17/04/2026)**: ✅ IMPLEMENTADO — `CATEGORIA_MAP` em `app/produtos/page.tsx` mapeia slugs de anúncios Meta (ex: `?categoria=jalecos-femininos`) para filtros internos (cat=Jalecos, genero=Feminino). Links de ads abrem com filtros corretos.
