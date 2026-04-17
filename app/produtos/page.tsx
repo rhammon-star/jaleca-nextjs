@@ -8,25 +8,39 @@ export const dynamic = 'force-dynamic'
 
 type ProductsPage = { products: { pageInfo: { hasNextPage: boolean; endCursor: string }; nodes: WooProduct[] } }
 
-const getAllProducts = unstable_cache(
-  async (): Promise<WooProduct[]> => {
-    const all: WooProduct[] = []
-    let cursor: string | null = null
+const fetchAllProducts = async (): Promise<WooProduct[]> => {
+  const all: WooProduct[] = []
+  let cursor: string | null = null
+  try {
+    do {
+      const data: ProductsPage = await graphqlClient.request<ProductsPage>(GET_PRODUCTS, { first: 24, after: cursor })
+      all.push(...data.products.nodes)
+      cursor = data.products.pageInfo.hasNextPage ? data.products.pageInfo.endCursor : null
+    } while (cursor)
+  } catch (e) {
+    console.error('[getAllProducts] GraphQL error:', e)
+    if (all.length === 0) throw new Error('WooCommerce GraphQL retornou 0 produtos')
+  }
+  if (all.length === 0) throw new Error('Nenhum produto encontrado no WooCommerce')
+  return all
+}
+
+const getAllProductsCached = unstable_cache(fetchAllProducts, ['all-products'], { revalidate: 3600, tags: ['products'] })
+
+async function getAllProducts(): Promise<WooProduct[]> {
+  try {
+    return await getAllProductsCached()
+  } catch {
+    // Cache guardou erro ou está vazio — tenta direto sem cache
+    console.warn('[getAllProducts] Cache miss/error, tentando fetch direto...')
     try {
-      do {
-        const data: ProductsPage = await graphqlClient.request<ProductsPage>(GET_PRODUCTS, { first: 24, after: cursor })
-        all.push(...data.products.nodes)
-        cursor = data.products.pageInfo.hasNextPage ? data.products.pageInfo.endCursor : null
-      } while (cursor)
+      return await fetchAllProducts()
     } catch (e) {
-      console.error('[getAllProducts] GraphQL error:', e)
-      if (all.length === 0) return []
+      console.error('[getAllProducts] Fetch direto também falhou:', e)
+      return []
     }
-    return all
-  },
-  ['all-products'],
-  { revalidate: 3600, tags: ['products'] }
-)
+  }
+}
 
 export const metadata: Metadata = {
   title: 'Jalecos e Uniformes Médicos | Jaleca — Femininos e Masculinos | Frete Grátis Sudeste',
