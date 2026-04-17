@@ -171,7 +171,7 @@ const Footer = () => {
                   </Link>
                 </li>
                 <li className="pt-2">
-                  <p className="text-[11px] leading-relaxed">
+                  <p className="text-[13px] md:text-[11px] leading-relaxed">
                     Seg–Sex: 9h às 18h<br/>
                     Sáb: 9h às 12h
                   </p>
@@ -188,7 +188,7 @@ const Footer = () => {
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             {/* Payment methods */}
             <div className="flex flex-col items-center md:items-start gap-3">
-              <p className="text-[10px] font-semibold tracking-widest uppercase text-muted-foreground">
+              <p className="text-[12px] md:text-[10px] font-semibold tracking-wider md:tracking-widest uppercase text-muted-foreground">
                 Formas de pagamento
               </p>
               <div className="flex items-center flex-wrap gap-2">
@@ -202,15 +202,15 @@ const Footer = () => {
 
             {/* Security */}
             <div className="flex flex-col items-center md:items-end gap-3">
-              <p className="text-[10px] font-semibold tracking-widest uppercase text-muted-foreground">
+              <p className="text-[12px] md:text-[10px] font-semibold tracking-wider md:tracking-widest uppercase text-muted-foreground">
                 Compra 100% segura
               </p>
               <div className="flex items-center gap-3">
-                <div className="flex items-center gap-1.5 border border-green-200 bg-green-50 text-green-700 px-3 py-1.5 text-[11px] font-semibold rounded">
+                <div className="flex items-center gap-1.5 border border-green-200 bg-green-50 text-green-700 px-3 py-1.5 text-[13px] md:text-[11px] font-semibold rounded">
                   <ShieldCheck size={14} />
                   Site Seguro SSL
                 </div>
-                <div className="flex items-center gap-1.5 border border-blue-200 bg-blue-50 text-blue-700 px-3 py-1.5 text-[11px] font-semibold rounded">
+                <div className="flex items-center gap-1.5 border border-blue-200 bg-blue-50 text-blue-700 px-3 py-1.5 text-[13px] md:text-[11px] font-semibold rounded">
                   <ShieldCheck size={14} />
                   Google Safe
                 </div>

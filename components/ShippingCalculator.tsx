@@ -142,7 +142,7 @@ export default function ShippingCalculator({ onShippingSelected, selectedId, ini
                 />
                 <div>
                   <p className="text-xs font-medium text-foreground">{opt.label}</p>
-                  <p className="text-[11px] text-muted-foreground">{opt.delivery_time}</p>
+                  <p className="text-[13px] md:text-[11px] text-muted-foreground">{opt.delivery_time}</p>
                 </div>
               </div>
               <span className="text-xs font-semibold text-foreground">

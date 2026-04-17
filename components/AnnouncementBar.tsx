@@ -27,7 +27,7 @@ export default function AnnouncementBar() {
 
   return (
     <div
-      className="bg-[hsl(var(--foreground))] text-[hsl(var(--background))] py-2.5 text-center text-[11px] font-medium tracking-wider"
+      className="bg-[hsl(var(--foreground))] text-[hsl(var(--background))] py-2.5 text-center text-[13px] md:text-[11px] font-medium tracking-wider"
       role="marquee"
       aria-live="polite"
       aria-atomic="true"

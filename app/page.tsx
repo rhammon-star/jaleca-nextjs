@@ -150,7 +150,7 @@ export default async function Home() {
             {/* Badge de autoridade */}
             <div className="inline-flex items-center gap-2 bg-[#1a1a1a] text-[#c4a97d] px-4 py-2 mb-6 self-start">
               <span className="text-sm">🏆</span>
-              <span className="text-[10px] font-semibold tracking-[0.3em] uppercase">Uma das marcas que mais vende jalecos no Brasil</span>
+              <span className="text-[12px] md:text-[10px] font-semibold tracking-[0.2em] md:tracking-[0.3em] uppercase">Uma das marcas que mais vende jalecos no Brasil</span>
             </div>
             <h1 className="font-display text-4xl sm:text-5xl lg:text-[3.4rem] font-semibold leading-[1.1] text-[#1a1a1a] mb-5 animate-fade-up">
               Mais de 200 mil peças vendidas. Descubra o porquê.
@@ -161,7 +161,7 @@ export default async function Home() {
             {/* Prova social */}
             <div className="flex items-center gap-3 mb-8 pb-8 border-b border-[#e8e0d5]">
               <div className="flex text-[#c4a97d] text-lg leading-none">★★★★★</div>
-              <p className="text-[13px] text-[#555]">
+              <p className="text-[15px] md:text-[13px] text-[#555]">
                 <span className="font-semibold text-[#1a1a1a]">Milhares de clientes satisfeitos</span> em todo o Brasil
               </p>
             </div>
@@ -337,7 +337,7 @@ export default async function Home() {
                 </div>
                 <div>
                   <p className="text-xs font-semibold text-foreground">{badge.title}</p>
-                  <p className="text-[11px] text-muted-foreground">{badge.desc}</p>
+                  <p className="text-[13px] md:text-[11px] text-muted-foreground">{badge.desc}</p>
                 </div>
               </div>
             ))}
@@ -350,7 +350,7 @@ export default async function Home() {
         <section className="py-20 md:py-28 bg-card">
           <div className="container">
             <div className="text-center mb-12">
-              <p className="text-[11px] font-semibold tracking-[0.3em] uppercase text-muted-foreground mb-3">Depoimentos</p>
+              <p className="text-[13px] md:text-[11px] font-semibold tracking-[0.2em] md:tracking-[0.3em] uppercase text-muted-foreground mb-3">Depoimentos</p>
               <h2 className="font-display text-3xl md:text-4xl font-semibold">O que dizem nossos clientes</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -384,7 +384,7 @@ export default async function Home() {
                     <p className="text-sm text-muted-foreground leading-relaxed italic">"{t.text}"</p>
                     <div className="mt-auto pt-4 border-t border-border">
                       <p className="text-sm font-semibold text-foreground">{t.name}</p>
-                      <p className="text-[11px] text-muted-foreground">{t.role}</p>
+                      <p className="text-[13px] md:text-[11px] text-muted-foreground">{t.role}</p>
                     </div>
                   </div>
                 </ScrollReveal>

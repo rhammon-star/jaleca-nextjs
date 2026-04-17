@@ -62,7 +62,7 @@ const Header = () => {
             {/* LEFT — logo + mobile hamburger */}
             <div style={{ display: 'flex', alignItems: 'center', flexShrink: 0, gap: '8px' }}>
               <button
-                className="md:hidden p-2 active:scale-95 transition-transform"
+                className="md:hidden p-3 active:scale-95 transition-transform"
                 onClick={() => setMobileOpen(!mobileOpen)}
                 aria-label={mobileOpen ? 'Fechar menu' : 'Abrir menu'}
                 aria-expanded={mobileOpen}
@@ -190,14 +190,14 @@ const Header = () => {
               <LoyaltyBadge />
               <button
                 onClick={() => setSearchOpen(true)}
-                className="p-3 text-muted-foreground hover:text-foreground transition-colors active:scale-95"
+                className="p-3 min-h-[44px] min-w-[44px] flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors active:scale-95"
                 aria-label="Buscar"
               >
                 <Search size={19} />
               </button>
               <Link
                 href="/wishlist"
-                className="flex p-3 text-muted-foreground hover:text-foreground transition-colors active:scale-95"
+                className="flex p-3 min-h-[44px] min-w-[44px] items-center justify-center text-muted-foreground hover:text-foreground transition-colors active:scale-95"
                 aria-label="Favoritos"
               >
                 <Heart size={19} />
@@ -205,7 +205,7 @@ const Header = () => {
               {isLoggedIn ? (
                 <Link
                   href="/minha-conta"
-                  className="flex items-center gap-1.5 p-3 text-muted-foreground hover:text-foreground transition-colors active:scale-95"
+                  className="flex items-center gap-1.5 p-3 min-h-[44px] min-w-[44px] text-muted-foreground hover:text-foreground transition-colors active:scale-95"
                   aria-label="Minha conta"
                 >
                   <User size={19} />
@@ -216,7 +216,7 @@ const Header = () => {
               ) : (
                 <button
                   onClick={() => setAuthOpen(true)}
-                  className="p-3 text-muted-foreground hover:text-foreground transition-colors active:scale-95"
+                  className="p-3 min-h-[44px] min-w-[44px] flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors active:scale-95"
                   aria-label="Entrar"
                 >
                   <User size={19} />
@@ -224,7 +224,7 @@ const Header = () => {
               )}
               <button
                 onClick={openCart}
-                className="relative p-3 text-muted-foreground hover:text-foreground transition-colors active:scale-95"
+                className="relative p-3 min-h-[44px] min-w-[44px] flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors active:scale-95"
                 aria-label="Carrinho"
               >
                 <ShoppingBag size={19} />
@@ -266,7 +266,7 @@ const Header = () => {
               <button
                 onClick={() => setMobileOpen(false)}
                 aria-label="Fechar menu"
-                className="p-2 text-muted-foreground hover:text-foreground transition-colors"
+                className="p-3 text-muted-foreground hover:text-foreground transition-colors"
               >
                 <X size={22} />
               </button>

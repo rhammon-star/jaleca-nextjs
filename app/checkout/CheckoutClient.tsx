@@ -606,11 +606,11 @@ export default function CheckoutClient() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-xs font-medium truncate">{item.name}</p>
-                        <p className="text-[11px] text-muted-foreground">
+                        <p className="text-[13px] md:text-[11px] text-muted-foreground">
                           {[item.color ? item.color.charAt(0).toUpperCase() + item.color.slice(1) : null, item.size].filter(Boolean).join(' / ')}
                         </p>
                         <div className="flex justify-between items-center mt-1">
-                          <span className="text-[11px] text-muted-foreground">Qtd: {item.quantity}</span>
+                          <span className="text-[13px] md:text-[11px] text-muted-foreground">Qtd: {item.quantity}</span>
                           <span className="text-xs font-semibold">{item.price}</span>
                         </div>
                       </div>

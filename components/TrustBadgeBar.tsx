@@ -52,7 +52,7 @@ export default function TrustBadgeBar() {
   return (
     <div className="bg-secondary/30 border-b border-border py-2.5">
       <div className="container">
-        <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1.5 text-[11px] text-muted-foreground">
+        <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1.5 text-[13px] md:text-[11px] text-muted-foreground">
           {badges.map(({ icon, text }, i) => (
             <div key={i} className="flex items-center gap-1.5 whitespace-nowrap">
               <span aria-hidden="true" className="text-foreground/50">{icon}</span>

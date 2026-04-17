@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, Suspense } from 'react'
+import { useState, useEffect, useRef, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -260,6 +260,20 @@ export default function ProductDetailClient({
     const slugHash = product.slug.split('').reduce((a, c) => a + c.charCodeAt(0), 0)
     if (slugHash % 10 >= 3) setViewerCount(count)
   }, [product.databaseId, product.slug])
+
+  // Sticky CTA — aparece quando botão original sai da viewport (mobile)
+  const addToCartBtnRef = useRef<HTMLDivElement>(null)
+  const [showStickyBar, setShowStickyBar] = useState(false)
+  useEffect(() => {
+    const el = addToCartBtnRef.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => setShowStickyBar(!entry.isIntersecting),
+      { threshold: 0 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
 
   // Reviews — loaded server-side, updated after new submission
   const [reviews, setReviews] = useState<Review[]>(initialReviews)
@@ -579,7 +593,7 @@ export default function ProductDetailClient({
 
           {/* Info — aparece depois das fotos no mobile */}
           <div className="flex flex-col md:pt-4 order-2 md:order-none">
-            <p className="text-[11px] text-primary-text tracking-[0.28em] uppercase mb-1">Jaleca</p>
+            <p className="text-[13px] md:text-[11px] text-primary-text tracking-[0.2em] md:tracking-[0.28em] uppercase mb-1">Jaleca</p>
             <h1 className="font-display text-4xl lg:text-5xl font-semibold leading-[1.1] tracking-[-0.03em] mb-2 text-balance">
               {product.name.replace(/ - Jaleca$/i, '')}
             </h1>
@@ -588,19 +602,19 @@ export default function ProductDetailClient({
             {isBestSeller(product.slug) && (
               <div className="inline-flex items-center gap-2 bg-[#1a1a1a] text-[#c4a97d] px-4 py-2 mb-4 self-start">
                 <span className="text-sm">🏆</span>
-                <span className="text-[10px] font-bold tracking-[0.25em] uppercase">Campeão de Vendas</span>
+                <span className="text-[12px] md:text-[10px] font-bold tracking-[0.2em] md:tracking-[0.25em] uppercase">Campeão de Vendas</span>
               </div>
             )}
 
             {/* Trust block — prova social abaixo do título */}
             <div className="flex flex-wrap gap-x-4 gap-y-1.5 mb-4">
-              <span className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
+              <span className="flex items-center gap-1.5 text-[13px] md:text-[11px] text-muted-foreground">
                 <span className="text-green-600">✔</span> Envio rápido para todo o Brasil
               </span>
-              <span className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
+              <span className="flex items-center gap-1.5 text-[13px] md:text-[11px] text-muted-foreground">
                 <span className="text-green-600">✔</span> Troca fácil em até 30 dias
               </span>
-              <span className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
+              <span className="flex items-center gap-1.5 text-[13px] md:text-[11px] text-muted-foreground">
                 <span className="text-green-600">✔</span> Compra 100% segura
               </span>
             </div>
@@ -793,7 +807,7 @@ export default function ProductDetailClient({
             )}
 
             {/* Actions */}
-            <div className="flex flex-col sm:flex-row gap-3 mt-auto">
+            <div ref={addToCartBtnRef} className="flex flex-col sm:flex-row gap-3 mt-auto">
               <button
                 onClick={handleAddToCart}
                 className="flex-1 inline-flex min-h-14 w-full items-center justify-center gap-2 bg-ink px-6 py-4 text-xs font-semibold tracking-widest uppercase text-background transition-transform duration-300 hover:bg-ink active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40"
@@ -850,7 +864,7 @@ export default function ProductDetailClient({
                 aria-selected={activeTab === tab.id}
                 aria-controls={`tab-panel-${tab.id}`}
                 onClick={() => setActiveTab(tab.id)}
-                className={`px-6 py-3 text-[11px] font-semibold tracking-[0.18em] uppercase transition-all duration-200 border-b-2 -mb-px whitespace-nowrap ${
+                className={`px-6 py-4 md:py-3 text-[13px] md:text-[11px] font-semibold tracking-[0.15em] md:tracking-[0.18em] uppercase transition-all duration-200 border-b-2 -mb-px whitespace-nowrap ${
                   activeTab === tab.id
                     ? 'border-foreground text-foreground bg-transparent'
                     : 'border-transparent text-muted-foreground hover:text-foreground hover:border-border'
@@ -948,7 +962,7 @@ export default function ProductDetailClient({
                               <div key={i} className="border-b border-border pb-4">
                                 <div className="flex items-center gap-2 mb-1">
                                   <StarRating rating={r.rating} size={11} />
-                                  <span className="text-[11px] text-muted-foreground">{r.authorName} · {r.relativeTime}</span>
+                                  <span className="text-[13px] md:text-[11px] text-muted-foreground">{r.authorName} · {r.relativeTime}</span>
                                 </div>
                                 <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3">{r.text}</p>
                               </div>
@@ -1094,6 +1108,24 @@ export default function ProductDetailClient({
     )}
 
     {isBestSeller(product.slug) && <UrgencyToast />}
+
+    {/* Sticky Add-to-Cart — mobile only, aparece quando botão original sai da viewport */}
+    {showStickyBar && !isOutOfStock && (
+      <div className="fixed bottom-0 left-0 right-0 z-[80] md:hidden bg-background border-t border-border px-4 py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] flex items-center gap-3 shadow-lg animate-fade-up">
+        <div className="flex-1 min-w-0">
+          <p className="text-sm font-semibold truncate">{product.name.replace(/ - Jaleca$/i, '')}</p>
+          <p className="text-base font-bold text-foreground">{displayPrice}</p>
+        </div>
+        <button
+          onClick={handleAddToCart}
+          disabled={!canAdd}
+          className="flex-shrink-0 bg-ink text-background px-6 min-h-[48px] text-xs font-semibold tracking-widest uppercase transition-all active:scale-[0.98] disabled:opacity-50 flex items-center gap-2"
+        >
+          <ShoppingBag size={16} />
+          {canAdd ? 'COMPRAR' : 'ESCOLHA COR/TAM'}
+        </button>
+      </div>
+    )}
 
     </>
   )

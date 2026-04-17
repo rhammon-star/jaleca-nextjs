@@ -37,7 +37,7 @@ export default function GoogleReviewsSection({ place }: { place: PlaceData }) {
         {/* Cabeçalho */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-6 mb-12">
           <div>
-            <p className="text-[11px] font-semibold tracking-[0.3em] uppercase text-muted-foreground mb-2">
+            <p className="text-[13px] md:text-[11px] font-semibold tracking-[0.2em] md:tracking-[0.3em] uppercase text-muted-foreground mb-2">
               Avaliações verificadas
             </p>
             <h2 className="font-display text-3xl md:text-4xl font-semibold text-[#1a1a1a]">
@@ -86,7 +86,7 @@ export default function GoogleReviewsSection({ place }: { place: PlaceData }) {
                   )}
                   <div>
                     <p className="text-sm font-semibold text-[#1a1a1a] leading-tight">{review.authorName}</p>
-                    <p className="text-[11px] text-muted-foreground">{review.relativeTime}</p>
+                    <p className="text-[13px] md:text-[11px] text-muted-foreground">{review.relativeTime}</p>
                   </div>
                 </div>
 
@@ -101,7 +101,7 @@ export default function GoogleReviewsSection({ place }: { place: PlaceData }) {
                 {/* Google logo pequeno */}
                 <div className="flex items-center gap-1.5 pt-2 border-t border-border/60">
                   <GoogleIcon />
-                  <span className="text-[10px] text-muted-foreground">Avaliação no Google</span>
+                  <span className="text-[12px] md:text-[10px] text-muted-foreground">Avaliação no Google</span>
                 </div>
               </div>
             ))}

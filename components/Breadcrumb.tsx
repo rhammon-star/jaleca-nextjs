@@ -22,7 +22,7 @@ export default function Breadcrumb({ crumbs }: { crumbs: Crumb[] }) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/</g, '\\u003c') }}
       />
     <nav aria-label="Breadcrumb" className="py-3">
-      <ol className="flex items-center gap-1 text-[11px] text-muted-foreground tracking-wide flex-wrap">
+      <ol className="flex items-center gap-1 text-[13px] md:text-[11px] text-muted-foreground tracking-wide flex-wrap">
         {crumbs.map((crumb, i) => (
           <li key={i} className="flex items-center gap-1">
             {i > 0 && <ChevronRight size={11} className="text-muted-foreground/50" />}

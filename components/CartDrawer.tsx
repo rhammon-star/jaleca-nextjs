@@ -146,7 +146,7 @@ export default function CartDrawer() {
           </div>
           <button
             onClick={closeCart}
-            className="p-2 text-muted-foreground hover:text-foreground transition-colors active:scale-95"
+            className="p-3 md:p-2 text-muted-foreground hover:text-foreground transition-colors active:scale-95"
             aria-label="Fechar sacola"
           >
             <X size={20} />
@@ -158,7 +158,7 @@ export default function CartDrawer() {
         {items.some(i => i.addedAt && Date.now() - i.addedAt > 48 * 60 * 60 * 1000) && (
           <div className="flex items-start gap-2 px-6 py-3 bg-amber-50 border-b border-amber-200 text-amber-800">
             <Clock size={13} className="mt-0.5 flex-shrink-0" />
-            <p className="text-[11px] leading-snug">
+            <p className="text-[13px] md:text-[11px] leading-snug">
               Alguns itens foram adicionados há mais de 48h. Confirme a disponibilidade.
             </p>
           </div>
@@ -174,7 +174,7 @@ export default function CartDrawer() {
               <ShoppingBag size={40} className="text-muted-foreground/40" />
               <p className="text-muted-foreground text-sm">Sua sacola está vazia</p>
               <div className="space-y-3 w-full px-4">
-                <p className="text-[11px] text-muted-foreground">Veja algumas sugestões:</p>
+                <p className="text-[13px] md:text-[11px] text-muted-foreground">Veja algumas sugestões:</p>
                 <Link
                   href="/produtos"
                   className="flex items-center justify-center gap-2 w-full border border-border py-3 text-xs font-semibold tracking-wide uppercase hover:bg-muted transition-colors"
@@ -220,15 +220,15 @@ export default function CartDrawer() {
                     </h4>
                     <div className="flex gap-2 mb-2">
                       {item.color && (
-                        <span className="text-[11px] text-muted-foreground">{item.color}</span>
+                        <span className="text-[13px] md:text-[11px] text-muted-foreground">{item.color}</span>
                       )}
                       {item.size && (
-                        <span className="text-[11px] text-muted-foreground uppercase">{item.size}</span>
+                        <span className="text-[13px] md:text-[11px] text-muted-foreground uppercase">{item.size}</span>
                       )}
                     </div>
                     <p className="text-sm font-semibold mb-1">{item.price}</p>
                     {item.addedAt && Date.now() - item.addedAt > 48 * 60 * 60 * 1000 && (
-                      <p className="text-[10px] text-amber-600 font-medium flex items-center gap-1 mb-2">
+                      <p className="text-[12px] md:text-[10px] text-amber-600 font-medium flex items-center gap-1 mb-2">
                         <Clock size={10} />
                         Disponibilidade não garantida
                       </p>
@@ -239,7 +239,7 @@ export default function CartDrawer() {
                       <div className="flex items-center border border-border">
                         <button
                           onClick={() => updateQuantity(item.id, item.size, item.color, item.quantity - 1)}
-                          className="w-10 h-10 flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
+                          className="w-11 h-11 md:w-10 md:h-10 flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
                           aria-label="Diminuir"
                         >
                           <Minus size={13} />
@@ -247,7 +247,7 @@ export default function CartDrawer() {
                         <span className="w-8 text-center text-sm font-medium">{item.quantity}</span>
                         <button
                           onClick={() => updateQuantity(item.id, item.size, item.color, item.quantity + 1)}
-                          className="w-10 h-10 flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
+                          className="w-11 h-11 md:w-10 md:h-10 flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
                           aria-label="Aumentar"
                         >
                           <Plus size={13} />
@@ -255,7 +255,7 @@ export default function CartDrawer() {
                       </div>
                       <button
                         onClick={() => removeItem(item.id, item.size, item.color)}
-                        className="p-1.5 text-muted-foreground hover:text-foreground transition-colors active:scale-95"
+                        className="p-2.5 md:p-1.5 min-h-[44px] min-w-[44px] md:min-h-0 md:min-w-0 flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors active:scale-95"
                         aria-label="Remover"
                       >
                         <Trash2 size={14} />
@@ -283,7 +283,7 @@ export default function CartDrawer() {
                   <span className="text-xs text-green-700 font-medium uppercase">{appliedCoupon.code}</span>
                   <button
                     onClick={handleRemoveCoupon}
-                    className="text-green-600 hover:text-green-800 transition-colors"
+                    className="min-h-[44px] min-w-[44px] md:min-h-0 md:min-w-0 flex items-center justify-center text-green-600 hover:text-green-800 transition-colors"
                     aria-label="Remover cupom"
                   >
                     <X size={14} />
@@ -304,7 +304,7 @@ export default function CartDrawer() {
                   <button
                     onClick={handleApplyCoupon}
                     disabled={couponLoading || !couponCode.trim()}
-                    className="px-3 py-2 border border-border text-xs font-semibold hover:bg-secondary/30 transition-colors disabled:opacity-50 flex items-center gap-1"
+                    className="px-3 py-3 md:py-2 border border-border text-xs font-semibold hover:bg-secondary/30 transition-colors disabled:opacity-50 flex items-center gap-1"
                   >
                     {couponLoading ? <Loader2 size={12} className="animate-spin" /> : 'Aplicar'}
                   </button>
@@ -312,7 +312,7 @@ export default function CartDrawer() {
               )}
               {couponError && <p className="text-xs text-red-600">{couponError}</p>}
               {!appliedCoupon && !couponError && (
-                <p className="text-[11px] text-muted-foreground">
+                <p className="text-[13px] md:text-[11px] text-muted-foreground">
                   Primeira compra?{' '}
                   <button
                     type="button"
@@ -348,7 +348,7 @@ export default function CartDrawer() {
             {/* Free shipping progress bar — only for SP, RJ, ES, MG */}
             {subtotal > 0 && customerState && !FREE_SHIPPING_STATES.includes(customerState) && (
               <div className="bg-muted/50 border border-border p-3 text-center">
-                <p className="text-[11px] text-muted-foreground">
+                <p className="text-[13px] md:text-[11px] text-muted-foreground">
                   <Truck size={11} className="inline mr-1" />
                   Frete grátis para compras acima de <strong className="text-foreground">{formatCurrency(FREE_SHIPPING_THRESHOLD)}</strong> nas regiões SP, RJ, ES e MG
                 </p>
@@ -356,7 +356,7 @@ export default function CartDrawer() {
             )}
             {subtotal > 0 && (!customerState || FREE_SHIPPING_STATES.includes(customerState)) && subtotal < FREE_SHIPPING_THRESHOLD && (
               <div className="bg-muted/50 border border-border p-3 text-center">
-                <p className="text-[11px] text-muted-foreground mb-1.5">
+                <p className="text-[13px] md:text-[11px] text-muted-foreground mb-1.5">
                   <Truck size={11} className="inline mr-1" />
                   Faltam <strong className="text-foreground">{formatCurrency(FREE_SHIPPING_THRESHOLD - subtotal)}</strong> para <strong className="text-green-600">frete grátis!</strong>
                 </p>

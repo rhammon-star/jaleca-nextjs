@@ -84,13 +84,13 @@ export default function UrgencyToast() {
           <Flame size={14} className="text-orange-500" />
         </div>
         <div>
-          <p className="text-[11px] font-semibold text-foreground leading-snug">{message.text}</p>
-          <p className="text-[10px] text-muted-foreground mt-0.5">agora mesmo</p>
+          <p className="text-[13px] md:text-[11px] font-semibold text-foreground leading-snug">{message.text}</p>
+          <p className="text-[12px] md:text-[10px] text-muted-foreground mt-0.5">agora mesmo</p>
         </div>
       </div>
       <button
         onClick={() => setVisible(false)}
-        className="absolute top-2 right-2 text-muted-foreground hover:text-foreground transition-colors"
+        className="absolute top-2 right-2 p-2 min-h-[44px] min-w-[44px] md:min-h-0 md:min-w-0 md:p-0 flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
         aria-label="Fechar"
       >
         <X size={12} />
