@@ -94,11 +94,11 @@ const organizationJsonLd = {
     addressRegion: 'MG',
     addressLocality: 'Belo Horizonte',
   },
-  telephone: '+55-31-99290-1940',
+  telephone: '+55-31-3367-2467',
   contactPoint: [
     {
       '@type': 'ContactPoint',
-      telephone: '+55-31-99290-1940',
+      telephone: '+55-31-3367-2467',
       contactType: 'customer service',
       availableLanguage: 'Portuguese',
       areaServed: 'BR',
