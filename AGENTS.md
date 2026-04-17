@@ -361,6 +361,15 @@ jwt-auth/v1/token como dependência — o sistema funciona sem ele.
 25. **admin.jaleca.com.br** — ✅ RESOLVIDO (15/04/2026) — X-Robots-Tag: noindex adicionado no middleware (commit 0423a91) + URL removida via GSC → Remoção de URLs.
 26. **⚠️ Meta Ads — Anúncios de vídeo PENDENTES (17/04/2026)** — Campanhas e ad sets criados via API, mas criativo de vídeo precisa ser adicionado MANUALMENTE no Meta Ads Manager. Ver instruções completas abaixo.
 
+## Mobile First — Fase 1-4 (17/04/2026) — commit aeb8665
+
+- **Tipografia mobile** — ✅ IMPLEMENTADO — 15 arquivos corrigidos. Padrão `text-[12px] md:text-[10px]`: mobile legível, desktop idêntico ao anterior. globals.css: iOS Safari zoom prevention (`font-size: 16px` em inputs no mobile).
+- **Touch targets WCAG AA** — ✅ IMPLEMENTADO — 32 elementos abaixo de 44px corrigidos. Header ícones: `min-h-[44px] min-w-[44px]`. CartDrawer: botões +/- `w-11 h-11`, lixeira `min-44px`. ProductCard: wishlist/compare `w-11→w-8` responsivo.
+- **Sticky Add-to-Cart produto** — ✅ IMPLEMENTADO — `ProductDetailClient.tsx`: IntersectionObserver detecta quando botão sai da viewport → sticky bar aparece na base com nome + preço + botão 48px. `pb-[env(safe-area-inset-bottom)]` para iPhone. `md:hidden`.
+- **PWA** — ✅ IMPLEMENTADO — `public/manifest.json` criado (standalone, theme #1a1a1a, pt-BR). `layout.tsx`: `<link rel="manifest">` + `theme-color` + `apple-mobile-web-app-capable` + `apple-mobile-web-app-status-bar-style`.
+- **Regra**: mudanças são mobile-only com `md:` fallback — notebook/desktop sem impacto visual.
+- **Fase 5 pendente**: reduzir HTML de 850KB (RSC streaming payload) — requer auditoria de quais dados estão sendo serializados na homepage.
+
 ## SEO — Otimizações (16/04/2026)
 - **Meta titles categorias** — ✅ RESOLVIDO (16/04/2026) — Commit `3e8ec21`. CATEGORY_MAP agora tem campo `title` por categoria. `jalecos-femininos`: inclui modelos (Slim, Princesa, Elastex) + frete grátis estados. `conjuntos`: inclui Scrub + Pijamas Cirúrgicos. `dólmãs`: título descritivo com intent.
 - **Meta title /produtos** — ✅ RESOLVIDO (16/04/2026) — Commit `3e8ec21`. Title agora começa com "Jalecos" (keyword genérica, 89 impressões, pos 36). Description inclui toda a linha de produtos + keywords.
