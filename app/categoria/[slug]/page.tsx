@@ -227,6 +227,8 @@ export default async function CategoriaPage({
           }}
         />
       )}
+      {/* H1 server-side para SEO — invisível ao usuário, visível para crawlers no HTML inicial */}
+      <h1 className="sr-only">{cat.title ?? `${cat.label} para Profissionais da Saúde — Jaleca`}</h1>
       <ProductsClient
         products={products}
         initialCat={cat.filterLabel ?? cat.label}

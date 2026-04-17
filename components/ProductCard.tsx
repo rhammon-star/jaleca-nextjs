@@ -76,6 +76,8 @@ const ProductCard = ({ product, colorFilter }: { product: WooProduct; colorFilte
     <Link href={`/produto/${product.slug}`} className="group block">
       {/* Image container */}
       <div className="relative overflow-hidden bg-[#f5f3f0] aspect-[3/4] mb-3">
+        {/* Skeleton pulse — visível até imagem carregar */}
+        <div className="absolute inset-0 bg-[#ede9e3] animate-pulse" aria-hidden="true" />
         {/* Main image — uses color variation image when filter is active */}
         {mainImage?.sourceUrl ? (
           <Image
@@ -85,7 +87,7 @@ const ProductCard = ({ product, colorFilter }: { product: WooProduct; colorFilte
             width={400}
             height={533}
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-            className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.07]"
+            className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.07] relative z-10"
             loading="lazy"
           />
         ) : (

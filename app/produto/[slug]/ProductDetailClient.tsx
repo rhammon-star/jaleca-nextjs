@@ -245,6 +245,7 @@ export default function ProductDetailClient({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   const [activeImageIdx, setActiveImageIdx] = useState(0)
+  const touchStartX = useRef<number | null>(null)
   const [showSizeChart, setShowSizeChart] = useState(false)
   const [showAdvisor, setShowAdvisor]     = useState(false)
   const [activeTab, setActiveTab] = useState<ActiveTab>('dados-tecnicos')
@@ -537,7 +538,15 @@ export default function ProductDetailClient({
           <div className="flex flex-col gap-3 order-1 md:order-none">
             {/* Main image with zoom */}
             <div className="relative aspect-[3/4] overflow-hidden rounded-[28px] bg-secondary/20 ring-1 ring-secondary/30"
-                 title="Passe o mouse para ver os detalhes">
+                 title="Passe o mouse para ver os detalhes"
+                 onTouchStart={e => { touchStartX.current = e.touches[0].clientX }}
+                 onTouchEnd={e => {
+                   if (touchStartX.current === null || allImages.length <= 1) return
+                   const delta = e.changedTouches[0].clientX - touchStartX.current
+                   if (delta < -50) setActiveImageIdx(i => Math.min(i + 1, allImages.length - 1))
+                   else if (delta > 50) setActiveImageIdx(i => Math.max(i - 1, 0))
+                   touchStartX.current = null
+                 }}>
               {displayImage?.sourceUrl ? (
                 <ImageZoom
                   key={displayImage.sourceUrl}
@@ -551,9 +560,17 @@ export default function ProductDetailClient({
                 </div>
               )}
               {allImages.length > 1 && (
-                <div className="absolute bottom-3 right-3 bg-black/40 text-white text-[10px] px-2 py-1 rounded backdrop-blur-sm pointer-events-none">
-                  🔍 Zoom
-                </div>
+                <>
+                  <div className="absolute bottom-3 right-3 bg-black/40 text-white text-[10px] px-2 py-1 rounded backdrop-blur-sm pointer-events-none hidden md:block">
+                    🔍 Zoom
+                  </div>
+                  {/* Dots — indicador de swipe no mobile */}
+                  <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-1.5 md:hidden pointer-events-none">
+                    {allImages.map((_, idx) => (
+                      <span key={idx} className={`w-1.5 h-1.5 rounded-full transition-all duration-200 ${idx === activeImageIdx ? 'bg-white w-4' : 'bg-white/50'}`} />
+                    ))}
+                  </div>
+                </>
               )}
             </div>
 
@@ -1121,7 +1138,7 @@ export default function ProductDetailClient({
         <button
           onClick={handleAddToCart}
           disabled={!canAdd}
-          className="flex-shrink-0 bg-ink text-background px-6 min-h-[48px] text-xs font-semibold tracking-widest uppercase transition-all active:scale-[0.98] disabled:opacity-50 flex items-center gap-2"
+          className="flex-shrink-0 bg-ink text-background px-6 min-h-[56px] text-xs font-semibold tracking-widest uppercase transition-all active:scale-[0.98] disabled:opacity-50 flex items-center gap-2"
         >
           <ShoppingBag size={16} />
           {canAdd ? 'COMPRAR' : 'ESCOLHA COR/TAM'}
