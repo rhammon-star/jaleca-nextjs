@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { unstable_cache } from 'next/cache'
-import { graphqlClient, GET_PRODUCTS } from '@/lib/graphql'
+import { graphqlClient, GET_PRODUCTS_LISTING } from '@/lib/graphql'
 import ProductsClient from '@/app/produtos/ProductsClient'
 import type { WooProduct } from '@/components/ProductCard'
 import type { Metadata } from 'next'
@@ -77,7 +77,7 @@ const CATEGORY_MAP: Record<string, { label: string; description: string; keyword
 
 const fetchProducts = async (): Promise<WooProduct[]> => {
   const data = await graphqlClient.request<{ products: { nodes: WooProduct[] } }>(
-    GET_PRODUCTS,
+    GET_PRODUCTS_LISTING,
     { first: 100 }
   )
   if (!data.products.nodes.length) throw new Error('WooCommerce retornou 0 produtos')

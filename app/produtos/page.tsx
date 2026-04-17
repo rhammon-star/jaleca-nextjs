@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { unstable_cache } from 'next/cache'
-import { graphqlClient, GET_PRODUCTS } from '@/lib/graphql'
+import { graphqlClient, GET_PRODUCTS_LISTING } from '@/lib/graphql'
 import ProductsClient from './ProductsClient'
 import type { WooProduct } from '@/components/ProductCard'
 
@@ -13,7 +13,7 @@ const fetchAllProducts = async (): Promise<WooProduct[]> => {
   let cursor: string | null = null
   try {
     do {
-      const data: ProductsPage = await graphqlClient.request<ProductsPage>(GET_PRODUCTS, { first: 24, after: cursor })
+      const data: ProductsPage = await graphqlClient.request<ProductsPage>(GET_PRODUCTS_LISTING, { first: 24, after: cursor })
       all.push(...data.products.nodes)
       cursor = data.products.pageInfo.hasNextPage ? data.products.pageInfo.endCursor : null
     } while (cursor)

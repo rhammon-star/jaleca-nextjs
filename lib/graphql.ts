@@ -78,6 +78,79 @@ export const GET_PRODUCTS = `
   }
 `
 
+// Versão leve para páginas de listagem — remove campos de variação não usados pelo ProductCard
+// ProductCard só usa: regularPrice, salePrice (sale detection), image + attributes (filtro por cor)
+// Remove: id, name, stockStatus, price — reduz ~40% do payload RSC em /produtos e /categoria
+export const GET_PRODUCTS_LISTING = `
+  query GetProductsListing($first: Int, $after: String) {
+    products(first: $first, after: $after) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      nodes {
+        id
+        databaseId
+        name
+        slug
+        productCategories {
+          nodes {
+            name
+            slug
+          }
+        }
+        ... on SimpleProduct {
+          price
+          regularPrice
+          salePrice
+          stockStatus
+          image {
+            sourceUrl
+            altText
+          }
+          attributes {
+            nodes {
+              name
+              options
+            }
+          }
+        }
+        ... on VariableProduct {
+          price
+          regularPrice
+          salePrice
+          image {
+            sourceUrl
+            altText
+          }
+          attributes {
+            nodes {
+              name
+              options
+            }
+          }
+          variations(first: 20) {
+            nodes {
+              regularPrice
+              salePrice
+              image {
+                sourceUrl
+                altText
+              }
+              attributes {
+                nodes {
+                  name
+                  value
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`
+
 export const SEARCH_PRODUCTS = `
   query SearchProducts($search: String!, $first: Int) {
     products(first: $first, where: { search: $search }) {

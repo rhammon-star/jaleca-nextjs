@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Shield, Sparkles, Ruler, Truck, CreditCard, RotateCcw, ShieldCheck, Lock, Percent } from "lucide-react";
 import TrustBadgeBar from "@/components/TrustBadgeBar";
-import GoogleReviewsSection from "@/components/GoogleReviewsSection";
+import GoogleReviewsServer from "@/components/GoogleReviewsServer";
 import { getGooglePlaceData } from "@/lib/google-places";
 import { graphqlClient, GET_PRODUCTS } from "@/lib/graphql";
+import { Suspense } from "react";
 import ProductCard, { type WooProduct } from "@/components/ProductCard";
 import ScrollReveal from "@/components/ScrollReveal";
 import { Button } from "@/components/ui/button";
@@ -56,8 +57,8 @@ const GET_FEATURED_PRODUCTS = `
           attributes { nodes { name options } }
           variations(first: 20) {
             nodes {
-              id name stockStatus price
-              attributes { nodes { name value } }
+              regularPrice
+              salePrice
             }
           }
         }
@@ -93,6 +94,8 @@ async function getFeaturedProducts(): Promise<WooProduct[]> {
 }
 
 export default async function Home() {
+  // googlePlace é buscado apenas para o schema JSON-LD (rating/reviewCount)
+  // O componente de reviews é carregado via Suspense streaming para não bloquear o HTML inicial
   const [products, googlePlace] = await Promise.all([
     getFeaturedProducts(),
     getGooglePlaceData(),
@@ -394,12 +397,10 @@ export default async function Home() {
         </section>
       </ScrollReveal>
 
-      {/* Google Reviews */}
-      {googlePlace && (
-        <ScrollReveal>
-          <GoogleReviewsSection place={googlePlace} />
-        </ScrollReveal>
-      )}
+      {/* Google Reviews — carregado via Suspense streaming para não inflar o HTML inicial */}
+      <Suspense fallback={<div className="py-16 bg-[#faf9f7] border-t border-border" aria-hidden="true" />}>
+        <GoogleReviewsServer />
+      </Suspense>
 
       {/* CTA */}
       <ScrollReveal>
