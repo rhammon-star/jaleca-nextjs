@@ -734,8 +734,8 @@ export async function generateMetadata({
   const cidade = CIDADES[slug]
   if (!cidade) return { title: 'Página não encontrada' }
 
-  const title = `Jaleco em ${cidade.nome} — Entrega Rápida | Jaleca`
-  const description = `Compre jalecos, dólmãs e conjuntos profissionais em ${cidade.nome}, ${cidade.estado}. Entrega rápida para ${cidade.nome}, qualidade premium, tamanhos PP ao G3. Jaleca — 8 anos vestindo a saúde.`
+  const title = `Jaleca em ${cidade.nome}: Jalecos Profissionais com Entrega Rápida | Compre Online`
+  const description = `Compre jalecos femininos e masculinos em ${cidade.nome}, ${cidade.estado}. Modelos Slim, Princesa e Scrub para médicas, dentistas e enfermeiras. Frete rápido para ${cidade.nome} — Jaleca.`
 
   return {
     title,

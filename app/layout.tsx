@@ -94,17 +94,21 @@ const organizationJsonLd = {
     addressRegion: 'MG',
     addressLocality: 'Belo Horizonte',
   },
+  telephone: '+55-31-99290-1940',
   contactPoint: [
     {
       '@type': 'ContactPoint',
+      telephone: '+55-31-99290-1940',
       contactType: 'customer service',
       availableLanguage: 'Portuguese',
-      contactOption: 'TollFree',
+      areaServed: 'BR',
     },
   ],
   sameAs: [
     'https://www.instagram.com/jaleca.oficial',
     'https://www.facebook.com/jalecaoficial',
+    'https://www.youtube.com/@jalecaoficial',
+    'https://www.pinterest.com/jalecaoficial',
   ],
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
