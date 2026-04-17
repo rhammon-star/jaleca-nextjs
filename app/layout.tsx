@@ -106,7 +106,7 @@ const organizationJsonLd = {
   ],
   sameAs: [
     'https://www.instagram.com/jaleca.oficial',
-    'https://www.facebook.com/jalecaoficial',
+    'https://www.facebook.com/jalecaa/',
     'https://www.youtube.com/@jalecaoficial',
     'https://www.pinterest.com/jalecaoficial',
   ],

@@ -96,7 +96,7 @@ const Footer = () => {
                    className="w-9 h-9 border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-foreground transition-all duration-200 hover:scale-110">
                   <Instagram size={16} aria-hidden="true" />
                 </a>
-                <a href="https://www.facebook.com/jalecaoficial" target="_blank" rel="noopener noreferrer"
+                <a href="https://www.facebook.com/jalecaa/" target="_blank" rel="noopener noreferrer"
                    aria-label="Jaleca no Facebook"
                    className="w-9 h-9 border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-foreground transition-all duration-200 hover:scale-110">
                   <Facebook size={16} aria-hidden="true" />

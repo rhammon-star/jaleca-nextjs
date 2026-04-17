@@ -33,13 +33,13 @@ export default function AnnouncementBar() {
       aria-atomic="true"
     >
       <div
-        className="flex items-center justify-center gap-3 transition-opacity duration-300"
+        className="flex items-center justify-center gap-2 px-4 transition-opacity duration-300 max-w-full overflow-hidden"
         style={{ opacity: fade ? 1 : 0 }}
       >
-        <span aria-label={msg.text.replace(/[\u{1F300}-\u{1F9FF}]/gu, '').trim()}>{msg.text}</span>
+        <span className="truncate min-w-0" aria-label={msg.text.replace(/[\u{1F300}-\u{1F9FF}]/gu, '').trim()}>{msg.text}</span>
         <Link
           href={msg.href}
-          className="underline underline-offset-2 opacity-70 hover:opacity-100 transition-opacity whitespace-nowrap"
+          className="underline underline-offset-2 opacity-70 hover:opacity-100 transition-opacity whitespace-nowrap shrink-0"
         >
           {msg.cta}
         </Link>
