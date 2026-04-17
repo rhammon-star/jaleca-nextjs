@@ -387,6 +387,13 @@ jwt-auth/v1/token como dependência — o sistema funciona sem ele.
 - **warm-cache.mjs**: homepage + 5 categorias adicionadas ao aquecimento pós-deploy
 - Score estimado após deploy: 64 → ~72–78
 
+## Best-sellers e Busca (17/04/2026)
+- **Best-sellers list** (`lib/best-sellers.ts`): posições 0-1 são DESTAQUES definidos pelo dono (Slim Tradicional Fem + Masc), posições 2+ são mais vendidos reais do WooCommerce por `total_sales`. NÃO alterar posições 0-1 sem autorização do dono.
+- **Busca com best-sellers no topo (17/04/2026)**: ✅ CORRIGIDO — `SearchModal.tsx` agora busca 20 resultados (era 8), ordena pelo rank em `BEST_SELLER_SLUGS` e mostra top 10. Os 2 destaques sempre aparecem primeiro.
+- **Cache de produtos nunca mais vazio (17/04/2026)**: ✅ CORRIGIDO — `unstable_cache` em `app/produtos/page.tsx` e `app/categoria/[slug]/page.tsx` agora faz `throw` quando retorna 0 produtos (impede cache de `[]`). Fallback busca direto sem cache. Antes: se WooCommerce falhasse durante deploy, o site ficava sem produtos por 1h.
+- **URL param ?categoria= (17/04/2026)**: ✅ IMPLEMENTADO — `CATEGORIA_MAP` em `app/produtos/page.tsx` mapeia slugs de anúncios Meta (ex: `?categoria=jalecos-femininos`) para filtros internos (cat=Jalecos, genero=Feminino). Links de ads abrem com filtros corretos.
+- **`.vercelignore` (17/04/2026)**: ✅ — exclui `docs/` do deploy CLI. `scripts/` NÃO pode ser excluído pois `warm-cache.mjs` é necessário no build command.
+
 ## CRO implementado (08/04/2026)
 - Hero subheadline atualizado: "Antes de você falar, sua imagem já foi avaliada..."
 - "Mais Vendidos" adicionado ao menu desktop + mobile com badge TOP
