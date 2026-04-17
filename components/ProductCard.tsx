@@ -113,7 +113,7 @@ const ProductCard = ({ product, colorFilter }: { product: WooProduct; colorFilte
 
         {/* Best-seller badge */}
         {isBestSeller(product.slug) && (
-          <span className="absolute top-3 left-3 bg-[#c4a97d] text-white text-[11px] md:text-[10px] font-bold tracking-wider md:tracking-widest uppercase px-2.5 py-1 z-10 flex items-center gap-1">
+          <span className="absolute bottom-3 left-3 bg-[#c4a97d] text-white text-[11px] md:text-[10px] font-bold tracking-wider md:tracking-widest uppercase px-2.5 py-1 z-10 flex items-center gap-1">
             🏆 MAIS VENDIDO
           </span>
         )}
