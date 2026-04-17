@@ -262,7 +262,7 @@ const Header = () => {
           >
             {/* Header do drawer — só a flor */}
             <div className="flex items-center justify-between px-5 py-5 border-b border-white/10">
-              <img src="/icon-flower.svg" alt="Jaleca" style={{ height: '36px', width: 'auto' }} />
+              <img src="/icon-flower.png" alt="Jaleca" style={{ height: '40px', width: '40px', objectFit: 'contain' }} />
               <button
                 onClick={() => setMobileOpen(false)}
                 aria-label="Fechar menu"
