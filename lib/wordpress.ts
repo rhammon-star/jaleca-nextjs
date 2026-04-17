@@ -68,6 +68,25 @@ export async function publishPost(
   return { id: post.id, link: post.link }
 }
 
+export async function updatePost(
+  postId: number,
+  data: { content?: string; title?: string; excerpt?: string },
+  credentials: { username: string; appPassword: string }
+): Promise<void> {
+  const res = await fetch(`${WP_URL}/posts/${postId}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: getAuthHeader(credentials),
+    },
+    body: JSON.stringify(data),
+  })
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ message: res.statusText }))
+    throw new Error(err.message || `WordPress API error: ${res.status}`)
+  }
+}
+
 export async function deletePost(
   postId: number,
   credentials: { username: string; appPassword: string }

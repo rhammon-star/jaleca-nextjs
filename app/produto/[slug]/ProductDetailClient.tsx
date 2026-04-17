@@ -624,7 +624,7 @@ export default function ProductDetailClient({
             {reviews.length > 0 ? (
               <div className="flex items-center gap-2 mb-4">
                 <StarRating rating={Math.round(avgRating)} size={13} />
-                <span className="text-xs text-muted-foreground">{avgRating.toFixed(1)} ({reviews.length} avaliações)</span>
+                <span className="text-xs text-muted-foreground">{avgRating.toFixed(1)}</span>
               </div>
             ) : googlePlace && googlePlace.reviewCount > 0 ? (
               <button
@@ -885,6 +885,7 @@ export default function ProductDetailClient({
             {/* Dados Técnicos */}
             {activeTab === 'dados-tecnicos' && (
               <div className="max-w-3xl">
+                <h2 className="text-sm font-semibold tracking-[0.15em] uppercase text-muted-foreground mb-4">Dados Técnicos</h2>
                 {product.description ? (
                   <div className="technical-content">
                     <div
@@ -900,6 +901,7 @@ export default function ProductDetailClient({
             {/* Informações Adicionais */}
             {activeTab === 'informacoes' && (
               <div className="max-w-lg">
+                <h2 className="text-sm font-semibold tracking-[0.15em] uppercase text-muted-foreground mb-4">Informações Adicionais</h2>
                 {productAttributes.length > 0 ? (
                   <table className="w-full text-sm border border-border">
                     <tbody>
