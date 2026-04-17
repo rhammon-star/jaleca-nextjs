@@ -126,6 +126,8 @@ export default async function ProdutosPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }}
       />
+      {/* H1 server-side para SEO — invisível ao usuário, visível para crawlers no HTML inicial */}
+      <h1 className="sr-only">Jalecos e Uniformes Médicos — Femininos e Masculinos | Jaleca</h1>
       <ProductsClient
         key={`${resolvedCat}-${resolvedGenero ?? ''}-${cor ?? ''}-${sale ?? ''}-${novidades ?? ''}`}
         products={products}
