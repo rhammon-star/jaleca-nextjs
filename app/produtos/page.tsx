@@ -75,13 +75,32 @@ const breadcrumbSchema = {
   ],
 }
 
+// Mapeia slugs WooCommerce do parâmetro ?categoria= para os filtros internos
+const CATEGORIA_MAP: Record<string, { cat?: string; genero?: string }> = {
+  'jalecos-femininos':  { cat: 'Jalecos',   genero: 'Feminino'  },
+  'jalecos-masculinos': { cat: 'Jalecos',   genero: 'Masculino' },
+  'jalecos':            { cat: 'Jalecos'                        },
+  'dolmas-femininas':   { cat: 'Dólmãs',    genero: 'Feminino'  },
+  'dolmas-masculinos':  { cat: 'Dólmãs',    genero: 'Masculino' },
+  'dolmas':             { cat: 'Dólmãs'                         },
+  'conjuntos-femininos':{ cat: 'Conjuntos', genero: 'Feminino'  },
+  'conjuntos-masculinos':{ cat: 'Conjuntos', genero: 'Masculino' },
+  'conjuntos':          { cat: 'Conjuntos'                      },
+  'acessorios':         { cat: 'Acessórios'                     },
+}
+
 export default async function ProdutosPage({
   searchParams,
 }: {
-  searchParams: Promise<{ cat?: string; sale?: string; novidades?: string; genero?: string; cor?: string }>
+  searchParams: Promise<{ cat?: string; sale?: string; novidades?: string; genero?: string; cor?: string; categoria?: string }>
 }) {
-  const { cat, sale, novidades, genero, cor } = await searchParams
+  const { cat, sale, novidades, genero, cor, categoria } = await searchParams
   const products = await getAllProducts()
+
+  // Resolve filtros a partir de ?categoria= (vindo dos anúncios) ou ?cat= + ?genero=
+  const catFromSlug = categoria ? CATEGORIA_MAP[categoria] : undefined
+  const resolvedCat    = cat    || catFromSlug?.cat    || 'Todos'
+  const resolvedGenero = genero || catFromSlug?.genero
 
   return (
     <>
@@ -94,12 +113,12 @@ export default async function ProdutosPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }}
       />
       <ProductsClient
-        key={`${cat ?? ''}-${genero ?? ''}-${cor ?? ''}-${sale ?? ''}-${novidades ?? ''}`}
+        key={`${resolvedCat}-${resolvedGenero ?? ''}-${cor ?? ''}-${sale ?? ''}-${novidades ?? ''}`}
         products={products}
-        initialCat={cat || 'Todos'}
+        initialCat={resolvedCat}
         initialSale={sale === 'true'}
         initialNovidades={novidades === 'true'}
-        initialGenero={genero}
+        initialGenero={resolvedGenero}
         initialCor={cor}
       />
     </>
