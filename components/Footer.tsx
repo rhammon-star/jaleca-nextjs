@@ -92,12 +92,12 @@ const Footer = () => {
               {/* Social */}
               <div className="flex items-center gap-3 mt-6">
                 <a href="https://www.instagram.com/jaleca.oficial/" target="_blank" rel="noopener noreferrer"
-                   aria-label="Jaleca no Instagram"
+                   aria-label="Jaleca no Instagram (abre em nova janela)"
                    className="w-9 h-9 border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-foreground transition-all duration-200 hover:scale-110">
                   <Instagram size={16} aria-hidden="true" />
                 </a>
                 <a href="https://www.facebook.com/jalecaa/" target="_blank" rel="noopener noreferrer"
-                   aria-label="Jaleca no Facebook"
+                   aria-label="Jaleca no Facebook (abre em nova janela)"
                    className="w-9 h-9 border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-foreground transition-all duration-200 hover:scale-110">
                   <Facebook size={16} aria-hidden="true" />
                 </a>
@@ -156,6 +156,7 @@ const Footer = () => {
                 </li>
                 <li>
                   <a href="https://wa.me/5531992901940?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Jaleca%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener noreferrer"
+                     aria-label="WhatsApp da Jaleca (abre em nova janela)"
                      className="hover:text-foreground transition-colors">
                     WhatsApp
                   </a>
