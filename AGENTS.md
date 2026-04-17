@@ -563,3 +563,30 @@ O blog da Jaleca usa IA para gerar e reescrever conteúdo. Todas as saídas de I
 - `isAIContent(text)` em `lib/ai-content.ts` retorna `{ flagged, found[] }`
 - Botão "Humanizar texto" no admin chama `/api/blog/rewrite` → `rewriteHumanized()` → reescreve HTML com tom humano
 - Geração usa 1 de 4 estilos aleatórios: especialista-pratico, colega-de-profissao, narrativo-envolvente, analitico-confiante
+
+## Mobile First — Fase 5 + UX Fixes (17/04/2026) — commits 1546ae7, 91d5de7, 3aade7f, 601de61
+
+### Phase 5 — Redução de payload RSC
+- **`lib/graphql.ts`**: novo `GET_PRODUCTS_LISTING` — remove `id`, `name`, `stockStatus`, `price` das variações. ProductCard só usa `regularPrice`, `salePrice`, `image`, `attributes` nas listagens.
+- **`app/produtos/page.tsx`** + **`app/categoria/[slug]/page.tsx`**: trocam `GET_PRODUCTS` por `GET_PRODUCTS_LISTING` — ~40% menos dados por variação (600+ nós afetados).
+- **`app/page.tsx` — `GET_FEATURED_PRODUCTS`**: variações da homepage reduzidas a só `regularPrice` + `salePrice` (sem image/attributes — homepage não tem filtro por cor).
+- **`components/GoogleReviewsServer.tsx`**: novo componente servidor assíncrono — reviews do Google carregam via `<Suspense>` streaming, fora do HTML inicial da homepage.
+- **Resultado**: /produtos ~850KB → ~500KB HTML (uncompressed). Reviews do Google não bloqueiam mais o HTML inicial.
+
+### Menu mobile — redesign (17/04/2026)
+- **Drawer dark**: fundo `#1a1a1a`, backdrop com `backdrop-blur-sm`, texto `text-white/70`
+- **Logo**: apenas a flor circular `public/icon-flower.png` (40×40px) — não mais o logo completo
+- **Fecha ao clicar**: `onClick={() => setMobileOpen(false)}` em todos os links — antes não fechava quando pathname não mudava (ex: /produtos?cat=Jalecos)
+- **Rodapé drawer**: "Jaleca — Jalecos e mimos."
+- **`public/icon-flower.png`**: logo circular 512×512 oficial salvo em public + manifest.json atualizado para PWA
+
+### UX fixes (17/04/2026)
+- **AnnouncementBar**: `truncate` no texto + `shrink-0` no CTA → "Ver novidades" / "Saiba mais" não some mais pela borda direita no mobile
+- **Facebook URL**: corrigido de `jalecaoficial` → `jalecaa/` em `Footer.tsx` e `layout.tsx` (schema sameAs)
+- **Contagem reviews produto**: removida — `ProductDetailClient.tsx` mostra só a nota (ex: "4.9") sem "(58 avaliações)"
+- **iOS zoom fix**: `globals.css:208` — `font-size: 16px !important` em inputs no mobile — JÁ ESTAVA IMPLEMENTADO desde Mobile First Fase 1-4. Auditores que reportam "0 ocorrências" analisam classes Tailwind inline, não o CSS global — ignorar essa crítica.
+
+### Assets (17/04/2026)
+- `public/icon-flower.png` — logo flor circular 512×512 bege/branco fundo transparente
+- `public/icon-flower.svg` — versão SVG anterior (mantida como fallback)
+- `manifest.json` — ícones PWA atualizados: `icon-flower.png` com `purpose: maskable any`
