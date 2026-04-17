@@ -248,31 +248,31 @@ const Header = () => {
       {/* Mobile nav — fora do <header sticky> para evitar bug de fixed dentro de sticky no iOS Safari */}
       {mobileOpen && (
         <>
-          {/* Backdrop */}
+          {/* Backdrop com blur */}
           <div
-            className="fixed inset-0 z-[150] bg-black/40 md:hidden"
+            className="fixed inset-0 z-[150] bg-black/50 backdrop-blur-sm md:hidden"
             onClick={() => setMobileOpen(false)}
             aria-hidden="true"
           />
           {/* Drawer */}
           <nav
             id="mobile-nav"
-            className="fixed top-0 left-0 h-full w-[80vw] max-w-[320px] z-[200] bg-background shadow-2xl md:hidden flex flex-col animate-fade-in"
+            className="fixed top-0 left-0 h-full w-[80vw] max-w-[300px] z-[200] bg-[#1a1a1a] shadow-2xl md:hidden flex flex-col animate-fade-in"
             aria-label="Navegação mobile"
           >
-            {/* Header do drawer */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-border">
-              <img src="/logo.svg" alt="Jaleca" style={{ height: '48px', width: 'auto' }} />
+            {/* Header do drawer — só a flor */}
+            <div className="flex items-center justify-between px-5 py-5 border-b border-white/10">
+              <img src="/icon-flower.svg" alt="Jaleca" style={{ height: '36px', width: 'auto' }} />
               <button
                 onClick={() => setMobileOpen(false)}
                 aria-label="Fechar menu"
-                className="p-3 text-muted-foreground hover:text-foreground transition-colors"
+                className="p-2 text-white/60 hover:text-white transition-colors"
               >
-                <X size={22} />
+                <X size={20} />
               </button>
             </div>
             {/* Links */}
-            <div className="flex-1 overflow-y-auto px-6 py-4 flex flex-col gap-0 text-sm font-semibold tracking-widest uppercase">
+            <div className="flex-1 overflow-y-auto px-5 py-3 flex flex-col">
               {[
                 { label: 'Início', href: '/' },
                 { label: 'Loja', href: '/produtos' },
@@ -288,23 +288,32 @@ const Header = () => {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="py-4 px-2 -mx-2 border-b border-border/40 text-foreground last:border-0 hover:text-primary hover:bg-secondary/30 active:bg-secondary/50 transition-colors duration-150 rounded-sm"
+                  onClick={() => setMobileOpen(false)}
+                  className="py-3.5 border-b border-white/10 text-[11px] font-semibold tracking-[0.2em] uppercase text-white/70 hover:text-white last:border-0 transition-colors duration-150"
                 >
                   {item.label}
                 </Link>
               ))}
               {isLoggedIn ? (
-                <Link href="/minha-conta" className="py-4 px-2 -mx-2 text-foreground hover:text-primary hover:bg-secondary/30 active:bg-secondary/50 transition-colors duration-150 rounded-sm">
+                <Link
+                  href="/minha-conta"
+                  onClick={() => setMobileOpen(false)}
+                  className="py-3.5 border-b border-white/10 text-[11px] font-semibold tracking-[0.2em] uppercase text-white/70 hover:text-white transition-colors duration-150"
+                >
                   Minha Conta
                 </Link>
               ) : (
                 <button
-                  onClick={() => setAuthOpen(true)}
-                  className="py-4 px-2 -mx-2 w-full text-foreground text-left hover:text-primary hover:bg-secondary/30 active:bg-secondary/50 transition-colors duration-150 rounded-sm"
+                  onClick={() => { setAuthOpen(true); setMobileOpen(false) }}
+                  className="py-3.5 border-b border-white/10 text-[11px] font-semibold tracking-[0.2em] uppercase text-white/70 hover:text-white text-left transition-colors duration-150"
                 >
                   Entrar / Cadastrar
                 </button>
               )}
+            </div>
+            {/* Rodapé do drawer */}
+            <div className="px-5 py-4 border-t border-white/10">
+              <p className="text-[10px] text-white/30 tracking-widest uppercase">Jaleca — Uniformes Médicos</p>
             </div>
           </nav>
         </>

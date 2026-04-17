@@ -634,7 +634,7 @@ export default function ProductDetailClient({
                 <StarRating rating={Math.round(googlePlace.rating)} size={13} />
                 <span className="underline underline-offset-2 group-hover:no-underline">
                   <strong className="text-foreground font-medium">{googlePlace.rating.toFixed(1)}</strong>
-                  {' '}({googlePlace.reviewCount} avaliações no Google)
+                  {' '}no Google
                 </span>
               </button>
             ) : null}
@@ -944,7 +944,7 @@ export default function ProductDetailClient({
                                 {googlePlace.rating.toFixed(1)} / 5,0 — Avaliação no Google
                               </p>
                               <p className="text-xs text-green-700">
-                                Baseada em {googlePlace.reviewCount} avaliações de clientes reais
+                                Avaliações verificadas de clientes reais
                               </p>
                               {googlePlace.mapsUrl && (
                                 <a
