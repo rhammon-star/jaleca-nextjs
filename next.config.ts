@@ -79,6 +79,21 @@ const nextConfig: NextConfig = {
       // Blog posts com slug errado → slug correto (404 detectado no Screaming Frog)
       { source: '/blog/como-escolher-o-jaleco-ideal-para-sua-especialidade-medica', destination: '/blog/como-escolher-jaleco-ideal-especialidade-medica-2', permanent: true },
       { source: '/blog/jaleco-branco-ou-colorido-o-que-usar-na-clinica-2', destination: '/blog', permanent: true },
+      // Redirects artigos deletados (duplicados removidos 17/04/2026) → versão canônica
+      { source: '/blog/como-lavar-jaleco-branco-na-maquina', destination: '/blog/como-lavar-jaleco-profissional-guia-completo', permanent: true },
+      { source: '/blog/como-lavar-jaleco-branco', destination: '/blog/como-lavar-jaleco-profissional-guia-completo', permanent: true },
+      { source: '/blog/como-lavar-e-conservar-seu-jaleco-profissional-2', destination: '/blog/como-lavar-jaleco-profissional-guia-completo', permanent: true },
+      { source: '/blog/jaleco-slim-ou-classico-qual-escolher', destination: '/blog/jaleco-slim-vs-jaleco-classico-qual-escolher', permanent: true },
+      { source: '/blog/jaleco-slim-vs-tradicional-qual-escolher', destination: '/blog/jaleco-slim-vs-jaleco-classico-qual-escolher', permanent: true },
+      { source: '/blog/como-escolher-tamanho-jaleco-feminino', destination: '/blog/como-escolher-tamanho-jaleco-feminino-guia-medidas', permanent: true },
+      { source: '/blog/guia-completo-tamanhos-jaleco-como-medir-corretamente-2', destination: '/blog/como-escolher-tamanho-jaleco-feminino-guia-medidas', permanent: true },
+      { source: '/blog/dolma-ou-jaleco-diferenca', destination: '/blog/dolma-vs-jaleco-diferenca-quando-usar', permanent: true },
+      { source: '/blog/jaleco-para-dentista-o-que-usar', destination: '/blog/jaleco-para-dentista-modelos-cores-como-escolher', permanent: true },
+      { source: '/blog/jaleco-para-dentista-estilo-praticidade-consultorio-2', destination: '/blog/jaleco-para-dentista-modelos-cores-como-escolher', permanent: true },
+      { source: '/blog/jaleco-feminino-premium-como-escolher', destination: '/blog/como-escolher-jaleco-feminino-guia-profissionais', permanent: true },
+      { source: '/blog/jaleco-feminino-slim-estilo-e-conforto', destination: '/blog/jaleco-slim-feminino-favorito-medicas', permanent: true },
+      { source: '/blog/como-escolher-jaleco-ideal-especialidade-medica-2', destination: '/blog/como-escolher-jaleco-feminino-guia-profissionais', permanent: true },
+      { source: '/blog/jaleco-slim-padrao-clinicas', destination: '/blog/jaleco-slim-feminino-favorito-medicas', permanent: true },
       { source: '/blog/jaleco-branco-ou-colorido-o-que-usar-na-clinica', destination: '/blog', permanent: true },
       // /produtos/{categoria} → /produtos?categoria=X
       { source: '/produtos/jalecos', destination: '/produtos?categoria=Jalecos', permanent: true },
