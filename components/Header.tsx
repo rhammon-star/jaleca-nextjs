@@ -313,7 +313,7 @@ const Header = () => {
             </div>
             {/* Rodapé do drawer */}
             <div className="px-5 py-4 border-t border-white/10">
-              <p className="text-[10px] text-white/30 tracking-widest uppercase">Jaleca — Uniformes Médicos</p>
+              <p className="text-[10px] text-white/30 tracking-widest uppercase">Jaleca — Jalecos e mimos.</p>
             </div>
           </nav>
         </>
