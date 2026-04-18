@@ -30,7 +30,7 @@ const CAT_FAQ: Record<string, { q: string; a: string }[]> = {
   ],
 }
 
-const CATEGORY_MAP: Record<string, { label: string; description: string; keywords: string; filterLabel?: string; title?: string; h1?: string }> = {
+const CATEGORY_MAP: Record<string, { label: string; description: string; keywords: string; filterLabel?: string; title?: string; h1?: string; gender?: string }> = {
   jalecos: {
     label: 'Jalecos',
     title: 'Jalecos Femininos e Masculinos | Jaleca',
@@ -42,6 +42,7 @@ const CATEGORY_MAP: Record<string, { label: string; description: string; keyword
     label: 'Jalecos Femininos',
     title: 'Jalecos Femininos | Jaleca — Slim, Princesa, Elastex | Frete Grátis SP/MG/RJ/ES',
     filterLabel: 'Jalecos',
+    gender: 'Feminino',
     description: 'Jalecos femininos para médicas, dentistas e enfermeiras. Modelos Slim, Princesa, Duquesa e Elastex — brancos, pretos e coloridos. Corte acinturado, tecido de alta performance. Tamanhos PP ao G3 com frete grátis no Sudeste acima de R$499.',
     keywords: 'jaleco feminino, jalecos femininos, jaleco slim feminino, jaleco princesa, jaleco duquesa, jaleco elastex, comprar jaleco feminino, jaleco médica, jaleco dentista feminino, jaleco enfermagem feminino',
   },
@@ -49,6 +50,7 @@ const CATEGORY_MAP: Record<string, { label: string; description: string; keyword
     label: 'Jalecos Masculinos',
     title: 'Jalecos Masculinos | Jaleca — Slim Moderno | Frete Grátis Sudeste',
     filterLabel: 'Jalecos',
+    gender: 'Masculino',
     description: 'Jalecos masculinos para médicos, dentistas e enfermeiros. Modelos slim fit com zíper e botões, brancos, pretos e coloridos. Corte anatômico, tecido de alta performance. Tamanhos PP ao G3, frete grátis no Sudeste acima de R$499.',
     keywords: 'jaleco masculino, jalecos masculinos, jaleco slim masculino, jaleco masculino branco, jaleco masculino preto, jaleco médico masculino, comprar jaleco masculino',
   },
@@ -62,6 +64,7 @@ const CATEGORY_MAP: Record<string, { label: string; description: string; keyword
     label: 'Dólmãs Femininas',
     title: 'Dólmãs Femininas para Profissionais da Saúde | Jaleca',
     filterLabel: 'Dólmãs',
+    gender: 'Feminino',
     description: 'Dólmãs femininas premium para médicas, enfermeiras e profissionais da saúde. Modelagem ergonômica, tecido de alta performance e corte elegante para longas jornadas. Tamanhos PP ao G3.',
     keywords: 'dólmã feminina, dólmã médica feminina, dólmã enfermagem feminina, uniforme feminino saúde, roupa hospitalar feminina',
   },
@@ -69,6 +72,7 @@ const CATEGORY_MAP: Record<string, { label: string; description: string; keyword
     label: 'Dólmãs Masculinas',
     title: 'Dólmãs Masculinas para Profissionais da Saúde | Jaleca',
     filterLabel: 'Dólmãs',
+    gender: 'Masculino',
     description: 'Dólmãs masculinas premium para médicos, enfermeiros e profissionais da saúde. Modelagem ergonômica, tecido de alta performance e corte moderno para longas jornadas. Tamanhos PP ao G3.',
     keywords: 'dólmã masculina, dólmã médica masculina, dólmã enfermagem masculina, uniforme masculino saúde, roupa hospitalar masculina',
   },
@@ -82,6 +86,7 @@ const CATEGORY_MAP: Record<string, { label: string; description: string; keyword
     label: 'Conjuntos Femininos',
     title: 'Conjuntos Scrub Femininos | Jaleca — Pijamas Cirúrgicos para Saúde',
     filterLabel: 'Conjuntos',
+    gender: 'Feminino',
     description: 'Conjuntos scrub femininos e pijamas cirúrgicos para profissionais da saúde. Calça + blusa com elastano, confortáveis para longas jornadas, cores variadas. Tamanhos PP ao G3.',
     keywords: 'conjunto scrub feminino, pijama cirúrgico feminino, conjunto médico feminino, scrub feminino, conjunto enfermagem feminino, pijama cirúrgico',
   },
@@ -89,6 +94,7 @@ const CATEGORY_MAP: Record<string, { label: string; description: string; keyword
     label: 'Conjuntos Masculinos',
     title: 'Conjuntos Scrub Masculinos | Jaleca — Pijamas Cirúrgicos para Saúde',
     filterLabel: 'Conjuntos',
+    gender: 'Masculino',
     description: 'Conjuntos scrub masculinos e pijamas cirúrgicos para profissionais da saúde. Calça + blusa com elastano, confortáveis para longas jornadas, cores variadas. Tamanhos PP ao G3.',
     keywords: 'conjunto scrub masculino, pijama cirúrgico masculino, conjunto médico masculino, scrub masculino, conjunto enfermagem masculino',
   },
@@ -233,6 +239,7 @@ export default async function CategoriaPage({
       <ProductsClient
         products={products}
         initialCat={cat.filterLabel ?? cat.label}
+        initialGenero={cat.gender}
         pageTitle={`${cat.label} Premium — Jaleca`}
         pageDescription={cat.description}
       />

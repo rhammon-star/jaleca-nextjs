@@ -181,14 +181,32 @@ export default function SearchModal({ isOpen, onClose }: Props) {
           <div className="px-4 py-5">
             <p className="text-xs font-semibold tracking-wider uppercase text-muted-foreground mb-3">Buscas populares</p>
             <div className="flex flex-wrap gap-2">
-              {['Jaleco feminino', 'Jaleco branco', 'Scrub', 'Conjunto', 'Jaleco masculino', 'Mais vendidos'].map(term => (
-                <button
-                  key={term}
-                  onClick={() => { setQuery(term); search(term) }}
-                  className="px-3 py-1.5 text-sm border border-border rounded-full text-foreground hover:bg-secondary/30 transition-colors"
-                >
-                  {term}
-                </button>
+              {[
+                { label: 'Jaleco feminino', href: '/categoria/jalecos-femininos' },
+                { label: 'Jaleco masculino', href: '/categoria/jalecos-masculinos' },
+                { label: 'Conjuntos', href: '/categoria/conjuntos' },
+                { label: 'Scrub', query: 'scrub' },
+                { label: 'Jaleco branco', query: 'branco' },
+                { label: 'Mais vendidos', href: '/produtos?sort=mais-vendidos' },
+              ].map(item => (
+                'href' in item ? (
+                  <Link
+                    key={item.label}
+                    href={item.href!}
+                    onClick={onClose}
+                    className="px-3 py-1.5 text-sm border border-border rounded-full text-foreground hover:bg-secondary/30 transition-colors"
+                  >
+                    {item.label}
+                  </Link>
+                ) : (
+                  <button
+                    key={item.label}
+                    onClick={() => { setQuery(item.query!); search(item.query!) }}
+                    className="px-3 py-1.5 text-sm border border-border rounded-full text-foreground hover:bg-secondary/30 transition-colors"
+                  >
+                    {item.label}
+                  </button>
+                )
               ))}
             </div>
             <p className="text-sm text-muted-foreground mt-4 text-center">ou digite para buscar</p>

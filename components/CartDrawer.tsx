@@ -438,6 +438,14 @@ export default function CartDrawer() {
             >
               Limpar sacola
             </button>
+            {/* Trust badges */}
+            <div className="flex items-center justify-center gap-3 pt-3 text-[11px] text-muted-foreground">
+              <span className="flex items-center gap-1">🔒 Compra segura</span>
+              <span>·</span>
+              <span>Cielo</span>
+              <span>·</span>
+              <span>PIX · Cartão · Boleto</span>
+            </div>
           </div>
         )}
       </div>
