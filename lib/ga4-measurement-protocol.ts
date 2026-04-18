@@ -15,7 +15,8 @@
  */
 
 const MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA4_ID
-const API_SECRET     = process.env.GA4_MEASUREMENT_PROTOCOL_SECRET
+// Trim removes any stray \n that Vercel or .env files may introduce when pasting
+const API_SECRET     = process.env.GA4_MEASUREMENT_PROTOCOL_SECRET?.replace(/\\n/g, '').replace(/\n/g, '').trim()
 
 export async function sendGA4PurchaseMP(params: {
   clientId?: string | null

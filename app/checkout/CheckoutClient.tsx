@@ -467,9 +467,12 @@ export default function CheckoutClient() {
       }
 
       // GA4 client_id — extraído do cookie _ga para rastreamento server-side
+      // Formato _ga: GA1.2.1234567890.1234567890 → client_id = "1234567890.1234567890"
       const gaClientId = (() => {
-        const match = document.cookie.match(/(?:^|;\s*)_ga=GA\d+\.\d+\.(\d+\.\d+)/)
-        return match?.[1]
+        const gaCookie = document.cookie.split('; ').find(row => row.startsWith('_ga='))
+        if (!gaCookie) return undefined
+        const parts = gaCookie.split('.')
+        return parts.length >= 4 ? `${parts[parts.length - 2]}.${parts[parts.length - 1]}` : undefined
       })()
 
       const paymentData = {
