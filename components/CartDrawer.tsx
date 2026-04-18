@@ -438,13 +438,22 @@ export default function CartDrawer() {
             >
               Limpar sacola
             </button>
-            {/* Trust badges */}
-            <div className="flex items-center justify-center gap-3 pt-3 text-[11px] text-muted-foreground">
-              <span className="flex items-center gap-1">🔒 Compra segura</span>
-              <span>·</span>
-              <span>Cielo</span>
-              <span>·</span>
-              <span>PIX · Cartão · Boleto</span>
+            {/* Trust badges — ícones de pagamento */}
+            <div className="flex flex-col items-center gap-1.5 pt-3">
+              <div className="flex items-center gap-1 text-[11px] text-muted-foreground">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                <span>Compra 100% segura</span>
+              </div>
+              <div className="flex items-center gap-2.5 opacity-50">
+                {/* Visa */}
+                <svg width="32" height="20" viewBox="0 0 48 30" fill="none"><rect width="48" height="30" rx="4" fill="#1A1F71"/><path d="M19.5 19.5h-3.3l2.1-12.9h3.3l-2.1 12.9zm13.7-12.6c-.7-.3-1.7-.5-3-.5-3.3 0-5.6 1.7-5.6 4.2 0 1.8 1.7 2.8 2.9 3.4 1.3.6 1.7 1 1.7 1.6 0 .8-1 1.2-2 1.2-1.3 0-2-.2-3.1-.7l-.4-.2-.5 2.8c.8.3 2.2.6 3.7.6 3.5 0 5.8-1.7 5.8-4.3 0-1.4-.9-2.5-2.8-3.4-1.2-.6-1.9-1-1.9-1.6 0-.5.6-1.1 1.9-1.1 1.1 0 1.9.2 2.5.5l.3.1.5-2.6zm8.5-.3h-2.6c-.8 0-1.4.2-1.7 1l-4.9 11.9h3.5l.7-1.9h4.2l.4 1.9H45l-3.3-12.9zm-4.1 8.3l1.7-4.7 1 4.7h-2.7zM16.2 6.6l-3.1 8.8-.3-1.7c-.6-1.9-2.4-4-4.4-5l3 11.3h3.5l5.2-13.4h-3.9z" fill="white"/><path d="M10.1 6.6H5l-.1.3c4.2 1.1 7 3.7 8.1 6.8l-1.2-5.8c-.2-.8-.8-1.2-1.7-1.3z" fill="#F9A533"/></svg>
+                {/* Mastercard */}
+                <svg width="32" height="20" viewBox="0 0 48 30" fill="none"><rect width="48" height="30" rx="4" fill="#252525"/><circle cx="19" cy="15" r="8" fill="#EB001B"/><circle cx="29" cy="15" r="8" fill="#F79E1B"/><path d="M24 9.2a8 8 0 0 1 0 11.6 8 8 0 0 1 0-11.6z" fill="#FF5F00"/></svg>
+                {/* Elo */}
+                <svg width="32" height="20" viewBox="0 0 48 30" fill="none"><rect width="48" height="30" rx="4" fill="#000"/><text x="24" y="18" textAnchor="middle" fill="#FFD500" fontSize="11" fontWeight="bold" fontFamily="Arial">elo</text></svg>
+                {/* PIX */}
+                <svg width="32" height="20" viewBox="0 0 48 30" fill="none"><rect width="48" height="30" rx="4" fill="#32BCAD"/><text x="24" y="18" textAnchor="middle" fill="white" fontSize="10" fontWeight="bold" fontFamily="Arial">PIX</text></svg>
+              </div>
             </div>
           </div>
         )}
