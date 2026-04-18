@@ -45,8 +45,8 @@ export default function CompararClient() {
       label: 'Tamanhos',
       getValue: p =>
         p.variations?.nodes
-          .flatMap(v =>
-            v.attributes.nodes.filter(a => a.name.includes('tamanho') || a.name.includes('size')).map(a => a.value)
+          ?.flatMap(v =>
+            v.attributes?.nodes?.filter(a => a.name.includes('tamanho') || a.name.includes('size')).map(a => a.value) ?? []
           )
           .filter((v, i, arr) => arr.indexOf(v) === i)
           .join(', ') || '—',
@@ -55,8 +55,8 @@ export default function CompararClient() {
       label: 'Cores',
       getValue: p =>
         p.variations?.nodes
-          .flatMap(v =>
-            v.attributes.nodes.filter(a => a.name.includes('cor') || a.name.includes('color')).map(a => a.value)
+          ?.flatMap(v =>
+            v.attributes?.nodes?.filter(a => a.name.includes('cor') || a.name.includes('color')).map(a => a.value) ?? []
           )
           .filter((v, i, arr) => arr.indexOf(v) === i)
           .join(', ') || '—',
