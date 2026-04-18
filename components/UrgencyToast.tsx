@@ -41,15 +41,29 @@ const TIME_OPTIONS = [
   'há 23 horas',
 ]
 
-function getRandomMessage(): { name: string; city: string; time: string } {
-  const p = SOCIAL_PROOF[Math.floor(Math.random() * SOCIAL_PROOF.length)]
-  const time = TIME_OPTIONS[Math.floor(Math.random() * TIME_OPTIONS.length)]
-  return { name: p.name, city: p.city, time }
+const SCARCITY = [
+  '12 pessoas viram isso na última hora',
+  '9 pessoas viram isso na última hora',
+  '15 pessoas viram isso na última hora',
+  '7 pessoas viram isso na última hora',
+]
+
+type Message =
+  | { type: 'social'; name: string; city: string; time: string }
+  | { type: 'scarcity'; text: string }
+
+function getRandomMessage(): Message {
+  if (Math.random() < 0.65) {
+    const p = SOCIAL_PROOF[Math.floor(Math.random() * SOCIAL_PROOF.length)]
+    const time = TIME_OPTIONS[Math.floor(Math.random() * TIME_OPTIONS.length)]
+    return { type: 'social', name: p.name, city: p.city, time }
+  }
+  return { type: 'scarcity', text: SCARCITY[Math.floor(Math.random() * SCARCITY.length)] }
 }
 
 export default function UrgencyToast() {
   const [visible, setVisible] = useState(false)
-  const [message, setMessage] = useState<{ name: string; city: string; time: string } | null>(null)
+  const [message, setMessage] = useState<Message | null>(null)
 
   const show = useCallback(() => {
     setMessage(getRandomMessage())
@@ -58,17 +72,17 @@ export default function UrgencyToast() {
   }, [])
 
   useEffect(() => {
-    // Primeira aparição: entre 20–35 segundos após entrar na página
-    const first = setTimeout(show, 20000 + Math.random() * 15000)
+    // Primeira aparição: ~8 segundos após entrar na página
+    const first = setTimeout(show, 8000)
 
-    // Repetições a cada 3–5 minutos
+    // Repetições a cada ~2 minutos
     let interval: ReturnType<typeof setInterval>
     const startInterval = () => {
       interval = setInterval(() => {
         show()
-      }, 180000 + Math.random() * 120000)
+      }, 120000 + Math.random() * 30000)
     }
-    const intervalStart = setTimeout(startInterval, 40000)
+    const intervalStart = setTimeout(startInterval, 15000)
 
     return () => {
       clearTimeout(first)
@@ -90,12 +104,20 @@ export default function UrgencyToast() {
           <ShoppingBag size={14} className="text-foreground" />
         </div>
         <div>
-          <p className="text-[13px] md:text-[11px] font-semibold text-foreground leading-snug">
-            {message.name} de {message.city}
-          </p>
-          <p className="text-[12px] md:text-[10px] text-muted-foreground mt-0.5">
-            comprou este jaleco {message.time}
-          </p>
+          {message.type === 'social' ? (
+            <>
+              <p className="text-[13px] md:text-[11px] font-semibold text-foreground leading-snug">
+                {message.name} de {message.city}
+              </p>
+              <p className="text-[12px] md:text-[10px] text-muted-foreground mt-0.5">
+                comprou este jaleco {message.time}
+              </p>
+            </>
+          ) : (
+            <p className="text-[13px] md:text-[11px] font-semibold text-foreground leading-snug">
+              {message.text}
+            </p>
+          )}
         </div>
       </div>
       <button
