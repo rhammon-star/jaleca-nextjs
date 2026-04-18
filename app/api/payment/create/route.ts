@@ -430,9 +430,16 @@ export async function POST(request: NextRequest) {
         metaUpdates.push({ key: 'jaleca_me_cart_id', value: meResult.id })
       }
       // Update meta + add order note with shipping service info
-      const noteText = `📦 Frete selecionado pelo cliente: ${shipping.method_title} (ME service ID: ${meServiceId})` +
-        (meResult?.id ? ` — Entrada no carrinho ME: ${meResult.id}` : '') +
-        `\n⚠️ No Melhor Envio, use a entrada do carrinho (não criar nova manualmente).`
+      const meCartUrl = meResult?.id
+        ? `https://app.melhorenvio.com.br/app/shipment/cart`
+        : ''
+      const noteText =
+        `🚚 FRETE: ${shipping.method_title}` +
+        (meResult?.id
+          ? `\n✅ Etiqueta pronta no carrinho ME — acesse: ${meCartUrl}\n   (procure pelo destinatário ou ID ${meResult.id})`
+          : '') +
+        `\n\n⛔ NÃO use o plugin WP Melhor Envio para gerar etiqueta.` +
+        `\nO plugin usa dimensões e serviço errados. Use apenas o carrinho ME acima.`
       fetch(`${WC_API}/orders/${wcOrder.id}`, {
         method: 'PUT',
         headers: { Authorization: wcAuth(), 'Content-Type': 'application/json' },
