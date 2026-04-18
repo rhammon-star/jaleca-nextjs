@@ -176,8 +176,12 @@ async function fetchCielo() {
   async function getSales(startDate: string, endDate: string) {
     const params = new URLSearchParams({ StartDate: startDate, EndDate: endDate, PageNumber: '1', PageSize: '200' })
     const r = await fetch(`${CIELO_QUERY_BASE}/1/sales?${params}`, { headers: cieloQueryHeaders() })
-    if (!r.ok) return []
+    if (!r.ok) {
+      console.warn(`[Cielo Query] HTTP ${r.status} para ${startDate}→${endDate}:`, await r.text().catch(() => ''))
+      return []
+    }
     const d = await r.json()
+    if (startDate === brazilDate(-7)) console.log(`[Cielo Query] semana: ${d.Sales?.length ?? 0} transações`)
     return (d.Sales ?? []) as { Status: number; Amount: number; PaymentType: string }[]
   }
 
@@ -584,7 +588,7 @@ async function fetchGa4() {
 
 async function askGemini(prompt: string): Promise<string> {
   const r = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`,
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`,
     { method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }) }
   )
