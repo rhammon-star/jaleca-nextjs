@@ -184,7 +184,7 @@ export default function SearchModal({ isOpen, onClose }: Props) {
               {['Jaleco feminino', 'Jaleco branco', 'Scrub', 'Conjunto', 'Jaleco masculino', 'Mais vendidos'].map(term => (
                 <button
                   key={term}
-                  onClick={() => setQuery(term)}
+                  onClick={() => { setQuery(term); search(term) }}
                   className="px-3 py-1.5 text-sm border border-border rounded-full text-foreground hover:bg-secondary/30 transition-colors"
                 >
                   {term}

@@ -161,11 +161,11 @@ export default async function Home() {
             <p className="text-[#555] text-base leading-relaxed mb-6">
               Antes de você falar, sua imagem já foi avaliada. Conforto, caimento impecável e a presença que eleva sua autoridade profissional.
             </p>
-            {/* Prova social */}
+            {/* Prova social — nota Google real */}
             <div className="flex items-center gap-3 mb-8 pb-8 border-b border-[#e8e0d5]">
               <div className="flex text-[#c4a97d] text-lg leading-none">★★★★★</div>
               <p className="text-[15px] md:text-[13px] text-[#555]">
-                <span className="font-semibold text-[#1a1a1a]">Milhares de clientes satisfeitos</span> em todo o Brasil
+                <span className="font-semibold text-[#1a1a1a]">{googlePlace?.rating ?? '4.9'}/5 no Google</span> — clientes satisfeitos em todo o Brasil
               </p>
             </div>
             <div className="flex flex-wrap gap-3">
@@ -212,25 +212,25 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Quick category shortcuts — mobile only */}
-      <section className="md:hidden py-4 bg-background">
-        <div className="container">
-          <div className="grid grid-cols-2 gap-2">
-            {[
-              { label: 'Jalecos Femininos', href: '/categoria/jalecos-femininos' },
-              { label: 'Mais Vendidos', href: '/produtos?sort=mais-vendidos' },
-              { label: 'Conjuntos', href: '/categoria/conjuntos' },
-              { label: 'Lançamentos', href: '/produtos?novidades=true' },
-            ].map(item => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="flex items-center justify-center py-3 border border-border text-[13px] font-semibold tracking-wide uppercase text-foreground hover:bg-secondary/20 transition-colors active:scale-[0.97]"
-              >
-                {item.label}
-              </Link>
-            ))}
-          </div>
+      {/* Quick category shortcuts — mobile only, scroll horizontal pills */}
+      <section className="md:hidden py-3 bg-background">
+        <div className="flex gap-2 overflow-x-auto px-4 scrollbar-hide" style={{ WebkitOverflowScrolling: 'touch' }}>
+          {[
+            { label: 'Jalecos Femininos', href: '/categoria/jalecos-femininos' },
+            { label: 'Mais Vendidos', href: '/produtos?sort=mais-vendidos' },
+            { label: 'Conjuntos', href: '/categoria/conjuntos' },
+            { label: 'Lançamentos', href: '/produtos?novidades=true' },
+            { label: 'Jalecos Masculinos', href: '/categoria/jalecos-masculinos' },
+            { label: 'Acessórios', href: '/categoria/acessorios' },
+          ].map(item => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="flex-shrink-0 px-4 py-2 border border-border rounded-full text-[13px] font-medium text-foreground hover:bg-secondary/20 hover:border-foreground/40 transition-all active:scale-[0.97] whitespace-nowrap"
+            >
+              {item.label}
+            </Link>
+          ))}
         </div>
       </section>
 

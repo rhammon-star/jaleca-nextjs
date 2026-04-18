@@ -44,7 +44,7 @@ export default function CategoryCard({ title, subtitle, href, bg, accent, video 
     <Link
       ref={cardRef}
       href={href}
-      className={`group relative overflow-hidden ${video ? '' : bg} aspect-[2/1] md:aspect-[3/4] flex flex-col justify-end p-6 md:p-8`}
+      className={`group relative overflow-hidden ${video ? '' : bg} aspect-[3/4] flex flex-col justify-end p-6 md:p-8`}
     >
       {video && (
         <>
