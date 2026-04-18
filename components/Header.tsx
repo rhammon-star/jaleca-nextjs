@@ -27,6 +27,13 @@ const Header = () => {
     }
   }, [isLoggedIn]);
 
+  // Abre busca via evento disparado pelo BottomNavBar
+  useEffect(() => {
+    function handleOpenSearch() { setSearchOpen(true) }
+    window.addEventListener('jaleca-open-search', handleOpenSearch)
+    return () => window.removeEventListener('jaleca-open-search', handleOpenSearch)
+  }, []);
+
   // Fecha o menu ao navegar para outra página
   useEffect(() => { setMobileOpen(false) }, [pathname]);
 

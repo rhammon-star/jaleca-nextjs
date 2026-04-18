@@ -242,7 +242,7 @@ Também enviar `billing: { name, address }` no nível do pedido.
 ## Credenciais
 - **Pagar.me Secret:** `sk_zpn8wrBIZ3tKwBL6`
 - **Pagar.me Public:** `pk_YvOwdngub4hoq3e5`
-- **WP App Password:** `vdzLXcaqEc5mM8EPU1oJVk`
+- **WP App Password:** usar `WP_ADMIN_APP_PASSWORD` do Vercel (o valor `vdzLXcaqEc5mM8EPU1oJVk` está DESATUALIZADO)
 - **WP Admin:** `wp.jaleca.com.br/wp-admin` — Ana Luiza
 
 ## Hospedagem
@@ -474,8 +474,13 @@ As 3 campanhas e ad sets foram criados via API. O vídeo está na Business Creat
 - Fallback: PAC R$18,90 / Jadlog R$22,90 / SEDEX R$35,90 (Sul/Sudeste); PAC grátis acima R$499 para SP/RJ/MG/ES
 - **Token real ME configurado** — expira ~30 dias, renovação automática via cron (dia 1 de cada mês, `app/api/melhor-envio/refresh/route.ts`)
 - **ME cart automático**: pedido pago → `addShipmentToMECart()` em `lib/melhor-envio.ts` → aparece no carrinho ME com serviço correto
-- **IDs corretos ME (confirmado 14/04/2026)**: PAC=1, SEDEX=2, Jadlog Package=7, Jadlog .com=8. IDs 3,4 são PAC Mini e SEDEX 12 (Correios) — NÃO são Jadlog.
-- `ME_SERVICE_MAP`: mapa de IDs de serviço exportado de `lib/melhor-envio.ts`
+- **IDs corretos ME (confirmado 17/04/2026 via API test)**: PAC=1, SEDEX=2, Jadlog Package=3, Jadlog .com=4. IDs confirmados testando `/me/cart` com CPF real.
+- `ME_SERVICE_MAP`: mapa de IDs de serviço exportado de `lib/melhor-envio.ts` — `pac:1, sedex:2, jadlog:3, '1':1, '2':2, '3':3, '4':4`
+- **Dimensão padrão produto (17/04/2026)**: 41×31×4cm, 0.6kg por jaleco. Cubagem: `height=31, width=4×N, length=41, weight=0.6×N`
+- **⚠️ Plugin WP Melhor Envio**: cria entradas SEPARADAS no ME cart com suas próprias dimensões. Usar APENAS as entradas criadas pela nossa API. Nota no pedido WC orienta o operador.
+- **Meta no pedido WC**: `melhorenvio_service_id` + `jaleca_me_service_name` + `jaleca_me_cart_id` salvos em `payment/create`
+- **Nota automática**: pedido WC recebe nota "📦 Frete selecionado pelo cliente: {serviço} (ME service ID: {id})" + instrução para usar entrada do carrinho ME
+- **Nome no ME**: primeiro produto inclui `[Pedido #XXXXX]` para identificação no dashboard ME
 - **WordPress SMTP**: WP Mail SMTP configurado com Brevo (smtp-relay.brevo.com:587) → notas de pedido WC chegam no email do cliente
 - **Variáveis ME no Vercel**: `MELHOR_ENVIO_TOKEN`, `MELHOR_ENVIO_REFRESH_TOKEN`, `MELHOR_ENVIO_CLIENT_ID` (23800), `MELHOR_ENVIO_CLIENT_SECRET`, `VERCEL_API_TOKEN`
 

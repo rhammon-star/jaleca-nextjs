@@ -17,6 +17,7 @@ declare global {
     dataLayer?: unknown[]
     fbq?: (...args: unknown[]) => void
     _fbq?: unknown
+    uetq?: unknown[]
   }
 }
 

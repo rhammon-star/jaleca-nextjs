@@ -1130,7 +1130,7 @@ export default function ProductDetailClient({
 
     {/* Sticky Add-to-Cart — mobile only, aparece quando botão original sai da viewport */}
     {showStickyBar && !isOutOfStock && (
-      <div className="fixed bottom-0 left-0 right-0 z-[80] md:hidden bg-background border-t border-border px-4 py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] flex items-center gap-3 shadow-lg animate-fade-up">
+      <div className="fixed left-0 right-0 z-[80] md:hidden bg-background border-t border-border px-4 py-3 flex items-center gap-3 shadow-lg animate-fade-up" style={{ bottom: 'calc(3.5rem + env(safe-area-inset-bottom))' }}>
         <div className="flex-1 min-w-0">
           <p className="text-sm font-semibold truncate">{product.name.replace(/ - Jaleca$/i, '')}</p>
           <p className="text-base font-bold text-foreground">{displayPrice}</p>

@@ -537,7 +537,7 @@ export default function CheckoutClient() {
   }
 
   return (
-    <main className="py-8 md:py-12">
+    <main className="py-8 md:py-12 pb-28 md:pb-12">
       <div className="container">
         <h1 className="font-display text-3xl md:text-4xl font-semibold mb-8">Finalizar Compra</h1>
 
@@ -808,7 +808,7 @@ export default function CheckoutClient() {
                                 setCpfLoginError('E-mail ou senha incorretos.')
                               }
                             }}
-                            className="w-full bg-foreground text-background py-2.5 text-xs font-semibold tracking-widest uppercase hover:bg-foreground/90 transition-colors"
+                            className="w-full bg-foreground text-background py-3 text-[16px] md:text-xs font-semibold tracking-widest uppercase hover:bg-foreground/90 transition-colors min-h-[52px]"
                           >
                             Entrar e Continuar
                           </button>
@@ -827,6 +827,13 @@ export default function CheckoutClient() {
                             className="text-xs text-muted-foreground underline underline-offset-2 hover:text-foreground block"
                           >
                             Esqueci minha senha
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setCpfLoggedIn(true)}
+                            className="text-sm text-muted-foreground hover:text-foreground transition-colors pt-1 flex items-center gap-1"
+                          >
+                            Continuar sem fazer login →
                           </button>
                         </div>
                       </div>
@@ -1064,11 +1071,16 @@ export default function CheckoutClient() {
                           }}
                           className="accent-foreground"
                         />
-                        <div>
-                          <p className="text-sm font-medium">
+                        <div className="flex-1">
+                          <p className="text-sm font-medium flex items-center gap-2">
                             {method === 'pix' && 'PIX'}
                             {method === 'boleto' && 'Boleto Bancário'}
                             {method === 'credit_card' && 'Cartão de Crédito'}
+                            {method === 'pix' && (
+                              <span className="md:hidden text-[10px] bg-green-100 text-green-800 px-1.5 py-0.5 font-bold rounded uppercase tracking-wide">
+                                Recomendado
+                              </span>
+                            )}
                           </p>
                           <p className="text-xs text-muted-foreground">
                             {method === 'pix' && `Aprovação imediata${process.env.NEXT_PUBLIC_PIX_DISCOUNT ? ` · ${process.env.NEXT_PUBLIC_PIX_DISCOUNT}% de desconto` : ''}`}
@@ -1197,7 +1209,7 @@ export default function CheckoutClient() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-ink text-background py-4 text-xs font-semibold tracking-widest uppercase transition-all hover:bg-ink/90 active:scale-[0.98] disabled:opacity-60 flex items-center justify-center gap-2"
+                className="hidden md:flex w-full bg-ink text-background py-4 text-xs font-semibold tracking-widest uppercase transition-all hover:bg-ink/90 active:scale-[0.98] disabled:opacity-60 items-center justify-center gap-2"
               >
                 {loading ? (
                   <><Loader2 size={16} className="animate-spin" /> Processando...</>
@@ -1206,6 +1218,21 @@ export default function CheckoutClient() {
                 )}
               </button>
             </div>
+          </div>
+
+          {/* Sticky bottom CTA — mobile only (desktop usa botão acima) */}
+          <div className="fixed bottom-0 left-0 right-0 z-[60] md:hidden bg-background border-t border-border px-4 py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] shadow-lg">
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-ink text-background min-h-[56px] text-[16px] font-semibold tracking-widest uppercase transition-all hover:bg-ink/90 active:scale-[0.98] disabled:opacity-60 flex items-center justify-center gap-2"
+            >
+              {loading ? (
+                <><Loader2 size={16} className="animate-spin" /> Processando...</>
+              ) : (
+                <>{paymentMethod === 'credit_card' ? 'Ir para Pagamento Seguro' : 'Finalizar Pedido'} <ChevronRight size={16} /></>
+              )}
+            </button>
           </div>
 
         </form>

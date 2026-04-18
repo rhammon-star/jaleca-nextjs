@@ -220,7 +220,7 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login' }: Pro
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-ink text-background py-3 text-xs font-semibold tracking-widest uppercase transition-all hover:bg-ink/90 active:scale-[0.98] disabled:opacity-60 flex items-center justify-center gap-2"
+                className="w-full bg-ink text-background py-3 text-[16px] md:text-xs font-semibold tracking-widest uppercase transition-all hover:bg-ink/90 active:scale-[0.98] disabled:opacity-60 flex items-center justify-center gap-2 min-h-[52px]"
               >
                 {loading && <Loader2 size={14} className="animate-spin" />}
                 Entrar
@@ -320,7 +320,7 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login' }: Pro
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-ink text-background py-3 text-xs font-semibold tracking-widest uppercase transition-all hover:bg-ink/90 active:scale-[0.98] disabled:opacity-60 flex items-center justify-center gap-2"
+                className="w-full bg-ink text-background py-3 text-[16px] md:text-xs font-semibold tracking-widest uppercase transition-all hover:bg-ink/90 active:scale-[0.98] disabled:opacity-60 flex items-center justify-center gap-2 min-h-[52px]"
               >
                 {loading && <Loader2 size={14} className="animate-spin" />}
                 Criar Conta
@@ -352,7 +352,7 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login' }: Pro
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-ink text-background py-3 text-xs font-semibold tracking-widest uppercase transition-all hover:bg-ink/90 active:scale-[0.98] disabled:opacity-60 flex items-center justify-center gap-2"
+                className="w-full bg-ink text-background py-3 text-[16px] md:text-xs font-semibold tracking-widest uppercase transition-all hover:bg-ink/90 active:scale-[0.98] disabled:opacity-60 flex items-center justify-center gap-2 min-h-[52px]"
               >
                 {loading && <Loader2 size={14} className="animate-spin" />}
                 Enviar Instruções

@@ -112,7 +112,7 @@ export default function ShippingCalculator({ onShippingSelected, selectedId, ini
           onClick={handleCalculateClick}
           disabled={loading}
           aria-label="Calcular frete"
-          className="px-4 py-2 bg-ink text-background text-xs font-semibold tracking-widest uppercase hover:bg-ink/90 active:scale-95 transition-all disabled:opacity-60 flex items-center gap-1.5"
+          className="px-4 py-2 bg-ink text-background text-[16px] md:text-xs font-semibold tracking-widest uppercase hover:bg-ink/90 active:scale-95 transition-all disabled:opacity-60 flex items-center gap-1.5 min-h-[44px]"
         >
           {loading ? <Loader2 size={12} className="animate-spin" aria-hidden="true" /> : 'OK'}
         </button>

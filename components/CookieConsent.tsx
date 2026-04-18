@@ -15,6 +15,10 @@ export default function CookieConsent() {
 
   function accept() {
     localStorage.setItem('jaleca-cookie-consent', 'accepted')
+    // Libera tracking Microsoft Advertising UET
+    if (typeof window !== 'undefined' && window.uetq) {
+      window.uetq.push('consent', 'update', { ad_storage: 'granted' })
+    }
     setVisible(false)
   }
 
@@ -50,7 +54,7 @@ export default function CookieConsent() {
             </button>
             <button
               onClick={accept}
-              className="bg-background text-foreground px-5 py-2.5 text-xs font-bold tracking-widest uppercase hover:bg-background/90 transition-colors active:scale-95"
+              className="bg-background text-foreground px-5 py-2.5 text-[16px] md:text-xs font-bold tracking-widest uppercase hover:bg-background/90 transition-colors active:scale-95 min-h-[44px]"
             >
               Aceitar
             </button>
