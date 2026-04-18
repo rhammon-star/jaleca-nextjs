@@ -187,6 +187,21 @@ const ProductCard = ({ product, colorFilter }: { product: WooProduct; colorFilte
               {product.price || product.regularPrice}
             </span>
           )}
+          {(() => {
+            const raw = product.salePrice || product.price || product.regularPrice || '';
+            const num = parseFloat(raw.replace(/[^0-9,]/g, '').replace(',', '.'));
+            if (!num || num < 100) return null;
+            const inst = Math.min(3, Math.floor(num / 50));
+            if (inst < 2) return null;
+            return (
+              <span className="text-[11px] md:text-[9px] text-muted-foreground">
+                ou {inst}x de {(num / inst).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+              </span>
+            );
+          })()}
+          <span className="inline-flex self-start mt-0.5 text-[10px] md:text-[8px] font-bold text-green-800 bg-green-100 px-1.5 py-0.5 rounded uppercase tracking-wide">
+            5% PIX
+          </span>
         </div>
       </div>
     </Link>

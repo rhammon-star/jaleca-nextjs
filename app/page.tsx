@@ -212,6 +212,28 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* Quick category shortcuts — mobile only */}
+      <section className="md:hidden py-4 bg-background">
+        <div className="container">
+          <div className="grid grid-cols-2 gap-2">
+            {[
+              { label: 'Jalecos Femininos', href: '/categoria/jalecos-femininos' },
+              { label: 'Mais Vendidos', href: '/produtos?sort=mais-vendidos' },
+              { label: 'Conjuntos', href: '/categoria/conjuntos' },
+              { label: 'Lançamentos', href: '/produtos?novidades=true' },
+            ].map(item => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="flex items-center justify-center py-3 border border-border text-[13px] font-semibold tracking-wide uppercase text-foreground hover:bg-secondary/20 transition-colors active:scale-[0.97]"
+              >
+                {item.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Category editorial banners */}
       <section className="py-8 md:py-12 bg-background">
         <div className="container">
@@ -277,9 +299,9 @@ export default async function Home() {
         </section>
       </ScrollReveal>
 
-      {/* Virtual try-on */}
+      {/* Virtual try-on — hidden on mobile (saves 250px, CTA misleading) */}
       <ScrollReveal>
-        <section className="py-20 md:py-24">
+        <section className="hidden md:block py-20 md:py-24">
           <div className="container">
             <div className="px-6 py-12 text-center md:px-12 md:py-16">
               <h2 className="font-display text-3xl md:text-4xl font-semibold mb-4 text-balance">Experimente Antes de Comprar</h2>
@@ -304,13 +326,13 @@ export default async function Home() {
             <h2 className="font-display text-3xl md:text-4xl font-semibold text-center mb-16">Por Que Jaleca?</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
               {[
-                { icon: Sparkles, title: "Tecidos Premium", desc: "Materiais anti-microbianos com stretch e conforto térmico." },
-                { icon: Ruler, title: "Tamanhos para Todos", desc: "Do PP ao G3, com tabela de medidas por modelo para garantir o tamanho certo." },
-                { icon: Sparkles, title: "Estilo e Elegância", desc: "Jalecos que combinam funcionalidade profissional com design moderno." },
-                { icon: Shield, title: "Garantia de Qualidade", desc: "Cada peça passa por rigoroso controle de qualidade." },
+                { icon: Ruler, title: "Tamanhos para Todos", desc: "Do PP ao G3, com tabela de medidas por modelo para garantir o tamanho certo.", showMobile: true },
+                { icon: Shield, title: "Garantia de Qualidade", desc: "Cada peça passa por rigoroso controle de qualidade.", showMobile: true },
+                { icon: Sparkles, title: "Tecidos Premium", desc: "Materiais anti-microbianos com stretch e conforto térmico.", showMobile: false },
+                { icon: Sparkles, title: "Estilo e Elegância", desc: "Jalecos que combinam funcionalidade profissional com design moderno.", showMobile: false },
               ].map((d, i) => (
                 <ScrollReveal key={d.title} delay={i * 100}>
-                  <div className="text-center">
+                  <div className={`text-center ${d.showMobile === false ? 'hidden sm:block' : ''}`}>
                     <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center">
                       <d.icon size={22} className="text-primary" />
                     </div>

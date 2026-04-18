@@ -178,8 +178,20 @@ export default function SearchModal({ isOpen, onClose }: Props) {
         )}
 
         {query.length === 0 && (
-          <div className="px-4 py-6 text-center text-sm text-muted-foreground">
-            Digite para buscar jalecos, scrubs e mais
+          <div className="px-4 py-5">
+            <p className="text-xs font-semibold tracking-wider uppercase text-muted-foreground mb-3">Buscas populares</p>
+            <div className="flex flex-wrap gap-2">
+              {['Jaleco feminino', 'Jaleco branco', 'Scrub', 'Conjunto', 'Jaleco masculino', 'Mais vendidos'].map(term => (
+                <button
+                  key={term}
+                  onClick={() => setQuery(term)}
+                  className="px-3 py-1.5 text-sm border border-border rounded-full text-foreground hover:bg-secondary/30 transition-colors"
+                >
+                  {term}
+                </button>
+              ))}
+            </div>
+            <p className="text-sm text-muted-foreground mt-4 text-center">ou digite para buscar</p>
           </div>
         )}
       </div>
