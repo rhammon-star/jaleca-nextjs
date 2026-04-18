@@ -11,6 +11,7 @@ import type { WCOrderData } from '@/lib/woocommerce'
 import { addPoints } from '@/lib/loyalty'
 import { sendOrderConfirmation, sendInternalOrderNotification, sendPaymentFailed, sendPixPaymentEmail, sendBoletoEmail, sendInternalPaymentFailureAlert } from '@/lib/email'
 import { sendMetaPurchase } from '@/lib/meta-conversions'
+import { sendGA4PurchaseMP } from '@/lib/ga4-measurement-protocol'
 import { addShipmentToMECart, ME_SERVICE_MAP } from '@/lib/melhor-envio'
 
 const WC_API = process.env.WOOCOMMERCE_API_URL!
@@ -56,6 +57,7 @@ type RequestBody = {
   couponCode?: string
   totalDiscount?: number
   pixDiscount?: number
+  gaClientId?: string
 }
 
 function phoneNumbers(phone: string): { area_code: string; number: string } {
@@ -91,7 +93,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const body: RequestBody = await request.json()
-    const { paymentMethod, cpf, billing, items, shipping, customer_id, cardData, installments, couponCode, totalDiscount, pixDiscount } = body
+    const { paymentMethod, cpf, billing, items, shipping, customer_id, cardData, installments, couponCode, totalDiscount, pixDiscount, gaClientId } = body
 
     if (!billing || !items?.length || !shipping) {
       return NextResponse.json({ error: 'Dados incompletos' }, { status: 400 })
@@ -221,6 +223,7 @@ export async function POST(request: NextRequest) {
         { key: 'billing_cpf', value: cpf.replace(/\D/g, '') },
         { key: 'melhorenvio_service_id', value: shipping.method_id },
         { key: 'jaleca_shipping_service', value: shipping.method_title },
+        ...(gaClientId ? [{ key: 'jaleca_ga_client_id', value: gaClientId }] : []),
       ],
     }
 
@@ -309,6 +312,14 @@ export async function POST(request: NextRequest) {
             sendOrderConfirmation(updatedOrder, billing.email).catch(() => {})
           }
         } catch {}
+
+        // GA4 Measurement Protocol — Purchase event (server-side, usa client_id real do browser)
+        sendGA4PurchaseMP({
+          clientId: gaClientId,
+          orderId: String(wcOrder.id),
+          value: parseFloat(wcOrder.total || '0'),
+          items: items.map(i => ({ id: String(i.product_id), name: i.name, price: i.price, quantity: i.quantity })),
+        }).catch(err => console.error('[GA4 MP] create error:', err))
 
         // Meta Conversions API — Purchase event
         await sendMetaPurchase(

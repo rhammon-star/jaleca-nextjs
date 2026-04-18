@@ -466,10 +466,17 @@ export default function CheckoutClient() {
         phone: address.phone,
       }
 
+      // GA4 client_id — extraído do cookie _ga para rastreamento server-side
+      const gaClientId = (() => {
+        const match = document.cookie.match(/(?:^|;\s*)_ga=GA\d+\.\d+\.(\d+\.\d+)/)
+        return match?.[1]
+      })()
+
       const paymentData = {
         paymentMethod,
         cpf: cleanCPF(cpf),
         billing: billingData,
+        gaClientId,
         items: items.map(item => ({
           product_id: item.databaseId,
           variation_id: item.variationId,

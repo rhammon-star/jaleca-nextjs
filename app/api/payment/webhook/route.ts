@@ -1,52 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { sendOrderConfirmation, sendInternalPaymentFailureAlert } from '@/lib/email'
 import { sendMetaPurchase } from '@/lib/meta-conversions'
+import { sendGA4PurchaseMP } from '@/lib/ga4-measurement-protocol'
 import { getPaymentStatus } from '@/lib/cielo'
-
-async function sendGA4Purchase(order: {
-  id: number
-  total: string
-  line_items?: Array<{ product_id: number; name: string; total: string; quantity: number }>
-}) {
-  const measurementId = process.env.NEXT_PUBLIC_GA4_ID
-  const apiSecret = process.env.GA4_MEASUREMENT_PROTOCOL_SECRET
-  if (!measurementId || !apiSecret) return
-
-  const value = parseFloat(order.total || '0')
-  const items = (order.line_items ?? []).map((i) => ({
-    item_id: String(i.product_id),
-    item_name: i.name,
-    price: parseFloat(i.total || '0') / (i.quantity || 1),
-    quantity: i.quantity,
-  }))
-
-  const payload = {
-    client_id: `webhook_${order.id}`,
-    events: [{
-      name: 'purchase',
-      params: {
-        transaction_id: String(order.id),
-        value,
-        currency: 'BRL',
-        items,
-      },
-    }],
-  }
-
-  try {
-    await fetch(
-      `https://www.google-analytics.com/mp/collect?measurement_id=${measurementId}&api_secret=${apiSecret}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      }
-    )
-    console.log(`[GA4 MP] Purchase sent — order ${order.id}, value R$${value}`)
-  } catch (err) {
-    console.error('[GA4 MP] Failed to send purchase:', err)
-  }
-}
 
 const WC_API = process.env.WOOCOMMERCE_API_URL!
 const WC_CK = process.env.WOOCOMMERCE_CONSUMER_KEY!
@@ -132,7 +88,22 @@ export async function POST(request: NextRequest) {
           if (email) {
             sendOrderConfirmation(order, email).catch(() => {})
             import('@/lib/brevo-cart').then(m => m.removeFromRecoveryList(email)).catch(() => {})
-            sendGA4Purchase(order).catch(err => console.error('[GA4 MP] webhook error:', err))
+
+            // GA4 Measurement Protocol — usa client_id real salvo no pedido
+            const gaClientId = (order.meta_data as Array<{key:string;value:string}>|undefined)
+              ?.find(m => m.key === 'jaleca_ga_client_id')?.value
+            sendGA4PurchaseMP({
+              clientId: gaClientId,
+              orderId: String(order.id),
+              value: parseFloat(order.total || '0'),
+              items: (order.line_items ?? []).map((i: { product_id: number; name: string; total: string; quantity: number }) => ({
+                id: String(i.product_id),
+                name: i.name,
+                price: parseFloat(i.total || '0') / (i.quantity || 1),
+                quantity: i.quantity,
+              })),
+            }).catch(err => console.error('[GA4 MP] webhook error:', err))
+
             await sendMetaPurchase(
               {
                 email: order.billing?.email,
