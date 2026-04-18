@@ -408,15 +408,32 @@ export async function POST(request: NextRequest) {
       insuranceValue: meTotalValue,
       weight: meWeight,
     }).then(meResult => {
-      // Save ME cart ID in WC meta for later tracking auto-detection
+      // Save ME cart ID + selected service in WC meta
+      const metaUpdates = [
+        { key: 'jaleca_me_service_id', value: String(meServiceId) },
+        { key: 'jaleca_me_service_name', value: shipping.method_title },
+      ]
       if (meResult?.id) {
-        fetch(`${WC_API}/orders/${wcOrder.id}`, {
-          method: 'PUT',
-          headers: { Authorization: wcAuth(), 'Content-Type': 'application/json' },
-          body: JSON.stringify({ meta_data: [{ key: 'jaleca_me_cart_id', value: meResult.id }] }),
-        }).catch(() => {})
+        metaUpdates.push({ key: 'jaleca_me_cart_id', value: meResult.id })
       }
-    }).catch(() => {})
+      // Update meta + add order note with shipping service info
+      const noteText = `📦 Frete selecionado pelo cliente: ${shipping.method_title} (ME service ID: ${meServiceId})` +
+        (meResult?.id ? ` — Entrada no carrinho ME: ${meResult.id}` : '') +
+        `\n⚠️ No Melhor Envio, use a entrada do carrinho (não criar nova manualmente).`
+      fetch(`${WC_API}/orders/${wcOrder.id}`, {
+        method: 'PUT',
+        headers: { Authorization: wcAuth(), 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          meta_data: metaUpdates,
+        }),
+      }).catch(err => console.error('[ME Meta] Erro ao salvar meta:', err))
+      // Add WC order note (visible in admin)
+      fetch(`${WC_API}/orders/${wcOrder.id}/notes`, {
+        method: 'POST',
+        headers: { Authorization: wcAuth(), 'Content-Type': 'application/json' },
+        body: JSON.stringify({ note: noteText, customer_note: false }),
+      }).catch(err => console.error('[ME Note] Erro ao adicionar nota:', err))
+    }).catch(err => console.error('[ME Cart] Erro:', err))
 
     // ── 4c. Notificação interna — só dispara se pagamento não falhou ─────────
     if (!isCreditCardFailed) {

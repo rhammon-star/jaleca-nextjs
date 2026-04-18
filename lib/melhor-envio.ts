@@ -333,8 +333,8 @@ export async function addShipmentToMECart(payload: MEShipmentPayload): Promise<{
       country_id:  'BR',
       postal_code: payload.to.postalCode.replace(/\D/g, ''),
     },
-    products: payload.products.map(p => ({
-      name:           p.name,
+    products: payload.products.map((p, i) => ({
+      name:           i === 0 && payload.wcOrderId ? `[Pedido #${payload.wcOrderId}] ${p.name}` : p.name,
       quantity:       p.quantity,
       unitary_value:  p.unitValue,
     })),
@@ -350,9 +350,6 @@ export async function addShipmentToMECart(payload: MEShipmentPayload): Promise<{
       own_hand:        false,
       reverse:         false,
       non_commercial:  false,
-      tags: payload.wcOrderId
-        ? [{ tag: `wc-order-${payload.wcOrderId}`, url: '' }]
-        : [],
     },
   }
 
