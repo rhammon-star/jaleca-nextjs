@@ -189,10 +189,10 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://embed.tawk.to" />
         <link rel="dns-prefetch" href="https://t.contentsquare.net" />
         <link rel="dns-prefetch" href="https://bat.bing.net" />
-        {/* Microsoft Advertising UET — consent mode default (denied until user accepts) */}
+        {/* Microsoft Advertising UET tag 187247004 */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `window.uetq=window.uetq||[];window.uetq.push('consent','default',{'ad_storage':'granted'});`,
+            __html: `window.uetq=window.uetq||[];window.uetq.push('consent','default',{'ad_storage':'granted'});(function(w,d,t,u,o){w[u]=w[u]||[],o.ts=(new Date).getTime();var n=d.createElement(t);n.src="https://bat.bing.net/bat.js?ti="+o.ti+("uetq"!=u?"&q="+u:""),n.async=1,n.onload=n.onreadystatechange=function(){var s=this.readyState;s&&"loaded"!==s&&"complete"!==s||(o.q=w[u],w[u]=new UET(o),w[u].push("pageLoad"),n.onload=n.onreadystatechange=null)};var i=d.getElementsByTagName(t)[0];i.parentNode.insertBefore(n,i)})(window,document,"script","uetq",{ti:"187247004",enableAutoSpaTracking:true});`,
           }}
         />
       </head>
@@ -224,14 +224,6 @@ export default function RootLayout({
                 <Script
                   src="https://t.contentsquare.net/uxa/d63ab31369d59.js"
                   strategy="lazyOnload"
-                />
-                {/* Microsoft Advertising UET — tag ID 187247004 */}
-                <Script
-                  id="ms-uet"
-                  strategy="afterInteractive"
-                  dangerouslySetInnerHTML={{
-                    __html: `(function(w,d,t,u,o){w[u]=w[u]||[],o.ts=(new Date).getTime();var n=d.createElement(t);n.src="https://bat.bing.net/bat.js?ti="+o.ti+("uetq"!=u?"&q="+u:""),n.async=1,n.onload=n.onreadystatechange=function(){var s=this.readyState;s&&"loaded"!==s&&"complete"!==s||(o.q=w[u],w[u]=new UET(o),w[u].push("pageLoad"),n.onload=n.onreadystatechange=null)};var i=d.getElementsByTagName(t)[0];i.parentNode.insertBefore(n,i)})(window,document,"script","uetq",{ti:"187247004",enableAutoSpaTracking:true});`,
-                  }}
                 />
               </CartProvider>
             </CompareProvider>
