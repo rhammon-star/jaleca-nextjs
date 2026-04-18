@@ -466,14 +466,27 @@ export default function CheckoutClient() {
         phone: address.phone,
       }
 
-      // GA4 client_id — extraído do cookie _ga para rastreamento server-side
-      // Formato _ga: GA1.2.1234567890.1234567890 → client_id = "1234567890.1234567890"
-      const gaClientId = (() => {
+      // GA4 client_id — tenta gtag('get') primeiro (oficial), depois cookie como fallback
+      const gaClientId = await new Promise<string | undefined>((resolve) => {
+        try {
+          const ga4Id = process.env.NEXT_PUBLIC_GA4_ID
+          if (ga4Id && typeof window !== 'undefined' && typeof (window as Window & { gtag?: (...a: unknown[]) => void }).gtag === 'function') {
+            const timer = setTimeout(() => resolve(undefined), 400)
+            ;(window as Window & { gtag: (...a: unknown[]) => void }).gtag('get', ga4Id, 'client_id', (clientId: unknown) => {
+              clearTimeout(timer)
+              resolve(typeof clientId === 'string' && clientId ? clientId : undefined)
+            })
+            return
+          }
+        } catch { /* fallthrough */ }
+        // Fallback: ler cookie _ga diretamente
         const gaCookie = document.cookie.split('; ').find(row => row.startsWith('_ga='))
-        if (!gaCookie) return undefined
-        const parts = gaCookie.split('.')
-        return parts.length >= 4 ? `${parts[parts.length - 2]}.${parts[parts.length - 1]}` : undefined
-      })()
+        if (gaCookie) {
+          const parts = gaCookie.split('.')
+          if (parts.length >= 4) return resolve(`${parts[parts.length - 2]}.${parts[parts.length - 1]}`)
+        }
+        resolve(undefined)
+      })
 
       const paymentData = {
         paymentMethod,
