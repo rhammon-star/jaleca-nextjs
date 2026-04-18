@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { Flame, X } from 'lucide-react'
+import { ShoppingBag, X } from 'lucide-react'
 
 const SOCIAL_PROOF = [
   { name: 'Ana C.', city: 'São Paulo' },
@@ -19,50 +19,56 @@ const SOCIAL_PROOF = [
   { name: 'Lucas M.', city: 'São Paulo' },
   { name: 'Rafael S.', city: 'Belo Horizonte' },
   { name: 'Diego C.', city: 'Rio de Janeiro' },
+  { name: 'Isabela V.', city: 'Florianópolis' },
+  { name: 'Priscila M.', city: 'Natal' },
+  { name: 'Thaísa R.', city: 'Maceió' },
 ]
 
-const SCARCITY = [
-  'Alta demanda — estoque se esgotando rapidamente',
-  '12 pessoas estão vendo este produto agora',
-  '9 pessoas estão vendo este produto agora',
-  'Produto mais vendido da semana',
-  '15 pessoas adicionaram ao carrinho hoje',
-  'Poucas unidades disponíveis neste modelo',
+// Tempos variados mas realistas — de 1h a 23h atrás
+const TIME_OPTIONS = [
+  'há 1 hora',
+  'há 2 horas',
+  'há 3 horas',
+  'há 4 horas',
+  'há 5 horas',
+  'há 7 horas',
+  'há 9 horas',
+  'há 11 horas',
+  'há 13 horas',
+  'há 15 horas',
+  'há 18 horas',
+  'há 20 horas',
+  'há 23 horas',
 ]
 
-function getRandomMessage(): { type: 'social' | 'scarcity'; text: string } {
-  if (Math.random() < 0.6) {
-    const p = SOCIAL_PROOF[Math.floor(Math.random() * SOCIAL_PROOF.length)]
-    return { type: 'social', text: `${p.name} de ${p.city} acabou de comprar este jaleco` }
-  }
-  return {
-    type: 'scarcity',
-    text: SCARCITY[Math.floor(Math.random() * SCARCITY.length)],
-  }
+function getRandomMessage(): { name: string; city: string; time: string } {
+  const p = SOCIAL_PROOF[Math.floor(Math.random() * SOCIAL_PROOF.length)]
+  const time = TIME_OPTIONS[Math.floor(Math.random() * TIME_OPTIONS.length)]
+  return { name: p.name, city: p.city, time }
 }
 
 export default function UrgencyToast() {
   const [visible, setVisible] = useState(false)
-  const [message, setMessage] = useState<{ type: 'social' | 'scarcity'; text: string } | null>(null)
+  const [message, setMessage] = useState<{ name: string; city: string; time: string } | null>(null)
 
   const show = useCallback(() => {
     setMessage(getRandomMessage())
     setVisible(true)
-    setTimeout(() => setVisible(false), 5000)
+    setTimeout(() => setVisible(false), 6000)
   }, [])
 
   useEffect(() => {
-    // Primeira aparição: entre 8–15 segundos após entrar na página
-    const first = setTimeout(show, 8000 + Math.random() * 7000)
+    // Primeira aparição: entre 20–35 segundos após entrar na página
+    const first = setTimeout(show, 20000 + Math.random() * 15000)
 
-    // Repetições a cada 35–55 segundos
+    // Repetições a cada 3–5 minutos
     let interval: ReturnType<typeof setInterval>
     const startInterval = () => {
       interval = setInterval(() => {
         show()
-      }, 35000 + Math.random() * 20000)
+      }, 180000 + Math.random() * 120000)
     }
-    const intervalStart = setTimeout(startInterval, 15000)
+    const intervalStart = setTimeout(startInterval, 40000)
 
     return () => {
       clearTimeout(first)
@@ -75,17 +81,21 @@ export default function UrgencyToast() {
 
   return (
     <div
-      className="fixed bottom-6 left-4 z-[200] max-w-[280px] bg-white border border-border shadow-xl rounded-sm animate-fade-up"
+      className="fixed bottom-20 left-4 z-[200] max-w-[280px] bg-white border border-border shadow-xl rounded-sm animate-fade-up md:bottom-6"
       role="status"
       aria-live="polite"
     >
       <div className="flex items-start gap-3 p-3 pr-8">
-        <div className="shrink-0 w-8 h-8 rounded-full bg-[#fff3e0] flex items-center justify-center mt-0.5">
-          <Flame size={14} className="text-orange-500" />
+        <div className="shrink-0 w-8 h-8 rounded-full bg-secondary/40 flex items-center justify-center mt-0.5">
+          <ShoppingBag size={14} className="text-foreground" />
         </div>
         <div>
-          <p className="text-[13px] md:text-[11px] font-semibold text-foreground leading-snug">{message.text}</p>
-          <p className="text-[12px] md:text-[10px] text-muted-foreground mt-0.5">agora mesmo</p>
+          <p className="text-[13px] md:text-[11px] font-semibold text-foreground leading-snug">
+            {message.name} de {message.city}
+          </p>
+          <p className="text-[12px] md:text-[10px] text-muted-foreground mt-0.5">
+            comprou este jaleco {message.time}
+          </p>
         </div>
       </div>
       <button
