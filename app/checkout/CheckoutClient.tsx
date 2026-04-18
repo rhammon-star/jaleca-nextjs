@@ -466,27 +466,40 @@ export default function CheckoutClient() {
         phone: address.phone,
       }
 
-      // GA4 client_id — tenta gtag('get') primeiro (oficial), depois cookie como fallback
-      const gaClientId = await new Promise<string | undefined>((resolve) => {
+      // GA4 client_id — 3 camadas de fallback para máxima cobertura de clientes PIX que fecham a página
+      // 1. localStorage (salvo no primeiro carregamento do site via Analytics.tsx)
+      // 2. gtag('get') — API oficial do GA4
+      // 3. Cookie _ga direto
+      const gaClientId = await (async () => {
+        // Camada 1: localStorage — mais confiável, capturado logo na chegada ao site
+        try {
+          const saved = localStorage.getItem('jaleca_ga4_cid')
+          if (saved) return saved
+        } catch { /* ignorar */ }
+
+        // Camada 2: gtag('get') com timeout de 400ms
         try {
           const ga4Id = process.env.NEXT_PUBLIC_GA4_ID
-          if (ga4Id && typeof window !== 'undefined' && typeof (window as Window & { gtag?: (...a: unknown[]) => void }).gtag === 'function') {
-            const timer = setTimeout(() => resolve(undefined), 400)
-            ;(window as Window & { gtag: (...a: unknown[]) => void }).gtag('get', ga4Id, 'client_id', (clientId: unknown) => {
-              clearTimeout(timer)
-              resolve(typeof clientId === 'string' && clientId ? clientId : undefined)
+          if (ga4Id && typeof (window as Window & { gtag?: (...a: unknown[]) => void }).gtag === 'function') {
+            const cid = await new Promise<string | undefined>((res) => {
+              const timer = setTimeout(() => res(undefined), 400)
+              ;(window as Window & { gtag: (...a: unknown[]) => void }).gtag('get', ga4Id, 'client_id', (clientId: unknown) => {
+                clearTimeout(timer)
+                res(typeof clientId === 'string' && clientId ? clientId : undefined)
+              })
             })
-            return
+            if (cid) { try { localStorage.setItem('jaleca_ga4_cid', cid) } catch { /* ignorar */ }; return cid }
           }
         } catch { /* fallthrough */ }
-        // Fallback: ler cookie _ga diretamente
+
+        // Camada 3: cookie _ga
         const gaCookie = document.cookie.split('; ').find(row => row.startsWith('_ga='))
         if (gaCookie) {
           const parts = gaCookie.split('.')
-          if (parts.length >= 4) return resolve(`${parts[parts.length - 2]}.${parts[parts.length - 1]}`)
+          if (parts.length >= 4) return `${parts[parts.length - 2]}.${parts[parts.length - 1]}`
         }
-        resolve(undefined)
-      })
+        return undefined
+      })()
 
       const paymentData = {
         paymentMethod,

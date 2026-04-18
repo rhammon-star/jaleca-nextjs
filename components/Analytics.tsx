@@ -235,6 +235,11 @@ export default function Analytics() {
                 gtag('js', new Date());
                 gtag('config', '${GA4_ID}', { send_page_view: false });
                 gtag('config', '${GOOGLE_ADS_ID}');
+                // Captura client_id assim que GA4 inicializa e persiste no localStorage
+                // Usado no checkout para rastreamento server-side via GA4 Measurement Protocol
+                gtag('get', '${GA4_ID}', 'client_id', function(cid) {
+                  if (cid) { try { localStorage.setItem('jaleca_ga4_cid', cid); } catch(e){} }
+                });
               `,
             }}
           />
