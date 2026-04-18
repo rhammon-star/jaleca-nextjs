@@ -187,24 +187,14 @@ export default function SearchModal({ isOpen, onClose }: Props) {
                 { label: 'Conjuntos', href: '/categoria/conjuntos' },
                 { label: 'Mais vendidos', href: '/produtos?sort=mais-vendidos' },
               ].map(item => (
-                'href' in item ? (
-                  <Link
-                    key={item.label}
-                    href={item.href!}
-                    onClick={onClose}
-                    className="px-3 py-1.5 text-sm border border-border rounded-full text-foreground hover:bg-secondary/30 transition-colors"
-                  >
-                    {item.label}
-                  </Link>
-                ) : (
-                  <button
-                    key={item.label}
-                    onClick={() => { setQuery(item.query!); search(item.query!) }}
-                    className="px-3 py-1.5 text-sm border border-border rounded-full text-foreground hover:bg-secondary/30 transition-colors"
-                  >
-                    {item.label}
-                  </button>
-                )
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  onClick={onClose}
+                  className="px-3 py-1.5 text-sm border border-border rounded-full text-foreground hover:bg-secondary/30 transition-colors"
+                >
+                  {item.label}
+                </Link>
               ))}
             </div>
             <p className="text-sm text-muted-foreground mt-4 text-center">ou digite para buscar</p>
