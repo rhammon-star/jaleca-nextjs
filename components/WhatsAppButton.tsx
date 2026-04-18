@@ -7,7 +7,7 @@ export default function WhatsAppButton() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Fale conosco pelo WhatsApp"
-      className="fixed bottom-6 right-6 z-50 group"
+      className="fixed bottom-20 right-4 z-50 group md:bottom-6 md:right-6"
     >
       <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-foreground text-background text-xs font-medium px-2 py-1 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
         Fale conosco

@@ -185,8 +185,6 @@ export default function SearchModal({ isOpen, onClose }: Props) {
                 { label: 'Jaleco feminino', href: '/categoria/jalecos-femininos' },
                 { label: 'Jaleco masculino', href: '/categoria/jalecos-masculinos' },
                 { label: 'Conjuntos', href: '/categoria/conjuntos' },
-                { label: 'Scrub', query: 'scrub' },
-                { label: 'Jaleco branco', query: 'branco' },
                 { label: 'Mais vendidos', href: '/produtos?sort=mais-vendidos' },
               ].map(item => (
                 'href' in item ? (
