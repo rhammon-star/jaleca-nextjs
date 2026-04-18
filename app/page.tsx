@@ -156,7 +156,7 @@ export default async function Home() {
               <span className="text-[12px] md:text-[10px] font-semibold tracking-[0.2em] md:tracking-[0.3em] uppercase">Uma das marcas que mais vende jalecos no Brasil</span>
             </div>
             <h1 className="font-display text-4xl sm:text-5xl lg:text-[3.4rem] font-semibold leading-[1.1] text-[#1a1a1a] mb-5 animate-fade-up">
-              Mais de 200 mil peças vendidas. Descubra o porquê.
+              Jalecos Profissionais — mais de 200 mil peças vendidas.
             </h1>
             <p className="text-[#555] text-base leading-relaxed mb-6">
               Antes de você falar, sua imagem já foi avaliada. Conforto, caimento impecável e a presença que eleva sua autoridade profissional.

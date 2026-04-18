@@ -30,10 +30,11 @@ const CAT_FAQ: Record<string, { q: string; a: string }[]> = {
   ],
 }
 
-const CATEGORY_MAP: Record<string, { label: string; description: string; keywords: string; filterLabel?: string; title?: string }> = {
+const CATEGORY_MAP: Record<string, { label: string; description: string; keywords: string; filterLabel?: string; title?: string; h1?: string }> = {
   jalecos: {
     label: 'Jalecos',
-    title: 'Jalecos para Médicos e Profissionais da Saúde | Jaleca',
+    title: 'Jalecos Femininos e Masculinos | Jaleca',
+    h1: 'Jalecos Femininos e Masculinos para Profissionais da Saúde',
     description: 'Jalecos femininos e masculinos para médicos, enfermeiros, dentistas e farmacêuticos. Modelos slim fit, Princesa, Duquesa, Elastex — brancos, pretos e coloridos. Tecido premium, tamanhos PP ao G3, frete grátis no Sudeste acima de R$499.',
     keywords: 'jalecos, jaleco feminino, jaleco masculino, jaleco branco, jaleco médico, jaleco enfermagem, jaleco dentista, jaleco slim, jaleco profissional, comprar jaleco',
   },
@@ -228,7 +229,7 @@ export default async function CategoriaPage({
         />
       )}
       {/* H1 server-side para SEO — invisível ao usuário, visível para crawlers no HTML inicial */}
-      <h1 className="sr-only">{cat.title ?? `${cat.label} para Profissionais da Saúde — Jaleca`}</h1>
+      <h1 className="sr-only">{cat.h1 ?? `${cat.label} para Profissionais da Saúde`}</h1>
       <ProductsClient
         products={products}
         initialCat={cat.filterLabel ?? cat.label}
