@@ -15,7 +15,6 @@ import Analytics from "@/components/Analytics";
 import CartRecoveryCapture from "@/components/CartRecoveryCapture";
 import CompareBar from "@/components/CompareBar";
 import TawkToChat from "@/components/TawkToChat";
-import BackToTop from "@/components/BackToTop";
 import CookieConsent from "@/components/CookieConsent";
 import Script from "next/script";
 import FranqueadoBanner from "@/components/FranqueadoBanner";
@@ -215,7 +214,6 @@ export default function RootLayout({
                 <CartRecoveryCapture />
                 <CompareBar />
                 <TawkToChat />
-                <BackToTop />
                 <CookieConsent />
                 <FranqueadoBanner />
                 <GoogleMerchantBadge />
