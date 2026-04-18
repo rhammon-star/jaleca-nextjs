@@ -219,6 +219,8 @@ export async function POST(request: NextRequest) {
         : undefined,
       meta_data: [
         { key: 'billing_cpf', value: cpf.replace(/\D/g, '') },
+        { key: 'melhorenvio_service_id', value: shipping.method_id },
+        { key: 'jaleca_shipping_service', value: shipping.method_title },
       ],
     }
 
