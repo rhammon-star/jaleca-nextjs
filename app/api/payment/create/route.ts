@@ -93,7 +93,21 @@ export async function POST(request: NextRequest) {
 
   try {
     const body: RequestBody = await request.json()
-    const { paymentMethod, cpf, billing, items, shipping, customer_id, cardData, installments, couponCode, totalDiscount, pixDiscount, gaClientId } = body
+    const { paymentMethod, cpf, billing, items, shipping, customer_id, cardData, installments, couponCode, totalDiscount, pixDiscount } = body
+    let { gaClientId } = body
+
+    // Fallback server-side: ler _ga cookie do request (mais confiável que client-side)
+    if (!gaClientId) {
+      const cookieHeader = request.headers.get('cookie') ?? ''
+      const gaMatch = cookieHeader.match(/(?:^|;\s*)_ga=([^;]+)/)
+      if (gaMatch) {
+        const parts = gaMatch[1].split('.')
+        if (parts.length >= 4) {
+          gaClientId = `${parts[parts.length - 2]}.${parts[parts.length - 1]}`
+        }
+      }
+    }
+    console.log(`[payment/create] gaClientId=${gaClientId ?? 'undefined'}`)
 
     if (!billing || !items?.length || !shipping) {
       return NextResponse.json({ error: 'Dados incompletos' }, { status: 400 })
@@ -318,6 +332,7 @@ export async function POST(request: NextRequest) {
           clientId: gaClientId,
           orderId: String(wcOrder.id),
           value: parseFloat(wcOrder.total || '0'),
+          email: billing.email,
           items: items.map(i => ({ id: String(i.product_id), name: i.name, price: i.price, quantity: i.quantity })),
         }).catch(err => console.error('[GA4 MP] create error:', err))
 

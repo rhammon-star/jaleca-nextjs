@@ -116,7 +116,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly',
       priority: 0.6,
     },
-    // Topical Authority Hubs
+    // Topical Authority Hubs — Pillar page saúde
+    {
+      url: `${SITE_URL}/uniformes-profissionais-para-saude`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.95,
+    },
     {
       url: `${SITE_URL}/jaleco-para-dentista`,
       lastModified: new Date(),

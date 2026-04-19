@@ -7,23 +7,54 @@ import { getGooglePlaceData } from '@/lib/google-places'
 import HubFaqAccordion from '@/components/HubFaqAccordion'
 import { getHubProfissao, getClusterLinks } from '@/lib/hub-profissoes'
 
+// Foto do hero variada por profissão — evita repetição e mostra modelos diferentes
+const HERO_SLUG: Record<string, string> = {
+  podologo:       'jaleco-slim-dama-feminino-jaleca',
+  biomedico:      'jaleco-padrao-aluno-feminino-de-botao-varias-cores-jaleca',
+  enfermeiro:     'jaleco-slim-elastex-feminino-varias-cores-jaleca',
+  fisioterapeuta: 'jaleco-slim-pala-feminino-jaleca',
+  nutricionista:  'jaleco-slim-princesa-feminino-varias-cores-jaleca',
+  veterinario:    'jaleco-slim-moratty-feminino-ziper-central-jaleca',
+  medico:         'jaleco-slim-gold-feminino-jaleca',
+  barbeiro:       'jaleco-slim-masculino-de-ziper-central-varias-cores-jaleca',
+  tatuador:       'jaleco-slim-recortes-masculino-varias-cores-jaleca',
+  esteticista:    'jaleco-slim-princesa-manga-curta-feminino-jaleca',
+  massagista:     'jaleco-slim-duquesa-feminino-varias-cores-jaleca',
+  cabeleireiro:   'jaleco-slim-princesa-laise-feminino-jaleca',
+  churrasqueiro:  'jaleco-slim-moratty-masculino-ziper-central-jaleca',
+  sushiman:       'jaleco-padrao-aluno-masculino-de-botao-varias-cores-jaleca',
+  cozinheiro:     'jaleco-slim-feminino-de-ziper-lateral-varias-cores-jaleca',
+  professor:      'jaleco-slim-gold-pala-feminino-jaleca',
+  vendedor:       'jaleco-slim-feminino-de-ziper-central-varias-cores-jaleca',
+  advogado:       'jaleco-universitario-unissex-jaleca',
+  pastor:         'jaleco-slim-tradicional-manga-curta-feminino-jaleca',
+  psicologa:      'jaleco-slim-gold-feminino-jaleca',
+  farmaceutico:   'jaleco-padrao-aluno-feminino-de-botao-varias-cores-jaleca',
+}
+
+const DEFAULT_HERO = 'jaleco-slim-feminino-de-ziper-central-varias-cores-jaleca'
+
 async function getJalecos(): Promise<WooProduct[]> {
   try {
     const data = await graphqlClient.request<{ products: { nodes: WooProduct[] } }>(GET_PRODUCTS, {
-      first: 6,
+      first: 12,
       category: 'jalecos-femininos',
     })
-    return data?.products?.nodes ?? []
+    // filtra apenas produtos que são jalecos (exclui acessórios que podem aparecer)
+    const all = data?.products?.nodes ?? []
+    const filtered = all.filter(p => p.slug?.includes('jaleco'))
+    return filtered.slice(0, 6)
   } catch {
     return []
   }
 }
 
-async function getHeroImage(): Promise<{ src: string; alt: string } | null> {
+async function getHeroImage(profissao: string): Promise<{ src: string; alt: string } | null> {
+  const slug = HERO_SLUG[profissao] ?? DEFAULT_HERO
   try {
     const data = await graphqlClient.request<{ product: { name: string; image: { sourceUrl: string; altText: string } } }>(
       GET_PRODUCT_BY_SLUG,
-      { slug: 'jaleco-slim-feminino-de-ziper-central-varias-cores-jaleca' }
+      { slug }
     )
     const img = data?.product?.image
     if (!img?.sourceUrl) return null
@@ -73,7 +104,7 @@ export default async function HubProfissaoTemplate({ profissao }: { profissao: s
     getJalecos(),
     getBlogPosts(),
     getGooglePlaceData(),
-    getHeroImage(),
+    getHeroImage(profissao),
   ])
 
   const clusterLinks = getClusterLinks(hub.cluster, profissao)

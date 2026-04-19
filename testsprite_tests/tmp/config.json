@@ -1,0 +1,29 @@
+{
+  "status": "commited",
+  "type": "frontend",
+  "scope": "codebase",
+  "localEndpoint": "http://localhost:3000",
+  "backendAuthType": "public",
+  "executionArgs": {
+    "projectName": "jaleca-nextjs",
+    "projectPath": "/Users/rhammon/SiteJaleca/jaleca-nextjs",
+    "testIds": [
+      "TC001",
+      "TC002",
+      "TC003",
+      "TC004",
+      "TC005",
+      "TC006",
+      "TC007",
+      "TC008",
+      "TC009",
+      "TC010"
+    ],
+    "additionalInstruction": "These are frontend tests. Run them against the homepage and product pages. No login needed for these tests.",
+    "serverMode": "development",
+    "envs": {
+      "API_KEY": "sk-user-YUPHlxSE-X8SrN4p0jbKq4dNdODAmJAKvwyY4PvMiZSI31DCgIxfpcGaX58-C4z0fL-kyHTGrggqKcHGwVJkFcF57nWFR4sSjhMB1EbcQs1a0_3sYMbFQSwtO2lco8UpqVE"
+    }
+  },
+  "serverPort": 51544
+}

@@ -8,7 +8,7 @@ import { useCart } from '@/contexts/CartContext'
 import { graphqlClient } from '@/lib/graphql'
 
 const GET_PRODUCTS_BY_IDS = `
-  query GetProductsByIds($ids: [ID!]) {
+  query GetProductsByIds($ids: [Int]) {
     products(where: { include: $ids }, first: 50) {
       nodes {
         id
@@ -60,10 +60,10 @@ export default function WishlistClient() {
     setLoading(true)
     graphqlClient
       .request<{ products: { nodes: WishProduct[] } }>(GET_PRODUCTS_BY_IDS, {
-        ids: items,
+        ids: items.map(id => parseInt(id, 10)),
       })
       .then(data => setProducts(data.products.nodes))
-      .catch(() => {})
+      .catch(err => console.error('[Wishlist] GraphQL error:', err))
       .finally(() => setLoading(false))
   }, [items])
 

@@ -86,7 +86,7 @@ export async function POST(request: NextRequest) {
           const order = await orderRes.json()
           const email = order.billing?.email
           if (email) {
-            sendOrderConfirmation(order, email).catch(() => {})
+            sendOrderConfirmation(order, email).catch(err => console.error('[Webhook] sendOrderConfirmation failed:', err))
             import('@/lib/brevo-cart').then(m => m.removeFromRecoveryList(email)).catch(() => {})
 
             // GA4 Measurement Protocol — usa client_id real salvo no pedido
@@ -96,6 +96,7 @@ export async function POST(request: NextRequest) {
               clientId: gaClientId,
               orderId: String(order.id),
               value: parseFloat(order.total || '0'),
+              email: order.billing?.email,
               items: (order.line_items ?? []).map((i: { product_id: number; name: string; total: string; quantity: number }) => ({
                 id: String(i.product_id),
                 name: i.name,

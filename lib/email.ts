@@ -41,8 +41,8 @@ function wrapHtml(content: string, title: string): string {
       <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border:1px solid #e5e5e5;max-width:600px;width:100%;">
         <!-- Header com logo -->
         <tr>
-          <td style="background:#ffffff;padding:28px 32px;text-align:center;border-bottom:1px solid #e5e5e5;">
-            <img src="${siteUrl}/logo-cropped.jpg" alt="Jaleca" width="180" style="display:inline-block;height:auto;" />
+          <td style="background:#ffffff !important;padding:28px 32px;text-align:center;border-bottom:1px solid #e5e5e5;">
+            <img src="${siteUrl}/logo-email.png" alt="Jaleca" width="220" style="display:inline-block;height:auto;background:#ffffff;border-radius:4px;" />
           </td>
         </tr>
         <!-- Content -->
@@ -342,15 +342,9 @@ export async function sendPixPaymentEmail(params: {
     expiresLine = `<p style="font-size:13px;color:#b45309;margin:8px 0 0;">⏱ Código válido até ${time} — 15 minutos</p>`
   }
 
-  const qrSection = pixQrCodeUrl
-    ? `<div style="text-align:center;margin:20px 0;"><img src="${pixQrCodeUrl}" alt="QR Code PIX" width="180" height="180" style="border:1px solid #e5e7eb;" /></div>`
-    : ''
-
   const content = `
     <h2 style="font-size:22px;margin:0 0 6px;font-family:Georgia,serif;">Seu código PIX chegou!</h2>
     <p style="color:#666;margin:0 0 20px;font-size:15px;">Olá, ${firstName}! Seu pedido <strong>#${orderNumber}</strong> está aguardando pagamento de <strong>${total}</strong>.</p>
-
-    ${qrSection}
 
     <p style="font-size:13px;font-weight:bold;color:#1a1a1a;margin:0 0 8px;letter-spacing:1px;text-transform:uppercase;">Copiar código PIX (Copia e Cola):</p>
     <div style="background:#f3f4f6;border:1px solid #d1d5db;padding:14px;border-radius:2px;word-break:break-all;">

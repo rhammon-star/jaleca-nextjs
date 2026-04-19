@@ -1,0 +1,228 @@
+[
+  {
+    "id": "TC001",
+    "title": "Homepage is indexable with global robots meta tag",
+    "description": "Verifies the homepage includes a global robots meta tag indicating it is indexable.",
+    "category": "Meta Robots Tag",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to https://jaleca.com.br/."
+      },
+      {
+        "type": "action",
+        "description": "View the page source."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a robots meta tag is present in the HTML head and indicates index and follow."
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC002",
+    "title": "TrustBadgeBar is visible on the homepage",
+    "description": "Verifies the homepage displays the TrustBadgeBar with key trust messages for conversion confidence.",
+    "category": "Trust Badges on Homepage",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to https://jaleca.com.br/."
+      },
+      {
+        "type": "action",
+        "description": "Scroll to the area immediately below the header."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the trust badges bar is displayed with multiple trust messages."
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC003",
+    "title": "OG image asset loads from /og-home.jpg",
+    "description": "Verifies the OG image asset endpoint responds with a valid image so social previews can render.",
+    "category": "OG Image as Real Photo",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to https://jaleca.com.br/og-home.jpg."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify an image is displayed in the browser."
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC004",
+    "title": "Homepage references /og-home.jpg in OG metadata",
+    "description": "Verifies the homepage includes OG metadata that points to the new OG image asset.",
+    "category": "OG Image as Real Photo",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to https://jaleca.com.br/."
+      },
+      {
+        "type": "action",
+        "description": "View the page source."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify an og:image meta tag is present and references the /og-home.jpg asset."
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC005",
+    "title": "OG image has approximately 1200x630 dimensions",
+    "description": "Verifies the OG image is sized for correct social preview rendering.",
+    "category": "OG Image as Real Photo",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to https://jaleca.com.br/og-home.jpg."
+      },
+      {
+        "type": "action",
+        "description": "Open the image in a way that shows its natural dimensions in the browser."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the image dimensions are approximately 1200 by 630 pixels."
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC006",
+    "title": "Organic journey from homepage to product page preserves TrustBadgeBar and product navigation",
+    "description": "Verifies a user can land on the homepage, see the trust badges, and navigate into a product detail page successfully.",
+    "category": "Trust Badges on Homepage",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to https://jaleca.com.br/."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the trust badges bar is displayed below the header."
+      },
+      {
+        "type": "action",
+        "description": "Click a product from the product listing to open its product detail page."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the product detail page displays product information such as title and price."
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC007",
+    "title": "Robots meta tag is present on a product page",
+    "description": "Verifies a product detail page includes the global robots meta tag to ensure crawlability beyond the homepage.",
+    "category": "Meta Robots Tag",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to https://jaleca.com.br/."
+      },
+      {
+        "type": "action",
+        "description": "Click a product from the product listing to open its product detail page."
+      },
+      {
+        "type": "action",
+        "description": "View the page source."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a robots meta tag is present in the HTML head and indicates index and follow."
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC008",
+    "title": "Robots meta tag is consistent across navigation",
+    "description": "Verifies the robots meta tag remains present after navigating across pages via the UI.",
+    "category": "Meta Robots Tag",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to https://jaleca.com.br/."
+      },
+      {
+        "type": "action",
+        "description": "Click a product from the product listing to open its product detail page."
+      },
+      {
+        "type": "action",
+        "description": "Click the site logo to return to the homepage."
+      },
+      {
+        "type": "action",
+        "description": "View the page source."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a robots meta tag is present in the HTML head and indicates index and follow."
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC009",
+    "title": "TrustBadgeBar does not overlap header content on mobile viewport",
+    "description": "Verifies the TrustBadgeBar and header layout remain readable without overlap in a narrow viewport.",
+    "category": "Trust Badges on Homepage",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to https://jaleca.com.br/."
+      },
+      {
+        "type": "action",
+        "description": "Set the browser viewport to a mobile width."
+      },
+      {
+        "type": "action",
+        "description": "Scroll to the area immediately below the header."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the header and trust badges bar are both visible without overlapping each other."
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC010",
+    "title": "Robots meta tag is not duplicated in the document head",
+    "description": "Verifies only a single robots meta tag is present to avoid conflicting crawl directives.",
+    "category": "Meta Robots Tag",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to https://jaleca.com.br/."
+      },
+      {
+        "type": "action",
+        "description": "View the page source."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify there is exactly one robots meta tag in the HTML head."
+      }
+    ],
+    "priority": "Low"
+  }
+]

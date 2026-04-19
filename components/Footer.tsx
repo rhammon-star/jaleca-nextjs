@@ -47,7 +47,7 @@ const Footer = () => {
       {/* Main footer */}
       <div className="bg-background text-foreground py-16">
         <div className="container">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-10">
             {/* Brand + newsletter */}
             <div>
               <p className="font-display text-2xl font-semibold tracking-widest mb-3">JALECA</p>
@@ -104,26 +104,7 @@ const Footer = () => {
               </div>
             </div>
 
-            {/* Links */}
-            <div>
-              <p className="text-xs font-semibold tracking-widest uppercase mb-5 text-foreground">Loja</p>
-              <ul className="space-y-3 text-sm text-muted-foreground">
-                {[
-                  { label: 'Todos os Produtos', href: '/produtos' },
-                  { label: 'Jalecos', href: '/categoria/jalecos' },
-                  { label: 'Conjuntos', href: '/produtos?cat=Conjuntos' },
-                  { label: 'Novidades', href: '/produtos?novidades=true' },
-                  { label: 'Promoções', href: '/produtos?sale=true' },
-                ].map(l => (
-                  <li key={l.href}>
-                    <Link href={l.href} className="hover:text-foreground hover:translate-x-0.5 transition-all duration-150 inline-block">
-                      {l.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
+            {/* Informações — só o que não está no menu principal */}
             <div>
               <p className="text-xs font-semibold tracking-widest uppercase mb-5 text-foreground">Informações</p>
               <ul className="space-y-3 text-sm text-muted-foreground">
@@ -134,8 +115,6 @@ const Footer = () => {
                   { label: 'Perguntas Frequentes', href: '/faq' },
                   { label: 'Política de Privacidade', href: '/privacidade' },
                   { label: 'Termos de Uso', href: '/termos' },
-                  { label: 'Blog', href: '/blog' },
-                  { label: 'Lookbook', href: '/lookbook' },
                 ].map(l => (
                   <li key={l.label}>
                     <Link href={l.href} className="hover:text-foreground hover:translate-x-0.5 transition-all duration-150 inline-block">
@@ -146,14 +125,10 @@ const Footer = () => {
               </ul>
             </div>
 
+            {/* Contato */}
             <div>
               <p className="text-xs font-semibold tracking-widest uppercase mb-5 text-foreground">Contato</p>
               <ul className="space-y-3 text-sm text-muted-foreground">
-                <li>
-                  <Link href="/contato" className="hover:text-foreground transition-colors">
-                    Página de Contato
-                  </Link>
-                </li>
                 <li>
                   <a href="https://wa.me/5531992901940?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Jaleca%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener noreferrer"
                      aria-label="WhatsApp da Jaleca (abre em nova janela)"

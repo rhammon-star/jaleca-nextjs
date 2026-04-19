@@ -1,0 +1,7 @@
+[
+  {
+    "id": "TC001",
+    "title": "get_api_auth_profile_loyalty_points_display",
+    "description": "Verify that the /api/auth/profile endpoint returns the user profile with valid session and that the subsequent /api/loyalty?customerId={id} endpoint returns the user's loyalty points, which are correctly displayed in the UI header as '{points} pts' for logged-in users."
+  }
+]

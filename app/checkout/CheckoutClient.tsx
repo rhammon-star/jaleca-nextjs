@@ -196,14 +196,15 @@ export default function CheckoutClient() {
       email: user.email,
     }))
 
-    // Pre-fill address + phone from last order
+    // Pre-fill address + phone + CPF from last order
     fetch(`/api/orders?customerId=${user.id}`, {
       headers: { Authorization: `Bearer ${user.token}` },
     })
       .then(r => r.ok ? r.json() : null)
-      .then((orders: Array<{ billing?: { first_name?: string; last_name?: string; address_1?: string; address_2?: string; city?: string; state?: string; postcode?: string; phone?: string } }> | null) => {
+      .then((orders: Array<{ billing?: { first_name?: string; last_name?: string; address_1?: string; address_2?: string; city?: string; state?: string; postcode?: string; phone?: string }; meta_data?: Array<{ key: string; value: string }> }> | null) => {
         if (!Array.isArray(orders) || orders.length === 0) return
-        const b = orders[0]?.billing
+        const order = orders[0]
+        const b = order?.billing
         if (!b) return
         // billing.address_2 in WC = bairro (neighborhood), see payment/create
         // billing.address_1 = "Rua X, 123" — split on last comma to recover street + number
@@ -223,6 +224,15 @@ export default function CheckoutClient() {
         if (b.postcode) {
           const cleanCep = b.postcode.replace(/\D/g, '')
           setCalculatedCep(cleanCep)
+        }
+        // Pre-fill CPF from last order meta_data
+        const savedCpf = order?.meta_data?.find(m => m.key === 'billing_cpf')?.value
+        if (savedCpf) {
+          const digits = savedCpf.replace(/\D/g, '')
+          if (digits.length === 11) {
+            const formatted = digits.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4')
+            setCpf(formatted)
+          }
         }
       })
       .catch(() => {})
