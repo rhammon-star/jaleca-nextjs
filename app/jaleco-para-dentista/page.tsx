@@ -1,16 +1,20 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { Suspense } from 'react'
 import { graphqlClient, GET_PRODUCTS } from '@/lib/graphql'
 import type { WooProduct } from '@/components/ProductCard'
+import ProductCard from '@/components/ProductCard'
+import { getPosts, type WPPost } from '@/lib/wordpress'
+import { getGooglePlaceData } from '@/lib/google-places'
 import FaqAccordion from './FaqAccordion'
 
 export const metadata: Metadata = {
   title: 'Jaleco para Dentista: Guia Completo 2026 | Jaleca',
-  description: 'Jalecos para dentista com design premium, elastano e modelagens exclusivas. Feminino e masculino, tamanhos PP ao G3. Frete grátis acima de R$499 para SP/RJ/MG/ES.',
+  description: 'Tudo sobre jaleco para dentista: qual modelo Slim ou Profissional, jaleco branco ou colorido, normas do CRO, cuidados e os melhores modelos com elastano do PP ao G3. Frete grátis SP/RJ/MG/ES.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-para-dentista' },
   openGraph: {
     title: 'Jaleco para Dentista: Guia Completo 2026',
-    description: 'Qual jaleco usar na odontologia? Guia completo: modelos, normas do CRO, cuidados e comparativo Slim vs Tradicional vs Dolmã.',
+    description: 'Qual jaleco usar na odontologia? Guia completo com modelos Slim e Profissional, normas do CRO, cuidados e comparação detalhada.',
     url: 'https://jaleca.com.br/jaleco-para-dentista',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -23,9 +27,10 @@ const schemaFaq = {
   '@type': 'FAQPage',
   mainEntity: [
     { '@type': 'Question', name: 'Qual comprimento de jaleco é mais indicado para dentistas?', acceptedAnswer: { '@type': 'Answer', text: 'Para odontologia, o jaleco curto (até o quadril) é mais popular por facilitar o movimento ao redor da cadeira odontológica. O longo é mais usado em procedimentos cirúrgicos.' } },
-    { '@type': 'Question', name: 'O jaleco pode ser lavado com água quente?', acceptedAnswer: { '@type': 'Answer', text: 'Os jalecos Jaleca suportam lavagem a 60°C, temperatura suficiente para higienização clínica.' } },
+    { '@type': 'Question', name: 'O jaleco pode ser lavado com água quente?', acceptedAnswer: { '@type': 'Answer', text: 'Os jalecos Jaleca suportam lavagem até 60°C, temperatura suficiente para higienização clínica. Use alvejante sem cloro para preservar o tecido.' } },
     { '@type': 'Question', name: 'Jaleco com elastano é bom para dentista?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. O elastano adiciona memória ao tecido, retornando à forma após o movimento — essencial para quem passa horas com braços elevados.' } },
     { '@type': 'Question', name: 'Jaleco de dentista precisa ser branco?', acceptedAnswer: { '@type': 'Answer', text: 'Não é obrigação. O branco é o clássico, mas tons pastel e cores discretas são aceitos. O CRO não restringe a cor.' } },
+    { '@type': 'Question', name: 'Qual a diferença entre jaleco Slim e Profissional?', acceptedAnswer: { '@type': 'Answer', text: 'O Slim tem corte ajustado ao corpo, ideal para quem quer visual mais moderno. O Profissional tem corte mais amplo e estruturado, com mais espaço para movimento.' } },
   ],
 }
 
@@ -46,7 +51,7 @@ const breadcrumbSchema = {
   '@type': 'BreadcrumbList',
   itemListElement: [
     { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://jaleca.com.br' },
-    { '@type': 'ListItem', position: 2, name: 'Por Especialidade', item: 'https://jaleca.com.br/produtos' },
+    { '@type': 'ListItem', position: 2, name: 'Jalecos', item: 'https://jaleca.com.br/produtos?categoria=jalecos' },
     { '@type': 'ListItem', position: 3, name: 'Jaleco para Dentista', item: 'https://jaleca.com.br/jaleco-para-dentista' },
   ],
 }
@@ -63,8 +68,37 @@ async function getJalecos(): Promise<WooProduct[]> {
   }
 }
 
+async function getBlogPosts(): Promise<WPPost[]> {
+  try {
+    const posts = await getPosts({ per_page: 3, search: 'jaleco' })
+    return posts.slice(0, 3)
+  } catch {
+    return []
+  }
+}
+
+// Stars sem contagem — apenas nota
+function HeroStars({ rating }: { rating: number }) {
+  const full = Math.floor(rating)
+  const half = rating - full >= 0.5
+  return (
+    <div className="flex items-center gap-2 mt-10">
+      <span style={{ color: '#c8a96e', fontSize: '0.85rem', letterSpacing: 2 }}>
+        {'★'.repeat(full)}{half ? '½' : ''}
+      </span>
+      <span style={{ fontSize: '0.78rem', color: '#6b6b6b' }}>
+        {rating.toFixed(1)} de 5 no Google
+      </span>
+    </div>
+  )
+}
+
 export default async function JalecoDentistaPage() {
-  const produtos = await getJalecos()
+  const [produtos, posts, placeData] = await Promise.all([
+    getJalecos(),
+    getBlogPosts(),
+    getGooglePlaceData(),
+  ])
 
   return (
     <>
@@ -75,12 +109,12 @@ export default async function JalecoDentistaPage() {
       <main style={{ fontWeight: 300 }}>
 
         {/* ── BREADCRUMB ── */}
-        <div style={{ background: '#f9f7f4', borderBottom: '1px solid #e5e0d8', padding: '0.85rem 2rem' }}>
+        <div style={{ background: '#f9f7f4', borderBottom: '1px solid #e5e0d8', padding: '0.85rem clamp(1.5rem,5vw,4rem)' }}>
           <ol className="flex items-center gap-2 max-w-[1200px] mx-auto" style={{ listStyle: 'none' }}>
             {[
               { label: 'Início', href: '/' },
-              { label: 'Por Especialidade', href: '/produtos' },
-              { label: 'Jaleco para Dentista', href: null },
+              { label: 'Jalecos', href: '/produtos?categoria=jalecos' },
+              { label: 'Para Dentista', href: null },
             ].map((crumb, i, arr) => (
               <li key={crumb.label} className="flex items-center gap-2 text-xs" style={{ color: crumb.href ? '#6b6b6b' : '#1a1a1a' }}>
                 {crumb.href ? <Link href={crumb.href} style={{ color: '#6b6b6b', textDecoration: 'none' }}>{crumb.label}</Link> : crumb.label}
@@ -95,7 +129,6 @@ export default async function JalecoDentistaPage() {
           className="grid"
           style={{ gridTemplateColumns: '1fr 1fr', minHeight: '88vh', padding: 0 }}
         >
-          {/* Conteúdo */}
           <div
             className="flex flex-col justify-center"
             style={{ padding: 'clamp(3rem,8vw,5rem) clamp(2rem,5vw,4rem) clamp(3rem,8vw,5rem) clamp(2rem,8vw,7rem)', background: '#f9f7f4' }}
@@ -119,62 +152,37 @@ export default async function JalecoDentistaPage() {
               <em style={{ fontStyle: 'italic', fontWeight: 300 }}>Dentista</em>
             </h1>
             <p style={{ fontSize: '1rem', fontWeight: 300, color: '#6b6b6b', maxWidth: 420, marginBottom: '2.5rem', lineHeight: 1.8 }}>
-              Design que une conforto clínico e elegância. Modelagens exclusivas com elastano, pensadas para o movimento do dia a dia odontológico.
+              Design que une conforto clínico e elegância. Modelagens Slim e Profissional com elastano, pensadas para o movimento do dia a dia odontológico.
             </p>
             <div className="flex gap-4 flex-wrap">
-              <Link href="/produtos?categoria=jalecos-femininos" style={{
-                display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
-                padding: '0.9rem 2rem', background: '#1a1a1a', color: '#fff',
-                fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em',
-                textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a',
-              }}>
+              <Link href="/produtos?categoria=jalecos-femininos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: '#1a1a1a', color: '#fff', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
                 Feminino ↗
               </Link>
-              <Link href="/produtos?categoria=jalecos-masculinos" style={{
-                display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
-                padding: '0.9rem 2rem', background: 'transparent', color: '#1a1a1a',
-                fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em',
-                textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a',
-              }}>
+              <Link href="/produtos?categoria=jalecos-masculinos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: 'transparent', color: '#1a1a1a', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
                 Masculino →
               </Link>
             </div>
-            <div className="flex items-center gap-2 mt-10">
-              <span style={{ color: '#c8a96e', fontSize: '0.85rem', letterSpacing: 2 }}>★★★★★</span>
-              <span style={{ fontSize: '0.78rem', color: '#6b6b6b' }}>4,9 de 5 — mais de 200 avaliações</span>
-            </div>
+            {/* Estrelas Google reais — sem contagem */}
+            {placeData && <HeroStars rating={placeData.rating} />}
           </div>
 
-          {/* Imagem */}
-          <div
-            className="relative"
-            style={{ background: 'linear-gradient(160deg, #ccc8c0 0%, #bfbab2 100%)', minHeight: 480 }}
-          >
+          <div className="relative" style={{ background: 'linear-gradient(160deg, #ccc8c0 0%, #bfbab2 100%)', minHeight: 480 }}>
             <div className="w-full h-full flex items-end p-8">
-              <span style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '0.85rem', fontStyle: 'italic', color: 'rgba(26,26,26,0.4)' }}>
-                Foto do produto
-              </span>
+              <span style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '0.85rem', fontStyle: 'italic', color: 'rgba(26,26,26,0.4)' }}>Foto do produto</span>
             </div>
-            <div style={{
-              position: 'absolute', top: '2rem', left: '2rem',
-              background: '#fff', padding: '0.5rem 1rem',
-              fontSize: '0.7rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1a1a1a',
-            }}>
+            <div style={{ position: 'absolute', top: '2rem', left: '2rem', background: '#fff', padding: '0.5rem 1rem', fontSize: '0.7rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1a1a1a' }}>
               Coleção 2026
             </div>
           </div>
         </section>
 
         {/* ── TRUST BAR ── */}
-        <div
-          className="grid"
-          style={{ gridTemplateColumns: 'repeat(4,1fr)', background: '#1a1a1a', padding: '2rem clamp(1.5rem,5vw,4rem)' }}
-        >
+        <div className="grid" style={{ gridTemplateColumns: 'repeat(4,1fr)', background: '#1a1a1a', padding: '2rem clamp(1.5rem,5vw,4rem)' }}>
           {[
             { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><path d="M3 6h18M3 12h18M3 18h18" /></svg>, title: 'Tamanhos PP ao G3', sub: 'Grade completa, corpo real' },
             { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><ellipse cx="12" cy="12" rx="9" ry="6" /><path d="M12 3v18M3 12h18" opacity=".5" /></svg>, title: 'Com elastano', sub: 'Movimento sem restrição' },
-            { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><rect x="2" y="7" width="20" height="14" rx="1" /><path d="M16 7V5a4 4 0 0 0-8 0v2" /></svg>, title: 'Frete grátis', sub: 'Acima de R$499 no Sudeste' },
-            { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0" /><path d="m9 12 2 2 4-4" /></svg>, title: 'Troca facilitada', sub: '30 dias sem burocracia' },
+            { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><path d="M5 12h14M12 5l7 7-7 7" /></svg>, title: 'Frete grátis', sub: 'SP · RJ · MG · ES acima R$499' },
+            { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0" /><path d="m9 12 2 2 4-4" /></svg>, title: 'Troca em 30 dias', sub: 'Sem burocracia' },
           ].map((item, i) => (
             <div key={i} className="flex items-center gap-4" style={{ padding: '0.5rem 1.5rem', borderRight: i < 3 ? '1px solid rgba(255,255,255,0.12)' : 'none' }}>
               <div className="shrink-0 flex items-center justify-center" style={{ width: 40, height: 40, border: '1px solid rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.8)' }}>
@@ -182,7 +190,7 @@ export default async function JalecoDentistaPage() {
               </div>
               <div>
                 <strong style={{ display: 'block', fontSize: '0.82rem', fontWeight: 400, letterSpacing: '0.06em', color: '#fff', marginBottom: '0.15rem' }}>{item.title}</strong>
-                <span style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.45)', letterSpacing: '0.03em' }}>{item.sub}</span>
+                <span style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.45)' }}>{item.sub}</span>
               </div>
             </div>
           ))}
@@ -191,9 +199,7 @@ export default async function JalecoDentistaPage() {
         {/* ── GUIA ── */}
         <section style={{ background: '#f9f7f4', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
           <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-            <div className="grid" style={{ gridTemplateColumns: '300px 1fr', gap: 'clamp(3rem,6vw,6rem)', alignItems: 'start' }}>
-
-              {/* Sidebar */}
+            <div className="grid" style={{ gridTemplateColumns: '280px 1fr', gap: 'clamp(3rem,6vw,6rem)', alignItems: 'start' }}>
               <aside style={{ position: 'sticky', top: 80 }}>
                 <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>Guia completo</div>
                 <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '1.8rem', fontWeight: 400, lineHeight: 1.15, color: '#1a1a1a', marginBottom: '1.5rem' }}>
@@ -201,11 +207,17 @@ export default async function JalecoDentistaPage() {
                 </h2>
                 <nav>
                   <ul style={{ listStyle: 'none' }}>
-                    {['Tecido e composição', 'Modelagem e silhueta', 'Cores recomendadas', 'Bolsos e funcionalidade', 'Guia de tamanhos'].map(item => (
-                      <li key={item} style={{ marginBottom: '0.5rem' }}>
-                        <a href={`#${item.toLowerCase().replace(/ /g, '-')}`} style={{ fontSize: '0.82rem', color: '#6b6b6b', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                          <span style={{ display: 'inline-block', width: 16, height: 1, background: '#c8c4bc' }} />
-                          {item}
+                    {[
+                      { label: 'Tecido e composição', anchor: '#tecido' },
+                      { label: 'Modelagem Slim ou Profissional', anchor: '#modelagem' },
+                      { label: 'Jaleco branco ou colorido', anchor: '#cores' },
+                      { label: 'Bolsos e funcionalidade', anchor: '#bolsos' },
+                      { label: 'Normas do CRO', anchor: '#cro' },
+                    ].map(item => (
+                      <li key={item.anchor} style={{ marginBottom: '0.5rem' }}>
+                        <a href={item.anchor} style={{ fontSize: '0.82rem', color: '#6b6b6b', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                          <span style={{ display: 'inline-block', width: 16, height: 1, background: '#c8c4bc', flexShrink: 0 }} />
+                          {item.label}
                         </a>
                       </li>
                     ))}
@@ -213,19 +225,15 @@ export default async function JalecoDentistaPage() {
                 </nav>
               </aside>
 
-              {/* Conteúdo */}
               <article>
                 {[
                   {
-                    id: 'tecido-e-composição',
+                    id: 'tecido',
                     title: 'Tecido e composição: o que realmente importa',
-                    content: (
+                    body: (
                       <>
                         <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          O jaleco para dentista exige requisitos específicos que vão além da estética. O tecido precisa suportar lavagens frequentes, resistir a manchas de materiais odontológicos e garantir conforto em turnos longos. Na Jaleca, utilizamos composição com elastano em proporções que preservam o caimento sem comprometer a mobilidade.
-                        </p>
-                        <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          A presença de elastano é determinante: enquanto o algodão puro pode dificultar a flexão dos braços durante procedimentos, a fibra elástica permite que o tecido acompanhe cada movimento do dentista com naturalidade.
+                          O jaleco para dentista precisa suportar lavagens frequentes, resistir a manchas de materiais odontológicos e garantir conforto em turnos longos. Na Jaleca, todos os jalecos têm elastano na composição — isso faz diferença real no dia a dia de quem fica horas com os braços elevados sobre o paciente.
                         </p>
                         <div style={{ background: '#1a1a1a', color: '#fff', padding: '1.5rem 2rem', margin: '2rem 0', borderLeft: '3px solid #c8c4bc' }}>
                           <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.95rem', fontStyle: 'italic', fontWeight: 300, margin: 0 }}>
@@ -236,21 +244,20 @@ export default async function JalecoDentistaPage() {
                     ),
                   },
                   {
-                    id: 'modelagem-e-silhueta',
-                    title: 'Modelagem e silhueta: Slim, Tradicional ou Dolmã?',
-                    content: (
+                    id: 'modelagem',
+                    title: 'Modelagem Slim ou Profissional: qual escolher?',
+                    body: (
                       <>
                         <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          Cada modelagem atende a um perfil profissional diferente. A escolha correta passa por entender as exigências clínicas da sua especialidade e também por preferência pessoal.
+                          Os jalecos Jaleca têm duas modelagens principais. A escolha certa depende do ambiente do seu consultório e do seu estilo profissional.
                         </p>
                         <ul style={{ listStyle: 'none', margin: '1.2rem 0 1.5rem' }}>
                           {[
-                            'Slim — Modelagem mais aderente ao corpo, indicada para quem prioriza aparência elegante em consultórios premium',
-                            'Tradicional — Ampla cobertura com gola padre, a escolha mais versátil para a maioria das rotinas clínicas',
-                            'Dolmã — Fechamento diferenciado, reduz risco de contato com pacientes em procedimentos mais longos',
+                            'Slim — Corte ajustado ao corpo, valoriza a silhueta, ideal para quem quer visual moderno e elegante em consultórios premium',
+                            'Profissional — Corte mais amplo e estruturado, maior liberdade de movimento, escolha clássica para qualquer rotina clínica',
                           ].map(item => (
-                            <li key={item} style={{ fontSize: '0.95rem', color: '#444', padding: '0.5rem 0 0.5rem 1.5rem', position: 'relative', borderBottom: '1px solid #e5e0d8', fontWeight: 300 }}>
-                              <span style={{ position: 'absolute', left: 0, color: '#c8c4bc', fontSize: '0.85rem' }}>→</span>
+                            <li key={item} style={{ fontSize: '0.95rem', color: '#444', padding: '0.6rem 0 0.6rem 1.5rem', position: 'relative', borderBottom: '1px solid #e5e0d8', fontWeight: 300 }}>
+                              <span style={{ position: 'absolute', left: 0, color: '#c8c4bc' }}>→</span>
                               {item}
                             </li>
                           ))}
@@ -259,30 +266,35 @@ export default async function JalecoDentistaPage() {
                     ),
                   },
                   {
-                    id: 'cores-recomendadas',
-                    title: 'Cores: o que a evidência e o bom senso indicam',
-                    content: (
+                    id: 'cores',
+                    title: 'Jaleco branco ou colorido: o que o CRO diz',
+                    body: (
                       <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                        O branco tradicional ainda é a escolha dominante na odontologia brasileira, mas tons como o cru, cinza claro e azul-marinho têm ganhado espaço. Em consultórios pediátricos, algumas profissionais optam por cores mais amigáveis para reduzir a ansiedade das crianças. O CRO não restringe a cor — o que importa é que o jaleco esteja sempre limpo.
+                        O branco é o clássico da odontologia — associado a higiene e assepsia. Mas o CRO não restringe cores. Tons pastel e cores discretas são aceitos na maioria dos consultórios. Em clínicas pediátricas, cores mais amigáveis ajudam a reduzir a ansiedade das crianças. A Jaleca tem 12 cores disponíveis em todos os modelos.
                       </p>
                     ),
                   },
                   {
-                    id: 'bolsos-e-funcionalidade',
+                    id: 'bolsos',
                     title: 'Bolsos e funcionalidade clínica',
-                    content: (
+                    body: (
                       <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                        O jaleco para dentista precisa ter pelo menos um bolso no peito com profundidade suficiente para comportar uma caneta sem risco de queda durante procedimentos com o paciente reclinado. Bolsos laterais com reforço nos cantos prolongam a vida útil da peça.
+                        O jaleco para dentista precisa de pelo menos um bolso no peito com profundidade suficiente para uma caneta — sem risco de queda quando você está inclinado sobre o paciente. Bolsos laterais com reforço nos cantos prolongam a vida útil da peça e guardam instrumentos do dia a dia com facilidade.
                       </p>
                     ),
                   },
                   {
-                    id: 'guia-de-tamanhos',
-                    title: 'Como usar o guia de tamanhos Jaleca',
-                    content: (
-                      <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                        Nossa grade vai do PP ao G3, com tabela de medidas detalhada baseada em busto, cintura e quadril. Recomendamos sempre medir o corpo (não a roupa que você já usa) e considerar +2 a +4 cm de folga para conforto de movimento durante procedimentos odontológicos.
-                      </p>
+                    id: 'cro',
+                    title: 'Normas do CRO sobre vestimenta profissional',
+                    body: (
+                      <>
+                        <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
+                          O CRO, alinhado com a ANVISA, determina que o jaleco seja de uso exclusivo do ambiente de trabalho — não deve ser usado em transporte público ou fora da clínica. A vestimenta deve estar sempre limpa e em bom estado.
+                        </p>
+                        <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
+                          O uso de EPIs é mandatório: jaleco + luvas + máscara + óculos de proteção + touca. O jaleco cobre a roupa pessoal e cria barreira contra respingos de sangue, saliva e produtos químicos.
+                        </p>
+                      </>
                     ),
                   },
                 ].map((sec) => (
@@ -290,7 +302,7 @@ export default async function JalecoDentistaPage() {
                     <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(1.5rem,2.5vw,2rem)', fontWeight: 400, marginBottom: '1rem', color: '#1a1a1a' }}>
                       {sec.title}
                     </h2>
-                    {sec.content}
+                    {sec.body}
                   </div>
                 ))}
               </article>
@@ -298,52 +310,47 @@ export default async function JalecoDentistaPage() {
           </div>
         </section>
 
-        {/* ── TABELA COMPARATIVA ── */}
+        {/* ── TABELA COMPARATIVA — Slim vs Profissional ── */}
         <section style={{ background: '#fff', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
           <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-            <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>Comparativo</div>
+            <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>Comparativo de modelagens</div>
             <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2rem,3.5vw,3rem)', fontWeight: 400, lineHeight: 1.15, color: '#1a1a1a', marginBottom: '2.5rem' }}>
-              Qual modelagem é a<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>certa para você?</em>
+              Slim ou Profissional:<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>qual é a certa para você?</em>
             </h2>
             <div style={{ overflowX: 'auto' }}>
               <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem' }}>
                 <thead>
                   <tr>
-                    <th style={{ padding: '1.5rem 1.5rem 1rem', textAlign: 'left', borderBottom: '2px solid #1a1a1a', width: 180 }}></th>
-                    {['Slim', 'Tradicional', 'Dolmã'].map((m, i) => (
-                      <th key={m} style={{
-                        fontFamily: "'Cormorant', Georgia, serif", fontSize: '1.3rem', fontWeight: 400,
-                        padding: '1.5rem 1.5rem 1rem', textAlign: 'left',
-                        borderBottom: '2px solid #1a1a1a',
-                        background: i === 1 ? '#1a1a1a' : 'transparent',
-                        color: i === 1 ? '#fff' : '#1a1a1a',
-                        position: 'relative' as const,
-                      }}>
-                        {i === 1 && (
+                    <th style={{ padding: '1.5rem 1.5rem 1rem', textAlign: 'left', borderBottom: '2px solid #1a1a1a', width: 200 }} />
+                    {[
+                      { label: 'Slim', featured: false },
+                      { label: 'Profissional', featured: true },
+                    ].map(({ label, featured }) => (
+                      <th key={label} style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '1.5rem', fontWeight: 400, padding: '1.5rem 1.5rem 1rem', textAlign: 'left', borderBottom: '2px solid #1a1a1a', background: featured ? '#1a1a1a' : 'transparent', color: featured ? '#fff' : '#1a1a1a', position: 'relative' }}>
+                        {featured && (
                           <span style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', fontSize: '0.6rem', letterSpacing: '0.15em', background: '#1a1a1a', color: '#c8c4bc', padding: '0.3rem 1rem', border: '1px solid rgba(255,255,255,0.2)' }}>
                             MAIS VENDIDO
                           </span>
                         )}
-                        {m}
+                        {label}
                       </th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
                   {[
-                    ['Silhueta', 'Ajustada', 'Estruturada', 'Fluida'],
-                    ['Fechamento', 'Botões laterais', 'Botões frontais', 'Transpasse'],
-                    ['Gola', 'Gola V', 'Gola padre', 'Gola V ampla'],
-                    ['Elastano', '✓ 5%', '✓ 5%', '✓ 8%'],
-                    ['Bolsos', '2 bolsos', '3 bolsos', '2 bolsos'],
-                    ['Ideal para', 'Consultórios premium', 'Uso geral clínico', 'Procedimentos longos'],
-                    ['A partir de', 'R$ 219', 'R$ 199', 'R$ 229'],
-                  ].map(([label, slim, trad, dolma]) => (
+                    ['Silhueta', 'Ajustada ao corpo', 'Estruturada, mais ampla'],
+                    ['Ideal para', 'Consultórios premium, visual elegante', 'Qualquer rotina clínica'],
+                    ['Elastano', '✓ Presente', '✓ Presente'],
+                    ['Bolsos', '2 bolsos', '3 bolsos'],
+                    ['Comprimento', 'Curto ou longo', 'Curto ou longo'],
+                    ['Cores disponíveis', '12 cores', '12 cores'],
+                    ['Tamanhos', 'PP ao G3', 'PP ao G3'],
+                  ].map(([label, slim, prof]) => (
                     <tr key={label}>
                       <td style={{ padding: '1rem 1.5rem', borderBottom: '1px solid #e5e0d8', fontSize: '0.78rem', letterSpacing: '0.06em', textTransform: 'uppercase', color: '#6b6b6b', fontWeight: 400 }}>{label}</td>
                       <td style={{ padding: '1rem 1.5rem', borderBottom: '1px solid #e5e0d8', color: '#1a1a1a' }}>{slim}</td>
-                      <td style={{ padding: '1rem 1.5rem', borderBottom: '1px solid #e5e0d8', color: '#1a1a1a', background: '#f9f7f4' }}>{trad}</td>
-                      <td style={{ padding: '1rem 1.5rem', borderBottom: '1px solid #e5e0d8', color: '#1a1a1a' }}>{dolma}</td>
+                      <td style={{ padding: '1rem 1.5rem', borderBottom: '1px solid #e5e0d8', color: '#1a1a1a', background: '#f9f7f4' }}>{prof}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -351,18 +358,13 @@ export default async function JalecoDentistaPage() {
                   <tr>
                     <td />
                     <td style={{ padding: '1.5rem' }}>
-                      <Link href="/produtos?categoria=jalecos" style={{ display: 'inline-flex', padding: '0.75rem 1.5rem', fontSize: '0.72rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a', color: '#1a1a1a' }}>
-                        Ver Slim
+                      <Link href="/produtos?categoria=jalecos-femininos" style={{ display: 'inline-flex', padding: '0.75rem 1.5rem', fontSize: '0.72rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a', color: '#1a1a1a' }}>
+                        Ver Slim →
                       </Link>
                     </td>
                     <td style={{ padding: '1.5rem', background: '#f9f7f4' }}>
                       <Link href="/produtos?categoria=jalecos" style={{ display: 'flex', justifyContent: 'center', padding: '0.85rem', fontSize: '0.72rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', background: '#1a1a1a', color: '#fff' }}>
-                        Ver Tradicional →
-                      </Link>
-                    </td>
-                    <td style={{ padding: '1.5rem' }}>
-                      <Link href="/produtos?categoria=jalecos" style={{ display: 'inline-flex', padding: '0.75rem 1.5rem', fontSize: '0.72rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a', color: '#1a1a1a' }}>
-                        Ver Dolmã
+                        Ver Profissional →
                       </Link>
                     </td>
                   </tr>
@@ -372,10 +374,10 @@ export default async function JalecoDentistaPage() {
           </div>
         </section>
 
-        {/* ── PRODUTOS ── */}
+        {/* ── PRODUTOS (ProductCard real) ── */}
         <section style={{ background: '#f9f7f4', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
           <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-            <div className="flex justify-between items-end flex-wrap gap-4 mb-0">
+            <div className="flex justify-between items-end flex-wrap gap-4">
               <div>
                 <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>Coleção odontologia</div>
                 <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2rem,3.5vw,3rem)', fontWeight: 400, lineHeight: 1.15, color: '#1a1a1a' }}>
@@ -386,55 +388,10 @@ export default async function JalecoDentistaPage() {
                 Ver todos →
               </Link>
             </div>
-
-            {/* Grid de produtos */}
-            <div
-              className="grid"
-              style={{ gridTemplateColumns: 'repeat(3,1fr)', gap: '1.5px', background: '#e5e0d8', marginTop: '3rem' }}
-            >
-              {produtos.length > 0 ? produtos.slice(0, 6).map(product => (
-                <Link
-                  key={product.id}
-                  href={`/produto/${product.slug}`}
-                  className="block"
-                  style={{ background: '#fff', textDecoration: 'none', color: 'inherit' }}
-                >
-                  <div style={{ aspectRatio: '3/4', background: '#f0ede8', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden' }}>
-                    {product.image?.sourceUrl ? (
-                      <img
-                        src={product.image.sourceUrl}
-                        alt={product.name}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                      />
-                    ) : (
-                      <span style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '1rem', fontStyle: 'italic', color: '#c8c4bc' }}>
-                        {product.name}
-                      </span>
-                    )}
-                  </div>
-                  <div style={{ padding: '1.25rem', background: '#fff' }}>
-                    <div style={{ fontSize: '0.65rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#6b6b6b', marginBottom: '0.35rem' }}>Jaleco</div>
-                    <div style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '1.15rem', fontWeight: 400, color: '#1a1a1a', marginBottom: '0.25rem' }}>{product.name}</div>
-                    <div style={{ fontSize: '0.88rem', color: '#6b6b6b', fontWeight: 300 }}>
-                      {product.price ? `R$ ${parseFloat(product.price.replace(/[^\d.]/g, '')).toFixed(2).replace('.', ',')}` : 'Ver preço'}
-                    </div>
-                  </div>
-                </Link>
-              )) : (
-                // Placeholder quando sem produtos
-                Array.from({ length: 6 }).map((_, i) => (
-                  <div key={i} style={{ background: '#fff' }}>
-                    <div style={{ aspectRatio: '3/4', background: 'linear-gradient(170deg, #f9f7f4 0%, #e5e0d8 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <span style={{ fontFamily: "'Cormorant', Georgia, serif", fontStyle: 'italic', color: '#c8c4bc' }}>Produto</span>
-                    </div>
-                    <div style={{ padding: '1.25rem' }}>
-                      <div style={{ fontSize: '0.65rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#6b6b6b', marginBottom: '0.35rem' }}>Jaleco</div>
-                      <div style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '1.15rem', fontWeight: 400, color: '#1a1a1a' }}>Jaleco Profissional</div>
-                      <div style={{ fontSize: '0.88rem', color: '#6b6b6b', marginTop: '0.25rem' }}>Ver preço</div>
-                    </div>
-                  </div>
-                ))
-              )}
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-10">
+              {produtos.slice(0, 6).map(product => (
+                <ProductCard key={product.id} product={product} />
+              ))}
             </div>
           </div>
         </section>
@@ -450,29 +407,92 @@ export default async function JalecoDentistaPage() {
           </div>
         </section>
 
-        {/* ── POSTS RELACIONADOS ── */}
+        {/* ── ARTIGOS DO BLOG (reais do WordPress) ── */}
         <section style={{ background: '#f9f7f4', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
           <div style={{ maxWidth: 1200, margin: '0 auto' }}>
             <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>Blog Jaleca</div>
             <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2rem,3.5vw,3rem)', fontWeight: 400, lineHeight: 1.15, color: '#1a1a1a', marginBottom: 0 }}>
               Leitura para<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>profissionais</em>
             </h2>
-            <div className="grid" style={{ gridTemplateColumns: 'repeat(3,1fr)', gap: '2px', background: '#e5e0d8', marginTop: '3rem' }}>
+
+            <div className="grid grid-cols-1 md:grid-cols-3" style={{ gap: '2px', background: '#e5e0d8', marginTop: '3rem' }}>
+              {posts.length > 0 ? posts.map(post => {
+                const img = post._embedded?.['wp:featuredmedia']?.[0]?.source_url
+                const excerpt = post.excerpt.rendered.replace(/<[^>]+>/g, '').slice(0, 120) + '…'
+                const title = post.title.rendered.replace(/<[^>]+>/g, '')
+                return (
+                  <Link key={post.id} href={`/blog/${post.slug}`} style={{ background: '#fff', textDecoration: 'none', color: 'inherit', display: 'block' }}>
+                    <div style={{ aspectRatio: '16/10', background: '#e5e0d8', overflow: 'hidden', position: 'relative' }}>
+                      {img ? (
+                        <img src={img} alt={title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                      ) : (
+                        <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, #f9f7f4 0%, #e5e0d8 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          <span style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '0.85rem', fontStyle: 'italic', color: '#c8c4bc' }}>Jaleca</span>
+                        </div>
+                      )}
+                    </div>
+                    <div style={{ padding: '1.5rem', background: '#fff' }}>
+                      <span style={{ fontSize: '0.65rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#6b6b6b', display: 'block', marginBottom: '0.6rem' }}>Blog</span>
+                      <h3 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '1.15rem', fontWeight: 400, lineHeight: 1.35, color: '#1a1a1a', marginBottom: '0.75rem' }}>{title}</h3>
+                      <p style={{ fontSize: '0.85rem', color: '#6b6b6b', lineHeight: 1.7, fontWeight: 300, marginBottom: '1rem' }}>{excerpt}</p>
+                      <span style={{ fontSize: '0.75rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1a1a1a' }}>Ler artigo →</span>
+                    </div>
+                  </Link>
+                )
+              }) : (
+                // Fallback: artigos fixos relevantes para o cluster
+                [
+                  { title: 'Como lavar e conservar seu jaleco profissional', href: '/blog/como-lavar-jaleco', tag: 'Cuidados', excerpt: 'Erros simples de lavagem aceleram o amarelamento e encurtam a vida do jaleco. Veja o guia completo.' },
+                  { title: 'Jaleco branco: tradição e protocolos na odontologia', href: '/blog', tag: 'Odontologia', excerpt: 'Por que o branco domina a odontologia e o que o CRO recomenda sobre cores e vestimenta clínica.' },
+                  { title: 'Como escolher o tamanho certo do jaleco', href: '/medidas', tag: 'Guia de Tamanhos', excerpt: 'Passo a passo para medir busto, cintura e quadril e encontrar o tamanho ideal na grade Jaleca.' },
+                ].map(post => (
+                  <Link key={post.href} href={post.href} style={{ background: '#fff', textDecoration: 'none', color: 'inherit', display: 'block' }}>
+                    <div style={{ aspectRatio: '16/10', background: 'linear-gradient(135deg, #f9f7f4 0%, #e5e0d8 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <span style={{ fontFamily: "'Cormorant', Georgia, serif", fontStyle: 'italic', color: '#c8c4bc' }}>Jaleca</span>
+                    </div>
+                    <div style={{ padding: '1.5rem', background: '#fff' }}>
+                      <span style={{ fontSize: '0.65rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#6b6b6b', display: 'block', marginBottom: '0.6rem' }}>{post.tag}</span>
+                      <h3 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '1.15rem', fontWeight: 400, lineHeight: 1.35, color: '#1a1a1a', marginBottom: '0.75rem' }}>{post.title}</h3>
+                      <p style={{ fontSize: '0.85rem', color: '#6b6b6b', lineHeight: 1.7, fontWeight: 300, marginBottom: '1rem' }}>{post.excerpt}</p>
+                      <span style={{ fontSize: '0.75rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1a1a1a' }}>Ler artigo →</span>
+                    </div>
+                  </Link>
+                ))
+              )}
+            </div>
+
+            <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+              <Link href="/blog" style={{ fontSize: '0.78rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: '#6b6b6b', textDecoration: 'none' }}>
+                Ver todos os artigos →
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* ── TOPICAL AUTHORITY — Outros profissionais de saúde ── */}
+        <section style={{ background: '#1a1a1a', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
+          <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+            <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)', marginBottom: '0.75rem' }}>Outros uniformes profissionais</div>
+            <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(1.8rem,3vw,2.5rem)', fontWeight: 400, lineHeight: 1.15, color: '#fff', marginBottom: '2.5rem' }}>
+              Jaleco para outras<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>profissões de saúde</em>
+            </h2>
+            <div className="grid grid-cols-2 md:grid-cols-4" style={{ gap: '1px', background: 'rgba(255,255,255,0.08)' }}>
               {[
-                { tag: 'Cuidados com uniforme', title: 'Como lavar e conservar seu jaleco branco por mais tempo', excerpt: 'Erros simples de lavagem aceleram o amarelamento. Veja o guia de cuidados que preserva a brancura e o caimento.', href: '/blog/como-lavar-jaleco' },
-                { tag: 'Biossegurança', title: 'O que o CRO recomenda sobre vestimenta clínica odontológica', excerpt: 'Normas atualizadas de biossegurança e o que realmente importa na escolha do uniforme para o consultório.', href: '/blog' },
-                { tag: 'Guia de tamanhos', title: 'Como tirar suas medidas e escolher o tamanho certo sem errar', excerpt: 'Passo a passo para medir busto, cintura e quadril corretamente e encontrar o tamanho perfeito.', href: '/medidas' },
-              ].map(post => (
-                <Link key={post.title} href={post.href} style={{ background: '#fff', textDecoration: 'none', color: 'inherit', display: 'block' }}>
-                  <div style={{ aspectRatio: '16/10', background: 'linear-gradient(135deg, #f9f7f4 0%, #e5e0d8 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <span style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '0.8rem', fontStyle: 'italic', color: '#c8c4bc' }}>Imagem</span>
-                  </div>
-                  <div style={{ padding: '1.5rem' }}>
-                    <span style={{ fontSize: '0.65rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#6b6b6b', display: 'block', marginBottom: '0.6rem' }}>{post.tag}</span>
-                    <h3 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '1.15rem', fontWeight: 400, lineHeight: 1.35, color: '#1a1a1a', marginBottom: '0.75rem' }}>{post.title}</h3>
-                    <p style={{ fontSize: '0.85rem', color: '#6b6b6b', lineHeight: 1.7, fontWeight: 300, marginBottom: '1rem' }}>{post.excerpt}</p>
-                    <span style={{ fontSize: '0.75rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1a1a1a' }}>Ler artigo →</span>
-                  </div>
+                { label: 'Podólogo', href: '/jaleco-para-podologo', desc: 'Guia completo' },
+                { label: 'Biomédico', href: '/jaleco-para-biomedico', desc: 'Guia completo' },
+                { label: 'Enfermeiro', href: '/jaleco-para-enfermeiro', desc: 'Guia completo' },
+                { label: 'Fisioterapeuta', href: '/jaleco-para-fisioterapeuta', desc: 'Guia completo' },
+                { label: 'Nutricionista', href: '/jaleco-para-nutricionista', desc: 'Guia completo' },
+                { label: 'Veterinário', href: '/jaleco-para-veterinario', desc: 'Guia completo' },
+                { label: 'Médico', href: '/jaleco-para-medico', desc: 'Guia completo' },
+                { label: 'Ver todos', href: '/produtos?categoria=jalecos', desc: 'Loja completa' },
+              ].map(item => (
+                <Link key={item.href} href={item.href} style={{ background: '#1a1a1a', padding: '1.5rem', textDecoration: 'none', display: 'block', transition: 'background 0.2s' }}
+                  onMouseOver={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.05)')}
+                  onMouseOut={e => (e.currentTarget.style.background = '#1a1a1a')}
+                >
+                  <div style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '1.15rem', fontWeight: 400, color: '#fff', marginBottom: '0.25rem' }}>{item.label}</div>
+                  <div style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.35)', letterSpacing: '0.08em' }}>{item.desc} →</div>
                 </Link>
               ))}
             </div>
@@ -480,29 +500,12 @@ export default async function JalecoDentistaPage() {
         </section>
 
         {/* ── CTA FINAL ── */}
-        <section
-          style={{
-            background: '#f9f7f4',
-            padding: 'clamp(5rem,10vw,9rem) clamp(1.5rem,5vw,4rem)',
-            textAlign: 'center',
-            position: 'relative',
-            overflow: 'hidden',
-          }}
-        >
-          <span
-            aria-hidden="true"
-            style={{
-              position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)',
-              fontFamily: "'Cormorant', Georgia, serif",
-              fontSize: 'clamp(6rem,18vw,18rem)', fontWeight: 300,
-              color: 'rgba(26,26,26,0.04)', whiteSpace: 'nowrap', pointerEvents: 'none',
-              userSelect: 'none',
-            }}
-          >
+        <section style={{ background: '#f9f7f4', padding: 'clamp(5rem,10vw,9rem) clamp(1.5rem,5vw,4rem)', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+          <span aria-hidden="true" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(6rem,18vw,18rem)', fontWeight: 300, color: 'rgba(26,26,26,0.04)', whiteSpace: 'nowrap', pointerEvents: 'none', userSelect: 'none' }}>
             JALECA
           </span>
           <div style={{ position: 'relative', zIndex: 1 }}>
-            <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>Pronto para começar?</div>
+            <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>200.000+ peças vendidas</div>
             <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2.5rem,5vw,4.5rem)', fontWeight: 400, lineHeight: 1.1, maxWidth: 700, margin: '0 auto 1rem', color: '#1a1a1a' }}>
               O jaleco certo<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>faz a diferença</em>
             </h2>
