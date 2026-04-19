@@ -16,6 +16,12 @@ export const metadata: Metadata = {
     locale: 'pt_BR',
     type: 'article',
   },
+  twitter: {
+    card: "summary_large_image",
+    title: hub.metadata.title,
+    description: hub.metadata.description,
+    images: ["https://jaleca.com.br/og-home.jpg"],
+  },
 }
 
 export default function Page() {

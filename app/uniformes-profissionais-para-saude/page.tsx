@@ -14,6 +14,12 @@ export const metadata: Metadata = {
     locale: 'pt_BR',
     type: 'article',
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Uniformes Profissionais para Saúde: Guia Completo 2026 | Jaleca',
+    description: 'Guia completo de uniformes para profissionais de saúde — do jaleco ao scrub. Tecido, normas e modelos para cada área clínica.',
+    images: ['https://jaleca.com.br/og-home.jpg'],
+  },
 }
 
 const SAUDE_HUBS = [
