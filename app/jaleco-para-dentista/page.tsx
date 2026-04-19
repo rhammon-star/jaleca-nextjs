@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Suspense } from 'react'
-import { graphqlClient, GET_PRODUCTS } from '@/lib/graphql'
+import { graphqlClient, GET_PRODUCTS, GET_PRODUCT_BY_SLUG } from '@/lib/graphql'
 import type { WooProduct } from '@/components/ProductCard'
 import ProductCard from '@/components/ProductCard'
 import { getPosts, type WPPost } from '@/lib/wordpress'
@@ -68,6 +68,20 @@ async function getJalecos(): Promise<WooProduct[]> {
   }
 }
 
+async function getHeroImage(): Promise<{ src: string; alt: string } | null> {
+  try {
+    const data = await graphqlClient.request<{ product: { name: string; image: { sourceUrl: string; altText: string } } }>(
+      GET_PRODUCT_BY_SLUG,
+      { slug: 'jaleco-slim-feminino-de-ziper-central-varias-cores-jaleca' }
+    )
+    const img = data?.product?.image
+    if (!img?.sourceUrl) return null
+    return { src: img.sourceUrl, alt: img.altText || data.product.name }
+  } catch {
+    return null
+  }
+}
+
 async function getBlogPosts(): Promise<WPPost[]> {
   try {
     const posts = await getPosts({ per_page: 3, search: 'jaleco' })
@@ -94,10 +108,11 @@ function HeroStars({ rating }: { rating: number }) {
 }
 
 export default async function JalecoDentistaPage() {
-  const [produtos, posts, placeData] = await Promise.all([
+  const [produtos, posts, placeData, heroImg] = await Promise.all([
     getJalecos(),
     getBlogPosts(),
     getGooglePlaceData(),
+    getHeroImage(),
   ])
 
   return (
@@ -167,10 +182,10 @@ export default async function JalecoDentistaPage() {
           </div>
 
           <div className="relative" style={{ background: '#e5e0d8', minHeight: 480, overflow: 'hidden' }}>
-            {produtos[0]?.image?.sourceUrl ? (
+            {heroImg ? (
               <img
-                src={produtos[0].image.sourceUrl}
-                alt={produtos[0].image.altText || produtos[0].name}
+                src={heroImg.src}
+                alt={heroImg.alt}
                 style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block', position: 'absolute', inset: 0 }}
               />
             ) : (
