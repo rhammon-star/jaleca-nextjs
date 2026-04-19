@@ -487,10 +487,7 @@ export default async function JalecoDentistaPage() {
                 { label: 'Médico', href: '/jaleco-para-medico', desc: 'Guia completo' },
                 { label: 'Ver todos', href: '/produtos?categoria=jalecos', desc: 'Loja completa' },
               ].map(item => (
-                <Link key={item.href} href={item.href} style={{ background: '#1a1a1a', padding: '1.5rem', textDecoration: 'none', display: 'block', transition: 'background 0.2s' }}
-                  onMouseOver={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.05)')}
-                  onMouseOut={e => (e.currentTarget.style.background = '#1a1a1a')}
-                >
+                <Link key={item.href} href={item.href} className="block hover:bg-white/5 transition-colors duration-200" style={{ padding: '1.5rem', textDecoration: 'none' }}>
                   <div style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '1.15rem', fontWeight: 400, color: '#fff', marginBottom: '0.25rem' }}>{item.label}</div>
                   <div style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.35)', letterSpacing: '0.08em' }}>{item.desc} →</div>
                 </Link>
