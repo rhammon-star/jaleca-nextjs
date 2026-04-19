@@ -275,24 +275,28 @@ export default async function JalecoDentistaPage() {
                     id: 'cores',
                     title: 'Jaleco branco ou colorido: o que o CRO diz',
                     body: (
-                      <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                        O branco é o clássico, claro. Mas o CRO não restringe cores.
-                      </p>
-                      <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                        Tons pastel e discretos são aceitos. Em clínicas pediátricas, cores amigáveis acalmam as crianças. Temos 12 cores disponíveis, em todos os modelos.
-                      </p>
+                      <>
+                        <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
+                          O branco é o clássico, claro. Mas o CRO não restringe cores.
+                        </p>
+                        <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
+                          Tons pastel e discretos são aceitos. Em clínicas pediátricas, cores amigáveis acalmam as crianças. Temos 12 cores disponíveis, em todos os modelos.
+                        </p>
+                      </>
                     ),
                   },
                   {
                     id: 'bolsos',
                     title: 'Bolsos e funcionalidade clínica',
                     body: (
-                      <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                        O bolso no peito precisa guardar a caneta sem ela cair quando você se inclina.
-                      </p>
-                      <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                        Bolsos laterais reforçados duram mais e são ótimos para os instrumentos do dia a dia.
-                      </p>
+                      <>
+                        <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
+                          O bolso no peito precisa guardar a caneta sem ela cair quando você se inclina.
+                        </p>
+                        <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
+                          Bolsos laterais reforçados duram mais e são ótimos para os instrumentos do dia a dia.
+                        </p>
+                      </>
                     ),
                   },
                   {
