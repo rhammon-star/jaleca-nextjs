@@ -95,6 +95,11 @@ const nextConfig: NextConfig = {
       { source: '/blog/como-escolher-jaleco-ideal-especialidade-medica-2', destination: '/blog/como-escolher-jaleco-feminino-guia-profissionais', permanent: true },
       { source: '/blog/jaleco-slim-padrao-clinicas', destination: '/blog/jaleco-slim-feminino-favorito-medicas', permanent: true },
       { source: '/blog/jaleco-branco-ou-colorido-o-que-usar-na-clinica', destination: '/blog', permanent: true },
+      // Páginas 404 detectadas na análise (19/04/2026)
+      { source: '/dolma', destination: '/categoria/domas', permanent: true },
+      { source: '/conjunto', destination: '/categoria/conjuntos', permanent: true },
+      { source: '/uniformes-profissionais', destination: '/uniformes-profissionais-para-saude', permanent: true },
+      { source: '/conjunto-pijama-cirurgico', destination: '/categoria/conjuntos', permanent: true },
       // /produtos/{categoria} → /produtos?categoria=X
       { source: '/produtos/jalecos', destination: '/produtos?categoria=Jalecos', permanent: true },
       { source: '/produtos/conjuntos', destination: '/produtos?categoria=Conjuntos', permanent: true },

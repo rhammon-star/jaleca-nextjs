@@ -90,9 +90,11 @@ const organizationJsonLd = {
   foundingDate: '2020',
   address: {
     '@type': 'PostalAddress',
-    addressCountry: 'BR',
+    streetAddress: 'Av. Castelo Branco, 391 - Loja B',
+    addressLocality: 'Ipatinga',
     addressRegion: 'MG',
-    addressLocality: 'Belo Horizonte',
+    postalCode: '35160-294',
+    addressCountry: 'BR',
   },
   telephone: '+55-31-99290-1940',
   contactPoint: [

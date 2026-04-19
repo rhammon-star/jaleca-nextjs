@@ -158,7 +158,8 @@ export async function generateMetadata({
   if (!nicho) return { title: 'Página não encontrada' }
 
   const title = `${nicho.titulo} | Jaleca`
-  const description = `Presenteie sua mãe ${nicho.profissaoLabel} com um jaleco Jaleca. Qualidade premium, tecido confortável, tamanhos PP ao G3. Entrega rápida, troca grátis em 30 dias. O presente ideal para o Dia das Mães.`
+  // Description única por nicho — evita duplicação entre as 7 páginas
+  const description = `${nicho.titulo}: jaleco Jaleca para ${nicho.profissoes}. ${nicho.conteudoParagrafos[0].slice(0, 100)}... Tamanhos PP ao G3, troca grátis em 30 dias.`
 
   return {
     title,
@@ -178,6 +179,7 @@ export async function generateMetadata({
       card: 'summary_large_image',
       title,
       description,
+      images: ['https://jaleca.com.br/og-home.jpg'],
     },
   }
 }
