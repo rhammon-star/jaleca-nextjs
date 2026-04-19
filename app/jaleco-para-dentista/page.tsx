@@ -166,13 +166,16 @@ export default async function JalecoDentistaPage() {
             {placeData && <HeroStars rating={placeData.rating} />}
           </div>
 
-          <div className="relative" style={{ background: 'linear-gradient(160deg, #ccc8c0 0%, #bfbab2 100%)', minHeight: 480 }}>
-            <div className="w-full h-full flex items-end p-8">
-              <span style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '0.85rem', fontStyle: 'italic', color: 'rgba(26,26,26,0.4)' }}>Foto do produto</span>
-            </div>
-            <div style={{ position: 'absolute', top: '2rem', left: '2rem', background: '#fff', padding: '0.5rem 1rem', fontSize: '0.7rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1a1a1a' }}>
-              Coleção 2026
-            </div>
+          <div className="relative" style={{ background: '#e5e0d8', minHeight: 480, overflow: 'hidden' }}>
+            {produtos[0]?.image?.sourceUrl ? (
+              <img
+                src={produtos[0].image.sourceUrl}
+                alt={produtos[0].image.altText || produtos[0].name}
+                style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block', position: 'absolute', inset: 0 }}
+              />
+            ) : (
+              <div style={{ width: '100%', height: '100%', background: 'linear-gradient(160deg, #ccc8c0 0%, #bfbab2 100%)', position: 'absolute', inset: 0 }} />
+            )}
           </div>
         </section>
 
