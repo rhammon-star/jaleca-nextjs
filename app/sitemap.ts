@@ -123,6 +123,32 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly',
       priority: 0.9,
     },
+    // Cluster Saúde
+    { url: `${SITE_URL}/jaleco-para-podologo`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
+    { url: `${SITE_URL}/jaleco-para-biomedico`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
+    { url: `${SITE_URL}/jaleco-para-enfermeiro`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
+    { url: `${SITE_URL}/jaleco-para-fisioterapeuta`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
+    { url: `${SITE_URL}/jaleco-para-nutricionista`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
+    { url: `${SITE_URL}/jaleco-para-veterinario`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
+    { url: `${SITE_URL}/jaleco-para-medico`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
+    // Cluster Beleza
+    { url: `${SITE_URL}/jaleco-para-barbeiro`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${SITE_URL}/jaleco-para-tatuador`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${SITE_URL}/jaleco-para-esteticista`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${SITE_URL}/jaleco-para-massagista`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${SITE_URL}/jaleco-para-cabeleireiro`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    // Cluster Gastronomia
+    { url: `${SITE_URL}/jaleco-para-churrasqueiro`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${SITE_URL}/jaleco-para-sushiman`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${SITE_URL}/jaleco-para-cozinheiro`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    // Cluster Serviços
+    { url: `${SITE_URL}/jaleco-para-professor`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${SITE_URL}/jaleco-para-vendedor`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    // Cluster Escritório
+    { url: `${SITE_URL}/jaleco-para-advogado`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${SITE_URL}/jaleco-para-pastor`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${SITE_URL}/jaleco-para-psicologa`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${SITE_URL}/jaleco-para-farmaceutico`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
   ]
 
   const productPages: MetadataRoute.Sitemap = productNodes.map(product => ({
