@@ -152,7 +152,7 @@ export default async function JalecoDentistaPage() {
               <em style={{ fontStyle: 'italic', fontWeight: 300 }}>Dentista</em>
             </h1>
             <p style={{ fontSize: '1rem', fontWeight: 300, color: '#6b6b6b', maxWidth: 420, marginBottom: '2.5rem', lineHeight: 1.8 }}>
-              Design que une conforto clínico e elegância. Modelagens Slim e Profissional com elastano, pensadas para o movimento do dia a dia odontológico.
+              Conforto e elegância no consultório. Modelagens Slim e Profissional com elastano, pensadas para o seu movimento.
             </p>
             <div className="flex gap-4 flex-wrap">
               <Link href="/produtos?categoria=jalecos-femininos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: '#1a1a1a', color: '#fff', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
@@ -236,11 +236,14 @@ export default async function JalecoDentistaPage() {
                     body: (
                       <>
                         <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          O jaleco para dentista precisa suportar lavagens frequentes, resistir a manchas de materiais odontológicos e garantir conforto em turnos longos. Na Jaleca, todos os jalecos têm elastano na composição — isso faz diferença real no dia a dia de quem fica horas com os braços elevados sobre o paciente.
+                          Jaleco de dentista aguenta muita lavagem e mancha. Precisa ser confortável por horas.
+                        </p>
+                        <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
+                          Na Jaleca, todos têm elastano. Faz a diferença para quem fica com os braços levantados.
                         </p>
                         <div style={{ background: '#1a1a1a', color: '#fff', padding: '1.5rem 2rem', margin: '2rem 0', borderLeft: '3px solid #c8c4bc' }}>
                           <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.95rem', fontStyle: 'italic', fontWeight: 300, margin: 0 }}>
-                            "O jaleco certo é aquele que você esquece que está usando — o tecido se move com você, não contra você."
+                            "O jaleco ideal? Aquele que você nem sente que está vestindo. O tecido te acompanha, sem atrapalhar."
                           </p>
                         </div>
                       </>
@@ -252,7 +255,7 @@ export default async function JalecoDentistaPage() {
                     body: (
                       <>
                         <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          Os jalecos Jaleca têm duas modelagens principais. A escolha certa depende do ambiente do seu consultório e do seu estilo profissional.
+                          A Jaleca tem duas modelagens principais. A escolha certa depende do ambiente da clínica e do seu estilo profissional.
                         </p>
                         <ul style={{ listStyle: 'none', margin: '1.2rem 0 1.5rem' }}>
                           {[
@@ -273,7 +276,10 @@ export default async function JalecoDentistaPage() {
                     title: 'Jaleco branco ou colorido: o que o CRO diz',
                     body: (
                       <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                        O branco é o clássico da odontologia — associado a higiene e assepsia. Mas o CRO não restringe cores. Tons pastel e cores discretas são aceitos na maioria dos consultórios. Em clínicas pediátricas, cores mais amigáveis ajudam a reduzir a ansiedade das crianças. A Jaleca tem 12 cores disponíveis em todos os modelos.
+                        O branco é o clássico, claro. Mas o CRO não restringe cores.
+                      </p>
+                      <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
+                        Tons pastel e discretos são aceitos. Em clínicas pediátricas, cores amigáveis acalmam as crianças. Temos 12 cores disponíveis, em todos os modelos.
                       </p>
                     ),
                   },
@@ -282,7 +288,10 @@ export default async function JalecoDentistaPage() {
                     title: 'Bolsos e funcionalidade clínica',
                     body: (
                       <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                        O jaleco para dentista precisa de pelo menos um bolso no peito com profundidade suficiente para uma caneta — sem risco de queda quando você está inclinado sobre o paciente. Bolsos laterais com reforço nos cantos prolongam a vida útil da peça e guardam instrumentos do dia a dia com facilidade.
+                        O bolso no peito precisa guardar a caneta sem ela cair quando você se inclina.
+                      </p>
+                      <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
+                        Bolsos laterais reforçados duram mais e são ótimos para os instrumentos do dia a dia.
                       </p>
                     ),
                   },
@@ -292,10 +301,10 @@ export default async function JalecoDentistaPage() {
                     body: (
                       <>
                         <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          O CRO, alinhado com a ANVISA, determina que o jaleco seja de uso exclusivo do ambiente de trabalho — não deve ser usado em transporte público ou fora da clínica. A vestimenta deve estar sempre limpa e em bom estado.
+                          O CRO, junto com a ANVISA, exige: use o jaleco só no trabalho. Nunca em transporte ou fora da clínica. A peça precisa estar sempre limpa e em bom estado.
                         </p>
                         <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          O uso de EPIs é mandatório: jaleco + luvas + máscara + óculos de proteção + touca. O jaleco cobre a roupa pessoal e cria barreira contra respingos de sangue, saliva e produtos químicos.
+                          EPIs são obrigatórios: jaleco, luvas, máscara, óculos e touca. O jaleco protege sua roupa e forma uma barreira contra sangue, saliva e químicos.
                         </p>
                       </>
                     ),
@@ -510,7 +519,7 @@ export default async function JalecoDentistaPage() {
               O jaleco certo<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>faz a diferença</em>
             </h2>
             <p style={{ fontSize: '0.97rem', color: '#6b6b6b', maxWidth: 480, margin: '0 auto 2.5rem', fontWeight: 300, lineHeight: 1.8 }}>
-              Do PP ao G3. Elastano para máximo conforto. 12 cores. Frete grátis no Sudeste acima de R$499.
+              Do PP ao G3. Elastano para total conforto. 12 cores. Frete grátis no Sudeste para compras acima de R$499.
             </p>
             <div className="flex gap-4 justify-center flex-wrap">
               <Link href="/produtos?categoria=jalecos-femininos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2.5rem', background: '#1a1a1a', color: '#fff', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
