@@ -1,5 +1,3 @@
-import type { Metadata } from 'next'
-import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { graphqlClient, GET_PRODUCTS, GET_PRODUCT_BY_SLUG } from '@/lib/graphql'
 import type { WooProduct } from '@/components/ProductCard'
@@ -7,36 +5,7 @@ import ProductCard from '@/components/ProductCard'
 import { getPosts, type WPPost } from '@/lib/wordpress'
 import { getGooglePlaceData } from '@/lib/google-places'
 import HubFaqAccordion from '@/components/HubFaqAccordion'
-import {
-  getHubProfissao,
-  getClusterLinks,
-  ALL_HUB_SLUGS,
-} from '@/lib/hub-profissoes'
-
-const SITE_URL = 'https://jaleca.com.br'
-
-export async function generateStaticParams() {
-  return ALL_HUB_SLUGS.map(profissao => ({ profissao }))
-}
-
-export async function generateMetadata({ params }: { params: Promise<{ profissao: string }> }): Promise<Metadata> {
-  const { profissao } = await params
-  const hub = getHubProfissao(profissao)
-  if (!hub) return {}
-  return {
-    title: hub.metadata.title,
-    description: hub.metadata.description,
-    alternates: { canonical: `${SITE_URL}/jaleco-para-${profissao}` },
-    openGraph: {
-      title: hub.metadata.title,
-      description: hub.metadata.description,
-      url: `${SITE_URL}/jaleco-para-${profissao}`,
-      siteName: 'Jaleca',
-      locale: 'pt_BR',
-      type: 'article',
-    },
-  }
-}
+import { getHubProfissao, getClusterLinks } from '@/lib/hub-profissoes'
 
 async function getJalecos(): Promise<WooProduct[]> {
   try {
@@ -96,10 +65,9 @@ const CLUSTER_LABELS: Record<string, string> = {
   escritorio: 'profissões liberais',
 }
 
-export default async function JalecoProfissaoPage({ params }: { params: Promise<{ profissao: string }> }) {
-  const { profissao } = await params
+export default async function HubProfissaoTemplate({ profissao }: { profissao: string }) {
   const hub = getHubProfissao(profissao)
-  if (!hub) notFound()
+  if (!hub) return null
 
   const [produtos, posts, placeData, heroImg] = await Promise.all([
     getJalecos(),
@@ -129,9 +97,9 @@ export default async function JalecoProfissaoPage({ params }: { params: Promise<
     publisher: {
       '@type': 'Organization',
       name: 'Jaleca',
-      logo: { '@type': 'ImageObject', url: `${SITE_URL}/logo-email.png` },
+      logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' },
     },
-    url: `${SITE_URL}/jaleco-para-${profissao}`,
+    url: `https://jaleca.com.br/jaleco-para-${profissao}`,
     datePublished: '2026-04-18',
     dateModified: '2026-04-18',
   }
@@ -140,9 +108,9 @@ export default async function JalecoProfissaoPage({ params }: { params: Promise<
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
-      { '@type': 'ListItem', position: 2, name: 'Jalecos', item: `${SITE_URL}/produtos?categoria=jalecos` },
-      { '@type': 'ListItem', position: 3, name: `Jaleco para ${hub.titulo}`, item: `${SITE_URL}/jaleco-para-${profissao}` },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://jaleca.com.br' },
+      { '@type': 'ListItem', position: 2, name: 'Jalecos', item: 'https://jaleca.com.br/produtos?categoria=jalecos' },
+      { '@type': 'ListItem', position: 3, name: `Jaleco para ${hub.titulo}`, item: `https://jaleca.com.br/jaleco-para-${profissao}` },
     ],
   }
 
@@ -171,10 +139,7 @@ export default async function JalecoProfissaoPage({ params }: { params: Promise<
         </div>
 
         {/* ── HERO ── */}
-        <section
-          className="grid"
-          style={{ gridTemplateColumns: '1fr 1fr', minHeight: '88vh', padding: 0 }}
-        >
+        <section className="grid" style={{ gridTemplateColumns: '1fr 1fr', minHeight: '88vh', padding: 0 }}>
           <div
             className="flex flex-col justify-center"
             style={{ padding: 'clamp(3rem,8vw,5rem) clamp(2rem,5vw,4rem) clamp(3rem,8vw,5rem) clamp(2rem,8vw,7rem)', background: '#f9f7f4' }}
@@ -305,7 +270,7 @@ export default async function JalecoProfissaoPage({ params }: { params: Promise<
           </div>
         </section>
 
-        {/* ── TABELA COMPARATIVA — Slim vs Profissional ── */}
+        {/* ── TABELA COMPARATIVA ── */}
         <section style={{ background: '#fff', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
           <div style={{ maxWidth: 1200, margin: '0 auto' }}>
             <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>Comparativo de modelagens</div>
@@ -317,10 +282,7 @@ export default async function JalecoProfissaoPage({ params }: { params: Promise<
                 <thead>
                   <tr>
                     <th style={{ padding: '1.5rem 1.5rem 1rem', textAlign: 'left', borderBottom: '2px solid #1a1a1a', width: 200 }} />
-                    {[
-                      { label: 'Slim', featured: false },
-                      { label: 'Profissional', featured: true },
-                    ].map(({ label, featured }) => (
+                    {[{ label: 'Slim', featured: false }, { label: 'Profissional', featured: true }].map(({ label, featured }) => (
                       <th key={label} style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '1.5rem', fontWeight: 400, padding: '1.5rem 1.5rem 1rem', textAlign: 'left', borderBottom: '2px solid #1a1a1a', background: featured ? '#1a1a1a' : 'transparent', color: featured ? '#fff' : '#1a1a1a', position: 'relative' }}>
                         {featured && (
                           <span style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', fontSize: '0.6rem', letterSpacing: '0.15em', background: '#1a1a1a', color: '#c8c4bc', padding: '0.3rem 1rem', border: '1px solid rgba(255,255,255,0.2)' }}>
@@ -409,7 +371,6 @@ export default async function JalecoProfissaoPage({ params }: { params: Promise<
             <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2rem,3.5vw,3rem)', fontWeight: 400, lineHeight: 1.15, color: '#1a1a1a', marginBottom: 0 }}>
               Leitura para<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>profissionais</em>
             </h2>
-
             <div className="grid grid-cols-1 md:grid-cols-3" style={{ gap: '2px', background: '#e5e0d8', marginTop: '3rem' }}>
               {posts.length > 0 ? posts.map(post => {
                 const img = post._embedded?.['wp:featuredmedia']?.[0]?.source_url
@@ -454,7 +415,6 @@ export default async function JalecoProfissaoPage({ params }: { params: Promise<
                 ))
               )}
             </div>
-
             <div style={{ textAlign: 'center', marginTop: '2rem' }}>
               <Link href="/blog" style={{ fontSize: '0.78rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: '#6b6b6b', textDecoration: 'none' }}>
                 Ver todos os artigos →
@@ -463,7 +423,7 @@ export default async function JalecoProfissaoPage({ params }: { params: Promise<
           </div>
         </section>
 
-        {/* ── TOPICAL AUTHORITY — Outros profissionais do cluster ── */}
+        {/* ── TOPICAL AUTHORITY ── */}
         <section style={{ background: '#1a1a1a', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
           <div style={{ maxWidth: 1200, margin: '0 auto' }}>
             <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)', marginBottom: '0.75rem' }}>Outros uniformes profissionais</div>
