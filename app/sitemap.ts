@@ -155,6 +155,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/jaleco-para-pastor`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${SITE_URL}/jaleco-para-psicologa`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${SITE_URL}/jaleco-para-farmaceutico`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    // Cluster Gastronomia — Dólmã
+    { url: `${SITE_URL}/dolma-para-churrasqueiro`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${SITE_URL}/dolma-para-sushiman`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${SITE_URL}/dolma-para-cozinheiro`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    // Cluster Escritório — Conjunto
+    { url: `${SITE_URL}/conjunto-para-advogado`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${SITE_URL}/conjunto-para-pastor`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${SITE_URL}/conjunto-para-psicologa`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${SITE_URL}/conjunto-para-farmaceutico`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    // Cluster Serviços — Jaleco genérico professor
+    { url: `${SITE_URL}/uniforme-para-professor`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
   ]
 
   const productPages: MetadataRoute.Sitemap = productNodes.map(product => ({

@@ -81,7 +81,7 @@ const faqData = {
       "name": "Como posso acompanhar meu pedido?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Após a postagem, você recebe um código de rastreamento por e-mail. Pode acompanhar diretamente nos sites dos Correios ou da transportadora. También puede acompanhar o status do seu pedido na página 'Minha Conta' se tiver login no site."
+        "text": "Após a postagem, você recebe um código de rastreamento por e-mail. Pode acompanhar diretamente nos sites dos Correios ou da transportadora. Também pode acompanhar o status do seu pedido na página 'Minha Conta' se tiver login no site."
       }
     },
     {
@@ -238,7 +238,7 @@ export default function FAQPage() {
                           <p>Sim! Fazemos entrega para todos os estados do Brasil. O frete é calculado automaticamente no checkout com base no CEP e peso dos itens.</p>
                         )}
                         {item.q.includes('acompanhar meu pedido') && (
-                          <p>Após a postagem, você recebe um código de rastreamento por e-mail. Pode acompanhar diretamente nos sites dos Correios ou da transportadora. También puede acompanhar o status na página "Minha Conta".</p>
+                          <p>Após a postagem, você recebe um código de rastreamento por e-mail. Pode acompanhar diretamente nos sites dos Correios ou da transportadora. Também pode acompanhar o status na página "Minha Conta".</p>
                         )}
                         {item.q.includes('troca ou devolução') && (
                           <p>Você tem até <strong>7 dias após o recebimento</strong> para solicitar a troca ou devolução. O produto deve estar sem uso e com a etiqueta original. Para iniciar, envie um e-mail para <a href="mailto:contato@jaleca.com.br" className="text-primary underline">contato@jaleca.com.br</a> com o número do pedido.</p>

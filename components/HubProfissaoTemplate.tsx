@@ -9,40 +9,86 @@ import { getHubProfissao, getClusterLinks } from '@/lib/hub-profissoes'
 
 // Foto do hero variada por profissão — evita repetição e mostra modelos diferentes
 const HERO_SLUG: Record<string, string> = {
-  podologo:       'jaleco-slim-dama-feminino-jaleca',
-  biomedico:      'jaleco-padrao-aluno-feminino-de-botao-varias-cores-jaleca',
-  enfermeiro:     'jaleco-slim-elastex-feminino-varias-cores-jaleca',
-  fisioterapeuta: 'jaleco-slim-pala-feminino-jaleca',
-  nutricionista:  'jaleco-slim-princesa-feminino-varias-cores-jaleca',
-  veterinario:    'jaleco-slim-moratty-feminino-ziper-central-jaleca',
-  medico:         'jaleco-slim-gold-feminino-jaleca',
-  barbeiro:       'jaleco-slim-masculino-de-ziper-central-varias-cores-jaleca',
-  tatuador:       'jaleco-slim-recortes-masculino-varias-cores-jaleca',
-  esteticista:    'jaleco-slim-princesa-manga-curta-feminino-jaleca',
-  massagista:     'jaleco-slim-duquesa-feminino-varias-cores-jaleca',
-  cabeleireiro:   'jaleco-slim-princesa-laise-feminino-jaleca',
-  churrasqueiro:  'jaleco-slim-moratty-masculino-ziper-central-jaleca',
-  sushiman:       'jaleco-padrao-aluno-masculino-de-botao-varias-cores-jaleca',
-  cozinheiro:     'jaleco-slim-feminino-de-ziper-lateral-varias-cores-jaleca',
-  professor:      'jaleco-slim-gold-pala-feminino-jaleca',
-  vendedor:       'jaleco-slim-feminino-de-ziper-central-varias-cores-jaleca',
-  advogado:       'jaleco-universitario-unissex-jaleca',
-  pastor:         'jaleco-slim-tradicional-manga-curta-feminino-jaleca',
-  psicologa:      'jaleco-slim-gold-feminino-jaleca',
-  farmaceutico:   'jaleco-padrao-aluno-feminino-de-botao-varias-cores-jaleca',
+  podologo:           'jaleco-slim-dama-feminino-jaleca',
+  biomedico:          'jaleco-padrao-aluno-feminino-de-botao-varias-cores-jaleca',
+  enfermeiro:         'jaleco-slim-elastex-feminino-varias-cores-jaleca',
+  fisioterapeuta:     'jaleco-slim-pala-feminino-jaleca',
+  nutricionista:      'jaleco-slim-princesa-feminino-varias-cores-jaleca',
+  veterinario:        'jaleco-slim-moratty-feminino-ziper-central-jaleca',
+  medico:             'jaleco-slim-gold-feminino-jaleca',
+  barbeiro:           'jaleco-slim-masculino-de-ziper-central-varias-cores-jaleca',
+  tatuador:           'jaleco-slim-recortes-masculino-varias-cores-jaleca',
+  esteticista:        'jaleco-slim-princesa-manga-curta-feminino-jaleca',
+  massagista:         'jaleco-slim-duquesa-feminino-varias-cores-jaleca',
+  cabeleireiro:       'jaleco-slim-princesa-laise-feminino-jaleca',
+  churrasqueiro:      'jaleco-slim-moratty-masculino-ziper-central-jaleca',
+  sushiman:           'jaleco-padrao-aluno-masculino-de-botao-varias-cores-jaleca',
+  cozinheiro:         'jaleco-slim-feminino-de-ziper-lateral-varias-cores-jaleca',
+  professor:          'jaleco-slim-gold-pala-feminino-jaleca',
+  vendedor:           'jaleco-slim-feminino-de-ziper-central-varias-cores-jaleca',
+  advogado:           'jaleco-universitario-unissex-jaleca',
+  pastor:             'jaleco-slim-tradicional-manga-curta-feminino-jaleca',
+  psicologa:          'jaleco-slim-gold-feminino-jaleca',
+  farmaceutico:       'jaleco-padrao-aluno-feminino-de-botao-varias-cores-jaleca',
+  // dólmã
+  'dolma-churrasqueiro': 'conjunto-dolma-cozinheiro-masculino-de-ziper-e-avental-saia-slim-jaleca',
+  'dolma-sushiman':      'conjunto-dolma-cozinheiro-masculino-de-ziper-e-avental-saia-slim-jaleca',
+  'dolma-cozinheiro':    'conjunto-dolma-cozinheiro-de-ziper-e-avental-saia-slim-jaleca',
+  // conjunto
+  'conjunto-advogado':    'conjunto-executiva-feminino-jaleca',
+  'conjunto-pastor':      'conjunto-puff-ziper-feminino-jaleca',
+  'conjunto-psicologa':   'conjunto-laco-feminino-jaleca',
+  'conjunto-farmaceutico':'conjunto-pijama-cirurgico-scrub-feminino-varias-cores-jaleca',
+  // jaleco genérico
+  'professor-uniforme':  'jaleco-slim-gold-pala-feminino-jaleca',
 }
 
 const DEFAULT_HERO = 'jaleco-slim-feminino-de-ziper-central-varias-cores-jaleca'
 
-async function getJalecos(): Promise<WooProduct[]> {
+// Configuração por tipo de produto
+const PRODUTO_CONFIG: Record<string, {
+  label: string
+  labelPlural: string
+  catFem: string
+  catMasc: string
+  catAll: string
+  filter: (slug: string) => boolean
+}> = {
+  jaleco: {
+    label: 'Jaleco',
+    labelPlural: 'Jalecos',
+    catFem: 'jalecos-femininos',
+    catMasc: 'jalecos-masculinos',
+    catAll: 'jalecos',
+    filter: (s) => s.includes('jaleco'),
+  },
+  dolma: {
+    label: 'Dólmã',
+    labelPlural: 'Dólmãs',
+    catFem: 'domas-femininas',
+    catMasc: 'domas-masculinos',
+    catAll: 'domas',
+    filter: (s) => s.includes('dolma') || s.includes('doma'),
+  },
+  conjunto: {
+    label: 'Conjunto',
+    labelPlural: 'Conjuntos',
+    catFem: 'conjuntos-femininos',
+    catMasc: 'conjuntos-masculinos',
+    catAll: 'conjuntos',
+    filter: (s) => s.includes('conjunto'),
+  },
+}
+
+async function getProdutos(produto = 'jaleco'): Promise<WooProduct[]> {
+  const cfg = PRODUTO_CONFIG[produto] ?? PRODUTO_CONFIG.jaleco
   try {
     const data = await graphqlClient.request<{ products: { nodes: WooProduct[] } }>(GET_PRODUCTS, {
       first: 12,
-      category: 'jalecos-femininos',
+      category: cfg.catFem,
     })
-    // filtra apenas produtos que são jalecos (exclui acessórios que podem aparecer)
     const all = data?.products?.nodes ?? []
-    const filtered = all.filter(p => p.slug?.includes('jaleco'))
+    const filtered = all.filter(p => cfg.filter(p.slug ?? ''))
     return filtered.slice(0, 6)
   } catch {
     return []
@@ -100,8 +146,11 @@ export default async function HubProfissaoTemplate({ profissao }: { profissao: s
   const hub = getHubProfissao(profissao)
   if (!hub) return null
 
+  const produtoConfig = PRODUTO_CONFIG[hub.produto ?? 'jaleco'] ?? PRODUTO_CONFIG.jaleco
+  const pageUrl = hub.urlSlug ?? `jaleco-para-${profissao}`
+
   const [produtos, posts, placeData, heroImg] = await Promise.all([
-    getJalecos(),
+    getProdutos(hub.produto ?? 'jaleco'),
     getBlogPosts(),
     getGooglePlaceData(),
     getHeroImage(profissao),
@@ -130,7 +179,7 @@ export default async function HubProfissaoTemplate({ profissao }: { profissao: s
       name: 'Jaleca',
       logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' },
     },
-    url: `https://jaleca.com.br/jaleco-para-${profissao}`,
+    url: `https://jaleca.com.br/${pageUrl}`,
     datePublished: '2026-04-18',
     dateModified: '2026-04-18',
   }
@@ -140,8 +189,8 @@ export default async function HubProfissaoTemplate({ profissao }: { profissao: s
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://jaleca.com.br' },
-      { '@type': 'ListItem', position: 2, name: 'Jalecos', item: 'https://jaleca.com.br/produtos?categoria=jalecos' },
-      { '@type': 'ListItem', position: 3, name: `Jaleco para ${hub.titulo}`, item: `https://jaleca.com.br/jaleco-para-${profissao}` },
+      { '@type': 'ListItem', position: 2, name: produtoConfig.labelPlural, item: `https://jaleca.com.br/produtos?categoria=${produtoConfig.catAll}` },
+      { '@type': 'ListItem', position: 3, name: `${produtoConfig.label} para ${hub.titulo}`, item: `https://jaleca.com.br/${pageUrl}` },
     ],
   }
 
@@ -158,7 +207,7 @@ export default async function HubProfissaoTemplate({ profissao }: { profissao: s
           <ol className="flex items-center gap-2 max-w-[1200px] mx-auto" style={{ listStyle: 'none' }}>
             {[
               { label: 'Início', href: '/' },
-              { label: 'Jalecos', href: '/produtos?categoria=jalecos' },
+              ...(hub.cluster === 'saude' ? [{ label: 'Uniformes para Saúde', href: '/uniformes-profissionais-para-saude' }] : [{ label: produtoConfig.labelPlural, href: `/produtos?categoria=${produtoConfig.catAll}` }]),
               { label: `Para ${hub.titulo}`, href: null },
             ].map((crumb, i, arr) => (
               <li key={crumb.label} className="flex items-center gap-2 text-xs" style={{ color: crumb.href ? '#6b6b6b' : '#1a1a1a' }}>
@@ -190,17 +239,17 @@ export default async function HubProfissaoTemplate({ profissao }: { profissao: s
                 marginBottom: '1.5rem',
               }}
             >
-              Jaleco para<br />
+              {produtoConfig.label} para<br />
               <em style={{ fontStyle: 'italic', fontWeight: 300 }}>{hub.titulo}</em>
             </h1>
             <p style={{ fontSize: '1rem', fontWeight: 300, color: '#6b6b6b', maxWidth: 420, marginBottom: '2.5rem', lineHeight: 1.8 }}>
               {hub.hero.subtitulo}
             </p>
             <div className="flex gap-4 flex-wrap">
-              <Link href="/produtos?categoria=jalecos-femininos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: '#1a1a1a', color: '#fff', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
+              <Link href={`/produtos?categoria=${produtoConfig.catFem}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: '#1a1a1a', color: '#fff', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
                 Feminino ↗
               </Link>
-              <Link href="/produtos?categoria=jalecos-masculinos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: 'transparent', color: '#1a1a1a', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
+              <Link href={`/produtos?categoria=${produtoConfig.catMasc}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: 'transparent', color: '#1a1a1a', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
                 Masculino →
               </Link>
             </div>
@@ -346,12 +395,12 @@ export default async function HubProfissaoTemplate({ profissao }: { profissao: s
                   <tr>
                     <td />
                     <td style={{ padding: '1.5rem' }}>
-                      <Link href="/produtos?categoria=jalecos-femininos" style={{ display: 'inline-flex', padding: '0.75rem 1.5rem', fontSize: '0.72rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a', color: '#1a1a1a' }}>
+                      <Link href={`/produtos?categoria=${produtoConfig.catFem}`} style={{ display: 'inline-flex', padding: '0.75rem 1.5rem', fontSize: '0.72rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a', color: '#1a1a1a' }}>
                         Ver Slim →
                       </Link>
                     </td>
                     <td style={{ padding: '1.5rem', background: '#f9f7f4' }}>
-                      <Link href="/produtos?categoria=jalecos" style={{ display: 'flex', justifyContent: 'center', padding: '0.85rem', fontSize: '0.72rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', background: '#1a1a1a', color: '#fff' }}>
+                      <Link href={`/produtos?categoria=${produtoConfig.catAll}`} style={{ display: 'flex', justifyContent: 'center', padding: '0.85rem', fontSize: '0.72rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', background: '#1a1a1a', color: '#fff' }}>
                         Ver Profissional →
                       </Link>
                     </td>
@@ -369,10 +418,10 @@ export default async function HubProfissaoTemplate({ profissao }: { profissao: s
               <div>
                 <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>Nossa coleção</div>
                 <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2rem,3.5vw,3rem)', fontWeight: 400, lineHeight: 1.15, color: '#1a1a1a' }}>
-                  Jalecos para<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>{hub.titulo}s</em>
+                  {produtoConfig.labelPlural} para<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>{hub.titulo}s</em>
                 </h2>
               </div>
-              <Link href="/produtos?categoria=jalecos" style={{ display: 'inline-flex', padding: '0.9rem 2rem', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a', color: '#1a1a1a' }}>
+              <Link href={`/produtos?categoria=${produtoConfig.catAll}`} style={{ display: 'inline-flex', padding: '0.9rem 2rem', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a', color: '#1a1a1a' }}>
                 Ver todos →
               </Link>
             </div>
@@ -389,7 +438,7 @@ export default async function HubProfissaoTemplate({ profissao }: { profissao: s
           <div style={{ maxWidth: 1200, margin: '0 auto' }}>
             <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>Dúvidas frequentes</div>
             <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2rem,3.5vw,3rem)', fontWeight: 400, lineHeight: 1.15, color: '#1a1a1a' }}>
-              Perguntas sobre jaleco<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>para {hub.titulo.toLowerCase()}</em>
+              Perguntas sobre {produtoConfig.label.toLowerCase()}<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>para {hub.titulo.toLowerCase()}</em>
             </h2>
             <HubFaqAccordion items={hub.faq} />
           </div>
@@ -489,10 +538,10 @@ export default async function HubProfissaoTemplate({ profissao }: { profissao: s
               {hub.cta.descricao}
             </p>
             <div className="flex gap-4 justify-center flex-wrap">
-              <Link href="/produtos?categoria=jalecos-femininos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2.5rem', background: '#1a1a1a', color: '#fff', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
+              <Link href={`/produtos?categoria=${produtoConfig.catFem}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2.5rem', background: '#1a1a1a', color: '#fff', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
                 Ver Coleção Feminina
               </Link>
-              <Link href="/produtos?categoria=jalecos-masculinos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2.5rem', background: 'transparent', color: '#1a1a1a', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
+              <Link href={`/produtos?categoria=${produtoConfig.catMasc}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2.5rem', background: 'transparent', color: '#1a1a1a', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
                 Ver Coleção Masculina
               </Link>
             </div>

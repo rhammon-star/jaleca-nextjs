@@ -70,7 +70,7 @@ export async function publishPost(
 
 export async function updatePost(
   postId: number,
-  data: { content?: string; title?: string; excerpt?: string },
+  data: { content?: string; title?: string; excerpt?: string; status?: string },
   credentials: { username: string; appPassword: string }
 ): Promise<void> {
   const res = await fetch(`${WP_URL}/posts/${postId}`, {

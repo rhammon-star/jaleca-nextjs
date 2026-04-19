@@ -182,17 +182,46 @@ export default async function ProdutoPage({
     category: 'Uniformes Profissionais para Saúde',
     ...(colorAttr?.options?.length && { color: colorAttr.options.join(', ') }),
     ...(sizeAttr?.options?.length && { size: sizeAttr.options.join(', ') }),
-    offers: {
-      '@type': 'Offer',
-      price: String(product.price || product.regularPrice || '').replace(/[^0-9,]/g, '').replace(',', '.') || undefined,
-      priceCurrency: 'BRL',
-      availability:
-        product.stockStatus === 'OUT_OF_STOCK'
-          ? 'https://schema.org/OutOfStock'
-          : 'https://schema.org/InStock',
-      url: `https://jaleca.com.br/produto/${slug}`,
-      seller: { '@type': 'Organization', name: 'Jaleca' },
-    },
+    offers: (() => {
+      // Parse BRL price string "280,00" → 280.00, ignoring corrupted concatenated values
+      const parsePrice = (raw: string | null | undefined): number | undefined => {
+        if (!raw) return undefined
+        // Take only the first valid price token (handles WC returning "280,00330,00")
+        const match = String(raw).match(/^[\d.]+(?:,\d{1,2})?/)
+        if (!match) return undefined
+        const num = parseFloat(match[0].replace(',', '.'))
+        return isNaN(num) || num <= 0 ? undefined : num
+      }
+      const basePrice = parsePrice(product.regularPrice) ?? parsePrice(product.price)
+      const pixPrice = basePrice ? Math.round(basePrice * 0.95 * 100) / 100 : undefined
+      return {
+        '@type': 'Offer',
+        ...(basePrice !== undefined && { price: basePrice.toFixed(2) }),
+        priceCurrency: 'BRL',
+        availability:
+          product.stockStatus === 'OUT_OF_STOCK'
+            ? 'https://schema.org/OutOfStock'
+            : 'https://schema.org/InStock',
+        url: `https://jaleca.com.br/produto/${slug}`,
+        seller: { '@type': 'Organization', name: 'Jaleca' },
+        ...(basePrice !== undefined && pixPrice !== undefined && {
+          priceSpecification: [
+            {
+              '@type': 'UnitPriceSpecification',
+              price: basePrice.toFixed(2),
+              priceCurrency: 'BRL',
+              name: 'Preço padrão',
+            },
+            {
+              '@type': 'UnitPriceSpecification',
+              price: pixPrice.toFixed(2),
+              priceCurrency: 'BRL',
+              name: 'PIX (5% de desconto)',
+            },
+          ],
+        }),
+      }
+    })(),
     ...(avgRating !== null && {
       aggregateRating: {
         '@type': 'AggregateRating',
@@ -230,7 +259,7 @@ export default async function ProdutoPage({
         name: 'Como evitar que o jaleco branco amarelar?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Evite alvejante com cloro (causa amarelamento em poliéster), lave logo após o uso, seque à sombra e não use ferro em temperatura muito alta. Use bicarbonato de sódio no sabão para potencializar a brancura.',
+          text: 'Evite alvejante com cloro (causa amarelamento em poliéster), lave logo após o uso, seque à sombra e não use ferro em temperatura muito alta. Use bicarbonato de sódio no sabão para intensificar a brancura.',
         },
       },
       {

@@ -5,6 +5,8 @@ export type HubProfissao = {
   slug: string
   titulo: string
   cluster: 'saude' | 'beleza' | 'gastronomia' | 'servicos' | 'escritorio'
+  produto?: 'jaleco' | 'dolma' | 'conjunto'   // padrão: 'jaleco'
+  urlSlug?: string                              // URL path sem leading slash; se omitido deriva como `jaleco-para-${slug}`
   metadata: { title: string; description: string }
   hero: { subtitulo: string }
   guia: {
@@ -20,6 +22,7 @@ export type HubProfissao = {
 
 export const CLUSTER_LINKS: Record<string, Array<{ label: string; href: string; desc: string }>> = {
   saude: [
+    { label: '← Uniformes para Saúde', href: '/uniformes-profissionais-para-saude', desc: 'Guia completo da área' },
     { label: 'Dentista', href: '/jaleco-para-dentista', desc: 'Guia completo' },
     { label: 'Podólogo', href: '/jaleco-para-podologo', desc: 'Guia completo' },
     { label: 'Biomédico', href: '/jaleco-para-biomedico', desc: 'Guia completo' },
@@ -37,19 +40,27 @@ export const CLUSTER_LINKS: Record<string, Array<{ label: string; href: string; 
     { label: 'Cabeleireiro', href: '/jaleco-para-cabeleireiro', desc: 'Guia completo' },
   ],
   gastronomia: [
-    { label: 'Churrasqueiro', href: '/jaleco-para-churrasqueiro', desc: 'Guia completo' },
-    { label: 'Sushiman', href: '/jaleco-para-sushiman', desc: 'Guia completo' },
-    { label: 'Cozinheiro', href: '/jaleco-para-cozinheiro', desc: 'Guia completo' },
+    { label: 'Churrasqueiro', href: '/jaleco-para-churrasqueiro', desc: 'Jaleco' },
+    { label: 'Sushiman', href: '/jaleco-para-sushiman', desc: 'Jaleco' },
+    { label: 'Cozinheiro', href: '/jaleco-para-cozinheiro', desc: 'Jaleco' },
+    { label: 'Dólmã Churrasqueiro', href: '/dolma-para-churrasqueiro', desc: 'Dólmã' },
+    { label: 'Dólmã Sushiman', href: '/dolma-para-sushiman', desc: 'Dólmã' },
+    { label: 'Dólmã Cozinheiro', href: '/dolma-para-cozinheiro', desc: 'Dólmã' },
   ],
   servicos: [
     { label: 'Professor', href: '/jaleco-para-professor', desc: 'Guia completo' },
     { label: 'Vendedor', href: '/jaleco-para-vendedor', desc: 'Guia completo' },
+    { label: 'Uniforme Professor', href: '/uniforme-para-professor', desc: 'Guia completo' },
   ],
   escritorio: [
-    { label: 'Advogado', href: '/jaleco-para-advogado', desc: 'Guia completo' },
-    { label: 'Pastor', href: '/jaleco-para-pastor', desc: 'Guia completo' },
-    { label: 'Psicólogo', href: '/jaleco-para-psicologa', desc: 'Guia completo' },
-    { label: 'Farmacêutico', href: '/jaleco-para-farmaceutico', desc: 'Guia completo' },
+    { label: 'Advogado', href: '/jaleco-para-advogado', desc: 'Jaleco' },
+    { label: 'Pastor', href: '/jaleco-para-pastor', desc: 'Jaleco' },
+    { label: 'Psicólogo', href: '/jaleco-para-psicologa', desc: 'Jaleco' },
+    { label: 'Farmacêutico', href: '/jaleco-para-farmaceutico', desc: 'Jaleco' },
+    { label: 'Conjunto Advogado', href: '/conjunto-para-advogado', desc: 'Conjunto' },
+    { label: 'Conjunto Pastor', href: '/conjunto-para-pastor', desc: 'Conjunto' },
+    { label: 'Conjunto Psicóloga', href: '/conjunto-para-psicologa', desc: 'Conjunto' },
+    { label: 'Conjunto Farmacêutico', href: '/conjunto-para-farmaceutico', desc: 'Conjunto' },
   ],
 }
 
@@ -60,21 +71,121 @@ export const HUB_PROFISSOES: HubProfissao[] = [
   // ── CLUSTER SAÚDE ──────────────────────────────────────────────────────────
 
   {
+    slug: 'dentista',
+    titulo: 'Dentista',
+    cluster: 'saude',
+    metadata: {
+      title: 'Jaleco para Dentista: NR-32 e Modelo Certo 2026 | Jaleca',
+      description:
+        'Jaleco dentista com manga longa NR-32: roupa dentista que protege e passa profissionalismo. Jaleco para dentista em branco ou colorido, do PP ao G3.',
+    },
+    hero: {
+      subtitulo:
+        'Jaleco para dentista: manga longa NR-32, tecido antimicrobiano e o modelo certo para cada especialidade.',
+    },
+    guia: {
+      tituloSidebar: 'Como escolher o jaleco ideal para dentista',
+      secoes: [
+        {
+          id: 'tecido',
+          titulo: 'Tecido e composição para odontologia',
+          paragrafos: [
+            'O jaleco para dentista precisa de manga longa — essa é a exigência da NR-32, que classifica o consultório odontológico como ambiente de risco biológico. O tecido certo é poliéster 65% + viscose 30% + elastano 5%: resiste a respingos de sangue e aerossóis do alta-rotação, não amassa em 8h de atendimento e suporta lavagem a 60°C sem encolher.',
+            'Tratamento antimicrobiano (prata iônica) reduz a colonização bacteriana na superfície do jaleco entre lavagens — vantagem real em consultórios com alto fluxo de pacientes em clareamento, facetas e harmonização facial.',
+            'Evite 100% algodão na odontologia. Absorve fluidos biológicos com facilidade e exige lavagem mais agressiva.',
+          ],
+        },
+        {
+          id: 'modelagem',
+          titulo: 'Modelagem Slim ou Profissional para dentista',
+          paragrafos: [
+            'O Slim tem corte ajustado que fica bem em fotos do consultório — para dentistas que fazem harmonização facial e constroem clientela pelo Instagram.',
+            'O Profissional tem folga calibrada nos ombros — permite a abdução total dos braços que procedimentos como extração, implante e cirurgia periodontal exigem.',
+          ],
+        },
+        {
+          id: 'cores',
+          titulo: 'Jaleco branco ou colorido para dentista',
+          paragrafos: [
+            'Branco é o padrão histórico na odontologia e o que o paciente espera ver — transmite assepsia e confiança. O CRO não proíbe outras cores, mas branco facilita identificar contaminação visível.',
+            'Dentistas que fazem harmonização facial usam cada vez mais tons pastel — azul claro, verde menta, lilás. A escolha de cor pode ser parte do posicionamento da clínica.',
+          ],
+        },
+        {
+          id: 'ergonomia',
+          titulo: 'Ergonomia e funcionalidade no consultório',
+          paragrafos: [
+            'O dentista trabalha com os braços elevados por longos períodos — o jaleco precisa ter cava com amplitude mínima de 120° sem criar tração nas costas.',
+            'Bolso no peito para caneta; bolso lateral esquerdo para luvas (acesso single-hand entre pacientes); bolso direito para EPI extras.',
+          ],
+        },
+        {
+          id: 'normas',
+          titulo: 'NR-32 e biossegurança na odontologia',
+          paragrafos: [
+            'A NR-32 classifica o jaleco como EPI em ambientes odontológicos — manga longa é obrigatória contra aerossóis do alta-rotação e respingos de sangue e saliva.',
+            'O CFO orienta que o jaleco seja de uso exclusivo do consultório — proibido usá-lo fora do ambiente clínico para evitar contaminação cruzada.',
+          ],
+        },
+      ],
+    },
+    comparacao: {
+      slimIdeal: 'Consultórios estéticos, harmonização facial e dentistas que filmam conteúdo',
+      profissionalIdeal: 'Cirurgias, implantes e rotina clínica de alto volume',
+    },
+    faq: [
+      {
+        q: 'Jaleco de manga longa é obrigatório para dentista?',
+        a: 'Sim. A NR-32 exige manga longa em ambientes odontológicos — protege contra aerossóis e respingos de sangue.',
+      },
+      {
+        q: 'Qual cor de jaleco pode usar o dentista?',
+        a: 'O CRO não proíbe cores. Branco é o padrão de biossegurança. Cores claras e pastel são aceitas em consultórios estéticos.',
+      },
+      {
+        q: 'Qual tecido é melhor para jaleco de dentista?',
+        a: 'Poliéster com elastano. Resiste a lavagem a 60°C, não amassa e tem boa amplitude de movimento.',
+      },
+      {
+        q: 'O jaleco precisa de tratamento antimicrobiano?',
+        a: 'Não é obrigatório, mas ajuda — reduz colonização bacteriana entre lavagens.',
+      },
+      {
+        q: 'Como lavar o jaleco de dentista?',
+        a: 'Lavar a 60°C com detergente enzimático. Tecidos poliéster com elastano resistem bem.',
+      },
+      {
+        q: 'Jaleco curto ou longo para dentista?',
+        a: 'Comprimento médio (acima do joelho) é o mais comum. Facilita o trabalho sentado na cadeira odontológica.',
+      },
+      {
+        q: 'Como escolher o tamanho certo?',
+        a: 'Meça o busto e compare com a tabela de medidas da Jaleca.',
+      },
+      {
+        q: 'Qual o prazo de entrega?',
+        a: 'Enviamos em até 2 dias úteis. Capitais do Sudeste recebem em 3 a 5 dias úteis.',
+      },
+    ],
+    cta: { descricao: 'Do PP ao G3. Manga longa NR-32, elastano e 12 cores. Frete grátis no Sudeste acima de R$499.' },
+  },
+
+  {
     slug: 'podologo',
     titulo: 'Podólogo',
     cluster: 'saude',
     metadata: {
-      title: 'Jaleco para Podólogo: Guia Completo 2026 | Jaleca',
-      description: 'Qual jaleco usar na podologia? Tecido certo, modelagem Slim ou Profissional, cores e normas. Guia completo com jalecos com elastano do PP ao G3.',
+      title: 'Jaleco para Podólogo: Elastano e Conforto 2026 | Jaleca',
+      description: 'Jaleco para podologo com elastano: mais conforto para quem atende sentado. Uniforme podologia do PP ao G3 — modelos Slim e Profissional, antimicrobiano, 12 cores.',
     },
-    hero: { subtitulo: 'Jaleco prático e confortável para quem trabalha sentado, agachado e em movimento.' },
+    hero: { subtitulo: 'Jaleco para podólogo com elastano: liberdade de movimento para quem passa horas curvado sobre os pés do paciente.' },
     guia: {
       tituloSidebar: 'Como escolher o jaleco ideal para podologia',
       secoes: [
         {
           id: 'tecido', titulo: 'Tecido e composição para podologia',
           paragrafos: [
-            'Tecidos com 4 a 8% de elastano são os mais indicados para podologia. Essa composição garante recuperação de forma depois de cada flexão — quem atende 8 a 10 horas sentado sente a diferença em comparação com gabardine sem stretch.',
+            'O jaleco para podólogo precisa de elastano — não tem outro caminho. Quem atende sentado por 8 a 10 horas seguidas e fica constantemente curvado sobre os pés do paciente sente cada tração do tecido. Composição com 4 a 8% de elastano garante recuperação de forma depois de cada flexão, sem o cansaço que um gabardine sem stretch causa.',
             'Microfibra com elastano tem ainda vantagem adicional: repele líquidos leves e secreções do atendimento. A limpeza entre pacientes é mais rápida e o jaleco chega ao fim do dia apresentável.',
             'Evite 100% algodão para uso diário em podologia — o tecido pura-fibra absorve umidade, pesa ao longo do dia e encolhe nas lavagens a 40°C necessárias para higienização clínica adequada.',
           ],
@@ -131,17 +242,17 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Biomédico',
     cluster: 'saude',
     metadata: {
-      title: 'Jaleco para Biomédico: Guia Completo 2026 | Jaleca',
-      description: 'Jaleco certo para biomédico: tecido resistente a químicos, manga longa obrigatória, normas ANVISA. Modelos com elastano do PP ao G3.',
+      title: 'Jaleco para Biomédico: Lab e Harmonização 2026 | Jaleca',
+      description: 'Jaleco para biomédico: uniforme biomedicina para laboratório e estética. Manga longa para lab, Slim para harmonização facial. Do PP ao G3, elastano, normas ANVISA.',
     },
-    hero: { subtitulo: 'Para o biomédico, o jaleco é proteção e ferramenta de trabalho ao mesmo tempo.' },
+    hero: { subtitulo: 'Uniforme biomedicina do jeito certo: jaleco de lab para análises clínicas e jaleco de apresentação para harmonização facial.' },
     guia: {
       tituloSidebar: 'Como escolher o jaleco ideal para biomedicina',
       secoes: [
         {
           id: 'tecido', titulo: 'Tecido e composição para o laboratório',
           paragrafos: [
-            'Para biomédicos, a composição ideal é poliéster 65% + viscose 30% + elastano 5%. O poliéster resiste a reagentes e solventes leves; a viscose confere caimento e conforto térmico; o elastano garante liberdade de movimento nas bancadas.',
+            'O uniforme biomedicina muda bastante dependendo de onde você trabalha. Para análises clínicas, a composição certa é poliéster 65% + viscose 30% + elastano 5% — o poliéster resiste a reagentes e solventes leves, a viscose confere caimento e conforto térmico, o elastano garante liberdade de movimento nas bancadas.',
             'Evite algodão puro no laboratório de análises clínicas — absorve reagentes e pode carregar contaminantes biológicos por mais tempo na fibra. O tecido sintético facilita a descontaminação com álcool 70% entre procedimentos.',
             'Tecidos com tratamento antimicrobiano são uma vantagem extra para biomédicos que trabalham com hemoculturas e materiais de alto risco biológico — reduzem a colonização da superfície do jaleco entre lavagens.',
           ],
@@ -198,17 +309,17 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Enfermeiro',
     cluster: 'saude',
     metadata: {
-      title: 'Jaleco para Enfermeiro: Guia Completo 2026 | Jaleca',
-      description: 'Jaleco para enfermagem: tecido respirável, resistente a lavagens hospitalares, normas COREN. Modelos Slim e Profissional com elastano.',
+      title: 'Jaleco de Enfermagem: COFEN e Lavagem 60°C 2026 | Jaleca',
+      description: 'Jaleco enfermagem que aguenta lavagem a 60°C, cumpre COFEN 375/2011 e dura o plantão inteiro. Uniforme enfermagem Slim e Profissional com elastano, do PP ao G3.',
     },
-    hero: { subtitulo: 'Jalecos que combinam conforto e proteção para quem cuida o dia todo.' },
+    hero: { subtitulo: 'Jaleco de enfermagem que aguenta a correria do plantão: respirável, resistente a 60°C e com mobilidade total.' },
     guia: {
       tituloSidebar: 'Como escolher o jaleco ideal para enfermagem',
       secoes: [
         {
           id: 'tecido', titulo: 'Tecido e composição para enfermagem',
           paragrafos: [
-            'O plantão de 12 horas exige tecido leve e respirável. Composição ideal: poliéster 67% + viscose 29% + elastano 4%. O poliéster resiste à lavagem hospitalar a 60°C; a viscose regula a temperatura corporal; o elastano acompanha os movimentos amplos sem fadiga do tecido.',
+            'O jaleco de enfermagem precisa resistir à lavagem a 60°C — exigência básica de biossegurança hospitalar. Composição ideal: poliéster 67% + viscose 29% + elastano 4%. O poliéster suporta esse ciclo sem encolher; a viscose regula a temperatura no plantão de 12 horas; o elastano acompanha os movimentos amplos sem fadiga do tecido.',
             'Em ambientes de isolamento e UTI, tecidos com acabamento antimicrobiano (prata iônica ou tratamento quaternário) são recomendados — reduzem a colonização bacteriana na superfície do jaleco entre lavagens.',
             'Evite malhas de algodão puro para enfermagem hospitalar. O algodão absorve fluidos biológicos e exige lavagem mais agressiva para descontaminação — o que acelera o desgaste e encurta a vida útil do jaleco.',
           ],
@@ -265,17 +376,17 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Fisioterapeuta',
     cluster: 'saude',
     metadata: {
-      title: 'Jaleco para Fisioterapeuta: Guia Completo 2026 | Jaleca',
-      description: 'Jaleco para fisioterapia: elastano obrigatório, movimento livre, cores e normas COFFITO. Modelos Slim e Profissional do PP ao G3.',
+      title: 'Jaleco de Fisioterapia: RPG, Pilates e Movimento 2026 | Jaleca',
+      description: 'Jaleco fisioterapia com elastano para RPG, pilates e esportiva. Roupa fisioterapeuta com amplitude total de movimento, normas COFFITO. Do PP ao G3.',
     },
-    hero: { subtitulo: 'Jalecos com elastano para acompanhar cada movimento da sua sessão.' },
+    hero: { subtitulo: 'Jaleco de fisioterapia com elastano: para RPG, pilates e qualquer técnica que exige movimento total do terapeuta.' },
     guia: {
       tituloSidebar: 'Como escolher o jaleco ideal para fisioterapia',
       secoes: [
         {
           id: 'tecido', titulo: 'Tecido e composição para fisioterapia',
           paragrafos: [
-            'A fisioterapia exige o maior range de movimento de qualquer profissão da saúde. Tecidos com elastano bidirecional (4-way stretch) com percentual mínimo de 6% garantem que o jaleco acompanhe rotações de tronco, flexões e extensões sem criar pontos de resistência.',
+            'O jaleco de fisioterapia precisa de elastano — e ponto. Quem trabalha com RPG, pilates clínico ou fisioterapia esportiva sabe que o tecido sem stretch trava na hora errada. Elastano bidirecional (4-way stretch) com percentual mínimo de 6% garante que o jaleco acompanhe rotações de tronco, flexões e extensões sem criar pontos de resistência.',
             'Microfibra é excelente para fisioterapia: levíssima, respirável, seca rápido e tem superfície lisa que não acumula sujeira de mesas e macas. Composição prática: poliéster 92% + elastano 8%.',
             'Para fisioterapia aquática ou hidroterapia, tecidos com tratamento hidrófugo (repelente a água) são essenciais. Secagem em 20 a 30 minutos sem necessidade de troca entre sessões.',
           ],
@@ -332,17 +443,17 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Nutricionista',
     cluster: 'saude',
     metadata: {
-      title: 'Jaleco para Nutricionista: Guia Completo 2026 | Jaleca',
-      description: 'Jaleco para nutricionista: tecido leve, modelagem Slim ou Profissional, normas CFN. Guia completo com jalecos do PP ao G3.',
+      title: 'Jaleco Nutricionista: Autoridade no Consultório 2026 | Jaleca',
+      description: 'Jaleco nutricionista para consultório de emagrecimento, low carb e jejum. Roupa nutricionista que passa autoridade científica. Normas CFN, do PP ao G3.',
     },
-    hero: { subtitulo: 'Conforto e elegância para o consultório de nutrição.' },
+    hero: { subtitulo: 'Jaleco nutricionista: porque no consultório de emagrecimento a imagem do profissional também influencia a adesão do paciente.' },
     guia: {
       tituloSidebar: 'Como escolher o jaleco ideal para nutricionista',
       secoes: [
         {
           id: 'tecido', titulo: 'Tecido e composição para nutrição',
           paragrafos: [
-            'Microfibra com elastano (92% poliéster + 8% elastano) é a escolha mais prática para nutricionistas. O tecido seca em 15 minutos após lavagem, não amassa em consultas longas e tem superfície lisa que facilita limpeza rápida entre atendimentos.',
+            'O jaleco nutricionista para consultório precisa de tecido que não amasse em 8 horas de atendimento. Microfibra com elastano (92% poliéster + 8% elastano) é a escolha certa — seca em 15 minutos após lavagem, não amassa em consultas longas e tem superfície lisa que facilita limpeza rápida entre atendimentos de emagrecimento.',
             'Em laboratórios de técnica dietética e UAN (Unidade de Alimentação e Nutrição), onde há contato com alimentos e equipamentos de cocção, tecidos com tratamento de repelência a líquidos são indicados — protegem contra respingos de caldos e óleos quentes.',
           ],
         },
@@ -464,17 +575,17 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Médico',
     cluster: 'saude',
     metadata: {
-      title: 'Jaleco para Médico: Guia Completo 2026 | Jaleca',
-      description: 'Jaleco para médico: elegância e proteção para consultório e hospital. Modelos Slim e Profissional com elastano, do PP ao G3.',
+      title: 'Roupa Médico: Jaleco para Telemedicina e Consultório 2026 | Jaleca',
+      description: 'Roupa médico e jaleco médico para telemedicina, consultório e plantão. O branco na câmera ainda importa — normas CFM 1931/2009. Do PP ao G3 com elastano.',
     },
-    hero: { subtitulo: 'Jalecos que combinam elegância e proteção para a rotina médica.' },
+    hero: { subtitulo: 'Roupa médico para quem atende na câmera e no consultório: o branco certo faz diferença na primeira impressão.' },
     guia: {
       tituloSidebar: 'Como escolher o jaleco ideal para médico',
       secoes: [
         {
           id: 'tecido', titulo: 'Tecido e composição para médico',
           paragrafos: [
-            'Para consultório, tecido com 5-8% de elastano e gramatura entre 170-200 g/m² é o equilíbrio certo — não amassa em 8h de atendimento, não retém calor em sala com ar-condicionado e seca em menos de 30 minutos.',
+            'A roupa médico para telemedicina tem um detalhe que não aparece em outras profissões: o tecido precisa ficar bem na câmera. Jaleco médico branco em tecido com boa estrutura (gramatura entre 170-200 g/m²) não transparece sob luz artificial e não cria reflexo que atrapalha a imagem. Para consultório presencial, o mesmo tecido com 5-8% de elastano não amassa em 8h de atendimento.',
             'Para plantão hospitalar, scrub (conjunto calça + blusa) em poliéster antimicrobiano está em crescimento acelerado — tendência que veio dos EUA e já é realidade nos principais hospitais brasileiros. O scrub substitui o jaleco em UTI, centro cirúrgico e emergência.',
             'Gabardine poliéster para consultório particular: visual mais formal, resistente a vincos, caimento nobre. Para pediatria, tecidos em cores vibrantes ou estampas divertidas criam vínculo com a criança — reduz ansiedade e melhora adesão ao tratamento.',
           ],
@@ -533,17 +644,17 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Barbeiro',
     cluster: 'beleza',
     metadata: {
-      title: 'Jaleco para Barbeiro: Guia Completo 2026 | Jaleca',
-      description: 'Jaleco para barbeiro: tecido que não retém pelos, cores escuras, estilo premium para barbearias. Guia completo do PP ao G3.',
+      title: 'Jaleco Barbearia: Uniforme Barbeiro Guia 2026 | Jaleca',
+      description: 'Jaleco barbearia e uniforme barbeiro: tecido que não retém pelos, cores escuras, estilo premium. Do hot towel shave ao corte masculino, guia completo PP ao G3.',
     },
-    hero: { subtitulo: 'Estilo e praticidade para quem trabalha na barbearia todo dia.' },
+    hero: { subtitulo: 'Uniforme barbeiro com estilo — jaleco barbearia que combina com a vibe do seu espaço.' },
     guia: {
       tituloSidebar: 'Como escolher o jaleco ideal para barbeiro',
       secoes: [
         {
           id: 'tecido', titulo: 'Tecido e composição para barbearia',
           paragrafos: [
-            'Gabardine com acabamento calendrado (superfície laminada) é a escolha técnica certa para barbeiro — a superfície lisa repele pelos cortados que deslizam para o chão em vez de cravar no tecido. Sarja pesada (200 g/m²) também funciona bem, especialmente para jornadas longas.',
+            'Jaleco barbearia tem exigência específica: a superfície não pode reter pelo. Gabardine com acabamento calendrado (laminado) é a escolha técnica — os fios cortados escorregam e caem, em vez de cravar no tecido. Para uniforme barbeiro com jornadas longas, sarja pesada 200 g/m² aguenta o tranco.',
             'Tecidos com tratamento DWR repelem pomadas, gel e finalizadores que pingam durante o trabalho — produto escorrega sem absorver, limpeza em segundos com pano úmido.',
             'Para barbeiros que filmam conteúdo para redes sociais — tendência crescente nas barbearias — sarja acetinada ou gabardine com leve brilho ficam melhor em câmera que tecidos opacos.',
           ],
@@ -600,17 +711,17 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Tatuador',
     cluster: 'beleza',
     metadata: {
-      title: 'Jaleco para Tatuador: Guia Completo 2026 | Jaleca',
-      description: 'Jaleco para tatuador: tecido resistente a tinta, cores escuras, estilo para estúdio. Guia completo com modelos do PP ao G3.',
+      title: 'Jaleco para Tatuador: Higiene e Estilo no Estúdio 2026 | Jaleca',
+      description: 'Jaleco para tatuador: tecido resistente a tinta, biossegurança ANVISA, estilo para estúdio. Uniforme tatuador higiene do PP ao G3 — RDC 56/2010.',
     },
-    hero: { subtitulo: 'Proteção e estilo para longas sessões no estúdio de tatuagem.' },
+    hero: { subtitulo: 'Proteção e estilo para longas sessões — jaleco para tatuador que respeita a biossegurança.' },
     guia: {
       tituloSidebar: 'Como escolher o jaleco ideal para tatuador',
       secoes: [
         {
           id: 'tecido', titulo: 'Tecido e composição para estúdio de tatuagem',
           paragrafos: [
-            'Tinta de tatuagem é à base de pigmentos orgânicos e metais pesados — mancha qualquer tecido permanentemente se não tratada em 5 minutos. Tecido escuro (preto ou grafite) é escolha inteligente para não mostrar os respingos inevitáveis da sessão.',
+            'Jaleco para tatuador precisa resistir à tinta antes de tudo. Pigmentos orgânicos e metais pesados mancham permanentemente se não tratados em 5 minutos — tecido escuro (preto ou grafite) é escolha inteligente para o uniforme tatuador higiene do dia a dia no estúdio.',
             'Composição ideal: poliéster 90% + elastano 10% em tecido escuro — não absorve tinta com a mesma facilidade que algodão, fácil de limpar com água fria imediatamente após o respingo.',
           ],
         },
@@ -666,17 +777,17 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Esteticista',
     cluster: 'beleza',
     metadata: {
-      title: 'Jaleco para Esteticista: Guia Completo 2026 | Jaleca',
-      description: 'Jaleco para esteticista: conforto, higiene e elegância para a clínica de estética. Modelos Slim e Profissional com elastano do PP ao G3.',
+      title: 'Jaleco Estética: Uniforme Esteticista Clínica 2026 | Jaleca',
+      description: 'Jaleco estética para esteticista: elegância, higiene e conforto na cabine. Jaleco para esteticista com elastano — tratamentos faciais, corporais e cosméticos. PP ao G3.',
     },
-    hero: { subtitulo: 'Conforto, higiene e estilo para a sua rotina na estética.' },
+    hero: { subtitulo: 'Jaleco estética que eleva a percepção da cliente antes de você falar uma palavra.' },
     guia: {
       tituloSidebar: 'Como escolher o jaleco ideal para esteticista',
       secoes: [
         {
           id: 'tecido', titulo: 'Tecido e composição para clínica de estética',
           paragrafos: [
-            'Microfibra 92% poliéster + 8% elastano é o padrão nas clínicas premium de estética — não amassa durante 8h de procedimentos, seca em 20 minutos e repele óleos essenciais e géis que são parte constante da rotina.',
+            'Jaleco estética de microfibra 92% poliéster + 8% elastano é o padrão nas clínicas premium — não amassa durante 8h de procedimentos, seca em 20 minutos e repele óleos essenciais e géis que fazem parte da rotina de tratamentos faciais e corporais.',
             'Tecidos com tratamento antimicrobiano são indicados para esteticistas que realizam procedimentos invasivos como microagulhamento, peeling químico e limpeza de pele — reduzem risco de contaminação cruzada entre cliente e profissional.',
           ],
         },
@@ -732,17 +843,17 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Massagista',
     cluster: 'beleza',
     metadata: {
-      title: 'Jaleco para Massagista: Guia Completo 2026 | Jaleca',
-      description: 'Jaleco para massagista e massoterapeuta: tecido leve, alta elasticidade, liberdade de movimento. Modelos do PP ao G3.',
+      title: 'Jaleco Massagem: Uniforme Massagista Mobilidade 2026 | Jaleca',
+      description: 'Jaleco massagem e uniforme massagista: tecido leve com elastano, liberdade total de movimento. Uniforme spa premium do PP ao G3 — massagem relaxante e terapias corporais.',
     },
-    hero: { subtitulo: 'Liberdade e bem-estar para cada sessão de massagem.' },
+    hero: { subtitulo: 'Jaleco massagem com mobilidade real — uniforme massagista que acompanha cada técnica.' },
     guia: {
       tituloSidebar: 'Como escolher o jaleco ideal para massagista',
       secoes: [
         {
           id: 'tecido', titulo: 'Tecido e composição para massoterapia',
           paragrafos: [
-            'Tecidos com stretch de 4 vias (bidirecional) são obrigatórios para massoterapia — técnicas como lomi lomi, shiatsu e drenagem linfática exigem amplitude de ombros acima de 180°. Elastano de 8-10% garante esse range sem rasgos.',
+            'Jaleco massagem precisa de stretch de 4 vias — técnicas como lomi lomi, shiatsu e drenagem linfática exigem amplitude de ombros acima de 180°. Uniforme massagista com elastano de 8-10% garante esse range sem rasgar e sem prender o movimento.',
             'Microfibra de baixa gramatura (130-150 g/m²) é ideal — leve para não esquentar durante o esforço físico da massagem, seca rápido após lavagem e não retém odor de óleos essenciais com a mesma intensidade que algodão.',
           ],
         },
@@ -798,17 +909,17 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Cabeleireiro',
     cluster: 'beleza',
     metadata: {
-      title: 'Jaleco para Cabeleireiro: Guia Completo 2026 | Jaleca',
-      description: 'Jaleco para cabeleireiro e salão de beleza: tecido antiestático, proteção de produtos químicos, estilo para o salão. Guia completo.',
+      title: 'Jaleco para Cabeleireiro: Uniforme Salão Beleza 2026 | Jaleca',
+      description: 'Jaleco para cabeleireiro: proteção contra tinta, descolorante e químicos. Uniforme cabeleireiro para salão — transição capilar, alisamento e queda de cabelo. PP ao G3.',
     },
-    hero: { subtitulo: 'Proteção e estilo para quem trabalha com beleza no salão todo dia.' },
+    hero: { subtitulo: 'Jaleco para cabeleireiro que protege de tinta e químicos — uniforme cabeleireiro com estilo no salão.' },
     guia: {
       tituloSidebar: 'Como escolher o jaleco ideal para cabeleireiro',
       secoes: [
         {
           id: 'tecido', titulo: 'Tecido e composição para salão de beleza',
           paragrafos: [
-            'Gabardine com tratamento antiestático é a solução técnica para quem trabalha com cabelo — a carga eletrostática que o tecido comum acumula é o principal motivo dos fios grudarem. Com o tratamento certo, os cabelos deslizam e caem ao chão.',
+            'Jaleco para cabeleireiro precisa de tratamento antiestático — sem ele, os fios cortados grudam no tecido o dia inteiro. Uniforme cabeleireiro com gabardine tratada resolve: os cabelos deslizam e caem ao chão em vez de ficar presos no tecido.',
             'Resistência química é crítica: água oxigenada (H₂O₂) em 20, 30 e 40 volumes, amônia e formol degradam fibras naturais ao longo do tempo. Poliéster de alta densidade resiste muito mais que algodão ou viscose a esses oxidantes.',
           ],
         },
@@ -932,17 +1043,17 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Sushiman',
     cluster: 'gastronomia',
     metadata: {
-      title: 'Jaleco para Sushiman: Guia Completo 2026 | Jaleca',
-      description: 'Jaleco para sushiman e chef de cozinha oriental: tecido resistente a molhos, higiene para manipulação de alimentos. Guia completo.',
+      title: 'Dólmã para Sushiman: Higiene e Apresentação 2026 | Jaleca',
+      description: 'Dólmã para sushiman e uniforme de cozinha japonesa: tecido resistente a molhos, higiene para manipulação de alimentos, roupa certa para quem trabalha com sushi. Guia completo.',
     },
-    hero: { subtitulo: 'O jaleco certo para o sushiman que não abre mão de higiene e estilo.' },
+    hero: { subtitulo: 'Dólmã para sushiman com higiene e estilo: o uniforme certo para quem trabalha com comida japonesa.' },
     guia: {
       tituloSidebar: 'Como escolher o jaleco ideal para sushiman',
       secoes: [
         {
           id: 'tecido', titulo: 'Tecido e composição para cozinha oriental',
           paragrafos: [
-            'Gabardine 150-180 g/m² é o tecido dominante na gastronomia oriental. Poliéster 65% / viscose 35% — caimento limpo e respiração adequada para trabalho em temperatura ambiente controlada de um sushi counter.',
+            'A dólmã para sushiman precisa passar no teste da higiene antes de qualquer outra coisa. Peixe cru, vinagre de arroz e shoyu — o uniforme de cozinha japonesa está em contato direto com tudo isso. Gabardine 150-180 g/m² é o tecido dominante na gastronomia oriental. Poliéster 65% / viscose 35% — caimento limpo e respiração adequada para trabalho em temperatura ambiente controlada de um sushi counter.',
             'Para sushimans que atuam em cozinhas mistas, tecidos com tratamento DWR (Durable Water Repellency) são vantagem real: respingo de shoyu e vinagre de arroz saem com um pano úmido — o jaleco chega intacto até a troca do turno.',
             'Evite tecidos grossos como brim 240 g/m² para cozinhas de sushi. O sushiman faz movimentos de corte rápidos e precisos — manga pesada trava o punho e cansa o ombro em jornadas de 6+ horas de fatiamento.',
           ],
@@ -999,17 +1110,17 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Cozinheiro',
     cluster: 'gastronomia',
     metadata: {
-      title: 'Jaleco para Cozinheiro: Guia Completo 2026 | Jaleca',
-      description: 'Jaleco para cozinheiro profissional: tecido resistente, proteção contra calor e respingos, higiene para cozinha. Guia completo do PP ao G3.',
+      title: 'Dólmã de Chef: Roupa de Cozinheiro Profissional 2026 | Jaleca',
+      description: 'Dólmã de chef e roupa de cozinheiro profissional: dólmã cozinheiro para alta gastronomia, personal chef e eventos. Proteção contra calor, tecido resistente, do PP ao G3.',
     },
-    hero: { subtitulo: 'Proteção e praticidade para quem trabalha na cozinha profissional.' },
+    hero: { subtitulo: 'Dólmã de chef ou roupa de cozinheiro profissional: o uniforme que aguenta o rush sem perder o caimento.' },
     guia: {
       tituloSidebar: 'Como escolher o jaleco ideal para cozinheiro',
       secoes: [
         {
           id: 'tecido', titulo: 'Tecido e composição para cozinha profissional',
           paragrafos: [
-            'Brim pesado (gramatura 200-240 g/m²) é o tecido tradicional para cozinhas profissionais. A trama densa cria barreira contra respingos de óleo quente — o impacto é dissipado pela fibra antes de atingir a pele.',
+            'Dólmã de chef e roupa de cozinheiro profissional são escolhas diferentes para contextos diferentes. A dólmã tem abotoamento duplo e manga com estrutura — padrão da alta gastronomia. O jaleco é mais leve e prático para cozinhas de rotina rápida. Brim pesado (gramatura 200-240 g/m²) é o tecido tradicional para cozinhas profissionais. A trama densa cria barreira contra respingos de óleo quente — o impacto é dissipado pela fibra antes de atingir a pele.',
             'Gabardine poliéster com tratamento DWR é a alternativa moderna para cozinhas que priorizam leveza. O calor gerado por fogões industriais em jornadas longas torna a gramatura um fator de conforto: 150-170 g/m² respira melhor do que brim 240 g/m².',
             'Em cozinhas de alto volume, a lavagem é frequente — às vezes diária. Tecidos com >50% poliéster secam em metade do tempo do algodão e não encolhem após ciclos de lavagem a 60°C recomendados pela vigilância sanitária.',
           ],
@@ -1068,17 +1179,17 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Professor',
     cluster: 'servicos',
     metadata: {
-      title: 'Jaleco para Professor: Guia Completo 2026 | Jaleca',
-      description: 'Jaleco para professor universitário e de laboratório: prático, confortável, com bolsos. Modelos Slim e Profissional com elastano do PP ao G3.',
+      title: 'Roupa para Professor: Jaleco e Uniforme com Autoridade | Jaleca',
+      description: 'Roupa para professor e uniforme professor: jaleco para sala de aula presencial, EAD e laboratório. Roupa professor com autoridade visual, confortável para longas jornadas. Do PP ao G3.',
     },
-    hero: { subtitulo: 'Jaleco prático para a sala de aula e o laboratório.' },
+    hero: { subtitulo: 'Roupa para professor que funciona: jaleco e uniforme professor para sala de aula, EAD e laboratório.' },
     guia: {
       tituloSidebar: 'Como escolher o jaleco ideal para professor',
       secoes: [
         {
           id: 'tecido', titulo: 'Tecido e composição para professor',
           paragrafos: [
-            'Microfibra leve (gramatura 120-150 g/m²) é excelente para professores que passam o dia em sala — leve, não cansa nos ombros e aguenta lavagens semanais sem perder forma ao longo de meses de uso.',
+            'Roupa para professor é um dos termos mais buscados no Google quando o assunto é uniforme de educação — e faz sentido. O professor precisa de uma peça que funcione tanto na sala de aula quanto em frente à câmera no EAD. O uniforme professor mais usado é o jaleco, pela praticidade de colocar sobre qualquer roupa e pelo sinal de autoridade que transmite. Microfibra leve (gramatura 120-150 g/m²) é excelente para professores que passam o dia em sala — leve, não cansa nos ombros e aguenta lavagens semanais sem perder forma ao longo de meses de uso.',
             'Blends com elastano bidirecional (4-6%) são os mais práticos para ensino. O professor gesticula, aponta, escreve na lousa — o tecido precisa acompanhar sem criar tensão ou puxar a camisa por baixo.',
             'Em laboratórios de ciências, química ou biologia: a ABNT NBR 14787 recomenda jaleco de algodão ou algodão/poliéster de manga longa — algodão não propaga chama como sintéticos puros, reduz risco em acidentes com reagentes inflamáveis diluídos.',
           ],
@@ -1135,17 +1246,17 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Vendedor',
     cluster: 'servicos',
     metadata: {
-      title: 'Jaleco para Vendedor: Guia Completo 2026 | Jaleca',
-      description: 'Jaleco para vendedor de loja: visual elegante, confortável para longas jornadas, opções de personalização com logo. Guia completo.',
+      title: 'Jaleco de Loja: Roupa de Vendedor que Gera Confiança 2026 | Jaleca',
+      description: 'Jaleco de loja e roupa de vendedor: jaleco para loja que padroniza a equipe e aumenta a confiança do cliente. Jaleco para vendedor com elastano, do PP ao G3.',
     },
-    hero: { subtitulo: 'Sua imagem é sua principal ferramenta de venda.' },
+    hero: { subtitulo: 'Jaleco de loja: o uniforme do vendedor que a equipe usa e o cliente confia.' },
     guia: {
       tituloSidebar: 'Como escolher o jaleco ideal para vendedor',
       secoes: [
         {
           id: 'tecido', titulo: 'Tecido e composição para loja',
           paragrafos: [
-            'Gabardine 150-165 g/m² com elastano bidirecional (4-6%) é o melhor custo-benefício para vendedores. O caimento é limpo — sem vincos após horas na cadeira de atendimento — e o elastano garante que o jaleco não aperta nos ombros quando o vendedor se abaixa para mostrar produtos.',
+            'Jaleco de loja é a roupa de vendedor mais usada no varejo brasileiro — de farmácia a loja de roupa, de pet shop a ótica. Ele padroniza a equipe, facilita a identificação pelo cliente e aumenta a percepção de confiança na marca. Gabardine 150-165 g/m² com elastano bidirecional (4-6%) é o melhor custo-benefício para vendedores. O caimento é limpo — sem vincos após horas na cadeira de atendimento — e o elastano garante que o jaleco não aperta nos ombros quando o vendedor se abaixa para mostrar produtos.',
             'Tecidos com tratamento antivinco são recomendados para equipes de vendas. O jaleco amassa na cadeira, no carro entre visitas, em reuniões longas — sem tratamento especial, perde a apresentação antes da metade do turno.',
             'Poliéster 100% seca rápido e resiste bem a lavagens — prático para equipes que trabalham 6 dias por semana. Em lojas sem ar-condicionado regulado, blends com viscose (65/35) melhoram o conforto térmico.',
           ],
@@ -1204,17 +1315,17 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Advogado',
     cluster: 'escritorio',
     metadata: {
-      title: 'Jaleco para Advogado: Guia Completo 2026 | Jaleca',
-      description: 'Jaleco para advogado e escritório jurídico: elegância, tecido de bom caimento, personalização. Guia completo com modelos do PP ao G3.',
+      title: 'Roupa para Advogado: Jaleco e Conjunto com Autoridade | Jaleca',
+      description: 'Roupa para advogado: jaleco e conjunto para advogado no tribunal, audiências e escritório. Roupa advogado que aguenta o dia inteiro e transmite credibilidade. Do PP ao G3.',
     },
-    hero: { subtitulo: 'Vista-se com autoridade no escritório jurídico.' },
+    hero: { subtitulo: 'Roupa para advogado: jaleco e conjunto que transmitem autoridade no tribunal e no escritório.' },
     guia: {
       tituloSidebar: 'Como escolher o jaleco ideal para advogado',
       secoes: [
         {
           id: 'tecido', titulo: 'Tecido e composição para escritório jurídico',
           paragrafos: [
-            'Gabardine 150-170 g/m² com poliéster ou viscose é a composição mais indicada para advogados. O caimento é sóbrio e a resistência a vincos aguenta audiências que se estendem por horas — o jaleco precisa estar impecável quando o cliente está sob pressão emocional.',
+            'Roupa para advogado no tribunal é a pesquisa que cresce quando a OAB tem aumento de inscrições — e o profissional percebe que a apresentação visual é parte da credibilidade que o cliente está contratando. O conjunto para advogado e o jaleco são as duas opções mais usadas no dia a dia jurídico. Gabardine 150-170 g/m² com poliéster ou viscose é a composição mais indicada para advogados. O caimento é sóbrio e a resistência a vincos aguenta audiências que se estendem por horas — o jaleco precisa estar impecável quando o cliente está sob pressão emocional.',
             'Malha de poliéster texturizado com leve trama diagonal imita visualmente o gabardine de alfaiataria. É a escolha para quem quer caimento premium sem o peso de tecidos mais nobres — prático em escritórios onde o jaleco é usado 8-10 horas por dia.',
             'Tecidos 100% algodão não são recomendados para ambiente jurídico — amassam rápido e perdem a apresentação em reuniões longas. Blends poliéster/viscose (65/35) têm o caimento do algodão sem a tendência a vincos.',
           ],
@@ -1271,17 +1382,17 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Pastor',
     cluster: 'escritorio',
     metadata: {
-      title: 'Jaleco para Pastor: Guia Completo 2026 | Jaleca',
-      description: 'Jaleco para pastor evangélico: jaleco branco pastoral, tecido de bom caimento, elegância para cultos. Guia completo do PP ao G3.',
+      title: 'Uniforme Pastor: Roupas para Ministério e Cultos 2026 | Jaleca',
+      description: 'Uniforme pastor e roupas para ministério: jaleco e conjunto para pastor em cultos, batismos e cerimônias. Roupas ministério com dignidade e elegância. Do PP ao G3.',
     },
-    hero: { subtitulo: 'Vista-se com dignidade e respeito para o seu ministério.' },
+    hero: { subtitulo: 'Roupas para ministério e uniforme pastor: jaleco e conjunto para cultos, cerimônias e aconselhamento.' },
     guia: {
       tituloSidebar: 'Como escolher o jaleco ideal para pastor',
       secoes: [
         {
           id: 'tecido', titulo: 'Tecido e composição para o ministério',
           paragrafos: [
-            'Gabardine com toque suave (viscose 35% / poliéster 65%) tem caimento que "flui" sobre o corpo — visual cerimonial adequado ao ministério. A composição resiste a vincos durante cultos que duram de 2 a 4 horas seguidas.',
+            'Roupas para ministério precisam comunicar reverência sem pesar nos ombros durante cultos que podem durar 3 horas. Uniforme pastor é um mercado que cresceu junto com o evangelismo — cada denominação tem sua tradição, mas o jaleco branco é o ponto em comum. Gabardine com toque suave (viscose 35% / poliéster 65%) tem caimento que "flui" sobre o corpo — visual cerimonial adequado ao ministério. A composição resiste a vincos durante cultos que duram de 2 a 4 horas seguidas.',
             'Gramatura 150-165 g/m² equilibra elegância e conforto térmico — igrejas têm variação de temperatura significativa entre salas de reunião, santuário e atividades externas. Um jaleco muito pesado fatiga em cultos noturnos longos.',
             'Jalecos de cetim leve ou poliéster brilhoso não são recomendados para uso pastoral — o brilho excessivo remete a look de festa e pode criar inconsistência visual com a solenidade do ministério.',
           ],
@@ -1338,17 +1449,17 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Psicólogo',
     cluster: 'escritorio',
     metadata: {
-      title: 'Jaleco para Psicólogo: Guia Completo 2026 | Jaleca',
-      description: 'Jaleco para psicólogo: conforto, tons neutros que transmitem acolhimento, modelagem elegante para o consultório. Guia completo.',
+      title: 'Jaleco de Psicologia: Roupa para Psicóloga no Consultório | Jaleca',
+      description: 'Jaleco de psicologia e roupa para psicóloga: jaleco psicologia para setting terapêutico, terapia online e consultório. Cores neutras, conforto para sessões longas. Do PP ao G3.',
     },
-    hero: { subtitulo: 'Transmita acolhimento e confiança com o jaleco certo no consultório.' },
+    hero: { subtitulo: 'Jaleco de psicologia: a roupa da psicóloga que muda a dinâmica do setting terapêutico.' },
     guia: {
       tituloSidebar: 'Como escolher o jaleco ideal para psicólogo',
       secoes: [
         {
           id: 'tecido', titulo: 'Tecido e composição para o consultório',
           paragrafos: [
-            'Microfibra leve (120-140 g/m²) com elastano 4-6% é a composição ideal para o consultório — o psicólogo fica sentado por 45 a 50 minutos consecutivos e o tecido não pode criar pressão nos quadris ou apertar no tronco ao longo de 8 sessões seguidas.',
+            'Jaleco de psicologia é diferente do jaleco clínico. Não é sobre biossegurança — é sobre setting. A roupa da psicóloga comunica ao paciente que ele está num espaço de cuidado, com um profissional preparado. Estudos em saúde mental mostram que o jaleco de psicologia reduz resistência no início do tratamento, especialmente em casos de depressão e ansiedade. Microfibra leve (120-140 g/m²) com elastano 4-6% é a composição ideal para o consultório — o psicólogo fica sentado por 45 a 50 minutos consecutivos e o tecido não pode criar pressão nos quadris ou apertar no tronco ao longo de 8 sessões seguidas.',
             'Viscose com elastano tem toque sedoso e temperatura regulada — agradável ao toque e não cria sensação de calor excessivo em consultórios com pouca ventilação ou durante sessões emocionalmente intensas.',
             'Evite poliéster 100% para psicólogos em climas quentes — o tecido sintético acumula calor e pode gerar desconforto térmico perceptível, o que afeta a presença e o estado interno do profissional durante sessões longas.',
           ],
@@ -1405,17 +1516,17 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Farmacêutico',
     cluster: 'escritorio',
     metadata: {
-      title: 'Jaleco para Farmacêutico: Guia Completo 2026 | Jaleca',
-      description: 'Jaleco para farmacêutico: tecido antimicrobiano, normas CFF, biossegurança em farmácia e laboratório. Modelos com elastano do PP ao G3.',
+      title: 'Jaleco de Farmácia: Normas, RDC 67 e Manga Longa 2026 | Jaleca',
+      description: 'Jaleco de farmácia: jaleco para farmacêutico com manga longa obrigatória (RDC 67/2007), antimicrobiano para manipulação de Ozempic e similares. Jaleco farmácia do PP ao G3.',
     },
-    hero: { subtitulo: 'Higiene e praticidade para a rotina na farmácia e no laboratório.' },
+    hero: { subtitulo: 'Jaleco de farmácia: manga longa, antimicrobiano e o que a RDC 67/2007 exige para manipulação.' },
     guia: {
       tituloSidebar: 'Como escolher o jaleco ideal para farmacêutico',
       secoes: [
         {
           id: 'tecido', titulo: 'Tecido e composição para farmácia',
           paragrafos: [
-            'Tecidos com tratamento antimicrobiano ativo são a escolha técnica para farmacêuticos em farmácias de manipulação. O processo de produção envolve exposição a matérias-primas em pó e excipientes que se depositam no jaleco — o tratamento reduz proliferação bacteriana na superfície do tecido entre as lavagens.',
+            'Jaleco de farmácia não é só questão de apresentação — é norma. A RDC 67/2007 exige manga longa obrigatória para farmacêuticos em área de manipulação, e esse requisito ficou ainda mais relevante com o crescimento das farmácias de manipulação de Ozempic, Wegovy e similares. Tecidos com tratamento antimicrobiano ativo são a escolha técnica para farmacêuticos em farmácias de manipulação. O processo de produção envolve exposição a matérias-primas em pó e excipientes que se depositam no jaleco — o tratamento reduz proliferação bacteriana na superfície do tecido entre as lavagens.',
             'Para farmacêuticos em farmácias de dispensação (atendimento ao público): gabardine 150-165 g/m² equilibra caimento profissional com leveza para longas jornadas em pé. O farmacêutico anda entre balcões e áreas de estoque o dia todo — tecido pesado cansa.',
             'Lavagem a 60°C é padrão em farmácias de manipulação para garantir higiene dos uniformes. Tecidos com ≥60% poliéster resistem a esse ciclo sem encolher. Algodão 100% pode encolher até 8% em lavagens repetidas a alta temperatura — inviável para uso semanal intensivo.',
           ],
@@ -1465,6 +1576,559 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Capitais do Sudeste recebem em 3 a 5 dias úteis.' },
     ],
     cta: { descricao: 'Do PP ao G3. Higiene e conforto para a farmácia. Frete grátis no Sudeste acima de R$499.' },
+  },
+
+  // ── CLUSTER GASTRONOMIA — DÓLMÃ ───────────────────────────────────────────
+
+  {
+    slug: 'dolma-churrasqueiro',
+    titulo: 'Churrasqueiro',
+    cluster: 'gastronomia',
+    produto: 'dolma',
+    urlSlug: 'dolma-para-churrasqueiro',
+    metadata: {
+      title: 'Dólmã para Churrasqueiro: Uniforme Completo 2026 | Jaleca',
+      description: 'Dólmã para churrasqueiro profissional + avental: kit uniforme churrasqueiro completo, brim resistente a respingos de gordura, abotoamento duplo padrão chef. PP ao G3.',
+    },
+    hero: { subtitulo: 'Kit uniforme churrasqueiro completo: dólmã + avental para quem trabalha com fogo de verdade.' },
+    guia: {
+      tituloSidebar: 'Como montar o uniforme de churrasqueiro profissional',
+      secoes: [
+        {
+          id: 'tecido', titulo: 'Tecido e composição para churrasco profissional',
+          paragrafos: [
+            'Brim 200-240 g/m² é o tecido padrão do uniforme churrasqueiro. A trama densa age como barreira mecânica contra respingos de gordura quente — os glóbulos de óleo em alta temperatura impactam a superfície sem atravessar para a pele.',
+            'A dólmã tem abotoamento duplo lateral — a função original era inverter a peça quando um lado sujar. Para o churrasqueiro que trabalha com carvão, esse design distribui as manchas e dobra a vida útil da roupa antes de precisar trocar.',
+            'Gabardine com tratamento DWR é a alternativa para churrasqueiro a domicílio e eventos em ambiente fechado. Mais leve que o brim, resiste a respingos de molho e gordura fria. A escolha depende do ambiente — grelha a carvão ao ar livre exige gramatura maior.',
+          ],
+        },
+        {
+          id: 'modelagem', titulo: 'Kit churrasqueiro profissional: dólmã + avental',
+          paragrafos: [
+            'O kit churrasqueiro profissional completo é: dólmã de manga longa + avental longo de brim resistente. A dólmã protege tronco e braços; o avental cobre da cintura para baixo na hora do corte — especialmente importante em churrascos a domicílio onde o churrasqueiro circula entre a grelha e os convidados.',
+            'A manga da dólmã tem posição dobrável — o churrasqueiro dobra na hora do corte para proteger o braço, e dobra de volta ao servir. A manga precisa manter a posição sem descer. O avental churrasqueiro profissional deve ter bolsos laterais para pinças e termômetro de carne.',
+          ],
+        },
+        {
+          id: 'cores', titulo: 'Cores para churrasqueiro',
+          paragrafos: [
+            'Branco clássico com xadrez preto é o padrão histórico da gastronomia. Para churrasqueiros, o branco tem função prática: manchas visíveis indicam que a hora de trocar chegou — controle de qualidade visual direto.',
+            'Preto liso é a escolha contemporânea para churrascarias premium — caimento elegante, disfarça respingos leves no meio do serviço. Vai bem com avental escuro.',
+          ],
+        },
+        {
+          id: 'ergonomia', titulo: 'Ergonomia e funcionalidade no churrasco',
+          paragrafos: [
+            'O churrasqueiro levanta os braços para regar, abaixa para posicionar carvão, gira para atender clientes em rodízio. A cava da dólmã precisa ter amplitude para esse arco sem puxar nas costas ou subir a frente durante os movimentos.',
+            'Bolso no peito esquerdo para termômetro de carne. Manga da dólmã sem abertura larga — não "flap" no vento da grelha, sem risco de pegar chama acidental.',
+          ],
+        },
+        {
+          id: 'normas', titulo: 'Normas e segurança alimentar',
+          paragrafos: [
+            'A RDC ANVISA 216/2004 exige uniforme exclusivo de trabalho, limpo e em boas condições. Para churrascarias: a vigilância sanitária municipal fiscaliza o padrão na frente do cliente — dólmã com manchas excessivas gera advertência.',
+            'A dólmã deve permanecer no ambiente de trabalho — não circular no salão com dólmã de churrasco, não sair com ela em transporte público. Mesmo protocolo das outras áreas de manipulação de alimentos.',
+          ],
+        },
+      ],
+    },
+    comparacao: {
+      slimIdeal: 'Churrascarias premium e eventos com foco em apresentação',
+      profissionalIdeal: 'Rodízios de alto volume e grelhas a carvão com jornadas longas',
+    },
+    faq: [
+      { q: 'Dólmã de churrasqueiro precisa ser branca?', a: 'Não. Branco clássico e preto são os mais usados. O importante é que esteja limpa e em boas condições — a RDC ANVISA 216/2004 não define cor obrigatória.' },
+      { q: 'Qual a diferença entre dólmã e jaleco para churrasqueiro?', a: 'A dólmã tem abotoamento duplo lateral — design padrão chef. O jaleco tem abotoamento central ou zíper. Para ambiente de grelha profissional, a dólmã é o uniforme correto da gastronomia.' },
+      { q: 'Dólmã precisa de avental por cima?', a: 'Sim. O churrasqueiro profissional usa dólmã + avental longo. A dólmã protege tronco e braços; o avental protege da cintura para baixo — especialmente na hora de cortar.' },
+      { q: 'Qual tecido é melhor para dólmã de churrasqueiro?', a: 'Brim 200-240 g/m² para grelha a carvão. Gabardine DWR para churrascarias fechadas e eventos — mais leve e fácil de limpar.' },
+      { q: 'A dólmã protege contra o calor da grelha?', a: 'Oferece barreira contra respingos e gordura quente. Para calor radiante de carvão: use avental de brim por cima — é a barreira primária. A dólmã é a segunda camada.' },
+      { q: 'Jaleca tem dólmã para churrasqueiro?', a: 'Sim. O modelo Conjunto Dólmã Cozinheiro Masculino inclui dólmã + avental — conjunto completo para o profissional de churrasco.' },
+      { q: 'Como lavar a dólmã de churrasqueiro?', a: 'Pré-tratar manchas de gordura antes de lavar. Lavar a 40-60°C no ciclo pesado. Secar ao ar para manter a gramatura.' },
+      { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Capitais do Sudeste recebem em 3 a 5 dias úteis.' },
+    ],
+    cta: { descricao: 'Do PP ao G3. Dólmã para o profissional da grelha. Frete grátis no Sudeste acima de R$499.' },
+  },
+
+  {
+    slug: 'dolma-sushiman',
+    titulo: 'Sushiman',
+    cluster: 'gastronomia',
+    produto: 'dolma',
+    urlSlug: 'dolma-para-sushiman',
+    metadata: {
+      title: 'Dólmã para Sushiman: Guia Completo 2026 | Jaleca',
+      description: 'Dólmã para sushiman: visual clean, tecido leve para peixe cru, abotoamento lateral padrão chef japonês. Guia completo do PP ao G3.',
+    },
+    hero: { subtitulo: 'A dólmã do sushiman que apresenta o peixe e o profissional.' },
+    guia: {
+      tituloSidebar: 'Como escolher a dólmã ideal para sushiman',
+      secoes: [
+        {
+          id: 'tecido', titulo: 'Tecido e composição para sushi counter',
+          paragrafos: [
+            'Gabardine 150-165 g/m² com DWR é a escolha para sushiman de restaurante com ambiente controlado. O tratamento repele vinagre de arroz e shoyu sem impregnar no tecido — manchas de condimentos saem com pano úmido antes de fixar.',
+            'Poliéster 100% respira melhor que brim pesado e seca em menos de 1h — necessário para quem precisa do uniforme limpo no meio do serviço em cozinhas mistas com calor elevado.',
+            'Evite tecidos felpudos ou com textura porosa para sushiman — acumulam resíduo de peixe entre as fibras, dificultando a higienização entre atendimentos.',
+          ],
+        },
+        {
+          id: 'modelagem', titulo: 'Modelagem para sushiman',
+          paragrafos: [
+            'A dólmã do sushiman tem manga ¾ ou longa com punho firme — protege o pulso durante o fatiamento do peixe e não arrasta na superfície limpa da tábua de corte.',
+            'O abotoamento duplo lateral da dólmã é funcional no sushi counter: quando um lado mancha, inverte a peça para continuar o serviço sem interromper o atendimento durante o rush do jantar.',
+          ],
+        },
+        {
+          id: 'cores', titulo: 'Cores para sushiman',
+          paragrafos: [
+            'Branco é a escolha dos counters de sushi que querem transmitir pureza e frescor ao cliente — o visual clean combina com o minimalismo japonês e a apresentação do peixe.',
+            'Preto é a escolha dos restaurantes fusion e premium. A estética contemporânea da cozinha japonesa abraçou o all-black e o sushiman de preto tem autoridade visual no ambiente moderno.',
+          ],
+        },
+        {
+          id: 'ergonomia', titulo: 'Ergonomia no sushi counter',
+          paragrafos: [
+            'O sushiman faz movimento de corte contínuo — punho, ombro, cotovelo repetidos em sequência. A manga da dólmã não pode criar tração que canse o ombro acumulando ao longo de um jantar de 4 horas.',
+            'Abotoamento firme que não abre com o movimento de corte. A dólmã precisa se manter fechada durante toda a jornada sem precisar reajustar na frente do cliente.',
+          ],
+        },
+        {
+          id: 'normas', titulo: 'Higiene para manipulação de peixe cru',
+          paragrafos: [
+            'Peixe cru é proteína de alto risco — a RDC ANVISA 216/2004 é rigorosa: uniforme limpo, exclusivo, não sai da área de manipulação. No sushi counter, o protocolo é ainda mais exigente pela presença do cliente observando.',
+            'Troca de uniforme ao início e ao final do serviço. Alguns restaurantes exigem dólmã diferente para preparo e para atendimento no balcão. Mínimo de 3 peças em rotação para garantir que sempre há uma limpa disponível.',
+          ],
+        },
+      ],
+    },
+    comparacao: {
+      slimIdeal: 'Restaurantes japoneses e sushi counters premium',
+      profissionalIdeal: 'Cozinhas de alto volume com produção intensa de sushi',
+    },
+    faq: [
+      { q: 'Sushiman usa jaleco ou dólmã?', a: 'Dólmã é o uniforme correto para gastronomia profissional. O abotoamento duplo lateral, manga que protege o pulso e design padrão chef fazem a dólmã a escolha técnica certa para o sushiman.' },
+      { q: 'Qual cor de dólmã para sushiman?', a: 'Branco para visual clean minimalista. Preto para restaurantes premium e fusion. Os dois são aceitos — a escolha depende da identidade do restaurante.' },
+      { q: 'Dólmã de sushiman precisa de manga longa?', a: 'Sim. Manga longa ou ¾ com punho firme — protege o pulso durante o corte e não arrasta na tábua de trabalho.' },
+      { q: 'Como higienizar a dólmã entre os serviços?', a: 'Pré-tratar manchas de peixe imediatamente — proteínas fixam rápido no tecido. Lavar a 40-60°C. Ter pelo menos 2 dólmãs para revezar durante o serviço.' },
+      { q: 'A RDC 216/2004 se aplica ao sushiman?', a: 'Sim. Sushi é serviço de alimentação — a norma exige uniforme limpo, exclusivo de trabalho, trocado diariamente. Peixe cru exige protocolo ainda mais rigoroso.' },
+      { q: 'Jaleca tem dólmã para sushiman?', a: 'Sim. Temos dólmã em conjunto completo — dólmã + avental — para o profissional de cozinha oriental.' },
+      { q: 'Como escolher o tamanho?', a: 'Use a tabela de medidas da Jaleca. Para dólmã, o tamanho com boa mobilidade nos ombros é o ideal.' },
+      { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Capitais do Sudeste recebem em 3 a 5 dias úteis.' },
+    ],
+    cta: { descricao: 'Do PP ao G3. Dólmã para o profissional de cozinha oriental. Frete grátis no Sudeste acima de R$499.' },
+  },
+
+  {
+    slug: 'dolma-cozinheiro',
+    titulo: 'Cozinheiro',
+    cluster: 'gastronomia',
+    produto: 'dolma',
+    urlSlug: 'dolma-para-cozinheiro',
+    metadata: {
+      title: 'Dólmã para Cozinheiro: Guia Completo 2026 | Jaleca',
+      description: 'Dólmã para cozinheiro profissional: abotoamento duplo padrão chef, tecido resistente ao calor, normas ANVISA. Guia completo do PP ao G3.',
+    },
+    hero: { subtitulo: 'O uniforme padrão chef para a cozinha profissional.' },
+    guia: {
+      tituloSidebar: 'Como escolher a dólmã ideal para cozinheiro',
+      secoes: [
+        {
+          id: 'tecido', titulo: 'Tecido e composição para cozinha profissional',
+          paragrafos: [
+            'Brim 200-240 g/m² é o tecido padrão para dólmã de cozinheiro. Em cozinhas com fogão industrial e fritadeiras, a gramatura densa reduz a velocidade de penetração do calor radiante e forma barreira contra respingos de óleo.',
+            'Para cozinhas frias — confeitaria, garde manger — gabardine 150 g/m² com DWR é mais confortável. O confeiteiro não enfrenta o calor da grelha, então leveza e apresentação pesam mais na decisão.',
+            'Poliéster ≥60% seca mais rápido e aguenta ciclos de lavagem a 60°C sem perder a estrutura da dólmã — necessário em cozinhas de alto volume com jornadas de 10-12 horas.',
+          ],
+        },
+        {
+          id: 'modelagem', titulo: 'Dólmã padrão chef para cozinheiro',
+          paragrafos: [
+            'O abotoamento duplo lateral define a dólmã. A dupla camada de tecido no tronco frontal é barreira extra contra calor e respingos — mais proteção que um jaleco simples de fechamento central.',
+            'Manga longa obrigatória para cozinha quente. O cozinheiro que trabalha com forno, vapor e grelha precisa da manga comprida. Em confeitaria e cozinha fria, manga ¾ é aceita.',
+          ],
+        },
+        {
+          id: 'cores', titulo: 'Cores para cozinheiro',
+          paragrafos: [
+            'Branco com xadrez clássico é o símbolo histórico da gastronomia profissional. A dólmã xadrez foi popularizada por Auguste Escoffier no século XIX — ainda é o padrão em escolas de gastronomia e cozinhas tradicionais.',
+            'Preto liso ganhou espaço nos últimos 15 anos — a nova geração de chefs adotou o all-black como statement profissional. Em cozinhas abertas e restaurantes contemporâneos, o preto transmite autoridade.',
+          ],
+        },
+        {
+          id: 'ergonomia', titulo: 'Ergonomia e funcionalidade',
+          paragrafos: [
+            'O cozinheiro levanta os braços acima do ombro com frequência — alcançar prateleiras, mexer caldeirões e manipular equipamentos em altura. A dólmã com cava funda permite esse arco sem criar tração que canse a região cervical.',
+            'Três bolsos mínimos: peito para termômetro, lateral direita para espatula/caneta, lateral esquerda para pano de copa. A dólmã de cozinheiro é funcional além da proteção.',
+          ],
+        },
+        {
+          id: 'normas', titulo: 'Normas e vigilância sanitária',
+          paragrafos: [
+            'A RDC ANVISA 216/2004 define que o cozinheiro profissional usa uniforme exclusivo de trabalho, limpo, trocado diariamente. Em restaurante licenciado pela vigilância sanitária, o padrão do uniforme é auditado periodicamente.',
+            'A Portaria 326/1997 (Boas Práticas de Fabricação) exige que uniformes de trabalho sejam lavados separados de roupas pessoais e guardados em local limpo. Em cozinhas industriais com APPCC, o protocolo de uniformes é parte do plano.',
+          ],
+        },
+      ],
+    },
+    comparacao: {
+      slimIdeal: 'Cozinhas premium, confeitaria e restaurantes com cozinha aberta',
+      profissionalIdeal: 'Cozinhas industriais de alto volume com jornadas longas',
+    },
+    faq: [
+      { q: 'Qual a diferença entre dólmã e jaleco para cozinheiro?', a: 'A dólmã tem abotoamento duplo lateral — cria dupla camada no tronco para maior proteção. O jaleco tem fechamento simples. Para cozinha profissional, a dólmã é o uniforme padrão.' },
+      { q: 'Cozinheiro precisa de dólmã ou jaleco?', a: 'Ambos são aceitos pela vigilância sanitária. Mas em escolas de gastronomia, restaurantes profissionais e brigadas de cozinha, a dólmã é o uniforme padrão — é parte da identidade e hierarquia da cozinha.' },
+      { q: 'Qual tecido de dólmã para cozinheiro?', a: 'Brim 200-240 g/m² para grelha e fritadeira. Gabardine DWR para confeitaria e cozinha fria. Poliéster ≥60% para cozinhas que lavam a 60°C.' },
+      { q: 'Dólmã precisa de manga longa?', a: 'Sim para cozinha quente — protege contra queimaduras e respingos. Em confeitaria e cozinha fria, manga ¾ é aceita.' },
+      { q: 'O xadrez clássico é obrigatório?', a: 'Não. É tradição, não norma. Branco sólido, preto e outras cores são igualmente aceitos pela vigilância sanitária.' },
+      { q: 'Jaleca tem dólmã para cozinheiro?', a: 'Sim. O Conjunto Dólmã Cozinheiro inclui dólmã + avental — conjunto completo para o profissional de cozinha.' },
+      { q: 'Como funciona a troca de tamanho?', a: 'Aceitamos troca em até 30 dias com o produto sem uso e etiqueta.' },
+      { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Capitais do Sudeste recebem em 3 a 5 dias úteis.' },
+    ],
+    cta: { descricao: 'Do PP ao G3. Dólmã padrão chef para a cozinha profissional. Frete grátis no Sudeste acima de R$499.' },
+  },
+
+  // ── CLUSTER ESCRITÓRIO — CONJUNTO ─────────────────────────────────────────
+
+  {
+    slug: 'conjunto-advogado',
+    titulo: 'Advogado',
+    cluster: 'escritorio',
+    produto: 'conjunto',
+    urlSlug: 'conjunto-para-advogado',
+    metadata: {
+      title: 'Conjunto para Advogado: Guia Completo 2026 | Jaleca',
+      description: 'Conjunto profissional para advogado e escritório jurídico: caimento impecável para audiências, com elastano. Guia completo do PP ao G3.',
+    },
+    hero: { subtitulo: 'Conjunto profissional para o escritório e a sala de audiência.' },
+    guia: {
+      tituloSidebar: 'Como escolher o conjunto ideal para advogado',
+      secoes: [
+        {
+          id: 'tecido', titulo: 'Tecido e composição para o escritório jurídico',
+          paragrafos: [
+            'Gabardine 150-165 g/m² com poliéster/viscose (65/35) é a composição padrão para conjuntos de escritório jurídico. O caimento vertical limpo e a resistência a vincos fazem a diferença em audiências que se estendem por horas.',
+            'Elastano bidirecional (4-6%) garante que calça e blusa acompanhem os movimentos — sentar e levantar repetido em audiência, gesticular, dobrar sobre documentos — sem criar vincos que se acumulam ao longo do dia.',
+          ],
+        },
+        {
+          id: 'modelagem', titulo: 'Modelagem do conjunto para advogado',
+          paragrafos: [
+            'Conjunto de calça reta (corte estruturado) + blusa de mangas longas é o padrão para advogados que frequentam tribunais. O par combinado transmite coesão visual — mais formal que blusa + calça separadas de cores próximas mas não iguais.',
+            'Para advogados em escritório sem agenda de tribunal: conjunto com calça mais ajustada + blusa slim passa autoridade e modernidade sem o nível de formalidade exigido na sala de audiência.',
+          ],
+        },
+        {
+          id: 'cores', titulo: 'Cores do conjunto para advogado',
+          paragrafos: [
+            'Preto, azul marinho e cinza são as cores do ambiente jurídico. O conjunto monocromático tem impacto visual mais forte que jaleco sobre roupa — a linha do corpo é contínua, sem quebra de cor.',
+            'Branco funciona em escritórios modernos e boutiques jurídicas. Para tribunal: cores neutras frias têm melhor recepção do que branco ou tons quentes.',
+          ],
+        },
+        {
+          id: 'ergonomia', titulo: 'Conforto em audiências e reuniões',
+          paragrafos: [
+            'O conjunto com elastano aguenta a sequência inteira de um dia de tribunal — sentado na sala de espera, em pé na sustentação oral, andando entre salas — sem criar vincos permanentes ou perder caimento.',
+            'Calça do conjunto com cós elástico parcial é mais confortável para jornadas de 8-10 horas. O elástico parcial mantém a linha reta da frente sem apertar na lateral.',
+          ],
+        },
+        {
+          id: 'normas', titulo: 'Apresentação e ética profissional',
+          paragrafos: [
+            'A OAB não possui Provimento que defina vestimenta. O Código de Ética (Res. 02/2015) menciona "traje adequado" para audiências. O conjunto profissional é a interpretação mais segura disso no Judiciário brasileiro.',
+            'Em alguns tribunais estaduais e na Justiça Federal, há portarias internas que definem padrão de vestimenta. Verificar o regimento interno da vara antes de audiências importantes.',
+          ],
+        },
+      ],
+    },
+    comparacao: {
+      slimIdeal: 'Escritórios premium e advogados com foco em imagem pessoal forte',
+      profissionalIdeal: 'Audiências longas e advogados que precisam de mais conforto',
+    },
+    faq: [
+      { q: 'Advogado usa conjunto ou jaleco?', a: 'Os dois são aceitos. O conjunto dá visual mais completo — calça + blusa combinando transmite mais coesão do que jaleco sobre qualquer roupa. Para tribunal, o conjunto é a escolha mais segura.' },
+      { q: 'Qual cor de conjunto para advogado?', a: 'Preto, azul marinho e cinza são os mais usados. Conjunto monocromático em cores neutras frias é o padrão no ambiente jurídico formal.' },
+      { q: 'Conjunto com elastano aguenta um dia de tribunal?', a: 'Sim. Tecidos com elastano bidirecional mantêm o caimento após horas sentado e em pé alternados — o conjunto chega ao final do dia apresentável.' },
+      { q: 'Conjunto feminino tem calça reta ou ajustada?', a: 'Temos as duas opções. Para tribunal: calça reta, mais formal. Para escritório: calça slim, mais moderna.' },
+      { q: 'Jaleca tem conjuntos masculinos?', a: 'Sim. Temos conjuntos masculinos com elastano do PP ao G3.' },
+      { q: 'Como escolher o tamanho do conjunto?', a: 'Use a tabela de medidas da Jaleca. Para conjunto, meça o maior ponto entre busto e quadril — o tamanho que acomoda os dois.' },
+      { q: 'Como funciona a troca?', a: 'Aceitamos troca em até 30 dias com o produto sem uso e etiqueta.' },
+      { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Capitais do Sudeste recebem em 3 a 5 dias úteis.' },
+    ],
+    cta: { descricao: 'Do PP ao G3. Conjunto profissional para o escritório e o tribunal. Frete grátis no Sudeste acima de R$499.' },
+  },
+
+  {
+    slug: 'conjunto-pastor',
+    titulo: 'Pastor',
+    cluster: 'escritorio',
+    produto: 'conjunto',
+    urlSlug: 'conjunto-para-pastor',
+    metadata: {
+      title: 'Conjunto para Pastor: Guia Completo 2026 | Jaleca',
+      description: 'Conjunto pastoral para pastor evangélico: elegância cerimonial, conforto em cultos longos, tecido de bom caimento. Guia completo do PP ao G3.',
+    },
+    hero: { subtitulo: 'Conjunto pastoral com dignidade para o seu ministério.' },
+    guia: {
+      tituloSidebar: 'Como escolher o conjunto ideal para pastor',
+      secoes: [
+        {
+          id: 'tecido', titulo: 'Tecido e composição para o ministério',
+          paragrafos: [
+            'Gabardine de viscose/poliéster (65/35) com toque suave é a composição que mais aparece em conjuntos pastorais. O caimento fluído e a resistência a vincos fazem o conjunto manter a apresentação durante cultos de 2-4 horas sem precisar repassar a ferro entre eventos.',
+            'Gramatura 150-165 g/m² equilibra elegância e conforto térmico — igrejas têm variação de temperatura entre santuário, sala de reunião e atividades externas. Um conjunto pesado demais fatiga em cultos longos.',
+          ],
+        },
+        {
+          id: 'modelagem', titulo: 'Modelagem para pastor',
+          paragrafos: [
+            'O conjunto com blusa de linha limpa e calça reta transmite autoridade espiritual sem excesso. A silhueta unificada (blusa + calça na mesma cor) cria impacto visual maior que qualquer outra combinação.',
+            'Para pastores que pregam com gesticulação intensa e braços levantados: a blusa precisa de manga com amplitude de cava suficiente. O conjunto não pode criar pressão axilar durante a pregação.',
+          ],
+        },
+        {
+          id: 'cores', titulo: 'Cores para conjunto pastoral',
+          paragrafos: [
+            'Branco é a cor mais associada ao conjunto pastoral no Brasil — simboliza santidade e separa o ministério do cotidiano. Para cerimônias de batismo e ordenação, o branco é quase universalmente adotado.',
+            'Preto, roxo e azul royal são usados em denominações com liturgia mais formal. Cada denominação tem sua própria simbologia de cor — pastores que atuam em múltiplos contextos optam por neutros que funcionam em qualquer ambiente.',
+          ],
+        },
+        {
+          id: 'ergonomia', titulo: 'Conforto em cultos e cerimônias',
+          paragrafos: [
+            'O pastor alterna entre sentado (reuniões, aconselhamento) e em pé (pregação, adoração) múltiplas vezes por dia. O conjunto com elastano bidirecional acompanha isso sem criar vincos que se acumulam ao longo do dia.',
+            'Para cultos de adoração onde o pastor levanta os braços por períodos longos: a blusa com cava funda faz diferença no cansaço acumulado na região do ombro após 30-40 minutos de ministério.',
+          ],
+        },
+        {
+          id: 'normas', titulo: 'Apresentação e reverência',
+          paragrafos: [
+            'Nenhum órgão regulador define vestimenta pastoral no Brasil. A escolha é guiada pela tradição denominacional e o manual de liturgia de cada ministério.',
+            'O conjunto pastoral precisa inspirar reverência na congregação. A apresentação do pastor reflete a seriedade do ministério — um conjunto bem cuidado comunica isso antes das primeiras palavras.',
+          ],
+        },
+      ],
+    },
+    comparacao: {
+      slimIdeal: 'Pastores que buscam visual moderno e elegante no ministério',
+      profissionalIdeal: 'Cerimônias longas e cultos com pregação de 45+ minutos',
+    },
+    faq: [
+      { q: 'Pastor usa jaleco ou conjunto?', a: 'Os dois são usados. O conjunto tem impacto visual maior — a silhouette unificada transmite mais autoridade pastoral do que jaleco sobre outra roupa.' },
+      { q: 'Conjunto branco é o padrão para pastor?', a: 'Não é regulamentado. Mas o conjunto branco é a tradição mais forte no ministério evangélico brasileiro — especialmente em batismos e ordenações.' },
+      { q: 'Qual cor de conjunto para pastor?', a: 'Branco para cerimônias. Preto, roxo e azul royal para cultos regulares — a escolha depende da denominação e da tradição da igreja.' },
+      { q: 'Conjunto aguentado cultos de 3-4 horas?', a: 'Sim, com elastano. O conjunto se adapta aos movimentos de pregação e ministério sem criar vincos ou apertar ao longo do culto.' },
+      { q: 'Os tecidos são transparentes?', a: 'Não. Usamos tecidos com boa gramatura — sem transparência em nenhuma cor.' },
+      { q: 'Jaleca tem conjuntos femininos e masculinos?', a: 'Sim. Temos conjuntos femininos e masculinos com elastano do PP ao G3.' },
+      { q: 'Como escolher o tamanho?', a: 'Use a tabela de medidas da Jaleca. Para conjunto, o tamanho que acomoda busto e quadril sem folha excessiva é o ideal.' },
+      { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Capitais do Sudeste recebem em 3 a 5 dias úteis.' },
+    ],
+    cta: { descricao: 'Do PP ao G3. Conjunto pastoral para o seu ministério. Frete grátis no Sudeste acima de R$499.' },
+  },
+
+  {
+    slug: 'conjunto-psicologa',
+    titulo: 'Psicólogo',
+    cluster: 'escritorio',
+    produto: 'conjunto',
+    urlSlug: 'conjunto-para-psicologa',
+    metadata: {
+      title: 'Conjunto para Psicólogo: Guia Completo 2026 | Jaleca',
+      description: 'Conjunto para psicólogo: tons neutros para o setting terapêutico, conforto em sessões longas, modelagem elegante para o consultório. Guia completo.',
+    },
+    hero: { subtitulo: 'Conjunto profissional para o psicólogo que atende com presença.' },
+    guia: {
+      tituloSidebar: 'Como escolher o conjunto ideal para psicólogo',
+      secoes: [
+        {
+          id: 'tecido', titulo: 'Tecido e composição para o consultório',
+          paragrafos: [
+            'Microfibra leve (120-140 g/m²) com elastano 4-6% é a composição ideal para conjunto de psicólogo — o profissional fica sentado por blocos de 45-50 minutos e o tecido não pode criar pressão nos quadris ou apertar no tronco ao longo do dia.',
+            'Viscose com elastano tem toque sedoso e temperatura regulada — confortável durante sessões em consultórios com ar-condicionado. A sensação tátil do tecido é parte do ambiente não-verbal que o psicólogo cria para o paciente.',
+          ],
+        },
+        {
+          id: 'modelagem', titulo: 'Modelagem do conjunto para psicólogo',
+          paragrafos: [
+            'Conjunto slim com calça que não aperta na cintura é a escolha para quem passa o dia sentado. A blusa deve ter comprimento suficiente para não subir ao se mover na cadeira — evita reajuste constante que distrai durante a sessão.',
+            'Para psicólogos que atuam com crianças: conjunto com modelagem menos estruturada e cores suaves tem aparência mais gentil, criando rapport visual com pacientes pediátricos.',
+          ],
+        },
+        {
+          id: 'cores', titulo: 'Cores do conjunto para psicólogo',
+          paragrafos: [
+            'Tons neutros quentes — bege, off-white, cinza claro — são a melhor escolha para psicólogos. Em conjunto, a cor envolve toda a silhouette, então o impacto emocional é maior do que em um jaleco parcial.',
+            'Azul sereno e lavanda têm respaldo em psicologia ambiental — associados a calma e confiança. Evitar vermelho, laranja intenso e cores muito saturadas, que ativam o estado de alerta.',
+          ],
+        },
+        {
+          id: 'ergonomia', titulo: 'Conforto em sessões longas',
+          paragrafos: [
+            'O psicólogo mantém postura sentada por 45-50 minutos consecutivos, 6-8 vezes ao dia. A calça do conjunto não pode criar pressão no cós ou nas coxas — o desconforto físico interfere na presença e na qualidade do atendimento.',
+            'Conjunto sem bolsos externos salientes é ideal para o consultório — nada que crie ruído ao se movimentar na cadeira ou volume que distraia o paciente durante a sessão.',
+          ],
+        },
+        {
+          id: 'normas', titulo: 'Apresentação no setting terapêutico',
+          paragrafos: [
+            'O CFP não possui Resolução que obrigue uso de conjunto. Em contextos hospitalares e de saúde pública (CAPS, UBS), o conjunto serve como identificação profissional dentro da equipe multiprofissional.',
+            'A apresentação do terapeuta é parte da comunicação não-verbal do processo. Um conjunto neutro e bem cuidado delimita o papel profissional sem criar hierarquia visual que dificulte a aliança terapêutica.',
+          ],
+        },
+      ],
+    },
+    comparacao: {
+      slimIdeal: 'Consultórios particulares com foco em imagem e presença profissional',
+      profissionalIdeal: 'Serviços públicos de saúde mental e atendimentos longos',
+    },
+    faq: [
+      { q: 'Psicólogo usa jaleco ou conjunto?', a: 'Os dois são válidos. O conjunto tem impacto visual maior — silhouette completa em tons neutros cria ambiente de presença e acolhimento mais consistente que jaleco sobre qualquer roupa.' },
+      { q: 'Qual cor de conjunto para psicólogo?', a: 'Tons neutros quentes: bege, off-white, cinza claro. Azul sereno e lavanda também funcionam. Evitar cores saturadas que ativem estado de alerta no paciente.' },
+      { q: 'Conjunto de psicólogo não aperta após horas sentado?', a: 'Não com elastano bidirecional. Nossos conjuntos têm tecido de recuperação de forma — não criam pressão acumulada em sessões longas.' },
+      { q: 'Conjunto precisa ser branco para psicólogo?', a: 'Não. Branco no consultório pode remeter ao setting hospitalar. Tons neutros quentes são a escolha mais técnica para criar acolhimento.' },
+      { q: 'Jaleca tem conjuntos em tons neutros?', a: 'Sim. Temos conjuntos em várias cores incluindo tons neutros adequados para o consultório.' },
+      { q: 'Como escolher o tamanho?', a: 'Use a tabela de medidas da Jaleca. Para conjunto, meça busto, cintura e quadril.' },
+      { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Capitais do Sudeste recebem em 3 a 5 dias úteis.' },
+      { q: 'Como funciona a troca?', a: 'Aceitamos troca em até 30 dias com o produto sem uso e etiqueta.' },
+    ],
+    cta: { descricao: 'Do PP ao G3. Conjunto para o consultório de psicologia. Frete grátis no Sudeste acima de R$499.' },
+  },
+
+  {
+    slug: 'conjunto-farmaceutico',
+    titulo: 'Farmacêutico',
+    cluster: 'escritorio',
+    produto: 'conjunto',
+    urlSlug: 'conjunto-para-farmaceutico',
+    metadata: {
+      title: 'Conjunto para Farmacêutico: Guia Completo 2026 | Jaleca',
+      description: 'Conjunto para farmacêutico: visual clean, biossegurança em farmácias e laboratórios, normas RDC ANVISA. Guia completo do PP ao G3.',
+    },
+    hero: { subtitulo: 'Conjunto profissional para a farmácia e o laboratório de manipulação.' },
+    guia: {
+      tituloSidebar: 'Como escolher o conjunto ideal para farmacêutico',
+      secoes: [
+        {
+          id: 'tecido', titulo: 'Tecido e composição para farmácia',
+          paragrafos: [
+            'Poliéster ≥60% com elastano é a composição prática para conjuntos de farmacêutico. Seca rápido, resiste a lavagens a 60°C sem encolher e mantém a cor mesmo em ciclos frequentes — necessário em farmácias de manipulação onde o uniforme é lavado diariamente.',
+            'Para farmacêuticos no balcão: gabardine 150 g/m² com elastano é mais confortável para jornadas longas em pé. O caimento limpo do conjunto transmite profissionalismo ao cliente que busca orientação sobre medicamentos.',
+          ],
+        },
+        {
+          id: 'modelagem', titulo: 'Modelagem do conjunto para farmacêutico',
+          paragrafos: [
+            'Conjunto com blusa de manga longa é a escolha para farmácia de manipulação — protege pulsos e braços durante o manuseio de matérias-primas. A calça fecha o conjunto de proteção completo.',
+            'Para atendimento em balcão: conjunto com blusa de manga ¾ ou curta é mais prático no verão. O calor do balcão de farmácia em dias quentes torna a manga longa desconfortável em jornadas de 8+ horas.',
+          ],
+        },
+        {
+          id: 'cores', titulo: 'Cores para farmacêutico',
+          paragrafos: [
+            'Branco é o padrão histórico na farmácia — a RDC ANVISA 44/2009 orienta uniformes limpos como condição de boas práticas. O conjunto branco tem impacto de higiene mais forte que jaleco branco sobre calça de cor diferente.',
+            'Azul e verde claro são usados em redes com identidade visual própria. Em farmácias com padronização de cor por função, o conjunto diferenciado facilita a identificação do farmacêutico pelo cliente.',
+          ],
+        },
+        {
+          id: 'ergonomia', titulo: 'Ergonomia na farmácia',
+          paragrafos: [
+            'O farmacêutico de manipulação trabalha em bancada em pé — rotação de ombros, alcance frontal e lateral, movimentos de pesagem. A blusa do conjunto precisa de cava com amplitude para esses movimentos sem travar na bancada.',
+            'O conjunto elimina a faixa entre blusa e calça que aparece ao se curvar — detalhe importante em farmácias de manipulação onde nenhuma parte do corpo deve ficar exposta próximo dos produtos.',
+          ],
+        },
+        {
+          id: 'normas', titulo: 'Normas RDC ANVISA e CFF',
+          paragrafos: [
+            'A RDC ANVISA 67/2007 (BPPM) define que manipuladores usem uniforme exclusivo de trabalho, de cor clara, com manga longa em áreas de produção. O conjunto atende plenamente — é uniforme completo, não apenas sobreposta.',
+            'A RDC 44/2009 exige que haja farmacêutico identificável durante o horário de funcionamento. O conjunto padronizado facilita essa identificação do responsável técnico pelo cliente.',
+          ],
+        },
+      ],
+    },
+    comparacao: {
+      slimIdeal: 'Farmácias de balcão e redes com foco em apresentação da equipe',
+      profissionalIdeal: 'Farmácias de manipulação e laboratórios com jornadas longas',
+    },
+    faq: [
+      { q: 'Farmacêutico usa jaleco ou conjunto?', a: 'Os dois são válidos. O conjunto tem vantagem em farmácias de manipulação — cobre completamente, sem faixa entre blusa e calça ao se curvar sobre bancadas.' },
+      { q: 'O conjunto pode ser lavado a 60°C?', a: 'Sim, os conjuntos com ≥60% poliéster resistem a esse ciclo sem encolher ou perder cor. Verifique a etiqueta do modelo.' },
+      { q: 'Qual cor de conjunto para farmacêutico?', a: 'Branco para o padrão clássico de biossegurança. Azul e verde claro para redes com identidade visual própria.' },
+      { q: 'Manga longa é obrigatória na manipulação?', a: 'A RDC ANVISA 67/2007 (BPPM) recomenda manga longa em áreas de produção. Para farmácias de manipulação, blusa de manga longa é a escolha mais segura e conforme.' },
+      { q: 'Jaleca tem conjuntos masculinos?', a: 'Sim. Temos conjuntos masculinos com elastano do PP ao G3.' },
+      { q: 'Como escolher o tamanho?', a: 'Use a tabela de medidas da Jaleca. Para conjunto, o tamanho que acomoda ombro, busto e quadril.' },
+      { q: 'Como funciona a troca?', a: 'Aceitamos troca em até 30 dias com o produto sem uso e etiqueta.' },
+      { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Capitais do Sudeste recebem em 3 a 5 dias úteis.' },
+    ],
+    cta: { descricao: 'Do PP ao G3. Conjunto profissional para a farmácia. Frete grátis no Sudeste acima de R$499.' },
+  },
+
+  // ── CLUSTER SERVIÇOS — PROFESSOR GENÉRICO ────────────────────────────────
+
+  {
+    slug: 'professor-uniforme',
+    titulo: 'Professor',
+    cluster: 'servicos',
+    produto: 'jaleco',
+    urlSlug: 'uniforme-para-professor',
+    metadata: {
+      title: 'Uniforme para Professor: Jaleco Escola e Laboratório 2026 | Jaleca',
+      description: 'Jaleco e uniforme para professor de escola, laboratório e universidade: confortável, prático, com bolsos. Guia completo para educadores do PP ao G3.',
+    },
+    hero: { subtitulo: 'O uniforme certo para o professor que está em sala ou no laboratório.' },
+    guia: {
+      tituloSidebar: 'Como escolher o uniforme ideal para professor',
+      secoes: [
+        {
+          id: 'tecido', titulo: 'Tecido para o professor em sala e laboratório',
+          paragrafos: [
+            'O professor tem dois contextos de uso distintos. Em sala de aula: microfibra leve (120-140 g/m²) com elastano — leve para o dia inteiro, fácil de lavar, resiste a manchas de giz e marcador. Em laboratório: algodão ou blends algodão/poliéster — a ABNT NBR 14787 recomenda resistência mínima a chamas para labs de química e biologia.',
+            'Elastano bidirecional (4-6%) é importante para o professor que gesticula, escreve na lousa, se curva sobre bancadas e circula pela sala. Um tecido sem stretch cria tensão nos ombros que acumula ao longo de 5-6 aulas seguidas.',
+          ],
+        },
+        {
+          id: 'modelagem', titulo: 'Jaleco para cada tipo de professor',
+          paragrafos: [
+            'Professor universitário e de ensino médio: Slim é a escolha — visual moderno e de autoridade sem criar distância dos alunos. Para laboratório de ciências: Profissional com manga longa — mais proteção e maior amplitude para movimentos em bancada.',
+            'Para professores de educação infantil e fundamental: modelagem com mais liberdade de movimento e tecido fácil de limpar. O professor de crianças se abaixa, senta no chão, gesticula amplos — a modelagem precisa acompanhar.',
+          ],
+        },
+        {
+          id: 'cores', titulo: 'Cores para professor',
+          paragrafos: [
+            'Em laboratórios: branco ou cor clara é obrigatório em muitas instituições — facilita a identificação de reagentes e materiais na roupa. Para sala de aula: qualquer cor sóbria. Muitas escolas definem a cor no regulamento do uniforme.',
+            'Azul marinho e cinza são os mais comuns em uniformes de professores de escolas particulares. Para professores de cursos livres e treinadores: cores que combinam com a identidade da escola ou empresa.',
+          ],
+        },
+        {
+          id: 'ergonomia', titulo: 'Praticidade em sala e no laboratório',
+          paragrafos: [
+            'Mínimo de três bolsos para o professor: peito para marcador e apagador, lateral esquerda para celular/controle de apresentação, lateral direita para chaves e materiais menores. O professor não pode parar a aula para buscar materiais.',
+            'O professor entra e sai de salas diferentes ao longo do dia. Fechamento por botão é mais prático do que zíper em trocas rápidas entre aulas e intervalos.',
+          ],
+        },
+        {
+          id: 'normas', titulo: 'Normas para professores de laboratório',
+          paragrafos: [
+            'A LDB (Lei 9.394/1996) não regulamenta vestimenta docente. Para laboratórios escolares: a NR-6 (EPIs) classifica o jaleco como EPI obrigatório em ambientes com riscos biológicos, químicos ou físicos. A ABNT NBR 14787 define os critérios para jalecos de proteção contra chamas.',
+            'Em escolas que adotam uniforme docente como política institucional: o professor segue o regulamento. A maioria das escolas particulares tem regulamento interno que especifica modelo, cor e condições de uso.',
+          ],
+        },
+      ],
+    },
+    comparacao: {
+      slimIdeal: 'Professores de sala de aula, cursos livres e treinamentos',
+      profissionalIdeal: 'Laboratórios de ciências, química, biologia e ensino técnico',
+    },
+    faq: [
+      { q: 'Professor precisa usar jaleco?', a: 'Em laboratórios sim — é EPI obrigatório pela NR-6. Em sala de aula, depende da política institucional. Muitas escolas particulares exigem jaleco como parte do uniforme docente.' },
+      { q: 'Qual jaleco para professor de laboratório?', a: 'Jaleco de manga longa, fechamento frontal completo, tecido de algodão ou algodão/poliéster. A ABNT NBR 14787 é a referência para labs com reagentes e risco de chama.' },
+      { q: 'Professor universitário usa jaleco?', a: 'Depende do departamento. Em ciências da saúde, biológicas e exatas: jaleco é norma. Em humanas e sociais: opcional, mas muitos adotam para demarcar o papel docente.' },
+      { q: 'Qual cor de jaleco para professor?', a: 'Branco para laboratório. Para sala de aula: qualquer cor sóbria aceita pela instituição. As mais comuns são branco, azul marinho e cinza.' },
+      { q: 'O jaleco de professor pode ir à máquina?', a: 'Sim. A maioria dos modelos aguenta lavagem na máquina. Para labs de biologia: lavar a 40°C para higienização adequada.' },
+      { q: 'Jaleca tem modelos masculinos para professor?', a: 'Sim. Temos jalecos masculinos com elastano do PP ao G3.' },
+      { q: 'Como escolher o tamanho?', a: 'Use a tabela de medidas da Jaleca. Para professor que gesticula muito, um tamanho com boa amplitude nos ombros é o ideal.' },
+      { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Capitais do Sudeste recebem em 3 a 5 dias úteis.' },
+    ],
+    cta: { descricao: 'Do PP ao G3. Jaleco confortável para o professor de sala e laboratório. Frete grátis no Sudeste acima de R$499.' },
   },
 ]
 

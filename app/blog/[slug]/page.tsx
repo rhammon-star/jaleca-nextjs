@@ -91,14 +91,18 @@ export async function generateMetadata({
   const post = await getPostBySlug(slug)
   if (!post) return { title: 'Post não encontrado — Jaleca' }
 
-  const rawTitle = stripHtml(post.title.rendered)
+  const rawTitle = stripHtml(post.title.rendered).replace(/\s*\|\s*Jaleca\s*$/i, '')
   // Trunca título em ~55 chars para caber " | Jaleca" dentro do limite de ~60 do Google
   const truncatedTitle = rawTitle.length > 55
     ? rawTitle.slice(0, 55).replace(/\s+\S*$/, '')
     : rawTitle
   const title = `${truncatedTitle} | Jaleca`
 
-  const rawExcerpt = stripHtml(post.excerpt.rendered).slice(0, 155)
+  const fullExcerpt = stripHtml(post.excerpt.rendered)
+  // Trunca na última palavra completa antes de 155 chars, adiciona "..." se cortado
+  const rawExcerpt = fullExcerpt.length > 155
+    ? fullExcerpt.slice(0, 155).replace(/\s+\S*$/, '') + '...'
+    : fullExcerpt
   // Se o excerpt for vazio ou muito curto, usa fallback com CTA
   const description = rawExcerpt.length > 50
     ? rawExcerpt
@@ -181,12 +185,9 @@ export default async function BlogPostPage({
     datePublished: post.date,
     dateModified: post.modified,
     inLanguage: 'pt-BR',
-    author: {
-      '@type': 'Organization',
-      name: 'Jaleca',
-      '@id': 'https://jaleca.com.br/#organization',
-      url: 'https://jaleca.com.br',
-    },
+    author: author !== 'Jaleca'
+      ? { '@type': 'Person', name: author }
+      : { '@type': 'Organization', name: 'Jaleca', '@id': 'https://jaleca.com.br/#organization', url: 'https://jaleca.com.br' },
     publisher: {
       '@type': 'Organization',
       '@id': 'https://jaleca.com.br/#organization',

@@ -68,7 +68,8 @@ const CIDADES: Record<string, CidadeInfo> = {
     uf: 'RJ',
     tipo: 'fechada',
     profissoes: 'médicos, dentistas e profissionais de saúde da Barra da Tijuca',
-    conteudoLocal: 'Profissionais de saúde na Barra da Tijuca, atuando em clínicas renomadas ou no Hospital Barra D\'Or, encontram na Jaleca o jaleco feminino ideal que une estilo e conforto para sua rotina.',
+    freteGratis: true,
+    conteudoLocal: 'Profissionais de saúde na Barra da Tijuca, atuando em clínicas renomadas ou no Hospital Barra D\'Or, encontram na Jaleca o jaleco feminino ideal que une estilo e conforto para sua rotina. Frete grátis pra RJ nas compras acima de R$499.',
   },
   'jaleco-muriae': {
     nome: 'Muriaé',
@@ -85,7 +86,8 @@ const CIDADES: Record<string, CidadeInfo> = {
     uf: 'SP',
     tipo: 'fechada',
     profissoes: 'médicos, dentistas e profissionais de saúde de Marília',
-    conteudoLocal: 'Em Marília, polo de saúde com o complexo FAMEMA e diversos hospitais, a Jaleca veste com excelência as profissionais que buscam jalecos femininos com qualidade e design superior.',
+    freteGratis: true,
+    conteudoLocal: 'Em Marília, polo de saúde com o complexo FAMEMA e diversos hospitais, a Jaleca veste com excelência as profissionais que buscam jalecos femininos com qualidade e design superior. Frete grátis pra SP acima de R$499.',
   },
   'jaleco-itabira': {
     nome: 'Itabira',
