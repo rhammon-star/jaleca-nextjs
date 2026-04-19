@@ -60,7 +60,7 @@ async function getJalecos(): Promise<WooProduct[]> {
   try {
     const data = await graphqlClient.request<{ products: { nodes: WooProduct[] } }>(GET_PRODUCTS, {
       first: 6,
-      category: 'jalecos',
+      category: 'jalecos-femininos',
     })
     return data?.products?.nodes ?? []
   } catch {
