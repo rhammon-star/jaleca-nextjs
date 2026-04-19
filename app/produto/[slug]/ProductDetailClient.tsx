@@ -246,6 +246,7 @@ export default function ProductDetailClient({
   }, [])
   const [activeImageIdx, setActiveImageIdx] = useState(0)
   const touchStartX = useRef<number | null>(null)
+  const galleryRef  = useRef<HTMLDivElement>(null)
   const [showSizeChart, setShowSizeChart] = useState(false)
   const [showAdvisor, setShowAdvisor]     = useState(false)
   const [activeTab, setActiveTab] = useState<ActiveTab>('dados-tecnicos')
@@ -401,6 +402,13 @@ export default function ProductDetailClient({
   const prevMatchedId = matchedVariation?.id ?? colorPreviewVariation?.id
   useEffect(() => { setActiveImageIdx(0) }, [prevMatchedId])
 
+  // Mobile UX: ao selecionar cor, rolar suavemente de volta para a foto
+  useEffect(() => {
+    if (!selectedColor || typeof window === 'undefined') return
+    if (window.innerWidth >= 768) return // só mobile
+    galleryRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+  }, [selectedColor])
+
   const matchedVariationHasPrice = !matchedVariation || (!!matchedVariation.price && parsePrice(matchedVariation.price) > 0)
   const canAdd = (colorSlugs.length === 0 || selectedColor) &&
     (sizeSlugs.length === 0 || selectedSize) &&
@@ -534,8 +542,38 @@ export default function ProductDetailClient({
         ]} />
 
         <div className="grid grid-cols-1 md:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] gap-8 md:gap-16 lg:gap-20 items-start">
-          {/* Image gallery — aparece primeiro no mobile */}
-          <div className="flex flex-col gap-3 order-1 md:order-none">
+          {/* Mobile header — nome + badges + trust acima da foto (só mobile) */}
+          <div className="md:hidden order-1 col-span-full pb-2">
+            <p className="text-[13px] text-primary-text tracking-[0.2em] uppercase mb-1">Jaleca</p>
+            <h1 className="font-display text-3xl font-semibold leading-[1.1] tracking-[-0.03em] mb-2 text-balance">
+              {product.name.replace(/ - Jaleca$/i, '')}
+            </h1>
+            {isBestSeller(product.slug) && (
+              <div className="inline-flex items-center gap-2 bg-[#1a1a1a] text-[#c4a97d] px-4 py-2 mb-3 self-start">
+                <span className="text-sm">🏆</span>
+                <span className="text-[12px] font-bold tracking-[0.2em] uppercase">Campeão de Vendas</span>
+              </div>
+            )}
+            <div className="flex flex-wrap gap-x-4 gap-y-1 mb-3">
+              <span className="flex items-center gap-1.5 text-[13px] text-muted-foreground"><span className="text-green-600">✔</span> Envio rápido para todo o Brasil</span>
+              <span className="flex items-center gap-1.5 text-[13px] text-muted-foreground"><span className="text-green-600">✔</span> Troca fácil em até 30 dias</span>
+              <span className="flex items-center gap-1.5 text-[13px] text-muted-foreground"><span className="text-green-600">✔</span> Compra 100% segura</span>
+            </div>
+            {reviews.length > 0 ? (
+              <div className="flex items-center gap-2 mb-1">
+                <StarRating rating={Math.round(avgRating)} size={13} />
+                <span className="text-xs text-muted-foreground">{avgRating.toFixed(1)}</span>
+              </div>
+            ) : googlePlace && googlePlace.reviewCount > 0 ? (
+              <button onClick={() => setActiveTab('avaliacoes')} className="flex items-center gap-2 mb-1 text-xs text-muted-foreground">
+                <StarRating rating={Math.round(googlePlace.rating)} size={13} />
+                <span className="underline underline-offset-2"><strong className="text-foreground font-medium">{googlePlace.rating.toFixed(1)}</strong> no Google</span>
+              </button>
+            ) : null}
+          </div>
+
+          {/* Image gallery — order-2 no mobile */}
+          <div ref={galleryRef} className="flex flex-col gap-3 order-2 md:order-none">
             {/* Main image with zoom */}
             <div className="relative aspect-[3/4] overflow-hidden rounded-[28px] bg-secondary/20 ring-1 ring-secondary/30"
                  title="Passe o mouse para ver os detalhes"
@@ -608,53 +646,39 @@ export default function ProductDetailClient({
             )}
           </div>
 
-          {/* Info — aparece depois das fotos no mobile */}
-          <div className="flex flex-col md:pt-4 order-2 md:order-none">
-            <p className="text-[13px] md:text-[11px] text-primary-text tracking-[0.2em] md:tracking-[0.28em] uppercase mb-1">Jaleca</p>
-            <h1 className="font-display text-4xl lg:text-5xl font-semibold leading-[1.1] tracking-[-0.03em] mb-2 text-balance">
-              {product.name.replace(/ - Jaleca$/i, '')}
-            </h1>
-
-            {/* Campeão de Vendas badge — only for best-sellers */}
-            {isBestSeller(product.slug) && (
-              <div className="inline-flex items-center gap-2 bg-[#1a1a1a] text-[#c4a97d] px-4 py-2 mb-4 self-start">
-                <span className="text-sm">🏆</span>
-                <span className="text-[12px] md:text-[10px] font-bold tracking-[0.2em] md:tracking-[0.25em] uppercase">Campeão de Vendas</span>
+          {/* Info — order-3 no mobile, coluna direita no desktop */}
+          <div className="flex flex-col md:pt-4 order-3 md:order-none">
+            {/* Desktop only: nome + badge + trust + rating (no mobile ficam acima da foto) */}
+            <div className="hidden md:block">
+              <p className="text-[11px] text-primary-text tracking-[0.28em] uppercase mb-1">Jaleca</p>
+              <h1 className="font-display text-4xl lg:text-5xl font-semibold leading-[1.1] tracking-[-0.03em] mb-2 text-balance">
+                {product.name.replace(/ - Jaleca$/i, '')}
+              </h1>
+              {isBestSeller(product.slug) && (
+                <div className="inline-flex items-center gap-2 bg-[#1a1a1a] text-[#c4a97d] px-4 py-2 mb-4 self-start">
+                  <span className="text-sm">🏆</span>
+                  <span className="text-[10px] font-bold tracking-[0.25em] uppercase">Campeão de Vendas</span>
+                </div>
+              )}
+              <div className="flex flex-wrap gap-x-4 gap-y-1.5 mb-4">
+                <span className="flex items-center gap-1.5 text-[11px] text-muted-foreground"><span className="text-green-600">✔</span> Envio rápido para todo o Brasil</span>
+                <span className="flex items-center gap-1.5 text-[11px] text-muted-foreground"><span className="text-green-600">✔</span> Troca fácil em até 30 dias</span>
+                <span className="flex items-center gap-1.5 text-[11px] text-muted-foreground"><span className="text-green-600">✔</span> Compra 100% segura</span>
               </div>
-            )}
-
-            {/* Trust block — prova social abaixo do título */}
-            <div className="flex flex-wrap gap-x-4 gap-y-1.5 mb-4">
-              <span className="flex items-center gap-1.5 text-[13px] md:text-[11px] text-muted-foreground">
-                <span className="text-green-600">✔</span> Envio rápido para todo o Brasil
-              </span>
-              <span className="flex items-center gap-1.5 text-[13px] md:text-[11px] text-muted-foreground">
-                <span className="text-green-600">✔</span> Troca fácil em até 30 dias
-              </span>
-              <span className="flex items-center gap-1.5 text-[13px] md:text-[11px] text-muted-foreground">
-                <span className="text-green-600">✔</span> Compra 100% segura
-              </span>
+              {reviews.length > 0 ? (
+                <div className="flex items-center gap-2 mb-4">
+                  <StarRating rating={Math.round(avgRating)} size={13} />
+                  <span className="text-xs text-muted-foreground">{avgRating.toFixed(1)}</span>
+                </div>
+              ) : googlePlace && googlePlace.reviewCount > 0 ? (
+                <button onClick={() => setActiveTab('avaliacoes')} className="flex items-center gap-2 mb-4 text-xs text-muted-foreground hover:text-foreground transition-colors group">
+                  <StarRating rating={Math.round(googlePlace.rating)} size={13} />
+                  <span className="underline underline-offset-2 group-hover:no-underline">
+                    <strong className="text-foreground font-medium">{googlePlace.rating.toFixed(1)}</strong>{' '}no Google
+                  </span>
+                </button>
+              ) : null}
             </div>
-
-
-            {/* Rating summary */}
-            {reviews.length > 0 ? (
-              <div className="flex items-center gap-2 mb-4">
-                <StarRating rating={Math.round(avgRating)} size={13} />
-                <span className="text-xs text-muted-foreground">{avgRating.toFixed(1)}</span>
-              </div>
-            ) : googlePlace && googlePlace.reviewCount > 0 ? (
-              <button
-                onClick={() => setActiveTab('avaliacoes')}
-                className="flex items-center gap-2 mb-4 text-xs text-muted-foreground hover:text-foreground transition-colors group"
-              >
-                <StarRating rating={Math.round(googlePlace.rating)} size={13} />
-                <span className="underline underline-offset-2 group-hover:no-underline">
-                  <strong className="text-foreground font-medium">{googlePlace.rating.toFixed(1)}</strong>
-                  {' '}no Google
-                </span>
-              </button>
-            ) : null}
 
             {/* Price */}
             <div className="flex items-center gap-3 mb-1">
@@ -695,15 +719,6 @@ export default function ProductDetailClient({
                 dangerouslySetInnerHTML={{ __html: cleanHtml(product.shortDescription) }}
               />
             )}
-
-            <div className="border-y border-border/80 py-6 mb-8">
-              <button
-                onClick={() => setShowAdvisor(true)}
-                className="inline-flex w-full min-h-12 items-center justify-center border border-secondary bg-background px-6 py-4 text-xs font-semibold tracking-widest uppercase text-secondary transition-all duration-300 hover:bg-secondary hover:text-background active:scale-[0.98] rounded-none"
-              >
-                Descubra seu Tamanho Ideal
-              </button>
-            </div>
 
             {/* Color/Estampa selector */}
             {colorSlugs.length > 0 && (
@@ -763,6 +778,16 @@ export default function ProductDetailClient({
                   })}
                 </div>
               </div>
+            )}
+
+            {/* Descubra seu Tamanho — logo após seletor de tamanho */}
+            {sizeSlugs.length > 0 && (
+              <button
+                onClick={() => setShowAdvisor(true)}
+                className="inline-flex w-full min-h-11 items-center justify-center border border-secondary bg-background px-6 py-3 text-xs font-semibold tracking-widest uppercase text-secondary transition-all duration-300 hover:bg-secondary hover:text-background active:scale-[0.98] rounded-none mb-6"
+              >
+                Descubra seu Tamanho Ideal
+              </button>
             )}
 
             {/* Inline size chart */}
