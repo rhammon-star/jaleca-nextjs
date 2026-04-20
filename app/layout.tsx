@@ -190,12 +190,6 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://embed.tawk.to" />
         <link rel="dns-prefetch" href="https://t.contentsquare.net" />
         <link rel="dns-prefetch" href="https://bat.bing.net" />
-        {/* Microsoft Advertising UET tag 187247004 */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.uetq=window.uetq||[];window.uetq.push('consent','default',{'ad_storage':'granted'});(function(w,d,t,u,o){w[u]=w[u]||[],o.ts=(new Date).getTime();var n=d.createElement(t);n.src="https://bat.bing.net/bat.js?ti="+o.ti+("uetq"!=u?"&q="+u:""),n.async=1,n.onload=n.onreadystatechange=function(){var s=this.readyState;s&&"loaded"!==s&&"complete"!==s||(o.q=w[u],w[u]=new UET(o),w[u].push("pageLoad"),n.onload=n.onreadystatechange=null)};var i=d.getElementsByTagName(t)[0];i.parentNode.insertBefore(n,i)})(window,document,"script","uetq",{ti:"187247004",enableAutoSpaTracking:true});`,
-          }}
-        />
       </head>
       <body className="min-h-full flex flex-col">
         <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[999] focus:bg-background focus:border focus:border-border focus:px-4 focus:py-2 focus:text-sm focus:font-semibold">
@@ -206,6 +200,10 @@ export default function RootLayout({
             <CompareProvider>
               <CartProvider>
                 <Analytics />
+                {/* Microsoft Advertising UET tag */}
+                <Script id="bing-uet" strategy="lazyOnload" dangerouslySetInnerHTML={{
+                  __html: `window.uetq=window.uetq||[];window.uetq.push('consent','default',{'ad_storage':'granted'});(function(w,d,t,u,o){w[u]=w[u]||[],o.ts=(new Date).getTime();var n=d.createElement(t);n.src="https://bat.bing.net/bat.js?ti="+o.ti+("uetq"!=u?"&q="+u:""),n.async=1,n.onload=n.onreadystatechange=function(){var s=this.readyState;s&&"loaded"!==s&&"complete"!==s||(o.q=w[u],w[u]=new UET(o),w[u].push("pageLoad"),n.onload=n.onreadystatechange=null)};var i=d.getElementsByTagName(t)[0];i.parentNode.insertBefore(n,i)})(window,document,"script","uetq",{ti:"187247004",enableAutoSpaTracking:true});`,
+                }} />
                 <Header />
                 <CartDrawer />
                 <BackButton />
