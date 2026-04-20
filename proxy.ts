@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const host = request.headers.get('host') || ''
 
   // admin.jaleca.com.br → 410 Gone + noindex (X-Robots-Tag em 301 não é respeitado pelo Google)
