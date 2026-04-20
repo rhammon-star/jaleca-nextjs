@@ -4,14 +4,15 @@ import type { NextRequest } from 'next/server'
 export function middleware(request: NextRequest) {
   const host = request.headers.get('host') || ''
 
-  // Redirect admin.jaleca.com.br → jaleca.com.br (301 permanent) + noindex
+  // admin.jaleca.com.br → 410 Gone + noindex (X-Robots-Tag em 301 não é respeitado pelo Google)
   if (host === 'admin.jaleca.com.br') {
-    const url = request.nextUrl.clone()
-    url.host = 'jaleca.com.br'
-    url.protocol = 'https:'
-    const res = NextResponse.redirect(url, { status: 301 })
-    res.headers.set('X-Robots-Tag', 'noindex, nofollow')
-    return res
+    return new NextResponse('Gone', {
+      status: 410,
+      headers: {
+        'X-Robots-Tag': 'noindex, nofollow',
+        'Content-Type': 'text/plain',
+      },
+    })
   }
 
   // Redirect www.jaleca.com.br → jaleca.com.br (301 — evita indexação duplicada)

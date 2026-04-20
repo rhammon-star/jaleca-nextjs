@@ -5,12 +5,12 @@ import { franqueados } from '@/lib/franqueados'
 import StoreMapClient from '@/components/StoreMapClient'
 
 export const metadata: Metadata = {
-  title: 'Lojas Jaleca — Ipatinga, Caratinga, Colatina, Contagem e Mais',
-  description: 'Encontre a loja Jaleca mais perto: Ipatinga, Caratinga, Colatina, Contagem, Teófilo Otoni, Guarapuava. Experimente jalecos e uniformes profissionais com atendimento personalizado.',
+  title: 'Lojas Jaleca — Jalecos em Ipatinga, BH, Colatina, Contagem e Mais',
+  description: '6 lojas físicas Jaleca em MG e ES: experimente jalecos, dólmãs e conjuntos antes de comprar. Ipatinga, Caratinga, Contagem, Colatina, Teófilo Otoni e Guarapuava. Atendimento personalizado e estoque completo.',
   alternates: { canonical: 'https://jaleca.com.br/nossas-lojas' },
   openGraph: {
-    title: 'Lojas Jaleca — Ipatinga, Caratinga, Colatina, Contagem e Mais',
-    description: 'Encontre a loja Jaleca mais perto: Ipatinga, Caratinga, Colatina, Contagem, Teófilo Otoni, Guarapuava. Experimente jalecos e uniformes profissionais.',
+    title: 'Lojas Jaleca — Jalecos em Ipatinga, BH, Colatina, Contagem e Mais',
+    description: '6 lojas físicas Jaleca em MG e ES: experimente jalecos, dólmãs e conjuntos antes de comprar. Ipatinga, Caratinga, Contagem, Colatina, Teófilo Otoni e Guarapuava.',
     url: 'https://jaleca.com.br/nossas-lojas',
     siteName: 'Jaleca',
     locale: 'pt_BR',

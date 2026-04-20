@@ -33,10 +33,10 @@ const CAT_FAQ: Record<string, { q: string; a: string }[]> = {
 const CATEGORY_MAP: Record<string, { label: string; description: string; keywords: string; filterLabel?: string; title?: string; h1?: string; gender?: string }> = {
   jalecos: {
     label: 'Jalecos',
-    title: 'Jalecos Femininos e Masculinos | Jaleca',
-    h1: 'Jalecos Femininos e Masculinos para Profissionais da Saúde',
-    description: 'Jalecos femininos e masculinos para médicos, enfermeiros, dentistas e farmacêuticos. Modelos slim fit, Princesa, Duquesa, Elastex — brancos, pretos e coloridos. Tecido premium, tamanhos PP ao G3, frete grátis no Sudeste acima de R$499.',
-    keywords: 'jalecos, jaleco feminino, jaleco masculino, jaleco branco, jaleco médico, jaleco enfermagem, jaleco dentista, jaleco slim, jaleco profissional, comprar jaleco',
+    title: 'Jalecos para Médicos e Profissionais de Saúde | Jaleca',
+    h1: 'Jalecos Profissionais — Femininos e Masculinos',
+    description: 'Compre jalecos para médicos, dentistas, enfermeiros e farmacêuticos. Modelos Slim, Princesa, Duquesa e Elastex — brancos, pretos e coloridos. Tecido premium, tamanhos PP ao G3, frete grátis no Sudeste acima de R$499.',
+    keywords: 'jalecos, jaleco feminino, jaleco masculino, jaleco branco, jaleco médico, jaleco enfermagem, jaleco dentista, jaleco slim, jaleco profissional, comprar jaleco, jalecos profissionais',
   },
   'jalecos-femininos': {
     label: 'Jalecos Femininos',

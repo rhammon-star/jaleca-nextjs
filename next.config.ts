@@ -47,7 +47,7 @@ const nextConfig: NextConfig = {
       { source: '/loja', destination: '/produtos', permanent: true },
       { source: '/jalecos-femininos', destination: '/categoria/jalecos-femininos', permanent: true },
       { source: '/jalecos-masculinos', destination: '/categoria/jalecos-masculinos', permanent: true },
-      { source: '/jalecos', destination: '/produtos', permanent: true },
+      { source: '/jalecos', destination: '/categoria/jalecos', permanent: true },
       { source: '/scrubs', destination: '/categoria/conjuntos', permanent: true },
       { source: '/product/:slug', destination: '/produto/:slug', permanent: true },
       // Slugs sem sufixo -jaleca → versão com sufixo (produtos antigos do WordPress)
