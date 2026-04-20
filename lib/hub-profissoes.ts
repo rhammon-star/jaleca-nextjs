@@ -50,6 +50,8 @@ export const CLUSTER_LINKS: Record<string, Array<{ label: string; href: string; 
   servicos: [
     { label: 'Professor', href: '/jaleco-para-professor', desc: 'Guia completo' },
     { label: 'Vendedor', href: '/jaleco-para-vendedor', desc: 'Guia completo' },
+    { label: 'Universitário', href: '/jaleco-universitario', desc: 'Jaleco aluno' },
+    { label: 'Dona de Casa', href: '/jaleco-para-dona-de-casa', desc: 'Jaleco prático' },
     { label: 'Uniforme Professor', href: '/uniforme-para-professor', desc: 'Guia completo' },
   ],
   escritorio: [
@@ -57,6 +59,7 @@ export const CLUSTER_LINKS: Record<string, Array<{ label: string; href: string; 
     { label: 'Pastor', href: '/jaleco-para-pastor', desc: 'Jaleco' },
     { label: 'Psicólogo', href: '/jaleco-para-psicologa', desc: 'Jaleco' },
     { label: 'Farmacêutico', href: '/jaleco-para-farmaceutico', desc: 'Jaleco' },
+    { label: 'Secretária', href: '/jaleco-para-secretaria', desc: 'Jaleco e conjunto' },
     { label: 'Conjunto Advogado', href: '/conjunto-para-advogado', desc: 'Conjunto' },
     { label: 'Conjunto Pastor', href: '/conjunto-para-pastor', desc: 'Conjunto' },
     { label: 'Conjunto Psicóloga', href: '/conjunto-para-psicologa', desc: 'Conjunto' },
@@ -2129,6 +2132,237 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Capitais do Sudeste recebem em 3 a 5 dias úteis.' },
     ],
     cta: { descricao: 'Do PP ao G3. Jaleco confortável para o professor de sala e laboratório. Frete grátis no Sudeste acima de R$499.' },
+  },
+
+  // ── SECRETÁRIA ──────────────────────────────────────────────────────────────
+
+  {
+    slug: 'secretaria',
+    titulo: 'Secretária',
+    cluster: 'escritorio',
+    produto: 'conjunto',
+    urlSlug: 'jaleco-para-secretaria',
+    metadata: {
+      title: 'Jaleco para Secretária: Uniforme Executivo Feminino 2026 | Jaleca',
+      description: 'Jaleco e conjunto para secretária executiva: uniforme profissional elegante para escritório. Conjuntos Slim femininos, cores neutras e modelos PP ao G3. Frete grátis Sudeste.',
+    },
+    hero: {
+      subtitulo: 'Uniforme executivo para secretária: conjuntos e jalecos que combinam elegância com conforto para uma rotina de escritório intensa.',
+    },
+    guia: {
+      tituloSidebar: 'Como escolher o uniforme ideal para secretária',
+      secoes: [
+        {
+          id: 'modelo',
+          titulo: 'Jaleco ou conjunto: qual fica melhor?',
+          paragrafos: [
+            'A secretária executa uma rotina variada — atende clientes, resolve demandas e às vezes está em pé o dia todo. O conjunto (calça + jaleco ou calça + blusa) é o mais versátil: mantém visual alinhado mesmo depois de horas de trabalho.',
+            'O jaleco clássico funciona bem quando a empresa já tem uma roupa base padronizada. O conjunto resolve os dois problemas de uma vez: uniforme completo sem depender de roupa própria.',
+          ],
+        },
+        {
+          id: 'tecido',
+          titulo: 'Tecido certo para o dia de trabalho',
+          paragrafos: [
+            'Tecido de crepe ou oxford com elastano é a melhor escolha para secretária. Não amassa durante o dia, tem visual limpo e deixa o corpo se movimentar sem incômodo. Nada pior do que um uniforme que parece uma tela de algodão amassada às 10h da manhã.',
+            'Evite 100% algodão para ambientes de escritório. O algodão amassa fácil e absorve calor no verão. A composição poliéster + elastano mantém o caimento o dia inteiro.',
+          ],
+        },
+        {
+          id: 'cores',
+          titulo: 'Cores neutras para escritório executivo',
+          paragrafos: [
+            'Preto, marinho, cinza e branco são os clássicos do ambiente corporativo. Passam seriedade e combinam com qualquer ambiente de trabalho.',
+            'Empresas com identidade de marca específica costumam escolher uma cor para o uniforme. A Jaleca tem 12 cores disponíveis nos conjuntos — dá pra alinhar com a paleta da empresa sem dificuldade.',
+          ],
+        },
+        {
+          id: 'dress-code',
+          titulo: 'Dress code e identidade da empresa',
+          paragrafos: [
+            'Uniforme de secretária tem uma função além do visual: identifica quem atende e passa confiança para o cliente. O conjunto com blazer ou jaleco slim é o que mais transmite profissionalismo em recepcionar visitas.',
+            'Se a empresa tem logo ou bordado no uniforme, o jaleco ou conjunto é o lugar certo para colocar. Fica discreto mas presente — e completa a imagem da empresa.',
+          ],
+        },
+        {
+          id: 'conforto',
+          titulo: 'Conforto para uma rotina de pé',
+          paragrafos: [
+            'Secretária fica em pé, senta, se movimenta. O uniforme precisa acompanhar isso sem apertar. Elastano na composição é o que garante isso — o tecido volta ao lugar depois de cada movimento.',
+            'Cuidado com modelagens muito ajustadas para o trabalho. O Slim Executiva tem corte moderno sem exagero — fica bem tanto sentada como em pé ao longo do dia.',
+          ],
+        },
+      ],
+    },
+    comparacao: {
+      slimIdeal: 'Recepcionistas, secretárias de clínica e ambientes de atendimento ao cliente',
+      profissionalIdeal: 'Secretárias executivas, assessoras e ambientes corporativos formais',
+    },
+    faq: [
+      { q: 'Jaleco ou conjunto para secretária?', a: 'Para secretárias executivas e recepcionistas, o conjunto é mais completo — resolve o visual sem depender de roupa própria. O jaleco funciona bem quando a empresa já tem uma roupa base.' },
+      { q: 'Qual cor de uniforme para secretária?', a: 'Preto, marinho, cinza e branco são os mais usados em ambientes corporativos. A Jaleca tem 12 cores nos conjuntos — dá para alinhar com a identidade da empresa.' },
+      { q: 'O conjunto de secretária tem elastano?', a: 'Sim. Todos os conjuntos Jaleca têm elastano na composição — necessário para quem fica em pé e se movimenta durante o dia.' },
+      { q: 'Posso colocar bordado com o logo da empresa?', a: 'Sim. A Jaleca oferece personalização com bordado. Entre em contato para orçamento.' },
+      { q: 'Qual tamanho pedir?', a: 'Use a tabela de medidas da Jaleca. Para conjuntos, meça busto, cintura e quadril — cada parte pode ser de tamanho diferente.' },
+      { q: 'Qual modelo feminino para secretária?', a: 'Os conjuntos Executiva, Puff Zíper e Laço Feminino são os mais usados por secretárias. O Executiva tem corte mais formal; o Puff e o Laço têm toque mais delicado.' },
+      { q: 'Tem opção masculina?', a: 'Sim. O Conjunto Scrub Masculino e jalecos masculinos estão disponíveis para empresas com secretários.' },
+      { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Capitais do Sudeste recebem em 3 a 5 dias úteis.' },
+    ],
+    cta: { descricao: 'Conjuntos e jalecos executivos do PP ao G3. Elegância e conforto para a rotina de secretária. Frete grátis no Sudeste acima de R$499.' },
+  },
+
+  // ── UNIVERSITÁRIO ───────────────────────────────────────────────────────────
+
+  {
+    slug: 'universitario',
+    titulo: 'Universitário',
+    cluster: 'servicos',
+    produto: 'jaleco',
+    urlSlug: 'jaleco-universitario',
+    metadata: {
+      title: 'Jaleco Universitário: Para Aluno e Estudante 2026 | Jaleca',
+      description: 'Jaleco universitário para aluno e estudante: modelos Padrão e Slim do PP ao G3. Jaleco para medicina, enfermagem, farmácia, biomedicina e cursos técnicos. Frete grátis Sudeste.',
+    },
+    hero: {
+      subtitulo: 'Jaleco universitário para aluno e estudante: modelo padrão para medicina, enfermagem, farmácia e qualquer curso que exige jaleco.',
+    },
+    guia: {
+      tituloSidebar: 'Tudo sobre jaleco para universitário',
+      secoes: [
+        {
+          id: 'curso',
+          titulo: 'Quais cursos exigem jaleco universitário?',
+          paragrafos: [
+            'Medicina, enfermagem, farmácia, fisioterapia, biomedicina, nutrição, odontologia e veterinária são os cursos onde o jaleco é obrigatório desde o primeiro período. Em biologia, química e engenharia química, o jaleco é exigido nas aulas de laboratório.',
+            'A IES (instituição de ensino) costuma definir o modelo, a cor e se pode ter bordado. A maioria exige jaleco branco simples, sem detalhes, para manter a padronização na turma.',
+          ],
+        },
+        {
+          id: 'modelo',
+          titulo: 'Jaleco padrão ou Slim: qual comprar?',
+          paragrafos: [
+            'O Jaleco Padrão Aluno é o mais indicado: corte neutro, branco, sem detalhes que possam conflitar com exigências da faculdade. É o que a maioria das instituições aceita sem questionamento.',
+            'O Slim funciona para quem já concluiu o período de identificação com a turma e quer um visual mais ajustado. Verifique com a coordenação antes — algumas IES proíbem cortes muito ajustados nas aulas práticas.',
+          ],
+        },
+        {
+          id: 'bordado',
+          titulo: 'Jaleco pode ter bordado com nome?',
+          paragrafos: [
+            'Depende da instituição. A maioria das faculdades de medicina, enfermagem e farmácia permite bordado com nome e CRM/COREN provisório a partir de determinado semestre.',
+            'O bordado ajuda muito na identificação em estágio hospitalar — pacientes e equipe sabem com quem estão falando. A Jaleca oferece personalização com bordado.',
+          ],
+        },
+        {
+          id: 'tamanho',
+          titulo: 'Como escolher o tamanho certo do jaleco',
+          paragrafos: [
+            'Mede o busto e compare com a tabela da Jaleca. Para estudante que usa jaleco sobre roupa comum, um tamanho com folga nos ombros é o melhor — não aperta ao movimentar os braços.',
+            'O jaleco universitário precisa de espaço para dobrar e carregar. Um tamanho com 2 a 4cm de folga no busto é o ideal para rotina acadêmica.',
+          ],
+        },
+        {
+          id: 'cuidados',
+          titulo: 'Como lavar e conservar o jaleco da faculdade',
+          paragrafos: [
+            'Lave a 40°C para higienização adequada — temperatura suficiente para eliminar contaminantes de laboratório sem danificar o tecido.',
+            'Separe o jaleco das roupas comuns na lavagem. Para tirar manchas de laboratório: pré-tratamento com detergente enzimático antes da lavagem. Não use cloro — amarela o tecido com o tempo.',
+          ],
+        },
+      ],
+    },
+    comparacao: {
+      slimIdeal: 'Alunos de cursos de beleza, nutrição e estágio em clínicas',
+      profissionalIdeal: 'Medicina, enfermagem, farmácia e laboratórios',
+    },
+    faq: [
+      { q: 'Qual jaleco comprar para a faculdade?', a: 'O Jaleco Padrão Aluno é o mais indicado — cor branca, corte neutro, aceito pela maioria das IES. Verifique o modelo específico exigido pelo seu curso antes de comprar.' },
+      { q: 'O jaleco universitário pode ter bordado?', a: 'Depende da instituição. A maioria das faculdades de saúde permite bordado com nome a partir de determinado semestre. Confirme com a coordenação.' },
+      { q: 'Jaleco unissex ou masculino/feminino?', a: 'A Jaleca tem jaleco universitário unissex, feminino e masculino. O unissex tem caimento mais neutro. Feminino tem corte mais ajustado; masculino tem ombros mais amplos.' },
+      { q: 'Precisa de manga longa ou curta?', a: 'Para laboratórios de risco biológico ou químico: manga longa é obrigatória pela NR-6. Para clínica e estágio hospitalar: manga longa é o padrão. Verifique a exigência do curso.' },
+      { q: 'Quantos jalecos comprar?', a: 'O mínimo é 2: um para usar e um para lavar. Cursos com aulas práticas diárias pedem 3 ou mais — principalmente para não faltar jaleco limpo em provas práticas.' },
+      { q: 'O jaleco da Jaleca é aceito nas faculdades?', a: 'Sim. Nossos jalecos seguem o padrão exigido pela maioria das IES. Em caso de dúvida sobre modelo específico, entre em contato.' },
+      { q: 'Tem tamanho para quem é plus size?', a: 'Sim. A grade Jaleca vai do PP ao G3 — maior que a maioria das marcas no mercado.' },
+      { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Capitais do Sudeste recebem em 3 a 5 dias úteis.' },
+    ],
+    cta: { descricao: 'Jaleco universitário do PP ao G3. Padrão e Slim para aluno de medicina, enfermagem, farmácia e qualquer curso. Frete grátis no Sudeste acima de R$499.' },
+  },
+
+  // ── DONA DE CASA ─────────────────────────────────────────────────────────────
+
+  {
+    slug: 'dona-de-casa',
+    titulo: 'Dona de Casa',
+    cluster: 'servicos',
+    produto: 'jaleco',
+    urlSlug: 'jaleco-para-dona-de-casa',
+    metadata: {
+      title: 'Jaleco para Dona de Casa: Prático e Confortável 2026 | Jaleca',
+      description: 'Jaleco para dona de casa: modelos práticos, laváveis e confortáveis para o dia a dia em casa. Colete, jaleco curto e conjunto disponíveis do PP ao G3. Frete grátis Sudeste.',
+    },
+    hero: {
+      subtitulo: 'Jaleco para dona de casa: prático, lavável e confortável para quem cuida da casa e merece um uniforme de verdade.',
+    },
+    guia: {
+      tituloSidebar: 'Como escolher o jaleco ideal para o dia a dia em casa',
+      secoes: [
+        {
+          id: 'por-que',
+          titulo: 'Por que usar jaleco em casa?',
+          paragrafos: [
+            'O jaleco protege a roupa durante as tarefas do dia. Quem cozinha, limpa ou cuida da família sabe que qualquer roupa vira uniforme — melhor ter uma peça feita pra isso.',
+            'Além de proteger, o jaleco cria uma separação mental entre o tempo de casa e o tempo de descanso. Muitas donas de casa relatam que vestir o jaleco aumenta o foco nas tarefas do dia.',
+          ],
+        },
+        {
+          id: 'modelo',
+          titulo: 'Qual modelo é mais prático para casa',
+          paragrafos: [
+            'O Colete Multiuso é o queridinho de quem faz tarefas domésticas. Não tem manga — é mais fresco no verão e não atrapalha o movimento dos braços. Tem bolsos funcionais para guardar o celular, pano de prato ou o que precisar.',
+            'O jaleco curto de manga curta também é uma ótima opção. Protege os braços do calor do fogão e é mais fácil de lavar do que modelos mais pesados.',
+          ],
+        },
+        {
+          id: 'tecido',
+          titulo: 'Tecido fácil de lavar e duradouro',
+          paragrafos: [
+            'Poliéster com elastano é a melhor composição para uso doméstico: aguentar manchas de gordura, molho e tempero, ir à máquina sem deformar e secar rápido.',
+            'Evite tecidos 100% algodão para uso intenso. O algodão absorve manchas com mais facilidade e demora mais para secar — o que pode ser problema para quem usa o jaleco todo dia.',
+          ],
+        },
+        {
+          id: 'cozinha',
+          titulo: 'Jaleco para cozinhar: o que considerar',
+          paragrafos: [
+            'Na cozinha, o jaleco serve como proteção contra respingos de gordura, tinta e tempero. Manga longa protege mais — especialmente perto do fogão.',
+            'Para quem faz confeitaria ou cozinha em grande volume, o modelo fechado (zíper ou botão) é o melhor. Não abre com o movimento e protege a roupa de baixo completamente.',
+          ],
+        },
+        {
+          id: 'cores',
+          titulo: 'Cores práticas para uso diário',
+          paragrafos: [
+            'Cores mais escuras escondem manchas melhor. Preto, marinho e cinza são ótimas opções para quem usa o jaleco em tarefas que mancham muito.',
+            'Branco é clássico mas exige mais cuidado com alvejante. Para uso doméstico, um tom mais escuro ou estampado é mais prático no dia a dia.',
+          ],
+        },
+      ],
+    },
+    comparacao: {
+      slimIdeal: 'Tarefas leves, receber visitas em casa e uso mais casual',
+      profissionalIdeal: 'Cozinha, limpeza pesada e tarefas domésticas intensas',
+    },
+    faq: [
+      { q: 'Qual a diferença entre jaleco e avental?', a: 'O avental cobre apenas a frente. O jaleco cobre os dois lados e tem fechamento — protege a roupa toda, não só a parte da frente.' },
+      { q: 'O jaleco para dona de casa é diferente do profissional?', a: 'Não — a Jaleca vende os mesmos modelos para uso doméstico e profissional. A diferença está no uso que cada pessoa faz da peça.' },
+      { q: 'Qual modelo é mais indicado para cozinhar?', a: 'O Colete Multiuso ou o jaleco de manga curta são os mais práticos. Para cozinhar perto do fogão, manga longa protege mais contra respingos.' },
+      { q: 'É fácil de lavar?', a: 'Sim. Todos os modelos Jaleca podem ir na máquina. Para manchas de gordura: pré-tratamento com detergente líquido antes da lavagem.' },
+      { q: 'Tem tamanhos grandes?', a: 'Sim. A grade Jaleca vai do PP ao G3 — atende a maioria dos biótipos.' },
+      { q: 'O jaleco tem bolsos?', a: 'Sim. A maioria dos modelos tem pelo menos 2 bolsos — um no peito e laterais. O Colete Multiuso tem mais bolsos por ser específico para quem carrega muita coisa.' },
+      { q: 'Posso usar para trabalhar fora também?', a: 'Sim. Os jalecos da Jaleca são profissionais — podem ser usados em casa e no trabalho sem problema.' },
+      { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Capitais do Sudeste recebem em 3 a 5 dias úteis.' },
+    ],
+    cta: { descricao: 'Jaleco e colete para dona de casa do PP ao G3. Prático, lavável e feito para durar. Frete grátis no Sudeste acima de R$499.' },
   },
 ]
 

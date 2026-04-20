@@ -1,11 +1,11 @@
 import Link from 'next/link'
-import { graphqlClient, GET_PRODUCTS, GET_PRODUCT_BY_SLUG } from '@/lib/graphql'
-import type { WooProduct } from '@/components/ProductCard'
-import ProductCard from '@/components/ProductCard'
-import { getPosts, type WPPost } from '@/lib/wordpress'
+import { graphqlClient, GET_PRODUCT_BY_SLUG } from '@/lib/graphql'
+import { getPosts } from '@/lib/wordpress'
+import type { WPPost } from '@/lib/wordpress'
 import { getGooglePlaceData } from '@/lib/google-places'
 import HubFaqAccordion from '@/components/HubFaqAccordion'
 import { getHubProfissao, getClusterLinks } from '@/lib/hub-profissoes'
+import ProfessionProductGrid from '@/components/ProfessionProductGrid'
 
 // Foto do hero variada por profissão — evita repetição e mostra modelos diferentes
 const HERO_SLUG: Record<string, string> = {
@@ -41,6 +41,10 @@ const HERO_SLUG: Record<string, string> = {
   'conjunto-farmaceutico':'conjunto-pijama-cirurgico-scrub-feminino-varias-cores-jaleca',
   // jaleco genérico
   'professor-uniforme':  'jaleco-slim-gold-pala-feminino-jaleca',
+  // escritório / serviços
+  secretaria:            'conjunto-executiva-feminino-jaleca',
+  universitario:         'jaleco-universitario-unissex-jaleca',
+  'dona-de-casa':        'jaleco-slim-tradicional-manga-curta-feminino-jaleca',
 }
 
 const DEFAULT_HERO = 'jaleco-slim-feminino-de-ziper-central-varias-cores-jaleca'
@@ -80,19 +84,12 @@ const PRODUTO_CONFIG: Record<string, {
   },
 }
 
-async function getProdutos(produto = 'jaleco'): Promise<WooProduct[]> {
-  const cfg = PRODUTO_CONFIG[produto] ?? PRODUTO_CONFIG.jaleco
-  try {
-    const data = await graphqlClient.request<{ products: { nodes: WooProduct[] } }>(GET_PRODUCTS, {
-      first: 12,
-      category: cfg.catFem,
-    })
-    const all = data?.products?.nodes ?? []
-    const filtered = all.filter(p => cfg.filter(p.slug ?? ''))
-    return filtered.slice(0, 6)
-  } catch {
-    return []
-  }
+/** Extrai a chave base de profissão para buscar produtos (ex: 'dolma-churrasqueiro' → 'churrasqueiro') */
+function getProfissaoKey(profissao: string): string {
+  if (profissao.startsWith('dolma-'))    return profissao.replace('dolma-', '')
+  if (profissao.startsWith('conjunto-')) return profissao.replace('conjunto-', '')
+  if (profissao.endsWith('-uniforme'))   return profissao.replace('-uniforme', '')
+  return profissao
 }
 
 async function getHeroImage(profissao: string): Promise<{ src: string; alt: string } | null> {
@@ -148,9 +145,9 @@ export default async function HubProfissaoTemplate({ profissao }: { profissao: s
 
   const produtoConfig = PRODUTO_CONFIG[hub.produto ?? 'jaleco'] ?? PRODUTO_CONFIG.jaleco
   const pageUrl = hub.urlSlug ?? `jaleco-para-${profissao}`
+  const profissaoKey = getProfissaoKey(profissao)
 
-  const [produtos, posts, placeData, heroImg] = await Promise.all([
-    getProdutos(hub.produto ?? 'jaleco'),
+  const [posts, placeData, heroImg] = await Promise.all([
     getBlogPosts(),
     getGooglePlaceData(),
     getHeroImage(profissao),
@@ -219,80 +216,118 @@ export default async function HubProfissaoTemplate({ profissao }: { profissao: s
         </div>
 
         {/* ── HERO ── */}
-        <section className="grid" style={{ gridTemplateColumns: '1fr 1fr', minHeight: '88vh', padding: 0 }}>
-          <div
-            className="flex flex-col justify-center"
-            style={{ padding: 'clamp(3rem,8vw,5rem) clamp(2rem,5vw,4rem) clamp(3rem,8vw,5rem) clamp(2rem,8vw,7rem)', background: '#f9f7f4' }}
-          >
-            <div className="flex items-center gap-3 mb-6" style={{ fontSize: '0.72rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#6b6b6b' }}>
-              <span style={{ display: 'inline-block', width: 32, height: 1, background: '#c8c4bc' }} />
-              Uniforme profissional
+        <section style={{ padding: 0 }}>
+          {/* Mobile: imagem de fundo com overlay + texto sobreposto */}
+          <div className="block md:hidden relative" style={{ minHeight: '70vw', background: '#e5e0d8', overflow: 'hidden' }}>
+            {heroImg && (
+              <img
+                src={heroImg.src}
+                alt={heroImg.alt}
+                style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block', position: 'absolute', inset: 0 }}
+              />
+            )}
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(26,26,26,0.75) 0%, transparent 55%)' }} />
+            <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '2rem 1.5rem' }}>
+              <div style={{ fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.65)', marginBottom: '0.5rem' }}>
+                Uniforme profissional
+              </div>
+              <h1 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2.4rem,9vw,3.5rem)', fontWeight: 400, lineHeight: 1.05, color: '#fff', margin: 0 }}>
+                {produtoConfig.label} para<br />
+                <em style={{ fontStyle: 'italic', fontWeight: 300 }}>{hub.titulo}</em>
+              </h1>
             </div>
-            <h1
-              style={{
-                fontFamily: "'Cormorant', Georgia, serif",
-                fontSize: 'clamp(3rem,5.5vw,5.2rem)',
-                fontWeight: 400,
-                lineHeight: 1.05,
-                letterSpacing: '-0.01em',
-                color: '#1a1a1a',
-                marginBottom: '1.5rem',
-              }}
-            >
-              {produtoConfig.label} para<br />
-              <em style={{ fontStyle: 'italic', fontWeight: 300 }}>{hub.titulo}</em>
-            </h1>
-            <p style={{ fontSize: '1rem', fontWeight: 300, color: '#6b6b6b', maxWidth: 420, marginBottom: '2.5rem', lineHeight: 1.8 }}>
+          </div>
+
+          {/* Mobile: texto + CTAs abaixo da imagem */}
+          <div className="block md:hidden" style={{ background: '#f9f7f4', padding: '2rem 1.5rem' }}>
+            <p style={{ fontSize: '0.97rem', fontWeight: 300, color: '#6b6b6b', marginBottom: '1.75rem', lineHeight: 1.8 }}>
               {hub.hero.subtitulo}
             </p>
-            <div className="flex gap-4 flex-wrap">
-              <Link href={`/produtos?categoria=${produtoConfig.catFem}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: '#1a1a1a', color: '#fff', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
+            <div className="flex gap-3">
+              <Link href={`/produtos?categoria=${produtoConfig.catFem}`} style={{ flex: 1, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '0.85rem 1rem', background: '#1a1a1a', color: '#fff', fontSize: '0.72rem', fontWeight: 400, letterSpacing: '0.12em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
                 Feminino ↗
               </Link>
-              <Link href={`/produtos?categoria=${produtoConfig.catMasc}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: 'transparent', color: '#1a1a1a', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
+              <Link href={`/produtos?categoria=${produtoConfig.catMasc}`} style={{ flex: 1, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '0.85rem 1rem', background: 'transparent', color: '#1a1a1a', fontSize: '0.72rem', fontWeight: 400, letterSpacing: '0.12em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
                 Masculino →
               </Link>
             </div>
             {placeData && <HeroStars rating={placeData.rating} />}
           </div>
 
-          <div className="relative" style={{ background: '#e5e0d8', minHeight: 480, overflow: 'hidden' }}>
-            {heroImg ? (
-              <img
-                src={heroImg.src}
-                alt={heroImg.alt}
-                style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block', position: 'absolute', inset: 0 }}
-              />
-            ) : (
-              <div style={{ width: '100%', height: '100%', background: 'linear-gradient(160deg, #ccc8c0 0%, #bfbab2 100%)', position: 'absolute', inset: 0 }} />
-            )}
+          {/* Desktop: grid 2 colunas original */}
+          <div className="hidden md:grid" style={{ gridTemplateColumns: '1fr 1fr', minHeight: '88vh' }}>
+            <div
+              className="flex flex-col justify-center"
+              style={{ padding: 'clamp(3rem,8vw,5rem) clamp(2rem,5vw,4rem) clamp(3rem,8vw,5rem) clamp(2rem,8vw,7rem)', background: '#f9f7f4' }}
+            >
+              <div className="flex items-center gap-3 mb-6" style={{ fontSize: '0.72rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#6b6b6b' }}>
+                <span style={{ display: 'inline-block', width: 32, height: 1, background: '#c8c4bc' }} />
+                Uniforme profissional
+              </div>
+              <h1 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(3rem,5.5vw,5.2rem)', fontWeight: 400, lineHeight: 1.05, letterSpacing: '-0.01em', color: '#1a1a1a', marginBottom: '1.5rem' }}>
+                {produtoConfig.label} para<br />
+                <em style={{ fontStyle: 'italic', fontWeight: 300 }}>{hub.titulo}</em>
+              </h1>
+              <p style={{ fontSize: '1rem', fontWeight: 300, color: '#6b6b6b', maxWidth: 420, marginBottom: '2.5rem', lineHeight: 1.8 }}>
+                {hub.hero.subtitulo}
+              </p>
+              <div className="flex gap-4 flex-wrap">
+                <Link href={`/produtos?categoria=${produtoConfig.catFem}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: '#1a1a1a', color: '#fff', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
+                  Feminino ↗
+                </Link>
+                <Link href={`/produtos?categoria=${produtoConfig.catMasc}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: 'transparent', color: '#1a1a1a', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
+                  Masculino →
+                </Link>
+              </div>
+              {placeData && <HeroStars rating={placeData.rating} />}
+            </div>
+            <div className="relative" style={{ background: '#e5e0d8', minHeight: 480, overflow: 'hidden' }}>
+              {heroImg ? (
+                <img src={heroImg.src} alt={heroImg.alt} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block', position: 'absolute', inset: 0 }} />
+              ) : (
+                <div style={{ width: '100%', height: '100%', background: 'linear-gradient(160deg, #ccc8c0 0%, #bfbab2 100%)', position: 'absolute', inset: 0 }} />
+              )}
+            </div>
           </div>
         </section>
 
         {/* ── TRUST BAR ── */}
-        <div className="grid" style={{ gridTemplateColumns: 'repeat(4,1fr)', background: '#1a1a1a', padding: '2rem clamp(1.5rem,5vw,4rem)' }}>
+        <div className="grid grid-cols-2 md:grid-cols-4" style={{ background: '#1a1a1a', padding: 'clamp(1.25rem,3vw,2rem) clamp(1rem,4vw,4rem)' }}>
           {[
-            { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><path d="M3 6h18M3 12h18M3 18h18" /></svg>, title: 'Tamanhos PP ao G3', sub: 'Grade completa, corpo real' },
-            { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><ellipse cx="12" cy="12" rx="9" ry="6" /><path d="M12 3v18M3 12h18" opacity=".5" /></svg>, title: 'Com elastano', sub: 'Movimento sem restrição' },
-            { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><path d="M5 12h14M12 5l7 7-7 7" /></svg>, title: 'Frete grátis', sub: 'SP · RJ · MG · ES acima R$499' },
-            { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0" /><path d="m9 12 2 2 4-4" /></svg>, title: 'Troca em 30 dias', sub: 'Sem burocracia' },
+            { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 18, height: 18 }}><path d="M3 6h18M3 12h18M3 18h18" /></svg>, title: 'Tamanhos PP ao G3', sub: 'Grade completa' },
+            { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 18, height: 18 }}><ellipse cx="12" cy="12" rx="9" ry="6" /><path d="M12 3v18M3 12h18" opacity=".5" /></svg>, title: 'Com elastano', sub: 'Sem restrição' },
+            { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 18, height: 18 }}><path d="M5 12h14M12 5l7 7-7 7" /></svg>, title: 'Frete grátis', sub: 'SP · RJ · MG · ES +R$499' },
+            { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 18, height: 18 }}><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0" /><path d="m9 12 2 2 4-4" /></svg>, title: 'Troca em 30 dias', sub: 'Sem burocracia' },
           ].map((item, i) => (
-            <div key={i} className="flex items-center gap-4" style={{ padding: '0.5rem 1.5rem', borderRight: i < 3 ? '1px solid rgba(255,255,255,0.12)' : 'none' }}>
-              <div className="shrink-0 flex items-center justify-center" style={{ width: 40, height: 40, border: '1px solid rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.8)' }}>
+            <div key={i} className="flex items-center gap-3" style={{ padding: 'clamp(0.75rem,2vw,1rem) clamp(0.75rem,2vw,1.5rem)', borderRight: (i === 1 || i === 3) ? 'none' : '1px solid rgba(255,255,255,0.1)', borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.1)' : 'none' }}>
+              <div className="shrink-0 flex items-center justify-center" style={{ width: 36, height: 36, border: '1px solid rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.8)' }}>
                 {item.icon}
               </div>
               <div>
-                <strong style={{ display: 'block', fontSize: '0.82rem', fontWeight: 400, letterSpacing: '0.06em', color: '#fff', marginBottom: '0.15rem' }}>{item.title}</strong>
-                <span style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.45)' }}>{item.sub}</span>
+                <strong style={{ display: 'block', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.04em', color: '#fff', marginBottom: '0.1rem' }}>{item.title}</strong>
+                <span style={{ fontSize: '0.68rem', color: 'rgba(255,255,255,0.4)' }}>{item.sub}</span>
               </div>
             </div>
           ))}
         </div>
 
         {/* ── GUIA ── */}
-        <section style={{ background: '#f9f7f4', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
+        <section style={{ background: '#f9f7f4', padding: 'clamp(3rem,8vw,7rem) clamp(1.25rem,5vw,4rem)' }}>
           <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-            <div className="grid" style={{ gridTemplateColumns: '280px 1fr', gap: 'clamp(3rem,6vw,6rem)', alignItems: 'start' }}>
+
+            {/* Mobile: nav horizontal scrollável acima do artigo */}
+            <div className="block md:hidden mb-6 -mx-5 px-5 overflow-x-auto">
+              <div className="flex gap-3 pb-2" style={{ width: 'max-content' }}>
+                {hub.guia.secoes.map(sec => (
+                  <a key={sec.id} href={`#${sec.id}`} style={{ fontSize: '0.72rem', color: '#6b6b6b', textDecoration: 'none', whiteSpace: 'nowrap', padding: '0.4rem 0.8rem', border: '1px solid #e5e0d8', background: '#fff' }}>
+                    {sec.titulo}
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            {/* Desktop: sidebar + artigo */}
+            <div className="hidden md:grid" style={{ gridTemplateColumns: '280px 1fr', gap: 'clamp(3rem,6vw,6rem)', alignItems: 'start' }}>
               <aside style={{ position: 'sticky', top: 80 }}>
                 <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>Guia completo</div>
                 <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '1.8rem', fontWeight: 400, lineHeight: 1.15, color: '#1a1a1a', marginBottom: '1.5rem' }}>
@@ -323,115 +358,37 @@ export default async function HubProfissaoTemplate({ profissao }: { profissao: s
                         {p}
                       </p>
                     ))}
-                    {idx === 0 && (
-                      <div style={{ background: '#1a1a1a', color: '#fff', padding: '1.5rem 2rem', margin: '2rem 0', borderLeft: '3px solid #c8c4bc' }}>
-                        <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.95rem', fontStyle: 'italic', fontWeight: 300, margin: 0 }}>
-                          "O jaleco ideal? Aquele que você nem sente que está vestindo. O tecido te acompanha, sem atrapalhar."
-                        </p>
-                      </div>
-                    )}
-                    {idx === 1 && (
-                      <ul style={{ listStyle: 'none', margin: '1.2rem 0 1.5rem' }}>
-                        {[
-                          `Slim — ${hub.comparacao.slimIdeal}`,
-                          `Profissional — ${hub.comparacao.profissionalIdeal}`,
-                        ].map(item => (
-                          <li key={item} style={{ fontSize: '0.95rem', color: '#444', padding: '0.6rem 0 0.6rem 1.5rem', position: 'relative', borderBottom: '1px solid #e5e0d8', fontWeight: 300 }}>
-                            <span style={{ position: 'absolute', left: 0, color: '#c8c4bc' }}>→</span>
-                            {item}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
                   </div>
                 ))}
               </article>
             </div>
-          </div>
-        </section>
 
-        {/* ── TABELA COMPARATIVA ── */}
-        <section style={{ background: '#fff', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
-          <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-            <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>Comparativo de modelagens</div>
-            <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2rem,3.5vw,3rem)', fontWeight: 400, lineHeight: 1.15, color: '#1a1a1a', marginBottom: '2.5rem' }}>
-              Slim ou Profissional:<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>qual é a certa para você?</em>
-            </h2>
-            <div style={{ overflowX: 'auto' }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem' }}>
-                <thead>
-                  <tr>
-                    <th style={{ padding: '1.5rem 1.5rem 1rem', textAlign: 'left', borderBottom: '2px solid #1a1a1a', width: 200 }} />
-                    {[{ label: 'Slim', featured: false }, { label: 'Profissional', featured: true }].map(({ label, featured }) => (
-                      <th key={label} style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '1.5rem', fontWeight: 400, padding: '1.5rem 1.5rem 1rem', textAlign: 'left', borderBottom: '2px solid #1a1a1a', background: featured ? '#1a1a1a' : 'transparent', color: featured ? '#fff' : '#1a1a1a', position: 'relative' }}>
-                        {featured && (
-                          <span style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', fontSize: '0.6rem', letterSpacing: '0.15em', background: '#1a1a1a', color: '#c8c4bc', padding: '0.3rem 1rem', border: '1px solid rgba(255,255,255,0.2)' }}>
-                            MAIS VENDIDO
-                          </span>
-                        )}
-                        {label}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {[
-                    ['Silhueta', 'Ajustada ao corpo', 'Estruturada, mais ampla'],
-                    ['Ideal para', hub.comparacao.slimIdeal, hub.comparacao.profissionalIdeal],
-                    ['Elastano', '✓ Presente', '✓ Presente'],
-                    ['Bolsos', '2 bolsos', '3 bolsos'],
-                    ['Comprimento', 'Curto ou longo', 'Curto ou longo'],
-                    ['Cores disponíveis', '12 cores', '12 cores'],
-                    ['Tamanhos', 'PP ao G3', 'PP ao G3'],
-                  ].map(([label, slim, prof]) => (
-                    <tr key={label}>
-                      <td style={{ padding: '1rem 1.5rem', borderBottom: '1px solid #e5e0d8', fontSize: '0.78rem', letterSpacing: '0.06em', textTransform: 'uppercase', color: '#6b6b6b', fontWeight: 400 }}>{label}</td>
-                      <td style={{ padding: '1rem 1.5rem', borderBottom: '1px solid #e5e0d8', color: '#1a1a1a' }}>{slim}</td>
-                      <td style={{ padding: '1rem 1.5rem', borderBottom: '1px solid #e5e0d8', color: '#1a1a1a', background: '#f9f7f4' }}>{prof}</td>
-                    </tr>
+            {/* Mobile: artigo full-width */}
+            <article className="block md:hidden">
+              {hub.guia.secoes.map((sec, idx) => (
+                <div key={sec.id} id={sec.id} style={{ borderTop: idx === 0 ? 'none' : '1px solid #e5e0d8', paddingTop: idx === 0 ? 0 : '1.75rem', marginTop: idx === 0 ? 0 : '2rem' }}>
+                  <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(1.4rem,5vw,1.8rem)', fontWeight: 400, marginBottom: '0.9rem', color: '#1a1a1a' }}>
+                    {sec.titulo}
+                  </h2>
+                  {sec.paragrafos.map((p, pi) => (
+                    <p key={pi} style={{ fontSize: '0.95rem', color: '#444', lineHeight: 1.85, marginBottom: '1.1rem', fontWeight: 300 }}>
+                      {p}
+                    </p>
                   ))}
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <td />
-                    <td style={{ padding: '1.5rem' }}>
-                      <Link href={`/produtos?categoria=${produtoConfig.catFem}`} style={{ display: 'inline-flex', padding: '0.75rem 1.5rem', fontSize: '0.72rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a', color: '#1a1a1a' }}>
-                        Ver Slim →
-                      </Link>
-                    </td>
-                    <td style={{ padding: '1.5rem', background: '#f9f7f4' }}>
-                      <Link href={`/produtos?categoria=${produtoConfig.catAll}`} style={{ display: 'flex', justifyContent: 'center', padding: '0.85rem', fontSize: '0.72rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', background: '#1a1a1a', color: '#fff' }}>
-                        Ver Profissional →
-                      </Link>
-                    </td>
-                  </tr>
-                </tfoot>
-              </table>
-            </div>
+                </div>
+              ))}
+            </article>
+
           </div>
         </section>
 
-        {/* ── PRODUTOS ── */}
-        <section style={{ background: '#f9f7f4', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
-          <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-            <div className="flex justify-between items-end flex-wrap gap-4">
-              <div>
-                <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>Nossa coleção</div>
-                <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2rem,3.5vw,3rem)', fontWeight: 400, lineHeight: 1.15, color: '#1a1a1a' }}>
-                  {produtoConfig.labelPlural} para<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>{hub.titulo}s</em>
-                </h2>
-              </div>
-              <Link href={`/produtos?categoria=${produtoConfig.catAll}`} style={{ display: 'inline-flex', padding: '0.9rem 2rem', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a', color: '#1a1a1a' }}>
-                Ver todos →
-              </Link>
-            </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-10">
-              {produtos.slice(0, 6).map(product => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
-          </div>
-        </section>
+        {/* ── PRODUTOS PARA ESTA PROFISSÃO ── */}
+        <ProfessionProductGrid
+          professionKey={profissaoKey}
+          professionLabel={hub.titulo}
+          collectionLabel="Nossa coleção"
+          allHref={`/produtos?categoria=${produtoConfig.catAll}`}
+        />
 
         {/* ── FAQ ── */}
         <section style={{ background: '#fff', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>

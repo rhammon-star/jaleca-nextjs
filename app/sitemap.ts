@@ -166,6 +166,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/conjunto-para-farmaceutico`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     // Cluster Serviços — Jaleco genérico professor
     { url: `${SITE_URL}/uniforme-para-professor`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    // Cluster Escritório — Secretária
+    { url: `${SITE_URL}/jaleco-para-secretaria`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    // Cluster Serviços — Universitário e Dona de Casa
+    { url: `${SITE_URL}/jaleco-universitario`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${SITE_URL}/jaleco-para-dona-de-casa`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
   ]
 
   const productPages: MetadataRoute.Sitemap = productNodes.map(product => ({
