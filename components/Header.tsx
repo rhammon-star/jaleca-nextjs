@@ -105,7 +105,7 @@ const Header = () => {
 
               {/* Jalecos dropdown */}
               <div className="relative group/nav" style={{ display: 'flex', alignItems: 'center' }}>
-                <Link href="/produtos?cat=Jalecos" className="text-muted-foreground hover:text-foreground transition-colors duration-200 text-[12px] font-semibold tracking-widest uppercase whitespace-nowrap flex items-center gap-1 py-5">
+                <Link href="/categoria/jalecos" className="text-muted-foreground hover:text-foreground transition-colors duration-200 text-[12px] font-semibold tracking-widest uppercase whitespace-nowrap flex items-center gap-1 py-5">
                   Jalecos
                   <ChevronDown size={11} className="transition-transform duration-200 group-hover/nav:rotate-180" />
                 </Link>
@@ -114,9 +114,9 @@ const Header = () => {
                     <p className="text-[10px] font-semibold tracking-widest uppercase text-muted-foreground mb-3">Jalecos</p>
                     <div className="space-y-2.5">
                       {[
-                        { label: 'Todos os Jalecos', href: '/produtos?cat=Jalecos' },
-                        { label: 'Jalecos Femininos', href: '/produtos?cat=Jalecos&genero=feminino' },
-                        { label: 'Jalecos Masculinos', href: '/produtos?cat=Jalecos&genero=masculino' },
+                        { label: 'Todos os Jalecos', href: '/categoria/jalecos' },
+                        { label: 'Jalecos Femininos', href: '/categoria/jalecos-femininos' },
+                        { label: 'Jalecos Masculinos', href: '/categoria/jalecos-masculinos' },
                         { label: 'Jalecos Brancos', href: '/produtos?cat=Jalecos&cor=branco' },
                         { label: 'Jalecos Coloridos', href: '/produtos?cat=Jalecos&cor=colorido' },
                         { label: 'Promoções', href: '/produtos?cat=Jalecos&sale=true' },

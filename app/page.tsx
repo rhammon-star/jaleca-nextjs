@@ -216,10 +216,10 @@ export default async function Home() {
       <section className="md:hidden py-3 bg-background">
         <div className="flex gap-2 overflow-x-auto px-4 scrollbar-hide" style={{ WebkitOverflowScrolling: 'touch' }}>
           {[
+            { label: 'Jalecos', href: '/categoria/jalecos' },
             { label: 'Jalecos Femininos', href: '/categoria/jalecos-femininos' },
-            { label: 'Mais Vendidos', href: '/produtos?sort=mais-vendidos' },
             { label: 'Conjuntos', href: '/categoria/conjuntos' },
-            { label: 'Lançamentos', href: '/produtos?novidades=true' },
+            { label: 'Mais Vendidos', href: '/produtos?sort=mais-vendidos' },
             { label: 'Jalecos Masculinos', href: '/categoria/jalecos-masculinos' },
             { label: 'Acessórios', href: '/categoria/acessorios' },
           ].map(item => (
@@ -242,7 +242,7 @@ export default async function Home() {
               {
                 title: 'Jalecos',
                 subtitle: 'Coleção 2026',
-                href: '/produtos?cat=Jalecos',
+                href: '/categoria/jalecos',
                 bg: 'bg-[#f0ede8]',
                 accent: 'text-[#5a4a3a]',
                 video: '/video-jalecos-opt.mp4',
