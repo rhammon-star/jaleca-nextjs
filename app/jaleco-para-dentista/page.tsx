@@ -22,8 +22,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: hub.metadata.title,
-    description: hub.metadata.description,
+    title: 'Jaleco para Dentista: Guia Completo 2026',
+    description: 'Qual jaleco usar na odontologia? Guia completo com modelos Slim e Profissional, normas do CRO, cuidados e comparação detalhada.',
     images: ["https://jaleca.com.br/og-home.jpg"],
   },
 }
