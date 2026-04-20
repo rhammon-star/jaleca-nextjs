@@ -42,7 +42,7 @@ export const CLUSTER_LINKS: Record<string, Array<{ label: string; href: string; 
   gastronomia: [
     { label: 'Churrasqueiro', href: '/jaleco-para-churrasqueiro', desc: 'Jaleco' },
     { label: 'Sushiman', href: '/jaleco-para-sushiman', desc: 'Jaleco' },
-    { label: 'Cozinheiro', href: '/jaleco-para-cozinheiro', desc: 'Jaleco' },
+    { label: 'Cozinheiro', href: '/dolma-para-cozinheiro', desc: 'Dólmã' },
     { label: 'Dólmã Churrasqueiro', href: '/dolma-para-churrasqueiro', desc: 'Dólmã' },
     { label: 'Dólmã Sushiman', href: '/dolma-para-sushiman', desc: 'Dólmã' },
     { label: 'Dólmã Cozinheiro', href: '/dolma-para-cozinheiro', desc: 'Dólmã' },

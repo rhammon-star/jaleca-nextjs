@@ -151,7 +151,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Cluster Gastronomia
     { url: `${SITE_URL}/jaleco-para-churrasqueiro`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${SITE_URL}/jaleco-para-sushiman`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
-    { url: `${SITE_URL}/jaleco-para-cozinheiro`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     // Cluster Serviços
     { url: `${SITE_URL}/jaleco-para-professor`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${SITE_URL}/jaleco-para-vendedor`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
