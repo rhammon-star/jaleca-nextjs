@@ -387,6 +387,7 @@ export default async function HubProfissaoTemplate({ profissao }: { profissao: s
           professionKey={profissaoKey}
           professionLabel={hub.titulo}
           collectionLabel="Nossa coleção"
+          productLabel={produtoConfig.labelPlural}
           allHref={`/produtos?categoria=${produtoConfig.catAll}`}
         />
 

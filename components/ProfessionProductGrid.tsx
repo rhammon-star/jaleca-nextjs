@@ -62,6 +62,8 @@ type Props = {
   professionLabel: string
   /** Rótulo do sub-título editorial (ex: "Coleção odontologia") */
   collectionLabel?: string
+  /** Tipo do produto: "Jaleco", "Conjunto" ou "Dólmã" — padrão: "Jalecos" */
+  productLabel?: string
   /** URL do "ver todos" — padrão: /produtos */
   allHref?: string
 }
@@ -70,6 +72,7 @@ export default async function ProfessionProductGrid({
   professionKey,
   professionLabel,
   collectionLabel,
+  productLabel = 'Jalecos',
   allHref = '/produtos',
 }: Props) {
   const produtos = await fetchByProfession(professionKey)
@@ -89,7 +92,7 @@ export default async function ProfessionProductGrid({
               </div>
             )}
             <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2rem,3.5vw,3rem)', fontWeight: 400, lineHeight: 1.15, color: '#1a1a1a' }}>
-              Jalecos para<br />
+              {productLabel} para<br />
               <em style={{ fontStyle: 'italic', fontWeight: 300 }}>{professionLabel}</em>
             </h2>
           </div>
