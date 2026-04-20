@@ -38,8 +38,18 @@ function getFbp(): string | undefined {
 
 export function trackEvent(name: string, params?: Record<string, unknown>) {
   if (typeof window === 'undefined') return
+  if (isInternalTraffic()) return
   window.gtag?.('event', name, params)
   window.fbq?.('trackCustom', name, params)
+}
+
+// Retorna true se este dispositivo for tráfego interno (Ipatinga/testes)
+function isInternalTraffic(): boolean {
+  try {
+    return localStorage.getItem('jaleca_internal_traffic') === '1'
+  } catch {
+    return false
+  }
 }
 
 export function trackPurchase(
@@ -48,8 +58,9 @@ export function trackPurchase(
   items: Array<{ id: string; name: string; price: number; quantity: number }>
 ) {
   if (typeof window === 'undefined') return
+  if (isInternalTraffic()) return // ignora tráfego de teste (ex: Ipatinga)
 
-  // GA4
+  // GA4 purchase — importado pelo Google Ads como "Compra (purchase)"
   window.gtag?.('event', 'purchase', {
     transaction_id: orderId,
     value,
@@ -62,14 +73,7 @@ export function trackPurchase(
     })),
   })
 
-  // Google Ads conversion — imported from GA4 via 'manual_event_PURCHASE' event name
-  window.gtag?.('event', 'manual_event_PURCHASE', {
-    transaction_id: orderId,
-    value,
-    currency: 'BRL',
-  })
-
-  // Google Ads direct conversion tag (belt-and-suspenders — independent of GA4)
+  // Google Ads conversion direta — mapeada à ação "PURCHASE" (conversion_event_purchase)
   window.gtag?.('event', 'conversion_event_purchase', {
     transaction_id: orderId,
     value,
@@ -98,6 +102,7 @@ export function trackViewItem(product: {
   email?: string
 }) {
   if (typeof window === 'undefined') return
+  if (isInternalTraffic()) return
 
   const price = parseFloat(product.price.replace(/[^0-9,]/g, '').replace(',', '.')) || 0
 
@@ -126,6 +131,7 @@ export function trackViewItem(product: {
 
 export function trackInitiateCheckout(value: number, numItems: number) {
   if (typeof window === 'undefined') return
+  if (isInternalTraffic()) return
 
   // GA4
   window.gtag?.('event', 'begin_checkout', {
@@ -147,6 +153,7 @@ export function trackInitiateCheckout(value: number, numItems: number) {
 
 export function trackSearch(term: string) {
   if (typeof window === 'undefined') return
+  if (isInternalTraffic()) return
 
   // GA4
   window.gtag?.('event', 'search', { search_term: term })
@@ -157,6 +164,7 @@ export function trackSearch(term: string) {
 
 export function trackAddPaymentInfo(value: number, method: string) {
   if (typeof window === 'undefined') return
+  if (isInternalTraffic()) return
   window.fbq?.('track', 'AddPaymentInfo', {
     value,
     currency: 'BRL',
@@ -171,6 +179,7 @@ export function trackAddToCart(product: {
   quantity?: number
 }) {
   if (typeof window === 'undefined') return
+  if (isInternalTraffic()) return
 
   const price = parseFloat(product.price.replace(/[^0-9,]/g, '').replace(',', '.')) || 0
   const qty = product.quantity ?? 1

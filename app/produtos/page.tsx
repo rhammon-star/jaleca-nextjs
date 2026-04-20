@@ -43,13 +43,13 @@ async function getAllProducts(): Promise<WooProduct[]> {
 }
 
 export const metadata: Metadata = {
-  title: 'Jalecos e Uniformes Médicos | Jaleca — Femininos e Masculinos | Frete Grátis Sudeste',
-  description: 'Jalecos femininos e masculinos, dólmãs, conjuntos scrub e acessórios para médicos, dentistas e enfermeiros. Modelos Slim, Princesa, Duquesa — PP ao G3. Frete grátis para SP/MG/RJ/ES acima de R$499.',
+  title: 'Comprar Jaleco Online — Jalecos, Dólmãs e Scrubs | Jaleca',
+  description: 'Mais de 30 modelos: jalecos femininos e masculinos, dólmãs e conjuntos scrub para médicos, dentistas e enfermeiros. Slim, Princesa, Duquesa, Elastex — PP ao G3. Frete grátis SP/MG/RJ/ES acima de R$499.',
   alternates: { canonical: 'https://jaleca.com.br/produtos' },
   keywords: 'jalecos, jaleco feminino, jaleco masculino, jalecos para médicos, jalecos slim, dólmã, conjunto scrub, uniforme médico, comprar jaleco',
   openGraph: {
-    title: 'Jalecos e Uniformes Médicos | Jaleca — Femininos e Masculinos',
-    description: 'Jalecos femininos e masculinos, dólmãs e conjuntos scrub para profissionais da saúde. PP ao G3, frete grátis no Sudeste acima de R$499.',
+    title: 'Comprar Jaleco Online — Jalecos, Dólmãs e Scrubs | Jaleca',
+    description: 'Mais de 30 modelos: jalecos femininos e masculinos, dólmãs e conjuntos scrub para profissionais da saúde. PP ao G3, frete grátis no Sudeste acima de R$499.',
     url: 'https://jaleca.com.br/produtos',
     siteName: 'Jaleca',
     locale: 'pt_BR',

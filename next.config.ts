@@ -100,6 +100,9 @@ const nextConfig: NextConfig = {
       { source: '/conjunto', destination: '/categoria/conjuntos', permanent: true },
       { source: '/uniformes-profissionais', destination: '/uniformes-profissionais-para-saude', permanent: true },
       { source: '/conjunto-pijama-cirurgico', destination: '/categoria/conjuntos', permanent: true },
+      // Trailing slash consolidation
+      { source: '/produtos/', destination: '/produtos', permanent: true },
+      { source: '/nossas-lojas/', destination: '/nossas-lojas', permanent: true },
       // /produtos/{categoria} → /produtos?categoria=X
       { source: '/produtos/jalecos', destination: '/produtos?categoria=Jalecos', permanent: true },
       { source: '/produtos/conjuntos', destination: '/produtos?categoria=Conjuntos', permanent: true },
