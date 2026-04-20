@@ -158,6 +158,31 @@ const Footer = () => {
         </div>
       </div>
 
+      {/* Uniformes por área */}
+      <div className="border-t border-border bg-background py-8">
+        <div className="container">
+          <p className="text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-4">Uniformes por Área</p>
+          <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted-foreground">
+            {[
+              { label: 'Saúde', href: '/uniformes-profissionais-para-saude' },
+              { label: 'Beleza', href: '/uniformes-beleza' },
+              { label: 'Gastronomia', href: '/uniformes-gastronomia' },
+              { label: 'Serviços', href: '/uniformes-servicos' },
+              { label: 'Escritório', href: '/uniformes-escritorio' },
+              { label: 'Jaleco Médico', href: '/jaleco-para-medico' },
+              { label: 'Jaleco Dentista', href: '/jaleco-para-dentista' },
+              { label: 'Jaleco Enfermeiro', href: '/jaleco-para-enfermeiro' },
+              { label: 'Jaleco Cabeleireiro', href: '/jaleco-para-cabeleireiro' },
+              { label: 'Jaleco Professor', href: '/jaleco-para-professor' },
+            ].map(l => (
+              <Link key={l.href} href={l.href} className="hover:text-foreground transition-colors">
+                {l.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
+
       {/* Payment + Security */}
       <div className="border-t border-border bg-background py-6">
         <div className="container">

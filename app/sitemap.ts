@@ -116,7 +116,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly',
       priority: 0.6,
     },
-    // Topical Authority Hubs — Pillar page saúde
+    // Topical Authority Hubs — Pillar pages clusters
+    { url: `${SITE_URL}/uniformes-beleza`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
+    { url: `${SITE_URL}/uniformes-gastronomia`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
+    { url: `${SITE_URL}/uniformes-servicos`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
+    { url: `${SITE_URL}/uniformes-escritorio`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
+    // Pillar page saúde
     {
       url: `${SITE_URL}/uniformes-profissionais-para-saude`,
       lastModified: new Date(),
