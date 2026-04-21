@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { X, MapPin, Instagram } from 'lucide-react'
 import type { Franqueado } from '@/lib/franqueados'
+import { trackEvent } from '@/components/Analytics'
 
 type FranqueadoWithDist = Franqueado & { distanciaKm?: number }
 
@@ -24,6 +25,10 @@ export default function FranqueadoBanner() {
           if (data) {
             setFranqueado(data)
             setVisible(true)
+            trackEvent('franqueado_banner_show', {
+              store_name: data.nome_loja,
+              distance_km: data.distanciaKm ?? null,
+            })
           }
         })
         .catch(() => null)
@@ -36,6 +41,7 @@ export default function FranqueadoBanner() {
     setVisible(false)
     const today = new Date().toISOString().slice(0, 10)
     localStorage.setItem(STORAGE_KEY, today)
+    trackEvent('franqueado_banner_dismiss', { store_name: franqueado?.nome_loja ?? '' })
   }
 
   if (!visible || !franqueado) return null
@@ -84,6 +90,7 @@ export default function FranqueadoBanner() {
             href={waLink}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => trackEvent('franqueado_banner_click', { channel: 'whatsapp', store_name: franqueado.nome_loja })}
             className="flex items-center justify-center gap-2 bg-[#25D366] text-white text-sm font-medium py-2.5 px-4 rounded-sm hover:bg-[#1ebe5d] transition-colors"
           >
             <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
@@ -96,6 +103,7 @@ export default function FranqueadoBanner() {
             href={igLink}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => trackEvent('franqueado_banner_click', { channel: 'instagram', store_name: franqueado.nome_loja })}
             className="flex items-center justify-center gap-2 border border-border text-foreground text-sm font-medium py-2.5 px-4 rounded-sm hover:bg-secondary/50 transition-colors"
           >
             <Instagram size={15} />

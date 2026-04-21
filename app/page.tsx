@@ -4,7 +4,7 @@ import { ArrowRight, Shield, Sparkles, Ruler, Truck, CreditCard, RotateCcw, Shie
 import TrustBadgeBar from "@/components/TrustBadgeBar";
 import GoogleReviewsServer from "@/components/GoogleReviewsServer";
 import { getGooglePlaceData } from "@/lib/google-places";
-import { graphqlClient, GET_PRODUCTS } from "@/lib/graphql";
+import { GET_PRODUCTS } from "@/lib/graphql";
 import { Suspense } from "react";
 import ProductCard, { type WooProduct } from "@/components/ProductCard";
 import ScrollReveal from "@/components/ScrollReveal";
@@ -75,21 +75,28 @@ function sortBestSellersFirst(products: WooProduct[]): WooProduct[] {
   })
 }
 
+async function fetchGraphQL<T>(query: string, variables?: Record<string, unknown>): Promise<T> {
+  const endpoint = process.env.NEXT_PUBLIC_WOOCOMMERCE_GRAPHQL_URL!
+  const res = await fetch(endpoint, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ query, variables }),
+    next: { revalidate: 3600 },
+  })
+  const json = await res.json()
+  return json.data as T
+}
+
 async function getFeaturedProducts(): Promise<WooProduct[]> {
   try {
-    const data = await graphqlClient.request<{ products: { nodes: WooProduct[] } }>(
-      GET_FEATURED_PRODUCTS
-    );
-    // Fallback: se não tiver produtos marcados como destaque, busca os 8 primeiros
+    const data = await fetchGraphQL<{ products: { nodes: WooProduct[] } }>(GET_FEATURED_PRODUCTS)
     if (!data.products.nodes.length) {
-      const fallback = await graphqlClient.request<{ products: { nodes: WooProduct[] } }>(
-        GET_PRODUCTS, { first: 8 }
-      );
-      return sortBestSellersFirst(fallback.products.nodes);
+      const fallback = await fetchGraphQL<{ products: { nodes: WooProduct[] } }>(GET_PRODUCTS, { first: 8 })
+      return sortBestSellersFirst(fallback.products.nodes)
     }
-    return sortBestSellersFirst(data.products.nodes);
+    return sortBestSellersFirst(data.products.nodes)
   } catch {
-    return [];
+    return []
   }
 }
 
@@ -199,7 +206,7 @@ export default async function Home() {
                 height={3871}
                 fetchPriority="high"
                 loading="eager"
-                decoding="sync"
+                decoding="async"
                 sizes="(max-width: 767px) 100vw, 58vw"
               />
             </picture>

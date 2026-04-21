@@ -18,7 +18,6 @@ import RecentlyViewed from '@/components/RecentlyViewed'
 import UrgencyToast from '@/components/UrgencyToast'
 import { isBestSeller } from '@/lib/best-sellers'
 import type { PlaceData } from '@/lib/google-places'
-import { getProfessionsForProduct } from '@/lib/product-professions'
 
 type AttributeTerm = { slug: string; name: string }
 
@@ -885,38 +884,6 @@ export default function ProductDetailClient({
               Dúvidas sobre este produto? Fale conosco pelo WhatsApp
             </a>
 
-            {/* Indicado para — profissões com links para hubs */}
-            {(() => {
-              const profissoes = getProfessionsForProduct(product.slug)
-              if (profissoes.length === 0) return null
-              return (
-                <div className="mt-5 pt-5 border-t border-border">
-                  <p className="text-[11px] font-semibold tracking-[0.18em] uppercase text-muted-foreground mb-3">
-                    Indicado para
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {profissoes.map(p => (
-                      p.hub ? (
-                        <a
-                          key={p.hub}
-                          href={p.hub}
-                          className="inline-flex items-center px-3 py-1.5 text-[11px] font-medium tracking-wide border border-border text-foreground hover:border-foreground hover:bg-muted transition-colors no-underline"
-                        >
-                          {p.label}
-                        </a>
-                      ) : (
-                        <span
-                          key={p.label}
-                          className="inline-flex items-center px-3 py-1.5 text-[11px] font-medium tracking-wide border border-border/50 text-muted-foreground"
-                        >
-                          {p.label}
-                        </span>
-                      )
-                    ))}
-                  </div>
-                </div>
-              )
-            })()}
 
             {isOutOfStock && (
               <div className="mt-3">

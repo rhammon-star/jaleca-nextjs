@@ -183,13 +183,18 @@ export default async function ProdutoPage({
     ...(colorAttr?.options?.length && { color: colorAttr.options.join(', ') }),
     ...(sizeAttr?.options?.length && { size: sizeAttr.options.join(', ') }),
     offers: (() => {
-      // Parse BRL price string "280,00" → 280.00, ignoring corrupted concatenated values
+      // Parse BRL price string "280,00" or "1.280,00" → 280.00 / 1280.00
+      // Handles WC returning concatenated values like "280,00330,00"
       const parsePrice = (raw: string | null | undefined): number | undefined => {
         if (!raw) return undefined
-        // Take only the first valid price token (handles WC returning "280,00330,00")
-        const match = String(raw).match(/^[\d.]+(?:,\d{1,2})?/)
+        const match = String(raw).trim().match(/^[\d.,]+/)
         if (!match) return undefined
-        const num = parseFloat(match[0].replace(',', '.'))
+        let token = match[0]
+        // BRL format: comma = decimal separator, periods = thousands separators
+        if (token.includes(',')) {
+          token = token.replace(/\./g, '').replace(',', '.')
+        }
+        const num = parseFloat(token)
         return isNaN(num) || num <= 0 ? undefined : num
       }
       const basePrice = parsePrice(product.regularPrice) ?? parsePrice(product.price)
@@ -204,6 +209,41 @@ export default async function ProdutoPage({
             : 'https://schema.org/InStock',
         url: `https://jaleca.com.br/produto/${slug}`,
         seller: { '@type': 'Organization', name: 'Jaleca' },
+        hasMerchantReturnPolicy: {
+          '@type': 'MerchantReturnPolicy',
+          applicableCountry: 'BR',
+          returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+          merchantReturnDays: 7,
+          returnMethod: 'https://schema.org/ReturnByMail',
+          returnFees: 'https://schema.org/FreeReturn',
+        },
+        shippingDetails: {
+          '@type': 'OfferShippingDetails',
+          shippingRate: {
+            '@type': 'MonetaryAmount',
+            value: 0,
+            currency: 'BRL',
+          },
+          shippingDestination: {
+            '@type': 'DefinedRegion',
+            addressCountry: 'BR',
+          },
+          deliveryTime: {
+            '@type': 'ShippingDeliveryTime',
+            handlingTime: {
+              '@type': 'QuantitativeValue',
+              minValue: 1,
+              maxValue: 2,
+              unitCode: 'DAY',
+            },
+            transitTime: {
+              '@type': 'QuantitativeValue',
+              minValue: 3,
+              maxValue: 10,
+              unitCode: 'DAY',
+            },
+          },
+        },
         ...(basePrice !== undefined && pixPrice !== undefined && {
           priceSpecification: [
             {
