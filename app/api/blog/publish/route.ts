@@ -3,6 +3,7 @@ import { verifyBlogToken, getUserById } from '@/lib/blog-auth'
 import { publishPost, uploadMedia } from '@/lib/wordpress'
 import { cookies } from 'next/headers'
 import { revalidatePath } from 'next/cache'
+import { notifyIndexNow } from '@/lib/indexnow'
 
 export async function POST(request: NextRequest) {
   const cookieStore = await cookies()
@@ -79,6 +80,7 @@ export async function POST(request: NextRequest) {
     // Revalidar cache do blog para o post aparecer imediatamente no site
     revalidatePath('/blog')
     revalidatePath(`/blog/${body.slug}`)
+    notifyIndexNow([`https://jaleca.com.br/blog/${body.slug}`, 'https://jaleca.com.br/blog'])
 
     return NextResponse.json({ id: result.id, link: result.link, imageWarning }, { status: 201 })
   } catch (error) {

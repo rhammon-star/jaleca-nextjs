@@ -5,7 +5,9 @@ import type { WPPost } from '@/lib/wordpress'
 import { getGooglePlaceData } from '@/lib/google-places'
 import HubFaqAccordion from '@/components/HubFaqAccordion'
 import { getHubProfissao, getClusterLinks } from '@/lib/hub-profissoes'
+import { PAA_BY_PROFESSION } from '@/lib/paa-questions'
 import ProfessionProductGrid from '@/components/ProfessionProductGrid'
+import ProductDetailSection from '@/components/ProductDetailSection'
 
 // Foto do hero variada por profissão — evita repetição e mostra modelos diferentes
 const HERO_SLUG: Record<string, string> = {
@@ -155,10 +157,14 @@ export default async function HubProfissaoTemplate({ profissao }: { profissao: s
 
   const clusterLinks = getClusterLinks(hub.cluster, profissao)
 
+  const paaQuestions = PAA_BY_PROFESSION[profissao] ?? []
+  const hubFaqItems = hub.faq ?? []
+  const faqItems = paaQuestions.length > 0 ? paaQuestions : hubFaqItems
+
   const schemaFaq = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: hub.faq.map(item => ({
+    mainEntity: faqItems.map(item => ({
       '@type': 'Question',
       name: item.q,
       acceptedAnswer: { '@type': 'Answer', text: item.a },
@@ -178,7 +184,7 @@ export default async function HubProfissaoTemplate({ profissao }: { profissao: s
     },
     url: `https://jaleca.com.br/${pageUrl}`,
     datePublished: '2026-04-18',
-    dateModified: '2026-04-18',
+    dateModified: '2026-04-21',
   }
 
   const breadcrumbSchema = {
@@ -382,6 +388,9 @@ export default async function HubProfissaoTemplate({ profissao }: { profissao: s
           </div>
         </section>
 
+        {/* ── PRODUTO — Detalhamento ── */}
+        <ProductDetailSection productType={hub.produto ?? 'jaleco'} />
+
         {/* ── PRODUTOS PARA ESTA PROFISSÃO ── */}
         <ProfessionProductGrid
           professionKey={profissaoKey}
@@ -398,7 +407,7 @@ export default async function HubProfissaoTemplate({ profissao }: { profissao: s
             <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2rem,3.5vw,3rem)', fontWeight: 400, lineHeight: 1.15, color: '#1a1a1a' }}>
               Perguntas sobre {produtoConfig.label.toLowerCase()}<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>para {hub.titulo.toLowerCase()}</em>
             </h2>
-            <HubFaqAccordion items={hub.faq} />
+            <HubFaqAccordion items={faqItems} />
           </div>
         </section>
 

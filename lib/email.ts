@@ -928,3 +928,51 @@ export async function sendInternalPaymentFailureAlert(params: {
     internalRecipients.map(to => sendMail({ to, subject: `⚠️ Falha pagamento — Pedido #${orderNumber} (${amount}) — ${customerName}`, html }))
   )
 }
+
+export async function sendSeoDropAlert(
+  drops: Array<{ keyword: string; before: number; after: number }>
+): Promise<void> {
+  const rows = drops
+    .map(
+      (d) =>
+        `<tr>
+          <td style="padding:6px 12px;border-bottom:1px solid #eee;">${d.keyword}</td>
+          <td style="padding:6px 12px;border-bottom:1px solid #eee;text-align:center;">${d.before}</td>
+          <td style="padding:6px 12px;border-bottom:1px solid #eee;text-align:center;color:#c0392b;font-weight:bold;">${d.after}</td>
+          <td style="padding:6px 12px;border-bottom:1px solid #eee;text-align:center;color:#c0392b;">-${d.after - d.before}</td>
+        </tr>`
+    )
+    .join('')
+
+  const html = `
+<html><body style="font-family:Arial,sans-serif;background:#f5f5f5;padding:20px;">
+  <table style="max-width:560px;margin:0 auto;background:#fff;border-radius:8px;overflow:hidden;">
+    <tr><td style="background:#1a1a1a;padding:20px;text-align:center;">
+      <span style="color:#fff;font-size:16px;letter-spacing:3px;">JALECA SEO ALERT</span>
+    </td></tr>
+    <tr><td style="padding:24px;">
+      <p style="margin:0 0 16px;color:#333;">As seguintes keywords caíram <strong>3+ posições</strong> nas últimas 24h:</p>
+      <table style="width:100%;border-collapse:collapse;font-size:14px;">
+        <thead>
+          <tr style="background:#f5f5f5;">
+            <th style="padding:8px 12px;text-align:left;">Keyword</th>
+            <th style="padding:8px 12px;">Antes</th>
+            <th style="padding:8px 12px;">Agora</th>
+            <th style="padding:8px 12px;">Queda</th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>
+      <p style="margin:20px 0 0;font-size:12px;color:#999;">
+        Monitorado diariamente via DataForSEO — jaleca.com.br
+      </p>
+    </td></tr>
+  </table>
+</body></html>`
+
+  await sendMail({
+    to: 'rhammon@objetivasolucao.com.br',
+    subject: `⚠️ SEO Jaleca — ${drops.length} keyword(s) caíram hoje`,
+    html,
+  })
+}

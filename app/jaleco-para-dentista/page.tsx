@@ -4,17 +4,19 @@ import { Suspense } from 'react'
 import { graphqlClient, GET_PRODUCTS, GET_PRODUCT_BY_SLUG } from '@/lib/graphql'
 import type { WooProduct } from '@/components/ProductCard'
 import ProductCard from '@/components/ProductCard'
+import ProductDetailSection from '@/components/ProductDetailSection'
 import { getPosts, type WPPost } from '@/lib/wordpress'
 import { getGooglePlaceData } from '@/lib/google-places'
 import FaqAccordion from './FaqAccordion'
+import { PROFESSION_PRODUCT_SLUGS } from '@/lib/product-professions'
 
 export const metadata: Metadata = {
-  title: 'Jaleco para Dentista: Guia Completo 2026 | Jaleca',
-  description: 'Tudo sobre jaleco para dentista: qual modelo Slim ou Profissional, jaleco branco ou colorido, normas do CRO, cuidados e os melhores modelos com elastano do PP ao G3. Frete grátis SP/RJ/MG/ES.',
+  title: 'Jaleco para Dentista: Tecido Premium, Caimento Perfeito | Jaleca 2026',
+  description: 'Jaleco para dentista em tecido premium com caimento perfeito. Modelos Slim e Profissional do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-para-dentista' },
   openGraph: {
-    title: 'Jaleco para Dentista: Guia Completo 2026',
-    description: 'Qual jaleco usar na odontologia? Guia completo com modelos Slim e Profissional, normas do CRO, cuidados e comparação detalhada.',
+    title: 'Jaleco para Dentista | Tecido Premium, Caimento Perfeito — Jaleca',
+    description: 'Qual jaleco usar na odontologia? Jaleco premium com elastano, caimento impecável e preço justo. Do PP ao G3. Frete grátis.',
     url: 'https://jaleca.com.br/jaleco-para-dentista',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -22,8 +24,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: 'Jaleco para Dentista: Guia Completo 2026',
-    description: 'Qual jaleco usar na odontologia? Guia completo com modelos Slim e Profissional, normas do CRO, cuidados e comparação detalhada.',
+    title: 'Jaleco para Dentista | Tecido Premium, Caimento Perfeito — Jaleca',
+    description: 'Jaleco premium para dentista. Tecido de qualidade, caimento perfeito, preço justo. Do PP ao G3.',
     images: ["https://jaleca.com.br/og-home.jpg"],
   },
 }
@@ -43,13 +45,13 @@ const schemaFaq = {
 const schemaArticle = {
   '@context': 'https://schema.org',
   '@type': 'Article',
-  headline: 'Jaleco para Dentista: Guia Completo 2026',
-  description: 'Tudo sobre jaleco para dentista: qual modelo escolher, jaleco branco ou colorido, normas do CRO e cuidados.',
+  headline: 'Jaleco para Dentista: Tecido Premium, Caimento Perfeito',
+  description: 'Guia completo do jaleco para dentista: tecido premium, caimento perfeito, modelo Slim vs Profissional, normas do CRO e custo-benefício.',
   author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
   publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
   url: 'https://jaleca.com.br/jaleco-para-dentista',
   datePublished: '2026-04-18',
-  dateModified: '2026-04-18',
+  dateModified: '2026-04-21',
 }
 
 const breadcrumbSchema = {
@@ -64,11 +66,13 @@ const breadcrumbSchema = {
 
 async function getJalecos(): Promise<WooProduct[]> {
   try {
+    // Busca produtos sem filtro de categoria, depois filtra por slug de dentista
     const data = await graphqlClient.request<{ products: { nodes: WooProduct[] } }>(GET_PRODUCTS, {
-      first: 6,
-      category: 'jalecos-femininos',
+      first: 50,
     })
-    return data?.products?.nodes ?? []
+    const dentistSlugs = PROFESSION_PRODUCT_SLUGS['dentista'] ?? []
+    const products = data?.products?.nodes ?? []
+    return products.filter(p => dentistSlugs.includes(p.slug)).slice(0, 6)
   } catch {
     return []
   }
@@ -173,7 +177,7 @@ export default async function JalecoDentistaPage() {
               <em style={{ fontStyle: 'italic', fontWeight: 300 }}>Dentista</em>
             </h1>
             <p style={{ fontSize: '1rem', fontWeight: 300, color: '#6b6b6b', maxWidth: 420, marginBottom: '2.5rem', lineHeight: 1.8 }}>
-              Conforto e elegância no consultório. Modelagens Slim e Profissional com elastano, pensadas para o seu movimento.
+              Tecido premium, caimento perfeito, preço justo.
             </p>
             <div className="flex gap-4 flex-wrap">
               <Link href="/produtos?categoria=jalecos-femininos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: '#1a1a1a', color: '#fff', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
@@ -347,69 +351,8 @@ export default async function JalecoDentistaPage() {
           </div>
         </section>
 
-        {/* ── TABELA COMPARATIVA — Slim vs Profissional ── */}
-        <section style={{ background: '#fff', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
-          <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-            <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>Comparativo de modelagens</div>
-            <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2rem,3.5vw,3rem)', fontWeight: 400, lineHeight: 1.15, color: '#1a1a1a', marginBottom: '2.5rem' }}>
-              Slim ou Profissional:<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>qual é a certa para você?</em>
-            </h2>
-            <div style={{ overflowX: 'auto' }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem' }}>
-                <thead>
-                  <tr>
-                    <th style={{ padding: '1.5rem 1.5rem 1rem', textAlign: 'left', borderBottom: '2px solid #1a1a1a', width: 200 }} />
-                    {[
-                      { label: 'Slim', featured: false },
-                      { label: 'Profissional', featured: true },
-                    ].map(({ label, featured }) => (
-                      <th key={label} style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '1.5rem', fontWeight: 400, padding: '1.5rem 1.5rem 1rem', textAlign: 'left', borderBottom: '2px solid #1a1a1a', background: featured ? '#1a1a1a' : 'transparent', color: featured ? '#fff' : '#1a1a1a', position: 'relative' }}>
-                        {featured && (
-                          <span style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', fontSize: '0.6rem', letterSpacing: '0.15em', background: '#1a1a1a', color: '#c8c4bc', padding: '0.3rem 1rem', border: '1px solid rgba(255,255,255,0.2)' }}>
-                            MAIS VENDIDO
-                          </span>
-                        )}
-                        {label}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {[
-                    ['Silhueta', 'Ajustada ao corpo', 'Estruturada, mais ampla'],
-                    ['Ideal para', 'Consultórios premium, visual elegante', 'Qualquer rotina clínica'],
-                    ['Elastano', '✓ Presente', '✓ Presente'],
-                    ['Bolsos', '2 bolsos', '3 bolsos'],
-                    ['Comprimento', 'Curto ou longo', 'Curto ou longo'],
-                    ['Cores disponíveis', '12 cores', '12 cores'],
-                    ['Tamanhos', 'PP ao G3', 'PP ao G3'],
-                  ].map(([label, slim, prof]) => (
-                    <tr key={label}>
-                      <td style={{ padding: '1rem 1.5rem', borderBottom: '1px solid #e5e0d8', fontSize: '0.78rem', letterSpacing: '0.06em', textTransform: 'uppercase', color: '#6b6b6b', fontWeight: 400 }}>{label}</td>
-                      <td style={{ padding: '1rem 1.5rem', borderBottom: '1px solid #e5e0d8', color: '#1a1a1a' }}>{slim}</td>
-                      <td style={{ padding: '1rem 1.5rem', borderBottom: '1px solid #e5e0d8', color: '#1a1a1a', background: '#f9f7f4' }}>{prof}</td>
-                    </tr>
-                  ))}
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <td />
-                    <td style={{ padding: '1.5rem' }}>
-                      <Link href="/produtos?categoria=jalecos-femininos" style={{ display: 'inline-flex', padding: '0.75rem 1.5rem', fontSize: '0.72rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a', color: '#1a1a1a' }}>
-                        Ver Slim →
-                      </Link>
-                    </td>
-                    <td style={{ padding: '1.5rem', background: '#f9f7f4' }}>
-                      <Link href="/produtos?categoria=jalecos" style={{ display: 'flex', justifyContent: 'center', padding: '0.85rem', fontSize: '0.72rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', background: '#1a1a1a', color: '#fff' }}>
-                        Ver Profissional →
-                      </Link>
-                    </td>
-                  </tr>
-                </tfoot>
-              </table>
-            </div>
-          </div>
-        </section>
+        {/* ── PRODUTO — Detalhamento ── */}
+        <ProductDetailSection productType="jaleco" />
 
         {/* ── PRODUTOS (ProductCard real) ── */}
         <section style={{ background: '#f9f7f4', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>

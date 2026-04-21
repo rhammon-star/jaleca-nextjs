@@ -16,6 +16,7 @@ export type HubProfissao = {
   comparacao: { slimIdeal: string; profissionalIdeal: string }
   faq: FaqItem[]
   cta: { descricao: string }
+  dateModified?: string
 }
 
 // ─── CLUSTER LINKS ────────────────────────────────────────────────────────────
@@ -171,6 +172,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       },
     ],
     cta: { descricao: 'Do PP ao G3. Manga longa NR-32, elastano e 12 cores. Frete grátis no Sudeste acima de R$499.' },
+  dateModified: '2026-04-21',
   },
 
   {
@@ -181,7 +183,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       title: 'Jaleco para Podólogo: Elastano e Conforto 2026 | Jaleca',
       description: 'Jaleco para podologo com elastano: mais conforto para quem atende sentado. Uniforme podologia do PP ao G3 — modelos Slim e Profissional, antimicrobiano, 12 cores.',
     },
-    hero: { subtitulo: 'Jaleco para podólogo com elastano: liberdade de movimento para quem passa horas curvado sobre os pés do paciente.' },
+    hero: { subtitulo: 'Tecido premium, caimento perfeito, preço justo.' },
     guia: {
       tituloSidebar: 'Como escolher o jaleco ideal para podologia',
       secoes: [
@@ -238,6 +240,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Capitais do Sudeste recebem em 3 a 5 dias úteis.' },
     ],
     cta: { descricao: 'Do PP ao G3. Elastano para total conforto. 12 cores. Frete grátis no Sudeste acima de R$499.' },
+  dateModified: '2026-04-21',
   },
 
   {
@@ -248,7 +251,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       title: 'Jaleco para Biomédico: Lab e Harmonização 2026 | Jaleca',
       description: 'Jaleco para biomédico: uniforme biomedicina para laboratório e estética. Manga longa para lab, Slim para harmonização facial. Do PP ao G3, elastano, normas ANVISA.',
     },
-    hero: { subtitulo: 'Uniforme biomedicina do jeito certo: jaleco de lab para análises clínicas e jaleco de apresentação para harmonização facial.' },
+    hero: { subtitulo: 'Tecido premium, caimento perfeito, preço justo.' },
     guia: {
       tituloSidebar: 'Como escolher o jaleco ideal para biomedicina',
       secoes: [
@@ -305,6 +308,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Capitais do Sudeste recebem em 3 a 5 dias úteis.' },
     ],
     cta: { descricao: 'Do PP ao G3. Elastano para total conforto. 12 cores. Frete grátis no Sudeste acima de R$499.' },
+  dateModified: '2026-04-21',
   },
 
   {
@@ -315,7 +319,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       title: 'Jaleco de Enfermagem: COFEN e Lavagem 60°C 2026 | Jaleca',
       description: 'Jaleco enfermagem que aguenta lavagem a 60°C, cumpre COFEN 375/2011 e dura o plantão inteiro. Uniforme enfermagem Slim e Profissional com elastano, do PP ao G3.',
     },
-    hero: { subtitulo: 'Jaleco de enfermagem que aguenta a correria do plantão: respirável, resistente a 60°C e com mobilidade total.' },
+    hero: { subtitulo: 'Tecido premium, caimento perfeito, preço justo.' },
     guia: {
       tituloSidebar: 'Como escolher o jaleco ideal para enfermagem',
       secoes: [
@@ -372,6 +376,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Capitais do Sudeste recebem em 3 a 5 dias úteis.' },
     ],
     cta: { descricao: 'Do PP ao G3. Elastano para total conforto. 12 cores. Frete grátis no Sudeste acima de R$499.' },
+  dateModified: '2026-04-21',
   },
 
   {
@@ -382,7 +387,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       title: 'Jaleco de Fisioterapia: RPG, Pilates e Movimento 2026 | Jaleca',
       description: 'Jaleco fisioterapia com elastano para RPG, pilates e esportiva. Roupa fisioterapeuta com amplitude total de movimento, normas COFFITO. Do PP ao G3.',
     },
-    hero: { subtitulo: 'Jaleco de fisioterapia com elastano: para RPG, pilates e qualquer técnica que exige movimento total do terapeuta.' },
+    hero: { subtitulo: 'Tecido premium, caimento perfeito, preço justo.' },
     guia: {
       tituloSidebar: 'Como escolher o jaleco ideal para fisioterapia',
       secoes: [
@@ -439,6 +444,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Capitais do Sudeste recebem em 3 a 5 dias úteis.' },
     ],
     cta: { descricao: 'Do PP ao G3. Elastano para total conforto. 12 cores. Frete grátis no Sudeste acima de R$499.' },
+  dateModified: '2026-04-21',
   },
 
   {
@@ -449,7 +455,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       title: 'Jaleco Nutricionista: Autoridade no Consultório 2026 | Jaleca',
       description: 'Jaleco nutricionista para consultório de emagrecimento, low carb e jejum. Roupa nutricionista que passa autoridade científica. Normas CFN, do PP ao G3.',
     },
-    hero: { subtitulo: 'Jaleco nutricionista: porque no consultório de emagrecimento a imagem do profissional também influencia a adesão do paciente.' },
+    hero: { subtitulo: 'Tecido premium, caimento perfeito, preço justo.' },
     guia: {
       tituloSidebar: 'Como escolher o jaleco ideal para nutricionista',
       secoes: [
@@ -505,6 +511,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Capitais do Sudeste recebem em 3 a 5 dias úteis.' },
     ],
     cta: { descricao: 'Do PP ao G3. Elastano para total conforto. 12 cores. Frete grátis no Sudeste acima de R$499.' },
+  dateModified: '2026-04-21',
   },
 
   {
@@ -515,7 +522,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       title: 'Jaleco para Veterinário: Guia Completo 2026 | Jaleca',
       description: 'Jaleco para veterinário: resistente a manchas e fluidos animais, fácil de limpar, normas CFMV. Modelos com elastano do PP ao G3.',
     },
-    hero: { subtitulo: 'Durabilidade e proteção para quem cuida de animais.' },
+    hero: { subtitulo: 'Tecido premium, caimento perfeito, preço justo.' },
     guia: {
       tituloSidebar: 'Como escolher o jaleco ideal para veterinária',
       secoes: [
@@ -571,6 +578,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Capitais do Sudeste recebem em 3 a 5 dias úteis.' },
     ],
     cta: { descricao: 'Do PP ao G3. Elastano para total conforto. 12 cores. Frete grátis no Sudeste acima de R$499.' },
+  dateModified: '2026-04-21',
   },
 
   {
@@ -581,7 +589,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       title: 'Roupa Médico: Jaleco para Telemedicina e Consultório 2026 | Jaleca',
       description: 'Roupa médico e jaleco médico para telemedicina, consultório e plantão. O branco na câmera ainda importa — normas CFM 1931/2009. Do PP ao G3 com elastano.',
     },
-    hero: { subtitulo: 'Roupa médico para quem atende na câmera e no consultório: o branco certo faz diferença na primeira impressão.' },
+    hero: { subtitulo: 'Tecido premium, caimento perfeito, preço justo.' },
     guia: {
       tituloSidebar: 'Como escolher o jaleco ideal para médico',
       secoes: [
@@ -638,6 +646,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Capitais do Sudeste recebem em 3 a 5 dias úteis.' },
     ],
     cta: { descricao: 'Do PP ao G3. Elastano para total conforto. 12 cores. Frete grátis no Sudeste acima de R$499.' },
+  dateModified: '2026-04-21',
   },
 
   // ── CLUSTER BELEZA ─────────────────────────────────────────────────────────
@@ -647,10 +656,10 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Barbeiro',
     cluster: 'beleza',
     metadata: {
-      title: 'Jaleco Barbearia: Uniforme Barbeiro Guia 2026 | Jaleca',
-      description: 'Jaleco barbearia e uniforme barbeiro: tecido que não retém pelos, cores escuras, estilo premium. Do hot towel shave ao corte masculino, guia completo PP ao G3.',
+      title: 'Jaleco para Barbeiro: Tecido Premium, Caimento Perfeito | Jaleca 2026',
+      description: 'Jaleco para barbeiro em tecido premium com caimento perfeito. Modelos Slim e Profissional do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
     },
-    hero: { subtitulo: 'Uniforme barbeiro com estilo — jaleco barbearia que combina com a vibe do seu espaço.' },
+    hero: { subtitulo: 'Tecido premium, caimento perfeito, preço justo.' },
     guia: {
       tituloSidebar: 'Como escolher o jaleco ideal para barbeiro',
       secoes: [
@@ -707,6 +716,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Capitais do Sudeste recebem em 3 a 5 dias úteis.' },
     ],
     cta: { descricao: 'Do PP ao G3. Estilo e conforto para a barbearia. Frete grátis no Sudeste acima de R$499.' },
+  dateModified: '2026-04-21',
   },
 
   {
@@ -714,10 +724,10 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Tatuador',
     cluster: 'beleza',
     metadata: {
-      title: 'Jaleco para Tatuador: Higiene e Estilo no Estúdio 2026 | Jaleca',
-      description: 'Jaleco para tatuador: tecido resistente a tinta, biossegurança ANVISA, estilo para estúdio. Uniforme tatuador higiene do PP ao G3 — RDC 56/2010.',
+      title: 'Jaleco para Tatuador: Tecido Premium, Caimento Perfeito | Jaleca 2026',
+      description: 'Jaleco para tatuador em tecido premium com caimento perfeito. Modelos Slim e Profissional do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
     },
-    hero: { subtitulo: 'Proteção e estilo para longas sessões — jaleco para tatuador que respeita a biossegurança.' },
+    hero: { subtitulo: 'Tecido premium, caimento perfeito, preço justo.' },
     guia: {
       tituloSidebar: 'Como escolher o jaleco ideal para tatuador',
       secoes: [
@@ -773,6 +783,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Capitais do Sudeste recebem em 3 a 5 dias úteis.' },
     ],
     cta: { descricao: 'Do PP ao G3. Estilo e conforto para o seu estúdio. Frete grátis no Sudeste acima de R$499.' },
+  dateModified: '2026-04-21',
   },
 
   {
@@ -780,10 +791,10 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Esteticista',
     cluster: 'beleza',
     metadata: {
-      title: 'Jaleco Estética: Uniforme Esteticista Clínica 2026 | Jaleca',
-      description: 'Jaleco estética para esteticista: elegância, higiene e conforto na cabine. Jaleco para esteticista com elastano — tratamentos faciais, corporais e cosméticos. PP ao G3.',
+      title: 'Jaleco para Esteticista: Tecido Premium, Caimento Perfeito | Jaleca 2026',
+      description: 'Jaleco para esteticista em tecido premium com caimento perfeito. Modelos Slim e Profissional do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
     },
-    hero: { subtitulo: 'Jaleco estética que eleva a percepção da cliente antes de você falar uma palavra.' },
+    hero: { subtitulo: 'Tecido premium, caimento perfeito, preço justo.' },
     guia: {
       tituloSidebar: 'Como escolher o jaleco ideal para esteticista',
       secoes: [
@@ -839,6 +850,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Capitais do Sudeste recebem em 3 a 5 dias úteis.' },
     ],
     cta: { descricao: 'Do PP ao G3. Elegância e conforto para a sua clínica. Frete grátis no Sudeste acima de R$499.' },
+  dateModified: '2026-04-21',
   },
 
   {
@@ -846,10 +858,10 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Massagista',
     cluster: 'beleza',
     metadata: {
-      title: 'Jaleco Massagem: Uniforme Massagista Mobilidade 2026 | Jaleca',
-      description: 'Jaleco massagem e uniforme massagista: tecido leve com elastano, liberdade total de movimento. Uniforme spa premium do PP ao G3 — massagem relaxante e terapias corporais.',
+      title: 'Jaleco para Massagista: Tecido Premium, Caimento Perfeito | Jaleca 2026',
+      description: 'Jaleco para massagista em tecido premium com caimento perfeito. Modelos Slim e Profissional do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
     },
-    hero: { subtitulo: 'Jaleco massagem com mobilidade real — uniforme massagista que acompanha cada técnica.' },
+    hero: { subtitulo: 'Tecido premium, caimento perfeito, preço justo.' },
     guia: {
       tituloSidebar: 'Como escolher o jaleco ideal para massagista',
       secoes: [
@@ -905,6 +917,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Capitais do Sudeste recebem em 3 a 5 dias úteis.' },
     ],
     cta: { descricao: 'Do PP ao G3. Conforto e liberdade para cada sessão. Frete grátis no Sudeste acima de R$499.' },
+  dateModified: '2026-04-21',
   },
 
   {
@@ -915,7 +928,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       title: 'Jaleco para Cabeleireiro: Uniforme Salão Beleza 2026 | Jaleca',
       description: 'Jaleco para cabeleireiro: proteção contra tinta, descolorante e químicos. Uniforme cabeleireiro para salão — transição capilar, alisamento e queda de cabelo. PP ao G3.',
     },
-    hero: { subtitulo: 'Jaleco para cabeleireiro que protege de tinta e químicos — uniforme cabeleireiro com estilo no salão.' },
+    hero: { subtitulo: 'Tecido premium, caimento perfeito, preço justo.' },
     guia: {
       tituloSidebar: 'Como escolher o jaleco ideal para cabeleireiro',
       secoes: [
@@ -971,6 +984,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Capitais do Sudeste recebem em 3 a 5 dias úteis.' },
     ],
     cta: { descricao: 'Do PP ao G3. Estilo e conforto para o seu salão. Frete grátis no Sudeste acima de R$499.' },
+  dateModified: '2026-04-21',
   },
 
   // ── CLUSTER GASTRONOMIA ────────────────────────────────────────────────────
@@ -980,10 +994,10 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Churrasqueiro',
     cluster: 'gastronomia',
     metadata: {
-      title: 'Jaleco para Churrasqueiro: Guia Completo 2026 | Jaleca',
-      description: 'Jaleco para churrasqueiro profissional: tecido resistente ao calor, proteção de gordura, estilo para buffets e churrascarias. Guia completo.',
+      title: 'Jaleco para Churrasqueiro: Tecido Premium, Caimento Perfeito 2026 | Jaleca',
+      description: 'Jaleco para Churrasqueiro com tecido premium, caimento perfeito e preço justo. Modelos do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
     },
-    hero: { subtitulo: 'Estilo e proteção para quem trabalha com o fogo.' },
+    hero: { subtitulo: 'Tecido premium, caimento perfeito, preço justo.' },
     guia: {
       tituloSidebar: 'Como escolher o jaleco ideal para churrasqueiro',
       secoes: [
@@ -1039,6 +1053,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Capitais do Sudeste recebem em 3 a 5 dias úteis.' },
     ],
     cta: { descricao: 'Do PP ao G3. Resistência e estilo para a sua churrascaria. Frete grátis no Sudeste acima de R$499.' },
+  dateModified: '2026-04-21',
   },
 
   {
@@ -1046,10 +1061,10 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Sushiman',
     cluster: 'gastronomia',
     metadata: {
-      title: 'Dólmã para Sushiman: Higiene e Apresentação 2026 | Jaleca',
-      description: 'Dólmã para sushiman e uniforme de cozinha japonesa: tecido resistente a molhos, higiene para manipulação de alimentos, roupa certa para quem trabalha com sushi. Guia completo.',
+      title: 'Dólmã para Sushiman: Tecido Premium, Caimento Perfeito 2026 | Jaleca',
+      description: 'Dólmã para Sushiman com tecido premium, caimento perfeito e preço justo. Modelos do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
     },
-    hero: { subtitulo: 'Dólmã para sushiman com higiene e estilo: o uniforme certo para quem trabalha com comida japonesa.' },
+    hero: { subtitulo: 'Tecido premium, caimento perfeito, preço justo.' },
     guia: {
       tituloSidebar: 'Como escolher o jaleco ideal para sushiman',
       secoes: [
@@ -1106,6 +1121,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Capitais do Sudeste recebem em 3 a 5 dias úteis.' },
     ],
     cta: { descricao: 'Do PP ao G3. Higiene e estilo para a sua cozinha. Frete grátis no Sudeste acima de R$499.' },
+  dateModified: '2026-04-21',
   },
 
   {
@@ -1116,7 +1132,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       title: 'Dólmã de Chef: Roupa de Cozinheiro Profissional 2026 | Jaleca',
       description: 'Dólmã de chef e roupa de cozinheiro profissional: dólmã cozinheiro para alta gastronomia, personal chef e eventos. Proteção contra calor, tecido resistente, do PP ao G3.',
     },
-    hero: { subtitulo: 'Dólmã de chef ou roupa de cozinheiro profissional: o uniforme que aguenta o rush sem perder o caimento.' },
+    hero: { subtitulo: 'Tecido premium, caimento perfeito, preço justo.' },
     guia: {
       tituloSidebar: 'Como escolher o jaleco ideal para cozinheiro',
       secoes: [
@@ -1173,6 +1189,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Capitais do Sudeste recebem em 3 a 5 dias úteis.' },
     ],
     cta: { descricao: 'Do PP ao G3. Resistência para a cozinha profissional. Frete grátis no Sudeste acima de R$499.' },
+  dateModified: '2026-04-21',
   },
 
   // ── CLUSTER SERVIÇOS ───────────────────────────────────────────────────────
@@ -1182,10 +1199,10 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Professor',
     cluster: 'servicos',
     metadata: {
-      title: 'Roupa para Professor: Jaleco e Uniforme com Autoridade | Jaleca',
-      description: 'Roupa para professor e uniforme professor: jaleco para sala de aula presencial, EAD e laboratório. Roupa professor com autoridade visual, confortável para longas jornadas. Do PP ao G3.',
+      title: 'Jaleco para Professor: Tecido Premium, Caimento Perfeito | Jaleca 2026',
+      description: 'Jaleco para professor em tecido premium com caimento perfeito. Modelos Slim e Profissional do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
     },
-    hero: { subtitulo: 'Roupa para professor que funciona: jaleco e uniforme professor para sala de aula, EAD e laboratório.' },
+    hero: { subtitulo: 'Tecido premium, caimento perfeito, preço justo.' },
     guia: {
       tituloSidebar: 'Como escolher o jaleco ideal para professor',
       secoes: [
@@ -1242,6 +1259,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Capitais do Sudeste recebem em 3 a 5 dias úteis.' },
     ],
     cta: { descricao: 'Do PP ao G3. Prático e confortável para a sala e o laboratório. Frete grátis no Sudeste acima de R$499.' },
+  dateModified: '2026-04-21',
   },
 
   {
@@ -1249,10 +1267,10 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Vendedor',
     cluster: 'servicos',
     metadata: {
-      title: 'Jaleco de Loja: Roupa de Vendedor que Gera Confiança 2026 | Jaleca',
-      description: 'Jaleco de loja e roupa de vendedor: jaleco para loja que padroniza a equipe e aumenta a confiança do cliente. Jaleco para vendedor com elastano, do PP ao G3.',
+      title: 'Jaleco para Vendedor: Tecido Premium, Caimento Perfeito | Jaleca 2026',
+      description: 'Jaleco para vendedor em tecido premium com caimento perfeito. Modelos Slim e Profissional do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
     },
-    hero: { subtitulo: 'Jaleco de loja: o uniforme do vendedor que a equipe usa e o cliente confia.' },
+    hero: { subtitulo: 'Tecido premium, caimento perfeito, preço justo.' },
     guia: {
       tituloSidebar: 'Como escolher o jaleco ideal para vendedor',
       secoes: [
@@ -1309,6 +1327,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Capitais do Sudeste recebem em 3 a 5 dias úteis.' },
     ],
     cta: { descricao: 'Do PP ao G3. Apresentação impecável para a sua equipe. Frete grátis no Sudeste acima de R$499.' },
+  dateModified: '2026-04-21',
   },
 
   // ── CLUSTER ESCRITÓRIO ─────────────────────────────────────────────────────
@@ -1318,10 +1337,10 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Advogado',
     cluster: 'escritorio',
     metadata: {
-      title: 'Roupa para Advogado: Jaleco e Conjunto com Autoridade | Jaleca',
-      description: 'Roupa para advogado: jaleco e conjunto para advogado no tribunal, audiências e escritório. Roupa advogado que aguenta o dia inteiro e transmite credibilidade. Do PP ao G3.',
+      title: 'Jaleco para Advogado: Tecido Premium, Caimento Perfeito | Jaleca 2026',
+      description: 'Jaleco para advogado em tecido premium com caimento perfeito. Modelos Slim e Profissional do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
     },
-    hero: { subtitulo: 'Roupa para advogado: jaleco e conjunto que transmitem autoridade no tribunal e no escritório.' },
+    hero: { subtitulo: 'Tecido premium, caimento perfeito, preço justo.' },
     guia: {
       tituloSidebar: 'Como escolher o jaleco ideal para advogado',
       secoes: [
@@ -1378,6 +1397,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Capitais do Sudeste recebem em 3 a 5 dias úteis.' },
     ],
     cta: { descricao: 'Do PP ao G3. Elegância e autoridade para o escritório. Frete grátis no Sudeste acima de R$499.' },
+  dateModified: '2026-04-21',
   },
 
   {
@@ -1385,10 +1405,10 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Pastor',
     cluster: 'escritorio',
     metadata: {
-      title: 'Uniforme Pastor: Roupas para Ministério e Cultos 2026 | Jaleca',
-      description: 'Uniforme pastor e roupas para ministério: jaleco e conjunto para pastor em cultos, batismos e cerimônias. Roupas ministério com dignidade e elegância. Do PP ao G3.',
+      title: 'Jaleco para Pastor: Tecido Premium, Caimento Perfeito | Jaleca 2026',
+      description: 'Jaleco para pastor em tecido premium com caimento perfeito. Modelos Slim e Profissional do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
     },
-    hero: { subtitulo: 'Roupas para ministério e uniforme pastor: jaleco e conjunto para cultos, cerimônias e aconselhamento.' },
+    hero: { subtitulo: 'Tecido premium, caimento perfeito, preço justo.' },
     guia: {
       tituloSidebar: 'Como escolher o jaleco ideal para pastor',
       secoes: [
@@ -1445,6 +1465,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Capitais do Sudeste recebem em 3 a 5 dias úteis.' },
     ],
     cta: { descricao: 'Do PP ao G3. Dignidade e conforto para o seu ministério. Frete grátis no Sudeste acima de R$499.' },
+  dateModified: '2026-04-21',
   },
 
   {
@@ -1455,7 +1476,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       title: 'Jaleco de Psicologia: Roupa para Psicóloga no Consultório | Jaleca',
       description: 'Jaleco de psicologia e roupa para psicóloga: jaleco psicologia para setting terapêutico, terapia online e consultório. Cores neutras, conforto para sessões longas. Do PP ao G3.',
     },
-    hero: { subtitulo: 'Jaleco de psicologia: a roupa da psicóloga que muda a dinâmica do setting terapêutico.' },
+    hero: { subtitulo: 'Tecido premium, caimento perfeito, preço justo.' },
     guia: {
       tituloSidebar: 'Como escolher o jaleco ideal para psicólogo',
       secoes: [
@@ -1512,6 +1533,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Capitais do Sudeste recebem em 3 a 5 dias úteis.' },
     ],
     cta: { descricao: 'Do PP ao G3. Conforto e acolhimento para o seu consultório. Frete grátis no Sudeste acima de R$499.' },
+  dateModified: '2026-04-21',
   },
 
   {
@@ -1522,7 +1544,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       title: 'Jaleco de Farmácia: Normas, RDC 67 e Manga Longa 2026 | Jaleca',
       description: 'Jaleco de farmácia: jaleco para farmacêutico com manga longa obrigatória (RDC 67/2007), antimicrobiano para manipulação de Ozempic e similares. Jaleco farmácia do PP ao G3.',
     },
-    hero: { subtitulo: 'Jaleco de farmácia: manga longa, antimicrobiano e o que a RDC 67/2007 exige para manipulação.' },
+    hero: { subtitulo: 'Tecido premium, caimento perfeito, preço justo.' },
     guia: {
       tituloSidebar: 'Como escolher o jaleco ideal para farmacêutico',
       secoes: [
@@ -1579,6 +1601,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Capitais do Sudeste recebem em 3 a 5 dias úteis.' },
     ],
     cta: { descricao: 'Do PP ao G3. Higiene e conforto para a farmácia. Frete grátis no Sudeste acima de R$499.' },
+  dateModified: '2026-04-21',
   },
 
   // ── CLUSTER GASTRONOMIA — DÓLMÃ ───────────────────────────────────────────
@@ -1593,7 +1616,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       title: 'Dólmã para Churrasqueiro: Uniforme Completo 2026 | Jaleca',
       description: 'Dólmã para churrasqueiro profissional + avental: kit uniforme churrasqueiro completo, brim resistente a respingos de gordura, abotoamento duplo padrão chef. PP ao G3.',
     },
-    hero: { subtitulo: 'Kit uniforme churrasqueiro completo: dólmã + avental para quem trabalha com fogo de verdade.' },
+    hero: { subtitulo: 'Tecido premium, caimento perfeito, preço justo.' },
     guia: {
       tituloSidebar: 'Como montar o uniforme de churrasqueiro profissional',
       secoes: [
@@ -1650,6 +1673,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Capitais do Sudeste recebem em 3 a 5 dias úteis.' },
     ],
     cta: { descricao: 'Do PP ao G3. Dólmã para o profissional da grelha. Frete grátis no Sudeste acima de R$499.' },
+  dateModified: '2026-04-21',
   },
 
   {
@@ -1662,7 +1686,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       title: 'Dólmã para Sushiman: Guia Completo 2026 | Jaleca',
       description: 'Dólmã para sushiman: visual clean, tecido leve para peixe cru, abotoamento lateral padrão chef japonês. Guia completo do PP ao G3.',
     },
-    hero: { subtitulo: 'A dólmã do sushiman que apresenta o peixe e o profissional.' },
+    hero: { subtitulo: 'Tecido premium, caimento perfeito, preço justo.' },
     guia: {
       tituloSidebar: 'Como escolher a dólmã ideal para sushiman',
       secoes: [
@@ -1719,6 +1743,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Capitais do Sudeste recebem em 3 a 5 dias úteis.' },
     ],
     cta: { descricao: 'Do PP ao G3. Dólmã para o profissional de cozinha oriental. Frete grátis no Sudeste acima de R$499.' },
+  dateModified: '2026-04-21',
   },
 
   {
@@ -1728,10 +1753,10 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     produto: 'dolma',
     urlSlug: 'dolma-para-cozinheiro',
     metadata: {
-      title: 'Dólmã para Cozinheiro: Guia Completo 2026 | Jaleca',
-      description: 'Dólmã para cozinheiro profissional: abotoamento duplo padrão chef, tecido resistente ao calor, normas ANVISA. Guia completo do PP ao G3.',
+      title: 'Dólmã para Cozinheiro: Tecido Premium, Caimento Perfeito 2026 | Jaleca',
+      description: 'Dólmã para Cozinheiro com tecido premium, caimento perfeito e preço justo. Modelos do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
     },
-    hero: { subtitulo: 'O uniforme padrão chef para a cozinha profissional.' },
+    hero: { subtitulo: 'Tecido premium, caimento perfeito, preço justo.' },
     guia: {
       tituloSidebar: 'Como escolher a dólmã ideal para cozinheiro',
       secoes: [
@@ -1788,6 +1813,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Capitais do Sudeste recebem em 3 a 5 dias úteis.' },
     ],
     cta: { descricao: 'Do PP ao G3. Dólmã padrão chef para a cozinha profissional. Frete grátis no Sudeste acima de R$499.' },
+  dateModified: '2026-04-21',
   },
 
   // ── CLUSTER ESCRITÓRIO — CONJUNTO ─────────────────────────────────────────
@@ -1802,7 +1828,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       title: 'Conjunto para Advogado: Guia Completo 2026 | Jaleca',
       description: 'Conjunto profissional para advogado e escritório jurídico: caimento impecável para audiências, com elastano. Guia completo do PP ao G3.',
     },
-    hero: { subtitulo: 'Conjunto profissional para o escritório e a sala de audiência.' },
+    hero: { subtitulo: 'Tecido premium, caimento perfeito, preço justo.' },
     guia: {
       tituloSidebar: 'Como escolher o conjunto ideal para advogado',
       secoes: [
@@ -1858,6 +1884,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Capitais do Sudeste recebem em 3 a 5 dias úteis.' },
     ],
     cta: { descricao: 'Do PP ao G3. Conjunto profissional para o escritório e o tribunal. Frete grátis no Sudeste acima de R$499.' },
+  dateModified: '2026-04-21',
   },
 
   {
@@ -1870,7 +1897,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       title: 'Conjunto para Pastor: Guia Completo 2026 | Jaleca',
       description: 'Conjunto pastoral para pastor evangélico: elegância cerimonial, conforto em cultos longos, tecido de bom caimento. Guia completo do PP ao G3.',
     },
-    hero: { subtitulo: 'Conjunto pastoral com dignidade para o seu ministério.' },
+    hero: { subtitulo: 'Tecido premium, caimento perfeito, preço justo.' },
     guia: {
       tituloSidebar: 'Como escolher o conjunto ideal para pastor',
       secoes: [
@@ -1926,6 +1953,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Capitais do Sudeste recebem em 3 a 5 dias úteis.' },
     ],
     cta: { descricao: 'Do PP ao G3. Conjunto pastoral para o seu ministério. Frete grátis no Sudeste acima de R$499.' },
+  dateModified: '2026-04-21',
   },
 
   {
@@ -1938,7 +1966,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       title: 'Conjunto para Psicólogo: Guia Completo 2026 | Jaleca',
       description: 'Conjunto para psicólogo: tons neutros para o setting terapêutico, conforto em sessões longas, modelagem elegante para o consultório. Guia completo.',
     },
-    hero: { subtitulo: 'Conjunto profissional para o psicólogo que atende com presença.' },
+    hero: { subtitulo: 'Tecido premium, caimento perfeito, preço justo.' },
     guia: {
       tituloSidebar: 'Como escolher o conjunto ideal para psicólogo',
       secoes: [
@@ -1994,6 +2022,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       { q: 'Como funciona a troca?', a: 'Aceitamos troca em até 30 dias com o produto sem uso e etiqueta.' },
     ],
     cta: { descricao: 'Do PP ao G3. Conjunto para o consultório de psicologia. Frete grátis no Sudeste acima de R$499.' },
+  dateModified: '2026-04-21',
   },
 
   {
@@ -2006,7 +2035,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       title: 'Conjunto para Farmacêutico: Guia Completo 2026 | Jaleca',
       description: 'Conjunto para farmacêutico: visual clean, biossegurança em farmácias e laboratórios, normas RDC ANVISA. Guia completo do PP ao G3.',
     },
-    hero: { subtitulo: 'Conjunto profissional para a farmácia e o laboratório de manipulação.' },
+    hero: { subtitulo: 'Tecido premium, caimento perfeito, preço justo.' },
     guia: {
       tituloSidebar: 'Como escolher o conjunto ideal para farmacêutico',
       secoes: [
@@ -2062,6 +2091,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Capitais do Sudeste recebem em 3 a 5 dias úteis.' },
     ],
     cta: { descricao: 'Do PP ao G3. Conjunto profissional para a farmácia. Frete grátis no Sudeste acima de R$499.' },
+  dateModified: '2026-04-21',
   },
 
   // ── CLUSTER SERVIÇOS — PROFESSOR GENÉRICO ────────────────────────────────
@@ -2076,7 +2106,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       title: 'Uniforme para Professor: Jaleco Escola e Laboratório 2026 | Jaleca',
       description: 'Jaleco e uniforme para professor de escola, laboratório e universidade: confortável, prático, com bolsos. Guia completo para educadores do PP ao G3.',
     },
-    hero: { subtitulo: 'O uniforme certo para o professor que está em sala ou no laboratório.' },
+    hero: { subtitulo: 'Tecido premium, caimento perfeito, preço justo.' },
     guia: {
       tituloSidebar: 'Como escolher o uniforme ideal para professor',
       secoes: [
@@ -2132,6 +2162,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Capitais do Sudeste recebem em 3 a 5 dias úteis.' },
     ],
     cta: { descricao: 'Do PP ao G3. Jaleco confortável para o professor de sala e laboratório. Frete grátis no Sudeste acima de R$499.' },
+  dateModified: '2026-04-21',
   },
 
   // ── SECRETÁRIA ──────────────────────────────────────────────────────────────
@@ -2143,11 +2174,11 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     produto: 'conjunto',
     urlSlug: 'jaleco-para-secretaria',
     metadata: {
-      title: 'Jaleco para Secretária: Uniforme Executivo Feminino 2026 | Jaleca',
-      description: 'Jaleco e conjunto para secretária executiva: uniforme profissional elegante para escritório. Conjuntos Slim femininos, cores neutras e modelos PP ao G3. Frete grátis Sudeste.',
+      title: 'Jaleco para Secretária: Tecido Premium, Caimento Perfeito 2026 | Jaleca',
+      description: 'Jaleco para Secretária com tecido premium, caimento perfeito e preço justo. Modelos do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
     },
     hero: {
-      subtitulo: 'Uniforme executivo para secretária: conjuntos e jalecos que combinam elegância com conforto para uma rotina de escritório intensa.',
+      subtitulo: 'Tecido premium, caimento perfeito, preço justo.',
     },
     guia: {
       tituloSidebar: 'Como escolher o uniforme ideal para secretária',
@@ -2209,6 +2240,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Capitais do Sudeste recebem em 3 a 5 dias úteis.' },
     ],
     cta: { descricao: 'Conjuntos e jalecos executivos do PP ao G3. Elegância e conforto para a rotina de secretária. Frete grátis no Sudeste acima de R$499.' },
+  dateModified: '2026-04-21',
   },
 
   // ── UNIVERSITÁRIO ───────────────────────────────────────────────────────────
@@ -2220,11 +2252,11 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     produto: 'jaleco',
     urlSlug: 'jaleco-universitario',
     metadata: {
-      title: 'Jaleco Universitário: Para Aluno e Estudante 2026 | Jaleca',
-      description: 'Jaleco universitário para aluno e estudante: modelos Padrão e Slim do PP ao G3. Jaleco para medicina, enfermagem, farmácia, biomedicina e cursos técnicos. Frete grátis Sudeste.',
+      title: 'Jaleco Universitário: Tecido Premium, Caimento Perfeito 2026 | Jaleca',
+      description: 'Jaleco Universitário com tecido premium, caimento perfeito e preço justo. Modelos do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
     },
     hero: {
-      subtitulo: 'Jaleco universitário para aluno e estudante: modelo padrão para medicina, enfermagem, farmácia e qualquer curso que exige jaleco.',
+      subtitulo: 'Tecido premium, caimento perfeito, preço justo.',
     },
     guia: {
       tituloSidebar: 'Tudo sobre jaleco para universitário',
@@ -2286,6 +2318,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Capitais do Sudeste recebem em 3 a 5 dias úteis.' },
     ],
     cta: { descricao: 'Jaleco universitário do PP ao G3. Padrão e Slim para aluno de medicina, enfermagem, farmácia e qualquer curso. Frete grátis no Sudeste acima de R$499.' },
+  dateModified: '2026-04-21',
   },
 
   // ── DONA DE CASA ─────────────────────────────────────────────────────────────
@@ -2297,11 +2330,11 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     produto: 'jaleco',
     urlSlug: 'jaleco-para-dona-de-casa',
     metadata: {
-      title: 'Jaleco para Dona de Casa: Prático e Confortável 2026 | Jaleca',
-      description: 'Jaleco para dona de casa: modelos práticos, laváveis e confortáveis para o dia a dia em casa. Colete, jaleco curto e conjunto disponíveis do PP ao G3. Frete grátis Sudeste.',
+      title: 'Jaleco para Dona de Casa: Tecido Premium, Caimento Perfeito 2026 | Jaleca',
+      description: 'Jaleco para Dona de Casa com tecido premium, caimento perfeito e preço justo. Modelos do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
     },
     hero: {
-      subtitulo: 'Jaleco para dona de casa: prático, lavável e confortável para quem cuida da casa e merece um uniforme de verdade.',
+      subtitulo: 'Tecido premium, caimento perfeito, preço justo.',
     },
     guia: {
       tituloSidebar: 'Como escolher o jaleco ideal para o dia a dia em casa',
@@ -2363,6 +2396,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Capitais do Sudeste recebem em 3 a 5 dias úteis.' },
     ],
     cta: { descricao: 'Jaleco e colete para dona de casa do PP ao G3. Prático, lavável e feito para durar. Frete grátis no Sudeste acima de R$499.' },
+  dateModified: '2026-04-21',
   },
 ]
 

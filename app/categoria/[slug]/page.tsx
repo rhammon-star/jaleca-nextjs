@@ -234,13 +234,11 @@ export default async function CategoriaPage({
           }}
         />
       )}
-      {/* H1 server-side para SEO — invisível ao usuário, visível para crawlers no HTML inicial */}
-      <h1 className="sr-only">{cat.h1 ?? `${cat.label} para Profissionais da Saúde`}</h1>
       <ProductsClient
         products={products}
         initialCat={cat.filterLabel ?? cat.label}
         initialGenero={cat.gender}
-        pageTitle={`${cat.label} Premium — Jaleca`}
+        pageTitle={cat.h1 ?? `${cat.label} — Jaleca`}
         pageDescription={cat.description}
       />
 
@@ -249,14 +247,35 @@ export default async function CategoriaPage({
         <div className="border-t border-border pt-8 max-w-3xl">
           <h2 className="font-display text-xl font-semibold mb-3">{cat.label} para Profissionais da Saúde</h2>
           <p className="text-sm text-muted-foreground leading-relaxed mb-4">{cat.description}</p>
-          <h3 className="text-sm font-semibold mb-2">Por que escolher a Jaleca?</h3>
+
+          {slug === 'jalecos' && (
+            <>
+              <h3 className="text-sm font-semibold mb-2 mt-5">Modelos de jalecos disponíveis</h3>
+              <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside mb-4">
+                <li><strong>Jaleco Slim</strong> — corte acinturado, ideal para médicas e dentistas que buscam elegância clínica</li>
+                <li><strong>Jaleco Princesa</strong> — bordado no bolso, exclusivo para profissionais que querem personalidade</li>
+                <li><strong>Jaleco Duquesa</strong> — manga longa com punho, formal e versátil para consultórios</li>
+                <li><strong>Jaleco Elastex</strong> — tecido com elastano para máximo conforto em longas jornadas</li>
+              </ul>
+              <h3 className="text-sm font-semibold mb-2">Jalecos por profissão</h3>
+              <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside mb-4">
+                <li><Link href="/jaleco-para-dentista" className="underline underline-offset-2 hover:text-foreground transition-colors">Jaleco para dentista</Link> — modelos aprovados em clínicas odontológicas</li>
+                <li><Link href="/jaleco-para-enfermeira" className="underline underline-offset-2 hover:text-foreground transition-colors">Jaleco para enfermagem</Link> — resistência e praticidade para plantões</li>
+                <li><Link href="/jaleco-para-medico" className="underline underline-offset-2 hover:text-foreground transition-colors">Jaleco para médico</Link> — elegância e autoridade no consultório</li>
+                <li><Link href="/jaleco-universitario" className="underline underline-offset-2 hover:text-foreground transition-colors">Jaleco universitário</Link> — custo-benefício para estudantes de medicina e enfermagem</li>
+              </ul>
+            </>
+          )}
+
+          <h3 className="text-sm font-semibold mb-2 mt-5">Por que escolher a Jaleca?</h3>
           <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside">
-            <li>Tecido premium com durabilidade comprovada em uso clínico</li>
-            <li>Tamanhos PP ao G3 para todos os biótipos</li>
+            <li>Mais de 200 mil peças vendidas e 4.9/5 de avaliação no Google</li>
+            <li>Tamanhos PP ao G3 — únicos no mercado para todos os biótipos</li>
+            <li>Try-on virtual: experimente o jaleco antes de comprar</li>
             <li>Entrega rápida para todo o Brasil — frete grátis no Sudeste acima de R$499</li>
             <li>Troca fácil em até 30 dias após o recebimento</li>
           </ul>
-          <h3 className="text-sm font-semibold mt-5 mb-2">Guias e dicas para profissionais da saúde</h3>
+          <h3 className="text-sm font-semibold mt-5 mb-2">Guias e dicas</h3>
           <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside">
             <li><Link href="/blog/como-lavar-jaleco-profissional-guia-completo" className="underline underline-offset-2 hover:text-foreground transition-colors">Como lavar jaleco profissional: guia completo</Link></li>
             <li><Link href="/blog/jaleco-ou-scrub-qual-a-diferenca-quando-usar" className="underline underline-offset-2 hover:text-foreground transition-colors">Jaleco ou scrub: qual a diferença e quando usar cada um</Link></li>

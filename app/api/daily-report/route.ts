@@ -1079,6 +1079,9 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Não autorizado' }, { status: 401 })
   }
 
+  // ?json=1 → retorna dados brutos sem enviar email (para uso interativo/Claude)
+  const jsonOnly = request.nextUrl.searchParams.get('json') === '1'
+
   const today = new Date()
   today.setHours(today.getHours() - 3) // BRT
   const dateStr = today.toLocaleDateString('pt-BR', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' })
@@ -1111,23 +1114,31 @@ export async function GET(request: NextRequest) {
 
     console.log('[daily-report] Análises de IA geradas')
 
+    const fullPayload = {
+      ok: true,
+      date: dateStr,
+      gsc: gsc ?? null,
+      ga4: ga4 ?? null,
+      cielo: pm,
+      wc,
+      meta: meta ?? null,
+      googleAds: gads ?? null,
+      seoAnalysis: seoText,
+      croAnalysis: croText,
+    }
+
+    if (jsonOnly) {
+      console.log('[daily-report] Modo json=1 — pulando envio de email')
+      return NextResponse.json(fullPayload)
+    }
+
     const html = buildEmail(dateStr, gsc!, pm, wc, ga4, meta, gads, seoText, croText)
     const subject = `📊 Jaleca ${today.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'})} — ${pm.day.paid} pedidos aprovados · R$${pm.day.revenue.toFixed(0)} · ${pm.day.convRate}% conv`
 
     const emailResult = await sendEmail(subject, html)
     console.log('[daily-report] Email enviado:', emailResult)
 
-    return NextResponse.json({
-      ok: true,
-      date: dateStr,
-      gsc: gsc ? { clicks: gsc.week.clicks, position: gsc.week.position } : null,
-      ga4: ga4 ? { sessions: ga4.totalSessions, purchase: ga4.funnel.purchase, addToCart: ga4.funnel.addToCart, convRate: ga4.totalSessions ? +((ga4.funnel.purchase/ga4.totalSessions)*100).toFixed(2) : 0 } : null,
-      cielo: { paid: pm.day.paid, total: pm.day.total, revenue: pm.day.revenue },
-      wc: wc.day ? { orders: wc.day.total, revenue: wc.day.revenue } : null,
-      meta: meta?.week ? { spend7d: meta.week.spend, clicks7d: meta.week.clicks, cpc7d: meta.week.cpc, reach7d: meta.week.reach, spendOntem: meta.day?.spend ?? null } : null,
-      googleAds: gads?.week ? { cost7d: gads.week.cost, clicks7d: gads.week.clicks, conversions7d: gads.week.conversions, cpc7d: gads.week.cpc, costOntem: gads.day?.cost ?? null } : null,
-      emailSent: !!emailResult.messageId,
-    })
+    return NextResponse.json({ ...fullPayload, emailSent: !!emailResult.messageId })
   } catch (error) {
     const msg = error instanceof Error ? error.message : 'Erro desconhecido'
     console.error('[daily-report] Erro:', msg)

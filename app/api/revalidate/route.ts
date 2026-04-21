@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { revalidatePath, revalidateTag } from 'next/cache'
+import { notifyIndexNow } from '@/lib/indexnow'
 
 export async function POST(req: NextRequest) {
   const secret = req.headers.get('x-revalidate-secret')
@@ -16,6 +17,8 @@ export async function POST(req: NextRequest) {
   for (const path of toRevalidate) {
     revalidatePath(path)
   }
+
+  notifyIndexNow(toRevalidate.map(p => `https://jaleca.com.br${p}`))
 
   return NextResponse.json({ revalidated: toRevalidate, now: Date.now() })
 }
