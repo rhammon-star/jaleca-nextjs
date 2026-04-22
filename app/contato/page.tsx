@@ -38,7 +38,7 @@ const contactPageSchema = {
       streetAddress: 'Av. Castelo Branco, 391 - Loja B',
       addressLocality: 'Ipatinga',
       addressRegion: 'MG',
-      postalCode: '35160-294',
+      postalCode: '35160-264',
       addressCountry: 'BR',
     },
     openingHoursSpecification: [
@@ -138,7 +138,7 @@ export default function ContatoPage() {
               <MapPin size={16} className="text-[#c4a97d] flex-shrink-0 mt-0.5" />
               <div>
                 <p className="text-foreground font-medium">Av. Castelo Branco, 391 - Loja B, Horto</p>
-                <p className="text-muted-foreground">Ipatinga — MG, CEP 35160-294</p>
+                <p className="text-muted-foreground">Ipatinga — MG, CEP 35160-264</p>
               </div>
             </div>
             <Link

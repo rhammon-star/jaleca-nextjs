@@ -37,7 +37,7 @@ const localBusinessSchema = {
     streetAddress: 'Av. Castelo Branco, 391 - Loja B',
     addressLocality: 'Ipatinga',
     addressRegion: 'MG',
-    postalCode: '35160-294',
+    postalCode: '35160-264',
     addressCountry: 'BR',
   },
   openingHoursSpecification: [
@@ -170,7 +170,7 @@ export default function LojaMatrizPage() {
                   </div>
                   <div className="flex items-start gap-3 text-sm">
                     <MapPin size={15} className="text-[#c4a97d] flex-shrink-0 mt-0.5" />
-                    <span className="text-muted-foreground">Av. Castelo Branco, 391 - Loja B, Horto<br />Ipatinga — MG, CEP 35160-294</span>
+                    <span className="text-muted-foreground">Av. Castelo Branco, 391 - Loja B, Horto<br />Ipatinga — MG, CEP 35160-264</span>
                   </div>
                 </div>
 

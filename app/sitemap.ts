@@ -116,6 +116,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly',
       priority: 0.6,
     },
+    // SEO Keyword Clusters — PRD SEO Jaleca (21/04/2026)
+    { url: `${SITE_URL}/melhor-marca-de-jaleco`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.95 },
+    { url: `${SITE_URL}/jaleco-premium`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
+    { url: `${SITE_URL}/jaleco-feminino`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
+    { url: `${SITE_URL}/jaleco-estiloso`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
     // Topical Authority Hubs — Pillar pages clusters
     { url: `${SITE_URL}/uniformes-beleza`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
     { url: `${SITE_URL}/uniformes-gastronomia`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },

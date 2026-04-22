@@ -117,7 +117,7 @@ export default function SobrePage() {
                 Nossa loja física está localizada no coração de Ipatinga, MG, onde você pode experimentar toda a nossa coleção com atendimento especializado. Também atendemos clientes em todo o Brasil pelo nosso e-commerce com frete rápido.
               </p>
               <div className="mt-4 space-y-1 text-sm">
-                <p><strong className="text-foreground font-medium">Endereço:</strong> Av. Castelo Branco, 391 - Loja B, Horto — Ipatinga, MG</p>
+                <p><strong className="text-foreground font-medium">Endereço:</strong> Av. Castelo Branco, 391 - Loja B, Horto — Ipatinga, MG, CEP 35160-264</p>
                 <p><strong className="text-foreground font-medium">Horário:</strong> Seg–Sex: 9h às 18h | Sáb: 9h às 13h</p>
                 <p><strong className="text-foreground font-medium">Telefone:</strong>{' '}
                   <a href="tel:+553133672467" className="text-foreground hover:underline">(31) 3367-2467</a>

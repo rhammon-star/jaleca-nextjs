@@ -162,46 +162,74 @@ async function fetchGsc(token: string) {
 }
 
 // ── Cielo ─────────────────────────────────────────────────────────────────────
+// A Cielo Query API não suporta busca por intervalo de datas — só por merchantOrderId.
+// Estratégia: buscar pedidos WC do período e consultar cada um na Cielo individualmente.
 
 const CIELO_QUERY_BASE = 'https://apiquery.cieloecommerce.cielo.com.br'
 
+type CieloPayment = { Status: number; Amount: number; Type: string }
+
+async function getCieloPaymentByOrderId(wcOrderId: number): Promise<CieloPayment | null> {
+  try {
+    const r = await fetch(
+      `${CIELO_QUERY_BASE}/1/sales?merchantOrderId=${wcOrderId}`,
+      { headers: cieloQueryHeaders() }
+    )
+    if (!r.ok) return null
+    const d = await r.json()
+    const paymentId = d.Payments?.[0]?.PaymentId
+    if (!paymentId) return null
+    const r2 = await fetch(`${CIELO_QUERY_BASE}/1/sales/${paymentId}`, { headers: cieloQueryHeaders() })
+    if (!r2.ok) return null
+    const d2 = await r2.json()
+    return {
+      Status: d2.Payment?.Status ?? 0,
+      Amount: d2.Payment?.Amount ?? 0,
+      Type:   d2.Payment?.Type ?? 'Unknown',
+    }
+  } catch { return null }
+}
+
 async function fetchCielo() {
-  const today     = brazilDate(0)
   const yesterday = brazilDate(-1)
   const d2        = brazilDate(-2)
   const d3        = brazilDate(-3)
   const d4        = brazilDate(-4)
   const weekStart = brazilDate(-7)
+  const today     = brazilDate(0)
 
-  async function getSales(startDate: string, endDate: string) {
-    const params = new URLSearchParams({ StartDate: startDate, EndDate: endDate, PageNumber: '1', PageSize: '200' })
-    const r = await fetch(`${CIELO_QUERY_BASE}/1/sales?${params}`, { headers: cieloQueryHeaders() })
-    if (!r.ok) {
-      console.warn(`[Cielo Query] HTTP ${r.status} para ${startDate}→${endDate}:`, await r.text().catch(() => ''))
-      return []
-    }
-    const d = await r.json()
-    if (startDate === brazilDate(-7)) console.log(`[Cielo Query] semana: ${d.Sales?.length ?? 0} transações`)
-    return (d.Sales ?? []) as { Status: number; Amount: number; PaymentType: string }[]
+  // Busca pedidos WC do período e enriquece com status Cielo
+  async function getWcOrdersForPeriod(after: string, before: string) {
+    try {
+      const r = await fetch(
+        `${WC_API_URL}/orders?after=${after}T00:00:00&before=${before}T23:59:59&per_page=100&status=any`,
+        { headers: { Authorization: wcAuth() } }
+      )
+      if (!r.ok) return []
+      const orders: { id: number; status: string; total: string; date_created: string }[] = await r.json()
+      if (!Array.isArray(orders)) return []
+      return orders
+    } catch { return [] }
   }
 
-  const [daySales, weekSales, d2Sales, d3Sales, d4Sales] = await Promise.all([
-    getSales(yesterday, today),
-    getSales(weekStart, today),
-    getSales(d2, yesterday),
-    getSales(d3, d2),
-    getSales(d4, d3),
-  ])
+  async function getSalesForPeriod(after: string, before: string) {
+    const orders = await getWcOrdersForPeriod(after, before)
+    console.log(`[Cielo] ${after}→${before}: ${orders.length} pedidos WC`)
+    const payments = await Promise.all(
+      orders.map(o => getCieloPaymentByOrderId(o.id))
+    )
+    // Status Cielo: 2=PaymentConfirmed, 3=Denied, 1=NotFinished, 10=Voided, 11=Refunded, 12=Pending, 13=Aborted
+    return payments.filter((p): p is CieloPayment => p !== null)
+  }
 
-  // Status Cielo: 2=PaymentConfirmed, 3=Denied, 1=NotFinished, 10=Voided, 11=Refunded, 12=Pending, 13=Aborted
-  function summarize(sales: typeof daySales) {
+  function summarize(sales: CieloPayment[]) {
     const paid    = sales.filter(s => s.Status === 2)
     const failed  = sales.filter(s => [3, 13].includes(s.Status))
     const pending = sales.filter(s => [1, 12].includes(s.Status))
     const revenue = paid.reduce((s, o) => s + o.Amount, 0) / 100
     const lost    = failed.reduce((s, o) => s + o.Amount, 0) / 100
     const methods: Record<string, number> = {}
-    for (const s of sales) methods[s.PaymentType] = (methods[s.PaymentType] ?? 0) + 1
+    for (const s of sales) methods[s.Type] = (methods[s.Type] ?? 0) + 1
     return {
       total: sales.length, paid: paid.length, failed: failed.length, pending: pending.length,
       revenue: +revenue.toFixed(2), lost: +lost.toFixed(2),
@@ -209,6 +237,14 @@ async function fetchCielo() {
       methods,
     }
   }
+
+  const [daySales, weekSales, d2Sales, d3Sales, d4Sales] = await Promise.all([
+    getSalesForPeriod(yesterday, today),
+    getSalesForPeriod(weekStart, today),
+    getSalesForPeriod(d2, yesterday),
+    getSalesForPeriod(d3, d2),
+    getSalesForPeriod(d4, d3),
+  ])
 
   const [daySum, weekSum, d2Sum, d3Sum, d4Sum] = [
     summarize(daySales), summarize(weekSales),

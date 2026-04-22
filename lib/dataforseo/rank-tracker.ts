@@ -7,24 +7,38 @@ const LOCATION_CODE = 1001767 // Brasil
 const LANGUAGE_CODE = 'pt'
 
 export const KEYWORDS_TO_TRACK = [
+  // Core — maior volume
   'jalecos',
   'jaleco feminino',
   'jaleco masculino',
   'jaleco branco',
-  'jaleco para dentista',
-  'jaleco para enfermeira',
-  'jaleco para médico',
-  'jaleco universitário',
-  'jaleco personalizado',
-  'jaleco barato',
-  'jaleco profissional',
-  'jaleco para barbeiro',
-  'jaleco para cozinheiro',
-  'jaleco para veterinário',
-  'jaleco para fisioterapeuta',
   'comprar jaleco online',
-  'jaleco pp ao g3',
-  'jaleco feminino branco',
+
+  // Cluster pages PRD SEO
+  'melhor marca de jaleco',
+  'jaleco premium',
+  'jaleco estiloso',
+
+  // Domínios satélite — keywords diretas
+  'jaleco slim',
+  'jaleco slim feminino',
+  'jaleco princesa',
+  'jaleco preto',
+  'jaleco de luxo',
+  'jaleco médico',
+  'jaleco universitário',
+  'loja de jaleco',
+  'comprar jaleco feminino',
+
+  // Hubs profissão — maior potencial comercial
+  'jaleco para dentista',
+  'jaleco para médico',
+  'jaleco para enfermeira',
+  'jaleco para veterinário',
+  'jaleco para farmacêutico',
+  'jaleco para barbeiro',
+  'jaleco para advogado',
+  'jaleco para cozinheiro',
 ]
 
 export interface PositionRecord {
