@@ -17,6 +17,11 @@ export default function robots(): MetadataRoute.Robots {
           '/comparar',
           '/checkout',
           '/pagamento',
+          // Next.js build assets - não precisam ser rastreados
+          '/_next/static/chunks/',
+          '/_next/static/media/',
+          '/_next/data/',
+          '/_next/image/',
         ],
       },
       {
