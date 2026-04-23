@@ -22,6 +22,14 @@ export default function robots(): MetadataRoute.Robots {
           '/_next/static/media/',
           '/_next/data/',
           '/_next/image/',
+          // WordPress backend — usado apenas para backlinks, não para indexação
+          '/wp-admin/',
+          '/wp-login.php',
+          '/wp-content/plugins/',
+          '/wp-content/cache/',
+          '/wp-content/uploads/',
+          // APIs internas
+          '/api/',
         ],
       },
       {
