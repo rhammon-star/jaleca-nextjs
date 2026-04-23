@@ -104,8 +104,8 @@ const nextConfig: NextConfig = {
       { source: '/uniformes-profissionais', destination: '/uniformes-profissionais-para-saude', permanent: true },
       { source: '/conjunto-pijama-cirurgico', destination: '/categoria/conjuntos', permanent: true },
       // Domínios satélite — 301 para jaleca.com.br (21/04/2026)
-      { source: '/:path*', has: [{ type: 'host', value: 'lojadejaleco.com.br' }], destination: 'https://jaleca.com.br/produtos', permanent: true },
-      { source: '/:path*', has: [{ type: 'host', value: 'www.lojadejaleco.com.br' }], destination: 'https://jaleca.com.br/produtos', permanent: true },
+      { source: '/:path*', has: [{ type: 'host', value: 'lojadejaleco.com.br' }], destination: 'https://jaleca.com.br/loja-de-jaleco', permanent: true },
+      { source: '/:path*', has: [{ type: 'host', value: 'www.lojadejaleco.com.br' }], destination: 'https://jaleca.com.br/loja-de-jaleco', permanent: true },
       { source: '/:path*', has: [{ type: 'host', value: 'comprarjaleco.com.br' }], destination: 'https://jaleca.com.br/comprar-jaleco-online', permanent: true },
       { source: '/:path*', has: [{ type: 'host', value: 'www.comprarjaleco.com.br' }], destination: 'https://jaleca.com.br/comprar-jaleco-online', permanent: true },
       { source: '/:path*', has: [{ type: 'host', value: 'jalecouniversitario.com.br' }], destination: 'https://jaleca.com.br/jaleco-universitario', permanent: true },
@@ -116,12 +116,14 @@ const nextConfig: NextConfig = {
       { source: '/:path*', has: [{ type: 'host', value: 'www.jalecomedico.com.br' }], destination: 'https://jaleca.com.br/jaleco-para-medico', permanent: true },
       { source: '/:path*', has: [{ type: 'host', value: 'jalecopremium.com.br' }], destination: 'https://jaleca.com.br/jaleco-premium', permanent: true },
       { source: '/:path*', has: [{ type: 'host', value: 'www.jalecopremium.com.br' }], destination: 'https://jaleca.com.br/jaleco-premium', permanent: true },
-      { source: '/:path*', has: [{ type: 'host', value: 'jalecopreto.com.br' }], destination: 'https://jaleca.com.br/produtos', permanent: true },
-      { source: '/:path*', has: [{ type: 'host', value: 'www.jalecopreto.com.br' }], destination: 'https://jaleca.com.br/produtos', permanent: true },
+      { source: '/:path*', has: [{ type: 'host', value: 'jalecopreto.com.br' }], destination: 'https://jaleca.com.br/jaleco-preto', permanent: true },
+      { source: '/:path*', has: [{ type: 'host', value: 'www.jalecopreto.com.br' }], destination: 'https://jaleca.com.br/jaleco-preto', permanent: true },
       { source: '/:path*', has: [{ type: 'host', value: 'jalecoprincesa.com.br' }], destination: 'https://jaleca.com.br/jaleco-feminino', permanent: true },
       { source: '/:path*', has: [{ type: 'host', value: 'www.jalecoprincesa.com.br' }], destination: 'https://jaleca.com.br/jaleco-feminino', permanent: true },
       { source: '/:path*', has: [{ type: 'host', value: 'jalecoslim.com.br' }], destination: 'https://jaleca.com.br/jaleco-feminino', permanent: true },
       { source: '/:path*', has: [{ type: 'host', value: 'www.jalecoslim.com.br' }], destination: 'https://jaleca.com.br/jaleco-feminino', permanent: true },
+      // Jaleco slim — redireciona para página feminina (principal usuário do slim)
+      { source: '/jaleco-slim', destination: '/jaleco-feminino', permanent: true },
       { source: '/:path*', has: [{ type: 'host', value: 'jalecomasculino.com.br' }], destination: 'https://jaleca.com.br/jaleco-masculino', permanent: true },
       { source: '/:path*', has: [{ type: 'host', value: 'www.jalecomasculino.com.br' }], destination: 'https://jaleca.com.br/jaleco-masculino', permanent: true },
       // Trailing slash consolidation

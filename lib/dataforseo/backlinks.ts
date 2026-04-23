@@ -137,21 +137,25 @@ export async function fetchDomainIntersection(target2: string): Promise<{
     }
   })
 
-  return { domains, total_count: data.tasks?.[0]?.result?.[0]?.total_count ?? 0 }
+  const result = data.tasks?.[0]?.result?.[0] as { total_count?: number; items?: unknown[] } | undefined
+  return { domains, total_count: result?.total_count ?? 0 }
 }
 
 export function extractPbnDomains(backlinks: BacklinkItem[], minSpamScore = 50): string[] {
-  const domains = backlinks
+  const domains: string[] = []
+  const seen = new Set<string>()
+  backlinks
     .filter(b => b.backlink_spam_score >= minSpamScore && !b.url_from.includes('cylex'))
-    .map(b => {
+    .forEach(b => {
       try {
-        return new URL(b.url_from).hostname
-      } catch {
-        return null
-      }
+        const host = new URL(b.url_from).hostname
+        if (!seen.has(host)) {
+          seen.add(host)
+          domains.push(host)
+        }
+      } catch { /* skip */ }
     })
-    .filter((d): d is string => d !== null)
-  return [...new Set(domains)].sort()
+  return domains.sort()
 }
 
 export function extractCylexLinks(backlinks: BacklinkItem[]): Array<{ from: string; to: string }> {

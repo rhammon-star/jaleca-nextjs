@@ -52,6 +52,17 @@ function isInternalTraffic(): boolean {
   }
 }
 
+// Aguarda window.gtag ficar disponível (script lazyOnload pode não ter carregado ainda)
+function whenGtag(callback: () => void, maxWaitMs = 8000) {
+  if (typeof window === 'undefined') return
+  if (window.gtag) { callback(); return }
+  const start = Date.now()
+  const interval = setInterval(() => {
+    if (window.gtag) { clearInterval(interval); callback(); return }
+    if (Date.now() - start > maxWaitMs) clearInterval(interval)
+  }, 150)
+}
+
 export function trackPurchase(
   orderId: string,
   value: number,
@@ -60,24 +71,26 @@ export function trackPurchase(
   if (typeof window === 'undefined') return
   if (isInternalTraffic()) return // ignora tráfego de teste (ex: Ipatinga)
 
-  // GA4 purchase — importado pelo Google Ads como "Compra (purchase)"
-  window.gtag?.('event', 'purchase', {
-    transaction_id: orderId,
-    value,
-    currency: 'BRL',
-    items: items.map(i => ({
-      item_id: i.id,
-      item_name: i.name,
-      price: i.price,
-      quantity: i.quantity,
-    })),
-  })
+  whenGtag(() => {
+    // GA4 purchase — importado pelo Google Ads como "Compra (purchase)"
+    window.gtag?.('event', 'purchase', {
+      transaction_id: orderId,
+      value,
+      currency: 'BRL',
+      items: items.map(i => ({
+        item_id: i.id,
+        item_name: i.name,
+        price: i.price,
+        quantity: i.quantity,
+      })),
+    })
 
-  // Google Ads conversion direta — mapeada à ação "PURCHASE" (conversion_event_purchase)
-  window.gtag?.('event', 'conversion_event_purchase', {
-    transaction_id: orderId,
-    value,
-    currency: 'BRL',
+    // Google Ads conversion direta — mapeada à ação "PURCHASE" (conversion_event_purchase)
+    window.gtag?.('event', 'conversion_event_purchase', {
+      transaction_id: orderId,
+      value,
+      currency: 'BRL',
+    })
   })
 
   // Meta Pixel — eventID deve coincidir com CAPI para deduplicação correta
