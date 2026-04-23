@@ -1,0 +1,58 @@
+# Email Template for PBN Link Removal Requests
+# Generated: 2026-04-23
+# Domains to contact: 34
+
+SUBJECT: Request to Remove Unauthorised Backlink to jaleca.com.br
+
+Dear Webmaster,
+
+I am contacting you regarding a backlink to jaleca.com.br that appears on your website.
+This link was placed without my authorisation or request, and I would like to request its removal.
+
+Please find below the details:
+- Your domain: [DOMAIN]
+- Linked page: https://jaleca.com.br
+
+If you need to verify ownership of jaleca.com.br, you can check the WHOIS record or contact us directly.
+
+Thank you for your cooperation.
+
+Best regards,
+Jaleca - rhammon@objetivasolucao.com.br
+
+
+--- DOMAINS TO CONTACT ---
+globalecommerce.org (contact: admin@globalecommerce.org)
+mail.getwebsiteworth.com (contact: admin@mail.getwebsiteworth.com)
+www.websiterace.com (contact: admin@websiterace.com)
+sergechel.info (contact: admin@sergechel.info)
+ycm.info (contact: admin@ycm.info)
+quero.party (contact: admin@quero.party)
+pagesearch.net (contact: admin@pagesearch.net)
+anchorurl.cloud (contact: admin@anchorurl.cloud)
+shortenurls.eu (contact: admin@shortenurls.eu)
+webs.businessvocal.com (contact: admin@webs.businessvocal.com)
+alljobs.info (contact: admin@alljobs.info)
+drjack.world (contact: admin@drjack.world)
+buzzshrink.website (contact: admin@buzzshrink.website)
+www.tunca.org (contact: admin@tunca.org)
+www.wallpapers.pro (contact: admin@wallpapers.pro)
+australianwebdirectory.shop (contact: admin@australianwebdirectory.shop)
+urls-shortener.eu (contact: admin@urls-shortener.eu)
+sites.jake.eu (contact: admin@sites.jake.eu)
+www.musweb.org (contact: admin@musweb.org)
+getwebsiteworth.com (contact: admin@getwebsiteworth.com)
+booksreadr.org (contact: admin@booksreadr.org)
+ready.pro (contact: admin@ready.pro)
+mail.runningwebsites.net (contact: admin@mail.runningwebsites.net)
+www.simplewebdirectory.com (contact: admin@simplewebdirectory.com)
+2x9.co (contact: admin@2x9.co)
+australianwebdirectory.pro (contact: admin@australianwebdirectory.pro)
+kompromat100.info (contact: admin@kompromat100.info)
+mundotecnologia.info (contact: admin@mundotecnologia.info)
+thebestbacklinksavailable.click (contact: admin@thebestbacklinksavailable.click)
+browseallexpireddomains.us (contact: admin@browseallexpireddomains.us)
+what-happens-next.xyz (contact: admin@what-happens-next.xyz)
+great-choice-for-pbn-domains.co.uk (contact: admin@great-choice-for-pbn-domains.co.uk)
+agmermer.pro (contact: admin@agmermer.pro)
+prolinkbox.com (contact: admin@prolinkbox.com)

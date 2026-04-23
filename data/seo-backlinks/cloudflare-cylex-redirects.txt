@@ -1,0 +1,23 @@
+# Cloudflare Redirect Rules for Cylex Broken Backlinks
+# Add to Cloudflare Dashboard > Rules > Redirect Rules
+# Status: 302 (Temporary Redirect)
+
+https://www.cylex.com.br/londrina/by-jaleco-12993282.html -> https://jaleca.com.br
+https://www.cylex.com.br/londrina/use-trust-11753042.html -> https://jaleca.com.br
+https://www.cylex.com.br/londrina/jaleca-londrina-12996647.html -> https://jaleca.com.br
+https://www.cylex.com.br/londrina/melissa-moda-evang%C3%A9lica-13366669.html -> https://jaleca.com.br
+https://www.cylex.com.br/londrina/flor-d-liz-moda-feminina-ltda-11009071.html -> https://jaleca.com.br
+https://www.cylex.com.br/londrina/ind%C3%BAstria-e-com%C3%A9rcio-de-uniformes-nelliza-ltda-11223851.html -> https://jaleca.com.br
+https://www.cylex.com.br/londrina/claupa-confec%C3%A7%C3%B5es-ltda-11223834.html -> https://jaleca.com.br
+https://www.cylex.com.br/londrina/karilu-uniformes-11223880.html -> https://jaleca.com.br
+https://www.cylex.com.br/londrina/j-s-sport-12665331.html -> https://jaleca.com.br
+https://www.cylex.com.br/londrina/happyness-confec%C3%A7%C3%B5es-masculino-feminino-e-infantil-11705603.html -> https://jaleca.com.br
+https://www.cylex.com.br/londrina/atelier-dos-uniformes-gisele-11223830.html -> https://jaleca.com.br
+https://www.cylex.com.br/londrina/s%C3%B4nia-swarca-confec%C3%A7%C3%B5es-11210987.html -> https://jaleca.com.br
+https://www.cylex.com.br/londrina/emp%C3%B3rio-k-tricot---jd-piza-11704505.html -> https://jaleca.com.br
+https://www.cylex.com.br/londrina/linha-fina-uniformes-12665722.html -> https://jaleca.com.br
+https://www.cylex.com.br/londrina/cartas-na-manga-uniformes-sociais-personalizados-12579597.html -> https://jaleca.com.br
+https://www.cylex.com.br/londrina/erva-ch%C3%A1-casual-13046641.html -> https://jaleca.com.br
+https://www.cylex.com.br/londrina/paint-horse-moda-country-12255400.html -> https://jaleca.com.br
+https://www.cylex.com.br/londrina/kidbaby-confec%C3%A7%C3%B5es-12210942.html -> https://jaleca.com.br
+https://www.cylex.com.br/londrina/uniformes-londrina-12956956.html -> https://jaleca.com.br

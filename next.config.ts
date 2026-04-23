@@ -122,6 +122,8 @@ const nextConfig: NextConfig = {
       { source: '/:path*', has: [{ type: 'host', value: 'www.jalecoprincesa.com.br' }], destination: 'https://jaleca.com.br/jaleco-feminino', permanent: true },
       { source: '/:path*', has: [{ type: 'host', value: 'jalecoslim.com.br' }], destination: 'https://jaleca.com.br/jaleco-feminino', permanent: true },
       { source: '/:path*', has: [{ type: 'host', value: 'www.jalecoslim.com.br' }], destination: 'https://jaleca.com.br/jaleco-feminino', permanent: true },
+      { source: '/:path*', has: [{ type: 'host', value: 'jalecomasculino.com.br' }], destination: 'https://jaleca.com.br/jaleco-masculino', permanent: true },
+      { source: '/:path*', has: [{ type: 'host', value: 'www.jalecomasculino.com.br' }], destination: 'https://jaleca.com.br/jaleco-masculino', permanent: true },
       // Trailing slash consolidation
       { source: '/produtos/', destination: '/produtos', permanent: true },
       { source: '/nossas-lojas/', destination: '/nossas-lojas', permanent: true },

@@ -1,0 +1,12 @@
+{
+  "generated": "2026-04-23T00:48:36.842Z",
+  "summary": {
+    "total_broken_backlinks": 60,
+    "cylex_legitimate": 19,
+    "pbn_spam": 34,
+    "max_spam_score": 85
+  },
+  "disavow_file": "disavow-jaleca.txt",
+  "cloudflare_redirects": "cloudflare-cylex-redirects.txt",
+  "email_template": "pbn-removal-email-template.txt"
+}

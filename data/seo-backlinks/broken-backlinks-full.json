@@ -1,0 +1,490 @@
+{
+  "generated": "2026-04-23T00:50:23.018Z",
+  "total": 60,
+  "summary": {
+    "cylex_legitimate": 19,
+    "pbn_spam": 41
+  },
+  "broken_backlinks": [
+    {
+      "source_url": "https://maxiodonto.com/uniformes-odontologia/",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "Jaleca",
+      "spam_score": 0,
+      "status_code": 526,
+      "is_pbn": false
+    },
+    {
+      "source_url": "https://globalecommerce.org/page-b13d049f90114b53dc3a41144034432e.html",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "jaleca.com.br",
+      "spam_score": 60,
+      "status_code": 526,
+      "is_pbn": true
+    },
+    {
+      "source_url": "https://mail.getwebsiteworth.com/e34648fd1dc47325f9bdfa3b572e3a35-l/",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "jaleca.com.br",
+      "spam_score": 60,
+      "status_code": 526,
+      "is_pbn": true
+    },
+    {
+      "source_url": "https://www.websiterace.com/e34648fd1dc47325f9bdfa3b572e3a35-l/",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "jaleca.com.br",
+      "spam_score": 50,
+      "status_code": 526,
+      "is_pbn": true
+    },
+    {
+      "source_url": "https://sergechel.info/list-f3affda17410edd9e1d669b0ce081125",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "jaleca.com.br",
+      "spam_score": 60,
+      "status_code": 526,
+      "is_pbn": true
+    },
+    {
+      "source_url": "https://alexdot.pages.dev/05/ZZGNnJEcyK",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "jaleca.com.br",
+      "spam_score": 25,
+      "status_code": 526,
+      "is_pbn": false
+    },
+    {
+      "source_url": "https://ycm.info/e34648fd1dc47325f9bdfa3b572e3a35-l/",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "jaleca.com.br",
+      "spam_score": 50,
+      "status_code": 526,
+      "is_pbn": true
+    },
+    {
+      "source_url": "https://quero.party/report/83702",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "jaleca.com.br",
+      "spam_score": 50,
+      "status_code": 526,
+      "is_pbn": true
+    },
+    {
+      "source_url": "https://pagesearch.net/e34648fd1dc47325f9bdfa3b572e3a35-l/",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "jaleca.com.br",
+      "spam_score": 50,
+      "status_code": 526,
+      "is_pbn": true
+    },
+    {
+      "source_url": "https://anchorurl.cloud/share/83701",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "jaleca.com.br",
+      "spam_score": 50,
+      "status_code": 526,
+      "is_pbn": true
+    },
+    {
+      "source_url": "https://shortenurls.eu/share/83701",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "jaleca.com.br",
+      "spam_score": 50,
+      "status_code": 526,
+      "is_pbn": true
+    },
+    {
+      "source_url": "https://webs.businessvocal.com/08/NxmuXCilAw",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "visit jaleca.com.br for latest info",
+      "spam_score": 60,
+      "status_code": 526,
+      "is_pbn": true
+    },
+    {
+      "source_url": "https://alljobs.info/e34648fd1dc47325f9bdfa3b572e3a35-l/",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "jaleca.com.br",
+      "spam_score": 50,
+      "status_code": 526,
+      "is_pbn": true
+    },
+    {
+      "source_url": "https://drjack.world/report/83702",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "jaleca.com.br",
+      "spam_score": 50,
+      "status_code": 526,
+      "is_pbn": true
+    },
+    {
+      "source_url": "https://buzzshrink.website/share/83702",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "jaleca.com.br",
+      "spam_score": 50,
+      "status_code": 526,
+      "is_pbn": true
+    },
+    {
+      "source_url": "https://shortenurls.eu/share/83702",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "jaleca.com.br",
+      "spam_score": 50,
+      "status_code": 526,
+      "is_pbn": true
+    },
+    {
+      "source_url": "https://www.tunca.org/e34648fd1dc47325f9bdfa3b572e3a35-l/",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "jaleca.com.br",
+      "spam_score": 50,
+      "status_code": 526,
+      "is_pbn": true
+    },
+    {
+      "source_url": "https://www.wallpapers.pro/e34648fd1dc47325f9bdfa3b572e3a35-l/",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "jaleca.com.br",
+      "spam_score": 50,
+      "status_code": 526,
+      "is_pbn": true
+    },
+    {
+      "source_url": "https://australianwebdirectory.shop/page-b13d049f90114b53dc3a41144034432e.html",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "jaleca.com.br",
+      "spam_score": 70,
+      "status_code": 526,
+      "is_pbn": true
+    },
+    {
+      "source_url": "https://urls-shortener.eu/share/83701",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "jaleca.com.br",
+      "spam_score": 50,
+      "status_code": 526,
+      "is_pbn": true
+    },
+    {
+      "source_url": "https://sites.jake.eu/share/83701",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "jaleca.com.br",
+      "spam_score": 50,
+      "status_code": 526,
+      "is_pbn": true
+    },
+    {
+      "source_url": "https://sites.jake.eu/share/83702",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "jaleca.com.br",
+      "spam_score": 50,
+      "status_code": 526,
+      "is_pbn": true
+    },
+    {
+      "source_url": "https://www.musweb.org/page-b13d049f90114b53dc3a41144034432e.html",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "jaleca.com.br",
+      "spam_score": 60,
+      "status_code": 526,
+      "is_pbn": true
+    },
+    {
+      "source_url": "https://www.cylex.com.br/londrina/by-jaleco-12993282.html",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "Site",
+      "spam_score": 0,
+      "status_code": 526,
+      "is_pbn": false
+    },
+    {
+      "source_url": "https://getwebsiteworth.com/e34648fd1dc47325f9bdfa3b572e3a35-l/",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "jaleca.com.br",
+      "spam_score": 60,
+      "status_code": 526,
+      "is_pbn": true
+    },
+    {
+      "source_url": "https://booksreadr.org/page-b13d049f90114b53dc3a41144034432e.html",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "jaleca.com.br",
+      "spam_score": 60,
+      "status_code": 526,
+      "is_pbn": true
+    },
+    {
+      "source_url": "https://ready.pro/stats/83701",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "jaleca.com.br",
+      "spam_score": 50,
+      "status_code": 526,
+      "is_pbn": true
+    },
+    {
+      "source_url": "https://mail.runningwebsites.net/e34648fd1dc47325f9bdfa3b572e3a35-l/",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "jaleca.com.br",
+      "spam_score": 60,
+      "status_code": 526,
+      "is_pbn": true
+    },
+    {
+      "source_url": "https://global-website.pages.dev/20/ZZGNnJEcyK",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "jaleca.com.br",
+      "spam_score": 35,
+      "status_code": 526,
+      "is_pbn": false
+    },
+    {
+      "source_url": "https://www.simplewebdirectory.com/e34648fd1dc47325f9bdfa3b572e3a35-l/",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "jaleca.com.br",
+      "spam_score": 60,
+      "status_code": 526,
+      "is_pbn": true
+    },
+    {
+      "source_url": "https://www.cylex.com.br/londrina/use-trust-11753042.html",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "Site",
+      "spam_score": 0,
+      "status_code": 526,
+      "is_pbn": false
+    },
+    {
+      "source_url": "https://www.cylex.com.br/londrina/jaleca-londrina-12996647.html",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "Site",
+      "spam_score": 0,
+      "status_code": 526,
+      "is_pbn": false
+    },
+    {
+      "source_url": "https://www.cylex.com.br/londrina/melissa-moda-evang%C3%A9lica-13366669.html",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "Site",
+      "spam_score": 0,
+      "status_code": 526,
+      "is_pbn": false
+    },
+    {
+      "source_url": "https://www.cylex.com.br/londrina/flor-d-liz-moda-feminina-ltda-11009071.html",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "Site",
+      "spam_score": 0,
+      "status_code": 526,
+      "is_pbn": false
+    },
+    {
+      "source_url": "https://2x9.co/page-b13d049f90114b53dc3a41144034432e.html",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "jaleca.com.br",
+      "spam_score": 75,
+      "status_code": 526,
+      "is_pbn": true
+    },
+    {
+      "source_url": "https://www.cylex.com.br/londrina/ind%C3%BAstria-e-com%C3%A9rcio-de-uniformes-nelliza-ltda-11223851.html",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "Site",
+      "spam_score": 0,
+      "status_code": 526,
+      "is_pbn": false
+    },
+    {
+      "source_url": "https://www.cylex.com.br/londrina/claupa-confec%C3%A7%C3%B5es-ltda-11223834.html",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "Site",
+      "spam_score": 0,
+      "status_code": 526,
+      "is_pbn": false
+    },
+    {
+      "source_url": "https://www.cylex.com.br/londrina/karilu-uniformes-11223880.html",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "Site",
+      "spam_score": 0,
+      "status_code": 526,
+      "is_pbn": false
+    },
+    {
+      "source_url": "https://www.cylex.com.br/londrina/j-s-sport-12665331.html",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "Site",
+      "spam_score": 0,
+      "status_code": 526,
+      "is_pbn": false
+    },
+    {
+      "source_url": "https://www.cylex.com.br/londrina/happyness-confec%C3%A7%C3%B5es-masculino-feminino-e-infantil-11705603.html",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "Site",
+      "spam_score": 0,
+      "status_code": 526,
+      "is_pbn": false
+    },
+    {
+      "source_url": "https://www.cylex.com.br/londrina/atelier-dos-uniformes-gisele-11223830.html",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "Site",
+      "spam_score": 0,
+      "status_code": 526,
+      "is_pbn": false
+    },
+    {
+      "source_url": "https://www.cylex.com.br/londrina/s%C3%B4nia-swarca-confec%C3%A7%C3%B5es-11210987.html",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "Site",
+      "spam_score": 0,
+      "status_code": 526,
+      "is_pbn": false
+    },
+    {
+      "source_url": "https://www.cylex.com.br/londrina/emp%C3%B3rio-k-tricot---jd-piza-11704505.html",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "Site",
+      "spam_score": 0,
+      "status_code": 526,
+      "is_pbn": false
+    },
+    {
+      "source_url": "https://www.cylex.com.br/londrina/linha-fina-uniformes-12665722.html",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "Site",
+      "spam_score": 0,
+      "status_code": 526,
+      "is_pbn": false
+    },
+    {
+      "source_url": "https://www.cylex.com.br/londrina/cartas-na-manga-uniformes-sociais-personalizados-12579597.html",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "Site",
+      "spam_score": 0,
+      "status_code": 526,
+      "is_pbn": false
+    },
+    {
+      "source_url": "https://www.cylex.com.br/londrina/erva-ch%C3%A1-casual-13046641.html",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "Site",
+      "spam_score": 0,
+      "status_code": 526,
+      "is_pbn": false
+    },
+    {
+      "source_url": "https://www.cylex.com.br/londrina/paint-horse-moda-country-12255400.html",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "Site",
+      "spam_score": 0,
+      "status_code": 526,
+      "is_pbn": false
+    },
+    {
+      "source_url": "https://www.cylex.com.br/londrina/kidbaby-confec%C3%A7%C3%B5es-12210942.html",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "Site",
+      "spam_score": 0,
+      "status_code": 526,
+      "is_pbn": false
+    },
+    {
+      "source_url": "https://australianwebdirectory.pro/e34648fd1dc47325f9bdfa3b572e3a35-l/",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "jaleca.com.br",
+      "spam_score": 70,
+      "status_code": 526,
+      "is_pbn": true
+    },
+    {
+      "source_url": "https://kompromat100.info/dom-id-b7cee296360deb3dbd4111d74c5a441e.html",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "jaleca.com.br",
+      "spam_score": 70,
+      "status_code": 526,
+      "is_pbn": true
+    },
+    {
+      "source_url": "https://mundotecnologia.info/da068e2b1d67e0aea308b84c883c1aed-domains.html",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "jaleca.com.br",
+      "spam_score": 65,
+      "status_code": 526,
+      "is_pbn": true
+    },
+    {
+      "source_url": "https://thebestbacklinksavailable.click/ae7d50aa60e61883257ef0fdd4665088-items",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "jaleca.com.br",
+      "spam_score": 65,
+      "status_code": 526,
+      "is_pbn": true
+    },
+    {
+      "source_url": "https://browseallexpireddomains.us/fa8132dd583221c4766566f7798ea36e-view.html",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "jaleca.com.br",
+      "spam_score": 65,
+      "status_code": 526,
+      "is_pbn": true
+    },
+    {
+      "source_url": "https://what-happens-next.xyz/list-aee85d33b4cb0df4c53213e4cdc4106d",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "jaleca.com.br",
+      "spam_score": 85,
+      "status_code": 526,
+      "is_pbn": true
+    },
+    {
+      "source_url": "https://great-choice-for-pbn-domains.co.uk/8c0ec5d40e7f85b5c200dcb103df1132-str",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "jaleca.com.br",
+      "spam_score": 65,
+      "status_code": 526,
+      "is_pbn": true
+    },
+    {
+      "source_url": "https://www.cylex.com.br/londrina/uniformes-londrina-12956956.html",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "Site",
+      "spam_score": 0,
+      "status_code": 526,
+      "is_pbn": false
+    },
+    {
+      "source_url": "https://seobacklinks.agency/professional-high-quality-dofollow-link-building-for-your-website-seo-9547/",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "https://jaleca.com.br – You need to Skyrocket your Ahrefs DR, Moz DA, and Majestic TF with real PBN, Guest posts, and premium backlinks—competitors trust us, why not you? Pay after work! Visit SeoBoost.agency now!",
+      "spam_score": 45,
+      "status_code": 526,
+      "is_pbn": false
+    },
+    {
+      "source_url": "https://agmermer.pro/002a7c5e5f3b9189779bbe6eeb465bec-domains.html",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "jaleca.com.br",
+      "spam_score": 55,
+      "status_code": 526,
+      "is_pbn": true
+    },
+    {
+      "source_url": "https://rankgrow.agency/risk-free-seo-backlinks-service-9547/",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "https://jaleca.com.br – Increase your site’s backlinks and skyrocket your DA, DR, and TF with our expert SEO services—authentic dofollow backlinks, guest posts, and PBN links delivered by our team. Visit BuySeoLink.com to choose a plan, enjoy our pay-after-work model, and access 24/7 support!",
+      "spam_score": 45,
+      "status_code": 526,
+      "is_pbn": false
+    },
+    {
+      "source_url": "https://prolinkbox.com/boost-da-dr-tf-with-refill-guarantee-1604/",
+      "target_url": "https://jaleca.com.br/",
+      "anchor": "jaleca.com.br",
+      "spam_score": 50,
+      "status_code": 526,
+      "is_pbn": true
+    }
+  ]
+}

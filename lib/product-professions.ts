@@ -51,6 +51,9 @@ export const PROFESSION_MAP: Record<string, ProfessionInfo> = {
   confeiteiro:         { label: 'Confeiteiro',         hub: '/jaleco-para-cozinheiro' },
   'secretaria do lar': { label: 'Secretária do Lar',  hub: '/jaleco-para-dona-de-casa' },
   'dona-de-casa':      { label: 'Dona de Casa',        hub: '/jaleco-para-dona-de-casa' },
+  'cirurgico-feminino': { label: 'Pijama Cirúrgico Feminino', hub: '/pijama-cirurgico-feminino' },
+  'cirurgico-masculino': { label: 'Scrub Masculino',   hub: '/scrub-medico' },
+  'cirurgico':         { label: 'Scrub Médico',        hub: '/scrub-medico' },
 }
 
 export type ProductProfessions = {
@@ -169,12 +172,12 @@ export const PRODUCT_PROFESSIONS: ProductProfessions[] = [
   {
     slug: 'conjunto-pijama-cirurgico-scrub-feminino-varias-cores-jaleca',
     name: 'Conjunto Scrub Feminino',
-    professions: ['dentista','medica','enfermeira','farmaceutica','fisioterapeuta','nutricionista','biomedica','veterinaria','podologa','psicologa','esteticista','cabeleireira','professor','tatuador','massagista'],
+    professions: ['dentista','medica','enfermeira','farmaceutica','fisioterapeuta','nutricionista','biomedica','veterinaria','podologa','psicologa','esteticista','cabeleireira','professor','tatuador','massagista','cirurgico-feminino','cirurgico'],
   },
   {
     slug: 'conjunto-pijama-cirurgico-scrub-masculino-varias-cores-jaleca',
     name: 'Conjunto Scrub Masculino',
-    professions: ['medico','dentista','enfermeiro','farmaceutico','fisioterapeuta','nutricionista','biomedico','veterinario','barbeiro','cabeleireiro','professor','massagista','tatuador'],
+    professions: ['medico','dentista','enfermeiro','farmaceutico','fisioterapeuta','nutricionista','biomedico','veterinario','barbeiro','cabeleireiro','professor','massagista','tatuador','cirurgico-masculino','cirurgico'],
   },
   {
     slug: 'conjunto-puff-ziper-feminino-jaleca',
@@ -189,7 +192,7 @@ export const PRODUCT_PROFESSIONS: ProductProfessions[] = [
   {
     slug: 'conjunto-pijama-cirurgico-princesa-scrub-feminino-varias-cores-jaleca',
     name: 'Conjunto Princesa Nobre Feminino',
-    professions: ['secretaria','dentista','medica','enfermeira','farmaceutica','fisioterapeuta','nutricionista','biomedica','veterinaria','podologa','psicologa','esteticista','cabeleireira','professor','tatuador','advogada'],
+    professions: ['secretaria','dentista','medica','enfermeira','farmaceutica','fisioterapeuta','nutricionista','biomedica','veterinaria','podologa','psicologa','esteticista','cabeleireira','professor','tatuador','advogada','cirurgico-feminino','cirurgico'],
   },
   {
     slug: 'conjunto-executiva-feminino-jaleca',

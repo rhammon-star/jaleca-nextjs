@@ -1,0 +1,41 @@
+# Jaleca.com.br - Disavow PBN Spam Links
+# Generated: 2026-04-23
+# Reason: Unnatural/purchased links from PBN networks
+# Total domains: 36
+
+domain:2x9.co
+domain:agmermer.pro
+domain:alljobs.info
+domain:anchorurl.cloud
+domain:australianwebdirectory.pro
+domain:australianwebdirectory.shop
+domain:booksreadr.org
+domain:browseallexpireddomains.us
+domain:buzzshrink.website
+domain:drjack.world
+domain:getwebsiteworth.com
+domain:globalecommerce.org
+domain:great-choice-for-pbn-domains.co.uk
+domain:kompromat100.info
+domain:mail.getwebsiteworth.com
+domain:mail.runningwebsites.net
+domain:mundotecnologia.info
+domain:pagesearch.net
+domain:prolinkbox.com
+domain:quero.party
+domain:rankgrow.agency
+domain:ready.pro
+domain:seobacklinks.agency
+domain:sergechel.info
+domain:shortenurls.eu
+domain:sites.jake.eu
+domain:thebestbacklinksavailable.click
+domain:urls-shortener.eu
+domain:webs.businessvocal.com
+domain:what-happens-next.xyz
+domain:www.musweb.org
+domain:www.simplewebdirectory.com
+domain:www.tunca.org
+domain:www.wallpapers.pro
+domain:www.websiterace.com
+domain:ycm.info
