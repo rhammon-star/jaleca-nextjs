@@ -197,8 +197,41 @@ export default async function ProdutoPage({
         const num = parseFloat(token)
         return isNaN(num) || num <= 0 ? undefined : num
       }
-      const basePrice = parsePrice(product.regularPrice) ?? parsePrice(product.price)
-      const pixPrice = basePrice ? Math.round(basePrice * 0.95 * 100) / 100 : undefined
+
+      // Para produtos variáveis, extrair preço das variações
+      const variations: Array<{ price?: string; regularPrice?: string }> =
+        (product as any).variations?.nodes ?? []
+      const variationPrices = variations
+        .flatMap((v) => [parsePrice(v.regularPrice), parsePrice(v.price)])
+        .filter((p): p is number => p !== undefined)
+
+      const hasVariations = variationPrices.length > 0
+      const basePrice = hasVariations
+        ? Math.min(...variationPrices)
+        : parsePrice(product.regularPrice) ?? parsePrice(product.price)
+
+      if (hasVariations && basePrice === undefined) return null
+
+      const pixPrice = basePrice !== undefined ? Math.round(basePrice * 0.95 * 100) / 100 : undefined
+
+      // Produtos variáveis usam AggregateOffer com lowPrice/highPrice
+      if (hasVariations) {
+        const highPrice = Math.max(...variationPrices)
+        return {
+          '@type': 'AggregateOffer',
+          lowPrice: (basePrice as number).toFixed(2),
+          highPrice: highPrice.toFixed(2),
+          priceCurrency: 'BRL',
+          offerCount: variationPrices.length,
+          availability:
+            product.stockStatus === 'OUT_OF_STOCK'
+              ? 'https://schema.org/OutOfStock'
+              : 'https://schema.org/InStock',
+          url: `https://jaleca.com.br/produto/${slug}`,
+          seller: { '@type': 'Organization', name: 'Jaleca' },
+        }
+      }
+
       return {
         '@type': 'Offer',
         ...(basePrice !== undefined && { price: basePrice.toFixed(2) }),
