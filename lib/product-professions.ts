@@ -55,6 +55,7 @@ export const PROFESSION_MAP: Record<string, ProfessionInfo> = {
   'cirurgico-masculino': { label: 'Scrub Masculino',   hub: '/scrub-medico' },
   'cirurgico':         { label: 'Scrub Médico',        hub: '/scrub-medico' },
   'estiloso':          { label: 'Estiloso',            hub: '/jaleco-estiloso' },
+  'preto':             { label: 'Preto',                hub: '/jaleco-preto' },
 }
 
 export type ProductProfessions = {
@@ -273,7 +274,33 @@ export function getProfessionsForProduct(productSlug: string): ProfessionInfo[] 
   return result
 }
 
+// ── PRODUTOS POR COR ───────────────────────────────────────────────────────
+
+/** Slugs de produtos disponíveis em preto */
+export const PRETO_PRODUCT_SLUGS = [
+  'jaleco-slim-feminino-de-ziper-central-varias-cores-jaleca',
+  'jaleco-slim-pala-feminino-jaleca',
+  'jaleco-slim-gold-feminino-jaleca',
+  'jaleco-slim-gold-pala-feminino-jaleca',
+  'jaleco-slim-duquesa-feminino-varias-cores-jaleca',
+  'jaleco-slim-elastex-feminino-varias-cores-jaleca',
+  'jaleco-slim-feminino-de-ziper-lateral-varias-cores-jaleca',
+  'jaleco-slim-princesa-feminino-varias-cores-jaleca',
+  'jaleco-slim-princesa-manga-curta-feminino-jaleca',
+  'jaleco-slim-princesa-laise-feminino-jaleca',
+  'jaleco-slim-moratty-feminino-ziper-central-jaleca',
+  'jaleco-slim-tradicional-manga-curta-feminino-jaleca',
+  'jaleco-slim-masculino-de-ziper-central-varias-cores-jaleca',
+  'jaleco-slim-recortes-masculino-varias-cores-jaleca',
+  'jaleco-slim-moratty-masculino-ziper-central-jaleca',
+]
+
 /** Dado uma chave de profissão, retorna os slugs dos produtos */
 export function getProductSlugsForProfession(professionKey: string): string[] {
   return PROFESSION_PRODUCT_SLUGS[professionKey] ?? []
+}
+
+/** Retorna slugs dos produtos em preto */
+export function getPretoProductSlugs(): string[] {
+  return PRETO_PRODUCT_SLUGS
 }

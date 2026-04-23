@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getGooglePlaceData } from '@/lib/google-places'
+import PretoProductGrid from '@/components/PretoProductGrid'
 
 export const metadata: Metadata = {
   title: 'Jaleco Preto Profissional — Estética, Barbeiro e Chef | Jaleca',
@@ -125,6 +126,9 @@ export default async function Page() {
             )}
           </div>
         </section>
+
+        {/* ── PRODUTOS — Above the Fold ── */}
+        <PretoProductGrid />
 
         {/* ── PROFISSÕES ── */}
         <section style={{ background: '#fff', padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)' }}>
