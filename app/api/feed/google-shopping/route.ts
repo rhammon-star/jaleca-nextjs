@@ -293,7 +293,7 @@ export async function GET() {
           price,
           gender: g,
           quantity: group.rep.stock_quantity ?? 50,
-          color: group.colorLabel || colorFromName(p.name) ?? 'Estampado',
+          color: group.colorLabel || (colorFromName(p.name) ?? 'Estampado'),
           size: sizeValue,
           material: repAttrs.material,
           pattern: repAttrs.pattern,
