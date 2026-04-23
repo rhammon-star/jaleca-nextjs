@@ -190,6 +190,7 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://embed.tawk.to" />
         <link rel="dns-prefetch" href="https://t.contentsquare.net" />
         <link rel="dns-prefetch" href="https://bat.bing.net" />
+        <link rel="dns-prefetch" href="https://www.clarity.ms" />
       </head>
       <body className="min-h-full flex flex-col">
         <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[999] focus:bg-background focus:border focus:border-border focus:px-4 focus:py-2 focus:text-sm focus:font-semibold">
@@ -223,6 +224,10 @@ export default function RootLayout({
                   src="https://t.contentsquare.net/uxa/d63ab31369d59.js"
                   strategy="lazyOnload"
                 />
+                {/* Microsoft Clarity */}
+                <Script id="ms-clarity" strategy="lazyOnload" dangerouslySetInnerHTML={{
+                  __html: `(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","wgdsoti2de");`,
+                }} />
               </CartProvider>
             </CompareProvider>
           </WishlistProvider>
