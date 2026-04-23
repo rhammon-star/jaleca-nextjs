@@ -30,6 +30,19 @@ export default function robots(): MetadataRoute.Robots {
         disallow: [
           '/produtos?*sale=*',
           '/produtos?*novidades=*',
+          // Bloquear TODAS combinações de filtro — são variações da página canônica
+          '/produtos?*per_page=*',
+          '/produtos?*shop_view=*',
+          '/produtos?*sort=*',
+          '/produtos?*filter_*=*',
+          '/produtos?*categoria=*',
+          '/produtos?*genero=*',
+          '/produtos?*cat=*',
+          // Páginas de cor/color — são filtragem, não páginas canônicas
+          '/color/',
+          '/color/*',
+          // Query params de trailing slash em páginas de produto/blog
+          '/*/.*\\?',  // URLs com ? após o path
         ],
       },
     ],

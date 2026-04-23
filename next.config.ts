@@ -25,6 +25,14 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   async redirects() {
     return [
+      // Consolidar trailing slashes — antes de todos os redirects específicos
+      { source: '/produto/:slug/', destination: '/produto/:slug', permanent: true },
+      { source: '/blog/:slug/', destination: '/blog/:slug', permanent: true },
+      { source: '/categoria/:slug/', destination: '/categoria/:slug', permanent: true },
+      { source: '/cidade/:slug/', destination: '/cidade/:slug', permanent: true },
+      { source: '/dia-das-maes/:slug/', destination: '/dia-das-maes/:slug', permanent: true },
+      // Trailing slash catch-all genérico para qualquer outra rota
+      { source: '/:path*/', destination: '/:path*', permanent: true },
       // WordPress password reset
       {
         source: '/minha-conta/lost-password',

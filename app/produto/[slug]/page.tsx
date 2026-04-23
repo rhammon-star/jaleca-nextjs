@@ -179,6 +179,7 @@ export default async function ProdutoPage({
     sku: product.sku,
     brand: { '@type': 'Brand', name: 'Jaleca' },
     manufacturer: { '@type': 'Organization', name: 'Jaleca', url: 'https://jaleca.com.br' },
+    condition: 'https://schema.org/NewCondition',
     category: 'Uniformes Profissionais para Saúde',
     ...(colorAttr?.options?.length && { color: colorAttr.options.join(', ') }),
     ...(sizeAttr?.options?.length && { size: sizeAttr.options.join(', ') }),
