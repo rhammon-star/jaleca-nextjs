@@ -115,6 +115,7 @@ export async function fetchDomainIntersection(target2: string): Promise<{
   const data = await dataForSeoRequest<{
     tasks: Array<{
       result: Array<{
+        total_count?: number
         items: Array<{
           domain_intersection: Record<string, { target: string; rank: number; backlinks_spam_score: number; backlinks: number }>
         }>
