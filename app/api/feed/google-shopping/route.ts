@@ -91,6 +91,16 @@ const COLOR_NAMES: [RegExp, string][] = [
   [/\bamarelo\b/i, 'Amarelo'],
   [/\bnude\b/i, 'Nude'],
   [/\bcaramelo\b/i, 'Caramelo'],
+  [/\bmescla\b/i, 'Mescla'],
+  [/\brose\s*gold\b/i, 'Rose Gold'],
+  [/\bcafe\b/i, 'Café'],
+  [/\bcappuccino\b/i, 'Cappuccino'],
+  [/\bflamenco\b/i, 'Flamenco'],
+  [/\bmagenta\b/i, 'Magenta'],
+  [/\bpetroleo\b/i, 'Petróleo'],
+  [/\bmandarina\b/i, 'Mandarina'],
+  [/\btropical\b/i, 'Tropical'],
+  [/\bcoral\b/i, 'Coral'],
 ]
 
 function colorFromName(name: string): string | undefined {
@@ -189,7 +199,7 @@ export async function GET() {
 
     // Produtos em estoque apenas
     const variableProducts = allProducts.filter(p => p.type === 'variable' && p.price !== '')
-    const simpleProducts = allProducts.filter(p => p.type === 'simple' && p.price && p.stock_status === 'instock')
+    const simpleProducts = allProducts.filter(p => p.type === 'simple' && p.price && parseFloat(p.price) > 0 && p.stock_status === 'instock')
 
     // Produtos simples
     for (const p of simpleProducts) {
@@ -213,7 +223,7 @@ export async function GET() {
         gender: g,
         quantity: p.stock_quantity ?? 1,
         ...attrs,
-        color: attrs.color ?? colorFromName(p.name),
+        color: attrs.color ?? colorFromName(p.name) ?? 'Estampado',
       }))
     }
 
@@ -270,7 +280,7 @@ export async function GET() {
         const link = `https://jaleca.com.br/produto/${p.slug}?cor=${encodeURIComponent(colorKey)}&vid=${group.rep.id}`
 
         // Tamanhos disponíveis — join para mostrar todos (ex: "PP / P / M / G")
-        const sizeValue = group.sizes.length > 0 ? group.sizes.join(' / ') : undefined
+        const sizeValue = group.sizes.length > 0 ? group.sizes.join(' / ') : 'Tamanho Único'
 
         items.push(buildItem({
           id: `${p.id}_${colorKey}`,
@@ -283,7 +293,7 @@ export async function GET() {
           price,
           gender: g,
           quantity: group.rep.stock_quantity ?? 50,
-          color: group.colorLabel || colorFromName(p.name) || undefined,
+          color: group.colorLabel || colorFromName(p.name) ?? 'Estampado',
           size: sizeValue,
           material: repAttrs.material,
           pattern: repAttrs.pattern,
