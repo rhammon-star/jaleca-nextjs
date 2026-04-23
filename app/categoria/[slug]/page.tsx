@@ -28,6 +28,11 @@ const CAT_FAQ: Record<string, { q: string; a: string }[]> = {
     { q: 'O que é dólmã?', a: 'Dólmã é um jaleco de mangas curtas com abertura lateral e botões de pressão, muito usado por médicos, enfermeiros e profissionais de gastronomia. É mais leve que o jaleco tradicional e permite maior mobilidade.' },
     { q: 'Qual a diferença entre jaleco e dólmã?', a: 'O jaleco tem abertura frontal com botões ou zíper e mangas longas. A dólmã tem mangas curtas e abertura lateral, sendo mais leve e ventilada. A dólmã é muito usada em cirurgias e cozinhas profissionais.' },
   ],
+  acessorios: [
+    { q: 'Quais acessórios estão disponíveis para profissionais de saúde?', a: 'A Jaleca oferece toucas cirúrgicas, aventais e complementos para completar seu uniforme médico. Todos os produtos são de alta qualidade e entrega rápida para todo o Brasil.' },
+    { q: 'Touca cirúrgica descartável ou reutilizável?', a: 'A touca cirúrgica reutilizável da Jaleca é produzida em tecido de alta performance, confortável para longas jornadas e sustentável. Pode ser lavada e reutilizada várias vezes.' },
+    { q: 'Como escolher o avental ideal para profissional de saúde?', a: 'Para escolher o avental ideal, considere o ambiente de trabalho: centros cirúrgicos exigem material descartável, enquanto clínicas podem usar aventais reutilizáveis de tecido premium.' },
+  ],
 }
 
 const CATEGORY_MAP: Record<string, { label: string; description: string; keywords: string; filterLabel?: string; title?: string; h1?: string; gender?: string }> = {
@@ -40,7 +45,7 @@ const CATEGORY_MAP: Record<string, { label: string; description: string; keyword
   },
   'jalecos-femininos': {
     label: 'Jalecos Femininos',
-    title: 'Jalecos Femininos | Jaleca — Slim, Princesa, Elastex | Frete Grátis SP/MG/RJ/ES',
+    title: 'Jalecos Femininos à Venda — Slim, Princesa, Elastex | Jaleca',
     filterLabel: 'Jalecos',
     gender: 'Feminino',
     description: 'Jalecos femininos para médicas, dentistas e enfermeiras. Modelos Slim, Princesa, Duquesa e Elastex — brancos, pretos e coloridos. Corte acinturado, tecido de alta performance. Tamanhos PP ao G3 com frete grátis no Sudeste acima de R$499.',
@@ -78,13 +83,13 @@ const CATEGORY_MAP: Record<string, { label: string; description: string; keyword
   },
   conjuntos: {
     label: 'Conjuntos',
-    title: 'Conjuntos Scrub Femininos e Masculinos | Jaleca | Frete Grátis Sudeste',
+    title: 'Conjuntos Scrub à Venda — Femininos e Masculinos | Jaleca',
     description: 'Conjuntos scrub e pijamas cirúrgicos para médicos, enfermeiros e profissionais da saúde. Calça + blusa com elastano, confortáveis para longas jornadas, cores variadas. Modelos femininos e masculinos, tamanhos PP ao G3.',
     keywords: 'conjunto scrub, conjunto médico, conjunto hospitalar, pijama cirúrgico, conjunto enfermagem, scrub feminino, scrub masculino, conjunto uniforme saúde',
   },
   'conjuntos-femininos': {
     label: 'Conjuntos Femininos',
-    title: 'Conjuntos Scrub Femininos | Jaleca — Pijamas Cirúrgicos para Saúde',
+    title: 'Conjuntos Scrub Femininos à Venda | Jaleca',
     filterLabel: 'Conjuntos',
     gender: 'Feminino',
     description: 'Conjuntos scrub femininos e pijamas cirúrgicos para profissionais da saúde. Calça + blusa com elastano, confortáveis para longas jornadas, cores variadas. Tamanhos PP ao G3.',
@@ -92,7 +97,7 @@ const CATEGORY_MAP: Record<string, { label: string; description: string; keyword
   },
   'conjuntos-masculinos': {
     label: 'Conjuntos Masculinos',
-    title: 'Conjuntos Scrub Masculinos | Jaleca — Pijamas Cirúrgicos para Saúde',
+    title: 'Conjuntos Scrub Masculinos à Venda | Jaleca',
     filterLabel: 'Conjuntos',
     gender: 'Masculino',
     description: 'Conjuntos scrub masculinos e pijamas cirúrgicos para profissionais da saúde. Calça + blusa com elastano, confortáveis para longas jornadas, cores variadas. Tamanhos PP ao G3.',
