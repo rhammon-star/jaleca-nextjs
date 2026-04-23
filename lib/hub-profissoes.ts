@@ -316,7 +316,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Enfermeiro',
     cluster: 'saude',
     metadata: {
-      title: 'Jaleco de Enfermagem: COFEN e Lavagem 60°C 2026 | Jaleca',
+      title: 'Jaleco para Enfermeiro: COFEN e Lavagem 60°C 2026 | Jaleca',
       description: 'Jaleco enfermagem que aguenta lavagem a 60°C, cumpre COFEN 375/2011 e dura o plantão inteiro. Uniforme enfermagem Slim e Profissional com elastano, do PP ao G3.',
     },
     hero: { subtitulo: 'Tecido resistente, caimento perfeito e conforto para a cozinha profissional.' },
@@ -384,7 +384,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Fisioterapeuta',
     cluster: 'saude',
     metadata: {
-      title: 'Jaleco de Fisioterapia: RPG, Pilates e Movimento 2026 | Jaleca',
+      title: 'Jaleco para Fisioterapeuta: RPG, Pilates e Movimento 2026 | Jaleca',
       description: 'Jaleco fisioterapia com elastano para RPG, pilates e esportiva. Roupa fisioterapeuta com amplitude total de movimento, normas COFFITO. Do PP ao G3.',
     },
     hero: { subtitulo: 'Tecido resistente, caimento perfeito e conforto para a cozinha profissional.' },
@@ -452,7 +452,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Nutricionista',
     cluster: 'saude',
     metadata: {
-      title: 'Jaleco Nutricionista: Autoridade no Consultório 2026 | Jaleca',
+      title: 'Jaleco para Nutricionista: Autoridade no Consultório 2026 | Jaleca',
       description: 'Jaleco nutricionista para consultório de emagrecimento, low carb e jejum. Roupa nutricionista que passa autoridade científica. Normas CFN, do PP ao G3.',
     },
     hero: { subtitulo: 'Tecido resistente, caimento perfeito e conforto para a cozinha profissional.' },
@@ -586,7 +586,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Médico',
     cluster: 'saude',
     metadata: {
-      title: 'Roupa Médico: Jaleco para Telemedicina e Consultório 2026 | Jaleca',
+      title: 'Jaleco para Médico: Jaleco para Telemedicina e Consultório 2026 | Jaleca',
       description: 'Roupa médico e jaleco médico para telemedicina, consultório e plantão. O branco na câmera ainda importa — normas CFM 1931/2009. Do PP ao G3 com elastano.',
     },
     hero: { subtitulo: 'Tecido resistente, caimento perfeito e conforto para a cozinha profissional.' },
@@ -1473,7 +1473,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Psicólogo',
     cluster: 'escritorio',
     metadata: {
-      title: 'Jaleco de Psicologia: Roupa para Psicóloga no Consultório | Jaleca',
+      title: 'Jaleco para Psicólogo: Roupa para Psicóloga no Consultório | Jaleca',
       description: 'Jaleco de psicologia e roupa para psicóloga: jaleco psicologia para setting terapêutico, terapia online e consultório. Cores neutras, conforto para sessões longas. Do PP ao G3.',
     },
     hero: { subtitulo: 'Tecido resistente, caimento perfeito e conforto para a cozinha profissional.' },
@@ -1541,7 +1541,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Farmacêutico',
     cluster: 'escritorio',
     metadata: {
-      title: 'Jaleco de Farmácia: Normas, RDC 67 e Manga Longa 2026 | Jaleca',
+      title: 'Jaleco para Farmacêutico: Normas, RDC 67 e Manga Longa 2026 | Jaleca',
       description: 'Jaleco de farmácia: jaleco para farmacêutico com manga longa obrigatória (RDC 67/2007), antimicrobiano para manipulação de Ozempic e similares. Jaleco farmácia do PP ao G3.',
     },
     hero: { subtitulo: 'Tecido resistente, caimento perfeito e conforto para a cozinha profissional.' },
@@ -2103,7 +2103,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     produto: 'jaleco',
     urlSlug: 'uniforme-para-professor',
     metadata: {
-      title: 'Uniforme para Professor: Jaleco Escola e Laboratório 2026 | Jaleca',
+      title: 'Jaleco para Professor: Jaleco Escola e Laboratório 2026 | Jaleca',
       description: 'Jaleco e uniforme para professor de escola, laboratório e universidade: confortável, prático, com bolsos. Guia completo para educadores do PP ao G3.',
     },
     hero: { subtitulo: 'Tecido resistente, caimento perfeito e conforto para a cozinha profissional.' },
@@ -2174,7 +2174,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     produto: 'conjunto',
     urlSlug: 'jaleco-para-secretaria',
     metadata: {
-      title: 'Jaleco para Secretária: Tecido Premium, Caimento Perfeito 2026 | Jaleca',
+      title: 'Conjunto para Secretária: Tecido Premium, Caimento Perfeito 2026 | Jaleca',
       description: 'Jaleco para Secretária com tecido premium, caimento perfeito e preço justo. Modelos do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
     },
     hero: {
@@ -2252,7 +2252,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     produto: 'jaleco',
     urlSlug: 'jaleco-universitario',
     metadata: {
-      title: 'Jaleco Universitário: Tecido Premium, Caimento Perfeito 2026 | Jaleca',
+      title: 'Jaleco para Universitário: Tecido Premium, Caimento Perfeito 2026 | Jaleca',
       description: 'Jaleco Universitário com tecido premium, caimento perfeito e preço justo. Modelos do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
     },
     hero: {

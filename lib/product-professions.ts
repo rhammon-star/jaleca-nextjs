@@ -54,6 +54,7 @@ export const PROFESSION_MAP: Record<string, ProfessionInfo> = {
   'cirurgico-feminino': { label: 'Pijama Cirúrgico Feminino', hub: '/pijama-cirurgico-feminino' },
   'cirurgico-masculino': { label: 'Scrub Masculino',   hub: '/scrub-medico' },
   'cirurgico':         { label: 'Scrub Médico',        hub: '/scrub-medico' },
+  'estiloso':          { label: 'Estiloso',            hub: '/jaleco-estiloso' },
 }
 
 export type ProductProfessions = {
@@ -71,67 +72,62 @@ export const PRODUCT_PROFESSIONS: ProductProfessions[] = [
   {
     slug: 'jaleco-slim-feminino-de-ziper-central-varias-cores-jaleca',
     name: 'Jaleco Slim Tradicional Feminino',
-    professions: ['medica','dentista','enfermeira','farmaceutica','nutricionista','veterinaria','psicologa','biomedica','pastor','nail design','micropigmentadora'],
+    professions: ['medica','dentista','enfermeira','farmaceutica','nutricionista','veterinaria','psicologa','biomedica','pastor','nail design','micropigmentadora','estiloso'],
   },
   {
     slug: 'jaleco-slim-pala-feminino-jaleca',
     name: 'Jaleco Slim Pala Feminino',
-    professions: ['medica','dentista','enfermeira','farmaceutica','nutricionista','veterinaria','psicologa','biomedica','pastor','nail design','micropigmentadora'],
+    professions: ['medica','dentista','enfermeira','farmaceutica','nutricionista','veterinaria','psicologa','biomedica','pastor','nail design','micropigmentadora','estiloso'],
   },
   {
     slug: 'jaleco-slim-gold-feminino-jaleca',
     name: 'Jaleco Slim Gold Feminino',
-    professions: ['medica','dentista','enfermeira','farmaceutica','nutricionista','veterinaria','psicologa','massagista','fisioterapeuta','podologo','tatuador','biomedica','pastor','nail design','micropigmentadora'],
+    professions: ['medica','dentista','enfermeira','farmaceutica','nutricionista','veterinaria','psicologa','massagista','fisioterapeuta','podologo','tatuador','biomedica','pastor','nail design','micropigmentadora','estiloso'],
   },
   {
     slug: 'jaleco-slim-gold-pala-feminino-jaleca',
     name: 'Jaleco Slim Gold Pala Feminino',
-    professions: ['medica','dentista','enfermeira','farmaceutica','nutricionista','veterinaria','psicologa','massagista','fisioterapeuta','podologo','tatuador','biomedica','pastor','nail design','micropigmentadora'],
-  },
-  {
-    slug: 'jaleco-slim-dama-feminino-jaleca',
-    name: 'Jaleco Slim Dama Feminino',
-    professions: ['medica','dentista','enfermeira','farmaceutica','nutricionista','veterinaria','psicologa','biomedica','pastor','nail design','micropigmentadora'],
+    professions: ['medica','dentista','enfermeira','farmaceutica','nutricionista','veterinaria','psicologa','massagista','fisioterapeuta','podologo','tatuador','biomedica','pastor','nail design','micropigmentadora','estiloso'],
   },
   {
     slug: 'jaleco-slim-duquesa-feminino-varias-cores-jaleca',
     name: 'Jaleco Slim Duquesa Feminino',
-    professions: ['medica','dentista','enfermeira','farmaceutica','nutricionista','veterinaria','psicologa','biomedica','pastor','nail design','micropigmentadora'],
+    professions: ['medica','dentista','enfermeira','farmaceutica','nutricionista','veterinaria','psicologa','biomedica','pastor','nail design','micropigmentadora','estiloso'],
   },
   {
     slug: 'jaleco-slim-elastex-feminino-varias-cores-jaleca',
     name: 'Jaleco Slim Elastex Feminino',
-    professions: ['medica','dentista','enfermeira','farmaceutica','nutricionista','veterinaria','psicologa','tatuador','biomedica','pastor','nail design','micropigmentadora'],
+    professions: ['medica','dentista','enfermeira','farmaceutica','nutricionista','veterinaria','psicologa','tatuador','biomedica','pastor','nail design','micropigmentadora','estiloso'],
   },
   {
     slug: 'jaleco-slim-feminino-de-ziper-lateral-varias-cores-jaleca',
     name: 'Jaleco Slim Feminino Lateral',
-    professions: ['medica','dentista','enfermeira','farmaceutica','nutricionista','veterinaria','psicologa','massagista','fisioterapeuta','podologo','tatuador','biomedica','pastor','nail design','micropigmentadora'],
+    professions: ['medica','dentista','enfermeira','farmaceutica','nutricionista','veterinaria','psicologa','massagista','fisioterapeuta','podologo','tatuador','biomedica','pastor','nail design','micropigmentadora','estiloso'],
   },
   {
     slug: 'jaleco-slim-princesa-feminino-varias-cores-jaleca',
     name: 'Jaleco Slim Princesa Feminino',
-    professions: ['medica','dentista','enfermeira','farmaceutica','nutricionista','veterinaria','psicologa','massagista','fisioterapeuta','podologo','tatuador','biomedica','nail design','micropigmentadora'],
+    professions: ['medica','dentista','enfermeira','farmaceutica','nutricionista','veterinaria','psicologa','massagista','fisioterapeuta','podologo','tatuador','biomedica','nail design','micropigmentadora','estiloso'],
   },
   {
     slug: 'jaleco-slim-princesa-manga-curta-feminino-jaleca',
     name: 'Jaleco Slim Princesa Manga Curta Feminino',
-    professions: ['massagista','enfermeira','cabeleireira','nutricionista','fisioterapeuta','podologa','psicologa','esteticista','professora','tatuador','nail design','micropigmentadora'],
+    professions: ['massagista','enfermeira','cabeleireira','nutricionista','fisioterapeuta','podologa','psicologa','esteticista','professora','tatuador','nail design','micropigmentadora','estiloso'],
   },
   {
     slug: 'jaleco-slim-princesa-laise-feminino-jaleca',
     name: 'Jaleco Slim Princesa Laise Feminino',
-    professions: ['medica','dentista','enfermeira','farmaceutica','nutricionista','veterinaria','psicologa','massagista','fisioterapeuta','podologo','tatuador','biomedica','nail design','micropigmentadora'],
+    professions: ['medica','dentista','enfermeira','farmaceutica','nutricionista','veterinaria','psicologa','massagista','fisioterapeuta','podologo','tatuador','biomedica','nail design','micropigmentadora','estiloso'],
   },
   {
     slug: 'jaleco-slim-moratty-feminino-ziper-central-jaleca',
     name: 'Jaleco Slim Moratty Feminino',
-    professions: ['medica','dentista','enfermeira','farmaceutica','nutricionista','veterinaria','psicologa','massagista','fisioterapeuta','podologo','tatuador','biomedica','nail design','micropigmentadora'],
+    professions: ['medica','dentista','enfermeira','farmaceutica','nutricionista','veterinaria','psicologa','massagista','fisioterapeuta','podologo','tatuador','biomedica','nail design','micropigmentadora','estiloso'],
   },
   {
     slug: 'jaleco-slim-tradicional-manga-curta-feminino-jaleca',
     name: 'Jaleco Slim Tradicional Manga Curta Feminino',
-    professions: ['massagista','enfermeira','cabeleireira','nutricionista','fisioterapeuta','podologa','psicologa','esteticista','professora','tatuador','nail design','micropigmentadora'],
+    professions: ['massagista','enfermeira','cabeleireira','nutricionista','fisioterapeuta','podologa','psicologa','esteticista','professora','tatuador','nail design','micropigmentadora','estiloso'],
   },
   {
     slug: 'jaleco-padrao-aluno-feminino-de-botao-varias-cores-jaleca',

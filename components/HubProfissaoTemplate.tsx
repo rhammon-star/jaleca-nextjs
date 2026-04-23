@@ -317,6 +317,16 @@ export default async function HubProfissaoTemplate({ profissao }: { profissao: s
           ))}
         </div>
 
+        {/* ── PRODUTOS PARA ESTA PROFISSÃO — Above the Fold ── */}
+        {/* Produtos aparecem logo após Trust Bar, antes do guia editorial longo */}
+        <ProfessionProductGrid
+          professionKey={profissaoKey}
+          professionLabel={hub.titulo}
+          collectionLabel="Nossa coleção"
+          productLabel={produtoConfig.labelPlural}
+          allHref={`/produtos?categoria=${produtoConfig.catAll}`}
+        />
+
         {/* ── GUIA ── */}
         <section style={{ background: '#f9f7f4', padding: 'clamp(3rem,8vw,7rem) clamp(1.25rem,5vw,4rem)' }}>
           <div style={{ maxWidth: 1200, margin: '0 auto' }}>
@@ -390,15 +400,6 @@ export default async function HubProfissaoTemplate({ profissao }: { profissao: s
 
         {/* ── PRODUTO — Detalhamento ── */}
         <ProductDetailSection productType={hub.produto ?? 'jaleco'} />
-
-        {/* ── PRODUTOS PARA ESTA PROFISSÃO ── */}
-        <ProfessionProductGrid
-          professionKey={profissaoKey}
-          professionLabel={hub.titulo}
-          collectionLabel="Nossa coleção"
-          productLabel={produtoConfig.labelPlural}
-          allHref={`/produtos?categoria=${produtoConfig.catAll}`}
-        />
 
         {/* ── FAQ ── */}
         <section style={{ background: '#fff', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
