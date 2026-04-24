@@ -25,8 +25,6 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   async redirects() {
     return [
-      // TESTE DIAGNÓSTICO - se este redirect NÃO funcionar, problema está antes do Next.js
-      { source: '/', destination: '/test-emergency', permanent: false },
       // Consolidar trailing slashes — antes de todos os redirects específicos
       { source: '/produto/:slug/', destination: '/produto/:slug', permanent: true },
       { source: '/blog/:slug/', destination: '/blog/:slug', permanent: true },
