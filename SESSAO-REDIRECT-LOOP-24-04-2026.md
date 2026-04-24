@@ -149,5 +149,31 @@ Site `jaleca.com.br` completamente inacessível com erro **ERR_TOO_MANY_REDIRECT
 ---
 
 **Gerado em:** 2026-04-24 08:25 BRT  
-**Último commit:** 997a9eb (homepage minimalista)  
-**Status:** Aguardando deployment do teste minimalista
+**Último commit:** 1d5adab (cleanup após solução)  
+**Status:** ✅ RESOLVIDO (08:45 BRT)
+
+---
+
+## ✅ SOLUÇÃO FINAL
+
+### O que funcionou:
+**Redirect no Vercel Dashboard (Edge):**
+- `/` → `/home` (307 temporário)
+- Configurado em: Settings → Redirects → Add Redirect
+- Source: `/`, Destination: `/home`, Permanent: ❌ (307)
+
+### Por que funciona:
+- Vercel Edge intercepta ANTES do Next.js processar
+- Bypassa o bug da rota `/` que causava loop infinito
+- Canonical em `/home` aponta para `jaleca.com.br` (SEO preservado)
+- Google indexa como `jaleca.com.br` normalmente
+
+### Commits da solução:
+- `5e3d925` — Restaurar homepage e criar /home fallback
+- `1d5adab` — Cleanup arquivos de teste
+
+### Testes finais:
+- ✅ `https://jaleca.com.br` → abre normalmente
+- ✅ Canonical URL correto (https://jaleca.com.br)
+- ✅ Sitemap não precisa mudanças
+- ✅ SEO 100% preservado
