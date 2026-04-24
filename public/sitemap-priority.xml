@@ -183,25 +183,7 @@
     <priority>1.0</priority>
   </url>
 
-  <!-- PRIORIDADE ALTA: Blog Posts (84 URLs) -->
-  <url>
-    <loc>https://jaleca.com.br/blog/como-escolher-jaleco-feminino-guia-completo</loc>
-    <lastmod>2026-04-24</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://jaleca.com.br/blog/guia-jaleco-para-dentista-modelos-cores-como-escolher</loc>
-    <lastmod>2026-04-24</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://jaleca.com.br/blog/comprar-jaleco-online-e-seguro</loc>
-    <lastmod>2026-04-24</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
+  <!-- PRIORIDADE ALTA: Blog Posts (81 URLs) -->
   <url>
     <loc>https://jaleca.com.br/blog/roupa-medica-profissional</loc>
     <lastmod>2026-04-24</lastmod>
