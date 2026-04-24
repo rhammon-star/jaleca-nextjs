@@ -32,7 +32,8 @@ const nextConfig: NextConfig = {
       { source: '/cidade/:slug/', destination: '/cidade/:slug', permanent: true },
       { source: '/dia-das-maes/:slug/', destination: '/dia-das-maes/:slug', permanent: true },
       // Trailing slash catch-all genérico para qualquer outra rota
-      { source: '/:path*/', destination: '/:path*', permanent: true },
+      // TESTE 24/04/2026 — COMENTADO (suspeita de causar loop em /)
+      // { source: '/:path*/', destination: '/:path*', permanent: true },
       // WordPress password reset
       {
         source: '/minha-conta/lost-password',
