@@ -1,5 +1,27 @@
 {
   "buildCommand": "next build && node scripts/warm-cache.mjs",
+  "redirects": [
+    { "source": "/(.*)", "has": [{ "type": "host", "value": "lojadejaleco.com.br" }], "destination": "https://jaleca.com.br/loja-de-jaleco", "permanent": true },
+    { "source": "/(.*)", "has": [{ "type": "host", "value": "www.lojadejaleco.com.br" }], "destination": "https://jaleca.com.br/loja-de-jaleco", "permanent": true },
+    { "source": "/(.*)", "has": [{ "type": "host", "value": "comprarjaleco.com.br" }], "destination": "https://jaleca.com.br/comprar-jaleco-online", "permanent": true },
+    { "source": "/(.*)", "has": [{ "type": "host", "value": "www.comprarjaleco.com.br" }], "destination": "https://jaleca.com.br/comprar-jaleco-online", "permanent": true },
+    { "source": "/(.*)", "has": [{ "type": "host", "value": "jalecouniversitario.com.br" }], "destination": "https://jaleca.com.br/jaleco-universitario", "permanent": true },
+    { "source": "/(.*)", "has": [{ "type": "host", "value": "www.jalecouniversitario.com.br" }], "destination": "https://jaleca.com.br/jaleco-universitario", "permanent": true },
+    { "source": "/(.*)", "has": [{ "type": "host", "value": "jalecoluxo.com.br" }], "destination": "https://jaleca.com.br/jaleco-premium", "permanent": true },
+    { "source": "/(.*)", "has": [{ "type": "host", "value": "www.jalecoluxo.com.br" }], "destination": "https://jaleca.com.br/jaleco-premium", "permanent": true },
+    { "source": "/(.*)", "has": [{ "type": "host", "value": "jalecomedico.com.br" }], "destination": "https://jaleca.com.br/jaleco-para-medico", "permanent": true },
+    { "source": "/(.*)", "has": [{ "type": "host", "value": "www.jalecomedico.com.br" }], "destination": "https://jaleca.com.br/jaleco-para-medico", "permanent": true },
+    { "source": "/(.*)", "has": [{ "type": "host", "value": "jalecopremium.com.br" }], "destination": "https://jaleca.com.br/jaleco-premium", "permanent": true },
+    { "source": "/(.*)", "has": [{ "type": "host", "value": "www.jalecopremium.com.br" }], "destination": "https://jaleca.com.br/jaleco-premium", "permanent": true },
+    { "source": "/(.*)", "has": [{ "type": "host", "value": "jalecopreto.com.br" }], "destination": "https://jaleca.com.br/jaleco-preto", "permanent": true },
+    { "source": "/(.*)", "has": [{ "type": "host", "value": "www.jalecopreto.com.br" }], "destination": "https://jaleca.com.br/jaleco-preto", "permanent": true },
+    { "source": "/(.*)", "has": [{ "type": "host", "value": "jalecoprincesa.com.br" }], "destination": "https://jaleca.com.br/jaleco-feminino", "permanent": true },
+    { "source": "/(.*)", "has": [{ "type": "host", "value": "www.jalecoprincesa.com.br" }], "destination": "https://jaleca.com.br/jaleco-feminino", "permanent": true },
+    { "source": "/(.*)", "has": [{ "type": "host", "value": "jalecoslim.com.br" }], "destination": "https://jaleca.com.br/jaleco-feminino", "permanent": true },
+    { "source": "/(.*)", "has": [{ "type": "host", "value": "www.jalecoslim.com.br" }], "destination": "https://jaleca.com.br/jaleco-feminino", "permanent": true },
+    { "source": "/(.*)", "has": [{ "type": "host", "value": "jalecomasculino.com.br" }], "destination": "https://jaleca.com.br/jaleco-masculino", "permanent": true },
+    { "source": "/(.*)", "has": [{ "type": "host", "value": "www.jalecomasculino.com.br" }], "destination": "https://jaleca.com.br/jaleco-masculino", "permanent": true }
+  ],
   "crons": [
     {
       "path": "/api/warmup",
