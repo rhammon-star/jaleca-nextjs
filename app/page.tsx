@@ -103,6 +103,7 @@ async function getFeaturedProducts(): Promise<WooProduct[]> {
 export default async function Home() {
   // googlePlace é buscado apenas para o schema JSON-LD (rating/reviewCount)
   // O componente de reviews é carregado via Suspense streaming para não bloquear o HTML inicial
+  // Force rebuild 2026-04-24
   const [products, googlePlace] = await Promise.all([
     getFeaturedProducts(),
     getGooglePlaceData(),
