@@ -27,6 +27,19 @@ function WhatsAppIcon() {
   )
 }
 
+const schemaFaq = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    { '@type': 'Question', name: 'Quais cidades têm loja Jaleca?', acceptedAnswer: { '@type': 'Answer', text: 'Temos 6 lojas físicas: Ipatinga (matriz), Caratinga e Contagem em MG; Colatina no ES; Teófilo Otoni em MG; e Guarapuava no Paraná. Use o mapa para encontrar a mais próxima.' } },
+    { '@type': 'Question', name: 'Qual o horário de funcionamento das lojas?', acceptedAnswer: { '@type': 'Answer', text: 'O horário varia por loja. Em geral, funcionamos de segunda a sexta das 9h às 18h e sábado das 9h às 12h. Confira os horários específicos ao lado de cada loja no mapa.' } },
+    { '@type': 'Question', name: 'Posso comprar na loja física e retirar?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. Você pode comprar no site e retirar na loja física mais próxima, sem custo de frete. O prazo de separação é de até 2 dias úteis após a confirmação do pedido.' } },
+    { '@type': 'Question', name: 'As lojas têm estoque completo?', acceptedAnswer: { '@type': 'Answer', text: 'Cada loja tem seu próprio estoque. Nem todos os produtos estão disponíveis em todas as lojas. Para garantir a peça desejada, entre em contato com a loja pelo WhatsApp antes de ir.' } },
+    { '@type': 'Question', name: 'Como chegar na loja matriz de Ipatinga?', acceptedAnswer: { '@type': 'Answer', text: 'Estamos na Av. Castelo Branco, 391 - Loja B, Horto, Ipatinga, MG, CEP 35160-264. Do lado do Supermercado Economia. Estacionamento nas proximidades.' } },
+    { '@type': 'Question', name: 'A loja matriz tem atendimento diferenciado?', acceptedAnswer: { '@type': 'Answer', text: 'Sim! Na matriz você encontra a coleção completa, atendimento personalizado e possibilidade deprovar diversas peças antes de comprar. Também temos atendimento por WhatsApp para auxiliar na escolha.' } },
+  ],
+}
+
 export default function NossasLojasPage() {
   const porEstado = franqueados.reduce<Record<string, typeof franqueados>>((acc, f) => {
     if (!acc[f.estado]) acc[f.estado] = []
@@ -45,6 +58,8 @@ export default function NossasLojasPage() {
   const estados = Object.keys(porEstado).sort()
 
   return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaFaq).replace(/</g, '\\u003c') }} />
     <main>
       {/* Hero com foto da loja */}
       <section className="relative w-full overflow-hidden bg-[#1a1a1a]" style={{ height: '52vh', minHeight: 320 }}>
@@ -62,7 +77,7 @@ export default function NossasLojasPage() {
             Jaleca — presença nacional
           </p>
           <h1 className="font-display text-4xl md:text-6xl font-semibold text-white leading-tight mb-2">
-            Nossas Lojas
+            Nossas Lojas — Visite a Jaleca
           </h1>
           <p className="text-white/70 text-sm md:text-base">
             {franqueados.length} lojas físicas. Clique no mapa para encontrar a mais próxima de você.
@@ -92,6 +107,31 @@ export default function NossasLojasPage() {
               <p className="text-[10px] font-semibold tracking-[0.25em] uppercase text-muted-foreground mt-1">Em expansão</p>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="container py-14 md:py-16">
+        <h2 className="font-display text-2xl font-semibold text-foreground mb-6">Perguntas Frequentes</h2>
+        <div className="max-w-3xl space-y-3">
+          {[
+            { q: 'Quais cidades têm loja Jaleca?', a: 'Temos 6 lojas: Ipatinga (matriz) e Caratinga e Contagem em MG; Colatina no ES; Teófilo Otoni em MG; e Guarapuava no PR. Use o mapa para encontrar a mais próxima.' },
+            { q: 'Qual o horário de funcionamento?', a: 'Geralmente seg a sex das 9h às 18h e sábado das 9h às 12h. Confira o horário específico de cada loja ao lado do card.' },
+            { q: 'Posso comprar no site e retirar na loja?', a: 'Sim! Retire na loja mais próxima sem custo de frete. A separação demora até 2 dias úteis após confirmação do pedido.' },
+            { q: 'As lojas têm estoque completo?', a: 'Cada loja tem seu próprio estoque. Para garantir a peça desejada,entre em contato com a loja pelo WhatsApp antes de ir.' },
+            { q: 'Como chegar na loja matriz?', a: 'Av. Castelo Branco, 391 - Loja B, Horto, Ipatinga, MG, CEP 35160-264. Ao lado do Supermercado Economia.' },
+            { q: 'A matriz tem atendimento diferenciado?', a: 'Sim! Na matriz você encontra a coleção completa e pode provar diversas peças antes de comprar. Atendimento WhatsApp também disponível.' },
+          ].map((item, i) => (
+            <details key={i} className="group border border-border rounded-lg">
+              <summary className="flex items-center justify-between cursor-pointer px-5 py-4 text-sm font-medium text-foreground hover:bg-secondary/10 transition-colors list-none">
+                {item.q}
+                <span className="text-muted-foreground group-hover:text-foreground transition-colors">+</span>
+              </summary>
+              <div className="px-5 pb-4 text-sm text-muted-foreground leading-relaxed border-t border-border bg-[hsl(var(--muted)/0.3)]">
+                {item.a}
+              </div>
+            </details>
+          ))}
         </div>
       </section>
 

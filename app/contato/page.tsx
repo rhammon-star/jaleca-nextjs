@@ -58,13 +58,24 @@ const contactPageSchema = {
   },
 }
 
+const schemaFaq = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    { '@type': 'Question', name: 'Qual o canal mais rápido para falar com a Jaleca?', acceptedAnswer: { '@type': 'Answer', text: 'O WhatsApp é o canal mais rápido: (31) 3367-2467. A resposta costuma ser em poucos minutos, de segunda a sexta.' } },
+    { '@type': 'Question', name: 'Em quanto tempo a Jaleca responde por e-mail?', acceptedAnswer: { '@type': 'Answer', text: 'Respondemos e-mails em até 1 dia útil. Para respostas mais rápidas, utilize o WhatsApp.' } },
+    { '@type': 'Question', name: 'Posso visitar a loja física sem agendar?', acceptedAnswer: { '@type': 'Answer', text: 'Sim! Nossa loja em Ipatinga funciona de segunda a sexta das 9h às 18h e sábado das 9h às 12h. Você pode ir diretamente ou combinar um horário pelo WhatsApp.' } },
+    { '@type': 'Question', name: 'A Jaleca atende por telefone?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. Ligue para (31) 3367-2467 de segunda a sexta, das 9h às 18h, e sábado das 9h às 12h.' } },
+    { '@type': 'Question', name: 'Como funciona o atendimento pelo WhatsApp?', acceptedAnswer: { '@type': 'Answer', text: 'Basta clicar no link do WhatsApp ou enviar uma mensagem para (31) 3367-2467. Nossa equipe ajuda com尺寸, estoque, dúvidas sobre produtos e acompanhamento de pedidos.' } },
+    { '@type': 'Question', name: 'A Jaleca tem atendimento no fim de semana?', acceptedAnswer: { '@type': 'Answer', text: 'Sim! Pelo WhatsApp você pode interagir a qualquer momento. Na loja física, funcionamos aos sábados das 9h às 12h.' } },
+  ],
+}
+
 export default function ContatoPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(contactPageSchema).replace(/</g, '\\u003c') }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(contactPageSchema).replace(/</g, '\\u003c') }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaFaq).replace(/</g, '\\u003c') }} />
       <main className="py-12 md:py-20">
         <div className="container max-w-3xl">
 
@@ -74,12 +85,37 @@ export default function ContatoPage() {
               Atendimento
             </p>
             <h1 className="font-display text-4xl md:text-5xl font-semibold leading-tight mb-4">
-              Fale Conosco
+              Contato Jaleca — Fale Conosco
             </h1>
             <p className="text-muted-foreground leading-relaxed">
-              Estamos aqui para ajudar! Entre em contato pelos canais abaixo ou visite nossa loja em Ipatinga, MG.
+              Estamos aqui para ajudar! Entre em contato pelos canais abaixo ou visite nossa loja em Ipatinga, MG. Respondemos em minutos pelo WhatsApp.
             </p>
           </div>
+
+          {/* FAQ */}
+          <section className="mb-12">
+            <h2 className="font-display text-xl font-semibold text-foreground mb-5">Perguntas Frequentes</h2>
+            <div className="space-y-3">
+              {[
+                { q: 'Qual o canal mais rápido para falar com a Jaleca?', a: 'O WhatsApp é o mais rápido: (31) 3367-2467. Respondemos em minutos, de seg a sex.' },
+                { q: 'Em quanto tempo a Jaleca responde por e-mail?', a: 'Respondemos em até 1 dia útil. Para respostas mais rápidas, use o WhatsApp.' },
+                { q: 'Posso visitar a loja física sem agendar?', a: 'Sim! Funcionamos de segunda a sexta, 9h às 18h, e sábado, 9h às 12h. Vá direto ou combine pelo WhatsApp.' },
+                { q: 'A Jaleca atende por telefone?', a: 'Sim: (31) 3367-2467, de seg a sex das 9h às 18h e sábado das 9h às 12h.' },
+                { q: 'Como funciona o atendimento pelo WhatsApp?', a: 'Clique no link ou mande mensagem para (31) 3367-2467. A equipe ajuda com tamanho, estoque e pedidos.' },
+                { q: 'A Jaleca tem atendimento no fim de semana?', a: 'Pelo WhatsApp você pode interagir a qualquer momento. Na loja, funcionamos aos sábados das 9h às 12h.' },
+              ].map((item, i) => (
+                <details key={i} className="group border border-border rounded-lg">
+                  <summary className="flex items-center justify-between cursor-pointer px-5 py-4 text-sm font-medium text-foreground hover:bg-secondary/10 transition-colors list-none">
+                    {item.q}
+                    <span className="text-muted-foreground group-hover:text-foreground transition-colors">+</span>
+                  </summary>
+                  <div className="px-5 pb-4 text-sm text-muted-foreground leading-relaxed border-t border-border bg-[hsl(var(--muted)/0.3)]">
+                    {item.a}
+                  </div>
+                </details>
+              ))}
+            </div>
+          </section>
 
           {/* Contact channels */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
