@@ -24,6 +24,41 @@ export const metadata: Metadata = {
   },
 }
 
+const FAQ_ITEMS = [
+  {
+    q: 'Qual o endereço da loja Jaleca em Ipatinga?',
+    a: 'Av. Castelo Branco, 391 - Loja B, Horto. Ipatinga — MG, CEP 35160-264. A loja fica no coração do bairro Horto, em ponto de fácil acesso com estacionamento nas proximidades.',
+  },
+  {
+    q: 'Qual o horário de funcionamento da loja matriz?',
+    a: 'De segunda a sexta: 09h às 18h. Sábado: 09h às 12h. Domingo e feriados: fechada. O horário de sábado pode sofrer alteração em vésperas de feriados prolongados — confirme pelo WhatsApp antes de visitar.',
+  },
+  {
+    q: 'Como chegar na loja Jaleca?',
+    a: 'A loja fica na Av. Castelo Branco, próximo ao Fórum de Ipatinga e ao Hospital Municipal. Se vier de carro, há estacionamento público na rua paralela (Rua das Palmeiras) a 2 minutos a pé. De ônibus: linhaCircular / Horto — desça no ponto da Av. Castelo Branco em frente ao fórum.',
+  },
+  {
+    q: 'Tem estacionamento perto da loja?',
+    a: 'Sim. Na rua paralela (Rua das Palmeiras) há estacionamento público gratuito. Na Av. Castelo Branco, as vagas são da via pública — respeite a sinalização. A equipe da loja pode indicar os melhores pontos de estacionamento nas proximidades.',
+  },
+  {
+    q: 'Posso experimentar os jalecos na loja antes de comprar online?',
+    a: 'Sim, e é justamente para isso que existimos. Você pode vestir, comparar tamanhos e receber orientação de atendimento personalizado. Os tamanhos disponíveis para prova são do PP ao G3, nos principais modelos da coleção.',
+  },
+  {
+    q: 'Qual o prazo de entrega para compras feitas na loja?',
+    a: 'Para clientes que visitam a loja: o pedido pode ser enviado no mesmo dia se feito até 14h (dias úteis). O prazo de entrega segue o cálculo padrão do carrinho — PAC (grátis acima de R$499 para SP, RJ, MG e ES) ou SEDEX expresso.',
+  },
+  {
+    q: 'A loja matriz oferece serviço de bordado?',
+    a: 'Sim. Na própria loja é possível solicitar bordado de nome, registro profissional (CRM, CRO, COFEN) e logo de clínica. O prazo adicional é de 3 a 5 dias úteis. Consulte valores no ato do pedido.',
+  },
+  {
+    q: 'A Jaleca tem outras lojas físicas além da matriz?',
+    a: 'A matriz em Ipatinga é a loja física principal, aberta desde 2010. Estamos em expansão com projeto de franquias para outras cidades — consulte disponibilidade pelo WhatsApp.',
+  },
+]
+
 const localBusinessSchema = {
   '@context': 'https://schema.org',
   '@type': 'ClothingStore',
@@ -57,6 +92,37 @@ const localBusinessSchema = {
   image: 'https://jaleca.com.br/loja-fachada-noite.jpg',
 }
 
+const schemaFaq = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: FAQ_ITEMS.map(item => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+}
+
+const schemaArticle = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'Jaleca: Lojas Físicas Desde 2010 e Mais de 200 Mil Peças Vendidas',
+  description: 'Conheça a Jaleca — loja especializada em jalecos e uniformes profissionais. Matriz em Ipatinga, MG, desde 2010. Mais de 200mil peças vendidas em todo o Brasil.',
+  author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
+  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
+  url: 'https://jaleca.com.br/loja-matriz',
+  datePublished: '2026-04-01',
+  dateModified: '2026-04-24',
+}
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://jaleca.com.br' },
+    { '@type': 'ListItem', position: 2, name: 'Nossa Loja', item: 'https://jaleca.com.br/loja-matriz' },
+  ],
+}
+
 export default function LojaMatrizPage() {
   return (
     <>
@@ -64,7 +130,34 @@ export default function LojaMatrizPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema).replace(/</g, '\\u003c') }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaFaq).replace(/</g, '\\u003c') }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaArticle).replace(/</g, '\\u003c') }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }}
+      />
       <main>
+
+        {/* Breadcrumb */}
+        <div style={{ background: '#f9f7f4', borderBottom: '1px solid #e5e0d8', padding: '0.85rem clamp(1.5rem,5vw,4rem)' }}>
+          <ol className="flex items-center gap-2 max-w-[1200px] mx-auto" style={{ listStyle: 'none' }}>
+            {[
+              { label: 'Início', href: '/' },
+              { label: 'Nossa Loja', href: null },
+            ].map((crumb, i, arr) => (
+              <li key={crumb.label} className="flex items-center gap-2 text-xs" style={{ color: crumb.href ? '#6b6b6b' : '#1a1a1a' }}>
+                {crumb.href ? <Link href={crumb.href} style={{ color: '#6b6b6b', textDecoration: 'none' }}>{crumb.label}</Link> : crumb.label}
+                {i < arr.length - 1 && <span style={{ color: '#c8c4bc' }}>/</span>}
+              </li>
+            ))}
+          </ol>
+        </div>
 
         {/* Hero — fachada */}
         <section className="relative w-full overflow-hidden bg-[#1a1a1a]" style={{ height: '88vh', minHeight: 560 }}>
@@ -191,6 +284,51 @@ export default function LojaMatrizPage() {
                   </Link>
                 </div>
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Prova Social */}
+        <section style={{ background: '#1a1a1a', padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)' }}>
+          <div style={{ maxWidth: 900, margin: '0 auto', textAlign: 'center' }}>
+            <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)', marginBottom: '0.75rem' }}>
+              Números Jaleca
+            </div>
+            <div className="grid" style={{ gridTemplateColumns: 'repeat(3,1fr)', gap: '2rem', marginTop: '2.5rem' }}>
+              {[
+                { numero: '200.000+', label: 'peças vendidas' },
+                { numero: 'Desde 2010', label: 'lojas físicas' },
+                { numero: 'PP ao G3', label: 'grade completa' },
+              ].map((item, i) => (
+                <div key={i}>
+                  <div style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2rem,4vw,3.5rem)', fontWeight: 400, color: '#fff', lineHeight: 1 }}>
+                    {item.numero}
+                  </div>
+                  <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.4)', marginTop: '0.5rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                    {item.label}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* FAQ */}
+        <section style={{ background: '#f9f7f4', padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)' }}>
+          <div style={{ maxWidth: 800, margin: '0 auto' }}>
+            <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>
+              Dúvidas
+            </div>
+            <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(1.8rem,3vw,2.5rem)', fontWeight: 400, color: '#1a1a1a', marginBottom: '2.5rem' }}>
+              Perguntas sobre a loja física
+            </h2>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+              {FAQ_ITEMS.map((item, i) => (
+                <div key={i} style={{ borderBottom: '1px solid #e5e0d8', paddingBottom: '1.5rem' }}>
+                  <h3 style={{ fontSize: '1rem', fontWeight: 400, color: '#1a1a1a', marginBottom: '0.75rem' }}>{item.q}</h3>
+                  <p style={{ fontSize: '0.88rem', color: '#4a4a4a', lineHeight: 1.8, margin: 0 }}>{item.a}</p>
+                </div>
+              ))}
             </div>
           </div>
         </section>

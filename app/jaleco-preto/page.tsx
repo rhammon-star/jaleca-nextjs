@@ -185,6 +185,34 @@ export default async function Page() {
           </div>
         </section>
 
+        {/* ── PROVA SOCIAL ── */}
+        <section style={{ background: '#f9f7f4', padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)' }}>
+          <div style={{ maxWidth: 800, margin: '0 auto', textAlign: 'center' }}>
+            <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>
+              Confiança
+            </div>
+            <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(1.8rem,3vw,2.5rem)', fontWeight: 400, color: '#1a1a1a', marginBottom: '2rem' }}>
+              Jalecos pretos que não perdem a cor
+            </h2>
+            <div className="grid" style={{ gridTemplateColumns: 'repeat(3,1fr)', gap: '1.5rem', marginTop: '2.5rem' }}>
+              {[
+                { numero: '200.000+', label: 'peças vendidas de jalecos escuros' },
+                { numero: 'PP ao G3', label: 'grade completa' },
+                { numero: 'Desde 2010', label: 'lojas físicas' },
+              ].map((item, i) => (
+                <div key={i}>
+                  <div style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(1.8rem,3.5vw,3rem)', fontWeight: 400, color: '#1a1a1a', lineHeight: 1 }}>
+                    {item.numero}
+                  </div>
+                  <div style={{ fontSize: '0.72rem', color: '#6b6b6b', marginTop: '0.5rem', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                    {item.label}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* ── CTA FINAL ── */}
         <section style={{ background: '#1a1a1a', padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)', textAlign: 'center' }}>
           <div style={{ maxWidth: 600, margin: '0 auto' }}>

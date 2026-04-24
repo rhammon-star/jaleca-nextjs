@@ -74,10 +74,32 @@ export default async function Page() {
     ],
   }
 
+  const schemaArticle = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Loja de Jaleco Online — Jalecos para Profissionais de Saúde e Beleza',
+    description: 'Guia da loja de jaleco online. Tecidos premium, corte feminino real, grade do PP ao G3. Frete grátis SP, RJ, MG e ES acima de R$499.',
+    author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
+    publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
+    url: 'https://jaleca.com.br/loja-de-jaleco',
+    datePublished: '2026-04-10',
+    dateModified: '2026-04-24',
+  }
+
+  const socialProofSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'Jaleca',
+    description: 'Mais de 200.000 peças vendidas desde 2010. Loja especializada em jalecos e uniformes profissionais.',
+    url: 'https://jaleca.com.br',
+  }
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaFaq).replace(/</g, '\\u003c') }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaArticle).replace(/</g, '\\u003c') }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(socialProofSchema).replace(/</g, '\\u003c') }} />
 
       <main style={{ fontWeight: 300 }}>
 
