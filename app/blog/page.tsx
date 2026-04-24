@@ -70,6 +70,30 @@ export default async function BlogPage({
     posts = []
   }
 
+  const FAQ_ITEMS = [
+    { '@type': 'Question', name: 'Como escolher o jaleco ideal para minha profissão?', acceptedAnswer: { '@type': 'Answer', text: 'A escolha depende do seu ambiente de trabalho. Para consultórios, jalecos slim são elegantes. Para hospitais, modelos com elastano oferecem mais conforto em longas jornadas.' } },
+    { '@type': 'Question', name: 'Qual a diferença entre jaleco Slim e Profissional?', acceptedAnswer: { '@type': 'Answer', text: 'O Slim tem corte ajustado ao corpo; o Profissional tem caimento mais solto e estruturado. Ambos são opções válidas dependendo da sua preferência e ambiente.' } },
+    { '@type': 'Question', name: 'Jaleco branco ou colorido: qual escolher?', acceptedAnswer: { '@type': 'Answer', text: 'Hospitais e centros cirúrgicos exigem jaleco branco. Em consultórios e clínicas, cores são aceitas e transmitem personalidade.' } },
+    { '@type': 'Question', name: 'Como cuidar do jaleco para aumentar a durabilidade?', acceptedAnswer: { '@type': 'Answer', text: 'Lave em água fria ou morna, use sabão neutro, evite alvejante. Seque à sombra e passe em temperatura média.' } },
+    { '@type': 'Question', name: 'Qual tamanho de jaleco devo escolher?', acceptedAnswer: { '@type': 'Answer', text: 'Meça busto e cintura e compare com a tabela de medidas. Na dúvida entre dois tamanhos, opte pelo maior — jaleco largo é mais fácil de ajustar.' } },
+    { '@type': 'Question', name: 'A Jaleca oferece troca de jaleco?', acceptedAnswer: { '@type': 'Answer', text: 'Sim, você pode trocar em até 30 dias após o recebimento, sem burocracia.' } },
+  ]
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://jaleca.com.br' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://jaleca.com.br/blog' },
+    ],
+  }
+
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: FAQ_ITEMS,
+  }
+
   const blogJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Blog',
@@ -98,6 +122,14 @@ export default async function BlogPage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(blogJsonLd).replace(/</g, '\\u003c') }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema).replace(/</g, '\\u003c') }}
       />
     <main className="py-8 md:py-12">
       <div className="container max-w-4xl">

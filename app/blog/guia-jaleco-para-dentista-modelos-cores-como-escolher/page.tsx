@@ -48,6 +48,18 @@ const faqSchema = {
   ]
 }
 
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'Jaleco para Dentista: Modelos, Cores e Como Escolher',
+  description: 'Guia completo de jaleco para dentista: modelos certos (Slim, Duquesa, Elastex), cores recomendadas, NR-32 e como escolher o jaleco odontológico ideal.',
+  author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
+  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
+  url: 'https://jaleca.com.br/blog/guia-jaleco-para-dentista-modelos-cores-como-escolher',
+  datePublished: '2026-04-23',
+  dateModified: '2026-04-23',
+}
+
 export default function BlogPost() {
   return (
     <>
@@ -55,6 +67,12 @@ export default function BlogPost() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(faqSchema).replace(/</g, '\\u003c'),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(articleSchema).replace(/</g, '\\u003c'),
         }}
       />
 

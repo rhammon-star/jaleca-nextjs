@@ -71,6 +71,16 @@ const faqSchema = {
   ]
 }
 
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://jaleca.com.br' },
+    { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://jaleca.com.br/blog' },
+    { '@type': 'ListItem', position: 3, name: 'Comprar Jaleco Online', item: 'https://jaleca.com.br/blog/comprar-jaleco-online-e-seguro' },
+  ],
+}
+
 export default function BlogPost() {
   return (
     <>
@@ -84,6 +94,12 @@ export default function BlogPost() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(faqSchema).replace(/</g, '\\u003c'),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c'),
         }}
       />
 

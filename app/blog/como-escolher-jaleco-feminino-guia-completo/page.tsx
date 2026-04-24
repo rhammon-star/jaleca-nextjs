@@ -73,6 +73,16 @@ const faqSchema = {
   ]
 }
 
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://jaleca.com.br' },
+    { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://jaleca.com.br/blog' },
+    { '@type': 'ListItem', position: 3, name: 'Como Escolher o Jaleco Feminino', item: 'https://jaleca.com.br/blog/como-escolher-jaleco-feminino-guia-completo' },
+  ],
+}
+
 export default async function BlogPost() {
   return (
     <>
@@ -86,6 +96,12 @@ export default async function BlogPost() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(faqSchema).replace(/</g, '\\u003c'),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c'),
         }}
       />
 
