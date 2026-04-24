@@ -16,6 +16,27 @@ Site de uniformes médicos (jalecos, dômãs, conjuntos). Diretório: `/Users/rh
 - Gemini AI (gemini-2.5-flash) para blog
 - Radix UI (shadcn/ui pattern) + custom components
 
+## ⚠️ CRÍTICO — Redirect Loop Homepage (24/04/2026)
+
+**PROBLEMA RESOLVIDO:** Rota `/` (homepage) tinha redirect loop infinito (ERR_TOO_MANY_REDIRECTS).
+
+**SOLUÇÃO PERMANENTE:**
+- Redirect criado no **Vercel Dashboard** (não no código): `/` → `/home` (307 temporário)
+- Configurado em: Settings → Redirects
+- Vercel Edge intercepta ANTES do Next.js processar
+- Homepage real: `app/home/page.tsx`
+- Homepage "fantasma": `app/page.tsx` (não renderiza, redirect intercepta)
+- SEO: Canonical em `/home` aponta para `https://jaleca.com.br` (preservado)
+- Sitemap: Não precisa mudanças, Google segue redirect normalmente
+
+**CAUSA RAIZ:** Bug no Next.js 16.2.0 ou Vercel Edge com rota `/` especificamente. Todas as tentativas de fix no código falharam (redirects next.config.ts, substituir arquivo page.tsx, homepage minimalista sem dependências).
+
+**DOCUMENTAÇÃO COMPLETA:** `SESSAO-REDIRECT-LOOP-24-04-2026.md`
+
+**QUANDO REMOVER:** Quando Next.js/Vercel corrigir o bug da rota `/`, remover redirect do Vercel Dashboard e deletar `app/home/page.tsx`.
+
+---
+
 ## Status das integrações (15/04/2026)
 - WooCommerce GraphQL: ✅ `https://wp.jaleca.com.br/graphql`
 - WooCommerce REST: ✅ Pedidos, customers
