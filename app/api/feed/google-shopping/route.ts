@@ -212,11 +212,16 @@ export async function GET() {
       const attrs = mapProductAttr(p.attributes ?? [])
       const g = gender(p.name)
 
+      // Produtos femininos redirecionam para /jaleco-feminino
+      const link = g === 'female'
+        ? 'https://jaleca.com.br/jaleco-feminino'
+        : `https://jaleca.com.br/produto/${p.slug}`
+
       items.push(buildItem({
         id: String(p.id),
         title: p.name,
         description: stripHtml(p.description || p.short_description || p.name),
-        link: `https://jaleca.com.br/produto/${p.slug}`,
+        link,
         image,
         availability: 'in_stock',
         price,
@@ -276,8 +281,10 @@ export async function GET() {
         const titleParts = [p.name, group.colorLabel].filter(Boolean)
         const title = titleParts.join(' — ')
 
-        // Link abre na cor certa via nome e ID da variação representativa
-        const link = `https://jaleca.com.br/produto/${p.slug}?cor=${encodeURIComponent(colorKey)}&vid=${group.rep.id}`
+        // Produtos femininos redirecionam para /jaleco-feminino
+        const link = g === 'female'
+          ? 'https://jaleca.com.br/jaleco-feminino'
+          : `https://jaleca.com.br/produto/${p.slug}?cor=${encodeURIComponent(colorKey)}&vid=${group.rep.id}`
 
         // Tamanhos disponíveis — join para mostrar todos (ex: "PP / P / M / G")
         const sizeValue = group.sizes.length > 0 ? group.sizes.join(' / ') : 'Tamanho Único'
