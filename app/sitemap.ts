@@ -63,6 +63,24 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     },
     {
+      url: `${SITE_URL}/blog/como-escolher-jaleco-feminino-guia-completo`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${SITE_URL}/blog/guia-jaleco-para-dentista-modelos-cores-como-escolher`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${SITE_URL}/blog/comprar-jaleco-online-e-seguro`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
       url: `${SITE_URL}/lookbook`,
       lastModified: new Date(),
       changeFrequency: 'monthly',

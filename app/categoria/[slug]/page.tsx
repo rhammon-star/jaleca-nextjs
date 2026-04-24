@@ -45,7 +45,7 @@ const CATEGORY_MAP: Record<string, { label: string; description: string; keyword
   },
   'jalecos-femininos': {
     label: 'Jalecos Femininos',
-    title: 'Jalecos Femininos à Venda — Slim, Princesa, Elastex | Jaleca',
+    title: 'Jaleco Femenino à Venda Online — Slim, Princesa, Elastex | Jaleca',
     filterLabel: 'Jalecos',
     gender: 'Feminino',
     description: 'Jalecos femininos para médicas, dentistas e enfermeiras. Modelos Slim, Princesa, Duquesa e Elastex — brancos, pretos e coloridos. Corte acinturado, tecido de alta performance. Tamanhos PP ao G3 com frete grátis no Sudeste acima de R$499.',
@@ -53,7 +53,7 @@ const CATEGORY_MAP: Record<string, { label: string; description: string; keyword
   },
   'jalecos-masculinos': {
     label: 'Jalecos Masculinos',
-    title: 'Jalecos Masculinos | Jaleca — Slim Moderno | Frete Grátis Sudeste',
+    title: 'Jaleco Masculino à Venda Online — Slim Moderno | Frete Grátis | Jaleca',
     filterLabel: 'Jalecos',
     gender: 'Masculino',
     description: 'Jalecos masculinos para médicos, dentistas e enfermeiros. Modelos slim fit com zíper e botões, brancos, pretos e coloridos. Corte anatômico, tecido de alta performance. Tamanhos PP ao G3, frete grátis no Sudeste acima de R$499.',

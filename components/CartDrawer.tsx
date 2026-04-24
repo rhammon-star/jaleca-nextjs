@@ -395,6 +395,12 @@ export default function CartDrawer() {
                   <span className="text-green-600">- {formatCurrency(discount)}</span>
                 </div>
               )}
+              {!selectedShipping && (
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-muted-foreground">Frete</span>
+                  <span className="text-muted-foreground">a partir de R$18,90</span>
+                </div>
+              )}
               {selectedShipping && (
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-muted-foreground">{selectedShipping.label}</span>

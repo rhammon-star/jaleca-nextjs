@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef, Suspense } from 'react'
-import { useSearchParams } from 'next/navigation'
+import { useSearchParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import ImageZoom from '@/components/ImageZoom'
@@ -222,6 +222,7 @@ export default function ProductDetailClient({
   googlePlace?: PlaceData
 }) {
   const searchParams = useSearchParams()
+  const router = useRouter()
   const [selectedColor, setSelectedColor] = useState<string | null>(null)
   const [selectedSize, setSelectedSize]   = useState<string | null>(null)
 
@@ -287,6 +288,10 @@ export default function ProductDetailClient({
   const [reviewSubmitting, setReviewSubmitting] = useState(false)
   const [reviewSuccess, setReviewSuccess] = useState(false)
   const [reviewError, setReviewError] = useState('')
+
+  // Field shaking validation
+  const [shakeColor, setShakeColor] = useState(false)
+  const [shakeSize, setShakeSize] = useState(false)
 
   // Variation galleries: databaseId → images[]
   const [variationGalleries, setVariationGalleries] = useState<Record<number, GalleryImage[]>>({})
@@ -423,7 +428,22 @@ export default function ProductDetailClient({
   const installmentValue = priceValue > 0 ? priceValue / 3 : 0
 
   function handleAddToCart() {
-    if (!canAdd) return
+    // Validate and shake missing fields
+    const needsColor = colorSlugs.length > 0 && !selectedColor
+    const needsSize = sizeSlugs.length > 0 && !selectedSize
+
+    if (needsColor || needsSize || isOutOfStock || !matchedVariationHasPrice) {
+      if (needsColor) {
+        setShakeColor(true)
+        setTimeout(() => setShakeColor(false), 600)
+      }
+      if (needsSize) {
+        setShakeSize(true)
+        setTimeout(() => setShakeSize(false), 600)
+      }
+      return
+    }
+
     const colorLabel = selectedColor ? (colorNames[selectedColor] ?? selectedColor) : undefined
     const sizeLabel  = selectedSize  ? (sizeNames[selectedSize]   ?? selectedSize.toUpperCase()) : undefined
     addItem({
@@ -437,6 +457,41 @@ export default function ProductDetailClient({
       size: sizeLabel,
       color: colorLabel,
     })
+  }
+
+  function handleBuyNow() {
+    // Validate and shake missing fields
+    const needsColor = colorSlugs.length > 0 && !selectedColor
+    const needsSize = sizeSlugs.length > 0 && !selectedSize
+
+    if (needsColor || needsSize || isOutOfStock || !matchedVariationHasPrice) {
+      if (needsColor) {
+        setShakeColor(true)
+        setTimeout(() => setShakeColor(false), 600)
+      }
+      if (needsSize) {
+        setShakeSize(true)
+        setTimeout(() => setShakeSize(false), 600)
+      }
+      return
+    }
+
+    const colorLabel = selectedColor ? (colorNames[selectedColor] ?? selectedColor) : undefined
+    const sizeLabel  = selectedSize  ? (sizeNames[selectedSize]   ?? selectedSize.toUpperCase()) : undefined
+    addItem({
+      id: product.id,
+      databaseId: product.databaseId,
+      variationId: matchedVariation?.databaseId,
+      slug: product.slug,
+      name: product.name.replace(/ - Jaleca$/i, ''),
+      image: displayImage?.sourceUrl,
+      price: displayPrice,
+      size: sizeLabel,
+      color: colorLabel,
+    })
+
+    // Redirect to checkout
+    router.push('/finalizar-compra')
   }
 
   // view_item — dispara uma vez ao montar a página
@@ -722,7 +777,7 @@ export default function ProductDetailClient({
 
             {/* Color/Estampa selector */}
             {colorSlugs.length > 0 && (
-              <div className="mb-6">
+              <div className={`mb-6 ${shakeColor ? 'animate-shake' : ''}`}>
                 <p className="text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-3">
                   {formatAttrLabel(colorAttrDef?.name ?? 'Cor')}{selectedColor ? `: ${colorNames[selectedColor] ?? selectedColor}` : ''}
                 </p>
@@ -748,7 +803,7 @@ export default function ProductDetailClient({
 
             {/* Size selector */}
             {sizeSlugs.length > 0 && (
-              <div className="mb-6">
+              <div className={`mb-6 ${shakeSize ? 'animate-shake' : ''}`}>
                 <div className="flex items-center justify-between mb-3">
                   <p className="text-xs font-semibold tracking-widest uppercase text-muted-foreground">
                     Tamanho{selectedSize ? `: ${sizeNames[selectedSize] ?? selectedSize.toUpperCase()}` : ''}
@@ -849,24 +904,34 @@ export default function ProductDetailClient({
             )}
 
             {/* Actions */}
-            <div ref={addToCartBtnRef} className="flex flex-col sm:flex-row gap-3 mt-auto">
-              <button
-                onClick={handleAddToCart}
-                className="flex-1 inline-flex min-h-14 w-full items-center justify-center gap-2 bg-ink px-6 py-4 text-xs font-semibold tracking-widest uppercase text-background transition-transform duration-300 hover:bg-ink active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40"
-                disabled={!canAdd}
-              >
-                <ShoppingBag size={18} />
-                {isOutOfStock ? 'Esgotado nessa variação' : 'Adicionar à Sacola'}
-              </button>
-              <button
-                onClick={() => toggleWishlist(String(product.databaseId))}
-                className={`h-14 w-14 rounded-full border border-border bg-background transition-colors hover:bg-muted active:scale-95 flex items-center justify-center ${
-                  inWishlist ? 'text-red-500' : 'text-foreground'
-                }`}
-                aria-label={inWishlist ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
-              >
-                <Heart size={20} className={inWishlist ? 'fill-red-500' : ''} />
-              </button>
+            <div ref={addToCartBtnRef} className="flex flex-col gap-3 mt-auto">
+              <div className="flex flex-col sm:flex-row gap-3">
+                <button
+                  onClick={handleAddToCart}
+                  className={`flex-1 inline-flex min-h-14 w-full items-center justify-center gap-2 bg-ink px-6 py-4 text-xs font-semibold tracking-widest uppercase text-background transition-transform duration-300 hover:bg-ink active:scale-[0.98] ${!canAdd ? 'cursor-not-allowed opacity-40' : ''}`}
+                >
+                  <ShoppingBag size={18} />
+                  {isOutOfStock ? 'Esgotado nessa variação' : 'Adicionar à Sacola'}
+                </button>
+                <button
+                  onClick={() => toggleWishlist(String(product.databaseId))}
+                  className={`h-14 w-14 rounded-full border border-border bg-background transition-colors hover:bg-muted active:scale-95 flex items-center justify-center ${
+                    inWishlist ? 'text-red-500' : 'text-foreground'
+                  }`}
+                  aria-label={inWishlist ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
+                >
+                  <Heart size={20} className={inWishlist ? 'fill-red-500' : ''} />
+                </button>
+              </div>
+              {!isOutOfStock && (
+                <button
+                  onClick={handleBuyNow}
+                  className={`w-full inline-flex min-h-14 items-center justify-center gap-2 border-2 border-ink px-6 py-4 text-xs font-semibold tracking-widest uppercase text-ink bg-background transition-all duration-300 hover:bg-ink hover:text-background active:scale-[0.98] ${!canAdd ? 'cursor-not-allowed opacity-40' : ''}`}
+                >
+                  <CreditCard size={18} />
+                  Comprar Agora
+                </button>
+              )}
             </div>
             {!canAdd && !isOutOfStock && (colorSlugs.length > 0 || sizeSlugs.length > 0) && (
               <p className="text-xs text-muted-foreground mt-2">

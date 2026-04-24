@@ -1,0 +1,31 @@
+DATA: 23/04/2026
+
+META ADS - ANTES DOS CORTES:
+
+Remarketing - Carrinho:
+  Budget: R$ ___/dia
+  Status: ___
+  Gasto 30d: R$ ___
+  ROAS: ___x
+
+Prospecção - Lookalike Vídeo:
+  Budget: R$ ___/dia
+  Status: ___
+  Gasto 30d: R$ ___
+
+Prospecção - Saúde Vídeo:
+  Budget: R$ ___/dia
+  Status: ___
+
+Novas Páginas:
+  Budget: R$ ___/dia
+  Status: ___
+
+Remarketing Dinâmico:
+  Budget: R$ ___/dia (estimado)
+  Status: ___
+
+TOTAL GASTO/DIA (antes): R$ ___
+TOTAL GASTO 30D: R$ ___
+ROAS GERAL 30D: ___x
+COMPRAS 30D: ___

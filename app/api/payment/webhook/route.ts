@@ -162,6 +162,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: true })
   } catch (error) {
     console.error('[Webhook Cielo] Error:', error)
-    return NextResponse.json({ ok: true })
+    return NextResponse.json({ error: 'Internal error' }, { status: 500 })
   }
 }

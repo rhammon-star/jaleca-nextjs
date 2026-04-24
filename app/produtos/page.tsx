@@ -43,22 +43,22 @@ async function getAllProducts(): Promise<WooProduct[]> {
 }
 
 export const metadata: Metadata = {
-  title: 'Comprar Jaleco Online — Jalecos, Dólmãs e Scrubs | Jaleca',
+  title: 'Comprar Jaleco Online — Femininos, Masculinos, Slim e Plus Size | Jaleca',
   description: 'Mais de 30 modelos: jalecos femininos e masculinos, dólmãs e conjuntos scrub para médicos, dentistas e enfermeiros. Slim, Princesa, Duquesa, Elastex — PP ao G3. Frete grátis SP/MG/RJ/ES acima de R$499.',
   alternates: { canonical: 'https://jaleca.com.br/produtos' },
   keywords: 'jalecos, jaleco feminino, jaleco masculino, jalecos para médicos, jalecos slim, dólmã, conjunto scrub, uniforme médico, comprar jaleco',
   openGraph: {
-    title: 'Comprar Jaleco Online — Jalecos, Dólmãs e Scrubs | Jaleca',
+    title: 'Comprar Jaleco Online — Femininos, Masculinos, Slim e Plus Size | Jaleca',
     description: 'Mais de 30 modelos: jalecos femininos e masculinos, dólmãs e conjuntos scrub para profissionais da saúde. PP ao G3, frete grátis no Sudeste acima de R$499.',
     url: 'https://jaleca.com.br/produtos',
     siteName: 'Jaleca',
     locale: 'pt_BR',
     type: 'website',
-    images: [{ url: 'https://jaleca.com.br/og-home.jpg', width: 1200, height: 630, alt: 'Coleção de Jalecos Jaleca' }],
+    images: [{ url: 'https://jaleca.com.br/og-home.jpg', width: 1200, height: 630, alt: 'Jalecos à Venda — Jaleca' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Jalecos e Uniformes Médicos | Jaleca',
+    title: 'Comprar Jaleco Online — Femininos e Masculinos | Jaleca',
     description: 'Jalecos femininos e masculinos, dólmãs e conjuntos scrub para profissionais da saúde.',
     images: ['https://jaleca.com.br/og-home.jpg'],
   },

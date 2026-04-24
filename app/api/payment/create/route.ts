@@ -312,6 +312,8 @@ export async function POST(request: NextRequest) {
       const ccPayment = cieloResult.Payment as import('@/lib/cielo').CieloCreditResult['Payment']
       const isPaid = ccPayment.Status === 2 && ccPayment.ReturnCode === '00'
       const isFailed = !isPaid && (ccPayment.Status === 3 || ccPayment.Status === 0)
+      // Soft decline: Status=2 but ReturnCode != '00' — treat as failure, Cielo won't retry auth
+      const isSoftDecline = ccPayment.Status === 2 && ccPayment.ReturnCode !== '00'
 
       if (isPaid) {
         creditCardPaid = true
@@ -388,6 +390,36 @@ export async function POST(request: NextRequest) {
         }).catch(() => {})
 
         console.log(`[Payment] Credit card failed — WC order ${wcOrder.id} set to failed, customer notified`)
+      }
+
+      if (isSoftDecline) {
+        // Soft decline: card authorized but capture failed — treat as failed so customer can retry
+        fetch(`${WC_API}/orders/${wcOrder.id}`, {
+          method: 'PUT',
+          headers: { Authorization: wcAuth(), 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: 'failed' }),
+        }).catch(() => {})
+
+        const amountFormatted = `R$ ${parseFloat(wcOrder.total || '0').toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`
+        sendPaymentFailed(
+          billing.first_name,
+          billing.email,
+          wcOrder.number || String(wcOrder.id),
+          amountFormatted,
+        ).catch(() => {})
+
+        sendInternalPaymentFailureAlert({
+          orderId:       wcOrder.id,
+          orderNumber:   wcOrder.number || String(wcOrder.id),
+          customerName:  `${billing.first_name} ${billing.last_name}`.trim(),
+          customerEmail: billing.email,
+          customerPhone: billing.phone,
+          paymentMethod: 'Cartão de Crédito',
+          failureReason: `Soft decline: ${ccPayment.ReturnMessage || `ReturnCode ${ccPayment.ReturnCode}`}`,
+          amount:        amountFormatted,
+        }).catch(() => {})
+
+        console.log(`[Payment] Credit card soft decline — WC order ${wcOrder.id} set to failed (ReturnCode ${ccPayment.ReturnCode})`)
       }
     }
 

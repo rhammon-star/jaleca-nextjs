@@ -30,23 +30,23 @@ const HERO_SLUG: Record<string, string> = {
   vendedor:           'jaleco-slim-feminino-de-ziper-central-varias-cores-jaleca',
   advogado:           'jaleco-universitario-unissex-jaleca',
   pastor:             'jaleco-slim-tradicional-manga-curta-feminino-jaleca',
-  psicologa:          'jaleco-slim-gold-feminino-jaleca',
-  farmaceutico:       'jaleco-padrao-aluno-feminino-de-botao-varias-cores-jaleca',
+  psicologa:          'jaleco-slim-duquesa-feminino-varias-cores-jaleca', // changed from slim-gold
+  farmaceutico:       'jaleco-slim-elastex-feminino-varias-cores-jaleca', // changed from padrao-aluno
   // dólmã
   'dolma-churrasqueiro': 'conjunto-dolma-cozinheiro-masculino-de-ziper-e-avental-saia-slim-jaleca',
-  'dolma-sushiman':      'conjunto-dolma-cozinheiro-masculino-de-ziper-e-avental-saia-slim-jaleca',
+  'dolma-sushiman':      'conjunto-dolma-cozinheiro-de-ziper-e-avental-saia-slim-jaleca', // changed from masculino version
   'dolma-cozinheiro':    'conjunto-dolma-cozinheiro-de-ziper-e-avental-saia-slim-jaleca',
   // conjunto
-  'conjunto-advogado':    'conjunto-executiva-feminino-jaleca',
+  'conjunto-advogado':    'conjunto-executiva-feminino-jaleca', // advogado keeps executiva (better semantic fit)
   'conjunto-pastor':      'conjunto-puff-ziper-feminino-jaleca',
   'conjunto-psicologa':   'conjunto-laco-feminino-jaleca',
   'conjunto-farmaceutico':'conjunto-pijama-cirurgico-scrub-feminino-varias-cores-jaleca',
   // jaleco genérico
   'professor-uniforme':  'jaleco-slim-gold-pala-feminino-jaleca',
   // escritório / serviços
-  secretaria:            'conjunto-executiva-feminino-jaleca',
-  universitario:         'jaleco-universitario-unissex-jaleca',
-  'dona-de-casa':        'jaleco-slim-tradicional-manga-curta-feminino-jaleca',
+  secretaria:            'jaleco-slim-feminino-de-ziper-lateral-varias-cores-jaleca', // changed to jaleco to avoid conflict
+  universitario:         'jaleco-slim-tradicional-feminino-jaleca', // changed from universitario-unissex
+  'dona-de-casa':        'jaleco-slim-princesa-feminino-varias-cores-jaleca', // changed from tradicional-manga-curta
 }
 
 const DEFAULT_HERO = 'jaleco-slim-feminino-de-ziper-central-varias-cores-jaleca'

@@ -79,7 +79,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Dentista',
     cluster: 'saude',
     metadata: {
-      title: 'Jaleco para Dentista: NR-32 e Modelo Certo 2026 | Jaleca',
+      title: 'Jaleco para Dentista: NR-32 e Modelo Certo | Jaleca',
       description:
         'Jaleco dentista com manga longa NR-32: roupa dentista que protege e passa profissionalismo. Jaleco para dentista em branco ou colorido, do PP ao G3.',
     },
@@ -180,7 +180,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Podólogo',
     cluster: 'saude',
     metadata: {
-      title: 'Jaleco para Podólogo: Elastano e Conforto 2026 | Jaleca',
+      title: 'Jaleco para Podólogo: Elastano e Conforto | Jaleca',
       description: 'Jaleco para podologo com elastano: mais conforto para quem atende sentado. Uniforme podologia do PP ao G3 — modelos Slim e Profissional, antimicrobiano, 12 cores.',
     },
     hero: { subtitulo: 'Tecido resistente, caimento perfeito e conforto para a cozinha profissional.' },
@@ -248,7 +248,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Biomédico',
     cluster: 'saude',
     metadata: {
-      title: 'Jaleco para Biomédico: Lab e Harmonização 2026 | Jaleca',
+      title: 'Jaleco para Biomédico: Lab e Harmonização | Jaleca',
       description: 'Jaleco para biomédico: uniforme biomedicina para laboratório e estética. Manga longa para lab, Slim para harmonização facial. Do PP ao G3, elastano, normas ANVISA.',
     },
     hero: { subtitulo: 'Tecido resistente, caimento perfeito e conforto para a cozinha profissional.' },
@@ -316,7 +316,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Enfermeiro',
     cluster: 'saude',
     metadata: {
-      title: 'Jaleco para Enfermeiro: COFEN e Lavagem 60°C 2026 | Jaleca',
+      title: 'Jaleco para Enfermeiro: COFEN e Lavagem 60°C | Jaleca',
       description: 'Jaleco enfermagem que aguenta lavagem a 60°C, cumpre COFEN 375/2011 e dura o plantão inteiro. Uniforme enfermagem Slim e Profissional com elastano, do PP ao G3.',
     },
     hero: { subtitulo: 'Tecido resistente, caimento perfeito e conforto para a cozinha profissional.' },
@@ -384,7 +384,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Fisioterapeuta',
     cluster: 'saude',
     metadata: {
-      title: 'Jaleco para Fisioterapeuta: RPG, Pilates e Movimento 2026 | Jaleca',
+      title: 'Jaleco para Fisioterapeuta: RPG, Pilates e Movimento | Jaleca',
       description: 'Jaleco fisioterapia com elastano para RPG, pilates e esportiva. Roupa fisioterapeuta com amplitude total de movimento, normas COFFITO. Do PP ao G3.',
     },
     hero: { subtitulo: 'Tecido resistente, caimento perfeito e conforto para a cozinha profissional.' },
@@ -452,7 +452,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Nutricionista',
     cluster: 'saude',
     metadata: {
-      title: 'Jaleco para Nutricionista: Autoridade no Consultório 2026 | Jaleca',
+      title: 'Jaleco para Nutricionista: Autoridade no Consultório | Jaleca',
       description: 'Jaleco nutricionista para consultório de emagrecimento, low carb e jejum. Roupa nutricionista que passa autoridade científica. Normas CFN, do PP ao G3.',
     },
     hero: { subtitulo: 'Tecido resistente, caimento perfeito e conforto para a cozinha profissional.' },
@@ -519,7 +519,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Veterinário',
     cluster: 'saude',
     metadata: {
-      title: 'Jaleco para Veterinário: Guia Completo 2026 | Jaleca',
+      title: 'Jaleco para Veterinário: Guia Completo | Jaleca',
       description: 'Jaleco para veterinário: resistente a manchas e fluidos animais, fácil de limpar, normas CFMV. Modelos com elastano do PP ao G3.',
     },
     hero: { subtitulo: 'Tecido resistente, caimento perfeito e conforto para a cozinha profissional.' },
@@ -586,7 +586,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Médico',
     cluster: 'saude',
     metadata: {
-      title: 'Jaleco para Médico: Jaleco para Telemedicina e Consultório 2026 | Jaleca',
+      title: 'Jaleco para Médico: Telemedicina e Consultório | Jaleca',
       description: 'Roupa médico e jaleco médico para telemedicina, consultório e plantão. O branco na câmera ainda importa — normas CFM 1931/2009. Do PP ao G3 com elastano.',
     },
     hero: { subtitulo: 'Tecido resistente, caimento perfeito e conforto para a cozinha profissional.' },
@@ -656,7 +656,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Barbeiro',
     cluster: 'beleza',
     metadata: {
-      title: 'Jaleco para Barbeiro: Tecido Premium, Caimento Perfeito | Jaleca 2026',
+      title: 'Jaleco para Barbeiro: Tecido Premium, Caimento Perfeito | Jaleca',
       description: 'Jaleco para barbeiro em tecido premium com caimento perfeito. Modelos Slim e Profissional do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
     },
     hero: { subtitulo: 'Tecido resistente, caimento perfeito e conforto para a cozinha profissional.' },
@@ -724,7 +724,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Tatuador',
     cluster: 'beleza',
     metadata: {
-      title: 'Jaleco para Tatuador: Tecido Premium, Caimento Perfeito | Jaleca 2026',
+      title: 'Jaleco para Tatuador: Tecido Premium, Caimento Perfeito | Jaleca',
       description: 'Jaleco para tatuador em tecido premium com caimento perfeito. Modelos Slim e Profissional do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
     },
     hero: { subtitulo: 'Tecido resistente, caimento perfeito e conforto para a cozinha profissional.' },
@@ -791,7 +791,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Esteticista',
     cluster: 'beleza',
     metadata: {
-      title: 'Jaleco para Esteticista: Tecido Premium, Caimento Perfeito | Jaleca 2026',
+      title: 'Jaleco para Esteticista: Tecido Premium, Caimento Perfeito | Jaleca',
       description: 'Jaleco para esteticista em tecido premium com caimento perfeito. Modelos Slim e Profissional do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
     },
     hero: { subtitulo: 'Tecido resistente, caimento perfeito e conforto para a cozinha profissional.' },
@@ -858,7 +858,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Massagista',
     cluster: 'beleza',
     metadata: {
-      title: 'Jaleco para Massagista: Tecido Premium, Caimento Perfeito | Jaleca 2026',
+      title: 'Jaleco para Massagista: Tecido Premium, Caimento Perfeito | Jaleca',
       description: 'Jaleco para massagista em tecido premium com caimento perfeito. Modelos Slim e Profissional do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
     },
     hero: { subtitulo: 'Tecido resistente, caimento perfeito e conforto para a cozinha profissional.' },
@@ -925,7 +925,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Cabeleireiro',
     cluster: 'beleza',
     metadata: {
-      title: 'Jaleco para Cabeleireiro: Uniforme Salão Beleza 2026 | Jaleca',
+      title: 'Jaleco para Cabeleireiro: Tecido Premium, Caimento Perfeito | Jaleca',
       description: 'Jaleco para cabeleireiro: proteção contra tinta, descolorante e químicos. Uniforme cabeleireiro para salão — transição capilar, alisamento e queda de cabelo. PP ao G3.',
     },
     hero: { subtitulo: 'Tecido resistente, caimento perfeito e conforto para a cozinha profissional.' },
@@ -994,7 +994,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Churrasqueiro',
     cluster: 'gastronomia',
     metadata: {
-      title: 'Jaleco para Churrasqueiro: Tecido Premium, Caimento Perfeito 2026 | Jaleca',
+      title: 'Jaleco para Churrasqueiro: Tecido Premium, Caimento Perfeito | Jaleca',
       description: 'Jaleco para Churrasqueiro com tecido premium, caimento perfeito e preço justo. Modelos do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
     },
     hero: { subtitulo: 'Tecido resistente, caimento perfeito e conforto para a cozinha profissional.' },
@@ -1061,7 +1061,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Sushiman',
     cluster: 'gastronomia',
     metadata: {
-      title: 'Dólmã para Sushiman: Tecido Premium, Caimento Perfeito 2026 | Jaleca',
+      title: 'Dólmã para Sushiman: Tecido Premium, Caimento Perfeito | Jaleca',
       description: 'Dólmã para Sushiman com tecido premium, caimento perfeito e preço justo. Modelos do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
     },
     hero: { subtitulo: 'Tecido resistente, caimento perfeito e conforto para a cozinha profissional.' },
@@ -1129,7 +1129,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Cozinheiro',
     cluster: 'gastronomia',
     metadata: {
-      title: 'Jaleco para Cozinheiro: Tecido Resistente, Conforto na Cozinha 2026 | Jaleca',
+      title: 'Jaleco para Cozinheiro: Tecido Premium, Conforto na Cozinha | Jaleca',
       description: 'Jaleco para cozinheiro: brim leve e gabardine com elastano para cozinha profissional. Tecido que não retém gordura, ventilação adequada, do PP ao G3. Frete grátis Sudeste.',
     },
     hero: { subtitulo: 'Tecido resistente, caimento perfeito e conforto para a cozinha profissional.' },
@@ -1199,7 +1199,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Professor',
     cluster: 'servicos',
     metadata: {
-      title: 'Jaleco para Professor: Tecido Premium, Caimento Perfeito | Jaleca 2026',
+      title: 'Jaleco para Professor: Tecido Premium, Caimento Perfeito | Jaleca',
       description: 'Jaleco para professor em tecido premium com caimento perfeito. Modelos Slim e Profissional do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
     },
     hero: { subtitulo: 'Tecido resistente, caimento perfeito e conforto para a cozinha profissional.' },
@@ -1267,7 +1267,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Vendedor',
     cluster: 'servicos',
     metadata: {
-      title: 'Jaleco para Vendedor: Tecido Premium, Caimento Perfeito | Jaleca 2026',
+      title: 'Jaleco para Vendedor: Tecido Premium, Caimento Perfeito | Jaleca',
       description: 'Jaleco para vendedor em tecido premium com caimento perfeito. Modelos Slim e Profissional do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
     },
     hero: { subtitulo: 'Tecido resistente, caimento perfeito e conforto para a cozinha profissional.' },
@@ -1337,7 +1337,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Advogado',
     cluster: 'escritorio',
     metadata: {
-      title: 'Jaleco para Advogado: Tecido Premium, Caimento Perfeito | Jaleca 2026',
+      title: 'Jaleco para Advogado: Tecido Premium, Caimento Perfeito | Jaleca',
       description: 'Jaleco para advogado em tecido premium com caimento perfeito. Modelos Slim e Profissional do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
     },
     hero: { subtitulo: 'Tecido resistente, caimento perfeito e conforto para a cozinha profissional.' },
@@ -1405,7 +1405,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Pastor',
     cluster: 'escritorio',
     metadata: {
-      title: 'Jaleco para Pastor: Tecido Premium, Caimento Perfeito | Jaleca 2026',
+      title: 'Jaleco para Pastor: Tecido Premium, Caimento Perfeito | Jaleca',
       description: 'Jaleco para pastor em tecido premium com caimento perfeito. Modelos Slim e Profissional do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
     },
     hero: { subtitulo: 'Tecido resistente, caimento perfeito e conforto para a cozinha profissional.' },
@@ -1541,7 +1541,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     titulo: 'Farmacêutico',
     cluster: 'escritorio',
     metadata: {
-      title: 'Jaleco para Farmacêutico: Normas, RDC 67 e Manga Longa 2026 | Jaleca',
+      title: 'Jaleco para Farmacêutico: Normas, RDC 67 e Manga Longa | Jaleca',
       description: 'Jaleco de farmácia: jaleco para farmacêutico com manga longa obrigatória (RDC 67/2007), antimicrobiano para manipulação de Ozempic e similares. Jaleco farmácia do PP ao G3.',
     },
     hero: { subtitulo: 'Tecido resistente, caimento perfeito e conforto para a cozinha profissional.' },
@@ -1613,7 +1613,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     produto: 'dolma',
     urlSlug: 'dolma-para-churrasqueiro',
     metadata: {
-      title: 'Dólmã para Churrasqueiro: Uniforme Completo 2026 | Jaleca',
+      title: 'Dólmã para Churrasqueiro: Uniforme Completo | Jaleca',
       description: 'Dólmã para churrasqueiro profissional + avental: kit uniforme churrasqueiro completo, brim resistente a respingos de gordura, abotoamento duplo padrão chef. PP ao G3.',
     },
     hero: { subtitulo: 'Tecido resistente, caimento perfeito e conforto para a cozinha profissional.' },
@@ -1683,7 +1683,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     produto: 'dolma',
     urlSlug: 'dolma-para-sushiman',
     metadata: {
-      title: 'Dólmã para Sushiman: Guia Completo 2026 | Jaleca',
+      title: 'Dólmã para Sushiman: Guia Completo | Jaleca',
       description: 'Dólmã para sushiman: visual clean, tecido leve para peixe cru, abotoamento lateral padrão chef japonês. Guia completo do PP ao G3.',
     },
     hero: { subtitulo: 'Tecido resistente, caimento perfeito e conforto para a cozinha profissional.' },
@@ -1753,7 +1753,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     produto: 'dolma',
     urlSlug: 'dolma-para-cozinheiro',
     metadata: {
-      title: 'Dólmã para Cozinheiro: Tecido Premium, Caimento Perfeito 2026 | Jaleca',
+      title: 'Dólmã para Cozinheiro: Tecido Premium, Caimento Perfeito | Jaleca',
       description: 'Dólmã para Cozinheiro com tecido premium, caimento perfeito e preço justo. Modelos do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
     },
     hero: { subtitulo: 'Tecido resistente, caimento perfeito e conforto para a cozinha profissional.' },
@@ -1825,7 +1825,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     produto: 'conjunto',
     urlSlug: 'conjunto-para-advogado',
     metadata: {
-      title: 'Conjunto para Advogado: Guia Completo 2026 | Jaleca',
+      title: 'Conjunto para Advogado: Guia Completo | Jaleca',
       description: 'Conjunto profissional para advogado e escritório jurídico: caimento impecável para audiências, com elastano. Guia completo do PP ao G3.',
     },
     hero: { subtitulo: 'Tecido resistente, caimento perfeito e conforto para a cozinha profissional.' },
@@ -1894,7 +1894,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     produto: 'conjunto',
     urlSlug: 'conjunto-para-pastor',
     metadata: {
-      title: 'Conjunto para Pastor: Guia Completo 2026 | Jaleca',
+      title: 'Conjunto para Pastor: Guia Completo | Jaleca',
       description: 'Conjunto pastoral para pastor evangélico: elegância cerimonial, conforto em cultos longos, tecido de bom caimento. Guia completo do PP ao G3.',
     },
     hero: { subtitulo: 'Tecido resistente, caimento perfeito e conforto para a cozinha profissional.' },
@@ -1963,7 +1963,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     produto: 'conjunto',
     urlSlug: 'conjunto-para-psicologa',
     metadata: {
-      title: 'Conjunto para Psicólogo: Guia Completo 2026 | Jaleca',
+      title: 'Conjunto para Psicólogo: Guia Completo | Jaleca',
       description: 'Conjunto para psicólogo: tons neutros para o setting terapêutico, conforto em sessões longas, modelagem elegante para o consultório. Guia completo.',
     },
     hero: { subtitulo: 'Tecido resistente, caimento perfeito e conforto para a cozinha profissional.' },
@@ -2032,7 +2032,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     produto: 'conjunto',
     urlSlug: 'conjunto-para-farmaceutico',
     metadata: {
-      title: 'Conjunto para Farmacêutico: Guia Completo 2026 | Jaleca',
+      title: 'Conjunto para Farmacêutico: Guia Completo | Jaleca',
       description: 'Conjunto para farmacêutico: visual clean, biossegurança em farmácias e laboratórios, normas RDC ANVISA. Guia completo do PP ao G3.',
     },
     hero: { subtitulo: 'Tecido resistente, caimento perfeito e conforto para a cozinha profissional.' },
@@ -2103,7 +2103,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     produto: 'jaleco',
     urlSlug: 'uniforme-para-professor',
     metadata: {
-      title: 'Jaleco para Professor: Jaleco Escola e Laboratório 2026 | Jaleca',
+      title: 'Jaleco para Professor: Jaleco Escola e Laboratório | Jaleca',
       description: 'Jaleco e uniforme para professor de escola, laboratório e universidade: confortável, prático, com bolsos. Guia completo para educadores do PP ao G3.',
     },
     hero: { subtitulo: 'Tecido resistente, caimento perfeito e conforto para a cozinha profissional.' },
@@ -2174,7 +2174,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     produto: 'conjunto',
     urlSlug: 'jaleco-para-secretaria',
     metadata: {
-      title: 'Conjunto para Secretária: Tecido Premium, Caimento Perfeito 2026 | Jaleca',
+      title: 'Conjunto para Secretária: Tecido Premium, Caimento Perfeito | Jaleca',
       description: 'Jaleco para Secretária com tecido premium, caimento perfeito e preço justo. Modelos do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
     },
     hero: {
@@ -2252,7 +2252,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     produto: 'jaleco',
     urlSlug: 'jaleco-universitario',
     metadata: {
-      title: 'Jaleco para Universitário: Tecido Premium, Caimento Perfeito 2026 | Jaleca',
+      title: 'Jaleco para Universitário: Tecido Premium, Caimento Perfeito | Jaleca',
       description: 'Jaleco Universitário com tecido premium, caimento perfeito e preço justo. Modelos do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
     },
     hero: {
@@ -2330,7 +2330,7 @@ export const HUB_PROFISSOES: HubProfissao[] = [
     produto: 'jaleco',
     urlSlug: 'jaleco-para-dona-de-casa',
     metadata: {
-      title: 'Jaleco para Dona de Casa: Tecido Premium, Caimento Perfeito 2026 | Jaleca',
+      title: 'Jaleco para Dona de Casa: Tecido Premium, Caimento Perfeito | Jaleca',
       description: 'Jaleco para Dona de Casa com tecido premium, caimento perfeito e preço justo. Modelos do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
     },
     hero: {

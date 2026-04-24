@@ -1,0 +1,99 @@
+
+🎯 DASHBOARD JALECA — 2026-04-24
+============================================================
+
+📊 GOOGLE ANALYTICS (últimas 24h)
+   → Acesse: https://analytics.google.com/analytics/web/#/p530831994/reports/intelligenthome
+   → Anote:
+     • Sessões: ___
+     • Usuários: ___
+     • Views produto: ___
+     • Add to Cart: ___
+     • Begin Checkout: ___
+     • Compras: ___
+
+🛒 WOOCOMMERCE (últimas 24h)
+   → Acesse: https://wp.jaleca.com.br/wp-admin/edit.php?post_type=shop_order
+   → Filtrar por: "Hoje"
+   → Anote:
+     • Pedidos novos: ___
+     • Valor total vendas: R$ ___
+     • Ticket médio: R$ ___
+
+💰 GOOGLE ADS (últimas 24h)
+   → Acesse: https://ads.google.com/aw/campaigns
+   → Período: "Ontem"
+   → Anote:
+     • Gasto: R$ ___
+     • Conversões: ___
+     • ROAS: ___x
+     • CPC médio: R$ ___
+
+📱 META ADS (últimas 24h)
+   → Acesse: https://business.facebook.com/adsmanager
+   → Período: "Ontem"
+   → Anote:
+     • Gasto: R$ ___
+     • Compras: ___
+     • ROAS: ___x
+     • CPC: R$ ___
+
+🔍 GOOGLE SEARCH CONSOLE (últimos 7 dias)
+   → Acesse: https://search.google.com/search-console?resource_id=sc-domain:jaleca.com.br
+   → Período: "Últimos 7 dias"
+   → Anote:
+     • Cliques: ___
+     • Impressões: ___
+     • CTR: ___%
+     • Posição média: ___
+
+📈 TAXAS DE CONVERSÃO (calcular)
+
+   AddToCart %:
+   = (Add to Cart / Views produto) × 100
+   = (___ / ___) × 100 = ___%
+   Meta: 4.5%
+
+   Checkout %:
+   = (Begin Checkout / Add to Cart) × 100
+   = (___ / ___) × 100 = ___%
+   Meta: 65%
+
+   Compra %:
+   = (Compras / Begin Checkout) × 100
+   = (___ / ___) × 100 = ___%
+   Meta: 60%
+
+💎 ROAS GERAL
+
+   Gasto total ADS:
+   = Google + Meta
+   = R$ ___ + R$ ___ = R$ ___
+
+   Valor vendas:
+   = R$ ___ (WooCommerce)
+
+   ROAS:
+   = Vendas / Gasto ADS
+   = R$ ___ / R$ ___ = ___x
+   Meta: 2.5x
+
+⚠️  ALERTAS
+
+   [ ] ROAS < 2.0 por 2+ dias → Pausar campanhas teste
+   [ ] AddToCart < 3% → Revisar UX produto
+   [ ] Gasto/dia > R$ 130 → Budget excedido
+   [ ] 0 conversões Google Ads → Tag quebrada
+   [ ] Vendas < 3/semana → Reavaliar estratégia
+
+💾 SALVAR DADOS
+
+   Criar arquivo: tracking/2026-04-24.txt
+   Com os números anotados acima.
+
+   ✅ Template criado: tracking/2026-04-24.txt
+   → Preencha os números e salve.
+
+============================================================
+✅ Dashboard concluído
+

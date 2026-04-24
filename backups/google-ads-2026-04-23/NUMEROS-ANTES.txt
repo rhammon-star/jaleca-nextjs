@@ -1,0 +1,28 @@
+DATA: 23/04/2026
+
+GOOGLE ADS - ANTES DOS CORTES:
+
+Core - Jalecos:
+  Budget: R$ ___/dia
+  Status: ___
+  Custo 30d: R$ ___
+  Conversões 30d: ___
+
+Shopping - Produtos:
+  Budget: R$ ___/dia
+  Status: ___
+  Custo 30d: R$ ___
+
+Remarketing Display:
+  Budget: R$ ___/dia
+  Status: ___
+  Custo 30d: R$ ___
+
+Marca:
+  Budget: R$ ___/dia
+  Status: ___
+
+TOTAL GASTO/DIA (antes): R$ ___
+TOTAL GASTO 30D: R$ ___
+CONVERSÕES TOTAIS 30D: ___
+ROAS GERAL 30D: ___x

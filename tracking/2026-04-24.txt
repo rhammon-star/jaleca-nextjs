@@ -1,0 +1,37 @@
+DATA: 2026-04-24
+
+GOOGLE ANALYTICS:
+• Sessões: ___
+• Views produto: ___
+• Add to Cart: ___ (___%)
+• Begin Checkout: ___ (___%)
+• Compras: ___ (___%)
+
+WOOCOMMERCE:
+• Pedidos: ___
+• Valor total: R$ ___
+• Ticket médio: R$ ___
+
+GOOGLE ADS:
+• Gasto: R$ ___
+• Conversões: ___
+• ROAS: ___x
+
+META ADS:
+• Gasto: R$ ___
+• Compras: ___
+• ROAS: ___x
+
+SEO (7 dias):
+• Cliques: ___
+• Impressões: ___
+• CTR: ___%
+
+ROAS GERAL: ___x
+GASTO TOTAL: R$ ___
+
+ALERTAS:
+-
+
+AÇÕES TOMADAS:
+-

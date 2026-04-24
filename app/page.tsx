@@ -15,22 +15,22 @@ import { isBestSeller } from "@/lib/best-sellers";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "Jaleca | Uniformes Profissionais para Médicos, Dentistas e Enfermeiros",
-  description: "Uniformes profissionais de alta qualidade para médicos, dentistas, enfermeiros e profissionais da saúde. Mais de 200 mil peças vendidas. Entrega rápida para todo o Brasil.",
+  title: "Jalecos Femininos e Masculinos — Mais de 200 Mil Peças Vendidas | Jaleca",
+  description: "Compre jalecos femininos, masculinos, slim, princesa e universitários. PP ao G3, frete grátis Sudeste acima de R$499. Jalecos para médicos, dentistas, enfermeiros. Mais de 200 mil peças vendidas.",
   alternates: { canonical: "https://jaleca.com.br" },
   openGraph: {
-    title: "Jaleca | Uniformes Profissionais para Médicos e Saúde",
-    description: "Uniformes profissionais de alta qualidade para médicos, dentistas e enfermeiros. Mais de 200 mil peças vendidas. Entrega rápida para todo o Brasil.",
+    title: "Jalecos Femininos e Masculinos — Jaleca",
+    description: "Compre jalecos femininos, masculinos, slim, princesa e universitários. Frete grátis no Sudeste. Jalecos para médicos, dentistas e profissionais da saúde.",
     url: "https://jaleca.com.br",
     siteName: "Jaleca",
     locale: "pt_BR",
     type: "website",
-    images: [{ url: "https://jaleca.com.br/og-home.jpg", width: 1200, height: 630, alt: "Jaleca — Uniformes Profissionais" }],
+    images: [{ url: "https://jaleca.com.br/og-home.jpg", width: 1200, height: 630, alt: "Jaleca — Jalecos e Uniformes Profissionais" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Jaleca | Uniformes Profissionais para Médicos e Saúde",
-    description: "Uniformes profissionais de alta qualidade para médicos, dentistas e enfermeiros. Mais de 200 mil peças vendidas.",
+    title: "Jalecos Femininos e Masculinos — Jaleca",
+    description: "Compre jalecos femininos, masculinos, slim, princesa e universitários. Frete grátis no Sudeste.",
     images: ["https://jaleca.com.br/og-home.jpg"],
   },
 };
@@ -163,7 +163,7 @@ export default async function Home() {
               <span className="text-[12px] md:text-[10px] font-semibold tracking-[0.2em] md:tracking-[0.3em] uppercase">Uma das marcas que mais vende jalecos no Brasil</span>
             </div>
             <h1 className="font-display text-4xl sm:text-5xl lg:text-[3.4rem] font-semibold leading-[1.1] text-[#1a1a1a] mb-5 animate-fade-up">
-              Uniformes Profissionais — mais de 200 mil peças vendidas.
+              Jalecos femininos, masculinos e slim — mais de 200 mil peças vendidas.
             </h1>
             <p className="text-[#555] text-base leading-relaxed mb-6">
               Antes de você falar, sua imagem já foi avaliada. Conforto, caimento impecável e a presença que eleva sua autoridade profissional.

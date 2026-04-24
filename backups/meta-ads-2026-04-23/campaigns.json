@@ -1,0 +1,57 @@
+[
+  {
+    "id": "120244218122770396",
+    "name": "Novas Páginas — Jaleca Abr 2026",
+    "status": "PAUSED",
+    "objective": "OUTCOME_SALES",
+    "daily_budget": null,
+    "spend_30d": "0.00",
+    "purchases_30d": 0,
+    "revenue_30d": "0.00",
+    "roas_30d": "0"
+  },
+  {
+    "id": "120244218116570396",
+    "name": "Remarketing Dinâmico — Jaleca Abr 2026",
+    "status": "ACTIVE",
+    "objective": "OUTCOME_SALES",
+    "daily_budget": null,
+    "spend_30d": "0.00",
+    "purchases_30d": 0,
+    "revenue_30d": "0.00",
+    "roas_30d": "0"
+  },
+  {
+    "id": "120243939198840396",
+    "name": "Prospecção - Saúde e Beleza - Vídeo Abr 2026",
+    "status": "PAUSED",
+    "objective": "OUTCOME_SALES",
+    "daily_budget": null,
+    "spend_30d": "73.94",
+    "purchases_30d": 0,
+    "revenue_30d": "0.00",
+    "roas_30d": "0.00"
+  },
+  {
+    "id": "120243938704750396",
+    "name": "Prospecção - Lookalike - Vídeo Abr 2026",
+    "status": "PAUSED",
+    "objective": "OUTCOME_SALES",
+    "daily_budget": null,
+    "spend_30d": "120.48",
+    "purchases_30d": 0,
+    "revenue_30d": "0.00",
+    "roas_30d": "0.00"
+  },
+  {
+    "id": "120243591549070396",
+    "name": "Remarketing - Carrinho Abandonado",
+    "status": "ACTIVE",
+    "objective": "OUTCOME_SALES",
+    "daily_budget": "100.00",
+    "spend_30d": "358.87",
+    "purchases_30d": "9",
+    "revenue_30d": "822.47",
+    "roas_30d": "2.29"
+  }
+]

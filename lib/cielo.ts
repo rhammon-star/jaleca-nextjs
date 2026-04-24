@@ -14,19 +14,31 @@ function authHeaders(): Record<string, string> {
 }
 
 async function cieloPost<T>(path: string, body: unknown): Promise<T> {
-  const res = await fetch(`${CIELO_API}${path}`, {
-    method: 'POST',
-    headers: authHeaders(),
-    body: JSON.stringify(body),
-  })
-  const data = await res.json()
-  if (!res.ok) {
-    const msg = Array.isArray(data)
-      ? data.map((e: { Message?: string }) => e.Message).filter(Boolean).join(', ')
-      : (data.message || `Cielo error ${res.status}`)
-    throw new Error(msg || `Cielo error ${res.status}`)
+  const controller = new AbortController()
+  const timeout = setTimeout(() => controller.abort(), 10_000)
+  try {
+    const res = await fetch(`${CIELO_API}${path}`, {
+      method: 'POST',
+      headers: authHeaders(),
+      body: JSON.stringify(body),
+      signal: controller.signal,
+    })
+    clearTimeout(timeout)
+    const data = await res.json()
+    if (!res.ok) {
+      const msg = Array.isArray(data)
+        ? data.map((e: { Message?: string }) => e.Message).filter(Boolean).join(', ')
+        : (data.message || `Cielo error ${res.status}`)
+      throw new Error(msg || `Cielo error ${res.status}`)
+    }
+    return data as T
+  } catch (e) {
+    clearTimeout(timeout)
+    if (e instanceof Error && e.name === 'AbortError') {
+      throw new Error('Cielo API timeout (10s)')
+    }
+    throw e
   }
-  return data as T
 }
 
 // ── Card brand detection ──────────────────────────────────────────────────────
