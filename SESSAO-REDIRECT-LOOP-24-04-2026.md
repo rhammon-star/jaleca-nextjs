@@ -10,8 +10,14 @@ Site `jaleca.com.br` completamente inacessível com erro **ERR_TOO_MANY_REDIRECT
 
 ### 1. Situação Inicial (08:00)
 - Usuário reportou que https://jaleca.com.br não abre mais
-- Problema começou após configurar domínios satélite no Vercel
+- **QUANDO COMEÇOU (CRÍTICO):** Problema apareceu quando:
+  1. Comprou ~20 domínios satélite no Registro.br (lojadejaleco.com.br, jalecopreto.com.br, etc)
+  2. Apontou DNS desses domínios para Vercel (IP 216.198.79.1)
+  3. Adicionou esses domínios no Vercel Dashboard do projeto jaleca-nextjs
+  4. Configurou redirects no next.config.ts para enviar esses domínios → jaleca.com.br
+- Após essas mudanças, jaleca.com.br parou de funcionar (redirect loop infinito)
 - Workaround temporário: `/home` funcionava, `/` não funcionava
+- **Tentativa inicial:** Deletou TODOS os domínios satélite do Vercel → problema PERSISTIU
 
 ### 2. Tentativa: Criar Projeto Novo no Vercel (08:01-08:10)
 **Objetivo:** Eliminar configuração fantasma do Vercel Edge criando projeto limpo
