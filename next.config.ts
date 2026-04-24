@@ -134,19 +134,6 @@ const nextConfig: NextConfig = {
       { source: '/jaleco-slim', destination: '/jaleco-feminino', permanent: true },
       { source: '/:path*', has: [{ type: 'host', value: 'jalecomasculino.com.br' }], destination: 'https://jaleca.com.br/jaleco-masculino', permanent: true },
       { source: '/:path*', has: [{ type: 'host', value: 'www.jalecomasculino.com.br' }], destination: 'https://jaleca.com.br/jaleco-masculino', permanent: true },
-      // WORKAROUND: Bypass 308 loop issue - MUST be AFTER satellite domain redirects
-      {
-        source: '/',
-        has: [{ type: 'host', value: 'jaleca.com.br' }],
-        destination: '/home',
-        permanent: false
-      },
-      {
-        source: '/',
-        has: [{ type: 'host', value: 'www.jaleca.com.br' }],
-        destination: '/home',
-        permanent: false
-      },
       // Trailing slash consolidation
       { source: '/produtos/', destination: '/produtos', permanent: true },
       { source: '/nossas-lojas/', destination: '/nossas-lojas', permanent: true },
