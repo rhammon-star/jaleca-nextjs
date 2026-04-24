@@ -26,6 +26,8 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       // Consolidar trailing slashes — antes de todos os redirects específicos
+      // WORKAROUND: Bypass 308 loop issue by redirecting / to /home
+      { source: '/', destination: '/home', permanent: false },
       { source: '/produto/:slug/', destination: '/produto/:slug', permanent: true },
       { source: '/blog/:slug/', destination: '/blog/:slug', permanent: true },
       { source: '/categoria/:slug/', destination: '/categoria/:slug', permanent: true },
