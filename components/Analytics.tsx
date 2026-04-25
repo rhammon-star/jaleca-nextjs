@@ -84,13 +84,6 @@ export function trackPurchase(
         quantity: i.quantity,
       })),
     })
-
-    // Google Ads conversion direta — mapeada à ação "PURCHASE" (conversion_event_purchase)
-    window.gtag?.('event', 'conversion_event_purchase', {
-      transaction_id: orderId,
-      value,
-      currency: 'BRL',
-    })
   })
 
   // Meta Pixel — eventID deve coincidir com CAPI para deduplicação correta
