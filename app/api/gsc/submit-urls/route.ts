@@ -28,16 +28,16 @@ const PRIORITY_URLS = [
   'https://jaleca.com.br/cidade/ipatinga',
 
   // 10 hubs profissão
-  'https://jaleca.com.br/jaleco-para-dentista',
-  'https://jaleca.com.br/jaleco-para-medico',
-  'https://jaleca.com.br/jaleco-para-enfermeiro',
-  'https://jaleca.com.br/jaleco-para-veterinario',
-  'https://jaleca.com.br/jaleco-para-nutricionista',
-  'https://jaleca.com.br/jaleco-para-fisioterapeuta',
-  'https://jaleca.com.br/jaleco-para-biomedico',
-  'https://jaleca.com.br/jaleco-para-podologo',
-  'https://jaleca.com.br/jaleco-para-farmaceutico',
-  'https://jaleca.com.br/jaleco-para-esteticista',
+  'https://jaleca.com.br/jaleco-dentista',
+  'https://jaleca.com.br/jaleco-medico',
+  'https://jaleca.com.br/jaleco-enfermeiro',
+  'https://jaleca.com.br/jaleco-veterinario',
+  'https://jaleca.com.br/jaleco-nutricionista',
+  'https://jaleca.com.br/jaleco-fisioterapeuta',
+  'https://jaleca.com.br/jaleco-biomedico',
+  'https://jaleca.com.br/jaleco-podologo',
+  'https://jaleca.com.br/jaleco-farmaceutico',
+  'https://jaleca.com.br/jaleco-esteticista',
 ]
 
 export async function POST(request: Request) {

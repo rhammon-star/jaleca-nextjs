@@ -6,11 +6,11 @@ export const metadata: Metadata = {
   title: 'Jaleco para Dentista: Modelos, Cores e Como Escolher | Jaleca',
   description: 'Guia completo de jaleco para dentista: modelos certos (Slim, Duquesa, Elastex), cores recomendadas, NR-32 e como escolher o jaleco odontológico ideal para seu consultório.',
   keywords: 'jaleco para dentista, jaleco dentista, jaleco odontológico, jaleco para dentista branco, jaleco slim dentista, jaleco NR-32',
-  alternates: { canonical: 'https://jaleca.com.br/blog/guia-jaleco-para-dentista-modelos-cores-como-escolher' },
+  alternates: { canonical: 'https://jaleca.com.br/blog/guia-jaleco-dentista-modelos-cores-como-escolher' },
   openGraph: {
     title: 'Jaleco para Dentista: Modelos, Cores e Como Escolher | Jaleca',
     description: 'Guia completo de jaleco para dentista. Modelos, cores e como escolher.',
-    url: 'https://jaleca.com.br/blog/guia-jaleco-para-dentista-modelos-cores-como-escolher',
+    url: 'https://jaleca.com.br/blog/guia-jaleco-dentista-modelos-cores-como-escolher',
     siteName: 'Jaleca',
     locale: 'pt_BR',
     type: 'article',
@@ -55,7 +55,7 @@ const articleSchema = {
   description: 'Guia completo de jaleco para dentista: modelos certos (Slim, Duquesa, Elastex), cores recomendadas, NR-32 e como escolher o jaleco odontológico ideal.',
   author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
   publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
-  url: 'https://jaleca.com.br/blog/guia-jaleco-para-dentista-modelos-cores-como-escolher',
+  url: 'https://jaleca.com.br/blog/guia-jaleco-dentista-modelos-cores-como-escolher',
   datePublished: '2026-04-23',
   dateModified: '2026-04-23',
 }
@@ -180,7 +180,7 @@ export default function BlogPost() {
             Conheça a linha completa de jalecos profissionais para dentistas — Slim, Duquesa e Elastex.
           </p>
           <Link
-            href="/jaleco-para-dentista"
+            href="/jaleco-dentista"
             className="inline-flex items-center gap-2 bg-[#1a1a1a] text-white px-6 py-3 text-sm font-semibold tracking-widest uppercase hover:bg-[#333]"
           >
             Ver Jalecos para Dentista
@@ -201,5 +201,5 @@ export default function BlogPost() {
 }
 
 export async function generateStaticParams() {
-  return [{ slug: 'guia-jaleco-para-dentista-modelos-cores-como-escolher' }]
+  return [{ slug: 'guia-jaleco-dentista-modelos-cores-como-escolher' }]
 }

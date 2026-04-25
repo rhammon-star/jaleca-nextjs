@@ -74,11 +74,11 @@ const MODELOS = [
 ]
 
 const INTERNAL_LINKS = [
-  { href: '/jaleco-para-medico', label: 'Jaleco para Médico' },
-  { href: '/jaleco-para-dentista', label: 'Jaleco para Dentista' },
-  { href: '/jaleco-para-enfermeiro', label: 'Jaleco para Enfermeiro' },
-  { href: '/jaleco-para-esteticista', label: 'Jaleco para Esteticista' },
-  { href: '/jaleco-para-fisioterapeuta', label: 'Jaleco para Fisioterapeuta' },
+  { href: '/jaleco-medico', label: 'Jaleco para Médico' },
+  { href: '/jaleco-dentista', label: 'Jaleco para Dentista' },
+  { href: '/jaleco-enfermeiro', label: 'Jaleco para Enfermeiro' },
+  { href: '/jaleco-esteticista', label: 'Jaleco para Esteticista' },
+  { href: '/jaleco-fisioterapeuta', label: 'Jaleco para Fisioterapeuta' },
   { href: '/jaleco-premium', label: 'Jaleco Premium' },
   { href: '/jaleco-estiloso', label: 'Jaleco Estiloso' },
   { href: '/jaleco-plus-size', label: 'Jaleco Plus Size' },

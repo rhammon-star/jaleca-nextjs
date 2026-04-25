@@ -44,7 +44,7 @@ O problema apareceu APÓS estas ações:
 4. **Criou redirects no next.config.ts:**
    ```typescript
    { source: '/:path*', has: [{ type: 'host', value: 'lojadejaleco.com.br' }], 
-     destination: 'https://jaleca.com.br/loja-de-jaleco', permanent: true },
+     destination: 'https://jaleca.com.br/loja-jaleco', permanent: true },
    // ... mais 19 domínios
    ```
 

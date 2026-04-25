@@ -4,14 +4,14 @@
 **Projeto:** Jaleca Uniformes Profissionais — jaleca.com.br  
 **Cluster:** SAÚDE (Cluster 1)  
 **Prioridade:** 🟡 ALTA  
-**URL alvo:** `https://jaleca.com.br/jaleco-para-podologo`  
+**URL alvo:** `https://jaleca.com.br/jaleco-podologo`  
 **Referência:** PRD_TOPICAL_AUTHORITY_JALECA_v3.md + TOPICAL-AUTHORITY-ESTRUTURA-COMPLETA.md
 
 ---
 
 ## 1. OBJETIVO
 
-Criar a página de autoridade tópica `/jaleco-para-podologo` — segunda do Cluster Saúde, logo após `/jaleco-para-dentista`. A página deve:
+Criar a página de autoridade tópica `/jaleco-podologo` — segunda do Cluster Saúde, logo após `/jaleco-dentista`. A página deve:
 
 - Ranquear para "jaleco para podólogo" e variações de cauda longa
 - Ser um mini-site completo que responde todas as dúvidas do podólogo sobre vestimenta profissional
@@ -55,7 +55,7 @@ Criar a página de autoridade tópica `/jaleco-para-podologo` — segunda do Clu
 ```
 Title: Jaleco para Podólogo: Guia Completo 2026 | Jaleca
 Description: Qual jaleco usar na podologia? Guia completo com modelos Slim e Profissional, normas da ABQH, cores permitidas e os melhores jalecos com elastano do PP ao G3.
-Canonical: https://jaleca.com.br/jaleco-para-podologo
+Canonical: https://jaleca.com.br/jaleco-podologo
 ```
 
 ### 4.2 Schema JSON-LD (obrigatório)
@@ -118,7 +118,7 @@ Diferenciais específicos para podologia:
 - Link "Ver todos" → `/produtos?categoria=jalecos`
 
 ### 4.9 FAQ (componente `FaqAccordion`)
-8 perguntas — criar arquivo `app/jaleco-para-podologo/FaqAccordion.tsx`:
+8 perguntas — criar arquivo `app/jaleco-podologo/FaqAccordion.tsx`:
 
 | # | Pergunta |
 |---|---------|
@@ -143,13 +143,13 @@ Links internos obrigatórios (Cluster Saúde):
 
 | Label | Href |
 |-------|------|
-| Dentista | `/jaleco-para-dentista` |
-| Biomédico | `/jaleco-para-biomedico` |
-| Enfermeiro | `/jaleco-para-enfermeiro` |
-| Fisioterapeuta | `/jaleco-para-fisioterapeuta` |
-| Nutricionista | `/jaleco-para-nutricionista` |
-| Veterinário | `/jaleco-para-veterinario` |
-| Médico | `/jaleco-para-medico` |
+| Dentista | `/jaleco-dentista` |
+| Biomédico | `/jaleco-biomedico` |
+| Enfermeiro | `/jaleco-enfermeiro` |
+| Fisioterapeuta | `/jaleco-fisioterapeuta` |
+| Nutricionista | `/jaleco-nutricionista` |
+| Veterinário | `/jaleco-veterinario` |
+| Médico | `/jaleco-medico` |
 | Ver todos | `/produtos?categoria=jalecos` |
 
 **Sem `onMouseOver`/`onMouseOut` — usar Tailwind `hover:bg-white/5`**
@@ -166,7 +166,7 @@ Links internos obrigatórios (Cluster Saúde):
 
 ### 5.1 Arquitetura de arquivos
 ```
-app/jaleco-para-podologo/
+app/jaleco-podologo/
 ├── page.tsx          ← Server Component (async)
 └── FaqAccordion.tsx  ← Client Component ('use client')
 ```
@@ -202,11 +202,11 @@ category: 'jalecos-femininos'  // NÃO usar 'jalecos' — retorna acessórios
 ## 6. LINKAGEM INTERNA OBRIGATÓRIA
 
 ```
-/jaleco-para-podologo → /jaleco-para-dentista     (mesmo cluster)
-/jaleco-para-podologo → /jaleco-para-biomedico    (mesmo cluster)
-/jaleco-para-podologo → /como-cuidar-do-jaleco    (blog relacionado)
-/jaleco-para-podologo → /vestimenta-profissional  (pilar — quando existir)
-/jaleco-para-podologo → /produtos?categoria=jalecos-femininos
+/jaleco-podologo → /jaleco-dentista     (mesmo cluster)
+/jaleco-podologo → /jaleco-biomedico    (mesmo cluster)
+/jaleco-podologo → /como-cuidar-do-jaleco    (blog relacionado)
+/jaleco-podologo → /vestimenta-profissional  (pilar — quando existir)
+/jaleco-podologo → /produtos?categoria=jalecos-femininos
 ```
 
 ---
@@ -216,7 +216,7 @@ category: 'jalecos-femininos'  // NÃO usar 'jalecos' — retorna acessórios
 Adicionar em `app/sitemap.ts` na seção "Topical Authority Hubs":
 ```typescript
 {
-  url: `${SITE_URL}/jaleco-para-podologo`,
+  url: `${SITE_URL}/jaleco-podologo`,
   lastModified: new Date(),
   changeFrequency: 'monthly',
   priority: 0.9,
@@ -233,7 +233,7 @@ Adicionar em `app/sitemap.ts` na seção "Topical Authority Hubs":
 3. Gemini → valida contra AI_BLACKLIST
 4. Claude → implementa os textos no código
 5. Claude → commit + deploy Vercel
-6. Rhammon → revisão visual no jaleca.com.br/jaleco-para-podologo
+6. Rhammon → revisão visual no jaleca.com.br/jaleco-podologo
 ```
 
 **Claude NÃO commita textos sem passar pelo Gemini primeiro.**
@@ -257,7 +257,7 @@ Adicionar em `app/sitemap.ts` na seção "Topical Authority Hubs":
 
 ## 10. REFERÊNCIA VISUAL
 
-Página de referência implementada: `https://jaleca.com.br/jaleco-para-dentista`  
-Código de referência: `app/jaleco-para-dentista/page.tsx` + `FaqAccordion.tsx`
+Página de referência implementada: `https://jaleca.com.br/jaleco-dentista`  
+Código de referência: `app/jaleco-dentista/page.tsx` + `FaqAccordion.tsx`
 
 **Seguir exatamente o mesmo layout. Só muda o conteúdo e os textos específicos da profissão.**

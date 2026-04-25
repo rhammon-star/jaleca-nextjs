@@ -76,11 +76,11 @@ const ESTILOS = [
 const INTERNAL_LINKS = [
   { href: '/jaleco-feminino', label: 'Jaleco Feminino' },
   { href: '/jaleco-premium', label: 'Jaleco Premium' },
-  { href: '/melhor-marca-de-jaleco', label: 'Melhor Marca de Jaleco' },
-  { href: '/jaleco-para-esteticista', label: 'Jaleco para Esteticista' },
-  { href: '/jaleco-para-medico', label: 'Jaleco para Médico' },
-  { href: '/jaleco-para-dentista', label: 'Jaleco para Dentista' },
-  { href: '/jaleco-para-tatuador', label: 'Jaleco para Tatuador' },
+  { href: '/melhor-marca-jaleco', label: 'Melhor Marca de Jaleco' },
+  { href: '/jaleco-esteticista', label: 'Jaleco para Esteticista' },
+  { href: '/jaleco-medico', label: 'Jaleco para Médico' },
+  { href: '/jaleco-dentista', label: 'Jaleco para Dentista' },
+  { href: '/jaleco-tatuador', label: 'Jaleco para Tatuador' },
   { href: '/jaleco-universitario', label: 'Jaleco Universitário' },
 ]
 

@@ -41,12 +41,12 @@ const FAQ_ITEMS = [
 ]
 
 const PROFISSOES = [
-  { href: '/jaleco-para-esteticista', label: 'Esteticista', desc: 'Repele produtos estéticos, lava fácil' },
-  { href: '/jaleco-para-cabeleireiro', label: 'Cabeleireiro', desc: 'Não retém fios, resiste a tinturas' },
-  { href: '/jaleco-para-barbeiro', label: 'Barbeiro', desc: 'Corte limpo, visual moderno' },
-  { href: '/jaleco-para-tatuador', label: 'Tatuador', desc: 'Preto padrão em estúdios' },
-  { href: '/jaleco-para-cozinheiro', label: 'Chef / Cozinheiro', desc: 'Disfarça respingos, lavagem industrial' },
-  { href: '/jaleco-para-massagista', label: 'Massagista', desc: 'Conforto para movimentos longos' },
+  { href: '/jaleco-esteticista', label: 'Esteticista', desc: 'Repele produtos estéticos, lava fácil' },
+  { href: '/jaleco-cabeleireiro', label: 'Cabeleireiro', desc: 'Não retém fios, resiste a tinturas' },
+  { href: '/jaleco-barbeiro', label: 'Barbeiro', desc: 'Corte limpo, visual moderno' },
+  { href: '/jaleco-tatuador', label: 'Tatuador', desc: 'Preto padrão em estúdios' },
+  { href: '/jaleco-cozinheiro', label: 'Chef / Cozinheiro', desc: 'Disfarça respingos, lavagem industrial' },
+  { href: '/jaleco-massagista', label: 'Massagista', desc: 'Conforto para movimentos longos' },
 ]
 
 export default async function Page() {

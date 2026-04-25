@@ -91,10 +91,17 @@ function getClientInfo(req: NextRequest) {
 
 export async function POST(request: NextRequest) {
   const clientInfo = getClientInfo(request)
+  let alertContext: {
+    billing?: RequestBody['billing']
+    paymentMethod?: RequestBody['paymentMethod']
+    items?: RequestBody['items']
+    shipping?: RequestBody['shipping']
+  } = {}
 
   try {
     const body: RequestBody = await request.json()
     const { paymentMethod, cpf, billing, items, shipping, customer_id, cardData, installments, couponCode, totalDiscount, pixDiscount } = body
+    alertContext = { billing, paymentMethod, items, shipping }
     let { gaClientId } = body
 
     // Fallback server-side: ler _ga cookie do request (mais confiável que client-side)
@@ -614,6 +621,32 @@ export async function POST(request: NextRequest) {
     if (/coupon.*minimum spend/i.test(message))     message = 'O valor mínimo para usar este cupom não foi atingido.'
     if (/invalid coupon/i.test(message))            message = 'Cupom inválido.'
     console.error('[Payment] Error:', message)
+
+    // Alerta interno — qualquer throw no checkout (Cielo, WC, validação, etc.)
+    try {
+      const b = alertContext.billing
+      if (b?.email) {
+        const totalValue = (alertContext.items || []).reduce((s, i) => s + i.price * i.quantity, 0) + (alertContext.shipping?.cost || 0)
+        const amountFormatted = `R$ ${totalValue.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`
+        const methodLabel = alertContext.paymentMethod === 'pix' ? 'PIX'
+          : alertContext.paymentMethod === 'boleto' ? 'Boleto'
+          : alertContext.paymentMethod === 'credit_card' ? 'Cartão de Crédito'
+          : 'Desconhecido'
+        sendInternalPaymentFailureAlert({
+          orderId:       'N/A (erro antes da criação do pedido)',
+          orderNumber:   'N/A',
+          customerName:  `${b.first_name || ''} ${b.last_name || ''}`.trim() || 'Não informado',
+          customerEmail: b.email,
+          customerPhone: b.phone,
+          paymentMethod: methodLabel,
+          failureReason: message,
+          amount:        amountFormatted,
+        }).catch(err => console.error('[Payment] Failed to send internal alert:', err))
+      }
+    } catch (alertErr) {
+      console.error('[Payment] Error building internal alert:', alertErr)
+    }
+
     return NextResponse.json({ error: message }, { status: 400 })
   }
 }

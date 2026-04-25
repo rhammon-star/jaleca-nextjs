@@ -302,7 +302,7 @@
 #### Dia 22-24: Páginas de Profissão
 Criar 3 páginas hubs de profissão:
 
-- [ ] **`/jaleco-para-dentista`**
+- [ ] **`/jaleco-dentista`**
   - Title: `"Jaleco para Dentista Feminino e Masculino | Conforto e Higiene | Jaleca"`
   - H1: `"Jalecos Profissionais para Dentistas"`
   - Conteúdo: 600 palavras
@@ -405,9 +405,9 @@ Criar 3 páginas hubs de profissão:
 #### SEO Avançado
 - [ ] Criar mais 5 páginas profissão:
   - /jaleco-para-veterinaria
-  - /jaleco-para-esteticista
+  - /jaleco-esteticista
   - /jaleco-para-farmaceutica
-  - /jaleco-para-nutricionista
+  - /jaleco-nutricionista
   - /jaleco-para-biomedica
 
 - [ ] Publicar mais 4 posts blog (total 6)

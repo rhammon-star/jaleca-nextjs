@@ -70,10 +70,10 @@ const MODELOS = [
 
 const INTERNAL_LINKS = [
   { href: '/jaleco-feminino', label: 'Jaleco Feminino' },
-  { href: '/jaleco-para-medico', label: 'Jaleco para Médico' },
-  { href: '/jaleco-para-dentista', label: 'Jaleco para Dentista' },
-  { href: '/jaleco-para-enfermeiro', label: 'Jaleco para Enfermeiro' },
-  { href: '/jaleco-para-fisioterapeuta', label: 'Jaleco para Fisioterapeuta' },
+  { href: '/jaleco-medico', label: 'Jaleco para Médico' },
+  { href: '/jaleco-dentista', label: 'Jaleco para Dentista' },
+  { href: '/jaleco-enfermeiro', label: 'Jaleco para Enfermeiro' },
+  { href: '/jaleco-fisioterapeuta', label: 'Jaleco para Fisioterapeuta' },
   { href: '/jaleco-plus-size', label: 'Jaleco Plus Size' },
   { href: '/jaleco-premium', label: 'Jaleco Premium' },
 ]
@@ -170,7 +170,7 @@ export default async function Page() {
               <Link href="/produtos?categoria=jalecos-femininos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: '#1a1a1a', color: '#fff', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none' }}>
                 Ver jalecos femininos ↗
               </Link>
-              <Link href="/jaleco-para-medico" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: 'transparent', color: '#1a1a1a', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
+              <Link href="/jaleco-medico" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: 'transparent', color: '#1a1a1a', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
                 Guia completo médico →
               </Link>
             </div>

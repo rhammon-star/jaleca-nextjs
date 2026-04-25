@@ -210,7 +210,7 @@ export default async function HubProfissaoTemplate({ profissao }: { profissao: s
           <ol className="flex items-center gap-2 max-w-[1200px] mx-auto" style={{ listStyle: 'none' }}>
             {[
               { label: 'Início', href: '/' },
-              ...(hub.cluster === 'saude' ? [{ label: 'Uniformes para Saúde', href: '/uniformes-profissionais-para-saude' }] : [{ label: produtoConfig.labelPlural, href: `/produtos?categoria=${produtoConfig.catAll}` }]),
+              ...(hub.cluster === 'saude' ? [{ label: 'Uniformes para Saúde', href: '/uniformes-profissionais-saude' }] : [{ label: produtoConfig.labelPlural, href: `/produtos?categoria=${produtoConfig.catAll}` }]),
               { label: `Para ${hub.titulo}`, href: null },
             ].map((crumb, i, arr) => (
               <li key={crumb.label} className="flex items-center gap-2 text-xs" style={{ color: crumb.href ? '#6b6b6b' : '#1a1a1a' }}>

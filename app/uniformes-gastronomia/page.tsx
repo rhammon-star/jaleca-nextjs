@@ -38,12 +38,12 @@ const schemaFaq = {
 }
 
 const GASTRO_HUBS = [
-  { href: '/dolma-para-cozinheiro',      titulo: 'Dólmã Cozinheiro',      desc: 'Padrão profissional · resistente a calor' },
-  { href: '/dolma-para-churrasqueiro',   titulo: 'Dólmã Churrasqueiro',   desc: 'Brasa e gordura · dolma reforçado' },
-  { href: '/dolma-para-sushiman',        titulo: 'Dólmã Sushiman',        desc: 'Branco imaculado · fácil lavagem' },
-  { href: '/jaleco-para-cozinheiro',     titulo: 'Jaleco Cozinheiro',     desc: 'Alternativa ao dolma · leve e prático' },
-  { href: '/jaleco-para-churrasqueiro',  titulo: 'Jaleco Churrasqueiro',  desc: 'Evento e churrascaria · estilo premium' },
-  { href: '/jaleco-para-sushiman',       titulo: 'Jaleco Sushiman',       desc: 'Contemporâneo · eventos corporativos' },
+  { href: '/dolma-cozinheiro',      titulo: 'Dólmã Cozinheiro',      desc: 'Padrão profissional · resistente a calor' },
+  { href: '/dolma-churrasqueiro',   titulo: 'Dólmã Churrasqueiro',   desc: 'Brasa e gordura · dolma reforçado' },
+  { href: '/dolma-sushiman',        titulo: 'Dólmã Sushiman',        desc: 'Branco imaculado · fácil lavagem' },
+  { href: '/jaleco-cozinheiro',     titulo: 'Jaleco Cozinheiro',     desc: 'Alternativa ao dolma · leve e prático' },
+  { href: '/jaleco-churrasqueiro',  titulo: 'Jaleco Churrasqueiro',  desc: 'Evento e churrascaria · estilo premium' },
+  { href: '/jaleco-sushiman',       titulo: 'Jaleco Sushiman',       desc: 'Contemporâneo · eventos corporativos' },
 ]
 
 async function getGastronomiaProducts(): Promise<WooProduct[]> {
@@ -203,7 +203,7 @@ export default async function Page() {
             <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '1rem' }}>Outros clusters</div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
               {[
-                { href: '/uniformes-profissionais-para-saude', label: 'Saúde' },
+                { href: '/uniformes-profissionais-saude', label: 'Saúde' },
                 { href: '/uniformes-beleza', label: 'Beleza' },
                 { href: '/uniformes-servicos', label: 'Serviços' },
                 { href: '/uniformes-escritorio', label: 'Escritório' },

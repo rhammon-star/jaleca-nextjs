@@ -58,93 +58,93 @@ Todas em produção. O que foi atualizado em cada hub:
 **Cluster Saúde (7 hubs)**
 | Página | URL |
 |---|---|
-| Jaleco para Dentista | jaleca.com.br/jaleco-para-dentista |
-| Jaleco para Podólogo | jaleca.com.br/jaleco-para-podologo |
-| Jaleco para Biomédico | jaleca.com.br/jaleco-para-biomedico |
-| Jaleco para Enfermeiro | jaleca.com.br/jaleco-para-enfermeiro |
-| Jaleco para Fisioterapeuta | jaleca.com.br/jaleco-para-fisioterapeuta |
-| Jaleco para Nutricionista | jaleca.com.br/jaleco-para-nutricionista |
-| Jaleco para Médico | jaleca.com.br/jaleco-para-medico |
+| Jaleco para Dentista | jaleca.com.br/jaleco-dentista |
+| Jaleco para Podólogo | jaleca.com.br/jaleco-podologo |
+| Jaleco para Biomédico | jaleca.com.br/jaleco-biomedico |
+| Jaleco para Enfermeiro | jaleca.com.br/jaleco-enfermeiro |
+| Jaleco para Fisioterapeuta | jaleca.com.br/jaleco-fisioterapeuta |
+| Jaleco para Nutricionista | jaleca.com.br/jaleco-nutricionista |
+| Jaleco para Médico | jaleca.com.br/jaleco-medico |
 
 **Cluster Beleza (5 hubs)**
 | Página | URL |
 |---|---|
-| Jaleco para Barbeiro | jaleca.com.br/jaleco-para-barbeiro |
-| Jaleco para Tatuador | jaleca.com.br/jaleco-para-tatuador |
-| Jaleco para Esteticista | jaleca.com.br/jaleco-para-esteticista |
-| Jaleco para Massagista | jaleca.com.br/jaleco-para-massagista |
-| Jaleco para Cabeleireiro | jaleca.com.br/jaleco-para-cabeleireiro |
+| Jaleco para Barbeiro | jaleca.com.br/jaleco-barbeiro |
+| Jaleco para Tatuador | jaleca.com.br/jaleco-tatuador |
+| Jaleco para Esteticista | jaleca.com.br/jaleco-esteticista |
+| Jaleco para Massagista | jaleca.com.br/jaleco-massagista |
+| Jaleco para Cabeleireiro | jaleca.com.br/jaleco-cabeleireiro |
 
 **Cluster Gastronomia (3 hubs — produto: Dólmã)**
 | Página | URL |
 |---|---|
-| Dólmã para Churrasqueiro | jaleca.com.br/jaleco-para-churrasqueiro |
-| Dólmã para Sushiman | jaleca.com.br/jaleco-para-sushiman |
-| Dólmã para Cozinheiro | jaleca.com.br/jaleco-para-cozinheiro |
+| Dólmã para Churrasqueiro | jaleca.com.br/jaleco-churrasqueiro |
+| Dólmã para Sushiman | jaleca.com.br/jaleco-sushiman |
+| Dólmã para Cozinheiro | jaleca.com.br/jaleco-cozinheiro |
 
 **Cluster Serviços (2 hubs)**
 | Página | URL |
 |---|---|
-| Jaleco/Uniforme Professor | jaleca.com.br/jaleco-para-professor |
-| Jaleco para Vendedor | jaleca.com.br/jaleco-para-vendedor |
+| Jaleco/Uniforme Professor | jaleca.com.br/jaleco-professor |
+| Jaleco para Vendedor | jaleca.com.br/jaleco-vendedor |
 
 **Cluster Escritório (4 hubs — produto: Conjunto)**
 | Página | URL |
 |---|---|
-| Conjunto para Advogado | jaleca.com.br/jaleco-para-advogado |
-| Conjunto para Pastor | jaleca.com.br/jaleco-para-pastor |
-| Jaleco/Conjunto Psicóloga | jaleca.com.br/jaleco-para-psicologa |
-| Jaleco para Farmacêutico | jaleca.com.br/jaleco-para-farmaceutico |
+| Conjunto para Advogado | jaleca.com.br/jaleco-advogado |
+| Conjunto para Pastor | jaleca.com.br/jaleco-pastor |
+| Jaleco/Conjunto Psicóloga | jaleca.com.br/jaleco-psicologa |
+| Jaleco para Farmacêutico | jaleca.com.br/jaleco-farmaceutico |
 
 **Páginas extras (produto alternativo)**
 | Página | URL |
 |---|---|
-| Dólmã para Churrasqueiro | jaleca.com.br/dolma-para-churrasqueiro |
-| Dólmã para Sushiman | jaleca.com.br/dolma-para-sushiman |
-| Dólmã para Cozinheiro | jaleca.com.br/dolma-para-cozinheiro |
-| Conjunto para Advogado | jaleca.com.br/conjunto-para-advogado |
-| Conjunto para Pastor | jaleca.com.br/conjunto-para-pastor |
-| Conjunto para Psicóloga | jaleca.com.br/conjunto-para-psicologa |
-| Conjunto para Farmacêutico | jaleca.com.br/conjunto-para-farmaceutico |
-| Uniforme para Professor | jaleca.com.br/uniforme-para-professor |
+| Dólmã para Churrasqueiro | jaleca.com.br/dolma-churrasqueiro |
+| Dólmã para Sushiman | jaleca.com.br/dolma-sushiman |
+| Dólmã para Cozinheiro | jaleca.com.br/dolma-cozinheiro |
+| Conjunto para Advogado | jaleca.com.br/conjunto-advogado |
+| Conjunto para Pastor | jaleca.com.br/conjunto-pastor |
+| Conjunto para Psicóloga | jaleca.com.br/conjunto-psicologa |
+| Conjunto para Farmacêutico | jaleca.com.br/conjunto-farmaceutico |
+| Uniforme para Professor | jaleca.com.br/uniforme-professor |
 
 ---
 
 ### 1.4 Estrutura de Topical Authority — Links Internos
 
 ```
-Pillar: /uniformes-profissionais-para-saude
-  └── /jaleco-para-dentista
-  └── /jaleco-para-podologo
-  └── /jaleco-para-biomedico
-  └── /jaleco-para-enfermeiro
-  └── /jaleco-para-fisioterapeuta
-  └── /jaleco-para-nutricionista
-  └── /jaleco-para-medico
+Pillar: /uniformes-profissionais-saude
+  └── /jaleco-dentista
+  └── /jaleco-podologo
+  └── /jaleco-biomedico
+  └── /jaleco-enfermeiro
+  └── /jaleco-fisioterapeuta
+  └── /jaleco-nutricionista
+  └── /jaleco-medico
       └── Blog posts linkando de volta para o hub
 
-/jaleco-para-barbeiro (cluster beleza — sem pillar ainda)
-/jaleco-para-tatuador
-/jaleco-para-esteticista
-/jaleco-para-massagista
-/jaleco-para-cabeleireiro
+/jaleco-barbeiro (cluster beleza — sem pillar ainda)
+/jaleco-tatuador
+/jaleco-esteticista
+/jaleco-massagista
+/jaleco-cabeleireiro
 
-/jaleco-para-churrasqueiro (cluster gastronomia)
-/jaleco-para-sushiman
-/jaleco-para-cozinheiro
+/jaleco-churrasqueiro (cluster gastronomia)
+/jaleco-sushiman
+/jaleco-cozinheiro
 
-/jaleco-para-professor (cluster serviços)
-/jaleco-para-vendedor
+/jaleco-professor (cluster serviços)
+/jaleco-vendedor
 
-/jaleco-para-advogado (cluster escritório)
-/jaleco-para-pastor
-/jaleco-para-psicologa
-/jaleco-para-farmaceutico
+/jaleco-advogado (cluster escritório)
+/jaleco-pastor
+/jaleco-psicologa
+/jaleco-farmaceutico
 ```
 
 **Linking bidirecional implementado:**
 - Cada hub linka para os outros hubs do mesmo cluster (CLUSTER_LINKS)
-- Cluster saúde linka de volta ao pillar `/uniformes-profissionais-para-saude`
+- Cluster saúde linka de volta ao pillar `/uniformes-profissionais-saude`
 - Pillar linka para todos os 7 hubs de saúde
 
 ---
@@ -180,7 +180,7 @@ Pillar: /uniformes-profissionais-para-saude
 | 18 | Biossegurança em Estúdios de Tatuagem: Seu Aliado Essencial | jaleca.com.br/blog/biosseguranca-estudio-tatuagem-epi-jaleco-sangue-tinta |
 | 19 | Jaleco de Estética: Seu Aliado em CAPES, HIMEC e Harmonização | jaleca.com.br/blog/jaleco-de-estetica-capes-himec-harmonizacao-facial |
 | 20 | O Poder do Jaleco na Percepção do Cliente na Estética | jaleca.com.br/blog/jaleco-esteticista-percepcao-cliente |
-| 21 | Jaleco para Massagem: Mobilidade e Higiene Essenciais | jaleca.com.br/blog/jaleco-para-massagista-mobilidade-higiene-drenagem |
+| 21 | Jaleco para Massagem: Mobilidade e Higiene Essenciais | jaleca.com.br/blog/jaleco-massagista-mobilidade-higiene-drenagem |
 | 22 | Uniforme Massagista: Conforto e Profissionalismo | jaleca.com.br/blog/uniforme-massagista-spa-clinica-conforto-apresentacao |
 | 23 | Jaleco Antiestático: O Fim do Cabelo Grudado no Jaleco | jaleca.com.br/blog/jaleco-antiestatico-problema-salao |
 | 24 | Padronize sua equipe: Uniformes para salões de beleza | jaleca.com.br/blog/padronizar-equipe-cabeleireiros-uniformes-salao |
@@ -198,7 +198,7 @@ Pillar: /uniformes-profissionais-para-saude
 **Cluster Serviços — 4 posts**
 | # | Título | Link |
 |---|---|---|
-| 31 | Jaleco para Professor: Faz Diferença? | jaleca.com.br/blog/jaleco-para-professor-diferenca-sala-aula |
+| 31 | Jaleco para Professor: Faz Diferença? | jaleca.com.br/blog/jaleco-professor-diferenca-sala-aula |
 | 32 | Uniforme de Professor EAD: Do Estúdio à Sala de Aula | jaleca.com.br/blog/uniforme-professor-ead-aulas-hibridas-camera |
 | 33 | Jaleco de Loja: O Uniforme que Transforma Confiança | jaleca.com.br/blog/jaleco-de-loja-uniforme-confianca-cliente |
 | 34 | Jaleco para Loja: Padronize com Estilo | jaleca.com.br/blog/jaleco-para-loja-padronizacao-equipe-identidade |
@@ -362,12 +362,12 @@ Pillar: /uniformes-profissionais-para-saude
 ## 7. LINKS RÁPIDOS PARA VALIDAÇÃO
 
 - **Blog completo:** jaleca.com.br/blog
-- **Pillar Saúde:** jaleca.com.br/uniformes-profissionais-para-saude
-- **Hub Dentista (referência):** jaleca.com.br/jaleco-para-dentista
-- **Hub Médico:** jaleca.com.br/jaleco-para-medico
-- **Hub Barbeiro:** jaleca.com.br/jaleco-para-barbeiro
-- **Hub Dólmã Churrasqueiro:** jaleca.com.br/dolma-para-churrasqueiro
-- **Hub Conjunto Advogado:** jaleca.com.br/conjunto-para-advogado
+- **Pillar Saúde:** jaleca.com.br/uniformes-profissionais-saude
+- **Hub Dentista (referência):** jaleca.com.br/jaleco-dentista
+- **Hub Médico:** jaleca.com.br/jaleco-medico
+- **Hub Barbeiro:** jaleca.com.br/jaleco-barbeiro
+- **Hub Dólmã Churrasqueiro:** jaleca.com.br/dolma-churrasqueiro
+- **Hub Conjunto Advogado:** jaleca.com.br/conjunto-advogado
 - **WP Admin:** wp.jaleca.com.br/wp-admin
 - **GSC:** search.google.com/search-console
 - **ContentSquare:** contentsquare.com (Project 741528)

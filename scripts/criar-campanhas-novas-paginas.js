@@ -5,7 +5,7 @@
  *
  * Campanhas criadas aqui:
  *   1. Jaleco Feminino + Slim (Search)  — R$20/dia  → /jaleco-feminino
- *   2. Loja de Jaleco (Search)          — R$15/dia  → /loja-de-jaleco
+ *   2. Loja de Jaleco (Search)          — R$15/dia  → /loja-jaleco
  *   3. Jaleco Preto (Search)            — R$10/dia  → /jaleco-preto
  *   4. Jaleco Premium (Search)          — R$10/dia  → /jaleco-premium
  *   5. Comprar Jaleco Online (Search)   — R$10/dia  → /comprar-jaleco-online
@@ -284,7 +284,7 @@ async function criarCampanhaLojaDeJaleco() {
       "30 modelos para saúde, beleza e gastronomia. Tecido premium, molde feminino.",
       "Frete grátis no Sudeste acima de R$499. PIX com desconto. Entrega rápida.",
     ],
-    "https://jaleca.com.br/loja-de-jaleco",
+    "https://jaleca.com.br/loja-jaleco",
     "jalecos",
     "profissionais"
   );

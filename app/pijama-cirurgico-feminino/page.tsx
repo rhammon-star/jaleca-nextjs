@@ -72,10 +72,10 @@ const INTERNAL_LINKS = [
   { href: '/jaleco-feminino', label: 'Jaleco Feminino' },
   { href: '/jaleco-medico-feminino', label: 'Jaleco Médico Feminino' },
   { href: '/jaleco-enfermagem-feminino', label: 'Jaleco Enfermagem Feminino' },
-  { href: '/jaleco-para-medico', label: 'Jaleco para Médico' },
-  { href: '/jaleco-para-enfermeiro', label: 'Jaleco para Enfermeiro' },
+  { href: '/jaleco-medico', label: 'Jaleco para Médico' },
+  { href: '/jaleco-enfermeiro', label: 'Jaleco para Enfermeiro' },
   { href: '/jaleco-plus-size', label: 'Jaleco Plus Size' },
-  { href: '/uniformes-profissionais-para-saude', label: 'Uniformes para Saúde' },
+  { href: '/uniformes-profissionais-saude', label: 'Uniformes para Saúde' },
 ]
 
 export default async function Page() {
@@ -112,7 +112,7 @@ export default async function Page() {
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://jaleca.com.br' },
-      { '@type': 'ListItem', position: 2, name: 'Uniformes para Saúde', item: 'https://jaleca.com.br/uniformes-profissionais-para-saude' },
+      { '@type': 'ListItem', position: 2, name: 'Uniformes para Saúde', item: 'https://jaleca.com.br/uniformes-profissionais-saude' },
       { '@type': 'ListItem', position: 3, name: 'Pijama Cirúrgico Feminino', item: 'https://jaleca.com.br/pijama-cirurgico-feminino' },
     ],
   }
@@ -129,7 +129,7 @@ export default async function Page() {
           <ol className="flex items-center gap-2 max-w-[1200px] mx-auto" style={{ listStyle: 'none' }}>
             {[
               { label: 'Início', href: '/' },
-              { label: 'Uniformes para Saúde', href: '/uniformes-profissionais-para-saude' },
+              { label: 'Uniformes para Saúde', href: '/uniformes-profissionais-saude' },
               { label: 'Pijama Cirúrgico Feminino', href: null },
             ].map((crumb, i, arr) => (
               <li key={crumb.label} className="flex items-center gap-2 text-xs" style={{ color: crumb.href ? '#6b6b6b' : '#1a1a1a' }}>

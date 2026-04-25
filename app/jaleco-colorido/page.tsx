@@ -62,9 +62,9 @@ const FAQ_ITEMS = [
 const INTERNAL_LINKS = [
   { href: '/jaleco-feminino', label: 'Jaleco Feminino' },
   { href: '/jaleco-preto-feminino', label: 'Jaleco Preto Feminino' },
-  { href: '/jaleco-para-nutricionista', label: 'Jaleco para Nutricionista' },
-  { href: '/jaleco-para-fisioterapeuta', label: 'Jaleco para Fisioterapeuta' },
-  { href: '/jaleco-para-esteticista', label: 'Jaleco para Esteticista' },
+  { href: '/jaleco-nutricionista', label: 'Jaleco para Nutricionista' },
+  { href: '/jaleco-fisioterapeuta', label: 'Jaleco para Fisioterapeuta' },
+  { href: '/jaleco-esteticista', label: 'Jaleco para Esteticista' },
   { href: '/jaleco-plus-size', label: 'Jaleco Plus Size' },
 ]
 

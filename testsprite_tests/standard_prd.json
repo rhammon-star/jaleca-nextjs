@@ -541,10 +541,10 @@
         "name": "SEO Hub Pages",
         "description": "Static profession hub pages (medico, enfermeiro, dentista, etc.) for topical authority",
         "files": [
-          "app/jaleco-para-medico/page.tsx",
-          "app/jaleco-para-enfermeiro/page.tsx",
-          "app/jaleco-para-dentista/page.tsx",
-          "app/jaleco-para-esteticista/page.tsx"
+          "app/jaleco-medico/page.tsx",
+          "app/jaleco-enfermeiro/page.tsx",
+          "app/jaleco-dentista/page.tsx",
+          "app/jaleco-esteticista/page.tsx"
         ],
         "endpoints": [],
         "depends_on": [

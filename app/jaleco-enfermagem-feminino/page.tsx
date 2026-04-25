@@ -70,12 +70,12 @@ const MODELOS = [
 
 const INTERNAL_LINKS = [
   { href: '/jaleco-feminino', label: 'Jaleco Feminino' },
-  { href: '/jaleco-para-enfermeiro', label: 'Jaleco para Enfermeiro' },
-  { href: '/jaleco-para-medico', label: 'Jaleco para Médico' },
-  { href: '/jaleco-para-fisioterapeuta', label: 'Jaleco para Fisioterapeuta' },
-  { href: '/jaleco-para-nutricionista', label: 'Jaleco para Nutricionista' },
+  { href: '/jaleco-enfermeiro', label: 'Jaleco para Enfermeiro' },
+  { href: '/jaleco-medico', label: 'Jaleco para Médico' },
+  { href: '/jaleco-fisioterapeuta', label: 'Jaleco para Fisioterapeuta' },
+  { href: '/jaleco-nutricionista', label: 'Jaleco para Nutricionista' },
   { href: '/jaleco-plus-size', label: 'Jaleco Plus Size' },
-  { href: '/uniformes-profissionais-para-saude', label: 'Uniformes para Saúde' },
+  { href: '/uniformes-profissionais-saude', label: 'Uniformes para Saúde' },
 ]
 
 export default async function Page() {
@@ -170,7 +170,7 @@ export default async function Page() {
               <Link href="/produtos?categoria=jalecos-femininos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: '#1a1a1a', color: '#fff', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none' }}>
                 Ver jalecos femininos ↗
               </Link>
-              <Link href="/jaleco-para-enfermeiro" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: 'transparent', color: '#1a1a1a', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
+              <Link href="/jaleco-enfermeiro" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: 'transparent', color: '#1a1a1a', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
                 Guia completo enfermagem →
               </Link>
             </div>

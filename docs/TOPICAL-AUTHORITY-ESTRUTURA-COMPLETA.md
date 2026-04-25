@@ -35,36 +35,36 @@ Transformar a Jaleca na referência #1 do Brasil em vestimenta profissional, dom
 PILLAR PAGE: /vestimenta-profissional/
 │
 ├── CLUSTER 1: SAÚDE
-│   ├── /jaleco-para-dentista/         🔴 CRÍTICA — reescrever
-│   ├── /jaleco-para-podologo/         🟡 ALTA
-│   ├── /jaleco-para-biomedico/        🟢 MÉDIA
-│   ├── /jaleco-para-enfermeiro/       🟢 MÉDIA
-│   ├── /jaleco-para-fisioterapeuta/   🟢 MÉDIA
-│   ├── /jaleco-para-nutricionista/    🟢 MÉDIA
-│   ├── /jaleco-para-veterinario/      🟢 MÉDIA
-│   └── /jaleco-para-medico/           🟢 MÉDIA
+│   ├── /jaleco-dentista/         🔴 CRÍTICA — reescrever
+│   ├── /jaleco-podologo/         🟡 ALTA
+│   ├── /jaleco-biomedico/        🟢 MÉDIA
+│   ├── /jaleco-enfermeiro/       🟢 MÉDIA
+│   ├── /jaleco-fisioterapeuta/   🟢 MÉDIA
+│   ├── /jaleco-nutricionista/    🟢 MÉDIA
+│   ├── /jaleco-veterinario/      🟢 MÉDIA
+│   └── /jaleco-medico/           🟢 MÉDIA
 │
 ├── CLUSTER 2: BELEZA
-│   ├── /jaleco-para-barbeiro/         🟡 ALTA — NICHO VIRGEM
-│   ├── /jaleco-para-tatuador/         🟡 ALTA — NICHO VIRGEM
+│   ├── /jaleco-barbeiro/         🟡 ALTA — NICHO VIRGEM
+│   ├── /jaleco-tatuador/         🟡 ALTA — NICHO VIRGEM
 │   ├── /jaleco-para-casa-de-estetica/ 🟡 ALTA — NICHO VIRGEM
-│   ├── /jaleco-para-massagista/       🟡 ALTA — NICHO VIRGEM
-│   └── /jaleco-para-cabeleireiro/     🟡 ALTA
+│   ├── /jaleco-massagista/       🟡 ALTA — NICHO VIRGEM
+│   └── /jaleco-cabeleireiro/     🟡 ALTA
 │
 ├── CLUSTER 3: GASTRONOMIA
-│   ├── /jaleco-para-churrasqueiro/    🟡 ALTA — NICHO VIRGEM
-│   ├── /jaleco-para-sushiman/         🟡 ALTA — NICHO VIRGEM
-│   └── /jaleco-para-cozinheiro/       🟢 MÉDIA
+│   ├── /jaleco-churrasqueiro/    🟡 ALTA — NICHO VIRGEM
+│   ├── /jaleco-sushiman/         🟡 ALTA — NICHO VIRGEM
+│   └── /jaleco-cozinheiro/       🟢 MÉDIA
 │
 ├── CLUSTER 4: SERVIÇOS
-│   ├── /jaleco-para-professor/        🟡 ALTA
-│   └── /jaleco-para-vendedor/         🟢 MÉDIA
+│   ├── /jaleco-professor/        🟡 ALTA
+│   └── /jaleco-vendedor/         🟢 MÉDIA
 │
 ├── CLUSTER 5: ESCRITÓRIO
-│   ├── /jaleco-para-advogado/         🟡 ALTA — NICHO VIRGEM
-│   ├── /jaleco-para-pastor/           🟡 ALTA — NICHO VIRGEM
-│   ├── /jaleco-para-psicologa/        🟡 ALTA
-│   └── /jaleco-para-farmaceutico/     🟢 MÉDIA
+│   ├── /jaleco-advogado/         🟡 ALTA — NICHO VIRGEM
+│   ├── /jaleco-pastor/           🟡 ALTA — NICHO VIRGEM
+│   ├── /jaleco-psicologa/        🟡 ALTA
+│   └── /jaleco-farmaceutico/     🟢 MÉDIA
 │
 ├── CLUSTER 6: CORPORATIVO
 │   ├── /conjunto-advocacia/           🟡 ALTA — NICHO
@@ -91,19 +91,19 @@ PILLAR PAGE: /vestimenta-profissional/
 
 | # | Hub | URL | Prioridade | Status |
 |---|-----|-----|-----------|--------|
-| 1 | Jaleco para Dentista | /jaleco-para-dentista/ | 🔴 CRÍTICA | EXISTE — reescrever |
-| 2 | Jaleco para Psicóloga | /jaleco-para-psicologa/ | 🟡 ALTA | CRIAR |
-| 3 | Jaleco para Advogado | /jaleco-para-advogado/ | 🟡 ALTA | CRIAR — NICHO VIRGEM |
-| 4 | Jaleco para Pastor | /jaleco-para-pastor/ | 🟡 ALTA | CRIAR — NICHO VIRGEM |
-| 5 | Jaleco para Barbeiro | /jaleco-para-barbeiro/ | 🟡 ALTA | CRIAR — NICHO VIRGEM |
-| 6 | Jaleco para Churrasqueiro | /jaleco-para-churrasqueiro/ | 🟡 ALTA | CRIAR — NICHO VIRGEM |
-| 7 | Jaleco para Sushiman | /jaleco-para-sushiman/ | 🟡 ALTA | CRIAR — NICHO VIRGEM |
-| 8 | Jaleco para Professor | /jaleco-para-professor/ | 🟡 ALTA | CRIAR |
-| 9 | Jaleco para Cabeleireiro | /jaleco-para-cabeleireiro/ | 🟡 ALTA | CRIAR |
-| 10 | Jaleco para Podólogo | /jaleco-para-podologo/ | 🟡 ALTA | CRIAR |
-| 11 | Jaleco para Tatuador | /jaleco-para-tatuador/ | 🟡 ALTA | CRIAR — NICHO VIRGEM |
+| 1 | Jaleco para Dentista | /jaleco-dentista/ | 🔴 CRÍTICA | EXISTE — reescrever |
+| 2 | Jaleco para Psicóloga | /jaleco-psicologa/ | 🟡 ALTA | CRIAR |
+| 3 | Jaleco para Advogado | /jaleco-advogado/ | 🟡 ALTA | CRIAR — NICHO VIRGEM |
+| 4 | Jaleco para Pastor | /jaleco-pastor/ | 🟡 ALTA | CRIAR — NICHO VIRGEM |
+| 5 | Jaleco para Barbeiro | /jaleco-barbeiro/ | 🟡 ALTA | CRIAR — NICHO VIRGEM |
+| 6 | Jaleco para Churrasqueiro | /jaleco-churrasqueiro/ | 🟡 ALTA | CRIAR — NICHO VIRGEM |
+| 7 | Jaleco para Sushiman | /jaleco-sushiman/ | 🟡 ALTA | CRIAR — NICHO VIRGEM |
+| 8 | Jaleco para Professor | /jaleco-professor/ | 🟡 ALTA | CRIAR |
+| 9 | Jaleco para Cabeleireiro | /jaleco-cabeleireiro/ | 🟡 ALTA | CRIAR |
+| 10 | Jaleco para Podólogo | /jaleco-podologo/ | 🟡 ALTA | CRIAR |
+| 11 | Jaleco para Tatuador | /jaleco-tatuador/ | 🟡 ALTA | CRIAR — NICHO VIRGEM |
 | 12 | Jaleco para Casa de Estética | /jaleco-para-casa-de-estetica/ | 🟡 ALTA | CRIAR — NICHO VIRGEM |
-| 13 | Jaleco para Massagista | /jaleco-para-massagista/ | 🟡 ALTA | CRIAR — NICHO VIRGEM |
+| 13 | Jaleco para Massagista | /jaleco-massagista/ | 🟡 ALTA | CRIAR — NICHO VIRGEM |
 | 14 | Conjunto para Advocacia | /conjunto-advocacia/ | 🟡 ALTA | CRIAR — NICHO |
 | 15 | Uniforme Corporativo | /uniforme-corporativo/ | 🟡 ALTA | CRIAR — NICHO |
 | 16 | Conjuntos Profissionais | /conjuntos-profissionais/ | 🔴 CRÍTICA | REESTRUTURAR |
@@ -113,9 +113,9 @@ PILLAR PAGE: /vestimenta-profissional/
 | 20 | Jalecos — Guia Completo | /jalecos/ | 🔴 CRÍTICA | REESTRUTURAR |
 | 21 | Como Cuidar do Jaleco | /como-cuidar-do-jaleco/ | 🔴 CRÍTICA | MELHORAR (pos 4.6) |
 | 22 | Como Escolher o Jaleco | /como-escolher-jaleco/ | 🔴 CRÍTICA | CRIAR |
-| 23 | Jaleco para Médico | /jaleco-para-medico/ | 🟢 MÉDIA | CRIAR |
-| 24 | Jaleco para Fisioterapeuta | /jaleco-para-fisioterapeuta/ | 🟢 MÉDIA | CRIAR |
-| 25 | Jaleco para Nutricionista | /jaleco-para-nutricionista/ | 🟢 MÉDIA | CRIAR |
+| 23 | Jaleco para Médico | /jaleco-medico/ | 🟢 MÉDIA | CRIAR |
+| 24 | Jaleco para Fisioterapeuta | /jaleco-fisioterapeuta/ | 🟢 MÉDIA | CRIAR |
+| 25 | Jaleco para Nutricionista | /jaleco-nutricionista/ | 🟢 MÉDIA | CRIAR |
 | 26 | Jaleco Masculino | /jaleco-masculino/ | 🟡 ALTA | CRIAR |
 | 27 | Jaleco Feminino | /jaleco-feminino/ | 🟡 ALTA | CRIAR (pos 34.5) |
 
@@ -187,19 +187,19 @@ Hub → /vestimenta-profissional/ (TODOS)
 Hub → Produtos relevantes da loja
 
 Exemplo SAÚDE:
-/jaleco-para-dentista/ → /jaleco-para-podologo/, /jaleco-para-biomedico/
-/jaleco-para-podologo/ → /jaleco-para-dentista/, /como-cuidar-do-jaleco/
+/jaleco-dentista/ → /jaleco-podologo/, /jaleco-biomedico/
+/jaleco-podologo/ → /jaleco-dentista/, /como-cuidar-do-jaleco/
 Todos hubs SAÚDE → /vestimenta-profissional/
 
 Exemplo BELEZA:
-/jaleco-para-barbeiro/ → /jaleco-para-tatuador/, /jaleco-para-cabeleireiro/
-/jaleco-para-tatuador/ → /jaleco-para-barbeiro/, /produtos/
+/jaleco-barbeiro/ → /jaleco-tatuador/, /jaleco-cabeleireiro/
+/jaleco-tatuador/ → /jaleco-barbeiro/, /produtos/
 Todos hubs BELEZA → /vestimenta-profissional/
 
 Exemplo NICHOS VIRGENS:
-/jaleco-para-advogado/ → /conjunto-advocacia/, /vestimenta-profissional/
-/jaleco-para-pastor/ → /vestimenta-profissional/, /jaleco-masculino/
-/jaleco-para-churrasqueiro/ → /vestimenta-profissional/, /calcado-profissional/
+/jaleco-advogado/ → /conjunto-advocacia/, /vestimenta-profissional/
+/jaleco-pastor/ → /vestimenta-profissional/, /jaleco-masculino/
+/jaleco-churrasqueiro/ → /vestimenta-profissional/, /calcado-profissional/
 ```
 
 ---
@@ -285,14 +285,14 @@ Exemplo NICHOS VIRGENS:
 ### MÊS 1 (Dias 1–30) — CLUSTER SAÚDE
 
 **Semana 1 — Dentista + Fundação Comercial**
-- Dia 1–2: Hub `/jaleco-para-dentista/` — reescrever como mini-site completo
+- Dia 1–2: Hub `/jaleco-dentista/` — reescrever como mini-site completo
 - Dia 3: Landing `/jaleco-feminino/` — foco conversão + SEO
 - Dia 4: Hub `/jalecos/` — transformar em hub de produto
 - Dia 5–7: 5 posts do cluster Dentista
 
 **Semana 2 — Expansão Saúde**
-- Dia 8–9: Hub `/jaleco-para-podologo/`
-- Dia 10–11: Hub `/jaleco-para-biomedico/`
+- Dia 8–9: Hub `/jaleco-podologo/`
+- Dia 10–11: Hub `/jaleco-biomedico/`
 - Dia 12–14: 6 posts do cluster Saúde
 
 **Semana 3–4 — Fechar Cluster Saúde**
@@ -307,9 +307,9 @@ Exemplo NICHOS VIRGENS:
 ### MÊS 2 (Dias 31–60) — CLUSTER BELEZA
 
 **Prioridades:**
-1. Hub `/jaleco-para-barbeiro/` — nicho virgem de alto volume
-2. Hub `/jaleco-para-cabeleireiro/`
-3. Hub `/jaleco-para-tatuador/` — nicho virgem
+1. Hub `/jaleco-barbeiro/` — nicho virgem de alto volume
+2. Hub `/jaleco-cabeleireiro/`
+3. Hub `/jaleco-tatuador/` — nicho virgem
 4. Hub `/jaleco-para-casa-de-estetica/` — nicho virgem
 5. 10 posts do cluster Beleza
 
@@ -330,12 +330,12 @@ Posts Cluster Beleza:
 ### MÊS 3 (Dias 61–90) — NICHOS VIRGENS
 
 **Prioridades:**
-1. Hub `/jaleco-para-advogado/` — NICHO VIRGEM
-2. Hub `/jaleco-para-pastor/` — NICHO VIRGEM
-3. Hub `/jaleco-para-professor/`
-4. Hub `/jaleco-para-churrasqueiro/` — NICHO VIRGEM
-5. Hub `/jaleco-para-sushiman/` — NICHO VIRGEM
-6. Hub `/jaleco-para-massagista/` — NICHO VIRGEM
+1. Hub `/jaleco-advogado/` — NICHO VIRGEM
+2. Hub `/jaleco-pastor/` — NICHO VIRGEM
+3. Hub `/jaleco-professor/`
+4. Hub `/jaleco-churrasqueiro/` — NICHO VIRGEM
+5. Hub `/jaleco-sushiman/` — NICHO VIRGEM
+6. Hub `/jaleco-massagista/` — NICHO VIRGEM
 7. 10 posts dos nichos
 
 **Resultado Mês 3:** 6 hubs + 10 posts + domínio antes dos concorrentes

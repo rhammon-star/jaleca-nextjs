@@ -4,8 +4,12 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 
 const messages = [
+  { text: '💳 PIX com 5% de desconto · 3x sem juros no cartão', href: '/produtos', cta: 'Ver produtos' },
+  { text: '🚚 Frete grátis no Sudeste · SP · RJ · MG · ES acima de R$499', href: '/produtos', cta: 'Comprar agora' },
+  { text: '🏪 6 lojas físicas · Atendimento via WhatsApp 7 dias por semana', href: '/nossas-lojas', cta: 'Ver lojas' },
+  { text: '🔄 Troca em até 30 dias · Comprou e não serviu, a gente troca', href: '/trocas-e-devolucoes', cta: 'Saiba mais' },
+  { text: '⭐ +200 mil peças vendidas · Marca aprovada por profissionais de saúde', href: '/produtos', cta: 'Conferir' },
   { text: '💚 Prepare-se! Nova Coleção Outono/Inverno está chegando', href: '/produtos?novidades=true', cta: 'Ver novidades' },
-  { text: '⭐ Ganhe pontos de fidelidade em cada compra', href: '/minha-conta', cta: 'Saiba mais' },
 ]
 
 export default function AnnouncementBar() {

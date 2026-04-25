@@ -77,12 +77,12 @@ const ATRIBUTOS = [
 ]
 
 const INTERNAL_LINKS = [
-  { href: '/melhor-marca-de-jaleco', label: 'Melhor Marca de Jaleco' },
+  { href: '/melhor-marca-jaleco', label: 'Melhor Marca de Jaleco' },
   { href: '/jaleco-feminino', label: 'Jaleco Feminino' },
   { href: '/jaleco-estiloso', label: 'Jaleco Estiloso' },
-  { href: '/jaleco-para-medico', label: 'Jaleco para Médico' },
-  { href: '/jaleco-para-dentista', label: 'Jaleco para Dentista' },
-  { href: '/jaleco-para-esteticista', label: 'Jaleco para Esteticista' },
+  { href: '/jaleco-medico', label: 'Jaleco para Médico' },
+  { href: '/jaleco-dentista', label: 'Jaleco para Dentista' },
+  { href: '/jaleco-esteticista', label: 'Jaleco para Esteticista' },
   { href: '/jaleco-universitario', label: 'Jaleco Universitário' },
   { href: '/jaleco-plus-size', label: 'Jaleco Plus Size' },
 ]

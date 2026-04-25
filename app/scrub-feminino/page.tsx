@@ -470,12 +470,12 @@ export default async function ScrubFemininoPage() {
             <div className="grid grid-cols-2 md:grid-cols-4" style={{ gap: '1px', background: 'rgba(255,255,255,0.08)' }}>
               {[
                 { label: 'Jaleco Branco', href: '/jaleco-branco', desc: 'Guia completo' },
-                { label: 'Jaleco para Dentista', href: '/jaleco-para-dentista', desc: 'Guia completo' },
-                { label: 'Jaleco para Médico', href: '/jaleco-para-medico', desc: 'Guia completo' },
-                { label: 'Jaleco para Veterinário', href: '/jaleco-para-veterinario', desc: 'Guia completo' },
+                { label: 'Jaleco para Dentista', href: '/jaleco-dentista', desc: 'Guia completo' },
+                { label: 'Jaleco para Médico', href: '/jaleco-medico', desc: 'Guia completo' },
+                { label: 'Jaleco para Veterinário', href: '/jaleco-veterinario', desc: 'Guia completo' },
                 { label: 'Scrub Masculino', href: '/scrub-masculino', desc: 'Guia completo' },
                 { label: 'Conjuntos Femininos', href: '/produtos?categoria=conjuntos-femininos', desc: 'Ver todos' },
-                { label: 'Jaleco para Biomédico', href: '/jaleco-para-biomedico', desc: 'Guia completo' },
+                { label: 'Jaleco para Biomédico', href: '/jaleco-biomedico', desc: 'Guia completo' },
                 { label: 'Ver todos', href: '/produtos?categoria=jalecos', desc: 'Loja completa' },
               ].map(item => (
                 <Link key={item.href} href={item.href} className="block hover:bg-white/5 transition-colors duration-200" style={{ padding: '1.5rem', textDecoration: 'none' }}>

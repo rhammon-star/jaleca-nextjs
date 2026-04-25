@@ -508,42 +508,42 @@ Objetivo: Ser a página de referência definitiva sobre vestimenta profissional 
 ├─────────────────────────────────────────────────────────────┤
 │                                                              │
 │  HUB: Jaleco para Dentista                                   │
-│  URI: /jaleco-para-dentista/                                │
+│  URI: /jaleco-dentista/                                │
 │  Status: EXISTE — CRÍTICO melhorar (pos 11.3)               │
 │  Prioridade: CRÍTICA (maior público!)                        │
 │                                                              │
 │  HUB: Jaleco para Médico                                     │
-│  URI: /jaleco-para-medico/                                   │
+│  URI: /jaleco-medico/                                   │
 │  Status: CRIAR                                               │
 │  Prioridade: MÉDIA                                           │
 │                                                              │
 │  HUB: Jaleco para Podólogo                                  │
-│  URI: /jaleco-para-podologo/                                │
+│  URI: /jaleco-podologo/                                │
 │  Status: CRIAR                                               │
 │  Prioridade: ALTA                                            │
 │                                                              │
 │  HUB: Jaleco para Fisioterapeuta                            │
-│  URI: /jaleco-para-fisioterapeuta/                          │
+│  URI: /jaleco-fisioterapeuta/                          │
 │  Status: CRIAR                                               │
 │  Prioridade: MÉDIA                                           │
 │                                                              │
 │  HUB: Jaleco para Nutricionista                             │
-│  URI: /jaleco-para-nutricionista/                           │
+│  URI: /jaleco-nutricionista/                           │
 │  Status: CRIAR                                               │
 │  Prioridade: MÉDIA                                           │
 │                                                              │
 │  HUB: Jaleco para Enfermeiro                                │
-│  URI: /jaleco-para-enfermeiro/                              │
+│  URI: /jaleco-enfermeiro/                              │
 │  Status: CRIAR                                               │
 │  Prioridade: MÉDIA                                           │
 │                                                              │
 │  HUB: Jaleco para Veterinário                                │
-│  URI: /jaleco-para-veterinario/                             │
+│  URI: /jaleco-veterinario/                             │
 │  Status: CRIAR                                               │
 │  Prioridade: MÉDIA                                           │
 │                                                              │
 │  HUB: Jaleco para Biomédico/Estética                        │
-│  URI: /jaleco-para-biomedico/                               │
+│  URI: /jaleco-biomedico/                               │
 │  Status: CRIAR                                               │
 │  Prioridade: MÉDIA                                           │
 │                                                              │
@@ -554,17 +554,17 @@ Objetivo: Ser a página de referência definitiva sobre vestimenta profissional 
 ├─────────────────────────────────────────────────────────────┤
 │                                                              │
 │  HUB: Jaleco para Barbeiro                                   │
-│  URI: /jaleco-para-barbeiro/                                │
+│  URI: /jaleco-barbeiro/                                │
 │  Status: CRIAR — NICHO                                       │
 │  Prioridade: ALTA                                             │
 │                                                              │
 │  HUB: Jaleco para Cabeleireiro/Beleza                       │
-│  URI: /jaleco-para-cabeleireiro/                            │
+│  URI: /jaleco-cabeleireiro/                            │
 │  Status: CRIAR                                               │
 │  Prioridade: ALTA                                             │
 │                                                              │
 │  HUB: Jaleco para Tatuador                                   │
-│  URI: /jaleco-para-tatuador/                                │
+│  URI: /jaleco-tatuador/                                │
 │  Status: CRIAR — NICHO                                       │
 │  Prioridade: ALTA                                             │
 │                                                              │
@@ -574,7 +574,7 @@ Objetivo: Ser a página de referência definitiva sobre vestimenta profissional 
 │  Prioridade: ALTA                                             │
 │                                                              │
 │  HUB: Jaleco para Massagista                                 │
-│  URI: /jaleco-para-massagista/                               │
+│  URI: /jaleco-massagista/                               │
 │  Status: CRIAR — NICHO                                       │
 │  Prioridade: ALTA                                             │
 │                                                              │
@@ -585,17 +585,17 @@ Objetivo: Ser a página de referência definitiva sobre vestimenta profissional 
 ├─────────────────────────────────────────────────────────────┤
 │                                                              │
 │  HUB: Jaleco para Churrasqueiro                              │
-│  URI: /jaleco-para-churrasqueiro/                           │
+│  URI: /jaleco-churrasqueiro/                           │
 │  Status: CRIAR — NICHO                                       │
 │  Prioridade: ALTA                                             │
 │                                                              │
 │  HUB: Jaleco para Sushiman                                   │
-│  URI: /jaleco-para-sushiman/                                │
+│  URI: /jaleco-sushiman/                                │
 │  Status: CRIAR — NICHO                                       │
 │  Prioridade: ALTA                                             │
 │                                                              │
 │  HUB: Jaleco para Cozinheiro                                 │
-│  URI: /jaleco-para-cozinheiro/                              │
+│  URI: /jaleco-cozinheiro/                              │
 │  Status: CRIAR                                               │
 │  Prioridade: MÉDIA                                           │
 │                                                              │
@@ -606,12 +606,12 @@ Objetivo: Ser a página de referência definitiva sobre vestimenta profissional 
 ├─────────────────────────────────────────────────────────────┤
 │                                                              │
 │  HUB: Jaleco para Professor                                  │
-│  URI: /jaleco-para-professor/                               │
+│  URI: /jaleco-professor/                               │
 │  Status: CRIAR                                               │
 │  Prioridade: ALTA                                             │
 │                                                              │
 │  HUB: Jaleco para Vendedor/Atacadista                       │
-│  URI: /jaleco-para-vendedor/                                │
+│  URI: /jaleco-vendedor/                                │
 │  Status: CRIAR                                               │
 │  Prioridade: MÉDIA                                           │
 │                                                              │
@@ -622,17 +622,17 @@ Objetivo: Ser a página de referência definitiva sobre vestimenta profissional 
 ├─────────────────────────────────────────────────────────────┤
 │                                                              │
 │  HUB: Jaleco para Psicóloga                                  │
-│  URI: /jaleco-para-psicologa/                               │
+│  URI: /jaleco-psicologa/                               │
 │  Status: CRIAR                                               │
 │  Prioridade: ALTA                                             │
 │                                                              │
 │  HUB: Jaleco para Advogado                                   │
-│  URI: /jaleco-para-advogado/                                │
+│  URI: /jaleco-advogado/                                │
 │  Status: CRIAR — NICHO VIRGEM                                │
 │  Prioridade: ALTA                                             │
 │                                                              │
 │  HUB: Jaleco para Pastor                                     │
-│  URI: /jaleco-para-pastor/                                  │
+│  URI: /jaleco-pastor/                                  │
 │  Status: CRIAR — NICHO VIRGEM                                │
 │  Prioridade: ALTA                                             │
 │                                                              │
@@ -764,19 +764,19 @@ Objetivo: Ser a página de referência definitiva sobre vestimenta profissional 
 
 | # | Hub | URL | Prioridade | Status |
 |---|-----|-----|------------|--------|
-| 1 | **Jaleco para Dentista** | /jaleco-para-dentista/ | CRÍTICA | EXISTE — reescrever |
-| 2 | **Jaleco para Psicóloga** | /jaleco-para-psicologa/ | ALTA | CRIAR |
-| 3 | **Jaleco para Advogado** | /jaleco-para-advogado/ | ALTA | CRIAR — NICHO VIRGEM |
-| 4 | **Jaleco para Pastor** | /jaleco-para-pastor/ | ALTA | CRIAR — NICHO VIRGEM |
-| 5 | **Jaleco para Barbeiro** | /jaleco-para-barbeiro/ | ALTA | CRIAR — NICHO |
-| 6 | **Jaleco para Churrasqueiro** | /jaleco-para-churrasqueiro/ | ALTA | CRIAR — NICHO |
-| 7 | **Jaleco para Sushiman** | /jaleco-para-sushiman/ | ALTA | CRIAR — NICHO |
-| 8 | **Jaleco para Professor** | /jaleco-para-professor/ | ALTA | CRIAR |
-| 9 | **Jaleco para Cabeleireiro** | /jaleco-para-cabeleireiro/ | ALTA | CRIAR |
-| 10 | **Jaleco para Podólogo** | /jaleco-para-podologo/ | ALTA | CRIAR |
-| 11 | **Jaleco para Tatuador** | /jaleco-para-tatuador/ | ALTA | CRIAR — NICHO |
+| 1 | **Jaleco para Dentista** | /jaleco-dentista/ | CRÍTICA | EXISTE — reescrever |
+| 2 | **Jaleco para Psicóloga** | /jaleco-psicologa/ | ALTA | CRIAR |
+| 3 | **Jaleco para Advogado** | /jaleco-advogado/ | ALTA | CRIAR — NICHO VIRGEM |
+| 4 | **Jaleco para Pastor** | /jaleco-pastor/ | ALTA | CRIAR — NICHO VIRGEM |
+| 5 | **Jaleco para Barbeiro** | /jaleco-barbeiro/ | ALTA | CRIAR — NICHO |
+| 6 | **Jaleco para Churrasqueiro** | /jaleco-churrasqueiro/ | ALTA | CRIAR — NICHO |
+| 7 | **Jaleco para Sushiman** | /jaleco-sushiman/ | ALTA | CRIAR — NICHO |
+| 8 | **Jaleco para Professor** | /jaleco-professor/ | ALTA | CRIAR |
+| 9 | **Jaleco para Cabeleireiro** | /jaleco-cabeleireiro/ | ALTA | CRIAR |
+| 10 | **Jaleco para Podólogo** | /jaleco-podologo/ | ALTA | CRIAR |
+| 11 | **Jaleco para Tatuador** | /jaleco-tatuador/ | ALTA | CRIAR — NICHO |
 | 12 | **Jaleco para Casa de Estética** | /jaleco-para-casa-de-estetica/ | ALTA | CRIAR — NICHO |
-| 13 | **Jaleco para Massagista** | /jaleco-para-massagista/ | ALTA | CRIAR — NICHO |
+| 13 | **Jaleco para Massagista** | /jaleco-massagista/ | ALTA | CRIAR — NICHO |
 | 14 | **Conjunto para Escritório de Advocacia** | /conjunto-advocacia/ | ALTA | CRIAR — NICHO |
 | 15 | **Uniforme Corporativo Empresarial** | /uniforme-corporativo/ | ALTA | CRIAR — NICHO |
 | 16 | **Conjuntos Profissionais (Scrub Sets)** | /conjuntos-profissionais/ | CRÍTICA | REESTRUTURAR |
@@ -785,12 +785,12 @@ Objetivo: Ser a página de referência definitiva sobre vestimenta profissional 
 | 16 | Pillar: Vestimenta Profissional | /vestimenta-profissional/ | CRÍTICA | CRIAR |
 | 17 | Jalecos (hub produto) | /jalecos/ | CRÍTICA | REESTRUTURAR |
 | 18 | Como Cuidar do Jaleco | /como-cuidar-do-jaleco/ | CRÍTICA | MELHORAR |
-| 19 | Jaleco para Médico | /jaleco-para-medico/ | MÉDIA | CRIAR |
-| 20 | Jaleco para Fisioterapeuta | /jaleco-para-fisioterapeuta/ | MÉDIA | CRIAR |
-| 21 | Jaleco para Nutricionista | /jaleco-para-nutricionista/ | MÉDIA | CRIAR |
+| 19 | Jaleco para Médico | /jaleco-medico/ | MÉDIA | CRIAR |
+| 20 | Jaleco para Fisioterapeuta | /jaleco-fisioterapeuta/ | MÉDIA | CRIAR |
+| 21 | Jaleco para Nutricionista | /jaleco-nutricionista/ | MÉDIA | CRIAR |
 | 22 | Jaleco Masculino | /jaleco-masculino/ | ALTA | CRIAR |
 | 23 | Jaleco Feminino | /jaleco-feminino/ | ALTA | CRIAR |
-| 24 | Jaleco para Cozinheiro | /jaleco-para-cozinheiro/ | MÉDIA | CRIAR |
+| 24 | Jaleco para Cozinheiro | /jaleco-cozinheiro/ | MÉDIA | CRIAR |
 
 ---
 
@@ -912,28 +912,28 @@ Objetivo: Ser a página de referência definitiva sobre vestimenta profissional 
 ⚠️ **NOTA:** Topical Authority é sobre **profundidade + conexão**, não quantidade.
 
 ### MÊS 1: Cluster SAÚDE (Semanas 1-4) — DOMINAR
-- Reescrever /jaleco-para-dentista/ (mini-site completo)
-- Criar /jaleco-para-podologo/ (mini-site)
-- Criar /jaleco-para-biomedico/ (mini-site)
-- Criar /jaleco-para-enfermeiro/ (mini-site)
+- Reescrever /jaleco-dentista/ (mini-site completo)
+- Criar /jaleco-podologo/ (mini-site)
+- Criar /jaleco-biomedico/ (mini-site)
+- Criar /jaleco-enfermeiro/ (mini-site)
 - Criar 15 posts do cluster SAÚDE
 - Implementar linkagem interna cluster SAÚDE
 
 ### MÊS 2: Cluster BELEZA (Semanas 5-8) — EXPANDIR
-- Criar /jaleco-para-barbeiro/ (mini-site)
-- Criar /jaleco-para-cabeleireiro/ (mini-site)
-- Criar /jaleco-para-tatuador/ (mini-site)
+- Criar /jaleco-barbeiro/ (mini-site)
+- Criar /jaleco-cabeleireiro/ (mini-site)
+- Criar /jaleco-tatuador/ (mini-site)
 - Criar /jaleco-para-casa-de-estetica/ (mini-site)
 - Criar 10 posts do cluster BELEZA
 - Linkagem cluster BELEZA
 
 ### MÊS 3: Nichos Virgens (Semanas 9-12) — DOMINAR ANTES
-- Criar /jaleco-para-advogado/ (NICHO VIRGEM)
-- Criar /jaleco-para-pastor/ (NICHO VIRGEM)
-- Criar /jaleco-para-professor/
-- Criar /jaleco-para-churrasqueiro/ (NICHO)
-- Criar /jaleco-para-sushiman/ (NICHO)
-- Criar /jaleco-para-massagista/ (NICHO)
+- Criar /jaleco-advogado/ (NICHO VIRGEM)
+- Criar /jaleco-pastor/ (NICHO VIRGEM)
+- Criar /jaleco-professor/
+- Criar /jaleco-churrasqueiro/ (NICHO)
+- Criar /jaleco-sushiman/ (NICHO)
+- Criar /jaleco-massagista/ (NICHO)
 - Criar 10 posts dos nichos
 
 ### MÊS 4: Produto + Pilar (Semanas 13-16)
@@ -998,10 +998,10 @@ Objetivo: Ser a página de referência definitiva sobre vestimenta profissional 
 
 **Prioridade Máxima — Cluster SAÚDE primeiro**
 
-1. Reescrever `/jaleco-para-dentista/` (mini-site completo)
-2. Criar `/jaleco-para-podologo/` (mini-site)
-3. Criar `/jaleco-para-biomedico/` (mini-site)
-4. Criar `/jaleco-para-enfermeiro/` (mini-site)
+1. Reescrever `/jaleco-dentista/` (mini-site completo)
+2. Criar `/jaleco-podologo/` (mini-site)
+3. Criar `/jaleco-biomedico/` (mini-site)
+4. Criar `/jaleco-enfermeiro/` (mini-site)
 5. Criar 10-15 posts do cluster SAÚDE
 
 **Posts do Cluster SAÚDE:**
@@ -1018,8 +1018,8 @@ Objetivo: Ser a página de referência definitiva sobre vestimenta profissional 
 
 **Linkagem cluster SAÚDE:**
 ```
-/jaleco-para-dentista/ → /jaleco-para-podologo/, /jaleco-para-biomedico/, /vestimenta-profissional/
-/jaleco-para-podologo/ → /jaleco-para-dentista/, /como-cuidar-do-jaleco/
+/jaleco-dentista/ → /jaleco-podologo/, /jaleco-biomedico/, /vestimenta-profissional/
+/jaleco-podologo/ → /jaleco-dentista/, /como-cuidar-do-jaleco/
 /vestimenta-profissional/ → todos os hubs de saúde
 ```
 
@@ -1029,9 +1029,9 @@ Objetivo: Ser a página de referência definitiva sobre vestimenta profissional 
 
 **Entrada suave + alto potencial visual/social**
 
-1. Criar `/jaleco-para-barbeiro/` (mini-site)
-2. Criar `/jaleco-para-cabeleireiro/` (mini-site)
-3. Criar `/jaleco-para-tatuador/` (mini-site)
+1. Criar `/jaleco-barbeiro/` (mini-site)
+2. Criar `/jaleco-cabeleireiro/` (mini-site)
+3. Criar `/jaleco-tatuador/` (mini-site)
 4. Criar `/jaleco-para-casa-de-estetica/` (mini-site)
 5. Criar 8-10 posts do cluster BELEZA
 
@@ -1047,8 +1047,8 @@ Objetivo: Ser a página de referência definitiva sobre vestimenta profissional 
 
 **Linkagem cluster BELEZA:**
 ```
-/jaleco-para-barbeiro/ → /jaleco-para-tatuador/, /jaleco-para-cabeleireiro/, /vestimenta-profissional/
-/jaleco-para-tatuador/ → /jaleco-para-barbeiro/, /produtos/, /vestimenta-profissional/
+/jaleco-barbeiro/ → /jaleco-tatuador/, /jaleco-cabeleireiro/, /vestimenta-profissional/
+/jaleco-tatuador/ → /jaleco-barbeiro/, /produtos/, /vestimenta-profissional/
 /vestimenta-profissional/ → todos os hubs de beleza
 ```
 
@@ -1058,12 +1058,12 @@ Objetivo: Ser a página de referência definitiva sobre vestimenta profissional 
 
 **DOMINAR antes dos concorrentes perceberem**
 
-1. Criar `/jaleco-para-advogado/` (mini-site — NICHO VIRGEM)
-2. Criar `/jaleco-para-pastor/` (mini-site — NICHO VIRGEM)
-3. Criar `/jaleco-para-professor/` (mini-site)
-4. Criar `/jaleco-para-churrasqueiro/` (mini-site — NICHO)
-5. Criar `/jaleco-para-sushiman/` (mini-site — NICHO)
-6. Criar `/jaleco-para-massagista/` (mini-site — NICHO)
+1. Criar `/jaleco-advogado/` (mini-site — NICHO VIRGEM)
+2. Criar `/jaleco-pastor/` (mini-site — NICHO VIRGEM)
+3. Criar `/jaleco-professor/` (mini-site)
+4. Criar `/jaleco-churrasqueiro/` (mini-site — NICHO)
+5. Criar `/jaleco-sushiman/` (mini-site — NICHO)
+6. Criar `/jaleco-massagista/` (mini-site — NICHO)
 7. Criar 10 posts dos nichos
 
 **Posts dos Nichos:**
@@ -1078,9 +1078,9 @@ Objetivo: Ser a página de referência definitiva sobre vestimenta profissional 
 
 **Linkagem nichos:**
 ```
-/jaleco-para-advogado/ → /conjunto-advocacia/, /vestimenta-profissional/
-/jaleco-para-pastor/ → /vestimenta-profissional/, /jaleco-masculino/
-/jaleco-para-churrasqueiro/ → /vestimenta-profissional/, /calcado-profissional/
+/jaleco-advogado/ → /conjunto-advocacia/, /vestimenta-profissional/
+/jaleco-pastor/ → /vestimenta-profissional/, /jaleco-masculino/
+/jaleco-churrasqueiro/ → /vestimenta-profissional/, /calcado-profissional/
 ```
 
 ---
@@ -1164,7 +1164,7 @@ Objetivo: Ser a página de referência definitiva sobre vestimenta profissional 
 
 | Tipo | Exemplo | Objetivo |
 |------|---------|----------|
-| **HUB** | `/jaleco-para-dentista/` | Autoridade + conversão |
+| **HUB** | `/jaleco-dentista/` | Autoridade + conversão |
 | **POST** | "jaleco para ortodontista" | Atrair tráfico long-tail |
 | **VENDAS** | `/jalecos/`, `/jaleco-feminino/` | Converter + vender |
 
@@ -1173,7 +1173,7 @@ Objetivo: Ser a página de referência definitiva sobre vestimenta profissional 
 ## SEMANA 1 — FUNDAÇÃO DENTISTA
 
 ### Dia 1-2: HUB DENTISTA (reescrever completo)
-- `/jaleco-para-dentista/` — mini-site com:
+- `/jaleco-dentista/` — mini-site com:
   - Guia completo (tipos, modelos, como escolher)
   - FAQ com Schema FAQPage
   - Produtos recomendados
@@ -1200,10 +1200,10 @@ Objetivo: Ser a página de referência definitiva sobre vestimenta profissional 
 ## SEMANA 2 — EXPANSÃO SAÚDE
 
 ### Dia 8-9: HUB PODÓLOGO
-- `/jaleco-para-podologo/` — mini-site
+- `/jaleco-podologo/` — mini-site
 
 ### Dia 10-11: HUB BIOMÉDICO/ESTÉTICA
-- `/jaleco-para-biomedico/` — mini-site
+- `/jaleco-biomedico/` — mini-site
 
 ### Dia 12-14: POSTS SAÚDE (6 posts)
 - jaleco para podologia clínica
@@ -1220,13 +1220,13 @@ Objetivo: Ser a página de referência definitiva sobre vestimenta profissional 
 ## SEMANA 3 — BELEZA (ALTO VOLUME)
 
 ### Dia 15: HUB BARBEIRO
-- `/jaleco-para-barbeiro/` — mini-site (NICHO VIRGEM)
+- `/jaleco-barbeiro/` — mini-site (NICHO VIRGEM)
 
 ### Dia 16: HUB CABELEIREIRO
-- `/jaleco-para-cabeleireiro/` — mini-site
+- `/jaleco-cabeleireiro/` — mini-site
 
 ### Dia 17: HUB TATUADOR
-- `/jaleco-para-tatuador/` — mini-site (NICHO VIRGEM)
+- `/jaleco-tatuador/` — mini-site (NICHO VIRGEM)
 
 ### Dia 18-21: POSTS BELEZA (8 posts)
 - jaleco para barbearia premium
@@ -1287,9 +1287,9 @@ Objetivo: Ser a página de referência definitiva sobre vestimenta profissional 
 
 ## PRÓXIMO PASSO APÓS APROVAÇÃO
 
-1. **Gemini:** Gerar template de HUB (ex: `/jaleco-para-dentista/`)
+1. **Gemini:** Gerar template de HUB (ex: `/jaleco-dentista/`)
 2. **Claude:** Criar código do template de hub
-3. **Gemini:** Gerar conteúdo `/jaleco-para-dentista/`
+3. **Gemini:** Gerar conteúdo `/jaleco-dentista/`
 4. **Revisão + Publish**
 5. **Repetir** para próximo hub
 

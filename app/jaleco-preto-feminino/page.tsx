@@ -70,9 +70,9 @@ const MODELOS = [
 
 const INTERNAL_LINKS = [
   { href: '/jaleco-feminino', label: 'Jaleco Feminino' },
-  { href: '/jaleco-para-esteticista', label: 'Jaleco para Esteticista' },
-  { href: '/jaleco-para-cabeleireiro', label: 'Jaleco para Cabeleireiro' },
-  { href: '/jaleco-para-tatuador', label: 'Jaleco para Tatuador' },
+  { href: '/jaleco-esteticista', label: 'Jaleco para Esteticista' },
+  { href: '/jaleco-cabeleireiro', label: 'Jaleco para Cabeleireiro' },
+  { href: '/jaleco-tatuador', label: 'Jaleco para Tatuador' },
   { href: '/jaleco-colorido', label: 'Jaleco Colorido' },
   { href: '/jaleco-plus-size', label: 'Jaleco Plus Size' },
 ]

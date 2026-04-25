@@ -70,10 +70,10 @@ const MODELOS = [
 
 const INTERNAL_LINKS = [
   { href: '/jaleco-feminino', label: 'Jaleco Feminino' },
-  { href: '/jaleco-para-medico', label: 'Jaleco para Médico' },
-  { href: '/jaleco-para-dentista', label: 'Jaleco para Dentista' },
-  { href: '/jaleco-para-enfermeiro', label: 'Jaleco para Enfermeiro' },
-  { href: '/jaleco-para-barbeiro', label: 'Jaleco para Barbeiro' },
+  { href: '/jaleco-medico', label: 'Jaleco para Médico' },
+  { href: '/jaleco-dentista', label: 'Jaleco para Dentista' },
+  { href: '/jaleco-enfermeiro', label: 'Jaleco para Enfermeiro' },
+  { href: '/jaleco-barbeiro', label: 'Jaleco para Barbeiro' },
   { href: '/jaleco-premium', label: 'Jaleco Premium' },
   { href: '/jaleco-plus-size', label: 'Jaleco Plus Size' },
 ]

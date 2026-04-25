@@ -109,7 +109,7 @@
 - Guest posts em blogs de medicina e odontologia
 
 **Site:**
-- Páginas de especialidade: /jaleco-para-dentista, /jaleco-para-medica
+- Páginas de especialidade: /jaleco-dentista, /jaleco-para-medica
 - Performance Max no Google Ads
 - QR code na etiqueta → página personalizada do cliente
 

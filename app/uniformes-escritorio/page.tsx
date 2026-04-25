@@ -37,14 +37,14 @@ const schemaFaq = {
 }
 
 const ESCRITORIO_HUBS = [
-  { href: '/conjunto-para-advogado',    titulo: 'Conjunto Advogado',    desc: 'Elegância · escritório · tribunal' },
-  { href: '/conjunto-para-psicologa',   titulo: 'Conjunto Psicólogo',   desc: 'Neutros · setting · consultório' },
-  { href: '/conjunto-para-farmaceutico', titulo: 'Conjunto Farmacêutico', desc: 'Loja e manipulação · cor da marca' },
-  { href: '/conjunto-para-pastor',      titulo: 'Conjunto Pastor',      desc: 'Liturgia · imponência · cores sóbrias' },
-  { href: '/jaleco-para-advogado',      titulo: 'Jaleco Advogado',      desc: 'Jaleco executivo · escritório' },
-  { href: '/jaleco-para-psicologa',     titulo: 'Jaleco Psicólogo',     desc: 'Tom neutro · discrição' },
-  { href: '/jaleco-para-farmaceutico',  titulo: 'Jaleco Farmacêutico',  desc: 'Branco · RDC 44 · manipulação' },
-  { href: '/jaleco-para-secretaria',    titulo: 'Secretária',           desc: 'Jaleco ou conjunto · corporativo' },
+  { href: '/conjunto-advogado',    titulo: 'Conjunto Advogado',    desc: 'Elegância · escritório · tribunal' },
+  { href: '/conjunto-psicologa',   titulo: 'Conjunto Psicólogo',   desc: 'Neutros · setting · consultório' },
+  { href: '/conjunto-farmaceutico', titulo: 'Conjunto Farmacêutico', desc: 'Loja e manipulação · cor da marca' },
+  { href: '/conjunto-pastor',      titulo: 'Conjunto Pastor',      desc: 'Liturgia · imponência · cores sóbrias' },
+  { href: '/jaleco-advogado',      titulo: 'Jaleco Advogado',      desc: 'Jaleco executivo · escritório' },
+  { href: '/jaleco-psicologa',     titulo: 'Jaleco Psicólogo',     desc: 'Tom neutro · discrição' },
+  { href: '/jaleco-farmaceutico',  titulo: 'Jaleco Farmacêutico',  desc: 'Branco · RDC 44 · manipulação' },
+  { href: '/jaleco-secretaria',    titulo: 'Secretária',           desc: 'Jaleco ou conjunto · corporativo' },
 ]
 
 async function getEscritorioProducts(): Promise<WooProduct[]> {
@@ -201,7 +201,7 @@ export default async function Page() {
             <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '1rem' }}>Outros clusters</div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
               {[
-                { href: '/uniformes-profissionais-para-saude', label: 'Saúde' },
+                { href: '/uniformes-profissionais-saude', label: 'Saúde' },
                 { href: '/uniformes-beleza', label: 'Beleza' },
                 { href: '/uniformes-gastronomia', label: 'Gastronomia' },
                 { href: '/uniformes-servicos', label: 'Serviços' },

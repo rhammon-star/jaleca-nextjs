@@ -1102,10 +1102,10 @@ const relatedProducts = allProducts
 
 #### **Dia 22-24 (Qui-Sáb): Páginas de Profissão**
 
-**48. Criar /jaleco-para-dentista (4h)**
+**48. Criar /jaleco-dentista (4h)**
 
 ```typescript
-// app/jaleco-para-dentista/page.tsx
+// app/jaleco-dentista/page.tsx
 
 export const metadata = {
   title: "Jaleco para Dentista Feminino e Masculino | Conforto e Higiene | Jaleca",
@@ -1696,7 +1696,7 @@ Seguir mesmo modelo de Dentista/Médica/Enfermeira:
   - Keywords: "jaleco veterinária", "jaleco clínica veterinária"
   - Diferencial: resistência a pelos, fluidos, impermeabilidade
   
-- [ ] /jaleco-para-esteticista
+- [ ] /jaleco-esteticista
   - Keywords: "jaleco esteticista", "jaleco estética"
   - Diferencial: elegância, cores modernas, conforto
   
@@ -1704,7 +1704,7 @@ Seguir mesmo modelo de Dentista/Médica/Enfermeira:
   - Keywords: "jaleco farmácia", "jaleco farmacêutica"
   - Diferencial: manga longa, bolsos, tradicional
   
-- [ ] /jaleco-para-nutricionista
+- [ ] /jaleco-nutricionista
   - Keywords: "jaleco nutricionista", "jaleco consultório"
   - Diferencial: cores além do branco, moderno
   

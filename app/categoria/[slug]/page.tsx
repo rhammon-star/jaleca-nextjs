@@ -264,9 +264,9 @@ export default async function CategoriaPage({
               </ul>
               <h3 className="text-sm font-semibold mb-2">Jalecos por profissão</h3>
               <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside mb-4">
-                <li><Link href="/jaleco-para-dentista" className="underline underline-offset-2 hover:text-foreground transition-colors">Jaleco para dentista</Link> — modelos aprovados em clínicas odontológicas</li>
+                <li><Link href="/jaleco-dentista" className="underline underline-offset-2 hover:text-foreground transition-colors">Jaleco para dentista</Link> — modelos aprovados em clínicas odontológicas</li>
                 <li><Link href="/jaleco-para-enfermeira" className="underline underline-offset-2 hover:text-foreground transition-colors">Jaleco para enfermagem</Link> — resistência e praticidade para plantões</li>
-                <li><Link href="/jaleco-para-medico" className="underline underline-offset-2 hover:text-foreground transition-colors">Jaleco para médico</Link> — elegância e autoridade no consultório</li>
+                <li><Link href="/jaleco-medico" className="underline underline-offset-2 hover:text-foreground transition-colors">Jaleco para médico</Link> — elegância e autoridade no consultório</li>
                 <li><Link href="/jaleco-universitario" className="underline underline-offset-2 hover:text-foreground transition-colors">Jaleco universitário</Link> — custo-benefício para estudantes de medicina e enfermagem</li>
               </ul>
             </>

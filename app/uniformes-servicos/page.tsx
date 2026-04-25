@@ -38,12 +38,12 @@ const schemaFaq = {
 }
 
 const SERVICOS_HUBS = [
-  { href: '/jaleco-para-professor',    titulo: 'Professor',    desc: 'Conforto em sala · durabilidade · cores neutras' },
-  { href: '/uniforme-para-professor',  titulo: 'Uniforme Professor', desc: 'Guia completo de uniformes escolares' },
-  { href: '/jaleco-para-vendedor',     titulo: 'Vendedor',     desc: 'Imagem profissional · loja e varejo' },
-  { href: '/jaleco-para-secretaria',   titulo: 'Secretária',   desc: 'Conjunto executivo · elegância corporativa' },
+  { href: '/jaleco-professor',    titulo: 'Professor',    desc: 'Conforto em sala · durabilidade · cores neutras' },
+  { href: '/uniforme-professor',  titulo: 'Uniforme Professor', desc: 'Guia completo de uniformes escolares' },
+  { href: '/jaleco-vendedor',     titulo: 'Vendedor',     desc: 'Imagem profissional · loja e varejo' },
+  { href: '/jaleco-secretaria',   titulo: 'Secretária',   desc: 'Conjunto executivo · elegância corporativa' },
   { href: '/jaleco-universitario',     titulo: 'Universitário', desc: 'Jaleco aluno · prático e acessível' },
-  { href: '/jaleco-para-dona-de-casa', titulo: 'Dona de Casa', desc: 'Jaleco prático · bolsos amplos' },
+  { href: '/jaleco-dona-casa', titulo: 'Dona de Casa', desc: 'Jaleco prático · bolsos amplos' },
 ]
 
 async function getServicosProducts(): Promise<WooProduct[]> {
@@ -200,7 +200,7 @@ export default async function Page() {
             <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '1rem' }}>Outros clusters</div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
               {[
-                { href: '/uniformes-profissionais-para-saude', label: 'Saúde' },
+                { href: '/uniformes-profissionais-saude', label: 'Saúde' },
                 { href: '/uniformes-beleza', label: 'Beleza' },
                 { href: '/uniformes-gastronomia', label: 'Gastronomia' },
                 { href: '/uniformes-escritorio', label: 'Escritório' },
