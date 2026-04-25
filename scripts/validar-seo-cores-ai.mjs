@@ -19,6 +19,38 @@ import { promisify } from 'util'
 
 const execAsync = promisify(exec)
 
+// AI_BLACKLIST (do lib/ai-content.ts)
+const AI_BLACKLIST = [
+  'Primeiramente', 'Ademais', 'Outrossim', 'Não obstante', 'Assim sendo',
+  'Destarte', 'Por conseguinte', 'Em síntese', 'Em suma', 'No que diz respeito',
+  'No tocante a', 'No que tange', 'No que se refere', 'Concernente a',
+  'No que concerne', 'Por forma que', 'De sorte que', 'De tal maneira que',
+  'A priori', 'A posteriori',
+  'Potencializar', 'Maximizar', 'Otimizar', 'Ressignificar', 'Externalizar',
+  'Internalizar', 'Consolidar', 'Estruturar', 'Perenizar', 'Verticalizar',
+  'Tangenciar', 'Convergir', 'Propender',
+  'Inédito', 'Transformador', 'Abrangente', 'Consistente', 'Profícuo',
+  'É importante ressaltar que', 'É fundamental destacar que',
+  'É válido salientar que', 'Deixe-me explicar', 'Como podemos observar',
+  'Podemos notar que', 'É possível notar', 'Fica evidente', 'Nota-se que',
+  'Ressalta-se que', 'Conclui-se que', 'É preciso destacar',
+  'Neste sentido', 'Neste contexto', 'Nessa perspectiva', 'Sob tal óptica',
+  'Com base nisso', 'À luz disso', 'Face ao exposto', 'Posto isso', 'Isto posto',
+  'Cumpre destacar', 'Cabe ressaltar', 'Faz-se necessário', 'Torna-se imperativo',
+  'É mister', 'Não resta dúvida que', 'Inquestionavelmente', 'Indubitavelmente',
+  'Sem sombra de dúvida',
+  'Bem-vindo a este artigo', 'Neste artigo vamos falar sobre',
+  'Você sabia que', 'Você já se perguntou', 'Aqui está o que você precisa saber',
+  'Sem mais delongas', 'Vamos direto ao ponto', 'Segundo especialistas',
+  'No mundo atual', 'Nos dias de hoje', 'No cenário atual',
+]
+
+function checkBlacklist(text) {
+  const lower = text.toLowerCase()
+  const found = AI_BLACKLIST.filter(w => lower.includes(w.toLowerCase()))
+  return { flagged: found.length > 0, found }
+}
+
 // Executa GPT-4.1
 async function askGPT(prompt) {
   const { stdout } = await execAsync(`bash ~/.claude/ask-gpt.sh "${prompt.replace(/"/g, '\\"')}"`)
@@ -44,7 +76,50 @@ async function main() {
   )
 
   console.log(`Total de páginas: ${seoData.length}\n`)
-  console.log('📊 INICIANDO VALIDAÇÃO EM BATCH\n')
+
+  // Validação AI_BLACKLIST em TODAS as páginas
+  console.log('### 🚫 AI_BLACKLIST — Verificação de Palavras Proibidas\n')
+
+  const blacklistResults = []
+  let totalViolations = 0
+
+  seoData.forEach(page => {
+    const texts = [
+      page.h1,
+      page.h2,
+      page.metaDescription,
+      page.title
+    ].join(' ')
+
+    const check = checkBlacklist(texts)
+
+    if (check.flagged) {
+      blacklistResults.push({
+        url: page.url,
+        productName: page.productName,
+        colorName: page.colorName,
+        violations: check.found
+      })
+      totalViolations += check.found.length
+    }
+  })
+
+  if (blacklistResults.length === 0) {
+    console.log('✅ NENHUMA palavra da blacklist detectada!\n')
+  } else {
+    console.log(`❌ ${blacklistResults.length} páginas com violações (${totalViolations} palavras total)\n`)
+    blacklistResults.slice(0, 10).forEach(result => {
+      console.log(`  ${result.productName} - ${result.colorName}`)
+      console.log(`    URL: ${result.url}`)
+      console.log(`    Palavras: ${result.violations.join(', ')}`)
+      console.log('')
+    })
+    if (blacklistResults.length > 10) {
+      console.log(`  ... e mais ${blacklistResults.length - 10} páginas\n`)
+    }
+  }
+
+  console.log('📊 INICIANDO VALIDAÇÃO AI EM BATCH\n')
 
   // Agrupar em batches de 10 para análise
   const batchSize = 10
@@ -202,16 +277,26 @@ Responda em JSON:
   const avgKeywords = results.geminiAnalysis.reduce((sum, p) => sum + p.keywordCoverage, 0) / results.geminiAnalysis.length
   const avgUx = results.geminiAnalysis.reduce((sum, p) => sum + p.uxScore, 0) / results.geminiAnalysis.length
 
+  results.blacklistCheck = {
+    totalPagesChecked: seoData.length,
+    pagesWithViolations: blacklistResults.length,
+    totalViolations,
+    violations: blacklistResults
+  }
+
   results.summary = {
     avgTechnicalScore: Math.round(avgGptScore),
     avgAiDetection: Math.round(avgAiDetection),
     avgKeywordCoverage: Math.round(avgKeywords),
     avgUxScore: Math.round(avgUx),
     totalIssues: results.issues.length,
-    totalRecommendations: [...new Set(results.recommendations)].length
+    totalRecommendations: [...new Set(results.recommendations)].length,
+    blacklistViolations: blacklistResults.length,
+    blacklistPassed: blacklistResults.length === 0
   }
 
   console.log('\n## 📊 RESUMO FINAL\n')
+  console.log(`AI_BLACKLIST: ${results.summary.blacklistPassed ? '✅ APROVADO' : `❌ ${results.summary.blacklistViolations} violações`}`)
   console.log(`SEO Técnico (GPT-4.1): ${results.summary.avgTechnicalScore}/100`)
   console.log(`AI Detection (Gemini): ${results.summary.avgAiDetection}/100 ${results.summary.avgAiDetection > 70 ? '⚠️  Alto' : '✅ OK'}`)
   console.log(`Keywords (Gemini): ${results.summary.avgKeywordCoverage}/100`)
@@ -264,10 +349,18 @@ Responda em JSON:
   console.log('✅ Relatório markdown: `docs/VALIDACAO-AI-SEO-CORES.md`\n')
 
   // Status final
-  if (results.summary.avgTechnicalScore >= 80 && results.summary.avgAiDetection < 70) {
+  const blacklistOk = results.summary.blacklistPassed
+  const technicalOk = results.summary.avgTechnicalScore >= 80
+  const aiDetectionOk = results.summary.avgAiDetection < 70
+
+  if (blacklistOk && technicalOk && aiDetectionOk) {
     console.log('🎉 VALIDAÇÃO APROVADA — Pronto para produção!\n')
   } else {
-    console.log('⚠️  VALIDAÇÃO COM RESSALVAS — Revisar issues antes do deploy\n')
+    console.log('⚠️  VALIDAÇÃO COM RESSALVAS:\n')
+    if (!blacklistOk) console.log(`  ❌ AI_BLACKLIST: ${results.summary.blacklistViolations} violações detectadas`)
+    if (!technicalOk) console.log(`  ❌ SEO Técnico: ${results.summary.avgTechnicalScore}/100 (mínimo: 80)`)
+    if (!aiDetectionOk) console.log(`  ❌ AI Detection: ${results.summary.avgAiDetection}/100 (máximo: 70)`)
+    console.log('\nRevisar antes do deploy!\n')
   }
 }
 
