@@ -286,7 +286,6 @@ const Header = () => {
             <div className="flex-1 overflow-y-auto px-5 py-3 flex flex-col">
               {[
                 { label: 'Início', href: '/' },
-                { label: 'Loja', href: '/produtos' },
                 { label: 'Jalecos', href: '/produtos?cat=Jalecos' },
                 { label: 'Dólmãs', href: '/produtos?cat=Dólmãs' },
                 { label: 'Conjuntos', href: '/produtos?cat=Conjuntos' },
