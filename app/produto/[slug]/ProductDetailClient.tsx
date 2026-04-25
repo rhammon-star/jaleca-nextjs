@@ -215,11 +215,13 @@ export default function ProductDetailClient({
   initialReviews = [],
   relatedProducts = [],
   googlePlace,
+  initialColor,
 }: {
   product: Product
   initialReviews?: Review[]
   relatedProducts?: WooProduct[]
   googlePlace?: PlaceData
+  initialColor?: string | null
 }) {
   const searchParams = useSearchParams()
   const router = useRouter()
@@ -227,14 +229,19 @@ export default function ProductDetailClient({
   const [selectedSize, setSelectedSize]   = useState<string | null>(null)
 
   // Pré-seleciona cor vinda do link do catálogo (?cor=azul_marinho&vid=123)
+  // OU da URL por cor (/produto/jaleco-slim-branco → initialColor="Branco")
   useEffect(() => {
     const corParam = searchParams.get('cor')
     const vidParam = searchParams.get('vid')
 
-    if (corParam) {
+    if (initialColor) {
+      // Prioridade 1: cor vinda da URL estruturada (/produto/x-cor)
+      setSelectedColor(initialColor)
+    } else if (corParam) {
+      // Prioridade 2: query param ?cor=
       setSelectedColor(corParam.replace(/_/g, ' '))
     } else if (vidParam) {
-      // fallback: acha a cor pela variation ID
+      // Prioridade 3: fallback por variation ID
       const variation = product.variations?.nodes.find(
         v => String(v.databaseId) === vidParam
       )
@@ -244,7 +251,7 @@ export default function ProductDetailClient({
       if (colorAttr?.value) setSelectedColor(colorAttr.value)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [initialColor])
   const [activeImageIdx, setActiveImageIdx] = useState(0)
   const touchStartX = useRef<number | null>(null)
   const galleryRef  = useRef<HTMLDivElement>(null)

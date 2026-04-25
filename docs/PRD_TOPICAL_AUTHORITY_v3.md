@@ -706,6 +706,280 @@ Objetivo: Ser a página de referência definitiva sobre vestimenta profissional 
 └─────────────────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────────────────┐
+│ CLUSTER 7B: PRODUTOS POR COR (NOVO - 140 URLs) 🎨           │
+├─────────────────────────────────────────────────────────────┤
+│                                                              │
+│  📊 CONTEXTO: PROJETO JALECA CORES                           │
+│  ────────────────────────────────────────────────────────── │
+│  • 33 produtos WooCommerce → 140 URLs no site (+324%)        │
+│  • Cada COR de produto vira produto individual               │
+│  • Exemplo: Jaleco Slim tem 8 cores = 8 URLs separadas       │
+│  • Objetivo: Aumentar percepção de variedade                 │
+│  • ROI esperado: +15% a +30% faturamento                     │
+│                                                              │
+│  🎯 INTEGRAÇÃO COM TOPICAL AUTHORITY                         │
+│  ────────────────────────────────────────────────────────── │
+│  As 140 URLs de produtos por cor FORTALECEM todos clusters  │
+│  através de linkagem bidirecional estratégica:               │
+│                                                              │
+│  HUBS DE PROFISSÃO → Produtos por Cor Prioritárias          │
+│  ┌────────────────────────────────────────────────────────┐ │
+│  │ Hub /jaleco-dentista/                                  │ │
+│  │ ├─ Link: Jaleco Slim Tradicional Branco (prioritária) │ │
+│  │ ├─ Link: Jaleco Slim Tradicional Azul Marinho         │ │
+│  │ ├─ Link: Jaleco Slim Gold Branco                      │ │
+│  │ └─ Link: Jaleco Slim Princesa Branco                  │ │
+│  │                                                        │ │
+│  │ Hub /jaleco-barbeiro/                                  │ │
+│  │ ├─ Link: Jaleco Slim Tradicional Preto (prioritária)  │ │
+│  │ ├─ Link: Jaleco Slim Recortes Azul Claro              │ │
+│  │ └─ Link: Jaleco Slim Tradicional Areia                │ │
+│  └────────────────────────────────────────────────────────┘ │
+│                                                              │
+│  PRODUTOS POR COR → Breadcrumbs + Links Contextuais         │
+│  ┌────────────────────────────────────────────────────────┐ │
+│  │ /produto/jaleco-slim-tradicional-branco                │ │
+│  │ Breadcrumb: Home > Jalecos > Jaleco Slim > Branco      │ │
+│  │                                                        │ │
+│  │ Seção "Ideal para":                                    │ │
+│  │ ✓ Dentistas (link → /jaleco-dentista/)                │ │
+│  │ ✓ Médicos (link → /jaleco-medico/)                    │ │
+│  │ ✓ Farmacêuticos (link → /jaleco-farmaceutico/)        │ │
+│  │                                                        │ │
+│  │ Seção "Outras cores deste modelo":                     │ │
+│  │ [○ Azul] [○ Rosa] [○ Preto] → Links internos          │ │
+│  └────────────────────────────────────────────────────────┘ │
+│                                                              │
+│  🔗 LINKAGEM BIDIRECIONAL                                   │
+│  ────────────────────────────────────────────────────────── │
+│                                                              │
+│  Hub Profissão ←──────────────→ Produto por Cor             │
+│        ↓                              ↓                      │
+│   (link para cores                 (link de volta           │
+│    prioritárias)                    "Ideal para X")         │
+│                                                              │
+│  🎨 HUBS POR COR (10 cores prioritárias)                    │
+│  ────────────────────────────────────────────────────────── │
+│                                                              │
+│  HUB: Jaleco Branco — Guia Completo                         │
+│  URI: /jaleco-branco/                                       │
+│  Status: CRIAR NOVO                                          │
+│  Prioridade: CRÍTICA                                         │
+│  Target keyword: "jaleco branco" (volume alto)               │
+│  ├─ Seção: Por que escolher jaleco branco                   │
+│  ├─ Seção: Profissões que mais usam branco                  │
+│  │   └─ Links: /jaleco-dentista/, /jaleco-medico/, etc      │
+│  ├─ Seção: Modelos disponíveis em branco                    │
+│  │   └─ Grid produtos: Jaleco Slim Branco, Gold Branco, etc │
+│  └─ Seção: Como cuidar do jaleco branco                     │
+│                                                              │
+│  HUB: Jaleco Azul Marinho — Guia Completo                  │
+│  URI: /jaleco-azul-marinho/                                 │
+│  Status: CRIAR NOVO                                          │
+│  Prioridade: ALTA                                            │
+│  Target keyword: "jaleco azul marinho"                       │
+│  ├─ Seção: Vantagens do azul marinho (disfarça manchas)    │
+│  ├─ Seção: Profissões que preferem azul                     │
+│  │   └─ Links: /jaleco-veterinario/, /jaleco-biomedico/    │
+│  └─ Grid: Todos produtos azul marinho                        │
+│                                                              │
+│  HUB: Jaleco Preto — Guia Completo                          │
+│  URI: /jaleco-preto/                                        │
+│  Status: EXISTE (melhorar)                                   │
+│  Prioridade: ALTA                                            │
+│  Target keyword: "jaleco preto"                              │
+│  ├─ Seção: Quando usar jaleco preto                         │
+│  ├─ Seção: Profissões que usam preto                        │
+│  │   └─ Links: /jaleco-tatuador/, /jaleco-barbeiro/        │
+│  └─ Grid: Todos produtos preto (15 produtos × cores)         │
+│                                                              │
+│  HUB: Jaleco Rosa/Rosê — Guia Completo                     │
+│  URI: /jaleco-rosa/                                         │
+│  Status: CRIAR NOVO                                          │
+│  Prioridade: MÉDIA                                           │
+│  Target keyword: "jaleco rosa", "jaleco rosê"                │
+│  ├─ Seção: Psicologia da cor rosa na saúde                  │
+│  ├─ Seção: Profissões que usam rosa                         │
+│  │   └─ Links: /jaleco-psicologa/, /jaleco-nutricionista/  │
+│  └─ Grid: Produtos rosa/rosê                                 │
+│                                                              │
+│  HUB: Jaleco Verde — Guia Completo                          │
+│  URI: /jaleco-verde/                                        │
+│  Status: CRIAR NOVO                                          │
+│  Prioridade: MÉDIA                                           │
+│  Target keyword: "jaleco verde"                              │
+│  ├─ Seção: Verde na saúde (centro cirúrgico)                │
+│  ├─ Seção: Profissões que usam verde                        │
+│  └─ Grid: Produtos verde (musgo, garrafa, etc)              │
+│                                                              │
+│  HUB: Jaleco Areia/Bege — Guia Completo                    │
+│  URI: /jaleco-areia/                                        │
+│  Status: CRIAR NOVO                                          │
+│  Prioridade: MÉDIA                                           │
+│  ├─ Seção: Neutro e elegante                                │
+│  └─ Grid: Produtos areia                                     │
+│                                                              │
+│  HUB: Jaleco Vinho — Guia Completo                          │
+│  URI: /jaleco-vinho/                                        │
+│  Status: CRIAR NOVO                                          │
+│  Prioridade: BAIXA                                           │
+│  └─ Grid: Produtos vinho                                     │
+│                                                              │
+│  HUB: Jaleco Cinza/Chumbo — Guia Completo                  │
+│  URI: /jaleco-cinza/                                        │
+│  Status: CRIAR NOVO                                          │
+│  Prioridade: MÉDIA                                           │
+│  └─ Grid: Produtos cinza/chumbo                              │
+│                                                              │
+│  📊 IMPACTO NOS CLUSTERS EXISTENTES                          │
+│  ────────────────────────────────────────────────────────── │
+│                                                              │
+│  CLUSTER 1 (SAÚDE) - 7 hubs                                  │
+│  ├─ Cada hub ganha seção "Modelos Recomendados"             │
+│  ├─ Grid com 4-6 produtos por cor prioritária               │
+│  ├─ Cores prioritárias SAÚDE: Branco, Azul Marinho, Rosa    │
+│  └─ +40 links internos novos (7 hubs × ~6 produtos)         │
+│                                                              │
+│  CLUSTER 2 (BELEZA) - 5 hubs                                 │
+│  ├─ Cores prioritárias BELEZA: Preto, Areia, Branco         │
+│  └─ +25 links internos novos                                 │
+│                                                              │
+│  CLUSTER 3 (GASTRONOMIA) - 3 hubs                           │
+│  ├─ Cores prioritárias GASTRONOMIA: Branco, Vinho, Preto    │
+│  └─ +15 links internos novos                                 │
+│                                                              │
+│  CLUSTER 4 (SERVIÇOS) - 2 hubs                              │
+│  ├─ Cores prioritárias: Branco, Areia                       │
+│  └─ +8 links internos novos                                  │
+│                                                              │
+│  CLUSTER 5 (ESCRITÓRIO) - 4 hubs                            │
+│  ├─ Cores prioritárias: Rosa, Branco, Cinza                 │
+│  └─ +20 links internos novos                                 │
+│                                                              │
+│  CLUSTER 6 (CORPORATIVO) - 3 hubs                           │
+│  ├─ Cores prioritárias: Preto, Marinho, Cinza               │
+│  └─ +15 links internos novos                                 │
+│                                                              │
+│  📈 TOTAL NOVOS LINKS INTERNOS: +123 links                   │
+│                                                              │
+│  🔍 BENEFÍCIOS SEO                                           │
+│  ────────────────────────────────────────────────────────── │
+│                                                              │
+│  ✅ Cauda Longa Explosiva                                    │
+│     • "jaleco branco dentista" → hub dentista + produto     │
+│     • "jaleco azul veterinário" → hub veterinário + produto │
+│     • "jaleco preto tatuador" → hub tatuador + produto      │
+│                                                              │
+│  ✅ Densidade de Links Internos                              │
+│     • Cada hub de profissão: +6 links internos novos        │
+│     • Cada produto por cor: +3 links contextuais            │
+│     • Total rede: 173 URLs (33 mães + 140 filhas)           │
+│                                                              │
+│  ✅ Autoridade Tópica Reforçada                              │
+│     • Hub Profissão → valida expertise                       │
+│     • Produto Cor → valida catálogo                          │
+│     • Linkagem bidirecional → reforça relevância            │
+│                                                              │
+│  ✅ Redução de Bounce Rate                                   │
+│     • Usuário chega no hub → vê produtos imediatamente      │
+│     • Não precisa sair do site para comparar                │
+│     • Grid visual aumenta engajamento                        │
+│                                                              │
+│  🎯 ESTRATÉGIA DE PRIORIZAÇÃO DE CORES                       │
+│  ────────────────────────────────────────────────────────── │
+│                                                              │
+│  CORES PRIORITÁRIAS (mostrar SEMPRE nos hubs):              │
+│  • Branco (85% profissões saúde)                             │
+│  • Azul Marinho (veterinária, biomédica)                     │
+│  • Preto (beleza, gastronomia)                               │
+│  • Areia/Bege (neutro, todas profissões)                     │
+│  • Rosa/Rosê (psicologia, nutrição)                          │
+│  • Marinho (scrubs, centro cirúrgico)                        │
+│  • Cinza/Chumbo (moderno, escritório)                        │
+│  • Vinho (gastronomia, elegante)                             │
+│                                                              │
+│  CORES FALLBACK (só mostrar se hub não tiver prioritárias): │
+│  • Amarelo, Bonina, Canela, Gelo, Lilás                      │
+│  • Pessego, Salmão, Uva, Verde Água                          │
+│  • Verde Folha, Verde Militar, Violeta                       │
+│                                                              │
+│  📱 EXEMPLO PRÁTICO: HUB DENTISTA                            │
+│  ────────────────────────────────────────────────────────── │
+│                                                              │
+│  /jaleco-dentista/ (HUB)                                    │
+│  │                                                           │
+│  ├─ Seção 1: "Por que dentistas usam jaleco"                │
+│  │   └─ Conteúdo explicativo                                │
+│  │                                                           │
+│  ├─ Seção 2: "Modelos Recomendados para Dentistas" 🆕       │
+│  │   ┌────────────────────────────────────────────────────┐ │
+│  │   │ Grid 3 colunas (mobile 1 col):                     │ │
+│  │   │                                                     │ │
+│  │   │ [CARD]                   [CARD]              [CARD] │ │
+│  │   │ Jaleco Slim              Jaleco Gold         Slim   │ │
+│  │   │ Tradicional Branco       Branco              Princesa│ │
+│  │   │ R$ 289                   R$ 319              Branco  │ │
+│  │   │ Link→ /produto/...       Link→ /produto/...  R$ 299 │ │
+│  │   │                                              Link→   │ │
+│  │   │ [CARD]                   [CARD]              [CARD] │ │
+│  │   │ Jaleco Slim              Jaleco Slim         Jaleco │ │
+│  │   │ Tradicional Azul         Gold Azul           Elastex │ │
+│  │   │ R$ 289                   R$ 319              Azul   │ │
+│  │   │                                              R$ 299  │ │
+│  │   └────────────────────────────────────────────────────┘ │
+│  │                                                           │
+│  ├─ Seção 3: "Cores mais usadas por dentistas"              │
+│  │   └─ Branco (78%) → Link /jaleco-branco/                │
+│  │   └─ Azul Marinho (15%) → Link /jaleco-azul-marinho/    │
+│  │   └─ Rosa (7%) → Link /jaleco-rosa/                     │
+│  │                                                           │
+│  └─ Seção 4: "Como escolher jaleco para odontologia"        │
+│      └─ Conteúdo + CTAs                                     │
+│                                                              │
+│  💡 TEMPLATE UNIVERSAL PARA TODOS HUBS                       │
+│  ────────────────────────────────────────────────────────── │
+│                                                              │
+│  Estrutura padrão de hub de profissão (ATUALIZADO):         │
+│                                                              │
+│  1. Hero com H1: "Jaleco para [Profissão]"                  │
+│  2. Seção: Por que [profissão] usa jaleco                   │
+│  3. Seção: Modelos Recomendados 🆕                           │
+│     └─ Grid 4-6 produtos por cor prioritária                │
+│  4. Seção: Cores mais usadas por [profissão] 🆕             │
+│     └─ Links para hubs de cor (/jaleco-branco/, etc)        │
+│  5. Seção: Como escolher jaleco para [profissão]            │
+│  6. Seção: Casos de uso / Depoimentos                        │
+│  7. FAQ                                                      │
+│  8. CTA final                                                │
+│                                                              │
+│  🎨 CANONICAL TAGS E SEO TÉCNICO                             │
+│  ────────────────────────────────────────────────────────── │
+│                                                              │
+│  PÁGINAS MÃE (33):                                           │
+│  /produto/jaleco-slim-tradicional                            │
+│  └─ Self-canonical                                           │
+│  └─ Schema.org Product agregado                             │
+│                                                              │
+│  PÁGINAS FILHAS POR COR (140):                               │
+│  /produto/jaleco-slim-tradicional-branco                     │
+│  └─ Canonical → /produto/jaleco-slim-tradicional (mãe)      │
+│  └─ Schema.org Product específico da cor                     │
+│  └─ Breadcrumb: Home > Jalecos > Slim > Branco              │
+│                                                              │
+│  HUBS DE COR (10):                                           │
+│  /jaleco-branco/                                            │
+│  └─ Self-canonical                                           │
+│  └─ Schema.org CollectionPage                               │
+│  └─ Breadcrumb: Home > Jalecos > Jaleco Branco              │
+│                                                              │
+│  SITEMAP ATUALIZADO (total 183 URLs):                        │
+│  ├─ 33 produtos mãe (priority 0.9)                           │
+│  ├─ 140 produtos por cor (priority 0.8)                      │
+│  └─ 10 hubs de cor (priority 0.85)                           │
+│                                                              │
+└─────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────┐
 │ CLUSTER 7: POR NECESSIDADE                                   │
 ├─────────────────────────────────────────────────────────────┤
 │                                                              │

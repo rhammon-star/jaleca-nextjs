@@ -1,0 +1,1199 @@
+{
+  "totalMaes": 33,
+  "totalFilhas": 164,
+  "totalUrls": 197,
+  "categories": {
+    "jalecos": [
+      {
+        "type": "mãe",
+        "name": "Max Colete",
+        "url": "/produto/max-colete-jaleca",
+        "colors": 2
+      },
+      {
+        "type": "filha",
+        "name": "Max Colete - Areia 2",
+        "url": "/produto/max-colete-jaleca-areia-2",
+        "color": "Areia 2"
+      },
+      {
+        "type": "filha",
+        "name": "Max Colete - Marrom",
+        "url": "/produto/max-colete-jaleca-marrom",
+        "color": "Marrom"
+      },
+      {
+        "type": "mãe",
+        "name": "Jaleco Universitário Unissex",
+        "url": "/produto/jaleco-universitario-unissex-jaleca",
+        "colors": 2
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Universitário Unissex - Branco 3",
+        "url": "/produto/jaleco-universitario-unissex-jaleca-branco-3",
+        "color": "Branco 3"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Universitário Unissex - Marinho 3",
+        "url": "/produto/jaleco-universitario-unissex-jaleca-marinho-3",
+        "color": "Marinho 3"
+      },
+      {
+        "type": "mãe",
+        "name": "Jaleco Slim Tradicional Manga Curta Feminino",
+        "url": "/produto/jaleco-slim-tradicional-manga-curta-feminino-jaleca",
+        "colors": 3
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Tradicional Manga Curta Feminino - Areia 2",
+        "url": "/produto/jaleco-slim-tradicional-manga-curta-feminino-jaleca-areia-2",
+        "color": "Areia 2"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Tradicional Manga Curta Feminino - Marinho 3",
+        "url": "/produto/jaleco-slim-tradicional-manga-curta-feminino-jaleca-marinho-3",
+        "color": "Marinho 3"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Tradicional Manga Curta Feminino - Preto 3",
+        "url": "/produto/jaleco-slim-tradicional-manga-curta-feminino-jaleca-preto-3",
+        "color": "Preto 3"
+      },
+      {
+        "type": "mãe",
+        "name": "Jaleco Slim Tradicional Feminino",
+        "url": "/produto/jaleco-slim-feminino-de-ziper-central-varias-cores-jaleca",
+        "colors": 10
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Tradicional Feminino - Azul Bebe",
+        "url": "/produto/jaleco-slim-feminino-de-ziper-central-varias-cores-jaleca-azul-bebe",
+        "color": "Azul Bebe"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Tradicional Feminino - Azul Marinho",
+        "url": "/produto/jaleco-slim-feminino-de-ziper-central-varias-cores-jaleca-azul-marinho",
+        "color": "Azul Marinho"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Tradicional Feminino - Branco 3",
+        "url": "/produto/jaleco-slim-feminino-de-ziper-central-varias-cores-jaleca-branco-3",
+        "color": "Branco 3"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Tradicional Feminino - Lilas 2",
+        "url": "/produto/jaleco-slim-feminino-de-ziper-central-varias-cores-jaleca-lilas-2",
+        "color": "Lilas 2"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Tradicional Feminino - Pink 2",
+        "url": "/produto/jaleco-slim-feminino-de-ziper-central-varias-cores-jaleca-pink-2",
+        "color": "Pink 2"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Tradicional Feminino - Preto 3",
+        "url": "/produto/jaleco-slim-feminino-de-ziper-central-varias-cores-jaleca-preto-3",
+        "color": "Preto 3"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Tradicional Feminino - Rose 2",
+        "url": "/produto/jaleco-slim-feminino-de-ziper-central-varias-cores-jaleca-rose-2",
+        "color": "Rose 2"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Tradicional Feminino - Uva",
+        "url": "/produto/jaleco-slim-feminino-de-ziper-central-varias-cores-jaleca-uva",
+        "color": "Uva"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Tradicional Feminino - Verde Agua",
+        "url": "/produto/jaleco-slim-feminino-de-ziper-central-varias-cores-jaleca-verde-agua",
+        "color": "Verde Agua"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Tradicional Feminino - Verde Musgo",
+        "url": "/produto/jaleco-slim-feminino-de-ziper-central-varias-cores-jaleca-verde-musgo",
+        "color": "Verde Musgo"
+      },
+      {
+        "type": "mãe",
+        "name": "Jaleco Slim Recortes Masculino",
+        "url": "/produto/jaleco-slim-recortes-masculino-varias-cores-jaleca",
+        "colors": 11
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Recortes Masculino - Areia 2",
+        "url": "/produto/jaleco-slim-recortes-masculino-varias-cores-jaleca-areia-2",
+        "color": "Areia 2"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Recortes Masculino - Azul Claro",
+        "url": "/produto/jaleco-slim-recortes-masculino-varias-cores-jaleca-azul-claro",
+        "color": "Azul Claro"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Recortes Masculino - Azul Pastel",
+        "url": "/produto/jaleco-slim-recortes-masculino-varias-cores-jaleca-azul-pastel",
+        "color": "Azul Pastel"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Recortes Masculino - Bonina",
+        "url": "/produto/jaleco-slim-recortes-masculino-varias-cores-jaleca-bonina",
+        "color": "Bonina"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Recortes Masculino - Branco 3",
+        "url": "/produto/jaleco-slim-recortes-masculino-varias-cores-jaleca-branco-3",
+        "color": "Branco 3"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Recortes Masculino - Chocolate 2",
+        "url": "/produto/jaleco-slim-recortes-masculino-varias-cores-jaleca-chocolate-2",
+        "color": "Chocolate 2"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Recortes Masculino - Chumbo",
+        "url": "/produto/jaleco-slim-recortes-masculino-varias-cores-jaleca-chumbo",
+        "color": "Chumbo"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Recortes Masculino - Pessego",
+        "url": "/produto/jaleco-slim-recortes-masculino-varias-cores-jaleca-pessego",
+        "color": "Pessego"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Recortes Masculino - Preto 3",
+        "url": "/produto/jaleco-slim-recortes-masculino-varias-cores-jaleca-preto-3",
+        "color": "Preto 3"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Recortes Masculino - Verde Folha",
+        "url": "/produto/jaleco-slim-recortes-masculino-varias-cores-jaleca-verde-folha",
+        "color": "Verde Folha"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Recortes Masculino - Verde Militar",
+        "url": "/produto/jaleco-slim-recortes-masculino-varias-cores-jaleca-verde-militar",
+        "color": "Verde Militar"
+      },
+      {
+        "type": "mãe",
+        "name": "Jaleco Slim Princesa Manga Curta Feminino",
+        "url": "/produto/jaleco-slim-princesa-manga-curta-feminino-jaleca",
+        "colors": 4
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Princesa Manga Curta Feminino - Branco 3",
+        "url": "/produto/jaleco-slim-princesa-manga-curta-feminino-jaleca-branco-3",
+        "color": "Branco 3"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Princesa Manga Curta Feminino - Marinho 3",
+        "url": "/produto/jaleco-slim-princesa-manga-curta-feminino-jaleca-marinho-3",
+        "color": "Marinho 3"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Princesa Manga Curta Feminino - Rose 2",
+        "url": "/produto/jaleco-slim-princesa-manga-curta-feminino-jaleca-rose-2",
+        "color": "Rose 2"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Princesa Manga Curta Feminino - Uva",
+        "url": "/produto/jaleco-slim-princesa-manga-curta-feminino-jaleca-uva",
+        "color": "Uva"
+      },
+      {
+        "type": "mãe",
+        "name": "Jaleco Slim Princesa Laise Feminino",
+        "url": "/produto/jaleco-slim-princesa-laise-feminino-jaleca",
+        "colors": 2
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Princesa Laise Feminino - Branco 3",
+        "url": "/produto/jaleco-slim-princesa-laise-feminino-jaleca-branco-3",
+        "color": "Branco 3"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Princesa Laise Feminino - Marinho 3",
+        "url": "/produto/jaleco-slim-princesa-laise-feminino-jaleca-marinho-3",
+        "color": "Marinho 3"
+      },
+      {
+        "type": "mãe",
+        "name": "Jaleco Slim Princesa Feminino",
+        "url": "/produto/jaleco-slim-princesa-feminino-varias-cores-jaleca",
+        "colors": 5
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Princesa Feminino - Branco 3",
+        "url": "/produto/jaleco-slim-princesa-feminino-varias-cores-jaleca-branco-3",
+        "color": "Branco 3"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Princesa Feminino - Marinho 3",
+        "url": "/produto/jaleco-slim-princesa-feminino-varias-cores-jaleca-marinho-3",
+        "color": "Marinho 3"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Princesa Feminino - Preto 3",
+        "url": "/produto/jaleco-slim-princesa-feminino-varias-cores-jaleca-preto-3",
+        "color": "Preto 3"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Princesa Feminino - Rose 2",
+        "url": "/produto/jaleco-slim-princesa-feminino-varias-cores-jaleca-rose-2",
+        "color": "Rose 2"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Princesa Feminino - Vinho 2",
+        "url": "/produto/jaleco-slim-princesa-feminino-varias-cores-jaleca-vinho-2",
+        "color": "Vinho 2"
+      },
+      {
+        "type": "mãe",
+        "name": "Jaleco Slim Pala Feminino",
+        "url": "/produto/jaleco-slim-pala-feminino-jaleca",
+        "colors": 2
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Pala Feminino - Areia 2",
+        "url": "/produto/jaleco-slim-pala-feminino-jaleca-areia-2",
+        "color": "Areia 2"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Pala Feminino - Branco 3",
+        "url": "/produto/jaleco-slim-pala-feminino-jaleca-branco-3",
+        "color": "Branco 3"
+      },
+      {
+        "type": "mãe",
+        "name": "Jaleco Slim Moratty Masculino",
+        "url": "/produto/jaleco-slim-moratty-masculino-ziper-central-jaleca",
+        "colors": 2
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Moratty Masculino - Branco 3",
+        "url": "/produto/jaleco-slim-moratty-masculino-ziper-central-jaleca-branco-3",
+        "color": "Branco 3"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Moratty Masculino - Preto 3",
+        "url": "/produto/jaleco-slim-moratty-masculino-ziper-central-jaleca-preto-3",
+        "color": "Preto 3"
+      },
+      {
+        "type": "mãe",
+        "name": "Jaleco Slim Moratty Feminino",
+        "url": "/produto/jaleco-slim-moratty-feminino-ziper-central-jaleca",
+        "colors": 1
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Moratty Feminino - Branco 3",
+        "url": "/produto/jaleco-slim-moratty-feminino-ziper-central-jaleca-branco-3",
+        "color": "Branco 3"
+      },
+      {
+        "type": "mãe",
+        "name": "Jaleco Slim Gold Pala Feminino",
+        "url": "/produto/jaleco-slim-gold-pala-feminino-jaleca",
+        "colors": 1
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Gold Pala Feminino - Branco 3",
+        "url": "/produto/jaleco-slim-gold-pala-feminino-jaleca-branco-3",
+        "color": "Branco 3"
+      },
+      {
+        "type": "mãe",
+        "name": "Jaleco Slim Gold Feminino",
+        "url": "/produto/jaleco-slim-gold-feminino-jaleca",
+        "colors": 5
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Gold Feminino - Branco 3",
+        "url": "/produto/jaleco-slim-gold-feminino-jaleca-branco-3",
+        "color": "Branco 3"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Gold Feminino - Canela",
+        "url": "/produto/jaleco-slim-gold-feminino-jaleca-canela",
+        "color": "Canela"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Gold Feminino - Chumbo",
+        "url": "/produto/jaleco-slim-gold-feminino-jaleca-chumbo",
+        "color": "Chumbo"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Gold Feminino - Pink 2",
+        "url": "/produto/jaleco-slim-gold-feminino-jaleca-pink-2",
+        "color": "Pink 2"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Gold Feminino - Rosa Bebe",
+        "url": "/produto/jaleco-slim-gold-feminino-jaleca-rosa-bebe",
+        "color": "Rosa Bebe"
+      },
+      {
+        "type": "mãe",
+        "name": "Jaleco Slim Feminino Lateral",
+        "url": "/produto/jaleco-slim-feminino-de-ziper-lateral-varias-cores-jaleca",
+        "colors": 9
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Feminino Lateral - Areia 2",
+        "url": "/produto/jaleco-slim-feminino-de-ziper-lateral-varias-cores-jaleca-areia-2",
+        "color": "Areia 2"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Feminino Lateral - Branco 3",
+        "url": "/produto/jaleco-slim-feminino-de-ziper-lateral-varias-cores-jaleca-branco-3",
+        "color": "Branco 3"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Feminino Lateral - Pink 2",
+        "url": "/produto/jaleco-slim-feminino-de-ziper-lateral-varias-cores-jaleca-pink-2",
+        "color": "Pink 2"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Feminino Lateral - Preto 3",
+        "url": "/produto/jaleco-slim-feminino-de-ziper-lateral-varias-cores-jaleca-preto-3",
+        "color": "Preto 3"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Feminino Lateral - Roxo",
+        "url": "/produto/jaleco-slim-feminino-de-ziper-lateral-varias-cores-jaleca-roxo",
+        "color": "Roxo"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Feminino Lateral - Salmao",
+        "url": "/produto/jaleco-slim-feminino-de-ziper-lateral-varias-cores-jaleca-salmao",
+        "color": "Salmao"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Feminino Lateral - Verde Folha",
+        "url": "/produto/jaleco-slim-feminino-de-ziper-lateral-varias-cores-jaleca-verde-folha",
+        "color": "Verde Folha"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Feminino Lateral - Verde Musgo",
+        "url": "/produto/jaleco-slim-feminino-de-ziper-lateral-varias-cores-jaleca-verde-musgo",
+        "color": "Verde Musgo"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Feminino Lateral - Vinho 2",
+        "url": "/produto/jaleco-slim-feminino-de-ziper-lateral-varias-cores-jaleca-vinho-2",
+        "color": "Vinho 2"
+      },
+      {
+        "type": "mãe",
+        "name": "Jaleco Slim Elastex Feminino",
+        "url": "/produto/jaleco-slim-elastex-feminino-varias-cores-jaleca",
+        "colors": 8
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Elastex Feminino - Amarelo",
+        "url": "/produto/jaleco-slim-elastex-feminino-varias-cores-jaleca-amarelo",
+        "color": "Amarelo"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Elastex Feminino - Branco 3",
+        "url": "/produto/jaleco-slim-elastex-feminino-varias-cores-jaleca-branco-3",
+        "color": "Branco 3"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Elastex Feminino - Gelo",
+        "url": "/produto/jaleco-slim-elastex-feminino-varias-cores-jaleca-gelo",
+        "color": "Gelo"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Elastex Feminino - Marinho 3",
+        "url": "/produto/jaleco-slim-elastex-feminino-varias-cores-jaleca-marinho-3",
+        "color": "Marinho 3"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Elastex Feminino - Palha",
+        "url": "/produto/jaleco-slim-elastex-feminino-varias-cores-jaleca-palha",
+        "color": "Palha"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Elastex Feminino - Pink 2",
+        "url": "/produto/jaleco-slim-elastex-feminino-varias-cores-jaleca-pink-2",
+        "color": "Pink 2"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Elastex Feminino - Preto 3",
+        "url": "/produto/jaleco-slim-elastex-feminino-varias-cores-jaleca-preto-3",
+        "color": "Preto 3"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Elastex Feminino - Violeta",
+        "url": "/produto/jaleco-slim-elastex-feminino-varias-cores-jaleca-violeta",
+        "color": "Violeta"
+      },
+      {
+        "type": "mãe",
+        "name": "Jaleco Slim Duquesa Feminino",
+        "url": "/produto/jaleco-slim-duquesa-feminino-varias-cores-jaleca",
+        "colors": 4
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Duquesa Feminino - Areia 2",
+        "url": "/produto/jaleco-slim-duquesa-feminino-varias-cores-jaleca-areia-2",
+        "color": "Areia 2"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Duquesa Feminino - Off White",
+        "url": "/produto/jaleco-slim-duquesa-feminino-varias-cores-jaleca-off-white",
+        "color": "Off White"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Duquesa Feminino - Preto 3",
+        "url": "/produto/jaleco-slim-duquesa-feminino-varias-cores-jaleca-preto-3",
+        "color": "Preto 3"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Duquesa Feminino - Verde Garrafa",
+        "url": "/produto/jaleco-slim-duquesa-feminino-varias-cores-jaleca-verde-garrafa",
+        "color": "Verde Garrafa"
+      },
+      {
+        "type": "mãe",
+        "name": "Jaleco Slim Dama Feminino",
+        "url": "/produto/jaleco-slim-dama-feminino-jaleca",
+        "colors": 4
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Dama Feminino - Azul Pastel",
+        "url": "/produto/jaleco-slim-dama-feminino-jaleca-azul-pastel",
+        "color": "Azul Pastel"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Dama Feminino - Branco 3",
+        "url": "/produto/jaleco-slim-dama-feminino-jaleca-branco-3",
+        "color": "Branco 3"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Dama Feminino - Marinho 3",
+        "url": "/produto/jaleco-slim-dama-feminino-jaleca-marinho-3",
+        "color": "Marinho 3"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim Dama Feminino - Palha",
+        "url": "/produto/jaleco-slim-dama-feminino-jaleca-palha",
+        "color": "Palha"
+      },
+      {
+        "type": "mãe",
+        "name": "Jaleco Slim  Tradicional Masculino",
+        "url": "/produto/jaleco-slim-masculino-de-ziper-central-varias-cores-jaleca",
+        "colors": 8
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim  Tradicional Masculino - Areia 2",
+        "url": "/produto/jaleco-slim-masculino-de-ziper-central-varias-cores-jaleca-areia-2",
+        "color": "Areia 2"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim  Tradicional Masculino - Azul Marinho",
+        "url": "/produto/jaleco-slim-masculino-de-ziper-central-varias-cores-jaleca-azul-marinho",
+        "color": "Azul Marinho"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim  Tradicional Masculino - Azul Pastel",
+        "url": "/produto/jaleco-slim-masculino-de-ziper-central-varias-cores-jaleca-azul-pastel",
+        "color": "Azul Pastel"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim  Tradicional Masculino - Bonina",
+        "url": "/produto/jaleco-slim-masculino-de-ziper-central-varias-cores-jaleca-bonina",
+        "color": "Bonina"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim  Tradicional Masculino - Branco 3",
+        "url": "/produto/jaleco-slim-masculino-de-ziper-central-varias-cores-jaleca-branco-3",
+        "color": "Branco 3"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim  Tradicional Masculino - Chumbo",
+        "url": "/produto/jaleco-slim-masculino-de-ziper-central-varias-cores-jaleca-chumbo",
+        "color": "Chumbo"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim  Tradicional Masculino - Preto 3",
+        "url": "/produto/jaleco-slim-masculino-de-ziper-central-varias-cores-jaleca-preto-3",
+        "color": "Preto 3"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Slim  Tradicional Masculino - Verde Militar",
+        "url": "/produto/jaleco-slim-masculino-de-ziper-central-varias-cores-jaleca-verde-militar",
+        "color": "Verde Militar"
+      },
+      {
+        "type": "mãe",
+        "name": "Jaleco Padrão Aluno Masculino",
+        "url": "/produto/jaleco-padrao-aluno-masculino-de-botao-varias-cores-jaleca",
+        "colors": 2
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Padrão Aluno Masculino - Azul Ceu",
+        "url": "/produto/jaleco-padrao-aluno-masculino-de-botao-varias-cores-jaleca-azul-ceu",
+        "color": "Azul Ceu"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Padrão Aluno Masculino - Branco 3",
+        "url": "/produto/jaleco-padrao-aluno-masculino-de-botao-varias-cores-jaleca-branco-3",
+        "color": "Branco 3"
+      },
+      {
+        "type": "mãe",
+        "name": "Jaleco Padrão Aluno Feminino",
+        "url": "/produto/jaleco-padrao-aluno-feminino-de-botao-varias-cores-jaleca",
+        "colors": 2
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Padrão Aluno Feminino - Azul Ceu",
+        "url": "/produto/jaleco-padrao-aluno-feminino-de-botao-varias-cores-jaleca-azul-ceu",
+        "color": "Azul Ceu"
+      },
+      {
+        "type": "filha",
+        "name": "Jaleco Padrão Aluno Feminino - Branco 3",
+        "url": "/produto/jaleco-padrao-aluno-feminino-de-botao-varias-cores-jaleca-branco-3",
+        "color": "Branco 3"
+      },
+      {
+        "type": "mãe",
+        "name": "Colete Multiuso",
+        "url": "/produto/colete-multiuso-jaleca",
+        "colors": 5
+      },
+      {
+        "type": "filha",
+        "name": "Colete Multiuso - Areia 2",
+        "url": "/produto/colete-multiuso-jaleca-areia-2",
+        "color": "Areia 2"
+      },
+      {
+        "type": "filha",
+        "name": "Colete Multiuso - Branco 3",
+        "url": "/produto/colete-multiuso-jaleca-branco-3",
+        "color": "Branco 3"
+      },
+      {
+        "type": "filha",
+        "name": "Colete Multiuso - Marinho 3",
+        "url": "/produto/colete-multiuso-jaleca-marinho-3",
+        "color": "Marinho 3"
+      },
+      {
+        "type": "filha",
+        "name": "Colete Multiuso - Preto 3",
+        "url": "/produto/colete-multiuso-jaleca-preto-3",
+        "color": "Preto 3"
+      },
+      {
+        "type": "filha",
+        "name": "Colete Multiuso - Rose 2",
+        "url": "/produto/colete-multiuso-jaleca-rose-2",
+        "color": "Rose 2"
+      }
+    ],
+    "conjuntos": [
+      {
+        "type": "mãe",
+        "name": "Macacão Paris Feminino",
+        "url": "/produto/macacao-paris-feminino-jaleca",
+        "colors": 3
+      },
+      {
+        "type": "filha",
+        "name": "Macacão Paris Feminino - Marinho 3",
+        "url": "/produto/macacao-paris-feminino-jaleca-marinho-3",
+        "color": "Marinho 3"
+      },
+      {
+        "type": "filha",
+        "name": "Macacão Paris Feminino - Pink 2",
+        "url": "/produto/macacao-paris-feminino-jaleca-pink-2",
+        "color": "Pink 2"
+      },
+      {
+        "type": "filha",
+        "name": "Macacão Paris Feminino - Preto 3",
+        "url": "/produto/macacao-paris-feminino-jaleca-preto-3",
+        "color": "Preto 3"
+      },
+      {
+        "type": "mãe",
+        "name": "Conjunto Scrub Masculino",
+        "url": "/produto/conjunto-pijama-cirurgico-scrub-masculino-varias-cores-jaleca",
+        "colors": 6
+      },
+      {
+        "type": "filha",
+        "name": "Conjunto Scrub Masculino - Areia 2",
+        "url": "/produto/conjunto-pijama-cirurgico-scrub-masculino-varias-cores-jaleca-areia-2",
+        "color": "Areia 2"
+      },
+      {
+        "type": "filha",
+        "name": "Conjunto Scrub Masculino - Branco 3",
+        "url": "/produto/conjunto-pijama-cirurgico-scrub-masculino-varias-cores-jaleca-branco-3",
+        "color": "Branco 3"
+      },
+      {
+        "type": "filha",
+        "name": "Conjunto Scrub Masculino - Chumbo",
+        "url": "/produto/conjunto-pijama-cirurgico-scrub-masculino-varias-cores-jaleca-chumbo",
+        "color": "Chumbo"
+      },
+      {
+        "type": "filha",
+        "name": "Conjunto Scrub Masculino - Marinho 3",
+        "url": "/produto/conjunto-pijama-cirurgico-scrub-masculino-varias-cores-jaleca-marinho-3",
+        "color": "Marinho 3"
+      },
+      {
+        "type": "filha",
+        "name": "Conjunto Scrub Masculino - Preto 3",
+        "url": "/produto/conjunto-pijama-cirurgico-scrub-masculino-varias-cores-jaleca-preto-3",
+        "color": "Preto 3"
+      },
+      {
+        "type": "filha",
+        "name": "Conjunto Scrub Masculino - Vinho 2",
+        "url": "/produto/conjunto-pijama-cirurgico-scrub-masculino-varias-cores-jaleca-vinho-2",
+        "color": "Vinho 2"
+      },
+      {
+        "type": "mãe",
+        "name": "Conjunto Scrub Feminino",
+        "url": "/produto/conjunto-pijama-cirurgico-scrub-feminino-varias-cores-jaleca",
+        "colors": 17
+      },
+      {
+        "type": "filha",
+        "name": "Conjunto Scrub Feminino - Areia 2",
+        "url": "/produto/conjunto-pijama-cirurgico-scrub-feminino-varias-cores-jaleca-areia-2",
+        "color": "Areia 2"
+      },
+      {
+        "type": "filha",
+        "name": "Conjunto Scrub Feminino - Areia Claro",
+        "url": "/produto/conjunto-pijama-cirurgico-scrub-feminino-varias-cores-jaleca-areia-claro",
+        "color": "Areia Claro"
+      },
+      {
+        "type": "filha",
+        "name": "Conjunto Scrub Feminino - Azul Bebe",
+        "url": "/produto/conjunto-pijama-cirurgico-scrub-feminino-varias-cores-jaleca-azul-bebe",
+        "color": "Azul Bebe"
+      },
+      {
+        "type": "filha",
+        "name": "Conjunto Scrub Feminino - Azul Marinho",
+        "url": "/produto/conjunto-pijama-cirurgico-scrub-feminino-varias-cores-jaleca-azul-marinho",
+        "color": "Azul Marinho"
+      },
+      {
+        "type": "filha",
+        "name": "Conjunto Scrub Feminino - Azul Pastel",
+        "url": "/produto/conjunto-pijama-cirurgico-scrub-feminino-varias-cores-jaleca-azul-pastel",
+        "color": "Azul Pastel"
+      },
+      {
+        "type": "filha",
+        "name": "Conjunto Scrub Feminino - Branco 3",
+        "url": "/produto/conjunto-pijama-cirurgico-scrub-feminino-varias-cores-jaleca-branco-3",
+        "color": "Branco 3"
+      },
+      {
+        "type": "filha",
+        "name": "Conjunto Scrub Feminino - Cereja 2",
+        "url": "/produto/conjunto-pijama-cirurgico-scrub-feminino-varias-cores-jaleca-cereja-2",
+        "color": "Cereja 2"
+      },
+      {
+        "type": "filha",
+        "name": "Conjunto Scrub Feminino - Chumbo",
+        "url": "/produto/conjunto-pijama-cirurgico-scrub-feminino-varias-cores-jaleca-chumbo",
+        "color": "Chumbo"
+      },
+      {
+        "type": "filha",
+        "name": "Conjunto Scrub Feminino - Pink 2",
+        "url": "/produto/conjunto-pijama-cirurgico-scrub-feminino-varias-cores-jaleca-pink-2",
+        "color": "Pink 2"
+      },
+      {
+        "type": "filha",
+        "name": "Conjunto Scrub Feminino - Preto 3",
+        "url": "/produto/conjunto-pijama-cirurgico-scrub-feminino-varias-cores-jaleca-preto-3",
+        "color": "Preto 3"
+      },
+      {
+        "type": "filha",
+        "name": "Conjunto Scrub Feminino - Rosa Bebe",
+        "url": "/produto/conjunto-pijama-cirurgico-scrub-feminino-varias-cores-jaleca-rosa-bebe",
+        "color": "Rosa Bebe"
+      },
+      {
+        "type": "filha",
+        "name": "Conjunto Scrub Feminino - Rose 2",
+        "url": "/produto/conjunto-pijama-cirurgico-scrub-feminino-varias-cores-jaleca-rose-2",
+        "color": "Rose 2"
+      },
+      {
+        "type": "filha",
+        "name": "Conjunto Scrub Feminino - Rose Escuro",
+        "url": "/produto/conjunto-pijama-cirurgico-scrub-feminino-varias-cores-jaleca-rose-escuro",
+        "color": "Rose Escuro"
+      },
+      {
+        "type": "filha",
+        "name": "Conjunto Scrub Feminino - Uva",
+        "url": "/produto/conjunto-pijama-cirurgico-scrub-feminino-varias-cores-jaleca-uva",
+        "color": "Uva"
+      },
+      {
+        "type": "filha",
+        "name": "Conjunto Scrub Feminino - Verde Bb",
+        "url": "/produto/conjunto-pijama-cirurgico-scrub-feminino-varias-cores-jaleca-verde-bb",
+        "color": "Verde Bb"
+      },
+      {
+        "type": "filha",
+        "name": "Conjunto Scrub Feminino - Verde Musgo",
+        "url": "/produto/conjunto-pijama-cirurgico-scrub-feminino-varias-cores-jaleca-verde-musgo",
+        "color": "Verde Musgo"
+      },
+      {
+        "type": "filha",
+        "name": "Conjunto Scrub Feminino - Vinho 2",
+        "url": "/produto/conjunto-pijama-cirurgico-scrub-feminino-varias-cores-jaleca-vinho-2",
+        "color": "Vinho 2"
+      },
+      {
+        "type": "mãe",
+        "name": "Conjunto Puff Zíper Feminino",
+        "url": "/produto/conjunto-puff-ziper-feminino-jaleca",
+        "colors": 2
+      },
+      {
+        "type": "filha",
+        "name": "Conjunto Puff Zíper Feminino - Marinho 3",
+        "url": "/produto/conjunto-puff-ziper-feminino-jaleca-marinho-3",
+        "color": "Marinho 3"
+      },
+      {
+        "type": "filha",
+        "name": "Conjunto Puff Zíper Feminino - Preto 3",
+        "url": "/produto/conjunto-puff-ziper-feminino-jaleca-preto-3",
+        "color": "Preto 3"
+      },
+      {
+        "type": "mãe",
+        "name": "Conjunto Princesa Nobre Feminino",
+        "url": "/produto/conjunto-pijama-cirurgico-princesa-scrub-feminino-varias-cores-jaleca",
+        "colors": 5
+      },
+      {
+        "type": "filha",
+        "name": "Conjunto Princesa Nobre Feminino - Marinho 3",
+        "url": "/produto/conjunto-pijama-cirurgico-princesa-scrub-feminino-varias-cores-jaleca-marinho-3",
+        "color": "Marinho 3"
+      },
+      {
+        "type": "filha",
+        "name": "Conjunto Princesa Nobre Feminino - Preto 3",
+        "url": "/produto/conjunto-pijama-cirurgico-princesa-scrub-feminino-varias-cores-jaleca-preto-3",
+        "color": "Preto 3"
+      },
+      {
+        "type": "filha",
+        "name": "Conjunto Princesa Nobre Feminino - Verde Claro",
+        "url": "/produto/conjunto-pijama-cirurgico-princesa-scrub-feminino-varias-cores-jaleca-verde-claro",
+        "color": "Verde Claro"
+      },
+      {
+        "type": "filha",
+        "name": "Conjunto Princesa Nobre Feminino - Verde Musgo",
+        "url": "/produto/conjunto-pijama-cirurgico-princesa-scrub-feminino-varias-cores-jaleca-verde-musgo",
+        "color": "Verde Musgo"
+      },
+      {
+        "type": "filha",
+        "name": "Conjunto Princesa Nobre Feminino - Vinho 2",
+        "url": "/produto/conjunto-pijama-cirurgico-princesa-scrub-feminino-varias-cores-jaleca-vinho-2",
+        "color": "Vinho 2"
+      },
+      {
+        "type": "mãe",
+        "name": "Conjunto Laço Feminino",
+        "url": "/produto/conjunto-laco-feminino-jaleca",
+        "colors": 3
+      },
+      {
+        "type": "filha",
+        "name": "Conjunto Laço Feminino - Marinho 3",
+        "url": "/produto/conjunto-laco-feminino-jaleca-marinho-3",
+        "color": "Marinho 3"
+      },
+      {
+        "type": "filha",
+        "name": "Conjunto Laço Feminino - Preto 3",
+        "url": "/produto/conjunto-laco-feminino-jaleca-preto-3",
+        "color": "Preto 3"
+      },
+      {
+        "type": "filha",
+        "name": "Conjunto Laço Feminino - Rose 2",
+        "url": "/produto/conjunto-laco-feminino-jaleca-rose-2",
+        "color": "Rose 2"
+      },
+      {
+        "type": "mãe",
+        "name": "Conjunto Executiva Feminino",
+        "url": "/produto/conjunto-executiva-feminino-jaleca",
+        "colors": 8
+      },
+      {
+        "type": "filha",
+        "name": "Conjunto Executiva Feminino - Areia 2",
+        "url": "/produto/conjunto-executiva-feminino-jaleca-areia-2",
+        "color": "Areia 2"
+      },
+      {
+        "type": "filha",
+        "name": "Conjunto Executiva Feminino - Chumbo Giz",
+        "url": "/produto/conjunto-executiva-feminino-jaleca-chumbo-giz",
+        "color": "Chumbo Giz"
+      },
+      {
+        "type": "filha",
+        "name": "Conjunto Executiva Feminino - Marinho 3",
+        "url": "/produto/conjunto-executiva-feminino-jaleca-marinho-3",
+        "color": "Marinho 3"
+      },
+      {
+        "type": "filha",
+        "name": "Conjunto Executiva Feminino - Marinho Giz",
+        "url": "/produto/conjunto-executiva-feminino-jaleca-marinho-giz",
+        "color": "Marinho Giz"
+      },
+      {
+        "type": "filha",
+        "name": "Conjunto Executiva Feminino - Preto 3",
+        "url": "/produto/conjunto-executiva-feminino-jaleca-preto-3",
+        "color": "Preto 3"
+      },
+      {
+        "type": "filha",
+        "name": "Conjunto Executiva Feminino - Preto Giz",
+        "url": "/produto/conjunto-executiva-feminino-jaleca-preto-giz",
+        "color": "Preto Giz"
+      },
+      {
+        "type": "filha",
+        "name": "Conjunto Executiva Feminino - Rose 2",
+        "url": "/produto/conjunto-executiva-feminino-jaleca-rose-2",
+        "color": "Rose 2"
+      },
+      {
+        "type": "filha",
+        "name": "Conjunto Executiva Feminino - Vinho Giz",
+        "url": "/produto/conjunto-executiva-feminino-jaleca-vinho-giz",
+        "color": "Vinho Giz"
+      }
+    ],
+    "dolmas": [
+      {
+        "type": "mãe",
+        "name": "Conjunto Dólmã Cozinheiro Masculino",
+        "url": "/produto/conjunto-dolma-cozinheiro-masculino-de-ziper-e-avental-saia-slim-jaleca",
+        "colors": 3
+      },
+      {
+        "type": "filha",
+        "name": "Conjunto Dólmã Cozinheiro Masculino - Branco 3",
+        "url": "/produto/conjunto-dolma-cozinheiro-masculino-de-ziper-e-avental-saia-slim-jaleca-branco-3",
+        "color": "Branco 3"
+      },
+      {
+        "type": "filha",
+        "name": "Conjunto Dólmã Cozinheiro Masculino - Preto 3",
+        "url": "/produto/conjunto-dolma-cozinheiro-masculino-de-ziper-e-avental-saia-slim-jaleca-preto-3",
+        "color": "Preto 3"
+      },
+      {
+        "type": "filha",
+        "name": "Conjunto Dólmã Cozinheiro Masculino - Vinho 2",
+        "url": "/produto/conjunto-dolma-cozinheiro-masculino-de-ziper-e-avental-saia-slim-jaleca-vinho-2",
+        "color": "Vinho 2"
+      },
+      {
+        "type": "mãe",
+        "name": "Conjunto Dólmã Cozinheiro Feminino",
+        "url": "/produto/conjunto-dolma-cozinheiro-de-ziper-e-avental-saia-slim-jaleca",
+        "colors": 2
+      },
+      {
+        "type": "filha",
+        "name": "Conjunto Dólmã Cozinheiro Feminino - Branco 3",
+        "url": "/produto/conjunto-dolma-cozinheiro-de-ziper-e-avental-saia-slim-jaleca-branco-3",
+        "color": "Branco 3"
+      },
+      {
+        "type": "filha",
+        "name": "Conjunto Dólmã Cozinheiro Feminino - Preto 3",
+        "url": "/produto/conjunto-dolma-cozinheiro-de-ziper-e-avental-saia-slim-jaleca-preto-3",
+        "color": "Preto 3"
+      }
+    ],
+    "acessorios": [
+      {
+        "type": "mãe",
+        "name": "Touca de elástico",
+        "url": "/produto/touca-de-elastico-jaleca",
+        "colors": 6
+      },
+      {
+        "type": "filha",
+        "name": "Touca de elástico - Areia 2",
+        "url": "/produto/touca-de-elastico-jaleca-areia-2",
+        "color": "Areia 2"
+      },
+      {
+        "type": "filha",
+        "name": "Touca de elástico - Azul Bebe",
+        "url": "/produto/touca-de-elastico-jaleca-azul-bebe",
+        "color": "Azul Bebe"
+      },
+      {
+        "type": "filha",
+        "name": "Touca de elástico - Branco 3",
+        "url": "/produto/touca-de-elastico-jaleca-branco-3",
+        "color": "Branco 3"
+      },
+      {
+        "type": "filha",
+        "name": "Touca de elástico - Preto 3",
+        "url": "/produto/touca-de-elastico-jaleca-preto-3",
+        "color": "Preto 3"
+      },
+      {
+        "type": "filha",
+        "name": "Touca de elástico - Rose Escuro",
+        "url": "/produto/touca-de-elastico-jaleca-rose-escuro",
+        "color": "Rose Escuro"
+      },
+      {
+        "type": "filha",
+        "name": "Touca de elástico - Vinho 2",
+        "url": "/produto/touca-de-elastico-jaleca-vinho-2",
+        "color": "Vinho 2"
+      },
+      {
+        "type": "mãe",
+        "name": "Touca de amarrar",
+        "url": "/produto/touca-de-amarrar-jaleca",
+        "colors": 7
+      },
+      {
+        "type": "filha",
+        "name": "Touca de amarrar - Areia 2",
+        "url": "/produto/touca-de-amarrar-jaleca-areia-2",
+        "color": "Areia 2"
+      },
+      {
+        "type": "filha",
+        "name": "Touca de amarrar - Branco 3",
+        "url": "/produto/touca-de-amarrar-jaleca-branco-3",
+        "color": "Branco 3"
+      },
+      {
+        "type": "filha",
+        "name": "Touca de amarrar - Flamboya",
+        "url": "/produto/touca-de-amarrar-jaleca-flamboya",
+        "color": "Flamboya"
+      },
+      {
+        "type": "filha",
+        "name": "Touca de amarrar - Marinho 3",
+        "url": "/produto/touca-de-amarrar-jaleca-marinho-3",
+        "color": "Marinho 3"
+      },
+      {
+        "type": "filha",
+        "name": "Touca de amarrar - Preto 3",
+        "url": "/produto/touca-de-amarrar-jaleca-preto-3",
+        "color": "Preto 3"
+      },
+      {
+        "type": "filha",
+        "name": "Touca de amarrar - Rosa Bebe",
+        "url": "/produto/touca-de-amarrar-jaleca-rosa-bebe",
+        "color": "Rosa Bebe"
+      },
+      {
+        "type": "filha",
+        "name": "Touca de amarrar - Rose 2",
+        "url": "/produto/touca-de-amarrar-jaleca-rose-2",
+        "color": "Rose 2"
+      },
+      {
+        "type": "mãe",
+        "name": "Faixa de Cabelo",
+        "url": "/produto/faixa-de-cabelo-jaleca",
+        "colors": 10
+      },
+      {
+        "type": "filha",
+        "name": "Faixa de Cabelo - Areia 2",
+        "url": "/produto/faixa-de-cabelo-jaleca-areia-2",
+        "color": "Areia 2"
+      },
+      {
+        "type": "filha",
+        "name": "Faixa de Cabelo - Azul Bebe",
+        "url": "/produto/faixa-de-cabelo-jaleca-azul-bebe",
+        "color": "Azul Bebe"
+      },
+      {
+        "type": "filha",
+        "name": "Faixa de Cabelo - Branco 3",
+        "url": "/produto/faixa-de-cabelo-jaleca-branco-3",
+        "color": "Branco 3"
+      },
+      {
+        "type": "filha",
+        "name": "Faixa de Cabelo - Gelo",
+        "url": "/produto/faixa-de-cabelo-jaleca-gelo",
+        "color": "Gelo"
+      },
+      {
+        "type": "filha",
+        "name": "Faixa de Cabelo - Marinho 3",
+        "url": "/produto/faixa-de-cabelo-jaleca-marinho-3",
+        "color": "Marinho 3"
+      },
+      {
+        "type": "filha",
+        "name": "Faixa de Cabelo - Pink 2",
+        "url": "/produto/faixa-de-cabelo-jaleca-pink-2",
+        "color": "Pink 2"
+      },
+      {
+        "type": "filha",
+        "name": "Faixa de Cabelo - Preto 3",
+        "url": "/produto/faixa-de-cabelo-jaleca-preto-3",
+        "color": "Preto 3"
+      },
+      {
+        "type": "filha",
+        "name": "Faixa de Cabelo - Rosa Bebe",
+        "url": "/produto/faixa-de-cabelo-jaleca-rosa-bebe",
+        "color": "Rosa Bebe"
+      },
+      {
+        "type": "filha",
+        "name": "Faixa de Cabelo - Rose Escuro",
+        "url": "/produto/faixa-de-cabelo-jaleca-rose-escuro",
+        "color": "Rose Escuro"
+      },
+      {
+        "type": "filha",
+        "name": "Faixa de Cabelo - Vinho 2",
+        "url": "/produto/faixa-de-cabelo-jaleca-vinho-2",
+        "color": "Vinho 2"
+      }
+    ],
+    "outros": []
+  },
+  "generatedAt": "2026-04-25T21:21:31.676Z"
+}

@@ -8,6 +8,7 @@ import { getGooglePlaceData, type PlaceData } from '@/lib/google-places'
 import type { WooProduct } from '@/components/ProductCard'
 import type { Metadata } from 'next'
 import { sendMetaViewContent } from '@/lib/meta-conversions'
+import { parseColorSlug, findVariationByColor } from '@/lib/product-colors'
 
 export const revalidate = 3600
 
@@ -68,13 +69,36 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>
 }): Promise<Metadata> {
   const { slug } = await params
-  const product = await getProduct(slug)
+  const { baseSlug, colorName, hasColor } = parseColorSlug(slug)
+
+  // Busca produto mãe se slug tiver cor, senão busca o próprio slug
+  const productSlug = hasColor ? baseSlug : slug
+  const product = await getProduct(productSlug)
+
   if (!product) {
     console.warn(`[404] Produto não encontrado: /produto/${slug}`)
     return { title: 'Produto não encontrado — Jaleca', robots: { index: false } }
   }
 
-  const name = String(product.name || '').replace(/ - Jaleca$/i, '')
+  let name = String(product.name || '').replace(/ - Jaleca$/i, '')
+  let imageUrl = product.image?.sourceUrl
+  let actualSlug = slug
+
+  // Se URL tem cor, busca dados da variação específica
+  if (hasColor && colorName) {
+    const variations = (product as any).variations?.nodes || []
+    const variation = findVariationByColor(variations, colorName)
+
+    if (variation) {
+      name = `${name} - ${colorName}`
+      imageUrl = variation.image?.sourceUrl || imageUrl
+    } else {
+      // Cor não existe, retorna 404
+      console.warn(`[404] Variação de cor não encontrada: ${slug}`)
+      return { title: 'Produto não encontrado — Jaleca', robots: { index: false } }
+    }
+  }
+
   const shortDesc = product.shortDescription
     ? stripHtml(String(product.shortDescription)).slice(0, 160)
     : null
@@ -82,16 +106,20 @@ export async function generateMetadata({
     ? stripHtml(String(product.description)).slice(0, 160)
     : null
   const description = shortDesc || longDesc || `Compre ${name} na Jaleca. Uniformes profissionais premium.`
-  const imageUrl = product.image?.sourceUrl
+
+  // Canonical: páginas filhas (com cor) apontam para página mãe
+  const canonical = hasColor
+    ? `https://jaleca.com.br/produto/${baseSlug}`
+    : `https://jaleca.com.br/produto/${slug}`
 
   return {
     title: name,
     description,
-    alternates: { canonical: `https://jaleca.com.br/produto/${slug}` },
+    alternates: { canonical },
     openGraph: {
       title: name,
       description,
-      url: `https://jaleca.com.br/produto/${slug}`,
+      url: `https://jaleca.com.br/produto/${actualSlug}`,
       siteName: 'Jaleca',
       locale: 'pt_BR',
       images: imageUrl ? [{ url: imageUrl, alt: name }] : [],
@@ -112,11 +140,30 @@ export default async function ProdutoPage({
   params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
-  const product = await getProduct(slug)
+  const { baseSlug, colorName, hasColor } = parseColorSlug(slug)
+
+  // Busca produto mãe se slug tiver cor
+  const productSlug = hasColor ? baseSlug : slug
+  const product = await getProduct(productSlug)
 
   if (!product) notFound()
 
-  const name = String(product.name || '').replace(/ - Jaleca$/i, '')
+  let name = String(product.name || '').replace(/ - Jaleca$/i, '')
+  let selectedVariation = null
+
+  // Se URL tem cor, busca variação específica
+  if (hasColor && colorName) {
+    const variations = (product as any).variations?.nodes || []
+    selectedVariation = findVariationByColor(variations, colorName)
+
+    if (!selectedVariation) {
+      // Cor não existe para este produto
+      notFound()
+    }
+
+    name = `${name} - ${colorName}`
+  }
+
   const shortDesc = product.shortDescription
     ? stripHtml(String(product.shortDescription)).slice(0, 200)
     : null
@@ -160,7 +207,17 @@ export default async function ProdutoPage({
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Início', item: 'https://jaleca.com.br' },
       { '@type': 'ListItem', position: 2, name: 'Produtos', item: 'https://jaleca.com.br/produtos' },
-      { '@type': 'ListItem', position: 3, name, item: `https://jaleca.com.br/produto/${slug}` },
+      ...(hasColor
+        ? [
+            {
+              '@type': 'ListItem',
+              position: 3,
+              name: name.replace(` - ${colorName}`, ''),
+              item: `https://jaleca.com.br/produto/${baseSlug}`,
+            },
+            { '@type': 'ListItem', position: 4, name, item: `https://jaleca.com.br/produto/${slug}` },
+          ]
+        : [{ '@type': 'ListItem', position: 3, name, item: `https://jaleca.com.br/produto/${slug}` }]),
     ],
   }
 
@@ -170,18 +227,23 @@ export default async function ProdutoPage({
   const colorAttr = attrs.find((a) => /cor/i.test(a.name))
   const sizeAttr = attrs.find((a) => /tamanho|size/i.test(a.name))
 
+  // Se é página filha (com cor), usa dados da variação no schema
+  const schemaImage = selectedVariation?.image?.sourceUrl || product.image?.sourceUrl
+  const schemaSku = selectedVariation?.sku || product.sku
+  const schemaColor = hasColor && colorName ? colorName : (colorAttr?.options?.length ? colorAttr.options.join(', ') : undefined)
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name,
     description,
-    image: product.image?.sourceUrl,
-    sku: product.sku,
+    image: schemaImage,
+    sku: schemaSku,
     brand: { '@type': 'Brand', name: 'Jaleca' },
     manufacturer: { '@type': 'Organization', name: 'Jaleca', url: 'https://jaleca.com.br' },
     condition: 'https://schema.org/NewCondition',
     category: 'Uniformes Profissionais para Saúde',
-    ...(colorAttr?.options?.length && { color: colorAttr.options.join(', ') }),
+    ...(schemaColor && { color: schemaColor }),
     ...(sizeAttr?.options?.length && { size: sizeAttr.options.join(', ') }),
     offers: (() => {
       // Parse BRL price string "280,00" or "1.280,00" → 280.00 / 1280.00
@@ -199,7 +261,76 @@ export default async function ProdutoPage({
         return isNaN(num) || num <= 0 ? undefined : num
       }
 
-      // Para produtos variáveis, extrair preço das variações
+      // Se é página filha (com cor), usa oferta única da variação
+      if (selectedVariation) {
+        const varPrice = parsePrice(selectedVariation.price) ?? parsePrice(selectedVariation.regularPrice)
+        const pixPrice = varPrice !== undefined ? Math.round(varPrice * 0.95 * 100) / 100 : undefined
+
+        return {
+          '@type': 'Offer',
+          ...(varPrice !== undefined && { price: varPrice.toFixed(2) }),
+          priceCurrency: 'BRL',
+          availability:
+            selectedVariation.stockStatus === 'OUT_OF_STOCK'
+              ? 'https://schema.org/OutOfStock'
+              : 'https://schema.org/InStock',
+          url: `https://jaleca.com.br/produto/${slug}`,
+          seller: { '@type': 'Organization', name: 'Jaleca' },
+          hasMerchantReturnPolicy: {
+            '@type': 'MerchantReturnPolicy',
+            applicableCountry: 'BR',
+            returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+            merchantReturnDays: 7,
+            returnMethod: 'https://schema.org/ReturnByMail',
+            returnFees: 'https://schema.org/FreeReturn',
+          },
+          shippingDetails: {
+            '@type': 'OfferShippingDetails',
+            shippingRate: {
+              '@type': 'MonetaryAmount',
+              value: 0,
+              currency: 'BRL',
+            },
+            shippingDestination: {
+              '@type': 'DefinedRegion',
+              addressCountry: 'BR',
+            },
+            deliveryTime: {
+              '@type': 'ShippingDeliveryTime',
+              handlingTime: {
+                '@type': 'QuantitativeValue',
+                minValue: 1,
+                maxValue: 2,
+                unitCode: 'DAY',
+              },
+              transitTime: {
+                '@type': 'QuantitativeValue',
+                minValue: 3,
+                maxValue: 10,
+                unitCode: 'DAY',
+              },
+            },
+          },
+          ...(varPrice !== undefined && pixPrice !== undefined && {
+            priceSpecification: [
+              {
+                '@type': 'UnitPriceSpecification',
+                price: varPrice.toFixed(2),
+                priceCurrency: 'BRL',
+                name: 'Preço padrão',
+              },
+              {
+                '@type': 'UnitPriceSpecification',
+                price: pixPrice.toFixed(2),
+                priceCurrency: 'BRL',
+                name: 'PIX (5% de desconto)',
+              },
+            ],
+          }),
+        }
+      }
+
+      // Para produtos variáveis (página mãe), extrair preço das variações
       const variations: Array<{ price?: string; regularPrice?: string }> =
         (product as any).variations?.nodes ?? []
       const variationPrices = variations
@@ -382,6 +513,7 @@ export default async function ProdutoPage({
         initialReviews={resolvedReviews}
         relatedProducts={relatedNodes}
         googlePlace={googlePlace ?? undefined}
+        initialColor={hasColor ? colorName : null}
       />
     </>
   )
