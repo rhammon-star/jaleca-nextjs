@@ -1100,7 +1100,7 @@ export default function CheckoutClient() {
                   Forma de Pagamento
                 </h2>
                 <div className="space-y-3">
-                  {(['pix', 'boleto', 'credit_card'] as PaymentMethod[]).map(method => (
+                  {(['pix', 'credit_card'] as PaymentMethod[]).map(method => (
                     <div key={method}>
                       <label
                         className={`flex items-center gap-3 px-4 py-3 border cursor-pointer transition-colors ${
