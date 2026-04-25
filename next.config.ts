@@ -244,7 +244,7 @@ const nextConfig: NextConfig = {
       source: '/produto/conjunto-dolma-cozinheiro-de-ziper-e-avental-saia-slim-jaleca',
       destination: '/produto/conjunto-dolma-cozinheiro-feminino-jaleca',
       permanent: true,
-    },,
+    },
 
     // Correção de slugs (26/04/2026)
     {
