@@ -21,7 +21,7 @@ const faqItems = [
   },
   {
     q: 'O uniforme de cozinheiro precisa de EPIs complementares?',
-    a: 'Sim. Luvas термостойкие, óculos de proteção e avental impermeável são EPIs obrigatórios em cozinhas profissionais. O dólmã é o uniforme base, não substitui o EPI.',
+    a: 'Sim. Luvas resistentes ao calor, óculos de proteção e avental impermeável são EPIs obrigatórios em cozinhas profissionais. O dólmã é o uniforme base, não substitui o EPI.',
   },
   {
     q: 'Qual o prazo de entrega?',

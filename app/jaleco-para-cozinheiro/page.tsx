@@ -38,7 +38,7 @@ const schemaFaq = {
     { '@type': 'Question', name: 'Dólmã é melhor que jaleco para cozinha?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. O dólar tem corte mais reto e tecido que não absorve gordura facilmente. É mais ventilado, mais fácil de lavar e mais durável em ambiente de cozinha profissional.' } },
     { '@type': 'Question', name: 'Posso usar jaleco tradicional na cozinha?', acceptedAnswer: { '@type': 'Answer', text: 'O jaleco tradicional pode ser usado em cozinhas menos intensas, mas para a rotina pesada de uma cozinha profissional, o dólar é a escolha mais adequada.' } },
     { '@type': 'Question', name: 'Como cuidar do uniforme de cozinheiro?', acceptedAnswer: { '@type': 'Answer', text: 'Lave a 60°C com sabão desengordurante. Nunca use alvejante com cloro — escolma o tecido. Seque à sombra para preservar a cor.' } },
-    { '@type': 'Question', name: 'O uniforme de cozinheiro precisa de EPIs?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. Luvas термостойкие, óculos de proteção e avental impermeável são EPIs obrigatórios em cozinhas profissionais.' } },
+    { '@type': 'Question', name: 'O uniforme de cozinheiro precisa de EPIs?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. Luvas resistentes ao calor, óculos de proteção e avental impermeável são EPIs obrigatórios em cozinhas profissionais.' } },
   ],
 }
 
