@@ -329,7 +329,7 @@ export default async function JalecoChurrasqueiroPage() {
                     body: (
                       <>
                         <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          O dólar Jaleca é o uniforme base, mas não substitui os EPIs. Luvas термостойкие são obrigatórias para manipular a carne na brasa. Óculos de proteção protegem contra respingos de gordura.
+                          O dólar Jaleca é o uniforme base, mas não substitui os EPIs. Luvas resistentes ao calor são obrigatórias para manipular a carne na brasa. Óculos de proteção protegem contra respingos de gordura.
                         </p>
                         <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
                           O avental impermeável é essencial para proteger a pernas e o tronco contra respingos. Com o uniforme certo e os EPIs adequados, o churrasqueiro trabalha com segurança.
