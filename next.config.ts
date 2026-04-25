@@ -194,6 +194,58 @@ const nextConfig: NextConfig = {
       { source: '/melhor-marca-de-jaleco', destination: '/melhor-marca-jaleco', permanent: true },
       { source: '/uniformes-profissionais-para-saude', destination: '/uniformes-profissionais-saude', permanent: true },
 
+    // Correção de slugs restantes (26/04/2026)
+    {
+      source: '/produto/jaleco-slim-recortes-masculino-varias-cores-jaleca',
+      destination: '/produto/jaleco-slim-recortes-masculino-jaleca',
+      permanent: true,
+    },
+    {
+      source: '/produto/jaleco-slim-princesa-feminino-varias-cores-jaleca',
+      destination: '/produto/jaleco-slim-princesa-feminino-jaleca',
+      permanent: true,
+    },
+    {
+      source: '/produto/jaleco-slim-moratty-masculino-ziper-central-jaleca',
+      destination: '/produto/jaleco-slim-moratty-masculino-jaleca',
+      permanent: true,
+    },
+    {
+      source: '/produto/jaleco-slim-moratty-feminino-ziper-central-jaleca',
+      destination: '/produto/jaleco-slim-moratty-feminino-jaleca',
+      permanent: true,
+    },
+    {
+      source: '/produto/jaleco-slim-elastex-feminino-varias-cores-jaleca',
+      destination: '/produto/jaleco-slim-elastex-feminino-jaleca',
+      permanent: true,
+    },
+    {
+      source: '/produto/jaleco-slim-duquesa-feminino-varias-cores-jaleca',
+      destination: '/produto/jaleco-slim-duquesa-feminino-jaleca',
+      permanent: true,
+    },
+    {
+      source: '/produto/jaleco-padrao-aluno-masculino-de-botao-varias-cores-jaleca',
+      destination: '/produto/jaleco-padrao-aluno-masculino-jaleca',
+      permanent: true,
+    },
+    {
+      source: '/produto/jaleco-padrao-aluno-feminino-de-botao-varias-cores-jaleca',
+      destination: '/produto/jaleco-padrao-aluno-feminino-jaleca',
+      permanent: true,
+    },
+    {
+      source: '/produto/conjunto-dolma-cozinheiro-masculino-de-ziper-e-avental-saia-slim-jaleca',
+      destination: '/produto/conjunto-dolma-cozinheiro-masculino-jaleca',
+      permanent: true,
+    },
+    {
+      source: '/produto/conjunto-dolma-cozinheiro-de-ziper-e-avental-saia-slim-jaleca',
+      destination: '/produto/conjunto-dolma-cozinheiro-feminino-jaleca',
+      permanent: true,
+    },,
+
     // Correção de slugs (26/04/2026)
     {
       source: '/produto/jaleco-slim-feminino-de-ziper-central-varias-cores-jaleca',
