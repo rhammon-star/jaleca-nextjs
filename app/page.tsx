@@ -186,7 +186,7 @@ export default async function Home() {
               </Link>
               <Link
                 href="/produtos?novidades=true"
-                className="inline-flex items-center gap-2 border border-[#c4a97d] text-[#c4a97d] px-6 py-3 text-[11px] font-semibold tracking-widest uppercase transition-all duration-300 hover:bg-[#c4a97d] hover:text-white active:scale-[0.97]"
+                className="inline-flex items-center gap-2 border border-[#8b6f3d] text-[#8b6f3d] px-6 py-3 text-[11px] font-semibold tracking-widest uppercase transition-all duration-300 hover:bg-[#8b6f3d] hover:text-white active:scale-[0.97]"
               >
                 Novidades 2026
               </Link>

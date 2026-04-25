@@ -43,6 +43,15 @@ const PRIORITY_URLS = [
   'https://jaleca.com.br/jaleco-podologo',
   'https://jaleca.com.br/jaleco-farmaceutico',
   'https://jaleca.com.br/jaleco-esteticista',
+
+  // 6 NOVAS landings (25/04/2026) — prioridade máxima
+  'https://jaleca.com.br/jaleco-medicina',
+  'https://jaleca.com.br/jaleco-fisioterapia',
+  'https://jaleca.com.br/jaleco-odontologia',
+  'https://jaleca.com.br/jaleco-nutricao',
+  'https://jaleca.com.br/jaleco-farmacia',
+  'https://jaleca.com.br/scrub-enfermagem',
+  'https://jaleca.com.br/jaleco-psicologa',
 ]
 
 async function main() {

@@ -28,7 +28,7 @@ export default function LoyaltyBadge() {
     return (
       <Link
         href="/minha-conta"
-        className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+        className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors py-3 px-2 min-h-[44px]"
         title="Club Jaleca: ganhe pontos em cada compra"
       >
         <Star size={12} className="text-yellow-500 fill-yellow-400" />

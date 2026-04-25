@@ -38,6 +38,9 @@ const staticUrls = [
   '/jaleco-churrasqueiro', '/jaleco-sushiman', '/jaleco-professor',
   '/jaleco-vendedor', '/jaleco-advogado', '/jaleco-pastor',
   '/jaleco-psicologa', '/jaleco-secretaria', '/jaleco-dona-casa',
+  // Novas landings 25/04/2026
+  '/jaleco-medicina', '/jaleco-fisioterapia', '/jaleco-odontologia',
+  '/jaleco-nutricao', '/jaleco-farmacia', '/scrub-enfermagem',
   '/jaleco-universitario', '/uniformes-profissionais-saude', '/uniformes-beleza',
   '/uniformes-gastronomia', '/uniformes-servicos', '/uniformes-escritorio',
 ].map(p => `${BASE}${p}`)
