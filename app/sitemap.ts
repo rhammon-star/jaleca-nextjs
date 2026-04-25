@@ -2,6 +2,8 @@ import type { MetadataRoute } from 'next'
 import { graphqlClient, GET_PRODUCTS } from '@/lib/graphql'
 import { getPosts } from '@/lib/wordpress'
 import type { WPPost } from '@/lib/wordpress'
+import { readFile } from 'fs/promises'
+import { join } from 'path'
 
 type ProductNode = {
   slug: string
@@ -34,14 +36,31 @@ async function getAllPosts(): Promise<WPPost[]> {
   }
 }
 
+type ColorPageData = {
+  url: string
+}
+
+async function getColorPages(): Promise<ColorPageData[]> {
+  try {
+    const jsonPath = join(process.cwd(), 'docs', 'SEO-PRODUTOS-CORES.json')
+    const jsonContent = await readFile(jsonPath, 'utf-8')
+    const colorPages: ColorPageData[] = JSON.parse(jsonContent)
+    return colorPages
+  } catch {
+    return []
+  }
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [products, posts] = await Promise.allSettled([
+  const [products, posts, colorPages] = await Promise.allSettled([
     getAllProductSlugs(),
     getAllPosts(),
+    getColorPages(),
   ])
 
   const productNodes = products.status === 'fulfilled' ? products.value : []
   const postNodes = posts.status === 'fulfilled' ? posts.value : []
+  const colorPagesData = colorPages.status === 'fulfilled' ? colorPages.value : []
 
   const staticPages: MetadataRoute.Sitemap = [
     {
@@ -295,5 +314,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }))
 
-  return [...staticPages, ...categoryPages, ...cidadePages, ...diasDasMaesPages, ...productPages, ...postPages]
+  // 164 páginas de produto por cor (SEO-PRODUTOS-CORES.json)
+  const colorProductPages: MetadataRoute.Sitemap = colorPagesData.map(page => ({
+    url: `${SITE_URL}${page.url}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly' as const,
+    priority: 0.75,
+  }))
+
+  return [...staticPages, ...categoryPages, ...cidadePages, ...diasDasMaesPages, ...productPages, ...colorProductPages, ...postPages]
 }
