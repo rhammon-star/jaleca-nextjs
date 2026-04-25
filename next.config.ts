@@ -25,7 +25,7 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   async redirects() {
     return [
-      // Consolidar trailing slashes — antes de todos os redirects específicos
+// Consolidar trailing slashes — antes de todos os redirects específicos
       { source: '/produto/:slug/', destination: '/produto/:slug', permanent: true },
       { source: '/blog/:slug/', destination: '/blog/:slug', permanent: true },
       { source: '/categoria/:slug/', destination: '/categoria/:slug', permanent: true },
@@ -193,6 +193,38 @@ const nextConfig: NextConfig = {
       { source: '/loja-de-jaleco', destination: '/loja-jaleco', permanent: true },
       { source: '/melhor-marca-de-jaleco', destination: '/melhor-marca-jaleco', permanent: true },
       { source: '/uniformes-profissionais-para-saude', destination: '/uniformes-profissionais-saude', permanent: true },
+
+    // Correção de slugs (26/04/2026)
+    {
+      source: '/produto/jaleco-slim-feminino-de-ziper-central-varias-cores-jaleca',
+      destination: '/produto/jaleco-slim-tradicional-feminino-jaleca',
+      permanent: true,
+    },
+    {
+      source: '/produto/jaleco-slim-feminino-de-ziper-lateral-varias-cores-jaleca',
+      destination: '/produto/jaleco-slim-feminino-lateral-jaleca',
+      permanent: true,
+    },
+    {
+      source: '/produto/jaleco-slim-masculino-de-ziper-central-varias-cores-jaleca',
+      destination: '/produto/jaleco-slim-tradicional-masculino-jaleca',
+      permanent: true,
+    },
+    {
+      source: '/produto/conjunto-pijama-cirurgico-scrub-masculino-varias-cores-jaleca',
+      destination: '/produto/conjunto-scrub-masculino-jaleca',
+      permanent: true,
+    },
+    {
+      source: '/produto/conjunto-pijama-cirurgico-scrub-feminino-varias-cores-jaleca',
+      destination: '/produto/conjunto-scrub-feminino-jaleca',
+      permanent: true,
+    },
+    {
+      source: '/produto/conjunto-pijama-cirurgico-princesa-scrub-feminino-varias-cores-jaleca',
+      destination: '/produto/conjunto-princesa-nobre-feminino-jaleca',
+      permanent: true,
+    },
     ]
   },
   async headers() {
