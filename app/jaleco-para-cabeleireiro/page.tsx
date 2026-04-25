@@ -117,7 +117,7 @@ function HeroStars({ rating }: { rating: number }) {
   )
 }
 
-export default async function JalecoDentistaPage() {
+export default async function JalecoCabeleireiroPage() {
   const [produtos, posts, placeData, heroImg] = await Promise.all([
     getJalecos(),
     getBlogPosts(),
@@ -139,7 +139,7 @@ export default async function JalecoDentistaPage() {
             {[
               { label: 'Início', href: '/' },
               { label: 'Jalecos', href: '/produtos?categoria=jalecos' },
-              { label: 'Para Dentista', href: null },
+              { label: 'Para Cabeleireiro', href: null },
             ].map((crumb, i, arr) => (
               <li key={crumb.label} className="flex items-center gap-2 text-xs" style={{ color: crumb.href ? '#6b6b6b' : '#1a1a1a' }}>
                 {crumb.href ? <Link href={crumb.href} style={{ color: '#6b6b6b', textDecoration: 'none' }}>{crumb.label}</Link> : crumb.label}
