@@ -18,6 +18,7 @@ import RecentlyViewed from '@/components/RecentlyViewed'
 import UrgencyToast from '@/components/UrgencyToast'
 import { isBestSeller } from '@/lib/best-sellers'
 import type { PlaceData } from '@/lib/google-places'
+import { buildColorSlug, parseColorSlug } from '@/lib/product-colors'
 
 type AttributeTerm = { slug: string; name: string }
 
@@ -792,16 +793,18 @@ export default function ProductDetailClient({
                   {colorSlugs.map(slug => {
                     const label = colorNames[slug] ?? slug
                     const isActive = selectedColor === slug
+                    const { baseSlug } = parseColorSlug(product.slug)
+                    const colorUrl = `/produto/${buildColorSlug(baseSlug, label)}`
                     return (
-                      <button
+                      <Link
                         key={slug}
-                        onClick={() => setSelectedColor(isActive ? null : slug)}
+                        href={colorUrl}
                         aria-label={`Cor ${label}${isActive ? ' (selecionada)' : ''}`}
-                        aria-pressed={isActive}
+                        aria-current={isActive ? 'page' : undefined}
                         className={`filter-chip min-h-12 px-4 py-2 text-xs font-medium tracking-wide uppercase ${isActive ? 'filter-chip--active' : ''}`}
                       >
                         {label}
-                      </button>
+                      </Link>
                     )
                   })}
                 </div>
