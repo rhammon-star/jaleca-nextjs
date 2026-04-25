@@ -10,6 +10,7 @@ import SearchModal from "@/components/SearchModal";
 import AuthModal from "@/components/AuthModal";
 import LoyaltyBadge from "@/components/LoyaltyBadge";
 import AnnouncementBar from "@/components/AnnouncementBar";
+import ProfessionMenu from "@/components/ProfessionMenu";
 
 const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -102,6 +103,9 @@ const Header = () => {
               <Link href="/nossas-lojas" className="text-muted-foreground hover:text-foreground transition-colors duration-200 text-[12px] font-semibold tracking-widest uppercase whitespace-nowrap">
                 Nossas Lojas
               </Link>
+
+              {/* Menu Profissões */}
+              <ProfessionMenu />
 
               {/* Jalecos dropdown */}
               <div className="relative group/nav" style={{ display: 'flex', alignItems: 'center' }}>
@@ -301,6 +305,12 @@ const Header = () => {
                   {item.label}
                 </Link>
               ))}
+
+              {/* Menu Profissões Mobile */}
+              <div className="border-b border-white/10">
+                <ProfessionMenu />
+              </div>
+
               {isLoggedIn ? (
                 <Link
                   href="/minha-conta"
