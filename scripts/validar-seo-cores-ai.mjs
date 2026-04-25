@@ -60,7 +60,23 @@ async function askGPT(prompt) {
 // Executa Gemini SEO
 async function askGeminiSEO(prompt) {
   const { stdout } = await execAsync(`bash ~/.claude/ask-seo.sh "${prompt.replace(/"/g, '\\"')}"`)
-  return stdout.trim()
+  const cleaned = stdout.trim()
+    .replace(/^```json\s*/i, '')
+    .replace(/^```\s*/i, '')
+    .replace(/\s*```$/i, '')
+    .trim()
+  return cleaned
+}
+
+// Executa GPT-4.1
+async function askGPT4(prompt) {
+  const { stdout } = await execAsync(`bash ~/.claude/ask-gpt.sh "${prompt.replace(/"/g, '\\"')}"`)
+  const cleaned = stdout.trim()
+    .replace(/^```json\s*/i, '')
+    .replace(/^```\s*/i, '')
+    .replace(/\s*```$/i, '')
+    .trim()
+  return cleaned
 }
 
 async function main() {
@@ -171,7 +187,7 @@ Responda em JSON:
 }`
 
     try {
-      const gptResponse = await askGPT(gptPrompt)
+      const gptResponse = await askGPT4(gptPrompt)
       const parsed = JSON.parse(gptResponse)
 
       results.gptAnalysis.push({

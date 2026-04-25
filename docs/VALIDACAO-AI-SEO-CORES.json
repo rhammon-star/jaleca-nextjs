@@ -1,0 +1,508 @@
+{
+  "totalPages": 164,
+  "batchesAnalyzed": 17,
+  "gptAnalysis": [
+    {
+      "batchIndex": 1,
+      "pages": 10,
+      "issues": [
+        "Várias title tags estão acima do comprimento ideal (50-60 caracteres), com títulos entre 62 e 76 caracteres.",
+        "Titles e H1s seguem padrão repetitivo com pouca personalização de palavras-chave (ex: cor, modelo), com risco de conteúdo duplicado.",
+        "Meta descriptions de algumas páginas estão abaixo (ex: 112-115) ou acima (até 176) do recomendado (120-160).",
+        "Ausência de chamadas de ação (CTA) claras e otimizadas nas meta descriptions.",
+        "H1 segue padrão repetitivo e pouco diferenciado, o que pode afetar negativamente a unicidade e a relevância SEO.",
+        "Os títulos e descrições variam basicamente pela cor e número, sugerindo risco de thin content e penalização por conteúdo duplicado, principalmente por URL parametrizada por cor/modelo.",
+        "Não há variação semântica de keywords secundárias (ex: 'jaleco feminino', 'uniforme profissional', 'para profissionais de saúde'), tornando a concorrência por palavra-chave mais difícil."
+      ],
+      "score": 55,
+      "recommendations": [
+        "Reduza o tamanho das title tags para 50-60 caracteres e inclua de forma natural as palavras-chave principais ('jaleco feminino', 'uniforme', 'profissional', 'cor'). Evite apenas repetir modelo+cor.",
+        "Ajuste as meta descriptions para o tamanho ideal (120-160 caracteres), inclua CTA convidativo (ex: 'Compre agora', 'Veja detalhes') e insira keywords secundárias.",
+        "Diversifique os H1 para cada cor/modelo, incluindo variações de palavras-chave e evitando padrões exatos.",
+        "Crie conteúdo descritivo singular para cada produto variante (por cor/modelo), com detalhes diferenciadores, para evitar thin content.",
+        "Aproveite a descrição longa na página de produto para expandir nos benefícios e diferenciais de cada jaleco, usando variações de palavras-chave e sinônimos.",
+        "Implemente tags canônicas quando essencial para evitar duplicação entre variantes de cor que não tenham conteúdo diferenciado suficiente."
+      ]
+    },
+    {
+      "batchIndex": 2,
+      "pages": 10,
+      "issues": [
+        "Todos os títulos (title tags) estão um pouco longos (de 47 a 52 caracteres só se considerar o título principal, mas com o sufixo '— Jaleca', chegam acima de 55; alguns perto de 60, o que está no limite). A maioria utiliza pouco variação, o que pode gerar canibalização e pouca diferenciação entre as páginas.",
+        "As title tags e H1 são quase idênticos em todas as páginas, mudando apenas cor/gênero, o que pode indicar risco de conteúdo duplicado nos títulos e headings.",
+        "As meta descriptions possuem bom comprimento (131-149 chars), mas não há amostra do texto, então não é possível afirmar a presença de CTA ou palavras-chave otimizadas. Se elas seguirem o padrão dos títulos, podem estar genéricas e pouco persuasivas.",
+        "H1 segue exatamente o padrão do título com variação apenas na cor ou gênero, o que diminui a unicidade e o potencial de ranqueamento para cauda longa (palavras-chave específicas).",
+        "Conteúdo principal das páginas não foi apresentado; pela estrutura dos títulos e headings, há alto risco de thin content e/ou conteúdo duplicado entre as páginas de cor, especialmente se elas replicam as descrições mudando apenas a cor.",
+        "Estrutura das URLs é clara e amigável, mas reforça o padrão repetitivo."
+      ],
+      "score": 65,
+      "recommendations": [
+        "Diversifique as title tags e h1, incluindo diferenciais relevantes, como profissão (médica, farmacêutica), ocasião de uso ou características específicas do jaleco (ex: 'com bolso', 'para consultório', 'tecido tecnológico', etc).",
+        "Garanta que as meta descriptions tragam variação, utilizem CTAs (ex: 'compre agora', 'envio rápido', 'clique e conheça'), e incluam as palavras-chave mais buscadas.",
+        "Revise o conteúdo das páginas para evitar duplicação massiva — sempre que possível, adicione informações exclusivas sobre cada cor (ex: dicas de combinação, ocasiões, significado das cores na área da saúde).",
+        "Utilize dados estruturados para marcar produto, cor, gênero e disponibilidade, facilitando destaque no Google Shopping e buscas ricas.",
+        "Considere trabalhar uma página única de produto com variação de cor (exibida via parâmetro, canonical, ou variante via JS) se o conteúdo for quase idêntico, e não páginas separadas se a única diferença é cor, para evitar problemas de thin content."
+      ]
+    },
+    {
+      "batchIndex": 3,
+      "pages": 10,
+      "issues": [
+        "A maioria dos títulos (title tags) está acima de 60 caracteres, podendo ser cortados nos resultados de busca.",
+        "Title tags são muito parecidos entre si, diferenciando apenas pela cor e número. Isso pode gerar risco de conteúdo duplicado ou canibalização por keyword.",
+        "Meta descriptions estão bem dimensionadas em relação ao comprimento (todas entre 144-176), mas faltam CTAs claros e explorações de vantagens do produto.",
+        "Titles, metas e H1s utilizam a mesma estrutura e palavras-chave, mudando apenas cor/modelo, o que evidencia forte risco de thin content e duplicação.",
+        "H1s iguais aos títulos dificultam diferenciação e enriquecimento semântico.",
+        "Risco de penalização por thin/duplicated content devido à baixa diferenciação textual entre as páginas, exceto pela cor ou detalhes mínimos."
+      ],
+      "score": 55,
+      "recommendations": [
+        "Reescrever title tags focando em um comprimento entre 50-60 caracteres, usando sempre a keyword principal, a cor/modelo, e diferenciais quando possível.",
+        "Adicionar CTAs e benefícios claros nas meta descriptions para aumentar o CTR e evitar descrições puramente genéricas.",
+        "Variar os H1 para cada cor/modelo com adição de informações (ex: 'Jaleco Slim Recortes Masculino Chumbo — Exclusivo Jaleca, Leve & Resistente'), enriquecendo semanticamente.",
+        "Incluir detalhes únicos e diferenciais nos textos das páginas de produtos para evitar penalização por conteúdo duplicado.",
+        "Utilizar dados estruturados (Schema.org) para sinalizar variante por cor/tamanho no produto principal e, se possível, consolidar variantes para evitar canibalização de SEO."
+      ]
+    },
+    {
+      "batchIndex": 4,
+      "pages": 10,
+      "issues": [
+        "Title tags acima do comprimento ideal (a maioria entre 55-62 caracteres, mas algumas ultrapassando 60, principalmente se considerar ‘— Jaleca’).",
+        "Titles repetitivos, mudando basicamente apenas a cor/modelo. Pode haver canibalização ou baixo diferencial para buscadores.",
+        "Meta descriptions dentro do limite de 120-160 caracteres, mas parecem automáticas e repetitivas, sem variação de chamada para ação (CTA) ou incentivo à conversão.",
+        "Palavras-chave genéricas e repetidas tanto em titles como H1, com pouca diferenciação por modelo/cor.",
+        "H1 praticamente idêntico ao title; pouca unicidade; estrutura básica e sem enriquecimento com USPs (Unique Selling Points) ou CTAs.",
+        "Alto risco de thin content/duplicação, pois a estrutura dos titles, meta descriptions e H1 muda muito pouco entre as páginas. Isso pode levar a problemas de ranqueamento por conteúdo duplicado na SERP."
+      ],
+      "score": 52,
+      "recommendations": [
+        "Diversificar títulos e H1, incorporando diferenciais do produto (tecido, detalhes, público-alvo, ocasião de uso) e variações de keywords, além de evitar só trocas de cor/nome.",
+        "Personalizar as meta descriptions incluindo chamadas para ação (veja, compre, confira), benefícios do produto e diferenciais de cada modelo/cor, ao invés de textos automáticos.",
+        "Adicionar conteúdo original/descritivo exclusivo em cada página, como depoimento de clientes, tabela de medidas, cuidados de lavagem ou um pequeno texto sobre para quem/qual área o jaleco é indicado.",
+        "Evitar que a palavra-chave principal (e variações) fiquem todas concentradas em só títulos e H1, promovendo sinônimos e semântica relacionada.",
+        "Monitorar canibalização de keywords e, se necessário, consolidar páginas/cores como variações de um único produto, ou usar canonical tags."
+      ]
+    },
+    {
+      "batchIndex": 5,
+      "pages": 10,
+      "issues": [
+        "A maioria das title tags está acima do ideal de 60 caracteres, variando de 47 a 55 caracteres; porém há excesso de similaridade e repetição de padrões, o que pode causar canibalização de palavras-chave e reduzir o potencial de rankeamento individual.",
+        "Meta descriptions estão dentro do comprimento recomendado, mas algumas estão próximas do limite superior (até 159), e não há menção de chamada para ação (CTA) nem aproveitamento claro de palavras-chave conversoras; há também grande similaridade entre elas pelo padrão de nomes e atributos.",
+        "Os H1s seguem o padrão do title e são únicos, mas muito semelhantes entre si, mantendo apenas a variação de cor e coleção/modelo, o que pode ser inadequado para diferenciação semântica real e força repetição de termos.",
+        "Estes padrões, aliados à variação apenas de cor/tamanho no nome dos produtos e pouca diferenciação semântica nos demais elementos (title, h1, perhaps meta description), caracterizam risco moderado de thin content e duplicidade de conteúdo, especialmente sob a ótica dos algoritmos do Google (Product Variants), podendo diluir autoridade das páginas.",
+        "Nenhuma meta description explicitamente apresenta chamada para ação forte (ex: compre agora, confira, veja detalhes, etc)."
+      ],
+      "score": 63,
+      "recommendations": [
+        "Personalize titles, meta descriptions e h1s incluindo diferenciais do produto (modelagem, tecido, público-alvo, uso) aliados às variações de cor para cada página — utilize palavras-chave secundárias e termos que respondam à intenção de busca do usuário.",
+        "Adicione CTAs claros nas meta descriptions para incentivar cliques, como 'Compre agora', 'Veja mais detalhes' ou 'Conheça esse modelo exclusivo'.",
+        "Considere conteúdo extra na página (seção de benefícios, depoimentos, perguntas frequentes) para evitar thin content e permitir maior diferenciação entre variantes de produtos por cor.",
+        "Avalie o uso de canonical tags para versões de cor caso o conteúdo realmente for duplicado e não agregue relevância ao SEO por produto individual."
+      ]
+    },
+    {
+      "batchIndex": 6,
+      "pages": 10,
+      "issues": [
+        "Title tags acima do comprimento ideal (todas com ~50-55 caracteres, mas próximas ao limite; ajuste recomendável). Algumas incluem números que não agregam valor (ex: '2', '3') sem justificativa clara.",
+        "Titles e H1 seguem padrão repetitivo, pouca diferenciação entre produtos a não ser pela cor.",
+        "Meta descriptions possuem bom comprimento, mas parecem automáticas, sem variação de CTA, com keywords genéricas e pouca personalização.",
+        "H1s são idênticos aos titles, pouco únicos e não otimizados para busca de long tail.",
+        "Alto risco de thin content e conteúdo duplicado, já que as páginas só mudam a cor no título/H1 e, provavelmente, no restante do conteúdo também.",
+        "O uso excessivo de ‘Jaleco Slim Feminino Lateral’ pode estagnar indexação e ranqueamento devido à canibalização de keywords."
+      ],
+      "score": 56,
+      "recommendations": [
+        "Personalize titles, meta descriptions e H1s. Inclua diferenciais de cada cor (ex: ‘ideal para clínicas’, ‘detalhe em costura’, ‘tecido de fácil higienização’), além da cor. Use variações de palavras-chave, CTA específicos (‘Compre o seu jaleco mulher areia agora’).",
+        "Desenvolva descrições originais para cada página, explorando benefícios específicos, ocasiões de uso e sugestões de combinação por cor.",
+        "Evite números desnecessários (como '2', '3') a menos que diferenciem de fato os produtos (ex: coleção, edição, detalhe), explique na descrição.",
+        "Garanta que a descrição, ficha técnica e outros conteúdos em cada URL sejam únicos. Isso minimiza risco de thin content e penalização por duplicidade.",
+        "Explore funções de rich snippets como avaliações e FAQs para aumentar relevância sem duplicidade."
+      ]
+    },
+    {
+      "batchIndex": 8,
+      "pages": 10,
+      "issues": [
+        "Title tags ultrapassando o comprimento ideal (todas entre 62-67 caracteres, o ideal é 50-60).",
+        "Palavras-chave básicas presentes (nome do produto + cor), mas oportunidade de reforçar com termos como 'jaleco feminino', 'jaleco masculino', 'profissional', 'saúde', 'compra', 'online'.",
+        "Titles são únicos, mas extremamente padronizados, o que pode limitar diferenciação competitiva no Google.",
+        "Meta descriptions estão adequadas no comprimento (todas entre 137-174), mas estão ausentes, foram fornecidos apenas os comprimentos; sem dados para analisar uso de CTA e palavras-chave.",
+        "H1s são únicos e estruturados corretamente, mas seguem padrão igual ao title, sem variação textual.",
+        "URLs e conteúdos parecem padronizados por cor, aumentando risco potencial de thin/duplicated content, caso as descrições internas também sejam similares entre si.",
+        "Risco de penalização por conteúdo duplicado é relevante se as descrições, benefícios e detalhes do produto não variarem além da cor."
+      ],
+      "score": 65,
+      "recommendations": [
+        "Ajuste os títulos para entre 50-60 caracteres e diversifique o texto, incluindo diferenciais ou atributos individuais (por exemplo: 'Jaleco Slim Duquesa Feminino Verde Garrafa - Tecido Premium | Jaleca').",
+        "Inclua e otimize suas meta descriptions com CTAs claros ('Compre agora', 'Entrega rápida') e reforce palavras-chave estratégicas em cada variação.",
+        "Altere os H1s para evitar cópia exata dos títulos, destacando algum atributo, uso ou público-alvo.",
+        "Evite thin/duplicated content nas descrições dos produtos: insira informações exclusivas em cada página (aplicação, diferenciais da cor, contexto de uso) para fortalecer a relevância individual e minimizar risco de penalização."
+      ]
+    },
+    {
+      "batchIndex": 9,
+      "pages": 10,
+      "issues": [
+        "Algumas title tags estão muito longas (>60 caracteres), como as dos produtos 'Jaleco Slim Tradicional Masculino', aproximando-se de 70 caracteres, o que pode cortar nos resultados de busca.",
+        "Titles, meta descriptions e H1s muito semelhantes devido a variação apenas de cor/modelo, aumentando o risco de thin content e canibalização por conteúdo duplicado.",
+        "Meta descriptions em geral estão dentro do limite de caracteres, mas algumas não possuem CTA claro (ex: Compre agora, Conheça, Confira), nem aproveitam bem palavras-chave de intenção (ex: comprar, loja, online).",
+        "Em diversos casos, o H1 é a simples repetição do title, sem diferenciação de conteúdo ou valor especial para o usuário.",
+        "Keywords genéricas (jaleco, colete) estão presentes, porém falta exploração de variantes como 'uniforme profissional', 'para saúde', 'para médicos', 'feminino/masculino', etc.",
+        "URLs incluem sufixos numéricos (ex: branco-3, marinho-3), que podem parecer páginas duplicadas para o Google, se o conteúdo não for significativamente distinto."
+      ],
+      "score": 54,
+      "recommendations": [
+        "Ajustar title tags para ficarem entre 50 e 60 caracteres, priorizando as principais keywords e evitando repetições desnecessárias (ex: não duplicar 'Tradicional Slim' e o nome da cor).",
+        "Reformular meta descriptions para incluir CTA claras e inserir termos-chave que ajudem a converter (ex: 'Compre o Jaleco Slim Masculino Chumbo na Jaleca e destaque-se com estilo e conforto!').",
+        "Diferenciar H1 de title, buscando uma descrição mais exclusiva por variante (ex: 'Jaleco Slim para Profissionais de Saúde - Chumbo').",
+        "Garantir que cada página de cor tenha conteúdo exclusivo: adicionar detalhes específicos daquela cor/modelo, depoimentos, tabelas de medidas ou informações extras para evitar thin content e canibalização.",
+        "Rever o uso de sufixos numéricos em URLs e, se forem variações reais de modelo, enfatizar as diferenças no conteúdo da página; caso contrário, consolidar variações semelhantes via canonical ou mesmo removendo duplicadas desnecessárias.",
+        "Explorar keywords secundárias para capturar mais intenções de busca (ex: 'jaleco feminino para medicina', 'jaleco para enfermagem', 'jaleco personalizado')."
+      ]
+    },
+    {
+      "batchIndex": 10,
+      "pages": 10,
+      "issues": [
+        "Title tags excessivamente curtas (33 a 46 caracteres), abaixo do ideal de 50-60.",
+        "Title tags com risco de duplicação entre produtos semelhantes (apenas cor/detalhe muda).",
+        "Meta descriptions frequentemente abaixo do recomendado (117 a 137 caracteres), algumas não atingem 120.",
+        "Meta descriptions aparentemente duplicadas e sem CTA claro.",
+        "H1s muito similares entre si (mudando apenas cor/número), alto risco de conteúdo duplicado.",
+        "Estrutura dos H1s não explora oportunidades de palavras-chave long tail (ex: segmento, gênero, uso profissional).",
+        "Grande similaridade entre páginas (thin content), risco de penalização por conteúdo duplicado, principalmente entre variações de cor/modelo."
+      ],
+      "score": 60,
+      "recommendations": [
+        "Ajustar todos os titles para ficarem entre 50-60 caracteres, inserindo termos descritivos relevantes (ex: jaleco feminino, uniforme saúde).",
+        "Personalizar e ampliar as meta descriptions (120-160 caracteres), inserindo CTA específico e keywords relacionadas ao produto e público-alvo.",
+        "Reformular H1s para diferenciação maior, incluindo referências ao público-alvo e uso (ex: Jaleco Feminino para Médicas — Colete Preto 3).",
+        "Adicionar conteúdo exclusivo em cada página de produto (ex: benefícios do modelo/cor, contexto de uso, diferenciais), evitando apenas trocar cor/nome do modelo.",
+        "Evitar que apenas a cor/número diferencie titles, H1s e meta descriptions; criar diferenciação semântica real nas descrições.",
+        "Utilizar schema.org/Product para melhorar markup e, se possível, parametrizar variações em páginas únicas (canonical ou variações de cor como atributos, não URLs separadas)."
+      ]
+    },
+    {
+      "batchIndex": 11,
+      "pages": 10,
+      "issues": [
+        "Todas as title tags estão acima do limite recomendado (maioria >60 caracteres), arriscando truncamento nos resultados do Google.",
+        "As title tags e H1 têm estrutura praticamente idêntica entre as páginas, mudando somente a cor, o que aumenta risco de canibalização e não aproveita variedade de palavras-chave.",
+        "Meta descriptions estão com comprimento adequado, mas não possuem chamada para ação (CTA) clara e repetem praticamente a mesma estrutura e palavras, tornando vulnerável a conteúdo duplicado.",
+        "H1 muito próximo da title, sem variação de termos ou abordagem, não ampliando o leque semântico das páginas.",
+        "Risco moderado de thin content/duplicidade, pois todas as páginas diferem quase apenas pela cor; se o conteúdo da página for similar, podem ser vistas como duplicadas pelo Google."
+      ],
+      "score": 60,
+      "recommendations": [
+        "Reduza o tamanho das title tags para no máximo 60 caracteres e varie também as palavras-chave, incluindo diferenciais (ex: material, uso profissional, confortável, etc).",
+        "Inclua uma CTA e benefícios principais exclusivos de cada cor/variante nas meta descriptions, aumentando unicidade e engajamento.",
+        "Altere o H1 para aproveitar mais palavras-chave (como: uniforme hospitalar, pijama cirúrgico, conforto, etc) e evitar repetição excessiva.",
+        "Garanta que o conteúdo da página de cada cor tenha especificidades (fotos, detalhes de aplicação, indicações de uso da cor), minimizando o risco de thin content.",
+        "Avalie a estrutura de URL para possível agrupamento por categoria/cor principal, evitando excesso de páginas quase idênticas."
+      ]
+    },
+    {
+      "batchIndex": 12,
+      "pages": 10,
+      "issues": [
+        "As title tags possuem comprimento adequado, mas são pouco diferenciadas entre si e podem gerar canibalização de palavras-chave, principalmente entre variantes de cor do mesmo produto.",
+        "Há risco de duplicação de conteúdo, principalmente no H1, titles e estrutura das páginas, pois todos seguem padrões quase idênticos de nomenclatura e descrição, variando apenas o nome da cor.",
+        "A maioria dos H1 está bem estruturada com keywords relevantes, mas a diferenciação é mínima entre produtos; pode dificultar o ranqueamento individual.",
+        "Meta descriptions estão com comprimento adequado, mas não há informação se contêm CTA ou menção de diferenciais (únicas ou benefícios); conteúdo possivelmente repetitivo e pouco engajador.",
+        "Páginas apresentam alto risco de thin content/duplicação, pois mudam apenas a cor nos campos-chave, sem detalhar diferenças ou benefícios específicos de cada variação/cor."
+      ],
+      "score": 58,
+      "recommendations": [
+        "Personalize titles, H1 e meta descriptions com diferenciais além da cor (ex: tecido, público-alvo, ocasião de uso, benefícios, coleção, ou atributos únicos), evitando a simples troca de cor para cada página.",
+        "Inclua CTAs chamativos e informações específicas em cada meta description (ex: 'Compre agora', 'Desconto exclusivo', 'Frete grátis', 'Ideal para profissionais de saúde').",
+        "Adicione conteúdo exclusivo nas páginas de variação de cor, como descrições detalhadas dos tons, indicações de uso, sugestões de combinação, até depoimentos de clientes para algumas cores.",
+        "Implemente um controle de canonicalização se possíveis URLs parametrizadas ou variações de cor diferentes forem exibidas como páginas únicas, para evitar penalização por conteúdo duplicado.",
+        "Garanta que categorias e filtros de cor estejam bem configurados para permitir indexação correta, guiando Google para não considerar todas as variações como conteúdo duplicado."
+      ]
+    },
+    {
+      "batchIndex": 13,
+      "pages": 10,
+      "issues": [
+        "Title tags em geral não seguem o comprimento ideal (curtos demais, variando de ~41-55 caracteres; alguns muito similares entre si). Pouca variação de palavras-chave pode limitar o alcance SEO.",
+        "Meta descriptions estão no limite superior do recomendado (entre 135-166 caracteres), mas há pouca diferenciação entre os CTAs e falta de destaque para benefícios do produto. Palavras-chave nem sempre bem exploradas, e há indícios de potencial sobreposição/duplicidade.",
+        "H1s seguem padrão semelhante aos titles, mas repetem estrutura exata para vários produtos apenas mudando cor/modelo. Isso reduz unicidade e pode ser visto como thin content ou, ao menos, pouco relevante para Google.",
+        "Risco moderado de thin content e/ou conteúdo duplicado, pois os nomes mudam apenas por cor/modelo. Se as descrições de produto e demais conteúdos da página também mudarem só a cor, há alto risco de canibalização/penalização."
+      ],
+      "score": 65,
+      "recommendations": [
+        "Otimize os títulos para variar além do padrão atual, incluindo termos relevantes como 'pijama cirúrgico feminino', 'uniforme para saúde', diferenciais do modelo (ex: 'bolsos', 'ajuste na cintura', etc.), mantendo sempre entre 50-60 caracteres.",
+        "Personalize as meta descriptions com informações exclusivas de cada variante (cor/modelo), adicione diferenciais do produto, variações de CTA, e foque em benefícios para o público-alvo ('Compre agora seu jaleco feminino exclusivo!'). Atente ao limite de 150-155 caracteres.",
+        "Inclua detalhes no H1 (ex: uso, tecido, diferencial) para tornar cada página única e mais relevante em SEO, reduzindo risco de conteúdo duplicado.",
+        "Garanta que as descrições dos produtos não sejam cópias somente trocando cor/modelo. Trabalhe conteúdo único para cada página, destacando utilidades específicas, dicas de uso/combinação, instruções de lavagem, etc."
+      ]
+    },
+    {
+      "batchIndex": 14,
+      "pages": 10,
+      "issues": [
+        "Title tags excessivamente longas (todos estão acima de 60 caracteres, variando de 66 a 70 caracteres).",
+        "Titles e H1s seguem padrão repetido, diferenciados apenas pela cor e pelo termo '3', '2' ou 'giz', o que pode gerar risco de conteúdo duplicado (thin content) e baixa diferenciação para SEO.",
+        "Diversos meta descriptions estão longas (acima de 155 caracteres) ou muito próximas do limite do Google, podendo ser cortadas. Além disso, não há evidências de CTA claros ('compre agora', 'veja mais', etc.) ou presença destacada de keywords secundárias para melhorar o CTR.",
+        "H1s praticamente idênticos aos titles, variando apenas a cor ou variante, não otimizados para diversificação de palavras-chave ou intenção de busca.",
+        "Risco de thin content alto: páginas de produto com altíssima similaridade estrutural, diferenças apenas em atributos de cor ou número, tornando-as suscetíveis a penalização por conteúdo duplicado, se o restante do conteúdo (descrições, benefícios, etc.) for igualmente semelhante."
+      ],
+      "score": 45,
+      "recommendations": [
+        "Ajustar title tags para entre 50 e 60 caracteres, inserindo diferenciais ou benefícios, evitando padrão puramente repetitivo entre as páginas (ex: incluir 'ideal para profissionais de saúde', 'compre online').",
+        "Revisar meta descriptions para ficarem entre 120 e 155 caracteres com CTAs claros e variedade de keywords, aproveitando para destacar diferenciais do produto e chamar o clique.",
+        "Diversificar H1s utilizando semântica ampliada (ex: 'Conjunto Executiva Feminina - Jaleco Marinho para Médicas' ou incluir o público-alvo/uso), evitando uniformidade excessiva.",
+        "Priorizar descrições únicas nas páginas de produto para reduzir risco de thin content, detalhando benefícios, aplicações, tecidos, diferenciais de cada cor e modelo.",
+        "Considerar testes com canonical tags se algumas variantes de cor não geram valor orgânico individual, para centralizar autoridade em uma URL master."
+      ]
+    },
+    {
+      "batchIndex": 15,
+      "pages": 10,
+      "issues": [
+        "Title tags acima do comprimento ideal (todas estão entre 30-38 caracteres, o ideal é entre 50-60). Faltam termos relevantes como 'jaleco feminino', 'uniforme para saúde', etc.",
+        "Várias meta descriptions têm menos de 120 caracteres, nenhuma ultrapassa os 160, mas quase todas estão curtas, e nenhuma contém chamada para ação (CTA) clara.",
+        "Os H1 estão corretos e únicos para cada produto, porém repetitivos em estrutura, sem variação de palavras-chave.",
+        "Risco de thin content e canibalização por nomes de produtos muito semelhantes (ex: apenas mudando cor/numeração), principalmente nas toucas, o que pode levar o Google a visualizar conteúdos como duplicados, já que as diferenças entre páginas são mínimas."
+      ],
+      "score": 60,
+      "recommendations": [
+        "Ajustar title tags para ficarem entre 50-60 caracteres e incluir palavras-chave relevantes: exemplo, 'Touca Elástico Feminina Areia 2 para Profissionais de Saúde — Jaleca'.",
+        "Reescrever meta descriptions com 130-155 caracteres, incluindo CTA ('Compre agora', 'Garanta já o seu', etc.) e termos-chave (jaleco, touca feminina, etc.).",
+        "Criar diferenciação mais clara entre páginas de produtos semelhantes (cores/modelos), adicionando detalhes na descrição, benefícios e detalhes únicos de cada variante.",
+        "Avaliar possibilidade de landing pages agregando variantes por produto, em vez de páginas únicas só para cor/numeração similar, para evitar thin content."
+      ]
+    },
+    {
+      "batchIndex": 16,
+      "pages": 10,
+      "issues": [
+        "Title tags acima do comprimento ideal (estão entre 110-130 caracteres, o ideal é 50-60).",
+        "Possível duplicidade parcial nos títulos e H1 devido a mudanças apenas na cor e numeração, o que pode gerar risco de thin content e canibalização.",
+        "As meta descriptions estão com comprimento abaixo do ideal (ideal 120-160, atuais entre 110 e 130), faltando CTA (chamada para ação) e variação de keywords.",
+        "H1s são muito similares, variando apenas pela cor e numeração — risco para thin content e pouca diferenciação entre páginas.",
+        "Estrutura das URLs repete padrão, reforçando risco de conteúdos quase duplicados entre cores."
+      ],
+      "score": 45,
+      "recommendations": [
+        "Reduza e otimize as title tags para o comprimento recomendado (50-60 caracteres) e inclua diferenciais do produto e palavras-chave secundárias, como 'touca cirúrgica', 'faixa hospitalar', 'para profissionais de saúde', além da cor.",
+        "Ajuste as meta descriptions para o tamanho ideal (120-160 caracteres), incluindo chamada para ação e termos relevantes como: 'Compre agora', 'Entrega rápida', 'Ideal para profissionais de saúde'.",
+        "Personalize descrições e H1 utilizando diferenciais de cada cor/variação e do público-alvo, dificultando a classificação das páginas como thin content.",
+        "Inclua textos descritivos únicos em cada página de produto, detalhando aplicações, benefícios e composição (por exemplo: 'A Touca de Amarrar Marinho 3 é indicada para profissionais que buscam conforto, proteção e estilo em ambientes hospitalares. Conheça mais!').",
+        "Considere uso criterioso de canonical tags se existirem poucas diferenças entre variantes, para evitar penalizações por conteúdo duplicado."
+      ]
+    },
+    {
+      "batchIndex": 17,
+      "pages": 4,
+      "issues": [
+        "As title tags estão um pouco curtas (35-39 caracteres), abaixo do ideal (50-60 caracteres), podendo afetar o desempenho de SEO.",
+        "As palavras-chave presentes nos titles e h1 (‘Faixa de Cabelo + cor’) são boas, porém a diferenciação entre os produtos depende somente da cor e do número. Podem ocorrer situações de competitividade/duplicidade interna.",
+        "Meta descriptions estão no limite inferior do recomendado (117-123 caracteres), próximas ao mínimo (120), e não possuem call to action (CTA) claro.",
+        "H1 segue padrão adequado, mas é idêntico aos títulos e às urls, o que eleva o risco de thin content entre variações de cor (páginas quase duplicadas, diferenciadas apenas pela cor).",
+        "Conteúdo duplicado: páginas de produtos com apenas mudança de cor/tom tendem a apresentar grande similaridade de conteúdo, aumentando risco de thin content e potencial penalização."
+      ],
+      "score": 65,
+      "recommendations": [
+        "Aumente o comprimento dos title tags para pelo menos 50 caracteres, incluindo características específicas sobre material, uso (ex: ‘para profissionais de saúde’), diferenciais do produto ou atributos distintos da cor.",
+        "Reforce as meta descriptions para entre 130 e 155 caracteres, incluindo CTAs e diferenciais (ex: ‘Compre já sua faixa de cabelo confortável e estilosa para jaleco. Envio rápido!’).",
+        "Diversifique o conteúdo da página, incluindo descrições únicas por cor, benefícios específicos, sugestões de uso de cada tom, depoimentos de clientes e imagens exclusivas.",
+        "Evite que os títulos, h1 e meta description fiquem idênticos em todas as variações, mesmo mudando apenas a cor ou numeração. Considere textos personalizados para cada produto.",
+        "Avalie o uso de canonical tags quando realmente não for possível diferenciar o conteúdo entre as variações, prevenindo problemas de conteúdo duplicado."
+      ]
+    }
+  ],
+  "geminiAnalysis": [],
+  "issues": [
+    "[Batch 1] Várias title tags estão acima do comprimento ideal (50-60 caracteres), com títulos entre 62 e 76 caracteres.",
+    "[Batch 1] Titles e H1s seguem padrão repetitivo com pouca personalização de palavras-chave (ex: cor, modelo), com risco de conteúdo duplicado.",
+    "[Batch 1] Meta descriptions de algumas páginas estão abaixo (ex: 112-115) ou acima (até 176) do recomendado (120-160).",
+    "[Batch 1] Ausência de chamadas de ação (CTA) claras e otimizadas nas meta descriptions.",
+    "[Batch 1] H1 segue padrão repetitivo e pouco diferenciado, o que pode afetar negativamente a unicidade e a relevância SEO.",
+    "[Batch 1] Os títulos e descrições variam basicamente pela cor e número, sugerindo risco de thin content e penalização por conteúdo duplicado, principalmente por URL parametrizada por cor/modelo.",
+    "[Batch 1] Não há variação semântica de keywords secundárias (ex: 'jaleco feminino', 'uniforme profissional', 'para profissionais de saúde'), tornando a concorrência por palavra-chave mais difícil.",
+    "[Batch 2] Todos os títulos (title tags) estão um pouco longos (de 47 a 52 caracteres só se considerar o título principal, mas com o sufixo '— Jaleca', chegam acima de 55; alguns perto de 60, o que está no limite). A maioria utiliza pouco variação, o que pode gerar canibalização e pouca diferenciação entre as páginas.",
+    "[Batch 2] As title tags e H1 são quase idênticos em todas as páginas, mudando apenas cor/gênero, o que pode indicar risco de conteúdo duplicado nos títulos e headings.",
+    "[Batch 2] As meta descriptions possuem bom comprimento (131-149 chars), mas não há amostra do texto, então não é possível afirmar a presença de CTA ou palavras-chave otimizadas. Se elas seguirem o padrão dos títulos, podem estar genéricas e pouco persuasivas.",
+    "[Batch 2] H1 segue exatamente o padrão do título com variação apenas na cor ou gênero, o que diminui a unicidade e o potencial de ranqueamento para cauda longa (palavras-chave específicas).",
+    "[Batch 2] Conteúdo principal das páginas não foi apresentado; pela estrutura dos títulos e headings, há alto risco de thin content e/ou conteúdo duplicado entre as páginas de cor, especialmente se elas replicam as descrições mudando apenas a cor.",
+    "[Batch 2] Estrutura das URLs é clara e amigável, mas reforça o padrão repetitivo.",
+    "[Batch 3] A maioria dos títulos (title tags) está acima de 60 caracteres, podendo ser cortados nos resultados de busca.",
+    "[Batch 3] Title tags são muito parecidos entre si, diferenciando apenas pela cor e número. Isso pode gerar risco de conteúdo duplicado ou canibalização por keyword.",
+    "[Batch 3] Meta descriptions estão bem dimensionadas em relação ao comprimento (todas entre 144-176), mas faltam CTAs claros e explorações de vantagens do produto.",
+    "[Batch 3] Titles, metas e H1s utilizam a mesma estrutura e palavras-chave, mudando apenas cor/modelo, o que evidencia forte risco de thin content e duplicação.",
+    "[Batch 3] H1s iguais aos títulos dificultam diferenciação e enriquecimento semântico.",
+    "[Batch 3] Risco de penalização por thin/duplicated content devido à baixa diferenciação textual entre as páginas, exceto pela cor ou detalhes mínimos.",
+    "[Batch 4] Title tags acima do comprimento ideal (a maioria entre 55-62 caracteres, mas algumas ultrapassando 60, principalmente se considerar ‘— Jaleca’).",
+    "[Batch 4] Titles repetitivos, mudando basicamente apenas a cor/modelo. Pode haver canibalização ou baixo diferencial para buscadores.",
+    "[Batch 4] Meta descriptions dentro do limite de 120-160 caracteres, mas parecem automáticas e repetitivas, sem variação de chamada para ação (CTA) ou incentivo à conversão.",
+    "[Batch 4] Palavras-chave genéricas e repetidas tanto em titles como H1, com pouca diferenciação por modelo/cor.",
+    "[Batch 4] H1 praticamente idêntico ao title; pouca unicidade; estrutura básica e sem enriquecimento com USPs (Unique Selling Points) ou CTAs.",
+    "[Batch 4] Alto risco de thin content/duplicação, pois a estrutura dos titles, meta descriptions e H1 muda muito pouco entre as páginas. Isso pode levar a problemas de ranqueamento por conteúdo duplicado na SERP.",
+    "[Batch 5] A maioria das title tags está acima do ideal de 60 caracteres, variando de 47 a 55 caracteres; porém há excesso de similaridade e repetição de padrões, o que pode causar canibalização de palavras-chave e reduzir o potencial de rankeamento individual.",
+    "[Batch 5] Meta descriptions estão dentro do comprimento recomendado, mas algumas estão próximas do limite superior (até 159), e não há menção de chamada para ação (CTA) nem aproveitamento claro de palavras-chave conversoras; há também grande similaridade entre elas pelo padrão de nomes e atributos.",
+    "[Batch 5] Os H1s seguem o padrão do title e são únicos, mas muito semelhantes entre si, mantendo apenas a variação de cor e coleção/modelo, o que pode ser inadequado para diferenciação semântica real e força repetição de termos.",
+    "[Batch 5] Estes padrões, aliados à variação apenas de cor/tamanho no nome dos produtos e pouca diferenciação semântica nos demais elementos (title, h1, perhaps meta description), caracterizam risco moderado de thin content e duplicidade de conteúdo, especialmente sob a ótica dos algoritmos do Google (Product Variants), podendo diluir autoridade das páginas.",
+    "[Batch 5] Nenhuma meta description explicitamente apresenta chamada para ação forte (ex: compre agora, confira, veja detalhes, etc).",
+    "[Batch 6] Title tags acima do comprimento ideal (todas com ~50-55 caracteres, mas próximas ao limite; ajuste recomendável). Algumas incluem números que não agregam valor (ex: '2', '3') sem justificativa clara.",
+    "[Batch 6] Titles e H1 seguem padrão repetitivo, pouca diferenciação entre produtos a não ser pela cor.",
+    "[Batch 6] Meta descriptions possuem bom comprimento, mas parecem automáticas, sem variação de CTA, com keywords genéricas e pouca personalização.",
+    "[Batch 6] H1s são idênticos aos titles, pouco únicos e não otimizados para busca de long tail.",
+    "[Batch 6] Alto risco de thin content e conteúdo duplicado, já que as páginas só mudam a cor no título/H1 e, provavelmente, no restante do conteúdo também.",
+    "[Batch 6] O uso excessivo de ‘Jaleco Slim Feminino Lateral’ pode estagnar indexação e ranqueamento devido à canibalização de keywords.",
+    "[Batch 8] Title tags ultrapassando o comprimento ideal (todas entre 62-67 caracteres, o ideal é 50-60).",
+    "[Batch 8] Palavras-chave básicas presentes (nome do produto + cor), mas oportunidade de reforçar com termos como 'jaleco feminino', 'jaleco masculino', 'profissional', 'saúde', 'compra', 'online'.",
+    "[Batch 8] Titles são únicos, mas extremamente padronizados, o que pode limitar diferenciação competitiva no Google.",
+    "[Batch 8] Meta descriptions estão adequadas no comprimento (todas entre 137-174), mas estão ausentes, foram fornecidos apenas os comprimentos; sem dados para analisar uso de CTA e palavras-chave.",
+    "[Batch 8] H1s são únicos e estruturados corretamente, mas seguem padrão igual ao title, sem variação textual.",
+    "[Batch 8] URLs e conteúdos parecem padronizados por cor, aumentando risco potencial de thin/duplicated content, caso as descrições internas também sejam similares entre si.",
+    "[Batch 8] Risco de penalização por conteúdo duplicado é relevante se as descrições, benefícios e detalhes do produto não variarem além da cor.",
+    "[Batch 9] Algumas title tags estão muito longas (>60 caracteres), como as dos produtos 'Jaleco Slim Tradicional Masculino', aproximando-se de 70 caracteres, o que pode cortar nos resultados de busca.",
+    "[Batch 9] Titles, meta descriptions e H1s muito semelhantes devido a variação apenas de cor/modelo, aumentando o risco de thin content e canibalização por conteúdo duplicado.",
+    "[Batch 9] Meta descriptions em geral estão dentro do limite de caracteres, mas algumas não possuem CTA claro (ex: Compre agora, Conheça, Confira), nem aproveitam bem palavras-chave de intenção (ex: comprar, loja, online).",
+    "[Batch 9] Em diversos casos, o H1 é a simples repetição do title, sem diferenciação de conteúdo ou valor especial para o usuário.",
+    "[Batch 9] Keywords genéricas (jaleco, colete) estão presentes, porém falta exploração de variantes como 'uniforme profissional', 'para saúde', 'para médicos', 'feminino/masculino', etc.",
+    "[Batch 9] URLs incluem sufixos numéricos (ex: branco-3, marinho-3), que podem parecer páginas duplicadas para o Google, se o conteúdo não for significativamente distinto.",
+    "[Batch 10] Title tags excessivamente curtas (33 a 46 caracteres), abaixo do ideal de 50-60.",
+    "[Batch 10] Title tags com risco de duplicação entre produtos semelhantes (apenas cor/detalhe muda).",
+    "[Batch 10] Meta descriptions frequentemente abaixo do recomendado (117 a 137 caracteres), algumas não atingem 120.",
+    "[Batch 10] Meta descriptions aparentemente duplicadas e sem CTA claro.",
+    "[Batch 10] H1s muito similares entre si (mudando apenas cor/número), alto risco de conteúdo duplicado.",
+    "[Batch 10] Estrutura dos H1s não explora oportunidades de palavras-chave long tail (ex: segmento, gênero, uso profissional).",
+    "[Batch 10] Grande similaridade entre páginas (thin content), risco de penalização por conteúdo duplicado, principalmente entre variações de cor/modelo.",
+    "[Batch 11] Todas as title tags estão acima do limite recomendado (maioria >60 caracteres), arriscando truncamento nos resultados do Google.",
+    "[Batch 11] As title tags e H1 têm estrutura praticamente idêntica entre as páginas, mudando somente a cor, o que aumenta risco de canibalização e não aproveita variedade de palavras-chave.",
+    "[Batch 11] Meta descriptions estão com comprimento adequado, mas não possuem chamada para ação (CTA) clara e repetem praticamente a mesma estrutura e palavras, tornando vulnerável a conteúdo duplicado.",
+    "[Batch 11] H1 muito próximo da title, sem variação de termos ou abordagem, não ampliando o leque semântico das páginas.",
+    "[Batch 11] Risco moderado de thin content/duplicidade, pois todas as páginas diferem quase apenas pela cor; se o conteúdo da página for similar, podem ser vistas como duplicadas pelo Google.",
+    "[Batch 12] As title tags possuem comprimento adequado, mas são pouco diferenciadas entre si e podem gerar canibalização de palavras-chave, principalmente entre variantes de cor do mesmo produto.",
+    "[Batch 12] Há risco de duplicação de conteúdo, principalmente no H1, titles e estrutura das páginas, pois todos seguem padrões quase idênticos de nomenclatura e descrição, variando apenas o nome da cor.",
+    "[Batch 12] A maioria dos H1 está bem estruturada com keywords relevantes, mas a diferenciação é mínima entre produtos; pode dificultar o ranqueamento individual.",
+    "[Batch 12] Meta descriptions estão com comprimento adequado, mas não há informação se contêm CTA ou menção de diferenciais (únicas ou benefícios); conteúdo possivelmente repetitivo e pouco engajador.",
+    "[Batch 12] Páginas apresentam alto risco de thin content/duplicação, pois mudam apenas a cor nos campos-chave, sem detalhar diferenças ou benefícios específicos de cada variação/cor.",
+    "[Batch 13] Title tags em geral não seguem o comprimento ideal (curtos demais, variando de ~41-55 caracteres; alguns muito similares entre si). Pouca variação de palavras-chave pode limitar o alcance SEO.",
+    "[Batch 13] Meta descriptions estão no limite superior do recomendado (entre 135-166 caracteres), mas há pouca diferenciação entre os CTAs e falta de destaque para benefícios do produto. Palavras-chave nem sempre bem exploradas, e há indícios de potencial sobreposição/duplicidade.",
+    "[Batch 13] H1s seguem padrão semelhante aos titles, mas repetem estrutura exata para vários produtos apenas mudando cor/modelo. Isso reduz unicidade e pode ser visto como thin content ou, ao menos, pouco relevante para Google.",
+    "[Batch 13] Risco moderado de thin content e/ou conteúdo duplicado, pois os nomes mudam apenas por cor/modelo. Se as descrições de produto e demais conteúdos da página também mudarem só a cor, há alto risco de canibalização/penalização.",
+    "[Batch 14] Title tags excessivamente longas (todos estão acima de 60 caracteres, variando de 66 a 70 caracteres).",
+    "[Batch 14] Titles e H1s seguem padrão repetido, diferenciados apenas pela cor e pelo termo '3', '2' ou 'giz', o que pode gerar risco de conteúdo duplicado (thin content) e baixa diferenciação para SEO.",
+    "[Batch 14] Diversos meta descriptions estão longas (acima de 155 caracteres) ou muito próximas do limite do Google, podendo ser cortadas. Além disso, não há evidências de CTA claros ('compre agora', 'veja mais', etc.) ou presença destacada de keywords secundárias para melhorar o CTR.",
+    "[Batch 14] H1s praticamente idênticos aos titles, variando apenas a cor ou variante, não otimizados para diversificação de palavras-chave ou intenção de busca.",
+    "[Batch 14] Risco de thin content alto: páginas de produto com altíssima similaridade estrutural, diferenças apenas em atributos de cor ou número, tornando-as suscetíveis a penalização por conteúdo duplicado, se o restante do conteúdo (descrições, benefícios, etc.) for igualmente semelhante.",
+    "[Batch 15] Title tags acima do comprimento ideal (todas estão entre 30-38 caracteres, o ideal é entre 50-60). Faltam termos relevantes como 'jaleco feminino', 'uniforme para saúde', etc.",
+    "[Batch 15] Várias meta descriptions têm menos de 120 caracteres, nenhuma ultrapassa os 160, mas quase todas estão curtas, e nenhuma contém chamada para ação (CTA) clara.",
+    "[Batch 15] Os H1 estão corretos e únicos para cada produto, porém repetitivos em estrutura, sem variação de palavras-chave.",
+    "[Batch 15] Risco de thin content e canibalização por nomes de produtos muito semelhantes (ex: apenas mudando cor/numeração), principalmente nas toucas, o que pode levar o Google a visualizar conteúdos como duplicados, já que as diferenças entre páginas são mínimas.",
+    "[Batch 16] Title tags acima do comprimento ideal (estão entre 110-130 caracteres, o ideal é 50-60).",
+    "[Batch 16] Possível duplicidade parcial nos títulos e H1 devido a mudanças apenas na cor e numeração, o que pode gerar risco de thin content e canibalização.",
+    "[Batch 16] As meta descriptions estão com comprimento abaixo do ideal (ideal 120-160, atuais entre 110 e 130), faltando CTA (chamada para ação) e variação de keywords.",
+    "[Batch 16] H1s são muito similares, variando apenas pela cor e numeração — risco para thin content e pouca diferenciação entre páginas.",
+    "[Batch 16] Estrutura das URLs repete padrão, reforçando risco de conteúdos quase duplicados entre cores.",
+    "[Batch 17] As title tags estão um pouco curtas (35-39 caracteres), abaixo do ideal (50-60 caracteres), podendo afetar o desempenho de SEO.",
+    "[Batch 17] As palavras-chave presentes nos titles e h1 (‘Faixa de Cabelo + cor’) são boas, porém a diferenciação entre os produtos depende somente da cor e do número. Podem ocorrer situações de competitividade/duplicidade interna.",
+    "[Batch 17] Meta descriptions estão no limite inferior do recomendado (117-123 caracteres), próximas ao mínimo (120), e não possuem call to action (CTA) claro.",
+    "[Batch 17] H1 segue padrão adequado, mas é idêntico aos títulos e às urls, o que eleva o risco de thin content entre variações de cor (páginas quase duplicadas, diferenciadas apenas pela cor).",
+    "[Batch 17] Conteúdo duplicado: páginas de produtos com apenas mudança de cor/tom tendem a apresentar grande similaridade de conteúdo, aumentando risco de thin content e potencial penalização."
+  ],
+  "recommendations": [
+    "Reduza o tamanho das title tags para 50-60 caracteres e inclua de forma natural as palavras-chave principais ('jaleco feminino', 'uniforme', 'profissional', 'cor'). Evite apenas repetir modelo+cor.",
+    "Ajuste as meta descriptions para o tamanho ideal (120-160 caracteres), inclua CTA convidativo (ex: 'Compre agora', 'Veja detalhes') e insira keywords secundárias.",
+    "Diversifique os H1 para cada cor/modelo, incluindo variações de palavras-chave e evitando padrões exatos.",
+    "Crie conteúdo descritivo singular para cada produto variante (por cor/modelo), com detalhes diferenciadores, para evitar thin content.",
+    "Aproveite a descrição longa na página de produto para expandir nos benefícios e diferenciais de cada jaleco, usando variações de palavras-chave e sinônimos.",
+    "Implemente tags canônicas quando essencial para evitar duplicação entre variantes de cor que não tenham conteúdo diferenciado suficiente.",
+    "Diversifique as title tags e h1, incluindo diferenciais relevantes, como profissão (médica, farmacêutica), ocasião de uso ou características específicas do jaleco (ex: 'com bolso', 'para consultório', 'tecido tecnológico', etc).",
+    "Garanta que as meta descriptions tragam variação, utilizem CTAs (ex: 'compre agora', 'envio rápido', 'clique e conheça'), e incluam as palavras-chave mais buscadas.",
+    "Revise o conteúdo das páginas para evitar duplicação massiva — sempre que possível, adicione informações exclusivas sobre cada cor (ex: dicas de combinação, ocasiões, significado das cores na área da saúde).",
+    "Utilize dados estruturados para marcar produto, cor, gênero e disponibilidade, facilitando destaque no Google Shopping e buscas ricas.",
+    "Considere trabalhar uma página única de produto com variação de cor (exibida via parâmetro, canonical, ou variante via JS) se o conteúdo for quase idêntico, e não páginas separadas se a única diferença é cor, para evitar problemas de thin content.",
+    "Reescrever title tags focando em um comprimento entre 50-60 caracteres, usando sempre a keyword principal, a cor/modelo, e diferenciais quando possível.",
+    "Adicionar CTAs e benefícios claros nas meta descriptions para aumentar o CTR e evitar descrições puramente genéricas.",
+    "Variar os H1 para cada cor/modelo com adição de informações (ex: 'Jaleco Slim Recortes Masculino Chumbo — Exclusivo Jaleca, Leve & Resistente'), enriquecendo semanticamente.",
+    "Incluir detalhes únicos e diferenciais nos textos das páginas de produtos para evitar penalização por conteúdo duplicado.",
+    "Utilizar dados estruturados (Schema.org) para sinalizar variante por cor/tamanho no produto principal e, se possível, consolidar variantes para evitar canibalização de SEO.",
+    "Diversificar títulos e H1, incorporando diferenciais do produto (tecido, detalhes, público-alvo, ocasião de uso) e variações de keywords, além de evitar só trocas de cor/nome.",
+    "Personalizar as meta descriptions incluindo chamadas para ação (veja, compre, confira), benefícios do produto e diferenciais de cada modelo/cor, ao invés de textos automáticos.",
+    "Adicionar conteúdo original/descritivo exclusivo em cada página, como depoimento de clientes, tabela de medidas, cuidados de lavagem ou um pequeno texto sobre para quem/qual área o jaleco é indicado.",
+    "Evitar que a palavra-chave principal (e variações) fiquem todas concentradas em só títulos e H1, promovendo sinônimos e semântica relacionada.",
+    "Monitorar canibalização de keywords e, se necessário, consolidar páginas/cores como variações de um único produto, ou usar canonical tags.",
+    "Personalize titles, meta descriptions e h1s incluindo diferenciais do produto (modelagem, tecido, público-alvo, uso) aliados às variações de cor para cada página — utilize palavras-chave secundárias e termos que respondam à intenção de busca do usuário.",
+    "Adicione CTAs claros nas meta descriptions para incentivar cliques, como 'Compre agora', 'Veja mais detalhes' ou 'Conheça esse modelo exclusivo'.",
+    "Considere conteúdo extra na página (seção de benefícios, depoimentos, perguntas frequentes) para evitar thin content e permitir maior diferenciação entre variantes de produtos por cor.",
+    "Avalie o uso de canonical tags para versões de cor caso o conteúdo realmente for duplicado e não agregue relevância ao SEO por produto individual.",
+    "Personalize titles, meta descriptions e H1s. Inclua diferenciais de cada cor (ex: ‘ideal para clínicas’, ‘detalhe em costura’, ‘tecido de fácil higienização’), além da cor. Use variações de palavras-chave, CTA específicos (‘Compre o seu jaleco mulher areia agora’).",
+    "Desenvolva descrições originais para cada página, explorando benefícios específicos, ocasiões de uso e sugestões de combinação por cor.",
+    "Evite números desnecessários (como '2', '3') a menos que diferenciem de fato os produtos (ex: coleção, edição, detalhe), explique na descrição.",
+    "Garanta que a descrição, ficha técnica e outros conteúdos em cada URL sejam únicos. Isso minimiza risco de thin content e penalização por duplicidade.",
+    "Explore funções de rich snippets como avaliações e FAQs para aumentar relevância sem duplicidade.",
+    "Ajuste os títulos para entre 50-60 caracteres e diversifique o texto, incluindo diferenciais ou atributos individuais (por exemplo: 'Jaleco Slim Duquesa Feminino Verde Garrafa - Tecido Premium | Jaleca').",
+    "Inclua e otimize suas meta descriptions com CTAs claros ('Compre agora', 'Entrega rápida') e reforce palavras-chave estratégicas em cada variação.",
+    "Altere os H1s para evitar cópia exata dos títulos, destacando algum atributo, uso ou público-alvo.",
+    "Evite thin/duplicated content nas descrições dos produtos: insira informações exclusivas em cada página (aplicação, diferenciais da cor, contexto de uso) para fortalecer a relevância individual e minimizar risco de penalização.",
+    "Ajustar title tags para ficarem entre 50 e 60 caracteres, priorizando as principais keywords e evitando repetições desnecessárias (ex: não duplicar 'Tradicional Slim' e o nome da cor).",
+    "Reformular meta descriptions para incluir CTA claras e inserir termos-chave que ajudem a converter (ex: 'Compre o Jaleco Slim Masculino Chumbo na Jaleca e destaque-se com estilo e conforto!').",
+    "Diferenciar H1 de title, buscando uma descrição mais exclusiva por variante (ex: 'Jaleco Slim para Profissionais de Saúde - Chumbo').",
+    "Garantir que cada página de cor tenha conteúdo exclusivo: adicionar detalhes específicos daquela cor/modelo, depoimentos, tabelas de medidas ou informações extras para evitar thin content e canibalização.",
+    "Rever o uso de sufixos numéricos em URLs e, se forem variações reais de modelo, enfatizar as diferenças no conteúdo da página; caso contrário, consolidar variações semelhantes via canonical ou mesmo removendo duplicadas desnecessárias.",
+    "Explorar keywords secundárias para capturar mais intenções de busca (ex: 'jaleco feminino para medicina', 'jaleco para enfermagem', 'jaleco personalizado').",
+    "Ajustar todos os titles para ficarem entre 50-60 caracteres, inserindo termos descritivos relevantes (ex: jaleco feminino, uniforme saúde).",
+    "Personalizar e ampliar as meta descriptions (120-160 caracteres), inserindo CTA específico e keywords relacionadas ao produto e público-alvo.",
+    "Reformular H1s para diferenciação maior, incluindo referências ao público-alvo e uso (ex: Jaleco Feminino para Médicas — Colete Preto 3).",
+    "Adicionar conteúdo exclusivo em cada página de produto (ex: benefícios do modelo/cor, contexto de uso, diferenciais), evitando apenas trocar cor/nome do modelo.",
+    "Evitar que apenas a cor/número diferencie titles, H1s e meta descriptions; criar diferenciação semântica real nas descrições.",
+    "Utilizar schema.org/Product para melhorar markup e, se possível, parametrizar variações em páginas únicas (canonical ou variações de cor como atributos, não URLs separadas).",
+    "Reduza o tamanho das title tags para no máximo 60 caracteres e varie também as palavras-chave, incluindo diferenciais (ex: material, uso profissional, confortável, etc).",
+    "Inclua uma CTA e benefícios principais exclusivos de cada cor/variante nas meta descriptions, aumentando unicidade e engajamento.",
+    "Altere o H1 para aproveitar mais palavras-chave (como: uniforme hospitalar, pijama cirúrgico, conforto, etc) e evitar repetição excessiva.",
+    "Garanta que o conteúdo da página de cada cor tenha especificidades (fotos, detalhes de aplicação, indicações de uso da cor), minimizando o risco de thin content.",
+    "Avalie a estrutura de URL para possível agrupamento por categoria/cor principal, evitando excesso de páginas quase idênticas.",
+    "Personalize titles, H1 e meta descriptions com diferenciais além da cor (ex: tecido, público-alvo, ocasião de uso, benefícios, coleção, ou atributos únicos), evitando a simples troca de cor para cada página.",
+    "Inclua CTAs chamativos e informações específicas em cada meta description (ex: 'Compre agora', 'Desconto exclusivo', 'Frete grátis', 'Ideal para profissionais de saúde').",
+    "Adicione conteúdo exclusivo nas páginas de variação de cor, como descrições detalhadas dos tons, indicações de uso, sugestões de combinação, até depoimentos de clientes para algumas cores.",
+    "Implemente um controle de canonicalização se possíveis URLs parametrizadas ou variações de cor diferentes forem exibidas como páginas únicas, para evitar penalização por conteúdo duplicado.",
+    "Garanta que categorias e filtros de cor estejam bem configurados para permitir indexação correta, guiando Google para não considerar todas as variações como conteúdo duplicado.",
+    "Otimize os títulos para variar além do padrão atual, incluindo termos relevantes como 'pijama cirúrgico feminino', 'uniforme para saúde', diferenciais do modelo (ex: 'bolsos', 'ajuste na cintura', etc.), mantendo sempre entre 50-60 caracteres.",
+    "Personalize as meta descriptions com informações exclusivas de cada variante (cor/modelo), adicione diferenciais do produto, variações de CTA, e foque em benefícios para o público-alvo ('Compre agora seu jaleco feminino exclusivo!'). Atente ao limite de 150-155 caracteres.",
+    "Inclua detalhes no H1 (ex: uso, tecido, diferencial) para tornar cada página única e mais relevante em SEO, reduzindo risco de conteúdo duplicado.",
+    "Garanta que as descrições dos produtos não sejam cópias somente trocando cor/modelo. Trabalhe conteúdo único para cada página, destacando utilidades específicas, dicas de uso/combinação, instruções de lavagem, etc.",
+    "Ajustar title tags para entre 50 e 60 caracteres, inserindo diferenciais ou benefícios, evitando padrão puramente repetitivo entre as páginas (ex: incluir 'ideal para profissionais de saúde', 'compre online').",
+    "Revisar meta descriptions para ficarem entre 120 e 155 caracteres com CTAs claros e variedade de keywords, aproveitando para destacar diferenciais do produto e chamar o clique.",
+    "Diversificar H1s utilizando semântica ampliada (ex: 'Conjunto Executiva Feminina - Jaleco Marinho para Médicas' ou incluir o público-alvo/uso), evitando uniformidade excessiva.",
+    "Priorizar descrições únicas nas páginas de produto para reduzir risco de thin content, detalhando benefícios, aplicações, tecidos, diferenciais de cada cor e modelo.",
+    "Considerar testes com canonical tags se algumas variantes de cor não geram valor orgânico individual, para centralizar autoridade em uma URL master.",
+    "Ajustar title tags para ficarem entre 50-60 caracteres e incluir palavras-chave relevantes: exemplo, 'Touca Elástico Feminina Areia 2 para Profissionais de Saúde — Jaleca'.",
+    "Reescrever meta descriptions com 130-155 caracteres, incluindo CTA ('Compre agora', 'Garanta já o seu', etc.) e termos-chave (jaleco, touca feminina, etc.).",
+    "Criar diferenciação mais clara entre páginas de produtos semelhantes (cores/modelos), adicionando detalhes na descrição, benefícios e detalhes únicos de cada variante.",
+    "Avaliar possibilidade de landing pages agregando variantes por produto, em vez de páginas únicas só para cor/numeração similar, para evitar thin content.",
+    "Reduza e otimize as title tags para o comprimento recomendado (50-60 caracteres) e inclua diferenciais do produto e palavras-chave secundárias, como 'touca cirúrgica', 'faixa hospitalar', 'para profissionais de saúde', além da cor.",
+    "Ajuste as meta descriptions para o tamanho ideal (120-160 caracteres), incluindo chamada para ação e termos relevantes como: 'Compre agora', 'Entrega rápida', 'Ideal para profissionais de saúde'.",
+    "Personalize descrições e H1 utilizando diferenciais de cada cor/variação e do público-alvo, dificultando a classificação das páginas como thin content.",
+    "Inclua textos descritivos únicos em cada página de produto, detalhando aplicações, benefícios e composição (por exemplo: 'A Touca de Amarrar Marinho 3 é indicada para profissionais que buscam conforto, proteção e estilo em ambientes hospitalares. Conheça mais!').",
+    "Considere uso criterioso de canonical tags se existirem poucas diferenças entre variantes, para evitar penalizações por conteúdo duplicado.",
+    "Aumente o comprimento dos title tags para pelo menos 50 caracteres, incluindo características específicas sobre material, uso (ex: ‘para profissionais de saúde’), diferenciais do produto ou atributos distintos da cor.",
+    "Reforce as meta descriptions para entre 130 e 155 caracteres, incluindo CTAs e diferenciais (ex: ‘Compre já sua faixa de cabelo confortável e estilosa para jaleco. Envio rápido!’).",
+    "Diversifique o conteúdo da página, incluindo descrições únicas por cor, benefícios específicos, sugestões de uso de cada tom, depoimentos de clientes e imagens exclusivas.",
+    "Evite que os títulos, h1 e meta description fiquem idênticos em todas as variações, mesmo mudando apenas a cor ou numeração. Considere textos personalizados para cada produto.",
+    "Avalie o uso de canonical tags quando realmente não for possível diferenciar o conteúdo entre as variações, prevenindo problemas de conteúdo duplicado."
+  ],
+  "generatedAt": "2026-04-25T21:42:04.522Z",
+  "blacklistCheck": {
+    "totalPagesChecked": 164,
+    "pagesWithViolations": 0,
+    "totalViolations": 0,
+    "violations": []
+  },
+  "summary": {
+    "avgTechnicalScore": 58,
+    "avgAiDetection": null,
+    "avgKeywordCoverage": null,
+    "avgUxScore": null,
+    "totalIssues": 89,
+    "totalRecommendations": 79,
+    "blacklistViolations": 0,
+    "blacklistPassed": true
+  }
+}
