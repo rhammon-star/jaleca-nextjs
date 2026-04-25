@@ -117,7 +117,7 @@ export default async function LookbookPage() {
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     priority={idx === 0}
                   />
-                  <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0)', groupHover: 'rgba(0,0,0,0.1)', transition: 'background 0.3s' }} />
+                  <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0)', transition: 'background 0.3s' }} />
                 </div>
 
                 {/* Info */}

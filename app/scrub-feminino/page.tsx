@@ -388,7 +388,7 @@ export default async function ScrubFemininoPage() {
         </section>
 
         {/* ── PRODUTO — Detalhamento ── */}
-        <ProductDetailSection productType="scrub" />
+        <ProductDetailSection productType="conjunto" />
         <section style={{ background: '#fff', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
           <div style={{ maxWidth: 1200, margin: '0 auto' }}>
             <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>Dúvidas frequentes</div>
