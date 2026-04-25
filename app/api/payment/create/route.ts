@@ -125,41 +125,50 @@ export async function POST(request: NextRequest) {
 
     // ── SECURITY: Validar preços contra WooCommerce (paralelo) ───────────────
     const priceChecks = await Promise.all(items.map(async item => {
-      const productRes = await fetch(`${WC_API}/products/${item.product_id}`, {
-        headers: { Authorization: wcAuth() },
-        cache: 'no-store',
-      })
-      if (!productRes.ok) return { ok: false as const, name: item.name, error: 'fetch_failed' }
-      const product = await productRes.json()
-
-      let correctPrice = parseFloat(product.price || '0')
-
-      if (item.variation_id) {
-        const varRes = await fetch(`${WC_API}/products/${item.product_id}/variations/${item.variation_id}`, {
+      try {
+        const productRes = await fetch(`${WC_API}/products/${item.product_id}`, {
           headers: { Authorization: wcAuth() },
           cache: 'no-store',
+          signal: AbortSignal.timeout(5000),
         })
-        if (varRes.ok) {
-          const variation = await varRes.json()
-          correctPrice = parseFloat(variation.price || product.price || '0')
+        if (!productRes.ok) {
+          console.warn(`[payment/create] WC API error for ${item.name}: ${productRes.status}`)
+          return { ok: true, name: item.name, warning: 'fetch_failed_allow' }
         }
-      }
+        const product = await productRes.json()
 
-      const sentPrice = parseFloat(item.price.toString())
-      // Allow 1% tolerance for floating point differences
-      const priceDiff = Math.abs(sentPrice - correctPrice)
-      const priceOk = correctPrice === 0 || priceDiff / correctPrice < 0.01
+        let correctPrice = parseFloat(product.price || '0')
 
-      if (!priceOk) {
-        console.error(`[payment/create] SECURITY: Price mismatch for ${item.name}: sent=${sentPrice}, correct=${correctPrice}`)
+        if (item.variation_id) {
+          const varRes = await fetch(`${WC_API}/products/${item.product_id}/variations/${item.variation_id}`, {
+            headers: { Authorization: wcAuth() },
+            cache: 'no-store',
+            signal: AbortSignal.timeout(5000),
+          })
+          if (varRes.ok) {
+            const variation = await varRes.json()
+            correctPrice = parseFloat(variation.price || product.price || '0')
+          }
+        }
+
+        const sentPrice = parseFloat(item.price.toString())
+        // Allow 1% tolerance for floating point differences
+        const priceDiff = Math.abs(sentPrice - correctPrice)
+        const priceOk = correctPrice === 0 || priceDiff / correctPrice < 0.01
+
+        if (!priceOk) {
+          console.error(`[payment/create] SECURITY: Price mismatch for ${item.name}: sent=${sentPrice}, correct=${correctPrice}`)
+        }
+        return { ok: priceOk, name: item.name, sent: sentPrice, correct: correctPrice }
+      } catch (e) {
+        if (e instanceof Error && e.name === 'TimeoutError') {
+          console.warn(`[payment/create] WC API timeout for ${item.name} — allowing payment (not fraud)`)
+          return { ok: true, name: item.name, warning: 'timeout_allow' }
+        }
+        console.warn(`[payment/create] WC API error for ${item.name}:`, e instanceof Error ? e.message : String(e))
+        return { ok: true, name: item.name, warning: 'error_allow' }
       }
-      return { ok: priceOk, name: item.name, sent: sentPrice, correct: correctPrice }
     }))
-
-    const failedFetch = priceChecks.find(c => !c.ok && 'error' in c && c.error === 'fetch_failed')
-    if (failedFetch) {
-      return NextResponse.json({ error: `Erro ao verificar preço do produto ${failedFetch.name}` }, { status: 400 })
-    }
     const priceMismatch = priceChecks.find(c => !c.ok)
     if (priceMismatch) {
       return NextResponse.json({ error: 'Preço do carrinho expirou. Recarregue a página e tente novamente.' }, { status: 400 })
