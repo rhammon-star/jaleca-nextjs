@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   description: 'Uniformes e conjuntos profissionais para escritório e consultório: advogado, psicólogo, farmacéutico e pastor. Elegância e identidade visual no ambiente corporativo.',
   alternates: { canonical: 'https://jaleca.com.br/uniformes-escritorio' },
   openGraph: {
-    title: 'Uniformes para Escritório — Profissionalismo com Conforto | Jaleca',
+    title: 'Uniformes para Escritório — Profissionalismo com Conforto',
     description: 'Guia de uniformes e conjuntos para escritório e consultório: advogado, psicólogo, farmacéutico, pastor e secretary.',
     url: 'https://jaleca.com.br/uniformes-escritorio',
     siteName: 'Jaleca',
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Uniformes para Escritório — Profissionalismo com Conforto | Jaleca',
+    title: 'Uniformes para Escritório — Profissionalismo com Conforto',
     description: 'Guia de uniformes e conjuntos para escritório e consultório: advogado, psicólogo, farmacéutico, pastor e secretary.',
     images: ['https://jaleca.com.br/og-home.jpg'],
   },

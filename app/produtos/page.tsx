@@ -48,7 +48,7 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://jaleca.com.br/produtos' },
   keywords: 'jalecos, jaleco feminino, jaleco masculino, jalecos para médicos, jalecos slim, dólmã, conjunto scrub, uniforme médico, comprar jaleco',
   openGraph: {
-    title: 'Comprar Jaleco Online — Femininos, Masculinos, Slim e Plus Size | Jaleca',
+    title: 'Comprar Jaleco Online — Femininos, Masculinos, Slim e Plus Size',
     description: 'Mais de 30 modelos: jalecos femininos e masculinos, dólmãs e conjuntos scrub para profissionais da saúde. PP ao G3, frete grátis no Sudeste acima de R$499.',
     url: 'https://jaleca.com.br/produtos',
     siteName: 'Jaleca',
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Comprar Jaleco Online — Femininos e Masculinos | Jaleca',
+    title: 'Comprar Jaleco Online — Femininos e Masculinos',
     description: 'Jalecos femininos e masculinos, dólmãs e conjuntos scrub para profissionais da saúde.',
     images: ['https://jaleca.com.br/og-home.jpg'],
   },

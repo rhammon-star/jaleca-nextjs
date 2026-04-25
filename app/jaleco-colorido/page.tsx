@@ -4,11 +4,11 @@ import { getGooglePlaceData } from '@/lib/google-places'
 import ProfessionProductGrid from '@/components/ProfessionProductGrid'
 
 export const metadata: Metadata = {
-  title: 'Jaleco Colorido: 12 Cores para Saúde e Estética | Jaleca',
+  title: 'Jaleco Colorido: 12 Cores para Saúde e Estética',
   description: 'Jaleco colorido para nutricionista, fisioterapeuta, esteticista e pediatra. 12 cores: rosa, lilás, verde, azul, areia e mais. Do PP ao G3 com elastano. Frete grátis SE.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-colorido' },
   openGraph: {
-    title: 'Jaleco Colorido: 12 Cores para Saúde e Estética | Jaleca',
+    title: 'Jaleco Colorido: 12 Cores para Saúde e Estética',
     description: 'Jaleco colorido para nutricionista, fisioterapeuta, esteticista e pediatra. 12 cores do PP ao G3.',
     url: 'https://jaleca.com.br/jaleco-colorido',
     siteName: 'Jaleca',
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Jaleco Colorido: 12 Cores para Saúde e Estética | Jaleca',
+    title: 'Jaleco Colorido: 12 Cores para Saúde e Estética',
     description: 'Jaleco colorido 12 cores do PP ao G3.',
     images: ['https://jaleca.com.br/og-home.jpg'],
   },

@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   description: 'Tire suas dúvidas sobre jalecos, medidas, entrega, troca e pagamento. Encontre respostas rápidas para as perguntas mais comuns dos clientes Jaleca.',
   alternates: { canonical: 'https://jaleca.com.br/faq' },
   openGraph: {
-    title: 'Perguntas Frequentes | Jaleca',
+    title: 'Perguntas Frequentes',
     description: 'Tire suas dúvidas sobre jalecos, medidas, entrega, troca e pagamento.',
     url: 'https://jaleca.com.br/faq',
     siteName: 'Jaleca',

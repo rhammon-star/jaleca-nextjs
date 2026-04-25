@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   description: 'Uniformes profissionais para gastronomia: nómã chef, jaleco cozinheiro, jaleco sushiman e churrasqueiro. Tecido resistente a manchas, calor e uso intenso. Frete grátis SP/RJ/MG/ES.',
   alternates: { canonical: 'https://jaleca.com.br/uniformes-gastronomia' },
   openGraph: {
-    title: 'Uniformes para Gastronomia — Conforto e Praticidade | Jaleca',
+    title: 'Uniformes para Gastronomia — Conforto e Praticidade',
     description: 'Guia completo de uniformes para gastronomia: nómã chef, jaleco churrasqueiro, sushiman e cozinheiro.',
     url: 'https://jaleca.com.br/uniformes-gastronomia',
     siteName: 'Jaleca',
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Uniformes para Gastronomia — Conforto e Praticidade | Jaleca',
+    title: 'Uniformes para Gastronomia — Conforto e Praticidade',
     description: 'Guia completo de uniformes para gastronomia: nómã chef, jaleco churrasqueiro, sushiman e cozinheiro.',
     images: ['https://jaleca.com.br/og-home.jpg'],
   },

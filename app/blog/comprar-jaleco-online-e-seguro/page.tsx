@@ -4,12 +4,12 @@ import Link from 'next/link'
 import { Calendar, User, Clock, ShieldCheck, Truck, RotateCcw, CreditCard } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Comprar Jaleco Online: É Seguro? | Jaleca',
+  title: 'Comprar Jaleco Online: É Seguro?',
   description: 'Descubra se comprar jaleco online é seguro. Saiba como encontrar lojas confiáveis, escolher o modelo ideal e garantir uma compra tranquila para profissionais de saúde.',
   keywords: 'comprar jaleco online, jaleco pela internet, loja jaleco confiavel, jaleco online seguro, jaleco comprar online, uniforme profissional online',
   alternates: { canonical: 'https://jaleca.com.br/blog/comprar-jaleco-online-e-seguro' },
   openGraph: {
-    title: 'Comprar Jaleco Online: É Seguro? | Jaleca',
+    title: 'Comprar Jaleco Online: É Seguro?',
     description: 'Descubra como comprar jaleco online com segurança. Dicas para identificar lojas confiáveis e garantir a melhor compra.',
     url: 'https://jaleca.com.br/blog/comprar-jaleco-online-e-seguro',
     siteName: 'Jaleca',

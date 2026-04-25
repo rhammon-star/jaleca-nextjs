@@ -4,11 +4,11 @@ import { getGooglePlaceData } from '@/lib/google-places'
 import ProfessionProductGrid from '@/components/ProfessionProductGrid'
 
 export const metadata: Metadata = {
-  title: 'Pijama Cirúrgico Feminino: Scrub para Saúde do PP ao G3 | Jaleca',
+  title: 'Pijama Cirúrgico Feminino: Scrub para Saúde do PP ao G3',
   description: 'Pijama cirúrgico feminino com elastano — scrub para médicas, enfermeiras e centro cirúrgico. Tecido antimicrobiano, lavagem a 60°C, do PP ao G3. Frete grátis SE acima de R$499.',
   alternates: { canonical: 'https://jaleca.com.br/pijama-cirurgico-feminino' },
   openGraph: {
-    title: 'Pijama Cirúrgico Feminino: Scrub para Saúde do PP ao G3 | Jaleca',
+    title: 'Pijama Cirúrgico Feminino: Scrub para Saúde do PP ao G3',
     description: 'Pijama cirúrgico feminino com elastano para médicas, enfermeiras e centro cirúrgico. Do PP ao G3.',
     url: 'https://jaleca.com.br/pijama-cirurgico-feminino',
     siteName: 'Jaleca',
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Pijama Cirúrgico Feminino: Scrub para Saúde do PP ao G3 | Jaleca',
+    title: 'Pijama Cirúrgico Feminino: Scrub para Saúde do PP ao G3',
     description: 'Pijama cirúrgico feminino com elastano. Do PP ao G3.',
     images: ['https://jaleca.com.br/og-home.jpg'],
   },

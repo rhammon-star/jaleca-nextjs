@@ -4,11 +4,11 @@ import { getGooglePlaceData } from '@/lib/google-places'
 import ProfessionProductGrid from '@/components/ProfessionProductGrid'
 
 export const metadata: Metadata = {
-  title: 'Jaleco de Enfermagem Feminino: Plantão, COFEN e Lavagem 60°C | Jaleca',
+  title: 'Jaleco de Enfermagem Feminino: Plantão, COFEN e Lavagem 60°C',
   description: 'Jaleco enfermagem feminino com elastano para plantão. Aguenta lavagem a 60°C, cumpre COFEN 375/2011 e tem molde próprio do PP ao G3. Frete grátis SE acima de R$499.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-enfermagem-feminino' },
   openGraph: {
-    title: 'Jaleco de Enfermagem Feminino: Plantão, COFEN e Lavagem 60°C | Jaleca',
+    title: 'Jaleco de Enfermagem Feminino: Plantão, COFEN e Lavagem 60°C',
     description: 'Jaleco enfermagem feminino com elastano para plantão. Aguenta lavagem a 60°C e tem molde próprio do PP ao G3.',
     url: 'https://jaleca.com.br/jaleco-enfermagem-feminino',
     siteName: 'Jaleca',
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Jaleco de Enfermagem Feminino: Plantão, COFEN e Lavagem 60°C | Jaleca',
+    title: 'Jaleco de Enfermagem Feminino: Plantão, COFEN e Lavagem 60°C',
     description: 'Jaleco enfermagem feminino com elastano para plantão. Do PP ao G3.',
     images: ['https://jaleca.com.br/og-home.jpg'],
   },

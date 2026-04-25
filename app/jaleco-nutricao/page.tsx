@@ -11,11 +11,11 @@ import FaqAccordion from './FaqAccordion'
 import { PROFESSION_PRODUCT_SLUGS } from '@/lib/product-professions'
 
 export const metadata: Metadata = {
-  title: 'Jaleco para Nutrição: Modelagem Feminina e Conforto | Jaleca',
+  title: 'Jaleco para Nutrição: Modelagem Feminina e Conforto',
   description: 'Jaleco para Nutrição em tecido premium com elastano. Modelo Slim ou Princesa, do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-nutricao' },
   openGraph: {
-    title: 'Jaleco para Nutrição: Modelagem Feminina e Conforto | Jaleca',
+    title: 'Jaleco para Nutrição: Modelagem Feminina e Conforto',
     description: 'Jaleco para Nutrição em tecido premium com elastano. Modelo Slim ou Princesa, do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca.',
     url: 'https://jaleca.com.br/jaleco-nutricao',
     siteName: 'Jaleca',
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: 'Jaleco para Nutrição: Modelagem Feminina e Conforto | Jaleca',
+    title: 'Jaleco para Nutrição: Modelagem Feminina e Conforto',
     description: 'Jaleco para Nutrição em tecido premium com elastano. Modelo Slim ou Princesa, do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca.',
     images: ["https://jaleca.com.br/og-home.jpg"],
   },

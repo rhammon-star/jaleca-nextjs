@@ -4,11 +4,11 @@ import { getGooglePlaceData } from '@/lib/google-places'
 import ProfessionProductGrid from '@/components/ProfessionProductGrid'
 
 export const metadata: Metadata = {
-  title: 'Jalecos Femininos — Modelos Profissionais com Conforto e Elegância | Jaleca',
+  title: 'Jalecos Femininos — Modelos Profissionais com Conforto e Elegância',
   description: 'Jalecos femininos do PP ao G3 com molde próprio — não é o masculino adaptado. Elastano bidirecional, gabardine premium, 12 cores. Frete grátis SP, RJ, MG e ES acima de R$499.',
   alternates: { canonical: 'https://jaleca.com.br/jalecos-femininos' },
   openGraph: {
-    title: 'Jalecos Femininos — Modelos Profissionais com Conforto e Elegância | Jaleca',
+    title: 'Jalecos Femininos — Modelos Profissionais com Conforto e Elegância',
     description: 'Jalecos femininos do PP ao G3 com molde próprio. Elastano bidirecional, gabardine premium, 12 cores.',
     url: 'https://jaleca.com.br/jalecos-femininos',
     siteName: 'Jaleca',
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Jalecos Femininos — Modelos Profissionais com Conforto e Elegância | Jaleca',
+    title: 'Jalecos Femininos — Modelos Profissionais com Conforto e Elegância',
     description: 'Jalecos femininos do PP ao G3 com molde próprio. Elastano bidirecional, gabardine premium, 12 cores.',
     images: ['https://jaleca.com.br/og-home.jpg'],
   },

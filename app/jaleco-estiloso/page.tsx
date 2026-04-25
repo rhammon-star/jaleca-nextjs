@@ -4,11 +4,11 @@ import { getGooglePlaceData } from '@/lib/google-places'
 import ProfessionProductGrid from '@/components/ProfessionProductGrid'
 
 export const metadata: Metadata = {
-  title: 'Jaleco Estiloso: Charme, Criatividade e Profissionalismo | Jaleca',
+  title: 'Jaleco Estiloso: Charme, Criatividade e Profissionalismo',
   description: 'Descubra jaleco estiloso para saúde e estética. Modelos diferenciados, coloridos e com cortes modernos para valorizar seu visual no trabalho.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-estiloso' },
   openGraph: {
-    title: 'Jaleco Estiloso: Charme, Criatividade e Profissionalismo | Jaleca',
+    title: 'Jaleco Estiloso: Charme, Criatividade e Profissionalismo',
     description: 'Jaleco estiloso que combina identidade visual com qualidade técnica. Para quem se importa com o que veste no trabalho.',
     url: 'https://jaleca.com.br/jaleco-estiloso',
     siteName: 'Jaleca',
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Jaleco Estiloso: Charme, Criatividade e Profissionalismo | Jaleca',
+    title: 'Jaleco Estiloso: Charme, Criatividade e Profissionalismo',
     description: 'Jaleco estiloso que combina identidade visual com qualidade técnica. Para quem se importa com o que veste no trabalho.',
     images: ['https://jaleca.com.br/og-home.jpg'],
   },

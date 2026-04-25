@@ -11,11 +11,11 @@ import FaqAccordion from './FaqAccordion'
 import { PROFESSION_PRODUCT_SLUGS } from '@/lib/product-professions'
 
 export const metadata: Metadata = {
-  title: 'Jaleco para Farmácia: Visual Profissional e Confiança | Jaleca',
+  title: 'Jaleco para Farmácia: Visual Profissional e Confiança',
   description: 'Jaleco para Farmácia em tecido premium. Modelagem que transmite confiança ao cliente. Do PP ao G3. Frete grátis SP/RJ/MG/ES.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-farmacia' },
   openGraph: {
-    title: 'Jaleco para Farmácia: Visual Profissional e Confiança | Jaleca',
+    title: 'Jaleco para Farmácia: Visual Profissional e Confiança',
     description: 'Jaleco para Farmácia em tecido premium. Modelagem que transmite confiança ao cliente. Do PP ao G3. Frete grátis SP/RJ/MG/ES.',
     url: 'https://jaleca.com.br/jaleco-farmacia',
     siteName: 'Jaleca',
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: 'Jaleco para Farmácia: Visual Profissional e Confiança | Jaleca',
+    title: 'Jaleco para Farmácia: Visual Profissional e Confiança',
     description: 'Jaleco para Farmácia em tecido premium. Modelagem que transmite confiança ao cliente. Do PP ao G3. Frete grátis SP/RJ/MG/ES.',
     images: ["https://jaleca.com.br/og-home.jpg"],
   },

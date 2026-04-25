@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   description: 'Conjunto profissional para advogado em tecido premium com elastano. Modelagem elegante do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
   alternates: { canonical: 'https://jaleca.com.br/conjunto-advogado' },
   openGraph: {
-    title: 'Conjunto Profissional para Advogado | Jaleca',
+    title: 'Conjunto Profissional para Advogado',
     description: 'Uniforme profissional completo para advogados. Tecido premium, caimento impecável, preço justo. Do PP ao G3.',
     url: 'https://jaleca.com.br/conjunto-advogado',
     siteName: 'Jaleca',
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: 'Conjunto Profissional para Advogado | Jaleca',
+    title: 'Conjunto Profissional para Advogado',
     description: 'Conjunto profissional para advogado. Tecido de qualidade, caimento perfeito, preço justo. Do PP ao G3.',
     images: ["https://jaleca.com.br/og-home.jpg"],
   },

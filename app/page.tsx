@@ -15,7 +15,7 @@ import { isBestSeller } from "@/lib/best-sellers";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "Jalecos Femininos e Masculinos — Mais de 200 Mil Peças Vendidas | Jaleca",
+  title: "Jalecos Femininos e Masculinos — Mais de 200 Mil Peças Vendidas",
   description: "Compre jalecos femininos, masculinos, slim, princesa e universitários. PP ao G3, frete grátis Sudeste acima de R$499. Jalecos para médicos, dentistas, enfermeiros. Mais de 200 mil peças vendidas.",
   alternates: { canonical: "https://jaleca.com.br" },
   openGraph: {

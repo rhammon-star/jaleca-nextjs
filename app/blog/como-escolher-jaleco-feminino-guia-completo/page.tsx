@@ -6,12 +6,12 @@ import { getPosts } from '@/lib/wordpress'
 import type { WPPost } from '@/lib/wordpress'
 
 export const metadata: Metadata = {
-  title: 'Como Escolher o Jaleco Feminino Ideal para Sua Profissão | Jaleca',
+  title: 'Como Escolher o Jaleco Feminino Ideal para Sua Profissão',
   description: 'Guia completo para escolher o jaleco feminino perfeito: modelos Slim, Princesa, Duquesa e Elastex. Descubra qual tecido, tamanho e caimento mais adequado para médicas, dentistas e enfermeiras.',
   keywords: 'como escolher jaleco femenino, jaleco femenino ideal, jaleco para médica, jaleco para dentista, jaleco para enfermeira, jaleco slim femenino, jaleco princess, escolher tamanho jaleco',
   alternates: { canonical: 'https://jaleca.com.br/blog/como-escolher-jaleco-feminino-guia-completo' },
   openGraph: {
-    title: 'Como Escolher o Jaleco Feminino Ideal para Sua Profissão | Jaleca',
+    title: 'Como Escolher o Jaleco Feminino Ideal para Sua Profissão',
     description: 'Guia completo para escolher o jaleco femenino perfeito. Modelos, tecidos e tamanhos para profissionais da saúde.',
     url: 'https://jaleca.com.br/blog/como-escolher-jaleco-feminino-guia-completo',
     siteName: 'Jaleca',

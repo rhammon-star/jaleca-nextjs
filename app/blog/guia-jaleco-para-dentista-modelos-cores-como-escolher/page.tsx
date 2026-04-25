@@ -3,12 +3,12 @@ import Link from 'next/link'
 import { Calendar, User, Clock } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Jaleco para Dentista: Modelos, Cores e Como Escolher | Jaleca',
+  title: 'Jaleco para Dentista: Modelos, Cores e Como Escolher',
   description: 'Guia completo de jaleco para dentista: modelos certos (Slim, Duquesa, Elastex), cores recomendadas, NR-32 e como escolher o jaleco odontológico ideal para seu consultório.',
   keywords: 'jaleco para dentista, jaleco dentista, jaleco odontológico, jaleco para dentista branco, jaleco slim dentista, jaleco NR-32',
   alternates: { canonical: 'https://jaleca.com.br/blog/guia-jaleco-dentista-modelos-cores-como-escolher' },
   openGraph: {
-    title: 'Jaleco para Dentista: Modelos, Cores e Como Escolher | Jaleca',
+    title: 'Jaleco para Dentista: Modelos, Cores e Como Escolher',
     description: 'Guia completo de jaleco para dentista. Modelos, cores e como escolher.',
     url: 'https://jaleca.com.br/blog/guia-jaleco-dentista-modelos-cores-como-escolher',
     siteName: 'Jaleca',

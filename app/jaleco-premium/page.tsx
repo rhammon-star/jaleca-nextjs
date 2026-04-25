@@ -3,11 +3,11 @@ import Link from 'next/link'
 import { getGooglePlaceData } from '@/lib/google-places'
 
 export const metadata: Metadata = {
-  title: 'Jaleco Premium: Elegância e Qualidade para Profissionais | Jaleca',
+  title: 'Jaleco Premium: Elegância e Qualidade para Profissionais',
   description: 'Encontre jaleco premium para medicina, estética e odontologia. Alta costura, conforto superior e exclusividade para seu dia a dia profissional.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-premium' },
   openGraph: {
-    title: 'Jaleco Premium: Elegância e Qualidade para Profissionais | Jaleca',
+    title: 'Jaleco Premium: Elegância e Qualidade para Profissionais',
     description: 'O que define um jaleco premium? Tecido, acabamento e corte que fazem diferença na jornada toda.',
     url: 'https://jaleca.com.br/jaleco-premium',
     siteName: 'Jaleca',
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Jaleco Premium: Elegância e Qualidade para Profissionais | Jaleca',
+    title: 'Jaleco Premium: Elegância e Qualidade para Profissionais',
     description: 'O que define um jaleco premium? Tecido, acabamento e corte que fazem diferença na jornada toda.',
     images: ['https://jaleca.com.br/og-home.jpg'],
   },

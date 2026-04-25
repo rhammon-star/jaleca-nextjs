@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: 'Dolma para Sushiman | Jaleca',
+    title: 'Dolma para Sushiman',
     description: 'Dolma profissional para sushiman. Tecido técnico para cozinha japonesa. Frete grátis.',
     images: ["https://jaleca.com.br/og-home.jpg"],
   },

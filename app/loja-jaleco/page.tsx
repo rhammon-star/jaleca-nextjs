@@ -4,11 +4,11 @@ import { getGooglePlaceData } from '@/lib/google-places'
 import LojaProductGrid from '@/components/LojaProductGrid'
 
 export const metadata: Metadata = {
-  title: 'Loja de Jaleco Online — Jalecos para Profissionais | Jaleca',
+  title: 'Loja de Jaleco Online — Jalecos para Profissionais',
   description: 'Loja de jaleco com modelos para saúde, beleza e gastronomia. Tecidos premium, corte feminino real, grade PP ao G3. Frete grátis SP, RJ, MG e ES acima de R$499.',
   alternates: { canonical: 'https://jaleca.com.br/loja-jaleco' },
   openGraph: {
-    title: 'Loja de Jaleco Online — Jalecos para Profissionais | Jaleca',
+    title: 'Loja de Jaleco Online — Jalecos para Profissionais',
     description: 'Loja de jaleco com modelos para saúde, beleza e gastronomia. Tecidos premium e corte feminino real.',
     url: 'https://jaleca.com.br/loja-jaleco',
     siteName: 'Jaleca',

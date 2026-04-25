@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   description: 'Jaleco branco profissional em tecido premium com elastano. Modelos feminino e masculino do PP ao G3. Frete grátis SP/RJ/MG/ES acima R$499. Jaleca — fabricante com estoque próprio.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-branco' },
   openGraph: {
-    title: 'Jaleco Branco Profissional — Conforto e Elegância | Jaleca',
+    title: 'Jaleco Branco Profissional — Conforto e Elegância',
     description: 'Jaleco branco profissional com elastano, caimento impecável e preço justo. Modelos Slim e Profissional do PP ao G3. Frete grátis no Sudeste.',
     url: 'https://jaleca.com.br/jaleco-branco',
     siteName: 'Jaleca',
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: 'Jaleco Branco Profissional — Conforto e Elegância | Jaleca',
+    title: 'Jaleco Branco Profissional — Conforto e Elegância',
     description: 'Jaleco branco profissional em tecido premium. Do PP ao G3, masculino e feminino. Frete grátis acima R$499.',
     images: ["https://jaleca.com.br/og-home.jpg"],
   },

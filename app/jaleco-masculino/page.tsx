@@ -4,11 +4,11 @@ import { getGooglePlaceData } from '@/lib/google-places'
 import ProfessionProductGrid from '@/components/ProfessionProductGrid'
 
 export const metadata: Metadata = {
-  title: 'Jaleco Masculino: Modelos Slim e Profissional do PP ao G3 | Jaleca',
+  title: 'Jaleco Masculino: Modelos Slim e Profissional do PP ao G3',
   description: 'Jaleco masculino com elastano do PP ao G3 — molde com ombros amplos e caimento profissional. Para médico, dentista, enfermeiro e barbeiro. Frete grátis SE acima de R$499.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-masculino' },
   openGraph: {
-    title: 'Jaleco Masculino: Modelos Slim e Profissional do PP ao G3 | Jaleca',
+    title: 'Jaleco Masculino: Modelos Slim e Profissional do PP ao G3',
     description: 'Jaleco masculino com elastano do PP ao G3. Para médico, dentista, enfermeiro e barbeiro.',
     url: 'https://jaleca.com.br/jaleco-masculino',
     siteName: 'Jaleca',
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Jaleco Masculino: Modelos Slim e Profissional do PP ao G3 | Jaleca',
+    title: 'Jaleco Masculino: Modelos Slim e Profissional do PP ao G3',
     description: 'Jaleco masculino com elastano do PP ao G3.',
     images: ['https://jaleca.com.br/og-home.jpg'],
   },

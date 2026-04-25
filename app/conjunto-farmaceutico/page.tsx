@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   description: 'Conjunto profissional para farmacêutico em tecido premium com elastano. Modelagem elegante do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
   alternates: { canonical: 'https://jaleca.com.br/conjunto-farmaceutico' },
   openGraph: {
-    title: 'Conjunto Profissional para Farmacêutico | Jaleca',
+    title: 'Conjunto Profissional para Farmacêutico',
     description: 'Uniforme profissional completo para farmacêuticos. Tecido premium, caimento impecável, preço justo. Do PP ao G3.',
     url: 'https://jaleca.com.br/conjunto-farmaceutico',
     siteName: 'Jaleca',
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: 'Conjunto Profissional para Farmacêutico | Jaleca',
+    title: 'Conjunto Profissional para Farmacêutico',
     description: 'Conjunto profissional para farmacêutico. Tecido de qualidade, caimento perfeito, preço justo. Do PP ao G3.',
     images: ["https://jaleca.com.br/og-home.jpg"],
   },

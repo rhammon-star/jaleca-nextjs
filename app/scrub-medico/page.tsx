@@ -4,11 +4,11 @@ import { getGooglePlaceData } from '@/lib/google-places'
 import ProfessionProductGrid from '@/components/ProfessionProductGrid'
 
 export const metadata: Metadata = {
-  title: 'Scrub Médico: Pijama Cirúrgico para Saúde do PP ao G3 | Jaleca',
+  title: 'Scrub Médico: Pijama Cirúrgico para Saúde do PP ao G3',
   description: 'Scrub médico com elastano para UTI, CC e emergência. Conjunto calça + blusa antimicrobiano, lavagem a 60°C. Feminino e masculino do PP ao G3. Frete grátis SE acima de R$499.',
   alternates: { canonical: 'https://jaleca.com.br/scrub-medico' },
   openGraph: {
-    title: 'Scrub Médico: Pijama Cirúrgico para Saúde do PP ao G3 | Jaleca',
+    title: 'Scrub Médico: Pijama Cirúrgico para Saúde do PP ao G3',
     description: 'Scrub médico com elastano para UTI, CC e emergência. Feminino e masculino do PP ao G3.',
     url: 'https://jaleca.com.br/scrub-medico',
     siteName: 'Jaleca',
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Scrub Médico: Pijama Cirúrgico para Saúde do PP ao G3 | Jaleca',
+    title: 'Scrub Médico: Pijama Cirúrgico para Saúde do PP ao G3',
     description: 'Scrub médico com elastano. Feminino e masculino do PP ao G3.',
     images: ['https://jaleca.com.br/og-home.jpg'],
   },

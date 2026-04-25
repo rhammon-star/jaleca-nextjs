@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   description: 'Conjunto profissional para pastor em tecido premium com elastano. Modelagem elegante e digna do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
   alternates: { canonical: 'https://jaleca.com.br/conjunto-pastor' },
   openGraph: {
-    title: 'Conjunto Profissional para Pastor | Jaleca',
+    title: 'Conjunto Profissional para Pastor',
     description: 'Uniforme profissional completo para pastores. Tecido premium, caimento impecável, preço justo. Do PP ao G3.',
     url: 'https://jaleca.com.br/conjunto-pastor',
     siteName: 'Jaleca',
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: 'Conjunto Profissional para Pastor | Jaleca',
+    title: 'Conjunto Profissional para Pastor',
     description: 'Conjunto profissional para pastor. Tecido de qualidade, caimento perfeito, preço justo. Do PP ao G3.',
     images: ["https://jaleca.com.br/og-home.jpg"],
   },

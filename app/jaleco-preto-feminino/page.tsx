@@ -4,11 +4,11 @@ import { getGooglePlaceData } from '@/lib/google-places'
 import ProfessionProductGrid from '@/components/ProfessionProductGrid'
 
 export const metadata: Metadata = {
-  title: 'Jaleco Preto Feminino: Esteticista, Barbeiro e Tatuador | Jaleca',
+  title: 'Jaleco Preto Feminino: Esteticista, Barbeiro e Tatuador',
   description: 'Jaleco preto feminino com elastano — para esteticista, cabeleireiro e tatuador. Tecido que não retém pelos, repele produtos. Do PP ao G3. Frete grátis SE acima de R$499.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-preto-feminino' },
   openGraph: {
-    title: 'Jaleco Preto Feminino: Esteticista, Barbeiro e Tatuador | Jaleca',
+    title: 'Jaleco Preto Feminino: Esteticista, Barbeiro e Tatuador',
     description: 'Jaleco preto feminino com elastano para esteticista, cabeleireiro e tatuador. Do PP ao G3.',
     url: 'https://jaleca.com.br/jaleco-preto-feminino',
     siteName: 'Jaleca',
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Jaleco Preto Feminino: Esteticista, Barbeiro e Tatuador | Jaleca',
+    title: 'Jaleco Preto Feminino: Esteticista, Barbeiro e Tatuador',
     description: 'Jaleco preto feminino com elastano. Do PP ao G3.',
     images: ['https://jaleca.com.br/og-home.jpg'],
   },

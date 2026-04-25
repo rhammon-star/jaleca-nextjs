@@ -11,11 +11,11 @@ import FaqAccordion from './FaqAccordion'
 import { PROFESSION_PRODUCT_SLUGS } from '@/lib/product-professions'
 
 export const metadata: Metadata = {
-  title: 'Scrub Enfermagem: Conjunto Pijama Cirúrgico Premium | Jaleca',
+  title: 'Scrub Enfermagem: Conjunto Pijama Cirúrgico Premium',
   description: 'Scrub para Enfermagem em tecido respirável com elastano. Conjunto blusa + calça do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca.',
   alternates: { canonical: 'https://jaleca.com.br/scrub-enfermagem' },
   openGraph: {
-    title: 'Scrub Enfermagem: Conjunto Pijama Cirúrgico Premium | Jaleca',
+    title: 'Scrub Enfermagem: Conjunto Pijama Cirúrgico Premium',
     description: 'Scrub para Enfermagem em tecido respirável com elastano. Conjunto blusa + calça do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca.',
     url: 'https://jaleca.com.br/scrub-enfermagem',
     siteName: 'Jaleca',
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: 'Scrub Enfermagem: Conjunto Pijama Cirúrgico Premium | Jaleca',
+    title: 'Scrub Enfermagem: Conjunto Pijama Cirúrgico Premium',
     description: 'Scrub para Enfermagem em tecido respirável com elastano. Conjunto blusa + calça do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca.',
     images: ["https://jaleca.com.br/og-home.jpg"],
   },

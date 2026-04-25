@@ -4,11 +4,11 @@ import { getGooglePlaceData } from '@/lib/google-places'
 import ProfessionProductGrid from '@/components/ProfessionProductGrid'
 
 export const metadata: Metadata = {
-  title: 'Jaleco para Dentista Feminino: NR-32, Cores e Modelos 2026 | Jaleca',
+  title: 'Jaleco para Dentista Feminino: NR-32, Cores e Modelos 2026',
   description: 'Jaleco dentista feminino com manga longa NR-32. Branco clássico ou pastéis para harmonização facial. Elastano, antimicrobiano e molde próprio do PP ao G3. Frete grátis SE.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-dentista-feminino' },
   openGraph: {
-    title: 'Jaleco para Dentista Feminino: NR-32, Cores e Modelos 2026 | Jaleca',
+    title: 'Jaleco para Dentista Feminino: NR-32, Cores e Modelos 2026',
     description: 'Jaleco dentista feminino com manga longa NR-32. Elastano, antimicrobiano e molde próprio do PP ao G3.',
     url: 'https://jaleca.com.br/jaleco-dentista-feminino',
     siteName: 'Jaleca',
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Jaleco para Dentista Feminino: NR-32, Cores e Modelos 2026 | Jaleca',
+    title: 'Jaleco para Dentista Feminino: NR-32, Cores e Modelos 2026',
     description: 'Jaleco dentista feminino com manga longa NR-32. Do PP ao G3.',
     images: ['https://jaleca.com.br/og-home.jpg'],
   },

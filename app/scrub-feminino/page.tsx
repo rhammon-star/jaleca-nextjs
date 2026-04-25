@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   description: 'Scrub feminino profissional em tecido premium com elastano. Conjuntos completos do PP ao G3. Frete grátis SP/RJ/MG/ES acima R$499. Jaleca — fabricante com estoque próprio.',
   alternates: { canonical: 'https://jaleca.com.br/scrub-feminino' },
   openGraph: {
-    title: 'Scrub Feminino — Conforto e Praticidade | Jaleca',
+    title: 'Scrub Feminino — Conforto e Praticidade',
     description: 'Scrub feminino profissional com elastano para profissionais da saúde. Conjuntos completos do PP ao G3. Frete grátis no Sudeste.',
     url: 'https://jaleca.com.br/scrub-feminino',
     siteName: 'Jaleca',
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: 'Scrub Feminino — Conforto e Praticidade | Jaleca',
+    title: 'Scrub Feminino — Conforto e Praticidade',
     description: 'Scrub feminino profissional. Tecido premium com elastano, conjuntos completos. Frete grátis acima R$499.',
     images: ["https://jaleca.com.br/og-home.jpg"],
   },

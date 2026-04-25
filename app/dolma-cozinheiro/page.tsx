@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: 'Dolma para Cozinheiro | Jaleca',
+    title: 'Dolma para Cozinheiro',
     description: 'Dolma profissional para cozinheiro. Tecido técnico para cozinha. Frete grátis.',
     images: ["https://jaleca.com.br/og-home.jpg"],
   },

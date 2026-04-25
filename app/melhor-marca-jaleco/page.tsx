@@ -3,11 +3,11 @@ import Link from 'next/link'
 import { getGooglePlaceData } from '@/lib/google-places'
 
 export const metadata: Metadata = {
-  title: 'Melhor Marca de Jaleco em 2026: Qual Escolher? | Jaleca',
+  title: 'Melhor Marca de Jaleco em 2026: Qual Escolher?',
   description: 'Descubra a melhor marca de jaleco para profissionais da saúde. Veja dicas, diferenciais e recomendações para médicos, dentistas e esteticistas!',
   alternates: { canonical: 'https://jaleca.com.br/melhor-marca-jaleco' },
   openGraph: {
-    title: 'Melhor Marca de Jaleco em 2026: Qual Escolher? | Jaleca',
+    title: 'Melhor Marca de Jaleco em 2026: Qual Escolher?',
     description: 'Qual a melhor marca de jaleco para profissionais da saúde? Comparativo técnico de materiais, acabamento e custo-benefício.',
     url: 'https://jaleca.com.br/melhor-marca-jaleco',
     siteName: 'Jaleca',
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Melhor Marca de Jaleco em 2026: Qual Escolher? | Jaleca',
+    title: 'Melhor Marca de Jaleco em 2026: Qual Escolher?',
     description: 'Qual a melhor marca de jaleco para profissionais da saúde? Comparativo técnico de materiais, acabamento e custo-benefício.',
     images: ['https://jaleca.com.br/og-home.jpg'],
   },

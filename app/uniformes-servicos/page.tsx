@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   description: 'Uniformes profissionais para serviços: jaleco professor, vendedor, conjunt professor, vendedor e secretary. Conforto e profissionalismo para o dia a dia.',
   alternates: { canonical: 'https://jaleca.com.br/uniformes-servicos' },
   openGraph: {
-    title: 'Uniformes para Serviços — Elegância e Conforto | Jaleca',
+    title: 'Uniformes para Serviços — Elegância e Conforto',
     description: 'Guia completo de uniformes para profissionais de serviços: professor, vendedor, secretary e universitário.',
     url: 'https://jaleca.com.br/uniformes-servicos',
     siteName: 'Jaleca',
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Uniformes para Serviços — Elegância e Conforto | Jaleca',
+    title: 'Uniformes para Serviços — Elegância e Conforto',
     description: 'Guia completo de uniformes para profissionais de serviços: professor, vendedor, secretary e universitário.',
     images: ['https://jaleca.com.br/og-home.jpg'],
   },

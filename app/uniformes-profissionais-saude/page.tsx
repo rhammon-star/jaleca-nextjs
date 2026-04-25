@@ -3,11 +3,11 @@ import Link from 'next/link'
 import { getGooglePlaceData } from '@/lib/google-places'
 
 export const metadata: Metadata = {
-  title: 'Uniformes Profissionais para Saúde: Guia Completo 2026 | Jaleca',
+  title: 'Uniformes Profissionais para Saúde: Guia Completo 2026',
   description: 'Guia completo de uniformes para saúde: jaleco para médico, dentista, enfermeiro, farmacêutico, fisioterapeuta, nutricionista e muito mais. Tecido certo, normas e modelos.',
   alternates: { canonical: 'https://jaleca.com.br/uniformes-profissionais-saude' },
   openGraph: {
-    title: 'Uniformes Profissionais para Saúde: Guia Completo 2026 | Jaleca',
+    title: 'Uniformes Profissionais para Saúde: Guia Completo 2026',
     description: 'Guia completo de uniformes para profissionais de saúde — do jaleco ao scrub. Tecido, normas e modelos para cada área clínica.',
     url: 'https://jaleca.com.br/uniformes-profissionais-saude',
     siteName: 'Jaleca',
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Uniformes Profissionais para Saúde: Guia Completo 2026 | Jaleca',
+    title: 'Uniformes Profissionais para Saúde: Guia Completo 2026',
     description: 'Guia completo de uniformes para profissionais de saúde — do jaleco ao scrub. Tecido, normas e modelos para cada área clínica.',
     images: ['https://jaleca.com.br/og-home.jpg'],
   },

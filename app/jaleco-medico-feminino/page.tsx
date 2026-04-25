@@ -4,11 +4,11 @@ import { getGooglePlaceData } from '@/lib/google-places'
 import ProfessionProductGrid from '@/components/ProfessionProductGrid'
 
 export const metadata: Metadata = {
-  title: 'Jaleco Médico Feminino: Consultório, Plantão e Telemedicina | Jaleca',
+  title: 'Jaleco Médico Feminino: Consultório, Plantão e Telemedicina',
   description: 'Jaleco médico feminino com molde próprio — do PP ao G3. Elastano para plantão, gabardine para consultório. Branco ou colorido. Frete grátis SE acima de R$499.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-medico-feminino' },
   openGraph: {
-    title: 'Jaleco Médico Feminino: Consultório, Plantão e Telemedicina | Jaleca',
+    title: 'Jaleco Médico Feminino: Consultório, Plantão e Telemedicina',
     description: 'Jaleco médico feminino com molde próprio — do PP ao G3. Elastano para plantão, gabardine para consultório.',
     url: 'https://jaleca.com.br/jaleco-medico-feminino',
     siteName: 'Jaleca',
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Jaleco Médico Feminino: Consultório, Plantão e Telemedicina | Jaleca',
+    title: 'Jaleco Médico Feminino: Consultório, Plantão e Telemedicina',
     description: 'Jaleco médico feminino com molde próprio — do PP ao G3.',
     images: ['https://jaleca.com.br/og-home.jpg'],
   },
