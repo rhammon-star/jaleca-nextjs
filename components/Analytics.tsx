@@ -45,11 +45,15 @@ export function trackEvent(name: string, params?: Record<string, unknown>) {
 
 // Retorna true se este dispositivo for tráfego interno (Ipatinga/testes)
 function isInternalTraffic(): boolean {
-  try {
-    return localStorage.getItem('jaleca_internal_traffic') === '1'
-  } catch {
-    return false
-  }
+  // TEMPORARIAMENTE DESATIVADO PARA TESTAR RASTREAMENTO (24/04/2026)
+  // Todas as compras serão rastreadas, incluindo testes
+  return false
+
+  // try {
+  //   return localStorage.getItem('jaleca_internal_traffic') === '1'
+  // } catch {
+  //   return false
+  // }
 }
 
 // Aguarda window.gtag ficar disponível (script lazyOnload pode não ter carregado ainda)
