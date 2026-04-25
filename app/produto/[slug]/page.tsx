@@ -9,6 +9,7 @@ import type { WooProduct } from '@/components/ProductCard'
 import type { Metadata } from 'next'
 import { sendMetaViewContent } from '@/lib/meta-conversions'
 import { parseColorSlug, findVariationByColor } from '@/lib/product-colors'
+import { generateColorMetaDescription } from '@/lib/product-seo-generator'
 
 export const revalidate = 3600
 
@@ -83,6 +84,7 @@ export async function generateMetadata({
   let name = String(product.name || '').replace(/ - Jaleca$/i, '')
   let imageUrl = product.image?.sourceUrl
   let actualSlug = slug
+  let description: string
 
   // Se URL tem cor, busca dados da variação específica
   if (hasColor && colorName) {
@@ -90,22 +92,41 @@ export async function generateMetadata({
     const variation = findVariationByColor(variations, colorName)
 
     if (variation) {
-      name = `${name} - ${colorName}`
+      name = `${name} ${colorName}`
       imageUrl = variation.image?.sourceUrl || imageUrl
+
+      // Determinar categoria para SEO personalizado
+      const categories = (product as any).productCategories?.nodes || []
+      const categorySlug = categories[0]?.slug || 'outros'
+      let category: 'jalecos' | 'conjuntos' | 'dolmas' | 'acessorios' | 'outros' = 'outros'
+
+      if (categorySlug.includes('jaleco')) category = 'jalecos'
+      else if (categorySlug.includes('conjunto')) category = 'conjuntos'
+      else if (categorySlug.includes('dolma') || categorySlug.includes('doma')) category = 'dolmas'
+      else if (categorySlug.includes('acessorio')) category = 'acessorios'
+
+      // Gera descrição única baseada no produto + cor
+      description = generateColorMetaDescription(
+        name.replace(` ${colorName}`, ''),
+        colorName,
+        Number(product.databaseId),
+        category
+      )
     } else {
       // Cor não existe, retorna 404
       console.warn(`[404] Variação de cor não encontrada: ${slug}`)
       return { title: 'Produto não encontrado — Jaleca', robots: { index: false } }
     }
+  } else {
+    // Página mãe: usa descrição padrão
+    const shortDesc = product.shortDescription
+      ? stripHtml(String(product.shortDescription)).slice(0, 160)
+      : null
+    const longDesc = product.description
+      ? stripHtml(String(product.description)).slice(0, 160)
+      : null
+    description = shortDesc || longDesc || `Compre ${name} na Jaleca. Uniformes profissionais premium.`
   }
-
-  const shortDesc = product.shortDescription
-    ? stripHtml(String(product.shortDescription)).slice(0, 160)
-    : null
-  const longDesc = product.description
-    ? stripHtml(String(product.description)).slice(0, 160)
-    : null
-  const description = shortDesc || longDesc || `Compre ${name} na Jaleca. Uniformes profissionais premium.`
 
   // Canonical: páginas filhas (com cor) apontam para página mãe
   const canonical = hasColor
