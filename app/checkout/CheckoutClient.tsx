@@ -466,8 +466,9 @@ export default function CheckoutClient() {
       const billingData = {
         first_name: address.first_name,
         last_name: address.last_name,
-        address_1: `${address.address_1}, ${address.address_2}`.trim().replace(/,$/, ''),
-        address_2: address.neighborhood,
+        address_1: address.address_1,
+        address_2: address.address_2 || '',
+        neighborhood: address.neighborhood,
         city: address.city,
         state: address.state,
         postcode: address.postcode.replace(/\D/g, ''),

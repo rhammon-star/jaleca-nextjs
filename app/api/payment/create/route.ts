@@ -34,6 +34,7 @@ type RequestBody = {
     phone: string
     address_1: string
     address_2: string
+    neighborhood: string
     city: string
     state: string
     postcode: string
@@ -274,6 +275,7 @@ export async function POST(request: NextRequest) {
         Street: billing.address_1,
         Number: 'S/N',
         Complement: billing.address_2 || '',
+        District: billing.neighborhood,
         ZipCode: billing.postcode.replace(/\D/g, ''),
         City: billing.city,
         State: billing.state,

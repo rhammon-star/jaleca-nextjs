@@ -64,6 +64,7 @@ export type CieloCustomer = {
     Street: string
     Number: string
     Complement?: string
+    District: string       // Bairro — obrigatório pela Cielo
     ZipCode: string
     City: string
     State: string
