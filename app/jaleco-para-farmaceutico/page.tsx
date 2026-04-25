@@ -174,7 +174,7 @@ export default async function JalecoDentistaPage() {
               }}
             >
               Jaleco para<br />
-              <em style={ fontStyle: 'italic', fontWeight: 300 }>Farmacêutico</em>
+              <em style={{ fontStyle: 'italic', fontWeight: 300 }}>Farmacêutico</em>
             </h1>
             <p style={{ fontSize: '1rem', fontWeight: 300, color: '#6b6b6b', maxWidth: 420, marginBottom: '2.5rem', lineHeight: 1.8 }}>
               Tecido premium, caimento perfeito, preço justo.
@@ -233,7 +233,7 @@ export default async function JalecoDentistaPage() {
                 <div>
                   <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>Coleção farmácia</div>
                   <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2rem,3.5vw,3rem)', fontWeight: 400, lineHeight: 1.15, color: '#1a1a1a' }}>
-                    Jalecos para<br /><em style={ fontStyle: 'italic', fontWeight: 300 }>Farmacêuticos</em>
+                    Jalecos para<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>Farmacêuticos</em>
                   </h2>
                 </div>
                 <Link href="/produtos?categoria=jalecos" style={{ display: 'inline-flex', padding: '0.9rem 2rem', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a', color: '#1a1a1a' }}>
@@ -382,7 +382,7 @@ export default async function JalecoDentistaPage() {
           <div style={{ maxWidth: 1200, margin: '0 auto' }}>
             <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>Dúvidas frequentes</div>
             <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2rem,3.5vw,3rem)', fontWeight: 400, lineHeight: 1.15, color: '#1a1a1a' }}>
-              Perguntas sobre jaleco<br /><em style={ fontStyle: 'italic', fontWeight: 300 }>para farmacêutico</em>
+              Perguntas sobre jaleco<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>para farmacêutico</em>
             </h2>
             <FaqAccordion />
           </div>
@@ -455,7 +455,7 @@ export default async function JalecoDentistaPage() {
           <div style={{ maxWidth: 1200, margin: '0 auto' }}>
             <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)', marginBottom: '0.75rem' }}>Outros uniformes profissionais</div>
             <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(1.8rem,3vw,2.5rem)', fontWeight: 400, lineHeight: 1.15, color: '#fff', marginBottom: '2.5rem' }}>
-              Jaleco para outras<br /><em style={ fontStyle: 'italic', fontWeight: 300 }>profissões de saúde</em>
+              Jaleco para outras<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>profissões de saúde</em>
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-4" style={{ gap: '1px', background: 'rgba(255,255,255,0.08)' }}>
               {[

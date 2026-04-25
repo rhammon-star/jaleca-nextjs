@@ -227,5 +227,6 @@ export default function NossasLojasPage() {
         </div>
       </section>
     </main>
+    </>
   )
 }

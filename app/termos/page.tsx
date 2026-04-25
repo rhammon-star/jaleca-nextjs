@@ -207,5 +207,6 @@ export default function TermosPage() {
         </div>
       </div>
     </main>
+    </>
   )
 }

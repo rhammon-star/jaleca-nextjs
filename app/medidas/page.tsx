@@ -225,5 +225,6 @@ export default function MedidasPage() {
         </div>
       </div>
     </main>
+    </>
   )
 }
