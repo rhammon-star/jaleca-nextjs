@@ -1,5 +1,8 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { graphqlClient, GET_PRODUCTS } from '@/lib/graphql'
+import ProductCard from '@/components/ProductCard'
+import type { WooProduct } from '@/components/ProductCard'
 
 export const metadata: Metadata = {
   title: 'Uniformes para Beleza: Jaleco Cabeleireiro, Esteticista e Mais | Jaleca',
@@ -29,6 +32,16 @@ const BELEZA_HUBS = [
   { href: '/jaleco-para-barbeiro',     titulo: 'Barbeiro',     desc: 'Gabardine · não retém pelo · estilo premium' },
 ]
 
+const schemaFaq = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    { '@type': 'Question', name: 'Qual o melhor tecido para uniforme de estética?', acceptedAnswer: { '@type': 'Answer', text: 'O melhor tecido para estética é microfibra com elastano — tem baixo atrito, seca rápido e aguenta lavagens frequentes. A Jaleca usa composição com elastano para permitir movimento sem restrição.' } },
+    { '@type': 'Question', name: 'Dolma ou jaleco: qual escolher para profissional de beleza?', acceptedAnswer: { '@type': 'Answer', text: 'Dolma é ideal para quem prefere peça mais curta e despojada. Jaleco tem caimento mais formal. A escolha depende do ambiente — clínicas de estética aceitam ambos, salões de beleza tendem a preferir dolmã por conforto.' } },
+    { '@type': 'Question', name: 'Como escolher o uniforme certo para área de beleza?', acceptedAnswer: { '@type': 'Answer', text: 'Considere três fatores: (1) tipo de produtos que manipula — cores escuras disfarçam respingos; (2) amplitude de movimento necessária — elastano é essencial para massagistas e esteticistas; (3) frequência de lavagem — tecidos técnicos duram mais.' } },
+  ],
+}
+
 const schema = {
   '@context': 'https://schema.org',
   '@type': 'CollectionPage',
@@ -43,12 +56,27 @@ const schema = {
   })),
 }
 
-export default function Page() {
+async function getBelezaProducts(): Promise<WooProduct[]> {
+  try {
+    const data = await graphqlClient.request<{ products: { nodes: WooProduct[] } }>(GET_PRODUCTS, { first: 50 })
+    const products = data?.products?.nodes ?? []
+    return products.filter(p => {
+      const cat = (p.productCategories?.nodes ?? []).map(c => c.name.toLowerCase()).join(' ')
+      return cat.includes('beleza') || cat.includes('estetica') || cat.includes('cabeleireiro') || cat.includes('barbeiro') || cat.includes('tatuador') || cat.includes('massagista')
+    }).slice(0, 6)
+  } catch {
+    return []
+  }
+}
+
+export default async function Page() {
+  const products = await getBelezaProducts()
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/</g, '\\u003c') }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaFaq).replace(/</g, '\\u003c') }} />
 
-      <main style={{ maxWidth: 900, margin: '0 auto', padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,4vw,3rem)' }}>
+      <main style={{ maxWidth: 1200, margin: '0 auto', padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,4vw,3rem)' }}>
 
         {/* Breadcrumb */}
         <nav style={{ fontSize: '0.75rem', color: '#999', marginBottom: '2rem' }}>
@@ -58,9 +86,9 @@ export default function Page() {
         </nav>
 
         {/* Hero */}
-        <h1 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2rem,4vw,3.2rem)', fontWeight: 400, lineHeight: 1.15, color: '#1a1a1a', marginBottom: '1.25rem' }}>
-          Uniformes para<br />
-          <em style={{ fontStyle: 'italic', fontWeight: 300 }}>Profissionais de Beleza</em>
+        <h1 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2.5rem,5vw,4rem)', fontWeight: 400, lineHeight: 1.1, color: '#1a1a1a', marginBottom: '1.25rem' }}>
+          Uniformes para Beleza —<br />
+          <em style={{ fontStyle: 'italic', fontWeight: 300 }}>Profissionais de Estética com Elegância</em>
         </h1>
 
         <p style={{ fontSize: '1.05rem', color: '#555', lineHeight: 1.7, maxWidth: 620, marginBottom: '3rem' }}>
@@ -92,6 +120,28 @@ export default function Page() {
           </div>
         </section>
 
+        {/* Produtos em destaque */}
+        {products.length > 0 && (
+          <section style={{ background: '#f9f7f4', padding: 'clamp(3rem,6vw,5rem)', marginBottom: '3rem', marginLeft: 'clamp(-1.5rem,-4vw,-3rem)', marginRight: 'clamp(-1.5rem,-4vw,-3rem)', paddingLeft: 'clamp(1.5rem,4vw,3rem)', paddingRight: 'clamp(1.5rem,4vw,3rem)' }}>
+            <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+              <div style={{ fontSize: '0.65rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>Coleção beleza</div>
+              <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(1.8rem,3vw,2.5rem)', fontWeight: 400, lineHeight: 1.15, color: '#1a1a1a', marginBottom: '2rem' }}>
+                Uniformes para beleza
+              </h2>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                {products.map(product => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </div>
+              <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+                <Link href="/produtos?categoria=jalecos-femininos" style={{ fontSize: '0.78rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: '#6b6b6b', textDecoration: 'none' }}>
+                  Ver todos →
+                </Link>
+              </div>
+            </div>
+          </section>
+        )}
+
         {/* Links internos */}
         <section style={{ background: '#f9f7f4', padding: '2rem', marginBottom: '3rem' }}>
           <div style={{ fontSize: '0.7rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '1rem' }}>Outros clusters</div>
@@ -105,6 +155,21 @@ export default function Page() {
               <Link key={l.href} href={l.href} style={{ fontSize: '0.8rem', padding: '0.5rem 1rem', border: '1px solid #d4cfc9', color: '#666', textDecoration: 'none' }}>
                 Uniformes para {l.label} →
               </Link>
+            ))}
+          </div>
+        </section>
+
+        {/* FAQ */}
+        <section style={{ borderTop: '1px solid #e8e4df', paddingTop: '3rem', marginBottom: '3rem' }}>
+          <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(1.8rem,3vw,2.5rem)', fontWeight: 400, lineHeight: 1.15, color: '#1a1a1a', marginBottom: '0.75rem' }}>
+            Perguntas sobre uniformes de beleza
+          </h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '0 3rem', marginTop: '2.5rem' }}>
+            {schemaFaq.mainEntity.map((item, i) => (
+              <div key={i} style={{ borderTop: '1px solid #e5e0d8' }}>
+                <div style={{ padding: '1.25rem 0 0.5rem', fontSize: '0.95rem', fontWeight: 400, color: '#1a1a1a' }}>{item.name}</div>
+                <div style={{ paddingBottom: '1.25rem', fontSize: '0.88rem', color: '#6b6b6b', lineHeight: 1.8, fontWeight: 300 }}>{item.acceptedAnswer.text}</div>
+              </div>
             ))}
           </div>
         </section>
