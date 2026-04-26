@@ -251,21 +251,23 @@ export default async function JalecoDentistaPage() {
         {produtos.length > 0 && (
           <section className="px-4 py-12 lg:px-16 lg:py-20" style={{ background: '#f9f7f4', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
             <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-              <div className="flex justify-between items-end flex-wrap gap-4 mb-10">
+              <div className="mb-10">
                 <div>
                   <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>Coleção docência</div>
                   <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2rem,3.5vw,3rem)', fontWeight: 400, lineHeight: 1.15, color: '#1a1a1a' }}>
                     Jalecos para<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>Professors</em>
                   </h2>
                 </div>
-                <Link href={getVerMaisUrl('professor')} style={{ display: 'inline-flex', padding: '0.9rem 2rem', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a', color: '#1a1a1a' }}>
-                  Ver mais →
-                </Link>
-              </div>
+                </div>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {produtos.slice(0, 6).map(product => (
                   <ProductCard key={product.id} product={product} />
                 ))}
+              </div>
+              <div className="flex justify-center mt-8">
+                <Link href={getVerMaisUrl('professor')} style={{ display: 'inline-flex', padding: '0.9rem 2rem', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a', color: '#1a1a1a' }}>
+                  Ver mais →
+                </Link>
               </div>
             </div>
           </section>
