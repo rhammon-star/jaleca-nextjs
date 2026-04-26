@@ -389,14 +389,24 @@ export default function ProductDetailClient({
   const stockQty = matchedVariation?.stockQuantity ?? product.stockQuantity
   const isOutOfStock = stockStatus === 'OUT_OF_STOCK'
 
+  // Helper to remove accents for color matching
+  function removeAccents(str: string): string {
+    return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+  }
+
   // Find a variation just by color (for image preview before size is selected)
   const colorPreviewVariation = selectedColor && !matchedVariation
     ? product.variations?.nodes.find(v => {
         const vColor = v.attributes.nodes.find(a => isColorAttr(a))
         if (!vColor) return false
         const selectedColorName = colorNames[selectedColor] ?? selectedColor
-        return normalizeAttr(vColor.value) === normalizeAttr(selectedColor) ||
-          normalizeAttr(vColor.value) === normalizeAttr(selectedColorName)
+        const normalizedTarget = removeAccents(normalizeAttr(selectedColor))
+        const normalizedTargetName = removeAccents(normalizeAttr(selectedColorName))
+        const normalizedVColor = removeAccents(normalizeAttr(vColor.value))
+        return normalizedVColor === normalizedTarget ||
+          normalizedVColor === normalizedTargetName ||
+          normalizedVColor.includes(normalizedTarget) ||
+          normalizedTarget.includes(normalizedVColor)
       })
     : undefined
 
