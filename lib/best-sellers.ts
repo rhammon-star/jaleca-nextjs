@@ -1,6 +1,7 @@
 export const BEST_SELLER_SLUGS = [
-  'jaleco-slim-feminino-de-ziper-central-varias-cores-jaleca',
-  'jaleco-slim-masculino-de-ziper-central-varias-cores-jaleca',
+  'jaleco-slim-tradicional-feminino-jaleca',
+  'jaleco-slim-tradicional-masculino-jaleca',
+  'conjunto-scrub-feminino-jaleca',
 ]
 
 export function isBestSeller(slug: string): boolean {
