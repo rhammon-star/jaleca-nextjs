@@ -1,6 +1,8 @@
 import { notFound } from 'next/navigation'
 import { headers } from 'next/headers'
 import { cache } from 'react'
+import { readFile } from 'fs/promises'
+import { join } from 'path'
 import { graphqlClient, GET_PRODUCT_BY_SLUG, GET_RELATED_PRODUCTS } from '@/lib/graphql'
 import ProductDetailClient from './ProductDetailClient'
 import { getProductReviews, type WCReview } from '@/lib/woocommerce'
@@ -12,6 +14,28 @@ import { parseColorSlug, findVariationByColor } from '@/lib/product-colors'
 import { generateColorMetaDescription } from '@/lib/product-seo-generator'
 
 export const revalidate = 3600
+
+// Mapeia cores → URLs corretas do JSON SEO
+async function getColorUrlsForProduct(productName: string): Promise<Record<string, string>> {
+  try {
+    const jsonPath = join(process.cwd(), 'docs', 'SEO-PRODUTOS-CORES.json')
+    const jsonContent = await readFile(jsonPath, 'utf-8')
+    const colorPages: Array<{ url: string; productName: string; colorName: string }> = JSON.parse(jsonContent)
+
+    const colorUrls: Record<string, string> = {}
+    for (const page of colorPages) {
+      if (page.productName === productName) {
+        // Normaliza nome da cor para usar como chave (ex: "Pink 2" → "pink-2")
+        const normalizedColor = page.colorName.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '-')
+        colorUrls[normalizedColor] = page.url
+      }
+    }
+    return colorUrls
+  } catch (e) {
+    console.error('[getColorUrlsForProduct] Error:', e)
+    return {}
+  }
+}
 
 type ProductData = Record<string, unknown> & {
   name?: string
@@ -171,6 +195,9 @@ export default async function ProdutoPage({
 
   let name = String(product.name || '').replace(/ - Jaleca$/i, '')
   let selectedVariation = null
+
+  // Buscar mapa de cores → URLs corretas do JSON
+  const colorUrls = await getColorUrlsForProduct(name)
 
   // Se URL tem cor, busca variação específica
   if (hasColor && colorName) {
@@ -535,6 +562,7 @@ export default async function ProdutoPage({
         relatedProducts={relatedNodes}
         googlePlace={googlePlace ?? undefined}
         initialColor={hasColor ? colorName : null}
+        colorUrls={colorUrls}
       />
     </>
   )

@@ -216,12 +216,14 @@ export default function ProductDetailClient({
   relatedProducts = [],
   googlePlace,
   initialColor,
+  colorUrls = {},
 }: {
   product: Product
   initialReviews?: Review[]
   relatedProducts?: WooProduct[]
   googlePlace?: PlaceData
   initialColor?: string | null
+  colorUrls?: Record<string, string>
 }) {
   const searchParams = useSearchParams()
   const router = useRouter()
@@ -811,8 +813,10 @@ export default function ProductDetailClient({
                 {colorSlugs.map((slug, idx) => {
                   const label = colorNames[slug] ?? slug
                   const colorSlugPart = label.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '-')
-                  // Link sempre para a página de cor específica (crawlável pelo Google)
-                  const colorUrl = `/produto/${product.slug}-${colorSlugPart}`
+
+                  // Usa URL do JSON (fonte de verdade) ou fallback para URL gerada
+                  const colorUrl = colorUrls[colorSlugPart] || `/produto/${product.slug}-${colorSlugPart}`
+
                   return (
                     <span key={slug}>
                       <Link
