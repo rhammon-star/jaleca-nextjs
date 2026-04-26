@@ -199,6 +199,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/jaleco-nutricao`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
     { url: `${SITE_URL}/jaleco-farmacia`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
     { url: `${SITE_URL}/scrub-enfermagem`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
+    // Pivot 04/26 — URLs de campanhas Google Ads (adicionadas 26/04/2026)
+    { url: `${SITE_URL}/jaleco-enfermagem`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
+    { url: `${SITE_URL}/scrub-feminino`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
+    { url: `${SITE_URL}/jaleco-preto-feminino`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
+    { url: `${SITE_URL}/pijama-cirurgico-feminino`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
+    { url: `${SITE_URL}/jaleco-plus-size`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
     // Cluster Beleza
     { url: `${SITE_URL}/jaleco-barbeiro`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${SITE_URL}/jaleco-tatuador`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },

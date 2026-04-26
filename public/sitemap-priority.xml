@@ -1123,4 +1123,36 @@
     <priority>0.8</priority>
   </url>
 
+  <!-- Pivot 04/26 — URLs de campanhas Google Ads (adicionadas 26/04/2026) -->
+  <url>
+    <loc>https://jaleca.com.br/jaleco-enfermagem</loc>
+    <lastmod>2026-04-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://jaleca.com.br/scrub-feminino</loc>
+    <lastmod>2026-04-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://jaleca.com.br/jaleco-preto-feminino</loc>
+    <lastmod>2026-04-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://jaleca.com.br/pijama-cirurgico-feminino</loc>
+    <lastmod>2026-04-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://jaleca.com.br/jaleco-plus-size</loc>
+    <lastmod>2026-04-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
 </urlset>
