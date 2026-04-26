@@ -13,7 +13,7 @@ import { PROFESSION_PRODUCT_SLUGS, prioritizeByColor, getVerMaisUrl } from '@/li
 import { getHeroImageSlug } from '@/lib/profession-hero-images'
 
 export const metadata: Metadata = {
-  title: 'Jaleco para Enfermagem — Conforto e Mobilidade para a Rotina Hospitalar | Jaleca 2026',
+  title: { absolute: 'Jaleco para Enfermagem — Conforto e Mobilidade para a Rotina Hospitalar | Jaleca' },
   description: 'Jaleco para enfermagem em tecido premium com elastano. Bolsos funcionais, mobility total. Modelos do PP ao G3. Frete grátis SP/RJ/MG/ES acima R$499. Jaleca — fabricante.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-enfermagem' },
   openGraph: {

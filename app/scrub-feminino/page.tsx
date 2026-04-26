@@ -10,7 +10,7 @@ import { getGooglePlaceData } from '@/lib/google-places'
 import FaqAccordion from './FaqAccordion'
 
 export const metadata: Metadata = {
-  title: 'Scrub Feminino — Conforto e Praticidade para Profissionais da Saúde | Jaleca 2026',
+  title: { absolute: 'Scrub Feminino — Conforto e Praticidade para Profissionais da Saúde | Jaleca' },
   description: 'Scrub feminino profissional em tecido premium com elastano. Conjuntos completos do PP ao G3. Frete grátis SP/RJ/MG/ES acima R$499. Jaleca — fabricante com estoque próprio.',
   alternates: { canonical: 'https://jaleca.com.br/scrub-feminino' },
   openGraph: {

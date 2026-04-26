@@ -6,7 +6,7 @@ import ProductCard from '@/components/ProductCard'
 import ProductDetailSection from '@/components/ProductDetailSection'
 
 export const metadata: Metadata = {
-  title: 'Jaleco Plus Size | Tecidos Premium do GG ao G3 — Jaleca',
+  title: { absolute: 'Jaleco Plus Size | Tecidos Premium do GG ao G3 — Jaleca' },
   description: 'Jalecos plus size em tecido premium com caimento perfeito. Tamanhos do GG ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-plus-size' },
   openGraph: {
