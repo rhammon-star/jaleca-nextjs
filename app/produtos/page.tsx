@@ -63,13 +63,31 @@ async function getColorVariants(mainProducts: WooProduct[]): Promise<WooProduct[
       let variantSalePrice = parentProduct?.salePrice || null
 
       if (parentProduct?.variations?.nodes) {
-        const colorNormalized = page.colorName.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-        const variant = parentProduct.variations.nodes.find(v => {
+        // Normaliza para slug WC: "Pink 2" → "pink-2", "Azul Bebê" → "azul-bebe"
+        const toSlug = (s: string) => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[\s_]+/g, '-')
+        const colorSlug = toSlug(page.colorName)
+
+        // Match: exato OU variação tem sufixo -N (ex: "preto" casa com "preto-3")
+        const matches = (vSlug: string) =>
+          vSlug === colorSlug ||
+          vSlug.startsWith(colorSlug + '-') ||
+          colorSlug.startsWith(vSlug + '-')
+
+        // 1ª tentativa: variação COM imagem própria
+        let variant = parentProduct.variations.nodes.find(v => {
           const vColor = v.attributes?.nodes?.find(a => /cor|color/i.test(a.name))
-          if (!vColor) return false
-          const vColorNormalized = vColor.value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-          return vColorNormalized.includes(colorNormalized) || colorNormalized.includes(vColorNormalized)
+          if (!vColor || !v.image?.sourceUrl) return false
+          return matches(toSlug(vColor.value))
         })
+
+        // 2ª tentativa: qualquer variação (mesmo sem imagem própria)
+        if (!variant) {
+          variant = parentProduct.variations.nodes.find(v => {
+            const vColor = v.attributes?.nodes?.find(a => /cor|color/i.test(a.name))
+            if (!vColor) return false
+            return matches(toSlug(vColor.value))
+          })
+        }
 
         if (variant) {
           variantImage = variant.image || variantImage
@@ -78,6 +96,12 @@ async function getColorVariants(mainProducts: WooProduct[]): Promise<WooProduct[
           variantSalePrice = variant.salePrice || variantSalePrice
         }
       }
+
+      // Usa categorias REAIS do produto pai (do WooCommerce) — JSON tem categorias erradas
+      // Ex: "Max Colete" no JSON = "jalecos" mas WC tem "acessorios"
+      const realCategories = parentProduct?.productCategories?.nodes ?? [
+        { name: page.category, slug: page.category }
+      ]
 
       return {
         id: `color-variant-${idx}`,
@@ -88,9 +112,7 @@ async function getColorVariants(mainProducts: WooProduct[]): Promise<WooProduct[
         regularPrice: variantRegularPrice,
         salePrice: variantSalePrice,
         image: variantImage || { sourceUrl: '', altText: page.title },
-        productCategories: {
-          nodes: [{ name: page.category, slug: page.category }]
-        },
+        productCategories: { nodes: realCategories },
         attributes: {
           nodes: [
             {
