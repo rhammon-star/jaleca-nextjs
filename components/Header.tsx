@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Search, ShoppingBag, Heart, Menu, X, User, ChevronDown } from "lucide-react";
+import { Search, ShoppingBag, Heart, Menu, X, User, ChevronDown, LayoutGrid } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { useAuth } from "@/contexts/AuthContext";
 import SearchModal from "@/components/SearchModal";
@@ -284,6 +284,16 @@ const Header = () => {
             </div>
             {/* Links */}
             <div className="flex-1 overflow-y-auto px-5 py-3 flex flex-col">
+              {/* Produtos com ícone - primeiro item */}
+              <Link
+                href="/produtos"
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center gap-2 py-3.5 border-b border-white/10 text-[11px] font-semibold tracking-[0.2em] uppercase text-white/70 hover:text-white transition-colors duration-150"
+              >
+                <LayoutGrid size={18} />
+                Produtos
+              </Link>
+
               {[
                 { label: 'Início', href: '/' },
                 { label: 'Jalecos', href: '/produtos?cat=Jalecos' },
@@ -304,11 +314,6 @@ const Header = () => {
                   {item.label}
                 </Link>
               ))}
-
-              {/* Menu Profissões Mobile */}
-              <div className="border-b border-white/10">
-                <ProfessionMenu />
-              </div>
 
               {isLoggedIn ? (
                 <Link

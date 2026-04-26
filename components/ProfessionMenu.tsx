@@ -29,6 +29,18 @@ export default function ProfessionMenu() {
     }
   }, [isOpen])
 
+  // Escuta evento da BottomNavBar (mobile)
+  useEffect(() => {
+    function handleOpenFromBottomNav() {
+      setIsOpen(true)
+    }
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('jaleca-open-profession-menu', handleOpenFromBottomNav)
+      return () => window.removeEventListener('jaleca-open-profession-menu', handleOpenFromBottomNav)
+    }
+  }, [])
+
   // Agrupa profissões por área
   const professionsByArea = {
     saude: [

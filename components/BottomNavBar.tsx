@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Home, LayoutGrid, Search, ShoppingBag, User } from 'lucide-react'
+import { Home, Briefcase, Search, ShoppingBag, User } from 'lucide-react'
 import { useCart } from '@/contexts/CartContext'
 
 const HIDDEN_PATHS = ['/checkout', '/finalizar-compra', '/pagamento']
@@ -16,6 +16,12 @@ export default function BottomNavBar() {
   function openSearch() {
     if (typeof window !== 'undefined') {
       window.dispatchEvent(new CustomEvent('jaleca-open-search'))
+    }
+  }
+
+  function openProfessionMenu() {
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('jaleca-open-profession-menu'))
     }
   }
 
@@ -35,14 +41,14 @@ export default function BottomNavBar() {
           <span className="text-[10px] font-medium">Home</span>
         </Link>
 
-        <Link
-          href="/produtos"
+        <button
+          onClick={openProfessionMenu}
           className="flex-1 flex flex-col items-center justify-center gap-0.5 text-muted-foreground hover:text-foreground transition-colors active:scale-95"
-          aria-label="Produtos"
+          aria-label="Buscar por profissão"
         >
-          <LayoutGrid size={20} strokeWidth={1.5} />
-          <span className="text-[10px] font-medium">Produtos</span>
-        </Link>
+          <Briefcase size={20} strokeWidth={1.5} />
+          <span className="text-[10px] font-medium">Profissões</span>
+        </button>
 
         <button
           onClick={openSearch}
