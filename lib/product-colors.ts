@@ -191,13 +191,20 @@ export function normalizeColorAttribute(color: string): string {
 }
 
 /**
+ * Remove acentos de uma string
+ */
+function removeAccents(str: string): string {
+  return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+}
+
+/**
  * Encontra variação específica por cor nos dados do produto WooCommerce
  */
 export function findVariationByColor(
   variations: any[],
   targetColor: string
 ): any | null {
-  const normalizedTarget = targetColor.toLowerCase().trim()
+  const normalizedTarget = removeAccents(targetColor.toLowerCase().trim())
 
   return variations.find(variation => {
     const colorAttr = variation.attributes?.nodes?.find(
@@ -206,7 +213,7 @@ export function findVariationByColor(
 
     if (!colorAttr?.value) return false
 
-    const variationColor = normalizeColorAttribute(colorAttr.value).toLowerCase()
+    const variationColor = removeAccents(normalizeColorAttribute(colorAttr.value).toLowerCase())
     return variationColor === normalizedTarget ||
            variationColor.includes(normalizedTarget) ||
            normalizedTarget.includes(variationColor)

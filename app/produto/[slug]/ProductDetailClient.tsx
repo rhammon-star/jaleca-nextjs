@@ -801,7 +801,7 @@ export default function ProductDetailClient({
                         href={colorUrl}
                         aria-label={`Cor ${label}${isActive ? ' (selecionada)' : ''}`}
                         aria-current={isActive ? 'page' : undefined}
-                        className={`filter-chip min-h-12 px-4 py-2 text-xs font-medium tracking-wide uppercase ${isActive ? 'filter-chip--active' : ''}`}
+                        className={`filter-chip min-h-12 px-4 py-2 text-xs font-medium tracking-wide uppercase transition-all duration-200 active:scale-95 ${isActive ? 'filter-chip--active' : ''}`}
                       >
                         {label}
                       </Link>
