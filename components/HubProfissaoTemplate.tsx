@@ -12,44 +12,44 @@ import ProductDetailSection from '@/components/ProductDetailSection'
 // Foto do hero variada por profissão — evita repetição e mostra modelos diferentes
 const HERO_SLUG: Record<string, string> = {
   podologo:           'jaleco-slim-dama-feminino-jaleca',
-  biomedico:          'jaleco-padrao-aluno-feminino-de-botao-varias-cores-jaleca',
-  enfermeiro:         'jaleco-slim-elastex-feminino-varias-cores-jaleca',
+  biomedico:          'jaleco-padrao-aluno-feminino-jaleca',
+  enfermeiro:         'jaleco-slim-elastex-feminino-jaleca',
   fisioterapeuta:     'jaleco-slim-pala-feminino-jaleca',
-  nutricionista:      'jaleco-slim-princesa-feminino-varias-cores-jaleca',
-  veterinario:        'jaleco-slim-moratty-feminino-ziper-central-jaleca',
+  nutricionista:      'jaleco-slim-princesa-feminino-jaleca',
+  veterinario:        'jaleco-slim-moratty-feminino-jaleca',
   medico:             'jaleco-slim-gold-feminino-jaleca',
-  barbeiro:           'jaleco-slim-masculino-de-ziper-central-varias-cores-jaleca',
-  tatuador:           'jaleco-slim-recortes-masculino-varias-cores-jaleca',
+  barbeiro:           'jaleco-slim-tradicional-masculino-jaleca',
+  tatuador:           'jaleco-slim-recortes-masculino-jaleca',
   esteticista:        'jaleco-slim-princesa-manga-curta-feminino-jaleca',
-  massagista:         'jaleco-slim-duquesa-feminino-varias-cores-jaleca',
+  massagista:         'jaleco-slim-duquesa-feminino-jaleca',
   cabeleireiro:       'jaleco-slim-princesa-laise-feminino-jaleca',
-  churrasqueiro:      'jaleco-slim-moratty-masculino-ziper-central-jaleca',
-  sushiman:           'jaleco-padrao-aluno-masculino-de-botao-varias-cores-jaleca',
-  cozinheiro:         'jaleco-slim-feminino-de-ziper-lateral-varias-cores-jaleca',
+  churrasqueiro:      'jaleco-slim-moratty-masculino-jaleca',
+  sushiman:           'jaleco-padrao-aluno-masculino-jaleca',
+  cozinheiro:         'jaleco-slim-feminino-lateral-jaleca',
   professor:          'jaleco-slim-gold-pala-feminino-jaleca',
-  vendedor:           'jaleco-slim-feminino-de-ziper-central-varias-cores-jaleca',
+  vendedor:           'jaleco-slim-tradicional-feminino-jaleca',
   advogado:           'jaleco-universitario-unissex-jaleca',
   pastor:             'jaleco-slim-tradicional-manga-curta-feminino-jaleca',
-  psicologa:          'jaleco-slim-duquesa-feminino-varias-cores-jaleca', // changed from slim-gold
-  farmaceutico:       'jaleco-slim-elastex-feminino-varias-cores-jaleca', // changed from padrao-aluno
+  psicologa:          'jaleco-slim-duquesa-feminino-jaleca', // changed from slim-gold
+  farmaceutico:       'jaleco-slim-elastex-feminino-jaleca', // changed from padrao-aluno
   // dólmã
-  'dolma-churrasqueiro': 'conjunto-dolma-cozinheiro-masculino-de-ziper-e-avental-saia-slim-jaleca',
-  'dolma-sushiman':      'conjunto-dolma-cozinheiro-de-ziper-e-avental-saia-slim-jaleca', // changed from masculino version
-  'dolma-cozinheiro':    'conjunto-dolma-cozinheiro-de-ziper-e-avental-saia-slim-jaleca',
+  'dolma-churrasqueiro': 'conjunto-dolma-cozinheiro-masculino-jaleca',
+  'dolma-sushiman':      'conjunto-dolma-cozinheiro-feminino-jaleca', // changed from masculino version
+  'dolma-cozinheiro':    'conjunto-dolma-cozinheiro-feminino-jaleca',
   // conjunto
   'conjunto-advogado':    'conjunto-executiva-feminino-jaleca', // advogado keeps executiva (better semantic fit)
   'conjunto-pastor':      'conjunto-puff-ziper-feminino-jaleca',
   'conjunto-psicologa':   'conjunto-laco-feminino-jaleca',
-  'conjunto-farmaceutico':'conjunto-pijama-cirurgico-scrub-feminino-varias-cores-jaleca',
+  'conjunto-farmaceutico':'conjunto-scrub-feminino-jaleca',
   // jaleco genérico
   'professor-uniforme':  'jaleco-slim-gold-pala-feminino-jaleca',
   // escritório / serviços
-  secretaria:            'jaleco-slim-feminino-de-ziper-lateral-varias-cores-jaleca', // changed to jaleco to avoid conflict
+  secretaria:            'jaleco-slim-feminino-lateral-jaleca', // changed to jaleco to avoid conflict
   universitario:         'jaleco-slim-tradicional-feminino-jaleca', // changed from universitario-unissex
-  'dona-de-casa':        'jaleco-slim-princesa-feminino-varias-cores-jaleca', // changed from tradicional-manga-curta
+  'dona-de-casa':        'jaleco-slim-princesa-feminino-jaleca', // changed from tradicional-manga-curta
 }
 
-const DEFAULT_HERO = 'jaleco-slim-feminino-de-ziper-central-varias-cores-jaleca'
+const DEFAULT_HERO = 'jaleco-slim-tradicional-feminino-jaleca'
 
 // Configuração por tipo de produto
 const PRODUTO_CONFIG: Record<string, {

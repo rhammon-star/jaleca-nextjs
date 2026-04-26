@@ -82,7 +82,7 @@ async function getHeroImage(): Promise<{ src: string; alt: string } | null> {
   try {
     const data = await graphqlClient.request<{ product: { name: string; image: { sourceUrl: string; altText: string } } }>(
       GET_PRODUCT_BY_SLUG,
-      { slug: 'jaleco-slim-feminino-de-ziper-central-varias-cores-jaleca' }
+      { slug: 'jaleco-slim-tradicional-feminino-jaleca' }
     )
     const img = data?.product?.image
     if (!img?.sourceUrl) return null

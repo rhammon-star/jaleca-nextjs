@@ -71,7 +71,7 @@ export type ProductProfessions = {
 export const PRODUCT_PROFESSIONS: ProductProfessions[] = [
   // ── JALECOS FEMININOS ──────────────────────────────────────────────────────
   {
-    slug: 'jaleco-slim-feminino-de-ziper-central-varias-cores-jaleca',
+    slug: 'jaleco-slim-tradicional-feminino-jaleca',
     name: 'Jaleco Slim Tradicional Feminino',
     professions: ['medica','medicina','dentista','odontologia','farmaceutica','farmacia','nutricionista','nutricao','veterinaria','psicologa','biomedica','fisioterapeuta','fisioterapia','pastor','nail design','micropigmentadora','estiloso'],
   },
@@ -91,22 +91,22 @@ export const PRODUCT_PROFESSIONS: ProductProfessions[] = [
     professions: ['medica','medicina','dentista','odontologia','farmaceutica','farmacia','nutricionista','nutricao','veterinaria','psicologa','massagista','fisioterapeuta','fisioterapia','podologo','tatuador','biomedica','pastor','nail design','micropigmentadora','estiloso'],
   },
   {
-    slug: 'jaleco-slim-duquesa-feminino-varias-cores-jaleca',
+    slug: 'jaleco-slim-duquesa-feminino-jaleca',
     name: 'Jaleco Slim Duquesa Feminino',
     professions: ['medica','medicina','dentista','odontologia','farmaceutica','farmacia','nutricionista','nutricao','veterinaria','psicologa','biomedica','fisioterapeuta','fisioterapia','pastor','nail design','micropigmentadora','estiloso'],
   },
   {
-    slug: 'jaleco-slim-elastex-feminino-varias-cores-jaleca',
+    slug: 'jaleco-slim-elastex-feminino-jaleca',
     name: 'Jaleco Slim Elastex Feminino',
     professions: ['medica','medicina','dentista','odontologia','farmaceutica','farmacia','nutricionista','nutricao','veterinaria','psicologa','tatuador','biomedica','fisioterapeuta','fisioterapia','pastor','nail design','micropigmentadora','estiloso'],
   },
   {
-    slug: 'jaleco-slim-feminino-de-ziper-lateral-varias-cores-jaleca',
+    slug: 'jaleco-slim-feminino-lateral-jaleca',
     name: 'Jaleco Slim Feminino Lateral',
     professions: ['medica','medicina','dentista','odontologia','farmaceutica','farmacia','nutricionista','nutricao','veterinaria','psicologa','massagista','fisioterapeuta','fisioterapia','podologo','tatuador','biomedica','pastor','nail design','micropigmentadora','estiloso'],
   },
   {
-    slug: 'jaleco-slim-princesa-feminino-varias-cores-jaleca',
+    slug: 'jaleco-slim-princesa-feminino-jaleca',
     name: 'Jaleco Slim Princesa Feminino',
     professions: ['medica','medicina','dentista','odontologia','farmaceutica','farmacia','nutricionista','nutricao','veterinaria','psicologa','massagista','fisioterapeuta','fisioterapia','podologo','tatuador','biomedica','nail design','micropigmentadora','estiloso'],
   },
@@ -121,7 +121,7 @@ export const PRODUCT_PROFESSIONS: ProductProfessions[] = [
     professions: ['medica','medicina','dentista','odontologia','farmaceutica','farmacia','nutricionista','nutricao','veterinaria','psicologa','massagista','fisioterapeuta','fisioterapia','podologo','tatuador','biomedica','nail design','micropigmentadora','estiloso'],
   },
   {
-    slug: 'jaleco-slim-moratty-feminino-ziper-central-jaleca',
+    slug: 'jaleco-slim-moratty-feminino-jaleca',
     name: 'Jaleco Slim Moratty Feminino',
     professions: ['medica','medicina','dentista','odontologia','farmaceutica','farmacia','nutricionista','nutricao','veterinaria','psicologa','massagista','fisioterapeuta','fisioterapia','podologo','tatuador','biomedica','nail design','micropigmentadora','estiloso'],
   },
@@ -131,29 +131,29 @@ export const PRODUCT_PROFESSIONS: ProductProfessions[] = [
     professions: ['massagista','cabeleireira','nutricionista','nutricao','fisioterapeuta','fisioterapia','podologa','psicologa','esteticista','professora','tatuador','nail design','micropigmentadora','estiloso'],
   },
   {
-    slug: 'jaleco-padrao-aluno-feminino-de-botao-varias-cores-jaleca',
+    slug: 'jaleco-padrao-aluno-feminino-jaleca',
     name: 'Jaleco Padrão Aluno Feminino',
     professions: ['aluno','universitario','professor','estudante'],
   },
 
   // ── JALECOS MASCULINOS ─────────────────────────────────────────────────────
   {
-    slug: 'jaleco-slim-masculino-de-ziper-central-varias-cores-jaleca',
+    slug: 'jaleco-slim-tradicional-masculino-jaleca',
     name: 'Jaleco Slim Tradicional Masculino',
     professions: ['medico','medicina','dentista','odontologia','farmaceutico','farmacia','veterinario','fisioterapeuta','fisioterapia','nutricionista','nutricao','biomedico','barbeiro','cabeleireiro','tatuador','pastor'],
   },
   {
-    slug: 'jaleco-slim-recortes-masculino-varias-cores-jaleca',
+    slug: 'jaleco-slim-recortes-masculino-jaleca',
     name: 'Jaleco Slim Recortes Masculino',
     professions: ['medico','medicina','dentista','odontologia','farmaceutico','farmacia','veterinario','fisioterapeuta','fisioterapia','nutricionista','nutricao','biomedico','barbeiro','cabeleireiro','tatuador','pastor'],
   },
   {
-    slug: 'jaleco-slim-moratty-masculino-ziper-central-jaleca',
+    slug: 'jaleco-slim-moratty-masculino-jaleca',
     name: 'Jaleco Slim Moratty Masculino',
     professions: ['medico','medicina','dentista','odontologia','farmaceutico','farmacia','veterinario','fisioterapeuta','fisioterapia','nutricionista','nutricao','biomedico','barbeiro','cabeleireiro','tatuador','pastor'],
   },
   {
-    slug: 'jaleco-padrao-aluno-masculino-de-botao-varias-cores-jaleca',
+    slug: 'jaleco-padrao-aluno-masculino-jaleca',
     name: 'Jaleco Padrão Aluno Masculino',
     professions: ['aluno','universitario','estudante','professor'],
   },
@@ -167,12 +167,12 @@ export const PRODUCT_PROFESSIONS: ProductProfessions[] = [
 
   // ── CONJUNTOS / SCRUB ──────────────────────────────────────────────────────
   {
-    slug: 'conjunto-pijama-cirurgico-scrub-feminino-varias-cores-jaleca',
+    slug: 'conjunto-scrub-feminino-jaleca',
     name: 'Conjunto Scrub Feminino',
     professions: ['dentista','enfermeira','enfermagem','biomedica','veterinaria','podologa','psicologa','esteticista','cabeleireira','professor','tatuador','massagista','cirurgico-feminino','cirurgico'],
   },
   {
-    slug: 'conjunto-pijama-cirurgico-scrub-masculino-varias-cores-jaleca',
+    slug: 'conjunto-scrub-masculino-jaleca',
     name: 'Conjunto Scrub Masculino',
     professions: ['dentista','enfermeiro','enfermagem','veterinario','biomedico','barbeiro','cabeleireiro','professor','massagista','tatuador','cirurgico-masculino','cirurgico','advogado'],
   },
@@ -187,7 +187,7 @@ export const PRODUCT_PROFESSIONS: ProductProfessions[] = [
     professions: ['secretaria','dentista','biomedica','veterinaria','podologa','psicologa','esteticista','cabeleireira','professor','tatuador','advogada','massagista'],
   },
   {
-    slug: 'conjunto-pijama-cirurgico-princesa-scrub-feminino-varias-cores-jaleca',
+    slug: 'conjunto-princesa-nobre-feminino-jaleca',
     name: 'Conjunto Princesa Nobre Feminino',
     professions: ['secretaria','dentista','biomedica','veterinaria','podologa','psicologa','esteticista','cabeleireira','professor','tatuador','advogada','cirurgico-feminino','cirurgico'],
   },
@@ -204,12 +204,12 @@ export const PRODUCT_PROFESSIONS: ProductProfessions[] = [
 
   // ── DÓLMÃS ────────────────────────────────────────────────────────────────
   {
-    slug: 'conjunto-dolma-cozinheiro-de-ziper-e-avental-saia-slim-jaleca',
+    slug: 'conjunto-dolma-cozinheiro-feminino-jaleca',
     name: 'Conjunto Dólmã Cozinheiro Feminino',
     professions: ['churrasqueira','cozinheira','buffet','confeiteira','secretaria do lar','dona-de-casa','dona-casa','sushiman'],
   },
   {
-    slug: 'conjunto-dolma-cozinheiro-masculino-de-ziper-e-avental-saia-slim-jaleca',
+    slug: 'conjunto-dolma-cozinheiro-masculino-jaleca',
     name: 'Conjunto Dólmã Cozinheiro Masculino',
     professions: ['churrasqueiro','cozinheiro','buffet','confeiteiro','sushiman'],
   },
@@ -278,21 +278,21 @@ export function getProfessionsForProduct(productSlug: string): ProfessionInfo[] 
 
 /** Slugs de produtos disponíveis em preto */
 export const PRETO_PRODUCT_SLUGS = [
-  'jaleco-slim-feminino-de-ziper-central-varias-cores-jaleca',
+  'jaleco-slim-tradicional-feminino-jaleca',
   'jaleco-slim-pala-feminino-jaleca',
   'jaleco-slim-gold-feminino-jaleca',
   'jaleco-slim-gold-pala-feminino-jaleca',
-  'jaleco-slim-duquesa-feminino-varias-cores-jaleca',
-  'jaleco-slim-elastex-feminino-varias-cores-jaleca',
-  'jaleco-slim-feminino-de-ziper-lateral-varias-cores-jaleca',
-  'jaleco-slim-princesa-feminino-varias-cores-jaleca',
+  'jaleco-slim-duquesa-feminino-jaleca',
+  'jaleco-slim-elastex-feminino-jaleca',
+  'jaleco-slim-feminino-lateral-jaleca',
+  'jaleco-slim-princesa-feminino-jaleca',
   'jaleco-slim-princesa-manga-curta-feminino-jaleca',
   'jaleco-slim-princesa-laise-feminino-jaleca',
-  'jaleco-slim-moratty-feminino-ziper-central-jaleca',
+  'jaleco-slim-moratty-feminino-jaleca',
   'jaleco-slim-tradicional-manga-curta-feminino-jaleca',
-  'jaleco-slim-masculino-de-ziper-central-varias-cores-jaleca',
-  'jaleco-slim-recortes-masculino-varias-cores-jaleca',
-  'jaleco-slim-moratty-masculino-ziper-central-jaleca',
+  'jaleco-slim-tradicional-masculino-jaleca',
+  'jaleco-slim-recortes-masculino-jaleca',
+  'jaleco-slim-moratty-masculino-jaleca',
 ]
 
 /** Dado uma chave de profissão, retorna os slugs dos produtos */
