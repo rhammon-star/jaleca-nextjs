@@ -29,35 +29,70 @@ const fetchAllProducts = async (): Promise<WooProduct[]> => {
 
 const getAllProductsCached = unstable_cache(fetchAllProducts, ['all-products'], { revalidate: 3600, tags: ['products'] })
 
-async function getColorVariants(): Promise<WooProduct[]> {
+async function getColorVariants(mainProducts: WooProduct[]): Promise<WooProduct[]> {
   try {
     const jsonPath = join(process.cwd(), 'docs', 'SEO-PRODUTOS-CORES.json')
     const jsonContent = await readFile(jsonPath, 'utf-8')
     const colorPages: Array<{ url: string; productName: string; colorName: string; title: string; metaDescription: string; category: string }> = JSON.parse(jsonContent)
 
+    // Criar mapa de produtos por nome para buscar imagem/preço
+    const productMap = new Map<string, WooProduct>()
+    mainProducts.forEach(p => {
+      // Normalizar nome: remover " - Jaleca" e limpar
+      const cleanName = p.name.replace(/ - Jaleca$/i, '').trim()
+      productMap.set(cleanName, p)
+    })
+
     // Transform each color page into a WooProduct-like object
-    return colorPages.map((page, idx) => ({
-      id: `color-variant-${idx}`,
-      databaseId: 90000 + idx, // High number to avoid conflicts
-      name: page.title,
-      slug: page.url.replace('/produto/', ''),
-      price: '', // Will be fetched from parent product
-      regularPrice: '',
-      salePrice: '',
-      image: { sourceUrl: '', altText: page.title },
-      productCategories: {
-        nodes: [{ name: page.category, slug: page.category }]
-      },
-      attributes: {
-        nodes: [
-          {
-            name: 'pa_cor',
-            options: [page.colorName.toLowerCase()]
-          }
-        ]
-      },
-      variations: { nodes: [] }
-    } as WooProduct))
+    return colorPages.map((page, idx) => {
+      const parentProduct = productMap.get(page.productName)
+
+      // Buscar variação específica dessa cor no produto pai
+      let variantImage = parentProduct?.image
+      let variantPrice = parentProduct?.price || ''
+      let variantRegularPrice = parentProduct?.regularPrice || ''
+      let variantSalePrice = parentProduct?.salePrice || null
+
+      if (parentProduct?.variations?.nodes) {
+        const colorNormalized = page.colorName.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        const variant = parentProduct.variations.nodes.find(v => {
+          const vColor = v.attributes?.nodes?.find(a => /cor|color/i.test(a.name))
+          if (!vColor) return false
+          const vColorNormalized = vColor.value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+          return vColorNormalized.includes(colorNormalized) || colorNormalized.includes(vColorNormalized)
+        })
+
+        if (variant) {
+          variantImage = variant.image || variantImage
+          variantPrice = variant.price || variantPrice
+          variantRegularPrice = variant.regularPrice || variantRegularPrice
+          variantSalePrice = variant.salePrice || variantSalePrice
+        }
+      }
+
+      return {
+        id: `color-variant-${idx}`,
+        databaseId: 90000 + idx,
+        name: page.title,
+        slug: page.url.replace('/produto/', ''),
+        price: variantPrice,
+        regularPrice: variantRegularPrice,
+        salePrice: variantSalePrice,
+        image: variantImage || { sourceUrl: '', altText: page.title },
+        productCategories: {
+          nodes: [{ name: page.category, slug: page.category }]
+        },
+        attributes: {
+          nodes: [
+            {
+              name: 'pa_cor',
+              options: [page.colorName.toLowerCase()]
+            }
+          ]
+        },
+        variations: { nodes: [] }
+      } as WooProduct
+    })
   } catch (e) {
     console.error('[getColorVariants] Error loading color variants:', e)
     return []
@@ -66,20 +101,22 @@ async function getColorVariants(): Promise<WooProduct[]> {
 
 async function getAllProducts(): Promise<WooProduct[]> {
   try {
-    const [mainProducts, colorVariants] = await Promise.all([
-      getAllProductsCached(),
-      getColorVariants()
-    ])
+    const mainProducts = await getAllProductsCached()
+    const colorVariants = await getColorVariants(mainProducts)
+
+    console.log(`[getAllProducts] ${mainProducts.length} produtos principais + ${colorVariants.length} variantes de cores = ${mainProducts.length + colorVariants.length} total`)
 
     // Combine main products + color variants
     return [...mainProducts, ...colorVariants]
-  } catch {
+  } catch (e) {
     // Cache guardou erro ou está vazio — tenta direto sem cache
-    console.warn('[getAllProducts] Cache miss/error, tentando fetch direto...')
+    console.warn('[getAllProducts] Cache miss/error, tentando fetch direto...', e)
     try {
-      return await fetchAllProducts()
-    } catch (e) {
-      console.error('[getAllProducts] Fetch direto também falhou:', e)
+      const mainProducts = await fetchAllProducts()
+      const colorVariants = await getColorVariants(mainProducts)
+      return [...mainProducts, ...colorVariants]
+    } catch (e2) {
+      console.error('[getAllProducts] Fetch direto também falhou:', e2)
       return []
     }
   }

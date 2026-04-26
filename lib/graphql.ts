@@ -52,7 +52,7 @@ export const GET_PRODUCTS = `
               options
             }
           }
-          variations(first: 20) {
+          variations(first: 100) {
             nodes {
               id
               name
@@ -129,7 +129,7 @@ export const GET_PRODUCTS_LISTING = `
               options
             }
           }
-          variations(first: 20) {
+          variations(first: 100) {
             nodes {
               regularPrice
               salePrice
