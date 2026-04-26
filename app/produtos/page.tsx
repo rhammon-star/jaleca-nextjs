@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import { unstable_cache } from 'next/cache'
+import { readFile } from 'fs/promises'
+import { join } from 'path'
 import { graphqlClient, GET_PRODUCTS_LISTING } from '@/lib/graphql'
 import ProductsClient from './ProductsClient'
 import type { WooProduct } from '@/components/ProductCard'
@@ -27,9 +29,50 @@ const fetchAllProducts = async (): Promise<WooProduct[]> => {
 
 const getAllProductsCached = unstable_cache(fetchAllProducts, ['all-products'], { revalidate: 3600, tags: ['products'] })
 
+async function getColorVariants(): Promise<WooProduct[]> {
+  try {
+    const jsonPath = join(process.cwd(), 'docs', 'SEO-PRODUTOS-CORES.json')
+    const jsonContent = await readFile(jsonPath, 'utf-8')
+    const colorPages: Array<{ url: string; productName: string; colorName: string; title: string; metaDescription: string; category: string }> = JSON.parse(jsonContent)
+
+    // Transform each color page into a WooProduct-like object
+    return colorPages.map((page, idx) => ({
+      id: `color-variant-${idx}`,
+      databaseId: 90000 + idx, // High number to avoid conflicts
+      name: page.title,
+      slug: page.url.replace('/produto/', ''),
+      price: '', // Will be fetched from parent product
+      regularPrice: '',
+      salePrice: '',
+      image: { sourceUrl: '', altText: page.title },
+      productCategories: {
+        nodes: [{ name: page.category, slug: page.category }]
+      },
+      attributes: {
+        nodes: [
+          {
+            name: 'pa_cor',
+            options: [page.colorName.toLowerCase()]
+          }
+        ]
+      },
+      variations: { nodes: [] }
+    } as WooProduct))
+  } catch (e) {
+    console.error('[getColorVariants] Error loading color variants:', e)
+    return []
+  }
+}
+
 async function getAllProducts(): Promise<WooProduct[]> {
   try {
-    return await getAllProductsCached()
+    const [mainProducts, colorVariants] = await Promise.all([
+      getAllProductsCached(),
+      getColorVariants()
+    ])
+
+    // Combine main products + color variants
+    return [...mainProducts, ...colorVariants]
   } catch {
     // Cache guardou erro ou está vazio — tenta direto sem cache
     console.warn('[getAllProducts] Cache miss/error, tentando fetch direto...')
