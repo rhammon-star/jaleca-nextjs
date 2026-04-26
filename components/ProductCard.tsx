@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Heart, GitCompareArrows } from "lucide-react";
+import { Heart, GitCompareArrows, Share2 } from "lucide-react";
 import { useCompare } from "@/contexts/CompareContext";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { isBestSeller } from "@/lib/best-sellers";
@@ -158,6 +158,32 @@ const ProductCard = ({ product, colorFilter }: { product: WooProduct; colorFilte
             }}
           >
             <GitCompareArrows size={12} />
+          </button>
+          <button
+            className="w-11 h-11 md:w-8 md:h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-sm opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all duration-300 hover:bg-white hover:scale-110 active:scale-95 text-foreground"
+            aria-label="Compartilhar produto"
+            onClick={async (e) => {
+              e.preventDefault()
+              e.stopPropagation()
+              const url = `https://jaleca.com.br/produto/${product.slug}`
+              const shareData = {
+                title: displayName,
+                text: `${displayName} — Jaleca`,
+                url,
+              }
+              try {
+                if (typeof navigator !== 'undefined' && navigator.share) {
+                  await navigator.share(shareData)
+                } else if (typeof navigator !== 'undefined' && navigator.clipboard) {
+                  await navigator.clipboard.writeText(url)
+                  alert('Link copiado!')
+                }
+              } catch {
+                /* usuário cancelou ou erro silencioso */
+              }
+            }}
+          >
+            <Share2 size={12} />
           </button>
         </div>
 

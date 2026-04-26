@@ -6,7 +6,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import ImageZoom from '@/components/ImageZoom'
 import Breadcrumb from '@/components/Breadcrumb'
-import { ShoppingBag, Heart, ChevronLeft, Ruler, Star, Loader2, CreditCard, Banknote, MessageCircle, Flame, AlertTriangle } from 'lucide-react'
+import { ShoppingBag, Heart, ChevronLeft, Ruler, Star, Loader2, CreditCard, Banknote, MessageCircle, Flame, AlertTriangle, Share2 } from 'lucide-react'
 import { useCart } from '@/contexts/CartContext'
 import { useWishlist } from '@/contexts/WishlistContext'
 import { useAuth } from '@/contexts/AuthContext'
@@ -1016,6 +1016,30 @@ export default function ProductDetailClient({
                   aria-label={inWishlist ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
                 >
                   <Heart size={20} className={inWishlist ? 'fill-red-500' : ''} />
+                </button>
+                <button
+                  onClick={async () => {
+                    const url = typeof window !== 'undefined' ? window.location.href : `https://jaleca.com.br/produto/${product.slug}`
+                    const shareData = {
+                      title: product.name?.replace(/ - Jaleca$/i, '') || 'Jaleca',
+                      text: `${product.name?.replace(/ - Jaleca$/i, '') || 'Jaleca'} — Jaleca`,
+                      url,
+                    }
+                    try {
+                      if (typeof navigator !== 'undefined' && navigator.share) {
+                        await navigator.share(shareData)
+                      } else if (typeof navigator !== 'undefined' && navigator.clipboard) {
+                        await navigator.clipboard.writeText(url)
+                        alert('Link copiado!')
+                      }
+                    } catch {
+                      /* cancelado */
+                    }
+                  }}
+                  className="h-14 w-14 rounded-full border border-border bg-background transition-colors hover:bg-muted active:scale-95 flex items-center justify-center text-foreground"
+                  aria-label="Compartilhar"
+                >
+                  <Share2 size={20} />
                 </button>
               </div>
               {!isOutOfStock && (

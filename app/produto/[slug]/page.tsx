@@ -194,7 +194,7 @@ export async function generateMetadata({
       url: `https://jaleca.com.br/produto/${actualSlug}`,
       siteName: 'Jaleca',
       locale: 'pt_BR',
-      images: imageUrl ? [{ url: imageUrl, alt: name }] : [],
+      images: imageUrl ? [{ url: imageUrl, width: 1200, height: 1200, alt: name }] : [],
       type: 'website',
     },
     twitter: {
