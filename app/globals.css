@@ -90,18 +90,33 @@
   .text-pretty  { text-wrap: pretty; }
 
   .filter-chip {
-    @apply border bg-[hsl(var(--filter-surface))] text-foreground transition-all duration-200 active:scale-95;
+    @apply border bg-[hsl(var(--filter-surface))] text-foreground transition-all duration-300 ease-in-out;
     border-color: hsl(var(--filter-border));
+    font-weight: 500;
+    letter-spacing: 0.025em;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
   }
   .filter-chip:hover {
     background-color: hsl(var(--filter-hover));
     border-color: hsl(var(--filter-active-border));
     color: hsl(var(--foreground));
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+    transform: translateY(-1px);
+  }
+  .filter-chip:active {
+    transform: scale(0.97);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   }
   .filter-chip--active {
     background-color: hsl(var(--filter-active));
     border-color: hsl(var(--filter-active-border));
     color: hsl(var(--foreground));
+    font-weight: 600;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  }
+  .filter-chip--active:hover {
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
   }
 
   .font-display { font-family: var(--font-display); }
