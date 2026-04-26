@@ -25,7 +25,7 @@ const schemaFaq = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   mainEntity: [
-    { '@type': 'Question', name: 'Como funciona a política de trocas da Jaleca?', acceptedAnswer: { '@type': 'Answer', text: 'Você pode solicitar troca em até 30 dias após o recebimento. O produto deve estar sem uso e com etiqueta. Basta entrar em contato pelo WhatsApp para iniciar o processo.' } },
+    { '@type': 'Question', name: 'Como funciona a política de trocas da Jaleca?', acceptedAnswer: { '@type': 'Answer', text: 'Arrependimento: 7 dias após o recebimento (CDC Art. 49), produto sem uso e com etiqueta. Garantia Jaleca: 30 dias, sem marca de uso e com etiqueta. Entre em contato pelo WhatsApp para iniciar.' } },
     { '@type': 'Question', name: 'Posso devolver um produto personalizado?', acceptedAnswer: { '@type': 'Answer', text: 'Produtos personalizados com nome, bordado ou cor exclusiva não são elegíveis para devolução, conforme Código de Defesa do Consumidor, art. 26, II. Para dúvidas, fale conosco antes de comprar.' } },
     { '@type': 'Question', name: 'Em quanto tempo recebo meu reembolso?', acceptedAnswer: { '@type': 'Answer', text: 'Após a aprovação da devolução, o reembolso é processado em até 10 dias úteis para cartão de crédito e até 5 dias úteis para PIX.' } },
     { '@type': 'Question', name: 'A Jaleca aceita pagamento via PIX?', acceptedAnswer: { '@type': 'Answer', text: 'Sim, aceitamos PIX, cartão de crédito (em até 6 vezes sem juros), cartão de débito e boleto bancário. Todas as transações são seguras e criptografadas.' } },
@@ -177,7 +177,7 @@ export default function TermosPage() {
             <h2 className="font-display text-xl font-semibold text-foreground mb-5">Perguntas Frequentes sobre Termos</h2>
             <div className="space-y-3">
               {[
-                { q: 'Como funciona a política de trocas da Jaleca?', a: 'Você pode solicitar troca em até 30 dias após o recebimento. O produto deve estar sem uso e com etiqueta. Basta entrar em contato pelo WhatsApp para iniciar.' },
+                { q: 'Como funciona a política de trocas da Jaleca?', a: 'Arrependimento: 7 dias após o recebimento (CDC Art. 49), produto sem uso e com etiqueta. Garantia Jaleca: 30 dias, sem marca de uso e com etiqueta. Entre em contato pelo WhatsApp.' },
                 { q: 'Posso devolver um produto personalizado?', a: 'Produtos personalizados (nome, bordado, cor exclusiva) não são elegíveis para devolução conforme CDC art. 26, II. Fale conosco antes de comprar para esclarecer dúvidas.' },
                 { q: 'Em quanto tempo recebo meu reembolso?', a: 'Após aprovação da devolução, o reembolso é processado em até 10 dias úteis (cartão de crédito) ou 5 dias úteis (PIX).' },
                 { q: 'A Jaleca aceita pagamento via PIX?', a: 'Sim! Aceitamos PIX, cartão de crédito (até 6x sem juros), cartão de débito e boleto. Todas as transações são seguras e criptografadas.' },

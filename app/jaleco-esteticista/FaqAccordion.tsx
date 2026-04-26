@@ -5,7 +5,7 @@ const faqItems = [
   { q: 'Esteticista pode usar jaleco branco?', a: 'Pode e é o mais comum. O branco transmite limpeza e profissionalismo, combina com qualquer ambiente de clínica de estética.' },
   { q: 'Qual a diferença entre jaleco Slim e Profissional?', a: 'O Slim tem corte ajustado e moderno. O Profissional tem corte mais amplo, oferecendo mais espaço de movimento para procedimentos estéticos.' },
   { q: 'Esteticista precisa de jaleco com proteção?', a: 'O jaleco funciona como barreira contra respingos de ácidos e produtos químicos usados em procedimentos estéticos. Use sempre durante o trabalho.' },
-  { q: 'Como funciona a troca de tamanho?', a: 'Aceita troca em até 30 dias após o recebimento. Produto sem uso e com etiqueta. Manda mensagem pelo WhatsApp ou e-mail.' },
+  { q: 'Como funciona a troca de tamanho?', a: 'Arrependimento: até 7 dias após o recebimento, produto sem uso e com etiqueta. Garantia Jaleca: 30 dias, sem marca de uso e com etiqueta. Manda mensagem pelo WhatsApp ou e-mail.' },
   { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. O prazo varia de 3 a 8 dias úteis conforme sua região — calculado no checkout com o CEP.' },
 ]
 export default function FaqAccordion() {

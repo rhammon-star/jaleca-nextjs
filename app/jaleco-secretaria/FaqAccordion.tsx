@@ -5,7 +5,7 @@ const faqItems = [
   { q: 'Secretarial pode usar jaleco?', a: 'Pode e é muito comum em consultórios médicos, dentistas e escritórios corporativos. O jaleco transmite autoridade e facilita a identificação profissional.' },
   { q: 'Qual a diferença entre jaleco Slim e Profissional?', a: 'O Slim tem corte ajustado e visual moderno. O Profissional tem corte mais amplo, transmitindo mais formalidade para o ambiente de consultório.' },
   { q: 'Jaleco de secretarial pode ter bordado?', a: 'Sim. Borda o nome da empresa ou nome da secretarial é prática comum. Para pedidos a partir de 5 peças, oferecemos condições especiais.' },
-  { q: 'Como funciona a troca?', a: 'Troca em até 30 dias. Produto sem uso e com etiqueta. WhatsApp ou e-mail com número do pedido.' },
+  { q: 'Como funciona a troca?', a: 'Arrependimento: até 7 dias após o recebimento, produto sem uso e com etiqueta. Garantia Jaleca: 30 dias, sem marca de uso e com etiqueta. WhatsApp ou e-mail com número do pedido.' },
   { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Prazo de 3 a 8 dias úteis conforme região — calculado no checkout.' },
 ]
 export default function FaqAccordion() {

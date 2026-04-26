@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: 'Jaleco para Psicóloga | Tecido Premium, Caimento Perfeito — Jaleca',
-    description: 'Jaleco premium para dentista. Tecido de qualidade, caimento perfeito, preço justo. Do PP ao G3.',
+    description: 'Jaleco premium para psicóloga. Tecido de qualidade, caimento perfeito, preço justo. Do PP ao G3.',
     images: ["https://jaleca.com.br/og-home.jpg"],
   },
 }
@@ -36,10 +36,10 @@ const schemaFaq = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   mainEntity: [
-    { '@type': 'Question', name: 'Qual comprimento de jaleco é mais indicado para dentistas?', acceptedAnswer: { '@type': 'Answer', text: 'Para odontologia, o jaleco curto (até o quadril) é mais popular por facilitar o movimento ao redor da cadeira odontológica. O longo é mais usado em procedimentos cirúrgicos.' } },
+    { '@type': 'Question', name: 'Qual comprimento de jaleco é mais indicado para psicólogas?', acceptedAnswer: { '@type': 'Answer', text: 'Para psicologia, o jaleco médio — transmite profissionalismo e conforto no ambiente clínico.' } },
     { '@type': 'Question', name: 'O jaleco pode ser lavado com água quente?', acceptedAnswer: { '@type': 'Answer', text: 'Os jalecos Jaleca suportam lavagem até 60°C, temperatura suficiente para higienização clínica. Use alvejante sem cloro para preservar o tecido.' } },
-    { '@type': 'Question', name: 'Jaleco com elastano é bom para dentista?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. O elastano adiciona memória ao tecido, retornando à forma após o movimento — essencial para quem passa horas com braços elevados.' } },
-    { '@type': 'Question', name: 'Jaleco de dentista precisa ser branco?', acceptedAnswer: { '@type': 'Answer', text: 'Não é obrigação. O branco é o clássico, mas tons pastel e cores discretas são aceitos. O CRO não restringe a cor.' } },
+    { '@type': 'Question', name: 'Jaleco com elastano é bom para psicóloga?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. O elastano adiciona memória ao tecido, retornando à forma após o movimento — essencial para quem passa horas em atendimento.' } },
+    { '@type': 'Question', name: 'Jaleco de psicóloga precisa ser branco?', acceptedAnswer: { '@type': 'Answer', text: 'Não é obrigação. O branco é o clássico, mas tons pastel e cores discretas são bem aceitos. O CFP não restringe a cor.' } },
     { '@type': 'Question', name: 'Qual a diferença entre jaleco Slim e Profissional?', acceptedAnswer: { '@type': 'Answer', text: 'O Slim tem corte ajustado ao corpo, ideal para quem quer visual mais moderno. O Profissional tem corte mais amplo e estruturado, com mais espaço para movimento.' } },
   ],
 }
@@ -165,7 +165,7 @@ export default async function JalecoDentistaPage() {
             {[
               { label: 'Início', href: '/' },
               { label: 'Jalecos', href: '/produtos?categoria=jalecos' },
-              { label: 'Para Dentista', href: null },
+              { label: 'Para Psicóloga', href: null },
             ].map((crumb, i, arr) => (
               <li key={crumb.label} className="flex items-center gap-2 text-xs" style={{ color: crumb.href ? '#6b6b6b' : '#1a1a1a' }}>
                 {crumb.href ? <Link href={crumb.href} style={{ color: '#6b6b6b', textDecoration: 'none' }}>{crumb.label}</Link> : crumb.label}
@@ -232,7 +232,7 @@ export default async function JalecoDentistaPage() {
             { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><path d="M3 6h18M3 12h18M3 18h18" /></svg>, title: 'Tamanhos PP ao G3', sub: 'Grade completa, corpo real' },
             { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><ellipse cx="12" cy="12" rx="9" ry="6" /><path d="M12 3v18M3 12h18" opacity=".5" /></svg>, title: 'Com elastano', sub: 'Movimento sem restrição' },
             { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><path d="M5 12h14M12 5l7 7-7 7" /></svg>, title: 'Frete grátis', sub: 'SP · RJ · MG · ES acima R$499' },
-            { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0" /><path d="m9 12 2 2 4-4" /></svg>, title: 'Troca em 30 dias', sub: 'Sem burocracia' },
+            { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0" /><path d="m9 12 2 2 4-4" /></svg>, title: 'Troca em 7 dias', sub: 'Direito do consumidor' },
           ].map((item, i) => (
             <div key={i} className="flex items-center gap-4" style={{ padding: '0.5rem 1.5rem', borderRight: i < 3 ? '1px solid rgba(255,255,255,0.12)' : 'none' }}>
               <div className="shrink-0 flex items-center justify-center" style={{ width: 40, height: 40, border: '1px solid rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.8)' }}>
@@ -280,7 +280,7 @@ export default async function JalecoDentistaPage() {
               <aside style={{ position: 'sticky', top: 80 }}>
                 <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>Guia completo</div>
                 <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '1.8rem', fontWeight: 400, lineHeight: 1.15, color: '#1a1a1a', marginBottom: '1.5rem' }}>
-                  Como escolher o jaleco ideal para odontologia
+                  Como escolher o jaleco ideal para psicologia
                 </h2>
                 <nav className="hidden lg:block">
                   <ul style={{ listStyle: 'none' }}>
@@ -289,7 +289,7 @@ export default async function JalecoDentistaPage() {
                       { label: 'Modelagem Slim ou Profissional', anchor: '#modelagem' },
                       { label: 'Jaleco branco ou colorido', anchor: '#cores' },
                       { label: 'Bolsos e funcionalidade', anchor: '#bolsos' },
-                      { label: 'Normas do CRO', anchor: '#cro' },
+                      { label: 'Normas do CFP', anchor: '#cfp' },
                     ].map(item => (
                       <li key={item.anchor} style={{ marginBottom: '0.5rem' }}>
                         <a href={item.anchor} style={{ fontSize: '0.82rem', color: '#6b6b6b', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
@@ -310,7 +310,7 @@ export default async function JalecoDentistaPage() {
                     body: (
                       <>
                         <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          Jaleco de dentista aguenta muita lavagem e mancha. Precisa ser confortável por horas.
+                          Jaleco de psicóloga aguenta muita lavagem e mancha. Precisa ser confortável por horas.
                         </p>
                         <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
                           Na Jaleca, todos têm elastano. Faz a diferença para quem fica com os braços levantados.
@@ -347,11 +347,11 @@ export default async function JalecoDentistaPage() {
                   },
                   {
                     id: 'cores',
-                    title: 'Jaleco branco ou colorido: o que o CRO diz',
+                    title: 'Jaleco branco ou colorido: o que o CFP diz',
                     body: (
                       <>
                         <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          O branco é o clássico, claro. Mas o CRO não restringe cores.
+                          O branco é o clássico, claro. Mas o CFP não restringe cores.
                         </p>
                         <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
                           Tons pastel e discretos são aceitos. Em clínicas pediátricas, cores amigáveis acalmam as crianças. Temos 12 cores disponíveis, em todos os modelos.
@@ -375,11 +375,11 @@ export default async function JalecoDentistaPage() {
                   },
                   {
                     id: 'cro',
-                    title: 'Normas do CRO sobre vestimenta profissional',
+                    title: 'Normas do CFP sobre vestimenta profissional',
                     body: (
                       <>
                         <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          O CRO, junto com a ANVISA, exige: use o jaleco só no trabalho. Nunca em transporte ou fora da clínica. A peça precisa estar sempre limpa e em bom estado.
+                          O CFP, junto com a ANVISA, exige: use o jaleco só no trabalho. Nunca em transporte ou fora da clínica. A peça precisa estar sempre limpa e em bom estado.
                         </p>
                         <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
                           EPIs são obrigatórios: jaleco, luvas, máscara, óculos e touca. O jaleco protege sua roupa e forma uma barreira contra sangue, saliva e químicos.
@@ -448,7 +448,7 @@ export default async function JalecoDentistaPage() {
                 // Fallback: artigos fixos relevantes para o cluster
                 [
                   { title: 'Como lavar e conservar seu jaleco profissional', href: '/blog/como-lavar-jaleco', tag: 'Cuidados', excerpt: 'Erros simples de lavagem aceleram o amarelamento e encurtam a vida do jaleco. Veja o guia completo.' },
-                  { title: 'Jaleco branco: tradição e protocolos na odontologia', href: '/blog', tag: 'Odontologia', excerpt: 'Por que o branco domina a odontologia e o que o CRO recomenda sobre cores e vestimenta clínica.' },
+                  { title: 'Jaleco branco: tradição e protocolos em psicologia', href: '/blog', tag: 'Psicologia', excerpt: 'Por que o branco é tão usado em psicologia e o que recomendam sobre cores e vestimenta.' },
                   { title: 'Como escolher o tamanho certo do jaleco', href: '/medidas', tag: 'Guia de Tamanhos', excerpt: 'Passo a passo para medir busto, cintura e quadril e encontrar o tamanho ideal na grade Jaleca.' },
                 ].map(post => (
                   <Link key={post.href} href={post.href} style={{ background: '#fff', textDecoration: 'none', color: 'inherit', display: 'block' }}>

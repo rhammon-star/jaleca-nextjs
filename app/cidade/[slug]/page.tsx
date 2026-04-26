@@ -28,7 +28,7 @@ const FAQ_TEMPLATE = (nome: string, estado: string) => [
   },
   {
     pergunta: `Como funciona a troca de jalecos em ${nome}?`,
-    resposta: `Você pode solicitar a troca em até 30 dias após o recebimento. Basta entrar em contato pelo WhatsApp ou e-mail, devolver o produto sem uso e com etiqueta, e enviamos o novo tamanho sem custo.`,
+    resposta: `Arrependimento: 7 dias após o recebimento, produto sem uso e com etiqueta (CDC). Garantia Jaleca: 30 dias, sem marca de uso e com etiqueta. Entre em contato pelo WhatsApp.`,
   },
   {
     pergunta: `Como rastrear meu pedido para ${nome}?`,
@@ -830,7 +830,7 @@ export default async function CidadePage({
             </div>
             <div className="flex items-center gap-2">
               <RotateCcw size={16} className="text-foreground" />
-              <span>Troca grátis em 30 dias</span>
+              <span>Devolução em 7 dias</span>
             </div>
             <div className="flex items-center gap-2">
               <ShieldCheck size={16} className="text-foreground" />
@@ -898,7 +898,7 @@ export default async function CidadePage({
             Todos os pedidos para {cidade.nome}, {cidade.estado}, são enviados com rastreamento completo.
             Prazo estimado de 3 a 7 dias úteis dependendo da modalidade de frete escolhida.
             {cidade.freteGratis && ' Frete grátis (PAC) para compras acima de R$499.'}{' '}
-            Troca garantida em até 30 dias caso o produto não sirva.
+            Devolução em até 7 dias por arrependimento (CDC).
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link

@@ -5,7 +5,7 @@ const faqItems = [
   { q: 'Tatuador pode usar jaleco preto?', a: 'Pode e é muito popular. O jaleco preto esconde melhor as manchas de tinta e transmite um estilo mais agressivo que combina com a estética das tatuadoras.' },
   { q: 'Qual a diferença entre jaleco Slim e Profissional?', a: 'O Slim tem corte ajustado e moderno. O Profissional tem mais espaço de movimento — ambos funcionam bem para a rotina da tatuadora.' },
   { q: 'O jaleco de tatuador protege contra contaminação?', a: 'Sim. O jaleco funciona como barreira contra respingos de tinta e sangue. Deve ser usado exclusivamente durante os procedimentos de tatuagem.' },
-  { q: 'Como funciona a troca?', a: 'Troca em até 30 dias. Produto sem uso e com etiqueta. WhatsApp ou e-mail com número do pedido.' },
+  { q: 'Como funciona a troca?', a: 'Arrependimento: até 7 dias após o recebimento, produto sem uso e com etiqueta. Garantia Jaleca: 30 dias, sem marca de uso e com etiqueta. WhatsApp ou e-mail com número do pedido.' },
   { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Prazo de 3 a 8 dias úteis conforme região — calculado no checkout.' },
 ]
 export default function FaqAccordion() {

@@ -198,7 +198,7 @@ export default async function Page() {
             { title: 'Nota 4,9 no Google', sub: 'Mais de 58 avaliações reais' },
             { title: 'Gabardine com elastano', sub: 'Tecido técnico, não básico' },
             { title: 'Frete grátis SE', sub: 'SP · RJ · MG · ES acima R$499' },
-            { title: 'Troca em 30 dias', sub: 'Tamanho errado? A gente resolve' },
+            { title: 'Troca em 7 dias', sub: 'Direito do consumidor' },
           ].map((item, i) => (
             <div key={i} style={{ padding: '0.75rem 1.5rem', borderRight: (i % 2 === 0) ? '1px solid rgba(255,255,255,0.12)' : 'none', borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.08)' : 'none' }}>
               <strong style={{ display: 'block', fontSize: '0.82rem', fontWeight: 400, color: '#fff', marginBottom: '0.15rem' }}>{item.title}</strong>

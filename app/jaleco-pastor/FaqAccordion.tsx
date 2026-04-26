@@ -5,7 +5,7 @@ const faqItems = [
   { q: 'Pastor pode usar jaleco preto?', a: 'Pode. O jaleco preto é cada vez mais aceito em contextos religiosos modernos. Transmite seriedade e elegância em ceremonies e eventos eclesiásticos.' },
   { q: 'Qual a diferença entre jaleco Slim e Profissional?', a: 'O Profissional tem corte mais amplo e estruturado — ideal para ceremonies formais. O Slim tem visual mais contemporâneo, aceito em ambientes religiosos mais informais.' },
   { q: 'O jaleco de pastor pode ter bordado?', a: 'Sim. Borda o nome e título pastoral é prática comum. Para pedidos a partir de 5 peças, oferecemos condições especiais de bordado.' },
-  { q: 'Como funciona a troca?', a: 'Troca em até 30 dias. Produto sem uso e com etiqueta. WhatsApp ou e-mail com número do pedido.' },
+  { q: 'Como funciona a troca?', a: 'Arrependimento: até 7 dias após o recebimento, produto sem uso e com etiqueta. Garantia Jaleca: 30 dias, sem marca de uso e com etiqueta. WhatsApp ou e-mail com número do pedido.' },
   { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Prazo de 3 a 8 dias úteis conforme região — calculado no checkout.' },
 ]
 export default function FaqAccordion() {

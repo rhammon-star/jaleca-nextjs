@@ -33,12 +33,15 @@ function formatDate(iso: string): string {
 
 function PixView({ data }: { data: PaymentData }) {
   const [copied, setCopied] = useState(false)
-  const [secondsLeft, setSecondsLeft] = useState(0)
+  const [secondsLeft, setSecondsLeft] = useState(5 * 60)
 
   useEffect(() => {
-    if (!data.pixExpiresAt) return
+    const expiresAt = data.pixExpiresAt
+      ? new Date(data.pixExpiresAt).getTime()
+      : Date.now() + 5 * 60 * 1000
+    const effective = expiresAt > Date.now() ? expiresAt : Date.now() + 5 * 60 * 1000
     const update = () => {
-      const diff = Math.max(0, Math.floor((new Date(data.pixExpiresAt!).getTime() - Date.now()) / 1000))
+      const diff = Math.max(0, Math.floor((effective - Date.now()) / 1000))
       setSecondsLeft(diff)
     }
     update()
@@ -46,9 +49,10 @@ function PixView({ data }: { data: PaymentData }) {
     return () => clearInterval(timer)
   }, [data.pixExpiresAt])
 
-  const hours = Math.floor(secondsLeft / 3600)
-  const mins = Math.floor((secondsLeft % 3600) / 60)
+  const mins = Math.floor(secondsLeft / 60)
   const secs = secondsLeft % 60
+  const timeDisplay = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`
+  const isUrgent = secondsLeft <= 60
 
   async function copy() {
     if (!data.pixQrCode) return
@@ -59,9 +63,9 @@ function PixView({ data }: { data: PaymentData }) {
 
   return (
     <div className="text-center space-y-6">
-      <div className="flex items-center justify-center gap-2 text-amber-600 bg-amber-50 border border-amber-200 px-4 py-2 text-sm">
+      <div className={`flex items-center justify-center gap-2 px-4 py-3 text-sm border ${isUrgent ? 'text-red-600 bg-red-50 border-red-200' : 'text-amber-600 bg-amber-50 border-amber-200'}`}>
         <Clock size={16} />
-        <span>Expira em: <strong>{hours}h {String(mins).padStart(2,'0')}m {String(secs).padStart(2,'0')}s</strong></span>
+        <span>Pague em: <strong className="text-lg font-mono tracking-widest">{timeDisplay}</strong></span>
       </div>
 
       {data.pixQrCodeUrl && (

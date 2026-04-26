@@ -46,7 +46,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'Onde comprar jaleco estiloso com qualidade?',
-    a: 'Em marcas especializadas em uniformes profissionais — não em lojas genéricas de roupa de trabalho. A Jaleca tem modelos estilosos em gabardine com elastano, grade PP ao G3, com entrega para todo o Brasil e troca em 30 dias. A nota no Google é 4,9/5 com mais de 58 avaliações de profissionais da saúde e estética.',
+    a: 'Em marcas especializadas em uniformes profissionais — não em lojas genéricas de roupa de trabalho. A Jaleca tem modelos estilosos em gabardine com elastano, grade PP ao G3, com entrega para todo o Brasil e devolução em 7 dias. A nota no Google é 4,9/5 com mais de 58 avaliações de profissionais da saúde e estética.',
   },
 ]
 
@@ -195,7 +195,7 @@ export default async function Page() {
             { title: 'Estilo sem abrir mão', sub: 'Gabardine com elastano em todos' },
             { title: 'Modelos exclusivos', sub: 'Cortes pensados por designers' },
             { title: 'Frete grátis SE', sub: 'SP · RJ · MG · ES acima R$499' },
-            { title: 'Troca em 30 dias', sub: 'Sem burocracia' },
+            { title: 'Troca em 7 dias', sub: 'Direito do consumidor' },
           ].map((item, i) => (
             <div key={i} style={{ padding: '0.75rem 1.5rem', borderRight: (i % 2 === 0) ? '1px solid rgba(255,255,255,0.12)' : 'none', borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.08)' : 'none' }}>
               <strong style={{ display: 'block', fontSize: '0.82rem', fontWeight: 400, color: '#fff', marginBottom: '0.15rem' }}>{item.title}</strong>

@@ -39,7 +39,7 @@ const schemaFaq = {
     { '@type': 'Question', name: 'Qual o melhor tecido para jaleco de enfermagem?', acceptedAnswer: { '@type': 'Answer', text: 'Gabardine com elastano é o melhor — resistente, respirável e que não amassa. Jaleca usa 67% poliéster, 33% algodão e 3-8% elastano.' } },
     { '@type': 'Question', name: 'Jaleco com elastano é bom para quem trabalha em hospital?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. O elastano adiciona memória ao tecido — ele volta ao formato após cada movimento. Essencial para enfermeiros que passam horas em pé.' } },
     { '@type': 'Question', name: 'Qual o prazo de entrega do jaleco para enfermagem?', acceptedAnswer: { '@type': 'Answer', text: 'Enviamos em até 2 dias úteis. Prazo de 3 a 8 dias úteis conforme região. Capitais do Sudeste em 3 a 5 dias. Frete grátis acima R$499.' } },
-    { '@type': 'Question', name: 'Como funciona a troca de tamanho?', acceptedAnswer: { '@type': 'Answer', text: 'Troca em até 30 dias após recebimento. Produto sem uso e com etiqueta. Manda WhatsApp ou e-mail com número do pedido — sem burocracia.' } },
+    { '@type': 'Question', name: 'Como funciona a troca de tamanho?', acceptedAnswer: { '@type': 'Answer', text: 'Arrependimento: até 7 dias após o recebimento, produto sem uso e com etiqueta. Garantia Jaleca: 30 dias, sem marca de uso e com etiqueta.' } },
     { '@type': 'Question', name: 'Jaleco de enfermagem precisa ter bolsos?', acceptedAnswer: { '@type': 'Answer', text: 'Bolsos são essenciais para enfermeiros — guardam canetas, tesouras, luvas e outros itens. Jalecos Jaleca têm bolso no peito e bolsos laterais.' } },
   ],
 }
@@ -230,7 +230,7 @@ export default async function JalecoEnfermagemPage() {
             { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><path d="M3 6h18M3 12h18M3 18h18" /></svg>, title: 'Tamanhos PP ao G3', sub: 'Grade completa, corpo real' },
             { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><ellipse cx="12" cy="12" rx="9" ry="6" /><path d="M12 3v18M3 12h18" opacity=".5" /></svg>, title: 'Com elastano', sub: 'Movimento sem restrição' },
             { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><path d="M5 12h14M12 5l7 7-7 7" /></svg>, title: 'Frete grátis', sub: 'SP · RJ · MG · ES acima R$499' },
-            { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0" /><path d="m9 12 2 2 4-4" /></svg>, title: 'Troca em 30 dias', sub: 'Sem burocracia' },
+            { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0" /><path d="m9 12 2 2 4-4" /></svg>, title: 'Troca em 7 dias', sub: 'Direito do consumidor' },
           ].map((item, i) => (
             <div key={i} className="flex items-center gap-4" style={{ padding: '0.5rem 1.5rem', borderRight: i < 3 ? '1px solid rgba(255,255,255,0.12)' : 'none' }}>
               <div className="shrink-0 flex items-center justify-center" style={{ width: 40, height: 40, border: '1px solid rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.8)' }}>

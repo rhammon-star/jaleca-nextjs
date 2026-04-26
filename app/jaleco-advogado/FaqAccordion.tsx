@@ -25,7 +25,7 @@ const faqItems = [
   },
   {
     q: 'Como funciona a troca de tamanho?',
-    a: 'Aceita troca em até 30 dias após o recebimento. Produto sem uso e com etiqueta. Manda uma mensagem pelo WhatsApp ou e-mail com o número do pedido — só isso.',
+    a: 'Arrependimento em até 7 dias após o recebimento, produto sem uso e com etiqueta. Garantia Jaleca: 30 dias, sem marca de uso e com etiqueta. Manda uma mensagem pelo WhatsApp com o número do pedido.',
   },
 ]
 

@@ -36,10 +36,10 @@ const schemaFaq = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   mainEntity: [
-    { '@type': 'Question', name: 'Qual comprimento de jaleco é mais indicado para médicos?', acceptedAnswer: { '@type': 'Answer', text: 'Para medicina, o jaleco médio a longo é o mais utilizado. Hospitais e consultórios geralmente preferem modelos mais longos para maior cobertura. O comprimento varia conforme o ambiente de atuação.' } },
+    { '@type': 'Question', name: 'Qual comprimento de jaleco é mais indicado para dentistas?', acceptedAnswer: { '@type': 'Answer', text: 'Para odontologia, o jaleco curto a médio — facilita o movimento ao redor da cadeira odontológica.' } },
     { '@type': 'Question', name: 'O jaleco pode ser lavado com água quente?', acceptedAnswer: { '@type': 'Answer', text: 'Os jalecos Jaleca suportam lavagem até 60°C, temperatura suficiente para higienização clínica. Use alvejante sem cloro para preservar o tecido.' } },
-    { '@type': 'Question', name: 'Jaleco com elastano é bom para médico?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. O elastano adiciona memória ao tecido, retornando à forma após o movimento — essencial para quem passa horas com braços elevados.' } },
-    { '@type': 'Question', name: 'Jaleco de médico precisa ser branco?', acceptedAnswer: { '@type': 'Answer', text: 'Não é obrigação. O branco é o clássico, mas tons pastel e cores discretas são aceitos. O CRM não restringe a cor.' } },
+    { '@type': 'Question', name: 'Jaleco com elastano é bom para dentista?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. O elastano adiciona memória ao tecido, retornando à forma após o movimento — essencial para quem passa horas em atendimento.' } },
+    { '@type': 'Question', name: 'Jaleco de dentista precisa ser branco?', acceptedAnswer: { '@type': 'Answer', text: 'Não é obrigação. O branco é o clássico, mas tons pastel e cores discretas são bem aceitos. O CRO não restringe a cor.' } },
     { '@type': 'Question', name: 'Qual a diferença entre jaleco Slim e Profissional?', acceptedAnswer: { '@type': 'Answer', text: 'O Slim tem corte ajustado ao corpo, ideal para quem quer visual mais moderno. O Profissional tem corte mais amplo e estruturado, com mais espaço para movimento.' } },
   ],
 }
@@ -232,7 +232,7 @@ export default async function JalecoOdontologiaPage() {
             { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><path d="M3 6h18M3 12h18M3 18h18" /></svg>, title: 'Tamanhos PP ao G3', sub: 'Grade completa, corpo real' },
             { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><ellipse cx="12" cy="12" rx="9" ry="6" /><path d="M12 3v18M3 12h18" opacity=".5" /></svg>, title: 'Com elastano', sub: 'Movimento sem restrição' },
             { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><path d="M5 12h14M12 5l7 7-7 7" /></svg>, title: 'Frete grátis', sub: 'SP · RJ · MG · ES acima R$499' },
-            { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0" /><path d="m9 12 2 2 4-4" /></svg>, title: 'Troca em 30 dias', sub: 'Sem burocracia' },
+            { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0" /><path d="m9 12 2 2 4-4" /></svg>, title: 'Troca em 7 dias', sub: 'Direito do consumidor' },
           ].map((item, i) => (
             <div key={i} className="flex items-center gap-4" style={{ padding: '0.5rem 1.5rem', borderRight: i < 3 ? '1px solid rgba(255,255,255,0.12)' : 'none' }}>
               <div className="shrink-0 flex items-center justify-center" style={{ width: 40, height: 40, border: '1px solid rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.8)' }}>
@@ -280,7 +280,7 @@ export default async function JalecoOdontologiaPage() {
               <aside style={{ position: 'sticky', top: 80 }}>
                 <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>Guia completo</div>
                 <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '1.8rem', fontWeight: 400, lineHeight: 1.15, color: '#1a1a1a', marginBottom: '1.5rem' }}>
-                  Como escolher o jaleco ideal para medicina
+                  Como escolher o jaleco ideal para odontologia
                 </h2>
                 <nav className="hidden lg:block">
                   <ul style={{ listStyle: 'none' }}>
@@ -289,7 +289,7 @@ export default async function JalecoOdontologiaPage() {
                       { label: 'Modelagem Slim ou Profissional', anchor: '#modelagem' },
                       { label: 'Jaleco branco ou colorido', anchor: '#cores' },
                       { label: 'Bolsos e funcionalidade', anchor: '#bolsos' },
-                      { label: 'Normas do CRM', anchor: '#cro' },
+                      { label: 'Normas do CRO', anchor: '#cro' },
                     ].map(item => (
                       <li key={item.anchor} style={{ marginBottom: '0.5rem' }}>
                         <a href={item.anchor} style={{ fontSize: '0.82rem', color: '#6b6b6b', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
@@ -347,11 +347,11 @@ export default async function JalecoOdontologiaPage() {
                   },
                   {
                     id: 'cores',
-                    title: 'Jaleco branco ou colorido: o que o CRM diz',
+                    title: 'Jaleco branco ou colorido: o que o CRO diz',
                     body: (
                       <>
                         <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          O branco é o clássico, claro. Mas o CRM não restringe cores.
+                          O branco é o clássico, claro. Mas o CRO não restringe cores.
                         </p>
                         <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
                           Tons pastel e discretos são aceitos. Em clínicas pediátricas, cores amigáveis acalmam as crianças. Temos 12 cores disponíveis, em todos os modelos.
@@ -375,11 +375,11 @@ export default async function JalecoOdontologiaPage() {
                   },
                   {
                     id: 'cro',
-                    title: 'Normas do CRM sobre vestimenta profissional',
+                    title: 'Normas do CRO sobre vestimenta profissional',
                     body: (
                       <>
                         <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          O CRM, junto com a ANVISA, exige: use o jaleco só no trabalho. Nunca em transporte ou fora da clínica. A peça precisa estar sempre limpa e em bom estado.
+                          O CRO, junto com a ANVISA, exige: use o jaleco só no trabalho. Nunca em transporte ou fora da clínica. A peça precisa estar sempre limpa e em bom estado.
                         </p>
                         <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
                           EPIs são obrigatórios: jaleco, luvas, máscara, óculos e touca. O jaleco protege sua roupa e forma uma barreira contra sangue, saliva e químicos.

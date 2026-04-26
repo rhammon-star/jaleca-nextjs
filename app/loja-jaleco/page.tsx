@@ -36,7 +36,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'Posso trocar o jaleco se o tamanho não servir?',
-    a: 'Sim, prazo de 30 dias a partir do recebimento. A peça precisa estar sem uso, com etiquetas. O custo do frete de devolução é por conta do cliente, mas enviamos o novo sem custo adicional. Mais detalhes em /trocas-e-devolucoes.',
+    a: 'Arrependimento: 7 dias após o recebimento, produto sem uso e com etiqueta (CDC). Garantia Jaleca: 30 dias, sem marca de uso e com etiqueta. O custo do frete de devolução é por conta do cliente. Mais detalhes em /trocas-e-devolucoes.',
   },
 ]
 
@@ -157,7 +157,7 @@ export default async function Page() {
             { title: 'Molde próprio por tamanho', sub: 'Não é o padrão aumentado' },
             { title: 'PP ao G3', sub: 'Grade completa, todos os corpos' },
             { title: 'Frete grátis SE', sub: 'SP · RJ · MG · ES acima R$499' },
-            { title: 'Troca em 30 dias', sub: 'Sem burocracia' },
+            { title: 'Troca em 7 dias', sub: 'Direito do consumidor' },
           ].map((item, i) => (
             <div key={i} style={{ padding: '0.75rem 1.5rem', borderRight: (i % 2 === 0) ? '1px solid rgba(255,255,255,0.12)' : 'none', borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.08)' : 'none' }}>
               <strong style={{ display: 'block', fontSize: '0.82rem', fontWeight: 400, color: '#fff', marginBottom: '0.15rem' }}>{item.title}</strong>

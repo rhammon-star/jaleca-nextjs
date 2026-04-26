@@ -38,7 +38,7 @@ const schemaFaq = {
   mainEntity: [
     { '@type': 'Question', name: 'Qual comprimento de jaleco é mais indicado para podólogos?', acceptedAnswer: { '@type': 'Answer', text: 'Para podologia, o jaleco médio é o mais indicado. Permite mobilidade durante atendimentos e protege a roupa profissional. Modelos com elastano facilitam os movimentos de inclinação.' } },
     { '@type': 'Question', name: 'O jaleco pode ser lavado com água quente?', acceptedAnswer: { '@type': 'Answer', text: 'Os jalecos Jaleca suportam lavagem até 60°C, temperatura suficiente para higienização clínica. Use alvejante sem cloro para preservar o tecido.' } },
-    { '@type': 'Question', name: 'Jaleco com elastano é bom para podólogo?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. O elastano adiciona memória ao tecido, retornando à forma após o movimento — essencial para quem passa horas com braços elevados.' } },
+    { '@type': 'Question', name: 'Jaleco com elastano é bom para podólogo?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. O elastano adiciona memória ao tecido, retornando à forma após o movimento — essencial para quem passa horas em atendimento.' } },
     { '@type': 'Question', name: 'Jaleco de podólogo precisa ser branco?', acceptedAnswer: { '@type': 'Answer', text: 'Não é obrigação. O branco é o clássico, mas tons pastel e cores discretas são aceitos. O CREFITO não restringe a cor.' } },
     { '@type': 'Question', name: 'Qual a diferença entre jaleco Slim e Profissional?', acceptedAnswer: { '@type': 'Answer', text: 'O Slim tem corte ajustado ao corpo, ideal para quem quer visual mais moderno. O Profissional tem corte mais amplo e estruturado, com mais espaço para movimento.' } },
   ],
@@ -232,7 +232,7 @@ export default async function JalecoDentistaPage() {
             { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><path d="M3 6h18M3 12h18M3 18h18" /></svg>, title: 'Tamanhos PP ao G3', sub: 'Grade completa, corpo real' },
             { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><ellipse cx="12" cy="12" rx="9" ry="6" /><path d="M12 3v18M3 12h18" opacity=".5" /></svg>, title: 'Com elastano', sub: 'Movimento sem restrição' },
             { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><path d="M5 12h14M12 5l7 7-7 7" /></svg>, title: 'Frete grátis', sub: 'SP · RJ · MG · ES acima R$499' },
-            { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0" /><path d="m9 12 2 2 4-4" /></svg>, title: 'Troca em 30 dias', sub: 'Sem burocracia' },
+            { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0" /><path d="m9 12 2 2 4-4" /></svg>, title: 'Troca em 7 dias', sub: 'Direito do consumidor' },
           ].map((item, i) => (
             <div key={i} className="flex items-center gap-4" style={{ padding: '0.5rem 1.5rem', borderRight: i < 3 ? '1px solid rgba(255,255,255,0.12)' : 'none' }}>
               <div className="shrink-0 flex items-center justify-center" style={{ width: 40, height: 40, border: '1px solid rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.8)' }}>
@@ -289,7 +289,7 @@ export default async function JalecoDentistaPage() {
                       { label: 'Modelagem Slim ou Profissional', anchor: '#modelagem' },
                       { label: 'Jaleco branco ou colorido', anchor: '#cores' },
                       { label: 'Bolsos e funcionalidade', anchor: '#bolsos' },
-                      { label: 'Normas do CREFITO', anchor: '#cro' },
+                      { label: 'Normas do CREFITO', anchor: '#crefito' },
                     ].map(item => (
                       <li key={item.anchor} style={{ marginBottom: '0.5rem' }}>
                         <a href={item.anchor} style={{ fontSize: '0.82rem', color: '#6b6b6b', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
@@ -310,7 +310,7 @@ export default async function JalecoDentistaPage() {
                     body: (
                       <>
                         <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          Jaleco de dentista aguenta muita lavagem e mancha. Precisa ser confortável por horas.
+                          Jaleco de podólogo aguenta muita lavagem e mancha. Precisa ser confortável por horas.
                         </p>
                         <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
                           Na Jaleca, todos têm elastano. Faz a diferença para quem fica com os braços levantados.
@@ -448,7 +448,7 @@ export default async function JalecoDentistaPage() {
                 // Fallback: artigos fixos relevantes para o cluster
                 [
                   { title: 'Como lavar e conservar seu jaleco profissional', href: '/blog/como-lavar-jaleco', tag: 'Cuidados', excerpt: 'Erros simples de lavagem aceleram o amarelamento e encurtam a vida do jaleco. Veja o guia completo.' },
-                  { title: 'Jaleco branco: tradição e protocolos na odontologia', href: '/blog', tag: 'Odontologia', excerpt: 'Por que o branco domina a odontologia e o que o CRO recomenda sobre cores e vestimenta clínica.' },
+                  { title: 'Jaleco branco: tradição e protocolos em podologia', href: '/blog', tag: 'Podologia', excerpt: 'Por que o branco é tão usado em podologia e o que recomendam sobre cores e vestimenta.' },
                   { title: 'Como escolher o tamanho certo do jaleco', href: '/medidas', tag: 'Guia de Tamanhos', excerpt: 'Passo a passo para medir busto, cintura e quadril e encontrar o tamanho ideal na grade Jaleca.' },
                 ].map(post => (
                   <Link key={post.href} href={post.href} style={{ background: '#fff', textDecoration: 'none', color: 'inherit', display: 'block' }}>

@@ -225,7 +225,7 @@ export default async function BlogPost() {
             <li>Nota 4.9/5 no Google com mais de 50 avaliações</li>
             <li>Tamanhos de PP ao G3 — únicos no mercado</li>
             <li>Frete grátis no Sudeste acima de R$499</li>
-            <li>Troca em até 30 dias após recebimento</li>
+            <li>Devolução em até 7 dias (arrependimento)</li>
           </ul>
           <p>
             <Link href="/produtos" className="text-[#c4a97d] font-semibold hover:underline">

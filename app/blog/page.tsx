@@ -76,7 +76,7 @@ export default async function BlogPage({
     { '@type': 'Question', name: 'Jaleco branco ou colorido: qual escolher?', acceptedAnswer: { '@type': 'Answer', text: 'Hospitais e centros cirúrgicos exigem jaleco branco. Em consultórios e clínicas, cores são aceitas e transmitem personalidade.' } },
     { '@type': 'Question', name: 'Como cuidar do jaleco para aumentar a durabilidade?', acceptedAnswer: { '@type': 'Answer', text: 'Lave em água fria ou morna, use sabão neutro, evite alvejante. Seque à sombra e passe em temperatura média.' } },
     { '@type': 'Question', name: 'Qual tamanho de jaleco devo escolher?', acceptedAnswer: { '@type': 'Answer', text: 'Meça busto e cintura e compare com a tabela de medidas. Na dúvida entre dois tamanhos, opte pelo maior — jaleco largo é mais fácil de ajustar.' } },
-    { '@type': 'Question', name: 'A Jaleca oferece troca de jaleco?', acceptedAnswer: { '@type': 'Answer', text: 'Sim, você pode trocar em até 30 dias após o recebimento, sem burocracia.' } },
+    { '@type': 'Question', name: 'A Jaleca oferece troca de jaleco?', acceptedAnswer: { '@type': 'Answer', text: 'Arrependimento: até 7 dias após o recebimento, produto sem uso e com etiqueta (CDC). Garantia Jaleca: 30 dias, sem marca de uso e com etiqueta.' } },
   ]
 
   const breadcrumbSchema = {

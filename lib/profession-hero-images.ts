@@ -24,7 +24,7 @@ export const PROFESSION_HERO_IMAGES: Record<string, string> = {
   'massagista': 'conjunto-scrub-feminino-jaleca',
   'professora': 'jaleco-padrao-aluno-feminino-jaleca',
   'secretaria': 'conjunto-laco-feminino-jaleca',
-  'tatuador': 'jaleco-slim-tradicional-feminino-jaleca',
+  'tatuador': 'jaleco-slim-tradicional-masculino-jaleca',
   'dona-casa': 'conjunto-dolma-cozinheiro-feminino-jaleca',
   'cozinheira': 'conjunto-dolma-cozinheiro-feminino-jaleca',
   'churrasqueira': 'conjunto-dolma-cozinheiro-feminino-jaleca',

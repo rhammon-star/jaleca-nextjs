@@ -5,7 +5,7 @@ const faqItems = [
   { q: 'Veterinário pode usar jaleco colorido?', a: 'Pode. Cores como azul e verde são populares em clínicas veterinárias. O branco transmite higiene e é a escolha mais tradicional.' },
   { q: 'Qual a diferença entre jaleco Slim e Profissional?', a: 'O Slim tem corte ajustado e visual moderno. O Profissional tem corte mais amplo, transmitindo mais formalidade para o ambiente clínico.' },
   { q: 'Veterinário precisa de jaleco com proteção?', a: 'Sim. O jaleco funciona como barreira contra pelos, fluidos animais e produtos químicos. Deve ser usado exclusivamente durante o trabalho.' },
-  { q: 'Como funciona a troca?', a: 'Troca em até 30 dias. Produto sem uso e com etiqueta. WhatsApp ou e-mail com número do pedido.' },
+  { q: 'Como funciona a troca?', a: 'Arrependimento: até 7 dias após o recebimento, produto sem uso e com etiqueta. Garantia Jaleca: 30 dias, sem marca de uso e com etiqueta. WhatsApp ou e-mail com número do pedido.' },
   { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Prazo de 3 a 8 dias úteis conforme região — calculado no checkout.' },
 ]
 export default function FaqAccordion() {

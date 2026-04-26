@@ -64,13 +64,24 @@ export default function ProfessionMenu() {
     ],
   }
 
-  // Filtra profissões por busca
-  const allProfessions = Object.entries(PROFESSION_MAP)
-    .filter(([key, info]) => info.hub) // Só profissões com hub
+  // Profissões de saúde que aparecem primeiro no mobile
+  const PRIORITY_KEYS = [
+    'medica', 'medico', 'odontologia', 'dentista', 'dentista-feminino',
+    'enfermagem', 'enfermeira', 'enfermeiro', 'farmaceutica', 'farmaceutico',
+    'nutricionista', 'fisioterapeuta', 'biomedica', 'biomedico',
+  ]
+
+  const allProfessionsAlpha = Object.entries(PROFESSION_MAP)
+    .filter(([key, info]) => info.hub)
     .sort((a, b) => a[1].label.localeCompare(b[1].label))
 
+  const allProfessions = [
+    ...PRIORITY_KEYS.map(k => [k, PROFESSION_MAP[k]] as [string, typeof PROFESSION_MAP[string]]).filter(([, info]) => info?.hub),
+    ...allProfessionsAlpha.filter(([key]) => !PRIORITY_KEYS.includes(key)),
+  ]
+
   const filteredProfessions = searchTerm
-    ? allProfessions.filter(([_, info]) =>
+    ? allProfessionsAlpha.filter(([_, info]) =>
         info.label.toLowerCase().includes(searchTerm.toLowerCase())
       )
     : allProfessions

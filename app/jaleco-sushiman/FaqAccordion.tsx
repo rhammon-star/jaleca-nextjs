@@ -5,7 +5,7 @@ const faqItems = [
   { q: 'Sushiman pode usar jaleco em vez de dólar?', a: 'O jaleco não é ideal para a cozinha japonesa porque o tecido não tem a mesma resistência a manchas de peixe e molhos que o dólar profissional oferece.' },
   { q: 'Qual a diferença entre dólar e jaleco para sushi?', a: 'O dólar tem tecido que repele manchas de gordura e peixe, é mais ventilado e mais fácil de lavar. O jaleco é mais formal mas menos prático para a cozinha japonesa.' },
   { q: 'O uniforme de sushiman precisa de EPIs?', a: 'Sim. Luvas descartáveis para manipular peixe cru, óculos de proteção e avental impermeável são EPIs importantes na cozinha japonesa.' },
-  { q: 'Como funciona a troca?', a: 'Troca em até 30 dias. Produto sem uso e com etiqueta. WhatsApp ou e-mail com número do pedido.' },
+  { q: 'Como funciona a troca?', a: 'Arrependimento: até 7 dias após o recebimento, produto sem uso e com etiqueta. Garantia Jaleca: 30 dias, sem marca de uso e com etiqueta. WhatsApp ou e-mail com número do pedido.' },
   { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Prazo de 3 a 8 dias úteis conforme região — calculado no checkout.' },
 ]
 export default function FaqAccordion() {

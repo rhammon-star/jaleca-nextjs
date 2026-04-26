@@ -61,7 +61,7 @@ const schemaFaq = {
     { '@type': 'Question', name: 'A Jaleca tem loja física?', acceptedAnswer: { '@type': 'Answer', text: 'Sim! Nossa loja matriz fica em Ipatinga, MG, na Av. Castelo Branco, 391 - Loja B, Horto. Além da matriz, temos outras 5 lojas franqueadas em MG, ES e PR.' } },
     { '@type': 'Question', name: 'A Jaleca envia para todo o Brasil?', acceptedAnswer: { '@type': 'Answer', text: 'Sim, enviamos para todo o Brasil via Correios e transportadoras. Clientes de SP, RJ, MG e ES têm frete grátis para compras acima de R$499.' } },
     { '@type': 'Question', name: 'Qual o prazo de entrega da Jaleca?', acceptedAnswer: { '@type': 'Answer', text: 'O prazo varia de 5 a 15 dias úteis dependendo da região. Em Ipatinga e cidades próximas, a entrega pode ser ainda mais rápida.' } },
-    { '@type': 'Question', name: 'A Jaleca oferece garantia nos produtos?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. Oferecemos garantia de 30 dias para trocas e devoluções e assistimos pós-venda para qualquer defeito de fabricação identificado com uso adequado.' } },
+    { '@type': 'Question', name: 'A Jaleca oferece garantia nos produtos?', acceptedAnswer: { '@type': 'Answer', text: 'Arrependimento: 7 dias após o recebimento (CDC Art. 49). Garantia Jaleca: 30 dias, sem marca de uso e com etiqueta. Assistimos pós-venda para defeitos identificados.' } },
     { '@type': 'Question', name: 'Como posso falar com a Jaleca?', acceptedAnswer: { '@type': 'Answer', text: 'Você pode entrar em contato pelo WhatsApp (31) 3367-2467, por e-mail em contato@jaleca.com.br, ou visitar nossa loja física em Ipatinga.' } },
   ],
 }
@@ -171,7 +171,7 @@ export default function SobrePage() {
                 { q: 'A Jaleca tem loja física?', a: 'Sim! Nossa loja matriz fica em Ipatinga, MG. Além da matriz, temos mais 5 lojas franqueadas em Minas Gerais, Espírito Santo e Paraná.' },
                 { q: 'A Jaleca envia para todo o Brasil?', a: 'Sim, enviamos para todo o Brasil. Clientes de SP, RJ, MG e ES têm frete grátis para compras acima de R$499.' },
                 { q: 'Qual o prazo de entrega?', a: 'O prazo varia de 5 a 15 dias úteis dependendo da região. Em Ipatinga e região, a entrega pode ser ainda mais rápida.' },
-                { q: 'A Jaleca oferece garantia?', a: 'Sim. Oferecemos garantia de 30 dias para trocas e devoluções, e assistimos pós-venda para defeitos de fabricação.' },
+                { q: 'A Jaleca oferece garantia?', a: 'Arrependimento: 7 dias após o recebimento (CDC). Garantia Jaleca: 30 dias, sem marca de uso e com etiqueta.' },
                 { q: 'Como posso falar com a Jaleca?', a: 'WhatsApp: (31) 3367-2467 | E-mail: contato@jaleca.com.br | Loja física: Av. Castelo Branco, 391 - Loja B, Ipatinga, MG.' },
               ].map((item, i) => (
                 <details key={i} className="group border border-border rounded-lg">

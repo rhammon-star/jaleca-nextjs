@@ -189,7 +189,7 @@ export default async function Page() {
             { title: 'Manga longa NR-32', sub: 'Barreira biológica obrigatória' },
             { title: 'PP ao G3', sub: 'Grade completa, corpo real' },
             { title: 'Frete grátis SE', sub: 'SP · RJ · MG · ES acima R$499' },
-            { title: 'Troca em 30 dias', sub: 'Sem burocracia' },
+            { title: 'Troca em 7 dias', sub: 'Direito do consumidor' },
           ].map((item, i) => (
             <div key={i} style={{ padding: '0.75rem 1.5rem', borderRight: (i % 2 === 0) ? '1px solid rgba(255,255,255,0.12)' : 'none', borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.08)' : 'none' }}>
               <strong style={{ display: 'block', fontSize: '0.82rem', fontWeight: 400, color: '#fff', marginBottom: '0.15rem' }}>{item.title}</strong>

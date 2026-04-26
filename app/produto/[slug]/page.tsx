@@ -125,7 +125,8 @@ export async function generateMetadata({
 
   let productName = String(product.name || '').replace(/ - Jaleca$/i, '')
   let name = productName
-  let imageUrl = product.image?.sourceUrl
+  const galleryImages = (product as any).galleryImages?.nodes || []
+  let imageUrl: string | undefined = product.image?.sourceUrl || galleryImages[0]?.sourceUrl
   let actualSlug = slug
   let description: string
   let metaTitle: string
@@ -137,7 +138,8 @@ export async function generateMetadata({
 
     if (variation) {
       name = `${productName} ${colorName}`
-      imageUrl = variation.image?.sourceUrl || imageUrl
+      const jalecaGallery = (variation as any).jalecaGalleryImages || []
+      imageUrl = variation.image?.sourceUrl || jalecaGallery[0]?.sourceUrl || imageUrl
 
       // Buscar dados SEO do JSON
       const { seoData } = await getColorDataForProduct(productName)
@@ -194,14 +196,14 @@ export async function generateMetadata({
       url: `https://jaleca.com.br/produto/${actualSlug}`,
       siteName: 'Jaleca',
       locale: 'pt_BR',
-      images: imageUrl ? [{ url: imageUrl, width: 1200, height: 1200, alt: name }] : [],
+      images: [{ url: imageUrl || 'https://jaleca.com.br/og-home.jpg', width: 1200, height: 1200, alt: name }],
       type: 'website',
     },
     twitter: {
       card: 'summary_large_image',
       title: name,
       description,
-      images: imageUrl ? [imageUrl] : [],
+      images: [imageUrl || 'https://jaleca.com.br/og-home.jpg'],
     },
   }
 }

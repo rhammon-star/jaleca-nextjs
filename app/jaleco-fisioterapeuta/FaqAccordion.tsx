@@ -5,7 +5,7 @@ const faqItems = [
   { q: 'Fisioterapeuta pode usar jaleco colorido?', a: 'Pode. Cores como azul, verde e lilás são aceitas em clínicas de fisioterapia. O branco permanece como opção clássica e profissional.' },
   { q: 'Qual modelo é melhor para fisioterapia?', a: 'O modelo Slim com elastano é o mais indicado porque acompanha os movimentos sem restringir. Para procedimentos manuais longos, o Profissional também é uma boa opção.' },
   { q: 'O jaleco protege contra contaminação?', a: 'O jaleco funciona como barreira contra respingos de álcool, gels e outros produtos usados na fisioterapia. Deve ser usado exclusivamente durante o trabalho.' },
-  { q: 'Como funciona a troca?', a: 'Troca em até 30 dias. Produto sem uso e com etiqueta. WhatsApp ou e-mail com número do pedido.' },
+  { q: 'Como funciona a troca?', a: 'Arrependimento: até 7 dias após o recebimento, produto sem uso e com etiqueta. Garantia Jaleca: 30 dias, sem marca de uso e com etiqueta. WhatsApp ou e-mail com número do pedido.' },
   { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Prazo de 3 a 8 dias úteis conforme região — calculado no checkout.' },
 ]
 export default function FaqAccordion() {

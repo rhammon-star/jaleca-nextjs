@@ -5,7 +5,7 @@ const faqItems = [
   { q: 'Psicólogo pode usar jaleco em consultório?', a: 'Pode e é cada vez mais comum. O jaleco transmite autoridade profissional e separa claramente o espaço pessoal do profissional durante os atendimentos.' },
   { q: 'Qual a diferença entre jaleco Slim e Profissional?', a: 'O Slim tem corte ajustado e visual moderno. O Profissional tem corte mais amplo, transmitindo mais formalidade para o ambiente clínico.' },
   { q: 'Psicólogo pode ter jaleco colorido?', a: 'Sim. Tons suaves como lavanda, azul claro e verde são populares em consultórios de psicologia. O branco também é amplamente aceito.' },
-  { q: 'Como funciona a troca?', a: 'Troca em até 30 dias. Produto sem uso e com etiqueta. WhatsApp ou e-mail com número do pedido.' },
+  { q: 'Como funciona a troca?', a: 'Arrependimento: até 7 dias após o recebimento, produto sem uso e com etiqueta. Garantia Jaleca: 30 dias, sem marca de uso e com etiqueta. WhatsApp ou e-mail com número do pedido.' },
   { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Prazo de 3 a 8 dias úteis conforme região — calculado no checkout.' },
 ]
 export default function FaqAccordion() {

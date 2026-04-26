@@ -658,7 +658,7 @@ export default function ProductDetailClient({
             )}
             <div className="flex flex-wrap gap-x-4 gap-y-1 mb-3">
               <span className="flex items-center gap-1.5 text-[13px] text-muted-foreground"><span className="text-green-600">✔</span> Envio rápido para todo o Brasil</span>
-              <span className="flex items-center gap-1.5 text-[13px] text-muted-foreground"><span className="text-green-600">✔</span> Troca fácil em até 30 dias</span>
+              <span className="flex items-center gap-1.5 text-[13px] text-muted-foreground"><span className="text-green-600">✔</span> Devolução em 7 dias</span>
               <span className="flex items-center gap-1.5 text-[13px] text-muted-foreground"><span className="text-green-600">✔</span> Compra 100% segura</span>
             </div>
             {reviews.length > 0 ? (
@@ -774,7 +774,7 @@ export default function ProductDetailClient({
               )}
               <div className="flex flex-wrap gap-x-4 gap-y-1.5 mb-4">
                 <span className="flex items-center gap-1.5 text-[11px] text-muted-foreground"><span className="text-green-600">✔</span> Envio rápido para todo o Brasil</span>
-                <span className="flex items-center gap-1.5 text-[11px] text-muted-foreground"><span className="text-green-600">✔</span> Troca fácil em até 30 dias</span>
+                <span className="flex items-center gap-1.5 text-[11px] text-muted-foreground"><span className="text-green-600">✔</span> Devolução em 7 dias</span>
                 <span className="flex items-center gap-1.5 text-[11px] text-muted-foreground"><span className="text-green-600">✔</span> Compra 100% segura</span>
               </div>
               {reviews.length > 0 ? (
@@ -1000,22 +1000,23 @@ export default function ProductDetailClient({
 
             {/* Actions */}
             <div ref={addToCartBtnRef} className="flex flex-col gap-3 mt-auto">
-              <div className="flex flex-col sm:flex-row gap-3">
+              <div className="flex flex-row gap-3">
                 <button
                   onClick={handleAddToCart}
-                  className={`flex-1 inline-flex min-h-14 w-full items-center justify-center gap-2 bg-ink px-6 py-4 text-xs font-semibold tracking-widest uppercase text-background transition-transform duration-300 hover:bg-ink active:scale-[0.98] ${!canAdd ? 'cursor-not-allowed opacity-40' : ''}`}
+                  className={`flex-1 inline-flex min-h-14 items-center justify-center gap-2 bg-ink px-6 py-4 text-xs font-semibold tracking-widest uppercase text-background transition-transform duration-300 hover:bg-ink active:scale-[0.98] ${!canAdd ? 'cursor-not-allowed opacity-40' : ''}`}
                 >
                   <ShoppingBag size={18} />
                   {isOutOfStock ? 'Esgotado nessa variação' : 'Adicionar à Sacola'}
                 </button>
+                <div className="flex flex-row gap-2">
                 <button
                   onClick={() => toggleWishlist(String(product.databaseId))}
-                  className={`h-14 w-14 rounded-full border border-border bg-background transition-colors hover:bg-muted active:scale-95 flex items-center justify-center ${
+                  className={`h-12 w-12 rounded-full border border-border bg-background transition-colors hover:bg-muted active:scale-95 flex items-center justify-center shrink-0 ${
                     inWishlist ? 'text-red-500' : 'text-foreground'
                   }`}
                   aria-label={inWishlist ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
                 >
-                  <Heart size={20} className={inWishlist ? 'fill-red-500' : ''} />
+                  <Heart size={18} className={inWishlist ? 'fill-red-500' : ''} />
                 </button>
                 <button
                   onClick={async () => {
@@ -1036,11 +1037,12 @@ export default function ProductDetailClient({
                       /* cancelado */
                     }
                   }}
-                  className="h-14 w-14 rounded-full border border-border bg-background transition-colors hover:bg-muted active:scale-95 flex items-center justify-center text-foreground"
+                  className="h-12 w-12 rounded-full border border-border bg-background transition-colors hover:bg-muted active:scale-95 flex items-center justify-center text-foreground shrink-0"
                   aria-label="Compartilhar"
                 >
-                  <Share2 size={20} />
+                  <Share2 size={18} />
                 </button>
+                </div>
               </div>
               {!isOutOfStock && (
                 <button

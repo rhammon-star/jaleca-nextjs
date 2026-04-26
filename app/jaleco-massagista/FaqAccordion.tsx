@@ -5,7 +5,7 @@ const faqItems = [
   { q: 'Massagista pode usar jaleco colorido?', a: 'Pode. Cores suaves como azul, verde e lavanda transmitem relaxamento e são populares em spas e clínicas de massagem.' },
   { q: 'Qual a diferença entre jaleco Slim e Profissional?', a: 'O Slim tem corte ajustado que não atrapalha durante a massagem. O Profissional tem mais espaço, sendo bom para quem faz procedimentos mais longos.' },
   { q: 'O jaleco precisa de bolsos?', a: 'Sim. O bolso no peito é útil para canetas e equipamentos pequenos. Os bolsos laterais são ideais para cremes e óleos de massagem.' },
-  { q: 'Como funciona a troca?', a: 'Troca em até 30 dias. Produto sem uso e com etiqueta. WhatsApp ou e-mail com número do pedido.' },
+  { q: 'Como funciona a troca?', a: 'Arrependimento: até 7 dias após o recebimento, produto sem uso e com etiqueta. Garantia Jaleca: 30 dias, sem marca de uso e com etiqueta. WhatsApp ou e-mail com número do pedido.' },
   { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Prazo de 3 a 8 dias úteis conforme região — calculado no checkout.' },
 ]
 export default function FaqAccordion() {

@@ -3,11 +3,11 @@ import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: 'Comprar Jaleco Online | Modelos Femininos e Masculinos — Jaleca',
-  description: 'Comprar jaleco online com entrega para todo o Brasil. Tecido premium, do PP ao G3, 12 cores. Frete grátis SP/RJ/MG/ES acima de R$499. Troca em 30 dias.',
+  description: 'Comprar jaleco online com entrega para todo o Brasil. Tecido premium, do PP ao G3, 12 cores. Frete grátis SP/RJ/MG/ES acima de R$499. Devolução em 7 dias.',
   alternates: { canonical: 'https://jaleca.com.br/comprar-jaleco-online' },
   openGraph: {
     title: 'Comprar Jaleco Online | Modelos Exclusivos — Jaleca',
-    description: 'Jalecos femininos e masculinos com tecido premium. Entrega rápida, troca em 30 dias, frete grátis no Sudeste.',
+    description: 'Jalecos femininos e masculinos com tecido premium. Entrega rápida, devolução em 7 dias, frete grátis no Sudeste.',
     url: 'https://jaleca.com.br/comprar-jaleco-online',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -49,7 +49,7 @@ const jsonLd = {
           name: 'Posso trocar meu jaleco se não servir?',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: 'Sim, a Jaleca oferece troca em até 30 dias após o recebimento, sem burocracia e sem precisar justificar.',
+            text: 'Sim, você tem 7 dias a partir do recebimento para devolução por arrependimento (CDC). Para defeito de fabricação, o prazo é de 30 dias, produto sem uso e com etiqueta.',
           },
         },
         {
@@ -104,7 +104,7 @@ export default function ComprarJalecoOnlinePage() {
           </span>
           <div style={{ position: 'relative', zIndex: 1, maxWidth: 800, margin: '0 auto' }}>
             <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>
-              Frete grátis · Troca em 30 dias · Tecido premium
+              Frete grátis · Devolução em 7 dias · Tecido premium
             </div>
             <h1 style={{
               fontFamily: "'Cormorant', Georgia, serif",
@@ -148,8 +148,8 @@ export default function ComprarJalecoOnlinePage() {
                 },
                 {
                   icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 28, height: 28 }}><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0" /><path d="m9 12 2 2 4-4" /></svg>,
-                  title: 'Troca em 30 dias',
-                  sub: 'Sem burocracia, sem pergunta',
+                  title: 'Troca em 7 dias',
+                  sub: 'Direito do consumidor',
                 },
                 {
                   icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 28, height: 28 }}><rect x="3" y="3" width="18" height="18" rx="2" /><path d="M3 9h18M9 3v18" /></svg>,
@@ -229,7 +229,7 @@ export default function ComprarJalecoOnlinePage() {
           <div style={{ maxWidth: 1200, margin: '0 auto', display: 'flex', flexWrap: 'wrap', gap: '2rem', justifyContent: 'center', alignItems: 'center' }}>
             {[
               { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 18, height: 18 }}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>, label: 'Compra 100% segura' },
-              { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 18, height: 18 }}><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0" /><path d="m9 12 2 2 4-4" /></svg>, label: 'Troca em 30 dias' },
+              { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 18, height: 18 }}><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0" /><path d="m9 12 2 2 4-4" /></svg>, label: 'Troca em 7 dias' },
               { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 18, height: 18 }}><path d="M5 12h14M12 5l7 7-7 7" /></svg>, label: 'Frete grátis acima de R$499' },
               { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 18, height: 18 }}><rect x="3" y="3" width="18" height="18" rx="2" /><path d="M3 9h18M9 3v18" /></svg>, label: 'Estoque próprio' },
             ].map((item, i) => (
@@ -295,7 +295,7 @@ export default function ComprarJalecoOnlinePage() {
                 },
                 {
                   q: 'Posso trocar meu jaleco se não servir?',
-                  a: 'Pode. A troca é garantida em até 30 dias após o recebimento, sem burocracia. Basta nos contatar pelo WhatsApp ou email e orientamos o processo completo.',
+                  a: 'Arrependimento: até 7 dias após o recebimento, produto sem uso e com etiqueta. Garantia Jaleca: 30 dias, sem marca de uso e com etiqueta. Basta nos contatar pelo WhatsApp ou email.',
                 },
                 {
                   q: 'Qual o prazo de entrega?',
@@ -328,7 +328,7 @@ export default function ComprarJalecoOnlinePage() {
               Pronta para comprar<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>seu jaleco online?</em>
             </h2>
             <p style={{ fontSize: '0.97rem', color: 'rgba(255,255,255,0.55)', fontWeight: 300, marginBottom: '2.5rem' }}>
-              Mais de 30 modelos disponíveis. Frete grátis no Sudeste acima de R$499. Troca em 30 dias sem perguntas.
+              Mais de 30 modelos disponíveis. Frete grátis no Sudeste acima de R$499. Devolução em 7 dias por arrependimento.
             </p>
             <div className="flex gap-4 flex-wrap justify-center">
               <Link href="/produtos?categoria=jalecos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2.5rem', background: '#fff', color: '#1a1a1a', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none' }}>

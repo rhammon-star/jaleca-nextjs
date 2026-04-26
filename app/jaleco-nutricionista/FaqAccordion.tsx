@@ -5,7 +5,7 @@ const faqItems = [
   { q: 'Nutricionista pode usar jaleco colorido?', a: 'Pode. Tons como azul, verde e lavanda são populares em consultórios de nutrição. O branco permanece como opção clássica e profissional.' },
   { q: 'Qual a diferença entre jaleco Slim e Profissional?', a: 'O Slim tem corte ajustado e moderno. O Profissional tem corte mais amplo, transmitindo mais formalidade para o ambiente clínico.' },
   { q: 'O jaleco de nutricionista precisa de proteção especial?', a: 'O jaleco funciona como barreira higiênica durante atendimentos. Em consultórios onde há manipulação de alimentos, ele protege contra contaminação cruzada.' },
-  { q: 'Como funciona a troca?', a: 'Troca em até 30 dias. Produto sem uso e com etiqueta. WhatsApp ou e-mail com número do pedido.' },
+  { q: 'Como funciona a troca?', a: 'Arrependimento: até 7 dias após o recebimento, produto sem uso e com etiqueta. Garantia Jaleca: 30 dias, sem marca de uso e com etiqueta. WhatsApp ou e-mail com número do pedido.' },
   { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Prazo de 3 a 8 dias úteis conforme região — calculado no checkout.' },
 ]
 export default function FaqAccordion() {

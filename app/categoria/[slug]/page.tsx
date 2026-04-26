@@ -257,7 +257,7 @@ export default async function CategoriaPage({
             <li>Tamanhos PP ao G3 — únicos no mercado para todos os biótipos</li>
             <li>Try-on virtual: experimente o jaleco antes de comprar</li>
             <li>Entrega rápida para todo o Brasil — frete grátis no Sudeste acima de R$499</li>
-            <li>Troca fácil em até 30 dias após o recebimento</li>
+            <li>Devolução em até 7 dias por arrependimento · 30 dias para defeito de fabricação</li>
           </ul>
           <h3 className="text-sm font-semibold mt-5 mb-2">Guias e dicas</h3>
           <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside">

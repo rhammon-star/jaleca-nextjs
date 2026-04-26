@@ -37,7 +37,7 @@ const schemaFaq = {
     { '@type': 'Question', name: 'O que fazer se minhas medidas ficarem entre dois tamanhos?', acceptedAnswer: { '@type': 'Answer', text: 'Recomendamos optar pelo tamanho maior para maior conforto de movimento — especialmente importante em jalecos de trabalho que exigem mobilidade o dia inteiro.' } },
     { '@type': 'Question', name: 'As medidas da tabela são do corpo ou da roupa?', acceptedAnswer: { '@type': 'Answer', text: 'Todas as medidas da tabela são参考 do corpo, não da peça. Cada jaleco tem uma margem de folga já incluída no caimento.' } },
     { '@type': 'Question', name: 'Como saber se o jaleco vai servir bem?', acceptedAnswer: { '@type': 'Answer', text: 'Veja a descrição do produto para saber a modelagem (Slim ou Profissional). Em caso de dúvida, nossa equipe do WhatsApp pode ajudar a escolher o tamanho ideal para você.' } },
-    { '@type': 'Question', name: 'Posso trocar o tamanho se não servir?', acceptedAnswer: { '@type': 'Answer', text: 'Sim! Oferecemos 30 dias para troca sem burocracia. Basta entrar em contato pelo WhatsApp em até 30 dias após o recebimento, com o produto sem uso e com etiqueta.' } },
+    { '@type': 'Question', name: 'Posso trocar o tamanho se não servir?', acceptedAnswer: { '@type': 'Answer', text: 'Arrependimento: 7 dias após o recebimento, produto sem uso e com etiqueta (CDC). Basta entrar em contato pelo WhatsApp.' } },
     { '@type': 'Question', name: 'Jalecos com elastano têm caimento diferente?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. O elastano adiciona memória ao tecido, retornando à forma original após o movimento. Isso significa que o jaleco mantém o caimento impecável mesmo após horas de uso e múltiplas lavagens.' } },
   ],
 }
@@ -88,7 +88,7 @@ export default function MedidasPage() {
               { q: 'E se minhas medidas ficarem entre dois tamanhos?', a: 'Opte pelo tamanho maior para mais conforto de movimento — importante para quem passa o dia inteiro com o jaleco.' },
               { q: 'As medidas são do corpo ou da roupa?', a: 'São do corpo. Cada jaleco já tem margem de folga incluída no caimento.' },
               { q: 'Como saber se o jaleco vai servir bem?', a: 'Veja a modelagem na descrição do produto (Slim ou Profissional). Dúvidas? Nossa equipe do WhatsApp ajuda a escolher.' },
-              { q: 'Posso trocar se não servir?', a: 'Sim! São 30 dias para troca sem burocracia. Entre em contato pelo WhatsApp com o produto sem uso e com etiqueta.' },
+              { q: 'Posso trocar se não servir?', a: 'Arrependimento: 7 dias após o recebimento, produto sem uso e com etiqueta. Entre em contato pelo WhatsApp.' },
               { q: 'Jaleco com elastano tem caimento diferente?', a: 'Sim. O elastano dá memória ao tecido, mantendo o caimento impecável mesmo após horas de uso e múltiplas lavagens.' },
             ].map((item, i) => (
               <details key={i} className="group border border-border rounded-lg">

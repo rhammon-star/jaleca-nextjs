@@ -41,7 +41,7 @@ const faqSchema = {
       name: 'É seguro comprar jaleco pela internet?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Sim, é seguro comprar jaleco online quando você escolhe lojas estabelecidas, com avaliações positivas de clientes e políticas claras de troca. A Jaleca, por exemplo, oferece 30 dias para troca, frete grátis no Sudeste acima de R$499 e checkout seguro.'
+        text: 'Sim, é seguro comprar jaleco online quando você escolhe lojas estabelecidas, com avaliações positivas de clientes e políticas claras de troca. A Jaleca, por exemplo, oferece devolução em 7 dias por arrependimento, frete grátis no Sudeste acima de R$499 e checkout seguro.'
       }
     },
     {
@@ -57,7 +57,7 @@ const faqSchema = {
       name: 'Posso trocar o jaleco se não servir?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Sim, na Jaleca você pode trocar em até 30 dias após o recebimento. A loja oferece orientação de medidas online para ajudar você a escolher o tamanho certo antes de comprar.'
+        text: 'Sim, na Jaleca você pode devolver em até 7 dias após o recebimento por arrependimento (CDC). A loja oferece orientação de medidas online para ajudar você a escolher o tamanho certo antes de comprar.'
       }
     },
     {
@@ -178,7 +178,7 @@ export default function BlogPost() {
             </div>
             <div className="flex flex-col items-center text-center p-4 bg-[#faf9f7] border border-[#e8e0d5] rounded-lg">
               <RotateCcw size={28} className="text-[#c4a97d] mb-2" />
-              <span className="text-sm font-medium">30 Dias Troca</span>
+              <span className="text-sm font-medium">7 Dias Devolução</span>
               <span className="text-xs text-muted-foreground">Devolução grátis</span>
             </div>
             <div className="flex flex-col items-center text-center p-4 bg-[#faf9f7] border border-[#e8e0d5] rounded-lg">
@@ -245,7 +245,7 @@ export default function BlogPost() {
         <div className="mt-12 p-8 bg-[#1a1a1a] text-white">
           <h3 className="font-display text-xl font-semibold mb-2">Pronto para comprar seu jaleco online?</h3>
           <p className="text-[#aaa] mb-4">
-            Na Jaleca você compra com segurança: 30 dias de troca, frete grátis acima de R$499 e atendimento via WhatsApp.
+            Na Jaleca você compra com segurança: devolução em 7 dias, frete grátis acima de R$499 e atendimento via WhatsApp.
           </p>
           <div className="flex flex-wrap gap-3">
             <Link

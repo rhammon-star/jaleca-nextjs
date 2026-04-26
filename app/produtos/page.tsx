@@ -56,7 +56,7 @@ const schemaFaq = {
   '@type': 'FAQPage',
   mainEntity: [
     { '@type': 'Question', name: 'Qual prazo de entrega dos produtos Jaleca?', acceptedAnswer: { '@type': 'Answer', text: 'Enviamos em até 2 dias úteis após confirmação do pagamento. O prazo de entrega varia de 3 a 8 dias úteis conforme sua região — calculado no checkout com CEP.' } },
-    { '@type': 'Question', name: 'Como funciona a troca de tamanho?', acceptedAnswer: { '@type': 'Answer', text: 'Aceita troca em até 30 dias após o recebimento. Produto sem uso e com etiqueta. Manda mensagem pelo WhatsApp ou e-mail para iniciar o processo.' } },
+    { '@type': 'Question', name: 'Como funciona a troca de tamanho?', acceptedAnswer: { '@type': 'Answer', text: 'Arrependimento: 7 dias após o recebimento, produto sem uso e com etiqueta (CDC). Garantia Jaleca: 30 dias, sem marca de uso e com etiqueta.' } },
     { '@type': 'Question', name: 'Como escolher o tamanho certo do jaleco?', acceptedAnswer: { '@type': 'Answer', text: 'Meça busto, cintura e quadril com fita métrica. Compare com a tabela de medidas na página de cada produto. Em caso de dúvida entre dois tamanhos, opte pelo maior — jalecos Jaleca têm elastano e adaptam bem ao corpo.' } },
     { '@type': 'Question', name: 'Frete grátis para quais regiões?', acceptedAnswer: { '@type': 'Answer', text: 'Frete grátis para compras acima de R$499 nas regiões SP, RJ, MG e ES. Para outras regiões, o valor é calculado no checkout com base no CEP de entrega.' } },
     { '@type': 'Question', name: 'Posso comprar jaleco por atacado?', acceptedAnswer: { '@type': 'Answer', text: 'Para compras a partir de 10 peças do mesmo modelo, entre em contato pelo WhatsApp para preço especial Atacado. Temos condição diferenciada para clínicas e consultórios.' } },
