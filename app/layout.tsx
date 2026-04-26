@@ -10,17 +10,21 @@ import { AuthProvider } from "@/contexts/AuthContext"
 import { WishlistProvider } from "@/contexts/WishlistContext"
 import { CompareProvider } from "@/contexts/CompareContext";
 import WhatsAppButton from "@/components/WhatsAppButton";
-import FirstPurchasePopup from "@/components/FirstPurchasePopup";
 import Analytics from "@/components/Analytics";
-import CartRecoveryCapture from "@/components/CartRecoveryCapture";
-import CompareBar from "@/components/CompareBar";
-import TawkToChat from "@/components/TawkToChat";
-import CookieConsent from "@/components/CookieConsent";
 import Script from "next/script";
-import FranqueadoBanner from "@/components/FranqueadoBanner";
-import GoogleMerchantBadge from "@/components/GoogleMerchantBadge";
 import BottomNavBar from "@/components/BottomNavBar";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import dynamic from "next/dynamic";
+
+// Componentes não-críticos: lazy-loaded fora do bundle inicial.
+// Mantém tracking/funcionalidade intactos mas tira ~50-80KB do JS crítico.
+const FirstPurchasePopup = dynamic(() => import("@/components/FirstPurchasePopup"));
+const CartRecoveryCapture = dynamic(() => import("@/components/CartRecoveryCapture"));
+const CompareBar = dynamic(() => import("@/components/CompareBar"));
+const TawkToChat = dynamic(() => import("@/components/TawkToChat"));
+const CookieConsent = dynamic(() => import("@/components/CookieConsent"));
+const FranqueadoBanner = dynamic(() => import("@/components/FranqueadoBanner"));
+const GoogleMerchantBadge = dynamic(() => import("@/components/GoogleMerchantBadge"));
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
