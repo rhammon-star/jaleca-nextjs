@@ -60,12 +60,12 @@ const breadcrumbSchema = {
   '@type': 'BreadcrumbList',
   itemListElement: [
     { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://jaleca.com.br' },
-    { '@type': 'ListItem', position: 2, name: 'Dolmas', item: 'https://jaleca.com.br/produtos?categoria=dolmas' },
+    { '@type': 'ListItem', position: 2, name: 'Dólmãs', item: 'https://jaleca.com.br/produtos?categoria=dolmas' },
     { '@type': 'ListItem', position: 3, name: 'Para Sushiman', item: 'https://jaleca.com.br/dolma-sushiman' },
   ],
 }
 
-async function getDolmas(): Promise<WooProduct[]> {
+async function getDólmãs(): Promise<WooProduct[]> {
   try {
     const data = await graphqlClient.request<{ products: { nodes: WooProduct[] } }>(GET_PRODUCTS, {
       first: 50,
@@ -118,7 +118,7 @@ function HeroStars({ rating }: { rating: number }) {
 
 export default async function DolmaSushimanPage() {
   const [produtos, posts, placeData, heroImg] = await Promise.all([
-    getDolmas(),
+    getDólmãs(),
     getBlogPosts(),
     getGooglePlaceData(),
     getHeroImage(),
@@ -137,7 +137,7 @@ export default async function DolmaSushimanPage() {
           <ol className="flex items-center gap-2 max-w-[1200px] mx-auto" style={{ listStyle: 'none' }}>
             {[
               { label: 'Início', href: '/' },
-              { label: 'Dolmas', href: '/produtos?categoria=dolmas' },
+              { label: 'Dólmãs', href: '/produtos?categoria=dolmas' },
               { label: 'Para Sushiman', href: null },
             ].map((crumb, i, arr) => (
               <li key={crumb.label} className="flex items-center gap-2 text-xs" style={{ color: crumb.href ? '#6b6b6b' : '#1a1a1a' }}>
@@ -180,7 +180,7 @@ export default async function DolmaSushimanPage() {
             </p>
             <div className="flex gap-4 flex-wrap">
               <Link href="/produtos?categoria=dolmas" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: '#1a1a1a', color: '#fff', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
-                Ver Dolmas →
+                Ver Dólmãs →
               </Link>
               <Link href="/produtos?categoria=jalecos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: 'transparent', color: '#1a1a1a', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
                 Ver Jalecos →
@@ -230,7 +230,7 @@ export default async function DolmaSushimanPage() {
                 <div>
                   <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>Coleção gastronomia</div>
                   <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2rem,3.5vw,3rem)', fontWeight: 400, lineHeight: 1.15, color: '#1a1a1a' }}>
-                    Dolmas para<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>Sushimans</em>
+                    Dólmãs para<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>Sushimans</em>
                   </h2>
                 </div>
                 <Link href="/produtos?categoria=dolmas" style={{ display: 'inline-flex', padding: '0.9rem 2rem', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a', color: '#1a1a1a' }}>
@@ -286,7 +286,7 @@ export default async function DolmaSushimanPage() {
                           Sushiman trabalha com precisão e precisa de liberdade de movimento. O tecido da dolma deve ser leve, resistente a manchas de peixe e fácil de lavar.
                         </p>
                         <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          Na Jaleca, as dolmas têm elastano e tratamento antipeling, o que significa que resistem a manchas de peixe e mantêm a aparência mesmo após múltiplas lavagens.
+                          Na Jaleca, as dólmãs têm elastano e tratamento antipeling, o que significa que resistem a manchas de peixe e mantêm a aparência mesmo após múltiplas lavagens.
                         </p>
                         <div style={{ background: '#1a1a1a', color: '#fff', padding: '1.5rem 2rem', margin: '2rem 0', borderLeft: '3px solid #c8c4bc' }}>
                           <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.95rem', fontStyle: 'italic', fontWeight: 300, margin: 0 }}>
@@ -451,7 +451,7 @@ export default async function DolmaSushimanPage() {
           <div style={{ maxWidth: 1200, margin: '0 auto' }}>
             <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)', marginBottom: '0.75rem' }}>Outros uniformes profissionais</div>
             <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(1.8rem,3vw,2.5rem)', fontWeight: 400, lineHeight: 1.15, color: '#fff', marginBottom: '2.5rem' }}>
-              Dolmas para outras<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>profissões de cozinha</em>
+              Dólmãs para outras<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>profissões de cozinha</em>
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-4" style={{ gap: '1px', background: 'rgba(255,255,255,0.08)' }}>
               {[

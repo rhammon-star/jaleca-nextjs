@@ -36,7 +36,7 @@ const schemaFaq = {
   mainEntity: [
     { '@type': 'Question', name: 'Qual o tecido ideal para uniforme de advogado?', acceptedAnswer: { '@type': 'Answer', text: 'O tecido com elastano é o mais indicado por oferecer flexibilidade e memória de forma, mantendo a elegância mesmo após horas de uso intenso em audiências e escritórios.' } },
     { '@type': 'Question', name: 'Conjunto ou jaleco separados: qual é melhor para advogado?', acceptedAnswer: { '@type': 'Answer', text: 'O conjunto completo (calça e camisa/blazer) transmite mais formalidade e é ideal para audiências e reuniões importantes. Jalecos e gowns são mais comuns em escritórios de advocacia corporativa.' } },
-    { '@type': 'Question', name: 'Advogado pode usar uniforme colorido no tribunal?', acceptedAnswer: { '@type': 'Answer', text: 'As cores mais tradicionais são preto, cinza e azul escuro. Cores discretas são aceitas em tribunais mais informais, mas o mais seguro é manter tons clássicos paraвар了一起.' } },
+    { '@type': 'Question', name: 'Advogado pode usar uniforme colorido no tribunal?', acceptedAnswer: { '@type': 'Answer', text: 'As cores mais tradicionais são preto, cinza e azul escuro. Cores discretas são aceitas em tribunais mais informais, mas o mais seguro é manter tons clássicos para transmitir profissionalismo.' } },
     { '@type': 'Question', name: 'Conjunto com elastano desbota rápido?', acceptedAnswer: { '@type': 'Answer', text: 'Não. Os tecidos Jaleca com elastano são projetados para manter a cor mesmo após múltiplas lavagens, desde que seguidas as instruções de conservação.' } },
     { '@type': 'Question', name: 'Qual a diferença entre conjunto profissional e terno?', acceptedAnswer: { '@type': 'Answer', text: 'O conjunto profissional é mais prático e leve, feito para o dia a dia de trabalho. O terno é mais estruturado e indicado para eventos formais. Para advogados, o conjunto profissional substitui o terno no escritório.' } },
   ],
@@ -307,7 +307,7 @@ export default async function ConjuntoAdvogadoPage() {
                           {[
                             'Corte reto ou semi-slim — elegante sem ser apertado, ideal para o ambiente de escritório',
                             'Tecido com memória — retorna à forma original após o uso, sem precisar passar toda vez',
-                            'ombros estruturados mas não rígidos — mantêm a silhueta sem ограничивать movimento',
+                            'Ombros estruturados mas não rígidos — mantêm a silhueta sem restringir movimento',
                           ].map(item => (
                             <li key={item} style={{ fontSize: '0.95rem', color: '#444', padding: '0.6rem 0 0.6rem 1.5rem', position: 'relative', borderBottom: '1px solid #e5e0d8', fontWeight: 300 }}>
                               <span style={{ position: 'absolute', left: 0, color: '#c8c4bc' }}>→</span>
