@@ -40,6 +40,23 @@ async function warmStaticPages() {
     '/categoria/jalecos-masculinos',
     '/categoria/conjuntos',
     '/categoria/domas',
+    // URLs de campanha Google Ads + Meta (Pivot 04/26) — pré-aquecer no deploy
+    '/jaleco-farmaceutico',
+    '/jaleco-veterinario',
+    '/jaleco-premium',
+    '/jaleco-preto-feminino',
+    '/jaleco-plus-size',
+    '/scrub-feminino',
+    '/pijama-cirurgico-feminino',
+    '/jaleco-psicologa',
+    '/scrub-enfermagem',
+    '/jaleco-enfermagem',
+    '/jaleco-nutricao',
+    '/jaleco-odontologia',
+    '/jaleco-farmacia',
+    '/jaleco-medicina',
+    '/jaleco-fisioterapia',
+    '/jaleco-medico',
   ]
   for (const path of pages) {
     try {
