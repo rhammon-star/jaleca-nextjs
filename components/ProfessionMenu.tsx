@@ -53,7 +53,7 @@ export default function ProfessionMenu() {
       'podologo', 'podologa', 'tatuador', 'cabeleireira', 'cabeleireiro', 'barbeiro'
     ],
     saude_mental: ['psicologa'],
-    educacao: ['professor', 'professora', 'aluno', 'universitario', 'estudante'],
+    educacao: ['professor', 'aluno', 'universitario', 'estudante'],
     gastronomia: [
       'cozinheiro', 'cozinheira', 'churrasqueiro', 'churrasqueira',
       'sushiman', 'confeiteira', 'confeiteiro', 'buffet'
@@ -71,8 +71,10 @@ export default function ProfessionMenu() {
     'nutricionista', 'fisioterapeuta', 'biomedica', 'biomedico',
   ]
 
+  const HIDDEN_FROM_MENU = new Set(['professora'])
+
   const allProfessionsAlpha = Object.entries(PROFESSION_MAP)
-    .filter(([key, info]) => info.hub)
+    .filter(([key, info]) => info.hub && !HIDDEN_FROM_MENU.has(key))
     .sort((a, b) => a[1].label.localeCompare(b[1].label))
 
   const allProfessions = [

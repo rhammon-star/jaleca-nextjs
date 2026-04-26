@@ -71,8 +71,8 @@ async function getJalecos(): Promise<WooProduct[]> {
     // Busca TODOS os produtos (inclui produtos filhos/cores)
     const allProducts = await getAllProducts()
 
-    // Filtra por profissão medico
-    const slugs = PROFESSION_PRODUCT_SLUGS['medico'] ?? []
+    // Filtra por profissão medica
+    const slugs = PROFESSION_PRODUCT_SLUGS['medica'] ?? []
     const professionProducts = allProducts.filter(p => {
       // Produto mãe está na lista OU produto filho cujo pai está na lista
       if (slugs.includes(p.slug)) return true

@@ -152,7 +152,7 @@ async function callMelhorEnvioAPI(
       id:            String(svc.id),
       label:         SERVICE_LABELS[svc.id] ?? svc.name,
       cost:          cost + 3.50, // R$3,50 taxa operacional (etiqueta + manuseio)
-      delivery_time: `${deliveryDays} dia${deliveryDays !== 1 ? 's' : ''} útil${deliveryDays !== 1 ? 'eis' : ''}`,
+      delivery_time: `${deliveryDays} dia${deliveryDays !== 1 ? 's' : ''} ${deliveryDays !== 1 ? 'úteis' : 'útil'}`,
     })
   }
 

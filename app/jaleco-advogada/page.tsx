@@ -8,26 +8,26 @@ import ProductDetailSection from '@/components/ProductDetailSection'
 import { getPosts, type WPPost } from '@/lib/wordpress'
 import { getGooglePlaceData } from '@/lib/google-places'
 import FaqAccordion from './FaqAccordion'
-import { PROFESSION_PRODUCT_SLUGS, prioritizeByColor, getVerMaisUrl } from '@/lib/product-professions'
+import { PROFESSION_PRODUCT_SLUGS, prioritizeByColor } from '@/lib/product-professions'
 import { getAllProducts } from '@/lib/all-products'
 import { getHeroImageSlug } from '@/lib/profession-hero-images'
 
 export const metadata: Metadata = {
-  title: 'Jaleco para Enfermeiro: Tecido Premium, Caimento Perfeito | Jaleca 2026',
-  description: 'Jaleco para Enfermeiro em tecido premium com caimento perfeito. Modelos Slim e Profissional do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
-  alternates: { canonical: 'https://jaleca.com.br/jaleco-enfermeiro' },
+  title: 'Conjunto para Advogada: Elegância e Autoridade no Direito | Jaleca 2026',
+  description: 'Conjunto para advogada em tecido premium com caimento impecável. Modelos Executiva, Puff Zíper e Laço do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
+  alternates: { canonical: 'https://jaleca.com.br/jaleco-advogada' },
   openGraph: {
-    title: 'Jaleco para Enfermeiro | Tecido Premium, Caimento Perfeito — Jaleca',
-    description: 'Qual jaleco usar na enfermagem? Jaleco premium com elastano, caimento impecável e preço justo. Do PP ao G3. Frete grátis.',
-    url: 'https://jaleca.com.br/jaleco-enfermeiro',
+    title: 'Conjunto para Advogada | Elegância e Autoridade no Direito — Jaleca',
+    description: 'Qual conjunto usar no tribunal e em audiências? Conjunto premium com caimento impecável e preço justo. Do PP ao G3. Frete grátis.',
+    url: 'https://jaleca.com.br/jaleco-advogada',
     siteName: 'Jaleca',
     locale: 'pt_BR',
     type: 'article',
   },
   twitter: {
     card: "summary_large_image",
-    title: 'Jaleco para Enfermeiro | Tecido Premium, Caimento Perfeito — Jaleca',
-    description: 'Jaleco premium para enfermeiro. Tecido de qualidade, caimento perfeito, preço justo. Do PP ao G3.',
+    title: 'Conjunto para Advogada | Elegância e Autoridade — Jaleca',
+    description: 'Conjunto premium para advogada. Tecido de qualidade, caimento perfeito, preço justo. Do PP ao G3.',
     images: ["https://jaleca.com.br/og-home.jpg"],
   },
 }
@@ -36,24 +36,24 @@ const schemaFaq = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   mainEntity: [
-    { '@type': 'Question', name: 'Qual comprimento de jaleco é mais indicado para enfermeiros?', acceptedAnswer: { '@type': 'Answer', text: 'Para enfermagem, o jaleco médio — permite mobilidade e atende os padrões hospitalares.' } },
-    { '@type': 'Question', name: 'O jaleco pode ser lavado com água quente?', acceptedAnswer: { '@type': 'Answer', text: 'Os jalecos Jaleca suportam lavagem até 60°C, temperatura suficiente para higienização clínica. Use alvejante sem cloro para preservar o tecido.' } },
-    { '@type': 'Question', name: 'Jaleco com elastano é bom para enfermeiro?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. O elastano adiciona memória ao tecido, retornando à forma após o movimento — essencial para quem passa horas em atendimento.' } },
-    { '@type': 'Question', name: 'Jaleco de enfermeiro precisa ser branco?', acceptedAnswer: { '@type': 'Answer', text: 'Não é obrigação. O branco é o clássico, mas tons pastel e cores discretas são aceitos. O COREN não restringe a cor.' } },
-    { '@type': 'Question', name: 'Qual a diferença entre jaleco Slim e Profissional?', acceptedAnswer: { '@type': 'Answer', text: 'O Slim tem corte ajustado ao corpo, ideal para quem quer visual mais moderno. O Profissional tem corte mais amplo e estruturado, com mais espaço para movimento.' } },
+    { '@type': 'Question', name: 'Advogada precisa usar jaleco no tribunal?', acceptedAnswer: { '@type': 'Answer', text: 'Não é obrigatório. O traje forense exige toga e vestes talares. O conjunto é usado em audiências de custódia, defensorias e atendimentos de jurídica popular.' } },
+    { '@type': 'Question', name: 'Qual o melhor conjunto para advogada?', acceptedAnswer: { '@type': 'Answer', text: 'O Conjunto Executiva transmite autoridade e sofisticação — ideal para audiências. O Conjunto Puff Zíper é mais moderno, aceito em departamentos jurídicos de empresas.' } },
+    { '@type': 'Question', name: 'Conjunto para advogada pode ter bordado?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. É muito comum bordar o nome e o número da OAB. Para pedidos acima de 5 peças, oferecemos condições especiais de bordado corporativo.' } },
+    { '@type': 'Question', name: 'Qual cor é mais indicada para advogada?', acceptedAnswer: { '@type': 'Answer', text: 'O preto transmite autoridade e é a escolha clássica no meio jurídico. O branco passa credibilidade. Não há restrição da OAB quanto à cor do uniforme.' } },
+    { '@type': 'Question', name: 'Conjunto ou jaleco para advogada?', acceptedAnswer: { '@type': 'Answer', text: 'O conjunto (calça + blusa) é a opção mais moderna e confortável para advogadas. Transmite profissionalismo sem a formalidade excessiva do jaleco tradicional.' } },
   ],
 }
 
 const schemaArticle = {
   '@context': 'https://schema.org',
   '@type': 'Article',
-  headline: 'Jaleco para Enfermeiro: Tecido Premium, Caimento Perfeito',
-  description: 'Guia completo do jaleco para enfermeiro: tecido premium, caimento perfeito, modelo Slim vs Profissional e custo-benefício.',
+  headline: 'Conjunto para Advogada: Elegância e Autoridade no Direito',
+  description: 'Guia completo do uniforme para advogada: conjunto executiva, modelo ideal, tecido premium e normas da OAB.',
   author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
   publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
-  url: 'https://jaleca.com.br/jaleco-enfermeiro',
-  datePublished: '2026-04-18',
-  dateModified: '2026-04-21',
+  url: 'https://jaleca.com.br/jaleco-advogada',
+  datePublished: '2026-04-26',
+  dateModified: '2026-04-26',
 }
 
 const breadcrumbSchema = {
@@ -61,46 +61,34 @@ const breadcrumbSchema = {
   '@type': 'BreadcrumbList',
   itemListElement: [
     { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://jaleca.com.br' },
-    { '@type': 'ListItem', position: 2, name: 'Jalecos', item: 'https://jaleca.com.br/produtos?categoria=jalecos' },
-    { '@type': 'ListItem', position: 3, name: 'Jaleco para Enfermeiro', item: 'https://jaleca.com.br/jaleco-enfermeiro' },
+    { '@type': 'ListItem', position: 2, name: 'Conjuntos', item: 'https://jaleca.com.br/produtos?categoria=conjuntos' },
+    { '@type': 'ListItem', position: 3, name: 'Para Advogada', item: 'https://jaleca.com.br/jaleco-advogada' },
   ],
 }
 
-async function getJalecos(): Promise<WooProduct[]> {
+async function getConjuntos(): Promise<WooProduct[]> {
   try {
-    // Busca TODOS os produtos (inclui produtos filhos/cores)
     const allProducts = await getAllProducts()
 
-    // Filtra por profissão enfermeiro
-    const slugs = PROFESSION_PRODUCT_SLUGS['enfermeiro'] ?? []
+    const slugs = PROFESSION_PRODUCT_SLUGS['advogada'] ?? []
     const professionProducts = allProducts.filter(p => {
-      // Produto mãe está na lista OU produto filho cujo pai está na lista
       if (slugs.includes(p.slug)) return true
-
-      // Verifica se é produto filho (tem cor no slug)
       const parts = p.slug.split('-')
-      const possibleColor = parts[parts.length - 1]
       const baseSlug = parts.slice(0, -1).join('-')
-
       return slugs.includes(baseSlug)
     })
 
-    // Scrubs antes de jalecos para enfermeiro
-    const scrubs = professionProducts.filter(p => p.slug.includes('scrub') || p.name.toLowerCase().includes('scrub'))
-    const others = professionProducts.filter(p => !p.slug.includes('scrub') && !p.name.toLowerCase().includes('scrub'))
-    const prioritized = [...prioritizeByColor(scrubs), ...prioritizeByColor(others)]
-
-    // Retorna 6 produtos
+    const prioritized = prioritizeByColor(professionProducts)
     return prioritized.slice(0, 6)
   } catch (error) {
-    console.error('[getJalecos] Error:', error)
+    console.error('[getConjuntos] Error:', error)
     return []
   }
 }
 
 async function getHeroImage(): Promise<{ src: string; alt: string } | null> {
   try {
-    const heroSlug = getHeroImageSlug('enfermeiro')
+    const heroSlug = getHeroImageSlug('advogada')
     if (!heroSlug) return null
 
     const data = await graphqlClient.request<{ product: { name: string; image: { sourceUrl: string; altText: string } } | null }>(
@@ -129,7 +117,6 @@ async function getBlogPosts(): Promise<WPPost[]> {
   }
 }
 
-// Stars sem contagem — apenas nota
 function HeroStars({ rating }: { rating: number }) {
   const full = Math.floor(rating)
   const half = rating - full >= 0.5
@@ -145,9 +132,9 @@ function HeroStars({ rating }: { rating: number }) {
   )
 }
 
-export default async function JalecoEnfermeiroPage() {
+export default async function JalecoAdvogadaPage() {
   const [produtos, posts, placeData, heroImg] = await Promise.all([
-    getJalecos(),
+    getConjuntos(),
     getBlogPosts(),
     getGooglePlaceData(),
     getHeroImage(),
@@ -166,8 +153,8 @@ export default async function JalecoEnfermeiroPage() {
           <ol className="flex items-center gap-2 max-w-[1200px] mx-auto" style={{ listStyle: 'none' }}>
             {[
               { label: 'Início', href: '/' },
-              { label: 'Jalecos', href: '/produtos?categoria=jalecos' },
-              { label: 'Para Enfermeiro', href: null },
+              { label: 'Conjuntos', href: '/produtos?categoria=conjuntos' },
+              { label: 'Para Advogada', href: null },
             ].map((crumb, i, arr) => (
               <li key={crumb.label} className="flex items-center gap-2 text-xs" style={{ color: crumb.href ? '#6b6b6b' : '#1a1a1a' }}>
                 {crumb.href ? <Link href={crumb.href} style={{ color: '#6b6b6b', textDecoration: 'none' }}>{crumb.label}</Link> : crumb.label}
@@ -178,10 +165,8 @@ export default async function JalecoEnfermeiroPage() {
         </div>
 
         {/* ── HERO ── */}
-        <section className="grid grid-cols-1 lg:grid-cols-2" style={{ minHeight: '88vh', padding: 0 }}
-        >
-          <div className="flex flex-col justify-center order-2 lg:order-1 px-4 py-8 lg:px-16 lg:py-20" style={{ padding: 'clamp(3rem,8vw,5rem) clamp(2rem,5vw,4rem) clamp(3rem,8vw,5rem) clamp(2rem,8vw,7rem)', background: '#f9f7f4' }}
-          >
+        <section className="grid grid-cols-1 lg:grid-cols-2" style={{ minHeight: '88vh', padding: 0 }}>
+          <div className="flex flex-col justify-center order-2 lg:order-1 px-4 py-8 lg:px-16 lg:py-20" style={{ padding: 'clamp(3rem,8vw,5rem) clamp(2rem,5vw,4rem) clamp(3rem,8vw,5rem) clamp(2rem,8vw,7rem)', background: '#f9f7f4' }}>
             <div className="flex items-center gap-3 mb-6" style={{ fontSize: '0.72rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#6b6b6b' }}>
               <span style={{ display: 'inline-block', width: 32, height: 1, background: '#c8c4bc' }} />
               Uniforme profissional
@@ -197,21 +182,20 @@ export default async function JalecoEnfermeiroPage() {
                 marginBottom: '1.5rem',
               }}
             >
-              Jaleco para<br />
-              <em style={{ fontStyle: 'italic', fontWeight: 300 }}>Enfermeiro</em>
+              Conjunto para<br />
+              <em style={{ fontStyle: 'italic', fontWeight: 300 }}>Advogada</em>
             </h1>
             <p style={{ fontSize: '1rem', fontWeight: 300, color: '#6b6b6b', maxWidth: 420, marginBottom: '2.5rem', lineHeight: 1.8 }}>
-              Tecido premium, caimento perfeito, preço justo.
+              A elegância e autoridade que a advogada merece. Tecido premium, caimento impecável.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 lg:gap-4">
-              <Link href="/produtos?categoria=jalecos-femininos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: '#1a1a1a', color: '#fff', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
-                Feminino ↗
+              <Link href="/produtos?categoria=conjuntos-femininos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: '#1a1a1a', color: '#fff', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
+                Ver Conjuntos ↗
               </Link>
-              <Link href="/produtos?categoria=jalecos-masculinos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: 'transparent', color: '#1a1a1a', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
-                Masculino →
+              <Link href="/jaleco-advogado" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: 'transparent', color: '#1a1a1a', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
+                Para Advogado →
               </Link>
             </div>
-            {/* Estrelas Google reais — sem contagem */}
             {placeData && <HeroStars rating={placeData.rating} />}
           </div>
 
@@ -248,26 +232,23 @@ export default async function JalecoEnfermeiroPage() {
           ))}
         </div>
 
-        {/* ── PRODUTOS — Above the Fold ── */}
-        {/* Produtos aparecem logo após Trust Bar, antes do guia editorial longo */}
+        {/* ── PRODUTOS ── */}
         {produtos.length > 0 && (
           <section className="px-4 py-12 lg:px-16 lg:py-20" style={{ background: '#f9f7f4', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
             <div style={{ maxWidth: 1200, width: '100%', margin: '0 auto' }}>
               <div className="mb-10">
-                <div>
-                  <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>Coleção enfermagem</div>
-                  <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2rem,3.5vw,3rem)', fontWeight: 400, lineHeight: 1.15, color: '#1a1a1a' }}>
-                    Jalecos para<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>Enfermeiros</em>
-                  </h2>
-                </div>
-                </div>
+                <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>Coleção advocacia</div>
+                <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2rem,3.5vw,3rem)', fontWeight: 400, lineHeight: 1.15, color: '#1a1a1a' }}>
+                  Conjuntos para<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>Advogada</em>
+                </h2>
+              </div>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {produtos.slice(0, 6).map(product => (
                   <ProductCard key={product.id} product={product} />
                 ))}
               </div>
               <div className="flex justify-center mt-8">
-                <Link href={getVerMaisUrl('enfermeiro')} style={{ display: 'inline-flex', padding: '0.9rem 2rem', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a', color: '#1a1a1a' }}>
+                <Link href="/produtos?categoria=conjuntos-femininos" style={{ display: 'inline-flex', padding: '0.9rem 2rem', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a', color: '#1a1a1a' }}>
                   Ver mais →
                 </Link>
               </div>
@@ -282,16 +263,16 @@ export default async function JalecoEnfermeiroPage() {
               <aside style={{ position: 'sticky', top: 80 }}>
                 <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>Guia completo</div>
                 <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '1.8rem', fontWeight: 400, lineHeight: 1.15, color: '#1a1a1a', marginBottom: '1.5rem' }}>
-                  Como escolher o jaleco ideal para enfermagem
+                  Como escolher o uniforme ideal para advocacia
                 </h2>
                 <nav className="hidden lg:block">
                   <ul style={{ listStyle: 'none' }}>
                     {[
-                      { label: 'Tecido e composição', anchor: '#tecido' },
-                      { label: 'Modelagem Slim ou Profissional', anchor: '#modelagem' },
-                      { label: 'Jaleco branco ou colorido', anchor: '#cores' },
-                      { label: 'Bolsos e funcionalidade', anchor: '#bolsos' },
-                      { label: 'Normas do COREN', anchor: '#cofen' },
+                      { label: 'Conjunto e traje forense', anchor: '#traje' },
+                      { label: 'Modelos disponíveis', anchor: '#modelos' },
+                      { label: 'Cores adequadas', anchor: '#cores' },
+                      { label: 'Bordado com OAB', anchor: '#bordado' },
+                      { label: 'Onde usar', anchor: '#uso' },
                     ].map(item => (
                       <li key={item.anchor} style={{ marginBottom: '0.5rem' }}>
                         <a href={item.anchor} style={{ fontSize: '0.82rem', color: '#6b6b6b', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
@@ -307,36 +288,38 @@ export default async function JalecoEnfermeiroPage() {
               <article>
                 {[
                   {
-                    id: 'tecido',
-                    title: 'Tecido e composição: o que realmente importa',
+                    id: 'traje',
+                    title: 'Conjunto e traje forense: quando usar cada um',
                     body: (
                       <>
                         <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          Jaleco de enfermeiro aguenta muita lavagem e mancha. Precisa ser confortável por horas.
+                          Este conjunto não substitui a toga em sessões solenes no tribunal, mas é peça fundamental em audiências de custódia, defensorias públicas e atendimentos de assistência jurídica popular.
                         </p>
                         <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          Na Jaleca, todos têm elastano. Faz a diferença para quem fica com os braços levantados.
+                          Para a advogada que atua em contato direto com clientes em situação vulnerável, o conjunto transmite profissionalismo e credibilidade.
                         </p>
                         <div style={{ background: '#1a1a1a', color: '#fff', padding: '1.5rem 2rem', margin: '2rem 0', borderLeft: '3px solid #c8c4bc' }}>
                           <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.95rem', fontStyle: 'italic', fontWeight: 300, margin: 0 }}>
-                            "O jaleco ideal? Aquele que você nem sente que está vestindo. O tecido te acompanha, sem atrapalhar."
+                            "O uniforme transmite ao cliente a seriedade e a credibilidade da profissional. É uma extensão da imagem da advogada."
                           </p>
                         </div>
                       </>
                     ),
                   },
                   {
-                    id: 'modelagem',
-                    title: 'Modelagem Slim ou Profissional: qual escolher?',
+                    id: 'modelos',
+                    title: 'Modelos disponíveis para advogada',
                     body: (
                       <>
                         <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          A Jaleca tem duas modelagens principais. A escolha certa depende do ambiente da clínica e do seu estilo profissional.
+                          A Jaleca oferece conjuntos especialmente pensados para o ambiente jurídico. Cada modelo possui um estilo próprio e uso recomendado.
                         </p>
                         <ul style={{ listStyle: 'none', margin: '1.2rem 0 1.5rem' }}>
                           {[
-                            'Slim — Corte ajustado ao corpo, valoriza a silhueta, ideal para quem quer visual moderno e elegante em consultórios premium',
-                            'Profissional — Corte mais amplo e estruturado, maior liberdade de movimento, escolha clássica para qualquer rotina clínica',
+                            'Conjunto Executiva — Corte estruturado, máxima formalidade, ideal para audiências e tribunais',
+                            'Conjunto Puff Zíper — Design moderno com zíper frontal, aceito em escritórios contemporâneos',
+                            'Conjunto Laço — Toque elegante e sofisticado, perfeito para atendimentos ao cliente',
+                            'Conjunto Princesa Nobre — Detalhes refinados para quem quer se destacar com elegância',
                           ].map(item => (
                             <li key={item} style={{ fontSize: '0.95rem', color: '#444', padding: '0.6rem 0 0.6rem 1.5rem', position: 'relative', borderBottom: '1px solid #e5e0d8', fontWeight: 300 }}>
                               <span style={{ position: 'absolute', left: 0, color: '#c8c4bc' }}>→</span>
@@ -349,42 +332,42 @@ export default async function JalecoEnfermeiroPage() {
                   },
                   {
                     id: 'cores',
-                    title: 'Jaleco branco ou colorido: o que o COREN diz',
+                    title: 'Cores adequadas para o meio jurídico',
                     body: (
                       <>
                         <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          O branco é o clássico, claro. Mas o COREN não restringe cores.
+                          O preto, a escolha mais tradicional, transmite autoridade no universo jurídico. Já o branco confere credibilidade e a sensação de higiene — ambas as cores são amplamente aceitas em escritórios de advocacia.
                         </p>
                         <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          Tons pastel e discretos são aceitos. Em clínicas pediátricas, cores amigáveis acalmam as crianças. Temos 12 cores disponíveis, em todos os modelos.
+                          A OAB não restringe a cor do uniforme. Em defensorias e audiências de custódia, o preto ou marinho transmitem autoridade e respeito. Para escritórios modernos, cores discretas como areia e cinza são ótimas opções.
                         </p>
                       </>
                     ),
                   },
                   {
-                    id: 'bolsos',
-                    title: 'Bolsos e funcionalidade clínica',
+                    id: 'bordado',
+                    title: 'Bordado com nome e número da OAB',
                     body: (
                       <>
                         <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          O bolso no peito precisa guardar a caneta sem ela cair quando você se inclina.
+                          Bordar o nome e o número da OAB no conjunto é uma prática comum e recomendada, que agrega profissionalismo e facilita a identificação para o cliente.
                         </p>
                         <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          Bolsos laterais reforçados duram mais e são ótimos para os instrumentos do dia a dia.
+                          Para pedidos corporativos a partir de 5 peças, a Jaleca oferece condições especiais de bordado. Entre em contato pelo e-mail contato@jaleca.com.br.
                         </p>
                       </>
                     ),
                   },
                   {
-                    id: 'cro',
-                    title: 'Normas do COREN sobre vestimenta profissional',
+                    id: 'uso',
+                    title: 'Onde usar o conjunto na advocacia',
                     body: (
                       <>
                         <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          O COREN, junto com a ANVISA, exige: use o jaleco só no trabalho. Nunca em transporte ou fora da clínica. A peça precisa estar sempre limpa e em bom estado.
+                          O conjunto é indicado para atendimentos em defensoria pública, audiências de custódia, juizados especiais e em qualquer situação de assistência jurídica direta ao cliente.
                         </p>
                         <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          EPIs são obrigatórios: jaleco, luvas, máscara, óculos e touca. O jaleco protege sua roupa e forma uma barreira contra sangue, saliva e químicos.
+                          Escritórios de advocacia modernos também adotam esses conjuntos como uniforme corporativo, proporcionando identidade visual profissional e facilitando o reconhecimento da equipe.
                         </p>
                       </>
                     ),
@@ -408,49 +391,63 @@ export default async function JalecoEnfermeiroPage() {
           <div style={{ maxWidth: 1200, width: '100%', margin: '0 auto' }}>
             <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>Dúvidas frequentes</div>
             <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2rem,3.5vw,3rem)', fontWeight: 400, lineHeight: 1.15, color: '#1a1a1a' }}>
-              Perguntas sobre jaleco<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>para enfermeiro</em>
+              Perguntas sobre uniforme<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>para advogada</em>
             </h2>
             <FaqAccordion />
           </div>
         </section>
 
-        {/* ── ARTIGOS DO BLOG (reais do WordPress) ── */}
+        {/* ── ARTIGOS DO BLOG ── */}
         <section style={{ background: '#f9f7f4', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
           <div style={{ maxWidth: 1200, width: '100%', margin: '0 auto' }}>
             <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>Blog Jaleca</div>
             <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2rem,3.5vw,3rem)', fontWeight: 400, lineHeight: 1.15, color: '#1a1a1a', marginBottom: 0 }}>
               Leitura para<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>profissionais</em>
             </h2>
-
             <div className="grid grid-cols-1 md:grid-cols-3" style={{ gap: '2px', background: '#e5e0d8', marginTop: '3rem' }}>
-              {([
-                { title: 'Semana da Saúde: Seu Jaleco de Enfermeiro é Aliado ou Inimigo?', href: '/blog/jaleco-enfermeiro-semana-saude', tag: 'Semana da Saúde', excerpt: 'Com o Dia da Segurança no Trabalho chegando, entenda por que o jaleco certo é seu principal EPI na rotina.', img: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=600&q=80' },
-                { title: 'Pijama Cirúrgico: Guia Completo para Profissionais de Saúde', href: '/blog/pijama-cirurgico-guia-completo', tag: 'Uniforme', excerpt: 'Tudo sobre scrub hospitalar: tecidos, modelagens e como escolher o uniforme cirúrgico ideal pra sua rotina.', img: 'https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=600&q=80' },
-                ...(posts.length > 0
-                  ? [{ title: posts[0].title.rendered.replace(/<[^>]+>/g, ''), href: `/blog/${posts[0].slug}`, tag: 'Blog', excerpt: posts[0].excerpt.rendered.replace(/<[^>]+>/g, '').slice(0, 120) + '…', img: posts[0]._embedded?.['wp:featuredmedia']?.[0]?.source_url || null }]
-                  : [{ title: 'Como lavar e conservar seu jaleco profissional', href: '/blog/como-lavar-jaleco', tag: 'Cuidados', excerpt: 'Erros simples de lavagem aceleram o amarelamento e encurtam a vida do jaleco. Veja o guia completo.', img: null }]
-                ),
-              ] as { title: string; href: string; tag: string; excerpt: string; img: string | null | undefined }[]).map(post => (
-                <Link key={post.href} href={post.href} style={{ background: '#fff', textDecoration: 'none', color: 'inherit', display: 'block' }}>
-                  <div style={{ aspectRatio: '16/10', background: '#e5e0d8', overflow: 'hidden', position: 'relative' }}>
-                    {post.img ? (
-                      <img src={post.img} alt={post.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-                    ) : (
-                      <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, #f9f7f4 0%, #e5e0d8 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <span style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '0.85rem', fontStyle: 'italic', color: '#c8c4bc' }}>Jaleca</span>
-                      </div>
-                    )}
-                  </div>
-                  <div style={{ padding: '1.5rem', background: '#fff' }}>
-                    <span style={{ fontSize: '0.65rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#6b6b6b', display: 'block', marginBottom: '0.6rem' }}>{post.tag}</span>
-                    <h3 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '1.15rem', fontWeight: 400, lineHeight: 1.35, color: '#1a1a1a', marginBottom: '0.75rem' }}>{post.title}</h3>
-                    <p style={{ fontSize: '0.85rem', color: '#6b6b6b', lineHeight: 1.7, fontWeight: 300, marginBottom: '1rem' }}>{post.excerpt}</p>
-                    <span style={{ fontSize: '0.75rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1a1a1a' }}>Ler artigo →</span>
-                  </div>
-                </Link>
-              ))}
+              {posts.length > 0 ? posts.map(post => {
+                const img = post._embedded?.['wp:featuredmedia']?.[0]?.source_url
+                const excerpt = post.excerpt.rendered.replace(/<[^>]+>/g, '').slice(0, 120) + '…'
+                const title = post.title.rendered.replace(/<[^>]+>/g, '')
+                return (
+                  <Link key={post.id} href={`/blog/${post.slug}`} style={{ background: '#fff', textDecoration: 'none', color: 'inherit', display: 'block' }}>
+                    <div style={{ aspectRatio: '16/10', background: '#e5e0d8', overflow: 'hidden', position: 'relative' }}>
+                      {img ? (
+                        <img src={img} alt={title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                      ) : (
+                        <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, #f9f7f4 0%, #e5e0d8 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          <span style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '0.85rem', fontStyle: 'italic', color: '#c8c4bc' }}>Jaleca</span>
+                        </div>
+                      )}
+                    </div>
+                    <div style={{ padding: '1.5rem', background: '#fff' }}>
+                      <span style={{ fontSize: '0.65rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#6b6b6b', display: 'block', marginBottom: '0.6rem' }}>Blog</span>
+                      <h3 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '1.15rem', fontWeight: 400, lineHeight: 1.35, color: '#1a1a1a', marginBottom: '0.75rem' }}>{title}</h3>
+                      <p style={{ fontSize: '0.85rem', color: '#6b6b6b', lineHeight: 1.7, fontWeight: 300, marginBottom: '1rem' }}>{excerpt}</p>
+                      <span style={{ fontSize: '0.75rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1a1a1a' }}>Ler artigo →</span>
+                    </div>
+                  </Link>
+                )
+              }) : (
+                [
+                  { title: 'Como lavar e conservar seu uniforme profissional', href: '/blog/como-lavar-jaleco', tag: 'Cuidados', excerpt: 'Erros simples de lavagem aceleram o amarelamento e encurtam a vida do uniforme. Veja o guia completo.' },
+                  { title: 'Uniforme para advogada: como se vestir com autoridade', href: '/blog', tag: 'Advocacia', excerpt: 'Por que cada vez mais advogadas estão escolhendo conjuntos premium e o que isso comunica ao cliente.' },
+                  { title: 'Como escolher o tamanho certo', href: '/medidas', tag: 'Guia de Tamanhos', excerpt: 'Passo a passo para medir busto, cintura e quadril e encontrar o tamanho ideal na grade Jaleca.' },
+                ].map(post => (
+                  <Link key={post.href} href={post.href} style={{ background: '#fff', textDecoration: 'none', color: 'inherit', display: 'block' }}>
+                    <div style={{ aspectRatio: '16/10', background: 'linear-gradient(135deg, #f9f7f4 0%, #e5e0d8 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <span style={{ fontFamily: "'Cormorant', Georgia, serif", fontStyle: 'italic', color: '#c8c4bc' }}>Jaleca</span>
+                    </div>
+                    <div style={{ padding: '1.5rem', background: '#fff' }}>
+                      <span style={{ fontSize: '0.65rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#6b6b6b', display: 'block', marginBottom: '0.6rem' }}>{post.tag}</span>
+                      <h3 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '1.15rem', fontWeight: 400, lineHeight: 1.35, color: '#1a1a1a', marginBottom: '0.75rem' }}>{post.title}</h3>
+                      <p style={{ fontSize: '0.85rem', color: '#6b6b6b', lineHeight: 1.7, fontWeight: 300, marginBottom: '1rem' }}>{post.excerpt}</p>
+                      <span style={{ fontSize: '0.75rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1a1a1a' }}>Ler artigo →</span>
+                    </div>
+                  </Link>
+                ))
+              )}
             </div>
-
             <div style={{ textAlign: 'center', marginTop: '2rem' }}>
               <Link href="/blog" style={{ fontSize: '0.78rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: '#6b6b6b', textDecoration: 'none' }}>
                 Ver todos os artigos →
@@ -459,23 +456,23 @@ export default async function JalecoEnfermeiroPage() {
           </div>
         </section>
 
-        {/* ── TOPICAL AUTHORITY — Outros profissionais de saúde ── */}
+        {/* ── TOPICAL AUTHORITY ── */}
         <section style={{ background: '#1a1a1a', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
           <div style={{ maxWidth: 1200, width: '100%', margin: '0 auto' }}>
             <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)', marginBottom: '0.75rem' }}>Outros uniformes profissionais</div>
             <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(1.8rem,3vw,2.5rem)', fontWeight: 400, lineHeight: 1.15, color: '#fff', marginBottom: '2.5rem' }}>
-              Jaleco para outras<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>profissões de saúde</em>
+              Jaleco para outras<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>profissões</em>
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-4" style={{ gap: '1px', background: 'rgba(255,255,255,0.08)' }}>
               {[
-                { label: 'Podólogo', href: '/jaleco-podologo', desc: 'Guia completo' },
-                { label: 'Biomédico', href: '/jaleco-biomedico', desc: 'Guia completo' },
-                { label: 'Enfermeiro', href: '/jaleco-enfermeiro', desc: 'Guia completo' },
-                { label: 'Fisioterapeuta', href: '/jaleco-fisioterapeuta', desc: 'Guia completo' },
+                { label: 'Médica', href: '/jaleco-medica', desc: 'Guia completo' },
+                { label: 'Dentista', href: '/jaleco-dentista', desc: 'Guia completo' },
+                { label: 'Enfermeira', href: '/jaleco-enfermeira', desc: 'Guia completo' },
+                { label: 'Psicóloga', href: '/jaleco-psicologa', desc: 'Guia completo' },
                 { label: 'Nutricionista', href: '/jaleco-nutricionista', desc: 'Guia completo' },
-                { label: 'Veterinário', href: '/jaleco-veterinario', desc: 'Guia completo' },
-                { label: 'Médico', href: '/jaleco-medico', desc: 'Guia completo' },
-                { label: 'Ver todos', href: '/produtos?categoria=jalecos', desc: 'Loja completa' },
+                { label: 'Secretária', href: '/jaleco-secretaria', desc: 'Guia completo' },
+                { label: 'Advogado', href: '/jaleco-advogado', desc: 'Para advogado' },
+                { label: 'Ver todos', href: '/produtos?categoria=conjuntos-femininos', desc: 'Loja completa' },
               ].map(item => (
                 <Link key={item.href} href={item.href} className="block hover:bg-white/5 transition-colors duration-200" style={{ padding: '1.5rem', textDecoration: 'none' }}>
                   <div style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '1.15rem', fontWeight: 400, color: '#fff', marginBottom: '0.25rem' }}>{item.label}</div>
@@ -494,17 +491,17 @@ export default async function JalecoEnfermeiroPage() {
           <div style={{ position: 'relative', zIndex: 1 }}>
             <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>200.000+ peças vendidas</div>
             <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2.5rem,5vw,4.5rem)', fontWeight: 400, lineHeight: 1.1, maxWidth: 700, margin: '0 auto 1rem', color: '#1a1a1a' }}>
-              O jaleco certo<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>faz a diferença</em>
+              O uniforme certo<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>faz a diferença</em>
             </h2>
             <p style={{ fontSize: '0.97rem', color: '#6b6b6b', maxWidth: 480, margin: '0 auto 2.5rem', fontWeight: 300, lineHeight: 1.8 }}>
               Do PP ao G3. Elastano para total conforto. 12 cores. Frete grátis no Sudeste para compras acima de R$499.
             </p>
             <div className="flex gap-4 justify-center flex-wrap">
-              <Link href="/produtos?categoria=jalecos-femininos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2.5rem', background: '#1a1a1a', color: '#fff', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
-                Ver Coleção Feminina
+              <Link href="/produtos?categoria=conjuntos-femininos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2.5rem', background: '#1a1a1a', color: '#fff', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
+                Ver Conjuntos Femininos
               </Link>
-              <Link href="/produtos?categoria=jalecos-masculinos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2.5rem', background: 'transparent', color: '#1a1a1a', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
-                Ver Coleção Masculina
+              <Link href="/jaleco-advogado" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2.5rem', background: 'transparent', color: '#1a1a1a', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
+                Para Advogado
               </Link>
             </div>
           </div>

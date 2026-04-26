@@ -14,7 +14,7 @@ export const PROFESSION_HERO_IMAGES: Record<string, string> = {
   'nutricionista': 'jaleco-slim-tradicional-feminino-jaleca',
   'veterinaria': 'jaleco-slim-tradicional-feminino-jaleca',
   'psicologa': 'conjunto-puff-ziper-feminino-jaleca',
-  'fisioterapeuta': 'jaleco-slim-feminino-lateral-jaleca',
+  'fisioterapeuta': 'jaleco-slim-princesa-feminino-jaleca',
   'podologa': 'jaleco-slim-tradicional-feminino-jaleca',
   'podologo': 'jaleco-slim-tradicional-masculino-jaleca',
   'biomedica': 'jaleco-slim-tradicional-feminino-jaleca',

@@ -40,7 +40,7 @@ export const PROFESSION_MAP: Record<string, ProfessionInfo> = {
   cozinheiro:          { label: 'Cozinheiro',          hub: '/dolma-cozinheiro' },
   cozinheira:          { label: 'Cozinheira',          hub: '/dolma-cozinheiro' },
   sushiman:            { label: 'Sushiman',            hub: '/jaleco-sushiman' },
-  advogada:            { label: 'Advogada',            hub: '/jaleco-advogado' },
+  advogada:            { label: 'Advogada',            hub: '/jaleco-advogada' },
   advogado:            { label: 'Advogado',            hub: '/jaleco-advogado' },
   secretaria:          { label: 'Secretária',          hub: '/jaleco-secretaria' },
   aluno:               { label: 'Aluno',               hub: '/jaleco-universitario' },
@@ -106,12 +106,12 @@ export const PRODUCT_PROFESSIONS: ProductProfessions[] = [
   {
     slug: 'jaleco-slim-gold-feminino-jaleca',
     name: 'Jaleco Slim Gold Feminino',
-    professions: ['medica','medico-feminino','medicina','dentista','dentista-feminino','odontologia','farmaceutica','farmacia','nutricionista','nutricao','veterinaria','veterinario','psicologa','biomedica','pastor','nail design','micropigmentadora','estiloso','podologo','tatuador','enfermeira','enfermagem','enfermagem-feminino','preto'],
+    professions: ['medica','medico-feminino','medicina','dentista','dentista-feminino','odontologia','farmaceutica','farmacia','nutricionista','nutricao','veterinaria','veterinario','psicologa','biomedica','pastor','nail design','micropigmentadora','estiloso','podologa','tatuador','enfermeira','enfermagem','enfermagem-feminino','preto'],
   },
   {
     slug: 'jaleco-slim-gold-pala-feminino-jaleca',
     name: 'Jaleco Slim Gold Pala Feminino',
-    professions: ['medica','medico-feminino','medicina','dentista','dentista-feminino','odontologia','farmaceutica','farmacia','nutricionista','nutricao','veterinaria','veterinario','psicologa','biomedica','pastor','nail design','micropigmentadora','estiloso','podologo','tatuador','enfermeira','enfermagem','enfermagem-feminino','preto'],
+    professions: ['medica','medico-feminino','medicina','dentista','dentista-feminino','odontologia','farmaceutica','farmacia','nutricionista','nutricao','veterinaria','veterinario','psicologa','biomedica','pastor','nail design','micropigmentadora','estiloso','podologa','tatuador','enfermeira','enfermagem','enfermagem-feminino','preto'],
   },
   {
     slug: 'jaleco-slim-duquesa-feminino-jaleca',
@@ -126,12 +126,12 @@ export const PRODUCT_PROFESSIONS: ProductProfessions[] = [
   {
     slug: 'jaleco-slim-feminino-lateral-jaleca',
     name: 'Jaleco Slim Feminino Lateral',
-    professions: ['medica','medico-feminino','medicina','dentista','dentista-feminino','odontologia','farmaceutica','farmacia','nutricionista','nutricao','veterinaria','veterinario','psicologa','biomedica','pastor','nail design','micropigmentadora','estiloso','podologo','tatuador','cozinheira','confeiteira','enfermeira','enfermagem','enfermagem-feminino','preto'],
+    professions: ['medica','medico-feminino','medicina','dentista','dentista-feminino','odontologia','farmaceutica','farmacia','nutricionista','nutricao','veterinaria','veterinario','psicologa','biomedica','pastor','nail design','micropigmentadora','estiloso','podologa','tatuador','cozinheira','confeiteira','enfermeira','enfermagem','enfermagem-feminino','preto'],
   },
   {
     slug: 'jaleco-slim-princesa-feminino-jaleca',
     name: 'Jaleco Slim Princesa Feminino',
-    professions: ['medica','medico-feminino','medicina','dentista','dentista-feminino','odontologia','farmaceutica','farmacia','nutricionista','nutricao','veterinaria','veterinario','psicologa','biomedica','nail design','micropigmentadora','estiloso','podologo','tatuador','enfermeira','enfermagem','enfermagem-feminino','preto'],
+    professions: ['medica','medico-feminino','medicina','dentista','dentista-feminino','odontologia','farmaceutica','farmacia','nutricionista','nutricao','veterinaria','veterinario','psicologa','biomedica','nail design','micropigmentadora','estiloso','podologa','tatuador','enfermeira','enfermagem','enfermagem-feminino','preto'],
   },
   {
     slug: 'jaleco-slim-princesa-manga-curta-feminino-jaleca',
@@ -141,12 +141,12 @@ export const PRODUCT_PROFESSIONS: ProductProfessions[] = [
   {
     slug: 'jaleco-slim-princesa-laise-feminino-jaleca',
     name: 'Jaleco Slim Princesa Laise Feminino',
-    professions: ['medica','medico-feminino','medicina','dentista','dentista-feminino','odontologia','farmaceutica','farmacia','nutricionista','nutricao','veterinaria','veterinario','psicologa','biomedica','nail design','micropigmentadora','estiloso','podologo','tatuador','enfermeira','enfermagem','enfermagem-feminino','preto'],
+    professions: ['medica','medico-feminino','medicina','dentista','dentista-feminino','odontologia','farmaceutica','farmacia','nutricionista','nutricao','veterinaria','veterinario','psicologa','biomedica','nail design','micropigmentadora','estiloso','podologa','tatuador','enfermeira','enfermagem','enfermagem-feminino','preto'],
   },
   {
     slug: 'jaleco-slim-moratty-feminino-jaleca',
     name: 'Jaleco Slim Moratty Feminino',
-    professions: ['medica','medico-feminino','medicina','dentista','dentista-feminino','odontologia','farmaceutica','farmacia','nutricionista','nutricao','veterinaria','veterinario','psicologa','biomedica','nail design','micropigmentadora','estiloso','podologo','tatuador','enfermeira','enfermagem','enfermagem-feminino','preto'],
+    professions: ['medica','medico-feminino','medicina','dentista','dentista-feminino','odontologia','farmaceutica','farmacia','nutricionista','nutricao','veterinaria','veterinario','psicologa','biomedica','nail design','micropigmentadora','estiloso','podologa','tatuador','enfermeira','enfermagem','enfermagem-feminino','preto'],
   },
   {
     slug: 'jaleco-slim-tradicional-manga-curta-feminino-jaleca',
@@ -163,17 +163,17 @@ export const PRODUCT_PROFESSIONS: ProductProfessions[] = [
   {
     slug: 'jaleco-slim-tradicional-masculino-jaleca',
     name: 'Jaleco Slim Tradicional Masculino',
-    professions: ['medico','medicina','dentista','odontologia','farmaceutico','farmacia','veterinario','nutricionista','nutricao','biomedico','barbeiro','cabeleireiro','tatuador','pastor','churrasqueiro','cozinheiro','enfermeiro','preto'],
+    professions: ['medico','medicina','dentista','odontologia','farmaceutico','farmacia','veterinario','nutricionista','nutricao','biomedico','podologo','barbeiro','cabeleireiro','tatuador','pastor','churrasqueiro','cozinheiro','enfermeiro','preto'],
   },
   {
     slug: 'jaleco-slim-recortes-masculino-jaleca',
     name: 'Jaleco Slim Recortes Masculino',
-    professions: ['medico','medicina','dentista','odontologia','farmaceutico','farmacia','veterinario','nutricionista','nutricao','biomedico','barbeiro','cabeleireiro','tatuador','pastor','enfermeiro','preto'],
+    professions: ['medico','medicina','dentista','odontologia','farmaceutico','farmacia','veterinario','nutricionista','nutricao','biomedico','podologo','barbeiro','cabeleireiro','tatuador','pastor','enfermeiro','preto'],
   },
   {
     slug: 'jaleco-slim-moratty-masculino-jaleca',
     name: 'Jaleco Slim Moratty Masculino',
-    professions: ['medico','medicina','dentista','odontologia','farmaceutico','farmacia','veterinario','nutricionista','nutricao','biomedico','barbeiro','cabeleireiro','tatuador','pastor','enfermeiro','preto'],
+    professions: ['medico','medicina','dentista','odontologia','farmaceutico','farmacia','veterinario','nutricionista','nutricao','biomedico','podologo','barbeiro','cabeleireiro','tatuador','pastor','enfermeiro','preto'],
   },
   {
     slug: 'jaleco-padrao-aluno-masculino-jaleca',
@@ -197,7 +197,7 @@ export const PRODUCT_PROFESSIONS: ProductProfessions[] = [
   {
     slug: 'conjunto-scrub-masculino-jaleca',
     name: 'Conjunto Scrub Masculino',
-    professions: ['dentista','odontologia','enfermeiro','enfermagem','veterinario','biomedico','barbeiro','cabeleireiro','professor','massagista','tatuador','cirurgico-masculino','cirurgico','advogado','medico','medicina','uniforme-professor','scrub-enfermagem','preto'],
+    professions: ['dentista','odontologia','enfermeiro','enfermagem','veterinario','biomedico','podologo','barbeiro','cabeleireiro','professor','massagista','tatuador','cirurgico-masculino','cirurgico','advogado','medico','medicina','uniforme-professor','scrub-enfermagem','preto'],
   },
   {
     slug: 'conjunto-puff-ziper-feminino-jaleca',
@@ -261,7 +261,7 @@ export const PRODUCT_PROFESSIONS: ProductProfessions[] = [
   {
     slug: 'touca-de-amarrar-jaleca',
     name: 'Touca de Amarrar',
-    professions: ['biomedica','nutricionista','nutricao','medico','enfermeiro','enfermagem','dona-de-casa'],
+    professions: ['biomedica','nutricionista','nutricao','enfermeiro','enfermagem','dona-de-casa'],
   },
 ]
 
@@ -429,13 +429,16 @@ export function getVerMaisUrl(professionKey: string): string {
 export function prioritizeByColor<T extends { slug: string; name: string }>(products: T[]): T[] {
   const priority: T[] = []
   const others: T[] = []
+  const toucas: T[] = []
 
   products.forEach(product => {
     const slug = product.slug.toLowerCase()
     const name = product.name.toLowerCase()
 
-    // Branco ou preto no slug ou nome
-    if (slug.includes('branco') || name.includes('branco')) {
+    // Touca sempre no final (segunda fileira ou além)
+    if (slug.includes('touca') || name.includes('touca')) {
+      toucas.push(product)
+    } else if (slug.includes('branco') || name.includes('branco')) {
       priority.unshift(product) // Branco no início
     } else if (slug.includes('preto') || name.includes('preto')) {
       priority.push(product) // Preto depois do branco
@@ -444,5 +447,5 @@ export function prioritizeByColor<T extends { slug: string; name: string }>(prod
     }
   })
 
-  return [...priority, ...others]
+  return [...priority, ...others, ...toucas]
 }

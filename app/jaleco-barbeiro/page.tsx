@@ -85,8 +85,13 @@ async function getJalecos(): Promise<WooProduct[]> {
       return slugs.includes(baseSlug)
     })
 
-    // Prioriza branco e preto primeiro (mais vendidos)
-    const prioritized = prioritizeByColor(professionProducts)
+    // Barbeiro: apenas produtos pretos (ou base slug sem variante de cor)
+    const baseSlugs = new Set(slugs)
+    const pretoOnly = professionProducts.filter(p =>
+      p.slug.endsWith('-preto') || baseSlugs.has(p.slug)
+    )
+
+    const prioritized = prioritizeByColor(pretoOnly.length > 0 ? pretoOnly : professionProducts)
 
     // Retorna 6 produtos
     return prioritized.slice(0, 6)
