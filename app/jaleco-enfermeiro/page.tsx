@@ -421,49 +421,32 @@ export default async function JalecoEnfermeiroPage() {
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-3" style={{ gap: '2px', background: '#e5e0d8', marginTop: '3rem' }}>
-              {posts.length > 0 ? posts.map(post => {
-                const img = post._embedded?.['wp:featuredmedia']?.[0]?.source_url
-                const excerpt = post.excerpt.rendered.replace(/<[^>]+>/g, '').slice(0, 120) + '…'
-                const title = post.title.rendered.replace(/<[^>]+>/g, '')
-                return (
-                  <Link key={post.id} href={`/blog/${post.slug}`} style={{ background: '#fff', textDecoration: 'none', color: 'inherit', display: 'block' }}>
-                    <div style={{ aspectRatio: '16/10', background: '#e5e0d8', overflow: 'hidden', position: 'relative' }}>
-                      {img ? (
-                        <img src={img} alt={title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-                      ) : (
-                        <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, #f9f7f4 0%, #e5e0d8 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                          <span style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '0.85rem', fontStyle: 'italic', color: '#c8c4bc' }}>Jaleca</span>
-                        </div>
-                      )}
-                    </div>
-                    <div style={{ padding: '1.5rem', background: '#fff' }}>
-                      <span style={{ fontSize: '0.65rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#6b6b6b', display: 'block', marginBottom: '0.6rem' }}>Blog</span>
-                      <h3 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '1.15rem', fontWeight: 400, lineHeight: 1.35, color: '#1a1a1a', marginBottom: '0.75rem' }}>{title}</h3>
-                      <p style={{ fontSize: '0.85rem', color: '#6b6b6b', lineHeight: 1.7, fontWeight: 300, marginBottom: '1rem' }}>{excerpt}</p>
-                      <span style={{ fontSize: '0.75rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1a1a1a' }}>Ler artigo →</span>
-                    </div>
-                  </Link>
-                )
-              }) : (
-                // Fallback: artigos fixos relevantes para o cluster
-                [
-                  { title: 'Como lavar e conservar seu jaleco profissional', href: '/blog/como-lavar-jaleco', tag: 'Cuidados', excerpt: 'Erros simples de lavagem aceleram o amarelamento e encurtam a vida do jaleco. Veja o guia completo.' },
-                  { title: 'Jaleco branco: tradição e protocolos em enfermagem', href: '/blog', tag: 'Enfermagem', excerpt: 'Por que o branco domina a odontologia e o que o COREN recomenda sobre cores e vestimenta clínica.' },
-                  { title: 'Como escolher o tamanho certo do jaleco', href: '/medidas', tag: 'Guia de Tamanhos', excerpt: 'Passo a passo para medir busto, cintura e quadril e encontrar o tamanho ideal na grade Jaleca.' },
-                ].map(post => (
-                  <Link key={post.href} href={post.href} style={{ background: '#fff', textDecoration: 'none', color: 'inherit', display: 'block' }}>
-                    <div style={{ aspectRatio: '16/10', background: 'linear-gradient(135deg, #f9f7f4 0%, #e5e0d8 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <span style={{ fontFamily: "'Cormorant', Georgia, serif", fontStyle: 'italic', color: '#c8c4bc' }}>Jaleca</span>
-                    </div>
-                    <div style={{ padding: '1.5rem', background: '#fff' }}>
-                      <span style={{ fontSize: '0.65rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#6b6b6b', display: 'block', marginBottom: '0.6rem' }}>{post.tag}</span>
-                      <h3 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '1.15rem', fontWeight: 400, lineHeight: 1.35, color: '#1a1a1a', marginBottom: '0.75rem' }}>{post.title}</h3>
-                      <p style={{ fontSize: '0.85rem', color: '#6b6b6b', lineHeight: 1.7, fontWeight: 300, marginBottom: '1rem' }}>{post.excerpt}</p>
-                      <span style={{ fontSize: '0.75rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1a1a1a' }}>Ler artigo →</span>
-                    </div>
-                  </Link>
-                ))
-              )}
+              {([
+                { title: 'Semana da Saúde: Seu Jaleco de Enfermeiro é Aliado ou Inimigo?', href: '/blog/jaleco-enfermeiro-semana-saude', tag: 'Semana da Saúde', excerpt: 'Com o Dia da Segurança no Trabalho chegando, entenda por que o jaleco certo é seu principal EPI na rotina.', img: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=600&q=80' },
+                { title: 'Pijama Cirúrgico: Guia Completo para Profissionais de Saúde', href: '/blog/pijama-cirurgico-guia-completo', tag: 'Uniforme', excerpt: 'Tudo sobre scrub hospitalar: tecidos, modelagens e como escolher o uniforme cirúrgico ideal pra sua rotina.', img: 'https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=600&q=80' },
+                ...(posts.length > 0
+                  ? [{ title: posts[0].title.rendered.replace(/<[^>]+>/g, ''), href: `/blog/${posts[0].slug}`, tag: 'Blog', excerpt: posts[0].excerpt.rendered.replace(/<[^>]+>/g, '').slice(0, 120) + '…', img: posts[0]._embedded?.['wp:featuredmedia']?.[0]?.source_url || null }]
+                  : [{ title: 'Como lavar e conservar seu jaleco profissional', href: '/blog/como-lavar-jaleco', tag: 'Cuidados', excerpt: 'Erros simples de lavagem aceleram o amarelamento e encurtam a vida do jaleco. Veja o guia completo.', img: null }]
+                ),
+              ] as { title: string; href: string; tag: string; excerpt: string; img: string | null | undefined }[]).map(post => (
+                <Link key={post.href} href={post.href} style={{ background: '#fff', textDecoration: 'none', color: 'inherit', display: 'block' }}>
+                  <div style={{ aspectRatio: '16/10', background: '#e5e0d8', overflow: 'hidden', position: 'relative' }}>
+                    {post.img ? (
+                      <img src={post.img} alt={post.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                    ) : (
+                      <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, #f9f7f4 0%, #e5e0d8 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <span style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '0.85rem', fontStyle: 'italic', color: '#c8c4bc' }}>Jaleca</span>
+                      </div>
+                    )}
+                  </div>
+                  <div style={{ padding: '1.5rem', background: '#fff' }}>
+                    <span style={{ fontSize: '0.65rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#6b6b6b', display: 'block', marginBottom: '0.6rem' }}>{post.tag}</span>
+                    <h3 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '1.15rem', fontWeight: 400, lineHeight: 1.35, color: '#1a1a1a', marginBottom: '0.75rem' }}>{post.title}</h3>
+                    <p style={{ fontSize: '0.85rem', color: '#6b6b6b', lineHeight: 1.7, fontWeight: 300, marginBottom: '1rem' }}>{post.excerpt}</p>
+                    <span style={{ fontSize: '0.75rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1a1a1a' }}>Ler artigo →</span>
+                  </div>
+                </Link>
+              ))}
             </div>
 
             <div style={{ textAlign: 'center', marginTop: '2rem' }}>
