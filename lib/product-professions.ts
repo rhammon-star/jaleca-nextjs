@@ -68,7 +68,7 @@ export const PROFESSION_MAP: Record<string, ProfessionInfo> = {
 
   // Variações de gênero específicas
   'dentista-feminino':     { label: 'Dentista Feminino',     hub: '/jaleco-dentista-feminino' },
-  'medico-feminino':       { label: 'Médica',                hub: '/jaleco-medico-feminino' },
+  'medico-feminino':       { label: 'Médica (Slim)',         hub: '/jaleco-medico-feminino' },
   'enfermagem-feminino':   { label: 'Enfermagem Feminino',   hub: '/jaleco-enfermagem-feminino' },
   'uniforme-professor':    { label: 'Uniforme Professor',    hub: '/uniforme-professor' },
   'scrub-enfermagem':      { label: 'Scrub Enfermagem',      hub: '/scrub-enfermagem' },
