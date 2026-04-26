@@ -109,6 +109,7 @@ const nextConfig: NextConfig = {
       { source: '/blog/jaleco-feminino-slim-estilo-e-conforto', destination: '/blog/jaleco-slim-feminino-favorito-medicas', permanent: true },
       { source: '/blog/como-escolher-jaleco-ideal-especialidade-medica-2', destination: '/blog/como-escolher-jaleco-feminino-guia-profissionais', permanent: true },
       { source: '/blog/jaleco-slim-padrao-clinicas', destination: '/blog/jaleco-slim-feminino-favorito-medicas', permanent: true },
+      { source: '/blog/guia-jaleco-dentista-modelos-cores-como-escolher', destination: '/blog/guia-jaleco-para-dentista-modelos-cores-como-escolher', permanent: true },
       { source: '/blog/jaleco-branco-ou-colorido-o-que-usar-na-clinica', destination: '/blog', permanent: true },
       // Páginas 404 detectadas na análise (19/04/2026)
       { source: '/dolma', destination: '/categoria/domas', permanent: true },

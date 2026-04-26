@@ -140,6 +140,30 @@ export default async function BlogPage({
           </p>
         </header>
 
+        {currentPage === 1 && (
+          <section className="mb-10">
+            <h2 className="text-sm font-semibold tracking-widest uppercase text-accent mb-4">Leia também</h2>
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              {[
+                { href: '/blog/jaleco-enfermagem-o-que-considerar-comprar-2', label: 'Jaleco de Enfermagem: O que Considerar ao Comprar' },
+                { href: '/blog/jaleco-odontologia-como-escolher', label: 'Jaleco de Odontologia: Como Escolher o Modelo Certo' },
+                { href: '/blog/jaleco-ou-scrub-qual-a-diferenca-quando-usar', label: 'Jaleco ou Scrub: Qual a Diferença e Quando Usar' },
+                { href: '/blog/jaleco-para-fisioterapeuta-conforto-longas-jornadas-2', label: 'Jaleco para Fisioterapeuta: Conforto em Longas Jornadas' },
+                { href: '/blog/onde-comprar-jaleco-online-qualidade', label: 'Onde Comprar Jaleco Online com Qualidade' },
+                { href: '/blog/scrub-x-jaleco-diferencas-e-quando-usar-cada-um-2', label: 'Scrub x Jaleco: Diferenças e Quando Usar Cada Um' },
+                { href: '/blog/tecidos-para-jaleco-qual-o-melhor-material-profissionais-saude-2', label: 'Tecidos para Jaleco: Qual o Melhor Material' },
+              ].map(({ href, label }) => (
+                <li key={href}>
+                  <Link href={href} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors py-1.5 group">
+                    <ArrowRight size={12} className="text-accent shrink-0 group-hover:translate-x-0.5 transition-transform" />
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
         {posts.length === 0 ? (
           <div className="text-center py-16">
             <p className="text-muted-foreground">Nenhum post publicado ainda.</p>
