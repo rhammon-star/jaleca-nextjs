@@ -233,12 +233,12 @@ export const PRODUCT_PROFESSIONS: ProductProfessions[] = [
   {
     slug: 'touca-de-elastico-jaleca',
     name: 'Touca de Elástico',
-    professions: ['medica','dentista','enfermeira','farmaceutica','nutricionista','veterinaria','psicologa','biomedica','pastor','nail design','micropigmentadora','cozinheira','churrasqueira','confeiteira'],
+    professions: [], // Complementar - não aparece em páginas de profissão
   },
   {
     slug: 'touca-de-amarrar-jaleca',
     name: 'Touca de Amarrar',
-    professions: ['medica','dentista','enfermeira','farmaceutica','nutricionista','veterinaria','psicologa','biomedica','pastor','nail design','micropigmentadora','cabeleireira','barbeiro','churrasqueiro','podologa','esteticista','sushiman'],
+    professions: [], // Complementar - não aparece em páginas de profissão
   },
 ]
 

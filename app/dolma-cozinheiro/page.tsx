@@ -9,6 +9,7 @@ import { getPosts, type WPPost } from '@/lib/wordpress'
 import { getGooglePlaceData } from '@/lib/google-places'
 import FaqAccordion from './FaqAccordion'
 import { PROFESSION_PRODUCT_SLUGS } from '@/lib/product-professions'
+import { getHeroImageSlug } from '@/lib/profession-hero-images'
 
 export const metadata: Metadata = {
   title: 'Dolma para Cozinheiro: Conforto e Praticidade para Cozinha Profissional | Jaleca 2026',
@@ -80,13 +81,21 @@ async function getDólmãs(): Promise<WooProduct[]> {
 
 async function getHeroImage(): Promise<{ src: string; alt: string } | null> {
   try {
-    const data = await graphqlClient.request<{ product: { name: string; image: { sourceUrl: string; altText: string } } }>(
+    const heroSlug = getHeroImageSlug('cozinheiro')
+    if (!heroSlug) return null
+
+    const data = await graphqlClient.request<{ product: { name: string; image: { sourceUrl: string; altText: string } } | null }>(
       GET_PRODUCT_BY_SLUG,
-      { slug: 'dolma-cozinheiro-jaleca' }
+      { slug: heroSlug }
     )
-    const img = data?.product?.image
-    if (!img?.sourceUrl) return null
-    return { src: img.sourceUrl, alt: img.altText || data.product.name }
+
+    if (data?.product?.image?.sourceUrl) {
+      return {
+        src: data.product.image.sourceUrl,
+        alt: data.product.image.altText || data.product.name
+      }
+    }
+    return null
   } catch {
     return null
   }

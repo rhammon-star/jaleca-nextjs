@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Suspense } from 'react'
-import { graphqlClient, GET_PRODUCTS } from '@/lib/graphql'
+import { graphqlClient, GET_PRODUCTS, GET_PRODUCT_BY_SLUG } from '@/lib/graphql'
 import type { WooProduct } from '@/components/ProductCard'
 import ProductCard from '@/components/ProductCard'
 import ProductDetailSection from '@/components/ProductDetailSection'
@@ -10,6 +10,7 @@ import { getGooglePlaceData } from '@/lib/google-places'
 import FaqAccordion from './FaqAccordion'
 import { getAllProducts } from '@/lib/all-products'
 import { PROFESSION_PRODUCT_SLUGS, prioritizeByColor, getVerMaisUrl } from '@/lib/product-professions'
+import { getHeroImageSlug } from '@/lib/profession-hero-images'
 
 export const metadata: Metadata = {
   title: 'Jaleco para Enfermagem — Conforto e Mobilidade para a Rotina Hospitalar | Jaleca 2026',
@@ -97,15 +98,19 @@ async function getJalecos(): Promise<WooProduct[]> {
 
 async function getHeroImage(): Promise<{ src: string; alt: string } | null> {
   try {
-    const data = await graphqlClient.request<{ products: { nodes: { name: string; image: { sourceUrl: string; altText: string } }[] } }>(
-      GET_PRODUCTS,
-      { first: 100 }
+    const heroSlug = getHeroImageSlug('enfermagem')
+    if (!heroSlug) return null
+
+    const data = await graphqlClient.request<{ product: { name: string; image: { sourceUrl: string; altText: string } } | null }>(
+      GET_PRODUCT_BY_SLUG,
+      { slug: heroSlug }
     )
-    const nursingProduct = data?.products?.nodes?.find(p =>
-      p.name?.toLowerCase().includes('enfermagem')
-    )
-    if (nursingProduct?.image?.sourceUrl) {
-      return { src: nursingProduct.image.sourceUrl, alt: nursingProduct.image.altText || nursingProduct.name }
+
+    if (data?.product?.image?.sourceUrl) {
+      return {
+        src: data.product.image.sourceUrl,
+        alt: data.product.image.altText || data.product.name
+      }
     }
     return null
   } catch {

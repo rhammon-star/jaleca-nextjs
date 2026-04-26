@@ -10,6 +10,7 @@ import { getGooglePlaceData } from '@/lib/google-places'
 import FaqAccordion from './FaqAccordion'
 import { PROFESSION_PRODUCT_SLUGS, prioritizeByColor, getVerMaisUrl } from '@/lib/product-professions'
 import { getAllProducts } from '@/lib/all-products'
+import { getHeroImageSlug } from '@/lib/profession-hero-images'
 
 export const metadata: Metadata = {
   title: 'Jaleco para Advogado: Elegância e Autoridade no Direito | Jaleca 2026',
@@ -97,13 +98,21 @@ async function getJalecos(): Promise<WooProduct[]> {
 
 async function getHeroImage(): Promise<{ src: string; alt: string } | null> {
   try {
-    const data = await graphqlClient.request<{ product: { name: string; image: { sourceUrl: string; altText: string } } }>(
+    const heroSlug = getHeroImageSlug('advogado')
+    if (!heroSlug) return null
+
+    const data = await graphqlClient.request<{ product: { name: string; image: { sourceUrl: string; altText: string } } | null }>(
       GET_PRODUCT_BY_SLUG,
-      { slug: 'jaleco-slim-feminino-de-ziper-central-varias-cores-jaleca' }
+      { slug: heroSlug }
     )
-    const img = data?.product?.image
-    if (!img?.sourceUrl) return null
-    return { src: img.sourceUrl, alt: img.altText || data.product.name }
+
+    if (data?.product?.image?.sourceUrl) {
+      return {
+        src: data.product.image.sourceUrl,
+        alt: data.product.image.altText || data.product.name
+      }
+    }
+    return null
   } catch {
     return null
   }
