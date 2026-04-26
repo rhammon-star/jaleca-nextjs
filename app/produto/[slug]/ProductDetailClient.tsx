@@ -18,7 +18,6 @@ import RecentlyViewed from '@/components/RecentlyViewed'
 import UrgencyToast from '@/components/UrgencyToast'
 import { isBestSeller } from '@/lib/best-sellers'
 import type { PlaceData } from '@/lib/google-places'
-import { buildColorSlug, parseColorSlug } from '@/lib/product-colors'
 
 type AttributeTerm = { slug: string; name: string }
 
@@ -253,6 +252,18 @@ export default function ProductDetailClient({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialColor])
+
+  // Handle browser back/forward with color state
+  useEffect(() => {
+    const handlePopState = (event: PopStateEvent) => {
+      if (event.state && 'color' in event.state) {
+        setSelectedColor(event.state.color)
+      }
+    }
+
+    window.addEventListener('popstate', handlePopState)
+    return () => window.removeEventListener('popstate', handlePopState)
+  }, [])
   const [activeImageIdx, setActiveImageIdx] = useState(0)
   const touchStartX = useRef<number | null>(null)
   const galleryRef  = useRef<HTMLDivElement>(null)
@@ -803,18 +814,28 @@ export default function ProductDetailClient({
                   {colorSlugs.map(slug => {
                     const label = colorNames[slug] ?? slug
                     const isActive = selectedColor === slug
-                    const { baseSlug } = parseColorSlug(product.slug)
-                    const colorUrl = `/produto/${buildColorSlug(baseSlug, label)}`
                     return (
-                      <Link
+                      <button
                         key={slug}
-                        href={colorUrl}
+                        onClick={() => {
+                          const newColor = isActive ? null : slug
+                          setSelectedColor(newColor)
+
+                          // Update URL without page reload (SEO + browser history)
+                          if (typeof window !== 'undefined') {
+                            const colorSlugPart = newColor
+                              ? `-${(colorNames[newColor] ?? newColor).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '-')}`
+                              : ''
+                            const newUrl = `/produto/${product.slug}${colorSlugPart}`
+                            window.history.pushState({ color: newColor }, '', newUrl)
+                          }
+                        }}
                         aria-label={`Cor ${label}${isActive ? ' (selecionada)' : ''}`}
-                        aria-current={isActive ? 'page' : undefined}
-                        className={`filter-chip min-h-12 px-4 py-2 text-xs font-medium tracking-wide uppercase transition-all duration-200 active:scale-95 ${isActive ? 'filter-chip--active' : ''}`}
+                        aria-pressed={isActive}
+                        className={`filter-chip min-h-12 px-4 py-2 text-xs font-medium tracking-wide uppercase ${isActive ? 'filter-chip--active' : ''}`}
                       >
                         {label}
-                      </Link>
+                      </button>
                     )
                   })}
                 </div>
