@@ -73,7 +73,7 @@ export const PRODUCT_PROFESSIONS: ProductProfessions[] = [
   {
     slug: 'jaleco-slim-feminino-de-ziper-central-varias-cores-jaleca',
     name: 'Jaleco Slim Tradicional Feminino',
-    professions: ['medica','dentista','enfermeira','farmaceutica','nutricionista','veterinaria','psicologa','biomedica','pastor','nail design','micropigmentadora','estiloso'],
+    professions: ['medica','medicina','dentista','odontologia','enfermeira','enfermagem','farmaceutica','farmacia','nutricionista','nutricao','veterinaria','psicologa','biomedica','fisioterapia','pastor','nail design','micropigmentadora','estiloso','dona-casa'],
   },
   {
     slug: 'jaleco-slim-pala-feminino-jaleca',
@@ -140,17 +140,17 @@ export const PRODUCT_PROFESSIONS: ProductProfessions[] = [
   {
     slug: 'jaleco-slim-masculino-de-ziper-central-varias-cores-jaleca',
     name: 'Jaleco Slim Tradicional Masculino',
-    professions: ['medico','dentista','enfermeiro','farmaceutico','veterinario','fisioterapeuta','nutricionista','biomedico','barbeiro','cabeleireiro','tatuador','pastor'],
+    professions: ['medico','medicina','dentista','odontologia','enfermeiro','enfermagem','farmaceutico','farmacia','veterinario','fisioterapeuta','fisioterapia','nutricionista','nutricao','biomedico','barbeiro','cabeleireiro','tatuador','pastor','advogado'],
   },
   {
     slug: 'jaleco-slim-recortes-masculino-varias-cores-jaleca',
     name: 'Jaleco Slim Recortes Masculino',
-    professions: ['medico','dentista','enfermeiro','farmaceutico','veterinario','fisioterapeuta','nutricionista','biomedico','barbeiro','cabeleireiro','tatuador','pastor'],
+    professions: ['medico','medicina','dentista','odontologia','enfermeiro','enfermagem','farmaceutico','farmacia','veterinario','fisioterapeuta','fisioterapia','nutricionista','nutricao','biomedico','barbeiro','cabeleireiro','tatuador','pastor','advogado'],
   },
   {
     slug: 'jaleco-slim-moratty-masculino-ziper-central-jaleca',
     name: 'Jaleco Slim Moratty Masculino',
-    professions: ['medico','dentista','enfermeiro','farmaceutico','veterinario','fisioterapeuta','nutricionista','biomedico','barbeiro','cabeleireiro','tatuador','pastor'],
+    professions: ['medico','medicina','dentista','odontologia','enfermeiro','enfermagem','farmaceutico','farmacia','veterinario','fisioterapeuta','fisioterapia','nutricionista','nutricao','biomedico','barbeiro','cabeleireiro','tatuador','pastor','advogado'],
   },
   {
     slug: 'jaleco-padrao-aluno-masculino-de-botao-varias-cores-jaleca',
@@ -174,7 +174,7 @@ export const PRODUCT_PROFESSIONS: ProductProfessions[] = [
   {
     slug: 'conjunto-pijama-cirurgico-scrub-masculino-varias-cores-jaleca',
     name: 'Conjunto Scrub Masculino',
-    professions: ['medico','dentista','enfermeiro','farmaceutico','veterinario','advogado','fisioterapeuta','nutricionista','biomedico','barbeiro','cabeleireiro','professor','massagista','tatuador','cirurgico-masculino','cirurgico'],
+    professions: ['medico','medicina','dentista','odontologia','enfermeiro','enfermagem','farmaceutico','farmacia','veterinario','advogado','fisioterapeuta','fisioterapia','nutricionista','nutricao','biomedico','barbeiro','cabeleireiro','professor','massagista','tatuador','cirurgico-masculino','cirurgico'],
   },
   {
     slug: 'conjunto-puff-ziper-feminino-jaleca',
@@ -206,7 +206,7 @@ export const PRODUCT_PROFESSIONS: ProductProfessions[] = [
   {
     slug: 'conjunto-dolma-cozinheiro-de-ziper-e-avental-saia-slim-jaleca',
     name: 'Conjunto Dólmã Cozinheiro Feminino',
-    professions: ['churrasqueira','cozinheira','buffet','confeiteira','secretaria do lar','dona-de-casa','sushiman'],
+    professions: ['churrasqueira','cozinheira','buffet','confeiteira','secretaria do lar','dona-de-casa','dona-casa','sushiman'],
   },
   {
     slug: 'conjunto-dolma-cozinheiro-masculino-de-ziper-e-avental-saia-slim-jaleca',
