@@ -11,7 +11,7 @@ import FaqAccordion from './FaqAccordion'
 import { PROFESSION_PRODUCT_SLUGS } from '@/lib/product-professions'
 
 export const metadata: Metadata = {
-  title: 'Dolma para Sushiman: Conforto e Mobilidade para Arte Japonesa | Jaleca 2026',
+  title: { absolute: 'Dolma para Sushiman: Conforto e Mobilidade para Arte Japonesa | Jaleca' },
   description: 'Dolma para sushiman em tecido técnico para cozinha japonesa. Antiderrapante, fácil limpeza, maleabilidade. Frete grátis SP/RJ/MG/ES acima R$499. Jaleca — fabricante com estoque próprio.',
   alternates: { canonical: 'https://jaleca.com.br/dolma-sushiman' },
   openGraph: {

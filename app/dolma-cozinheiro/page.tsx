@@ -12,7 +12,7 @@ import { PROFESSION_PRODUCT_SLUGS } from '@/lib/product-professions'
 import { getHeroImageSlug } from '@/lib/profession-hero-images'
 
 export const metadata: Metadata = {
-  title: 'Dolma para Cozinheiro: Conforto e Praticidade para Cozinha Profissional | Jaleca 2026',
+  title: { absolute: 'Dolma para Cozinheiro: Conforto e Praticidade para Cozinha Profissional | Jaleca' },
   description: 'Dolma para cozinheiro em tecido técnico para cozinha profissional. Antiderrapante, fácil limpeza, maleabilidade. Frete grátis SP/RJ/MG/ES acima R$499. Jaleca — fabricante com estoque próprio.',
   alternates: { canonical: 'https://jaleca.com.br/dolma-cozinheiro' },
   openGraph: {

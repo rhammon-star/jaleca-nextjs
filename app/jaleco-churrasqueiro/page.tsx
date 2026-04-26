@@ -13,7 +13,7 @@ import { getAllProducts } from '@/lib/all-products'
 import { getHeroImageSlug } from '@/lib/profession-hero-images'
 
 export const metadata: Metadata = {
-  title: 'Uniforme para Churrasqueiro: Dólmã Resistente à Gordura | Jaleca 2026',
+  title: { absolute: 'Uniforme para Churrasqueiro: Dólmã Resistente à Gordura | Jaleca' },
   description: 'Uniforme profissional para churrasqueiro. Dólmã de cozinheiro resistente à gordura, conforto térmico e durabilidade. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-churrasqueiro' },
   openGraph: {

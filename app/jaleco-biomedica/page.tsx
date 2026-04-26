@@ -13,7 +13,7 @@ import { getAllProducts } from '@/lib/all-products'
 import { getHeroImageSlug } from '@/lib/profession-hero-images'
 
 export const metadata: Metadata = {
-  title: 'Jaleco para Biomédica: Tecido Premium, Caimento Perfeito | Jaleca 2026',
+  title: { absolute: 'Jaleco para Biomédica: Tecido Premium, Caimento Perfeito | Jaleca' },
   description: 'Jaleco para biomédico em tecido premium com elastano. Modelos Profissional e Slim do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-biomedica' },
   openGraph: {

@@ -13,7 +13,7 @@ import { getAllProducts } from '@/lib/all-products'
 import { getHeroImageSlug } from '@/lib/profession-hero-images'
 
 export const metadata: Metadata = {
-  title: 'Jaleco para Barbeiro: Estilo e Praticidade na Barbearia | Jaleca 2026',
+  title: { absolute: 'Jaleco para Barbeiro: Estilo e Praticidade na Barbearia | Jaleca' },
   description: 'Jaleco para barbeiro em tecido premium com elastano. Modelos Slim e Profissional do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-barbeiro' },
   openGraph: {

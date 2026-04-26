@@ -13,7 +13,7 @@ import { getAllProducts } from '@/lib/all-products'
 import { getHeroImageSlug } from '@/lib/profession-hero-images'
 
 export const metadata: Metadata = {
-  title: 'Jaleco para Dona de Casa: Praticidade e Proteção no Trabalho Doméstico | Jaleca 2026',
+  title: { absolute: 'Jaleco para Dona de Casa: Praticidade e Proteção no Trabalho Doméstico | Jaleca' },
   description: 'Jaleco para dona de casa em tecido premium com elastano. Modelo prático e confortável para o trabalho doméstico. Frete grátis SP/RJ/MG/ES.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-dona-casa' },
   openGraph: {

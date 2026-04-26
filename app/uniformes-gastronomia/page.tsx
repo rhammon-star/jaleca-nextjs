@@ -7,7 +7,7 @@ import { getGooglePlaceData } from '@/lib/google-places'
 import FaqAccordion from './FaqAccordion'
 
 export const metadata: Metadata = {
-  title: 'Uniformes para Gastronomia — Conforto e Praticidade para Cozinha Profissional | Jaleca 2026',
+  title: { absolute: 'Uniformes para Gastronomia — Conforto e Praticidade para Cozinha Profissional | Jaleca' },
   description: 'Uniformes profissionais para gastronomia: nómã chef, jaleco cozinheiro, jaleco sushiman e churrasqueiro. Tecido resistente a manchas, calor e uso intenso. Frete grátis SP/RJ/MG/ES.',
   alternates: { canonical: 'https://jaleca.com.br/uniformes-gastronomia' },
   openGraph: {

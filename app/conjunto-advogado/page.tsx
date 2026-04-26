@@ -11,7 +11,7 @@ import FaqAccordion from './FaqAccordion'
 import { PROFESSION_PRODUCT_SLUGS } from '@/lib/product-professions'
 
 export const metadata: Metadata = {
-  title: 'Conjunto Profissional para Advogado: Elegância e Conforto | Jaleca 2026',
+  title: { absolute: 'Conjunto Profissional para Advogado: Elegância e Conforto | Jaleca' },
   description: 'Conjunto profissional para advogado em tecido premium com elastano. Modelagem elegante do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
   alternates: { canonical: 'https://jaleca.com.br/conjunto-advogado' },
   openGraph: {

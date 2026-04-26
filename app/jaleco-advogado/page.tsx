@@ -13,7 +13,7 @@ import { getAllProducts } from '@/lib/all-products'
 import { getHeroImageSlug } from '@/lib/profession-hero-images'
 
 export const metadata: Metadata = {
-  title: 'Jaleco para Advogado: Elegância e Autoridade no Direito | Jaleca 2026',
+  title: { absolute: 'Jaleco para Advogado: Elegância e Autoridade no Direito | Jaleca' },
   description: 'Jaleco para advogado em tecido premium com caimento impecável. Modelos Profissional e Slim do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-advogado' },
   openGraph: {

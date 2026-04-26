@@ -11,7 +11,7 @@ import FaqAccordion from './FaqAccordion'
 import { PROFESSION_PRODUCT_SLUGS } from '@/lib/product-professions'
 
 export const metadata: Metadata = {
-  title: 'Uniforme para Professor: Elegância e Conforto para a Sala de Aula | Jaleca 2026',
+  title: { absolute: 'Uniforme para Professor: Elegância e Conforto para a Sala de Aula | Jaleca' },
   description: 'Uniforme para professor em tecido premium com elastano. Modelagem elegante e confortável do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
   alternates: { canonical: 'https://jaleca.com.br/uniforme-professor' },
   openGraph: {

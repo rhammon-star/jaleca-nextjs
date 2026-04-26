@@ -11,7 +11,7 @@ import FaqAccordion from './FaqAccordion'
 import { PROFESSION_PRODUCT_SLUGS } from '@/lib/product-professions'
 
 export const metadata: Metadata = {
-  title: 'Dolma para Churrasqueiro: Conforto e Durabilidade para Churrascarias | Jaleca 2026',
+  title: { absolute: 'Dolma para Churrasqueiro: Conforto e Durabilidade para Churrascarias | Jaleca' },
   description: 'Dolma para churrasqueiro em tecido técnico para cozinha profissional. Antiderrapante, fácil limpeza, maleabilidade. Frete grátis SP/RJ/MG/ES acima R$499. Jaleca — fabricante com estoque próprio.',
   alternates: { canonical: 'https://jaleca.com.br/dolma-churrasqueiro' },
   openGraph: {

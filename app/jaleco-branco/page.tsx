@@ -10,7 +10,7 @@ import { getGooglePlaceData } from '@/lib/google-places'
 import FaqAccordion from './FaqAccordion'
 
 export const metadata: Metadata = {
-  title: 'Jaleco Branco Profissional — Conforto e Elegância para a Rotina Clínica | Jaleca 2026',
+  title: { absolute: 'Jaleco Branco Profissional — Conforto e Elegância para a Rotina Clínica | Jaleca' },
   description: 'Jaleco branco profissional em tecido premium com elastano. Modelos feminino e masculino do PP ao G3. Frete grátis SP/RJ/MG/ES acima R$499. Jaleca — fabricante com estoque próprio.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-branco' },
   openGraph: {

@@ -7,7 +7,7 @@ import { getGooglePlaceData } from '@/lib/google-places'
 import FaqAccordion from './FaqAccordion'
 
 export const metadata: Metadata = {
-  title: 'Uniformes para Escritório — Profissionalismo com Conforto | Jaleca 2026',
+  title: { absolute: 'Uniformes para Escritório — Profissionalismo com Conforto | Jaleca' },
   description: 'Uniformes e conjuntos profissionais para escritório e consultório: advogado, psicólogo, farmacéutico e pastor. Elegância e identidade visual no ambiente corporativo.',
   alternates: { canonical: 'https://jaleca.com.br/uniformes-escritorio' },
   openGraph: {

@@ -13,7 +13,7 @@ import { getAllProducts } from '@/lib/all-products'
 import { getHeroImageSlug } from '@/lib/profession-hero-images'
 
 export const metadata: Metadata = {
-  title: 'Conjunto para Advogada: Elegância e Autoridade no Direito | Jaleca 2026',
+  title: { absolute: 'Conjunto para Advogada: Elegância e Autoridade no Direito | Jaleca' },
   description: 'Conjunto para advogada em tecido premium com caimento impecável. Modelos Executiva, Puff Zíper e Laço do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-advogada' },
   openGraph: {

@@ -13,7 +13,7 @@ import { getAllProducts } from '@/lib/all-products'
 import { getHeroImageSlug } from '@/lib/profession-hero-images'
 
 export const metadata: Metadata = {
-  title: 'Jaleco para Fisioterapia: Conforto e Mobilidade | Jaleca 2026',
+  title: { absolute: 'Jaleco para Fisioterapia: Conforto e Mobilidade | Jaleca' },
   description: 'Jaleco para Fisioterapia com elastano e modelagem que acompanha o movimento. Tecido respirável, do PP ao G3. Frete grátis SP/RJ/MG/ES.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-fisioterapia' },
   openGraph: {

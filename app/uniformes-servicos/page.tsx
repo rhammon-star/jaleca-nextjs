@@ -7,7 +7,7 @@ import { getGooglePlaceData } from '@/lib/google-places'
 import FaqAccordion from './FaqAccordion'
 
 export const metadata: Metadata = {
-  title: 'Uniformes Profissionais para Serviços — Elegância e Conforto | Jaleca 2026',
+  title: { absolute: 'Uniformes Profissionais para Serviços — Elegância e Conforto | Jaleca' },
   description: 'Uniformes profissionais para serviços: jaleco professor, vendedor, conjunt professor, vendedor e secretary. Conforto e profissionalismo para o dia a dia.',
   alternates: { canonical: 'https://jaleca.com.br/uniformes-servicos' },
   openGraph: {
