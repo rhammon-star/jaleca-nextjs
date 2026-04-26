@@ -15,6 +15,7 @@ export type WooProduct = {
   databaseId: number;
   name: string;
   slug: string;
+  featured?: boolean;
   price?: string;
   regularPrice?: string;
   salePrice?: string;

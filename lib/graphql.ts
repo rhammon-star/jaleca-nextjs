@@ -93,6 +93,7 @@ export const GET_PRODUCTS_LISTING = `
         databaseId
         name
         slug
+        featured
         productCategories {
           nodes {
             name

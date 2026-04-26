@@ -118,7 +118,7 @@ const SORT_LABELS: Record<SortOption, string> = {
   newest: "Novidades",
 };
 
-type Props = { products: WooProduct[]; initialCat?: string; initialSale?: boolean; initialNovidades?: boolean; initialGenero?: string; initialCor?: string; pageTitle?: string; pageDescription?: string };
+type Props = { products: WooProduct[]; initialCat?: string; initialSale?: boolean; initialNovidades?: boolean; initialGenero?: string; initialCor?: string; initialBestSellersOnly?: boolean; pageTitle?: string; pageDescription?: string };
 
 const FilterPanel = ({
   selectedCategory, setSelectedCategory,
@@ -217,7 +217,7 @@ function resolveInitialCor(c?: string): string | null {
   return match ?? null;
 }
 
-export default function ProductsClient({ products, initialCat = "Todos", initialSale = false, initialNovidades = false, initialGenero, initialCor, pageTitle, pageDescription }: Props) {
+export default function ProductsClient({ products, initialCat = "Todos", initialSale = false, initialNovidades = false, initialGenero, initialCor, initialBestSellersOnly = false, pageTitle, pageDescription }: Props) {
   const [selectedCategory, setSelectedCategory] = useState(initialCat);
   const [selectedGender, setSelectedGender] = useState(() => resolveInitialGender(initialGenero));
   const [saleOnly] = useState(initialSale);
@@ -230,6 +230,7 @@ export default function ProductsClient({ products, initialCat = "Todos", initial
 
   const filtered = useMemo(() => {
     let base = products.filter((p) => {
+      if (initialBestSellersOnly && !isBestSeller(p.slug)) return false;
       if (!matchesCategory(p.name, p.slug, selectedCategory, p.productCategories)) return false;
       if (!matchesGender(p.name, selectedGender, p.productCategories)) return false;
       if (!matchesColor(p, selectedColor)) return false;
@@ -250,9 +251,14 @@ export default function ProductsClient({ products, initialCat = "Todos", initial
     if (sortBy === "newest") {
       return [...base].reverse();
     }
-    // relevance: best-sellers primeiro
-    return [...base].sort((a, b) => (isBestSeller(a.slug) ? 0 : 1) - (isBestSeller(b.slug) ? 0 : 1));
-  }, [products, selectedCategory, selectedGender, selectedColor, selectedSize, sortBy, saleOnly, initialNovidades]);
+    // relevance: best-sellers > featured (destaque WC) > resto
+    const rank = (p: WooProduct) => {
+      if (isBestSeller(p.slug)) return 0;
+      if (p.featured) return 1;
+      return 2;
+    };
+    return [...base].sort((a, b) => rank(a) - rank(b));
+  }, [products, selectedCategory, selectedGender, selectedColor, selectedSize, sortBy, saleOnly, initialNovidades, initialBestSellersOnly]);
 
   const visible = filtered.slice(0, visibleCount);
   const hasMore = visibleCount < filtered.length;

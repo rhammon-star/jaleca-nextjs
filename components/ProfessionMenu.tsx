@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-import { ChevronDown, Search, Briefcase } from 'lucide-react'
+import { ChevronDown, Search, Briefcase, X } from 'lucide-react'
 import Link from 'next/link'
 import { PROFESSION_MAP } from '@/lib/product-professions'
 
@@ -87,19 +87,6 @@ export default function ProfessionMenu() {
         <ChevronDown
           size={14}
           className={`transition-transform ${isOpen ? 'rotate-180' : ''}`}
-        />
-      </button>
-
-      {/* Botão Mobile */}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="md:hidden flex items-center gap-2 w-full py-3.5 text-[11px] font-semibold tracking-[0.2em] uppercase text-white/70 hover:text-white transition-colors duration-150"
-      >
-        <Briefcase size={18} />
-        Buscar por Profissão
-        <ChevronDown
-          size={16}
-          className={`ml-auto transition-transform ${isOpen ? 'rotate-180' : ''}`}
         />
       </button>
 
@@ -246,38 +233,52 @@ export default function ProfessionMenu() {
             </div>
           </div>
 
-          {/* Mobile: Lista simples */}
-          <div className="md:hidden bg-white/5 border-t border-white/10">
-            <div className="p-4 space-y-2">
-              {/* Search */}
-              <div className="relative mb-3">
+          {/* Mobile: Modal fullscreen */}
+          <div className="md:hidden fixed inset-0 z-[300] bg-black/50" onClick={() => setIsOpen(false)} aria-hidden="true" />
+          <div className="md:hidden fixed inset-x-0 top-0 bottom-14 z-[301] bg-background flex flex-col" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
+            <div className="flex items-center justify-between px-4 py-4 border-b border-border">
+              <div className="flex items-center gap-2">
+                <Briefcase size={18} className="text-foreground" />
+                <span className="text-sm font-semibold tracking-wide uppercase text-foreground">Buscar por Profissão</span>
+              </div>
+              <button
+                onClick={() => setIsOpen(false)}
+                aria-label="Fechar"
+                className="p-2 text-muted-foreground hover:text-foreground"
+              >
+                <X size={20} />
+              </button>
+            </div>
+            <div className="p-4 border-b border-border">
+              <div className="relative">
                 <Search
                   size={18}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 text-white/40"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
                 />
                 <input
                   type="text"
                   placeholder="Buscar profissão..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 text-sm border border-white/20 rounded-md bg-white/10 text-white placeholder:text-white/40"
+                  className="w-full pl-10 pr-4 py-2.5 text-base border border-border rounded-md bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20"
+                  autoFocus
                 />
               </div>
-
-              {/* Lista */}
-              <div className="space-y-1 max-h-[300px] overflow-y-auto">
+            </div>
+            <div className="flex-1 overflow-y-auto p-4">
+              <div className="grid grid-cols-2 gap-2">
                 {filteredProfessions.map(([key, info]) => (
                   <Link
                     key={key}
                     href={info.hub}
                     onClick={() => setIsOpen(false)}
-                    className="block px-3 py-2 text-sm text-white/70 hover:text-white hover:bg-white/10 rounded-md transition-colors"
+                    className="px-3 py-3 text-sm text-foreground bg-muted/30 hover:bg-muted/60 active:scale-95 rounded-md transition-all text-center"
                   >
                     {info.label}
                   </Link>
                 ))}
                 {filteredProfessions.length === 0 && (
-                  <p className="text-sm text-white/40 text-center py-8">
+                  <p className="col-span-2 text-sm text-muted-foreground text-center py-8">
                     Nenhuma profissão encontrada
                   </p>
                 )}

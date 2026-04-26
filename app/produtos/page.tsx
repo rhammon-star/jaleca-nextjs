@@ -79,10 +79,11 @@ const CATEGORIA_MAP: Record<string, { cat?: string; genero?: string }> = {
 export default async function ProdutosPage({
   searchParams,
 }: {
-  searchParams: Promise<{ cat?: string; sale?: string; novidades?: string; genero?: string; cor?: string; categoria?: string }>
+  searchParams: Promise<{ cat?: string; sale?: string; novidades?: string; genero?: string; cor?: string; categoria?: string; sort?: string }>
 }) {
-  const { cat, sale, novidades, genero, cor, categoria } = await searchParams
+  const { cat, sale, novidades, genero, cor, categoria, sort } = await searchParams
   const products = await getAllProducts()
+  const bestSellersOnly = sort === 'mais-vendidos'
 
   const catFromSlug = categoria ? CATEGORIA_MAP[categoria] : undefined
   const resolvedCat    = cat    || catFromSlug?.cat    || 'Todos'
@@ -104,13 +105,15 @@ export default async function ProdutosPage({
       />
       <h1 className="sr-only">Jalecos e Uniformes Médicos — Femininos e Masculinos | Jaleca</h1>
       <ProductsClient
-        key={`${resolvedCat}-${resolvedGenero ?? ''}-${cor ?? ''}-${sale ?? ''}-${novidades ?? ''}`}
+        key={`${resolvedCat}-${resolvedGenero ?? ''}-${cor ?? ''}-${sale ?? ''}-${novidades ?? ''}-${sort ?? ''}`}
         products={products}
         initialCat={resolvedCat}
         initialSale={sale === 'true'}
         initialNovidades={novidades === 'true'}
         initialGenero={resolvedGenero}
         initialCor={cor}
+        initialBestSellersOnly={bestSellersOnly}
+        pageTitle={bestSellersOnly ? 'Mais Vendidos' : undefined}
       />
     </>
   )
