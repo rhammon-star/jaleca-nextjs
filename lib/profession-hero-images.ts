@@ -10,11 +10,11 @@
 
 export const PROFESSION_HERO_IMAGES: Record<string, string> = {
   // ── FEMININO ──────────────────────────────────────────────────────────
-  'medica': 'jaleco-slim-tradicional-feminino-jaleca-branco',
+  'medica': 'conjunto-pijama-cirurgico-scrub-feminino-varias-cores-jaleca',
   'dentista': 'jaleco-slim-tradicional-feminino-jaleca-branco',
-  'enfermeira': 'jaleco-slim-feminino-lateral-jaleca-branco',
-  'farmaceutica': 'jaleco-slim-tradicional-feminino-jaleca-branco',
-  'nutricionista': 'jaleco-slim-tradicional-feminino-jaleca-branco',
+  'enfermeira': 'conjunto-pijama-cirurgico-scrub-feminino-varias-cores-jaleca',
+  'farmaceutica': 'conjunto-pijama-cirurgico-scrub-feminino-varias-cores-jaleca',
+  'nutricionista': 'conjunto-pijama-cirurgico-scrub-feminino-varias-cores-jaleca',
   'veterinaria': 'jaleco-slim-tradicional-feminino-jaleca-branco',
   'psicologa': 'conjunto-puff-ziper-feminino-jaleca',
   'fisioterapeuta': 'jaleco-slim-feminino-lateral-jaleca-branco',
@@ -32,10 +32,10 @@ export const PROFESSION_HERO_IMAGES: Record<string, string> = {
   'churrasqueira': 'conjunto-dolma-cozinheiro-de-ziper-e-avental-saia-slim-jaleca',
 
   // ── MASCULINO ─────────────────────────────────────────────────────────
-  'medico': 'jaleco-slim-masculino-de-ziper-central-varias-cores-jaleca-branco',
+  'medico': 'conjunto-pijama-cirurgico-scrub-masculino-varias-cores-jaleca',
   'dentista-masculino': 'jaleco-slim-masculino-de-ziper-central-varias-cores-jaleca-branco',
-  'enfermeiro': 'jaleco-slim-recortes-masculino-varias-cores-jaleca-branco',
-  'farmaceutico': 'jaleco-slim-masculino-de-ziper-central-varias-cores-jaleca-branco',
+  'enfermeiro': 'conjunto-pijama-cirurgico-scrub-masculino-varias-cores-jaleca',
+  'farmaceutico': 'conjunto-pijama-cirurgico-scrub-masculino-varias-cores-jaleca',
   'veterinario': 'jaleco-slim-masculino-de-ziper-central-varias-cores-jaleca-branco',
   'biomedico': 'jaleco-slim-masculino-de-ziper-central-varias-cores-jaleca-branco',
   'advogado': 'conjunto-pijama-cirurgico-scrub-masculino-varias-cores-jaleca',
@@ -48,13 +48,13 @@ export const PROFESSION_HERO_IMAGES: Record<string, string> = {
   'sushiman': 'conjunto-dolma-cozinheiro-masculino-de-ziper-e-avental-saia-slim-jaleca',
 
   // ── UNISSEX / PÁGINAS ESPECIAIS ───────────────────────────────────────
-  'enfermagem': 'conjunto-scrub-feminino-varias-cores-jaleca', // Página unissex, usa feminino
+  'enfermagem': 'conjunto-pijama-cirurgico-scrub-feminino-varias-cores-jaleca', // Página unissex, usa feminino
   'universitario': 'jaleco-universitario-unissex-jaleca',
-  'medicina': 'jaleco-slim-tradicional-feminino-jaleca-branco',
-  'odontologia': 'jaleco-slim-tradicional-feminino-jaleca-branco',
-  'fisioterapia': 'jaleco-slim-feminino-lateral-jaleca-branco',
-  'nutricao': 'jaleco-slim-tradicional-feminino-jaleca-branco',
-  'farmacia': 'jaleco-slim-tradicional-feminino-jaleca-branco',
+  'medicina': 'conjunto-pijama-cirurgico-scrub-feminino-varias-cores-jaleca',
+  'odontologia': 'conjunto-pijama-cirurgico-scrub-feminino-varias-cores-jaleca',
+  'fisioterapia': 'conjunto-pijama-cirurgico-scrub-feminino-varias-cores-jaleca',
+  'nutricao': 'conjunto-pijama-cirurgico-scrub-feminino-varias-cores-jaleca',
+  'farmacia': 'conjunto-pijama-cirurgico-scrub-feminino-varias-cores-jaleca',
 }
 
 /**
