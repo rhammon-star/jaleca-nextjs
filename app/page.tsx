@@ -201,7 +201,7 @@ export default async function Home() {
                 <source media="(min-width: 768px)" srcSet="/jaleco-hero-desktop.webp" type="image/webp" />
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/jaleco-hero-v3.jpg"
+                  src="/jaleco-hero-desktop.webp"
                   alt="Profissional de saúde usando jaleco feminino premium Jaleca coleção 2026"
                   className="w-full h-auto block cursor-pointer"
                   width={3155}
