@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getGooglePlaceData } from '@/lib/google-places'
-import ProfessionProductGrid from '@/components/ProfessionProductGrid'
+import CategoryProductGrid from '@/components/CategoryProductGrid'
 
 export const metadata: Metadata = {
   title: 'Jaleco Preto Feminino: Esteticista, Barbeiro e Tatuador',
@@ -180,12 +180,14 @@ export default async function Page() {
           ))}
         </div>
 
-        <ProfessionProductGrid
-          professionKey="cabeleireira"
+        <CategoryProductGrid
+          categorySlug="jalecos-femininos"
+          color="preto"
           professionLabel="Profissionais de Beleza e Estética"
           collectionLabel="Jalecos Pretos"
           productLabel="Jalecos"
-          allHref="/produtos?categoria=jalecos-femininos"
+          allHref="/produtos?categoria=jalecos-femininos&cor=preto"
+          limit={12}
         />
 
         <section style={{ background: '#fff', padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)' }}>

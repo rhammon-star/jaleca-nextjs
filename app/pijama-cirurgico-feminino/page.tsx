@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getGooglePlaceData } from '@/lib/google-places'
-import ProfessionProductGrid from '@/components/ProfessionProductGrid'
+import CategoryProductGrid from '@/components/CategoryProductGrid'
 
 export const metadata: Metadata = {
   title: 'Pijama Cirúrgico Feminino: Scrub para Saúde do PP ao G3',
@@ -185,12 +185,13 @@ export default async function Page() {
           ))}
         </div>
 
-        <ProfessionProductGrid
-          professionKey="cirurgico-feminino"
+        <CategoryProductGrid
+          categorySlug="conjuntos-femininos"
           professionLabel="Pijama Cirúrgico Feminino"
           collectionLabel="Scrubs & Pijamas Cirúrgicos"
           productLabel="Conjuntos"
           allHref="/produtos?categoria=conjuntos-femininos"
+          limit={12}
         />
 
         <section style={{ background: '#fff', padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)' }}>

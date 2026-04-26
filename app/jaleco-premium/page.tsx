@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getGooglePlaceData } from '@/lib/google-places'
+import CategoryProductGrid from '@/components/CategoryProductGrid'
 
 export const metadata: Metadata = {
   title: 'Jaleco Premium: Elegância e Qualidade para Profissionais',
@@ -206,6 +207,16 @@ export default async function Page() {
             </div>
           ))}
         </div>
+
+        {/* ── PRODUTOS ── */}
+        <CategoryProductGrid
+          categorySlug="jalecos-femininos"
+          professionLabel="Profissionais Premium"
+          collectionLabel="Coleção Premium"
+          productLabel="Jalecos"
+          allHref="/produtos?categoria=jalecos-femininos"
+          limit={12}
+        />
 
         {/* ── INTRO ── */}
         <section style={{ background: '#fff', padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)' }}>
