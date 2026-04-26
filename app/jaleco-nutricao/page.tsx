@@ -176,13 +176,9 @@ export default async function JalecoNutricaoPage() {
         </div>
 
         {/* ── HERO ── */}
-        <section
-          className="grid"
-          style={{ gridTemplateColumns: '1fr 1fr', minHeight: '88vh', padding: 0 }}
+        <section className="grid grid-cols-1 lg:grid-cols-2" style={{ gridTemplateColumns: '1fr 1fr', minHeight: '88vh', padding: 0 }}
         >
-          <div
-            className="flex flex-col justify-center"
-            style={{ padding: 'clamp(3rem,8vw,5rem) clamp(2rem,5vw,4rem) clamp(3rem,8vw,5rem) clamp(2rem,8vw,7rem)', background: '#f9f7f4' }}
+          <div className="flex flex-col justify-center order-2 lg:order-1 px-4 py-8 lg:px-16 lg:py-20" style={{ padding: 'clamp(3rem,8vw,5rem) clamp(2rem,5vw,4rem) clamp(3rem,8vw,5rem) clamp(2rem,8vw,7rem)', background: '#f9f7f4' }}
           >
             <div className="flex items-center gap-3 mb-6" style={{ fontSize: '0.72rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#6b6b6b' }}>
               <span style={{ display: 'inline-block', width: 32, height: 1, background: '#c8c4bc' }} />
@@ -205,7 +201,7 @@ export default async function JalecoNutricaoPage() {
             <p style={{ fontSize: '1rem', fontWeight: 300, color: '#6b6b6b', maxWidth: 420, marginBottom: '2.5rem', lineHeight: 1.8 }}>
               Modelagem feminina valorizando, com elastano para o conforto do dia a dia em consultório.
             </p>
-            <div className="flex gap-4 flex-wrap">
+            <div className="flex flex-col sm:flex-row gap-3 lg:gap-4">
               <Link href="/produtos?categoria=jalecos-femininos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: '#1a1a1a', color: '#fff', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
                 Feminino ↗
               </Link>
@@ -217,7 +213,7 @@ export default async function JalecoNutricaoPage() {
             {placeData && <HeroStars rating={placeData.rating} />}
           </div>
 
-          <div className="relative" style={{ background: '#e5e0d8', minHeight: 480, overflow: 'hidden' }}>
+          <div className="relative order-1 lg:order-2" style={{ background: '#e5e0d8', minHeight: 480, overflow: 'hidden' }}>
             {heroImg ? (
               <img
                 src={heroImg.src}
@@ -231,7 +227,7 @@ export default async function JalecoNutricaoPage() {
         </section>
 
         {/* ── TRUST BAR ── */}
-        <div className="grid" style={{ gridTemplateColumns: 'repeat(4,1fr)', background: '#1a1a1a', padding: '2rem clamp(1.5rem,5vw,4rem)' }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-y-4 lg:gap-y-0" style={{ gridTemplateColumns: 'repeat(4,1fr)', background: '#1a1a1a', padding: '2rem clamp(1.5rem,5vw,4rem)' }}>
           {[
             { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><path d="M3 6h18M3 12h18M3 18h18" /></svg>, title: 'Tamanhos PP ao G3', sub: 'Grade completa, corpo real' },
             { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><ellipse cx="12" cy="12" rx="9" ry="6" /><path d="M12 3v18M3 12h18" opacity=".5" /></svg>, title: 'Com elastano', sub: 'Movimento sem restrição' },
@@ -253,7 +249,7 @@ export default async function JalecoNutricaoPage() {
         {/* ── PRODUTOS — Above the Fold ── */}
         {/* Produtos aparecem logo após Trust Bar, antes do guia editorial longo */}
         {produtos.length > 0 && (
-          <section style={{ background: '#f9f7f4', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
+          <section className="px-4 py-12 lg:px-16 lg:py-20" style={{ background: '#f9f7f4', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
             <div style={{ maxWidth: 1200, margin: '0 auto' }}>
               <div className="flex justify-between items-end flex-wrap gap-4 mb-10">
                 <div>
@@ -276,15 +272,15 @@ export default async function JalecoNutricaoPage() {
         )}
 
         {/* ── GUIA ── */}
-        <section style={{ background: '#f9f7f4', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
+        <section className="px-4 py-12 lg:px-16 lg:py-20" style={{ background: '#f9f7f4', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
           <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-            <div className="grid" style={{ gridTemplateColumns: '280px 1fr', gap: 'clamp(3rem,6vw,6rem)', alignItems: 'start' }}>
+            <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-8 lg:gap-24" style={{ gridTemplateColumns: '280px 1fr', gap: 'clamp(3rem,6vw,6rem)', alignItems: 'start' }}>
               <aside style={{ position: 'sticky', top: 80 }}>
                 <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>Guia completo</div>
                 <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '1.8rem', fontWeight: 400, lineHeight: 1.15, color: '#1a1a1a', marginBottom: '1.5rem' }}>
                   Como escolher o jaleco ideal para medicina
                 </h2>
-                <nav>
+                <nav className="hidden lg:block">
                   <ul style={{ listStyle: 'none' }}>
                     {[
                       { label: 'Tecido e composição', anchor: '#tecido' },
