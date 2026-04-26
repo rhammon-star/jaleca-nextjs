@@ -804,6 +804,34 @@ export default function ProductDetailClient({
               />
             )}
 
+            {/* Available colors - SEO links */}
+            {colorSlugs.length > 0 && (
+              <div className="mb-8 text-sm text-muted-foreground">
+                <span className="font-medium">Cores disponíveis: </span>
+                {colorSlugs.map((slug, idx) => {
+                  const label = colorNames[slug] ?? slug
+                  const colorSlugPart = label.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '-')
+                  const colorUrl = `/produto/${product.slug}-${colorSlugPart}`
+                  return (
+                    <span key={slug}>
+                      <Link
+                        href={colorUrl}
+                        className="text-primary-text hover:underline underline-offset-2"
+                        onClick={(e) => {
+                          e.preventDefault()
+                          setSelectedColor(slug)
+                          window.history.pushState({ color: slug }, '', colorUrl)
+                        }}
+                      >
+                        {label}
+                      </Link>
+                      {idx < colorSlugs.length - 1 && ', '}
+                    </span>
+                  )
+                })}
+              </div>
+            )}
+
             {/* Color/Estampa selector */}
             {colorSlugs.length > 0 && (
               <div className={`mb-6 ${shakeColor ? 'animate-shake' : ''}`}>
