@@ -2,6 +2,9 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Shield, Truck, RotateCcw, CreditCard, Ruler, MessageCircle } from 'lucide-react'
 
+// ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
+export const revalidate = 3600
+
 export const metadata: Metadata = {
   title: 'Perguntas Frequentes',
   description: 'Tire suas dúvidas sobre jalecos, medidas, entrega, troca e pagamento. Encontre respostas rápidas para as perguntas mais comuns dos clientes Jaleca.',

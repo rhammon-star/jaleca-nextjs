@@ -1,6 +1,9 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
+// ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
+export const revalidate = 3600
+
 export const metadata: Metadata = {
   title: 'Comprar Jaleco Online | Modelos Femininos e Masculinos — Jaleca',
   description: 'Comprar jaleco online com entrega para todo o Brasil. Tecido premium, do PP ao G3, 12 cores. Frete grátis SP/RJ/MG/ES acima de R$499. Devolução em 7 dias.',

@@ -4,6 +4,9 @@ import { graphqlClient, GET_PRODUCTS } from '@/lib/graphql'
 import ProductCard from '@/components/ProductCard'
 import type { WooProduct } from '@/components/ProductCard'
 
+// ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
+export const revalidate = 3600
+
 export const metadata: Metadata = {
   title: 'Uniformes para Beleza: Jaleco Cabeleireiro, Esteticista e Mais',
   description: 'Uniformes profissionais para área de beleza: jaleco para cabeleireiro, esteticista, massagista, tatuador e barbeiro. Tecido certo, modelos e cores para cada profissão.',

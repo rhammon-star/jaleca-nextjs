@@ -12,6 +12,9 @@ import { PROFESSION_PRODUCT_SLUGS, prioritizeByColor, getVerMaisUrl } from '@/li
 import { getAllProducts } from '@/lib/all-products'
 import { getHeroImageSlug } from '@/lib/profession-hero-images'
 
+// ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
+export const revalidate = 3600
+
 export const metadata: Metadata = {
   title: { absolute: 'Uniforme para Churrasqueiro: Dólmã Resistente à Gordura | Jaleca' },
   description: 'Uniforme profissional para churrasqueiro. Dólmã de cozinheiro resistente à gordura, conforto térmico e durabilidade. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',

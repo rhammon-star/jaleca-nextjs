@@ -1,6 +1,9 @@
 import type { Metadata } from 'next'
 import WishlistClient from './WishlistClient'
 
+// ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
+export const revalidate = 3600
+
 export const metadata: Metadata = {
   title: 'Favoritos — Jaleca',
   description: 'Seus produtos favoritos salvos na Jaleca. Jalecos e uniformes profissionais premium.',

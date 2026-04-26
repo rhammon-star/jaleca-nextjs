@@ -9,6 +9,9 @@ import { getPosts, type WPPost } from '@/lib/wordpress'
 import { getGooglePlaceData } from '@/lib/google-places'
 import FaqAccordion from './FaqAccordion'
 
+// ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
+export const revalidate = 3600
+
 export const metadata: Metadata = {
   title: { absolute: 'Scrub Feminino — Conforto e Praticidade para Profissionais da Saúde | Jaleca' },
   description: 'Scrub feminino profissional em tecido premium com elastano. Conjuntos completos do PP ao G3. Frete grátis SP/RJ/MG/ES acima R$499. Jaleca — fabricante com estoque próprio.',

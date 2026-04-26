@@ -10,6 +10,9 @@ import { getGooglePlaceData } from '@/lib/google-places'
 import FaqAccordion from './FaqAccordion'
 import { PROFESSION_PRODUCT_SLUGS } from '@/lib/product-professions'
 
+// ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
+export const revalidate = 3600
+
 export const metadata: Metadata = {
   title: { absolute: 'Dolma para Sushiman: Conforto e Mobilidade para Arte Japonesa | Jaleca' },
   description: 'Dolma para sushiman em tecido técnico para cozinha japonesa. Antiderrapante, fácil limpeza, maleabilidade. Frete grátis SP/RJ/MG/ES acima R$499. Jaleca — fabricante com estoque próprio.',

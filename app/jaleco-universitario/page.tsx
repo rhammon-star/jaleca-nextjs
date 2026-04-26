@@ -12,6 +12,9 @@ import { PROFESSION_PRODUCT_SLUGS, prioritizeByColor, getVerMaisUrl } from '@/li
 import { getAllProducts } from '@/lib/all-products'
 import { getHeroImageSlug } from '@/lib/profession-hero-images'
 
+// ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
+export const revalidate = 3600
+
 export const metadata: Metadata = {
   title: { absolute: 'Jaleco Universitario — Conforto e Profissionalismo para a Vida Academica | Jaleca' },
   description: 'Jaleco universitario em tecido premium com caimento perfeito. Modelos do PP ao G3. Frete gratis SP/RJ/MG/ES. Jaleca — fabricante com estoque proprio.',

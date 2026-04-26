@@ -3,6 +3,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { MapPin, Clock, Phone, Mail, Users } from 'lucide-react'
 
+// ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
+export const revalidate = 3600
+
 export const metadata: Metadata = {
   title: 'Nossa Loja — Ipatinga, MG',
   description: 'Conheça a loja Jaleca em Ipatinga, MG. Av. Castelo Branco, 391 - Loja B, Horto. Experimente jalecos e uniformes profissionais com atendimento especializado.',

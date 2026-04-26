@@ -3,6 +3,9 @@ import Link from 'next/link'
 import { getGooglePlaceData } from '@/lib/google-places'
 import ProfessionProductGrid from '@/components/ProfessionProductGrid'
 
+// ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
+export const revalidate = 3600
+
 export const metadata: Metadata = {
   title: 'Jaleco de Enfermagem Feminino: Plantão, COFEN e Lavagem 60°C',
   description: 'Jaleco enfermagem feminino com elastano para plantão. Aguenta lavagem a 60°C, cumpre COFEN 375/2011 e tem molde próprio do PP ao G3. Frete grátis SE acima de R$499.',

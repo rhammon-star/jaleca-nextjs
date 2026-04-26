@@ -3,6 +3,9 @@ import Link from 'next/link'
 import { getGooglePlaceData } from '@/lib/google-places'
 import CategoryProductGrid from '@/components/CategoryProductGrid'
 
+// ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
+export const revalidate = 3600
+
 export const metadata: Metadata = {
   title: 'Jaleco Premium: Elegância e Qualidade para Profissionais',
   description: 'Encontre jaleco premium para medicina, estética e odontologia. Alta costura, conforto superior e exclusividade para seu dia a dia profissional.',

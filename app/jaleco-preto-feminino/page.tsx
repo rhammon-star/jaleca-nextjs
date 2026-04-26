@@ -3,6 +3,9 @@ import Link from 'next/link'
 import { getGooglePlaceData } from '@/lib/google-places'
 import CategoryProductGrid from '@/components/CategoryProductGrid'
 
+// ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
+export const revalidate = 3600
+
 export const metadata: Metadata = {
   title: 'Jaleco Preto Feminino: Esteticista, Barbeiro e Tatuador',
   description: 'Jaleco preto feminino com elastano — para esteticista, cabeleireiro e tatuador. Tecido que não retém pelos, repele produtos. Do PP ao G3. Frete grátis SE acima de R$499.',

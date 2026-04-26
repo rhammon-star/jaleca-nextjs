@@ -12,6 +12,9 @@ import { PROFESSION_PRODUCT_SLUGS, prioritizeByColor, getVerMaisUrl } from '@/li
 import { getAllProducts } from '@/lib/all-products'
 import { getHeroImageSlug } from '@/lib/profession-hero-images'
 
+// ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
+export const revalidate = 3600
+
 export const metadata: Metadata = {
   title: { absolute: 'Jaleco para Dona de Casa: Praticidade e Proteção no Trabalho Doméstico | Jaleca' },
   description: 'Jaleco para dona de casa em tecido premium com elastano. Modelo prático e confortável para o trabalho doméstico. Frete grátis SP/RJ/MG/ES.',

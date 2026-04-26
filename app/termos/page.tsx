@@ -1,6 +1,9 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
+// ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
+export const revalidate = 3600
+
 export const metadata: Metadata = {
   title: 'Termos de Uso — Compras Seguras na Jaleca',
   description: 'Leia os Termos de Uso do site Jaleca. Condições para navegação, compras, conta de usuário e propriedade intelectual. Compras seguras e transparentes.',

@@ -3,6 +3,9 @@ import Link from 'next/link'
 import { getGooglePlaceData } from '@/lib/google-places'
 import ProfessionProductGrid from '@/components/ProfessionProductGrid'
 
+// ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
+export const revalidate = 3600
+
 export const metadata: Metadata = {
   title: 'Jaleco Estiloso: Charme, Criatividade e Profissionalismo',
   description: 'Descubra jaleco estiloso para saúde e estética. Modelos diferenciados, coloridos e com cortes modernos para valorizar seu visual no trabalho.',

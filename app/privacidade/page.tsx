@@ -1,6 +1,9 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
+// ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
+export const revalidate = 3600
+
 export const metadata: Metadata = {
   title: 'Política de Privacidade — Jaleca',
   description: 'Saiba como a Jaleca coleta, usa e protege seus dados pessoais, em conformidade com a LGPD — Lei Geral de Proteção de Dados.',

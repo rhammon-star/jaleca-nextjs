@@ -3,6 +3,9 @@ import Link from 'next/link'
 import { getGooglePlaceData } from '@/lib/google-places'
 import ProfessionProductGrid from '@/components/ProfessionProductGrid'
 
+// ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
+export const revalidate = 3600
+
 export const metadata: Metadata = {
   title: 'Jaleco Masculino: Modelos Slim e Profissional do PP ao G3',
   description: 'Jaleco masculino com elastano do PP ao G3 — molde com ombros amplos e caimento profissional. Para médico, dentista, enfermeiro e barbeiro. Frete grátis SE acima de R$499.',

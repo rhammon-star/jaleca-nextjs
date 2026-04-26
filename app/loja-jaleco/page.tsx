@@ -3,6 +3,9 @@ import Link from 'next/link'
 import { getGooglePlaceData } from '@/lib/google-places'
 import LojaProductGrid from '@/components/LojaProductGrid'
 
+// ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
+export const revalidate = 3600
+
 export const metadata: Metadata = {
   title: 'Loja de Jaleco Online — Jalecos para Profissionais',
   description: 'Loja de jaleco com modelos para saúde, beleza e gastronomia. Tecidos premium, corte feminino real, grade PP ao G3. Frete grátis SP, RJ, MG e ES acima de R$499.',

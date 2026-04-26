@@ -6,6 +6,9 @@ import ProductCard from '@/components/ProductCard'
 import { getGooglePlaceData } from '@/lib/google-places'
 import FaqAccordion from './FaqAccordion'
 
+// ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
+export const revalidate = 3600
+
 export const metadata: Metadata = {
   title: { absolute: 'Uniformes Profissionais para Serviços — Elegância e Conforto | Jaleca' },
   description: 'Uniformes profissionais para serviços: jaleco professor, vendedor, conjunt professor, vendedor e secretary. Conforto e profissionalismo para o dia a dia.',

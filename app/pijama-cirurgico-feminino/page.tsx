@@ -3,6 +3,9 @@ import Link from 'next/link'
 import { getGooglePlaceData } from '@/lib/google-places'
 import CategoryProductGrid from '@/components/CategoryProductGrid'
 
+// ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
+export const revalidate = 3600
+
 export const metadata: Metadata = {
   title: 'Pijama Cirúrgico Feminino: Scrub para Saúde do PP ao G3',
   description: 'Pijama cirúrgico feminino com elastano — scrub para médicas, enfermeiras e centro cirúrgico. Tecido antimicrobiano, lavagem a 60°C, do PP ao G3. Frete grátis SE acima de R$499.',

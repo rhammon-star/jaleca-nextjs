@@ -3,6 +3,9 @@ import Link from 'next/link'
 import { getGooglePlaceData } from '@/lib/google-places'
 import ProfessionProductGrid from '@/components/ProfessionProductGrid'
 
+// ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
+export const revalidate = 3600
+
 export const metadata: Metadata = {
   title: 'Jalecos Femininos — Modelos Profissionais com Conforto e Elegância',
   description: 'Jalecos femininos do PP ao G3 com molde próprio — não é o masculino adaptado. Elastano bidirecional, gabardine premium, 12 cores. Frete grátis SP, RJ, MG e ES acima de R$499.',

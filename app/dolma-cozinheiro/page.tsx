@@ -11,6 +11,9 @@ import FaqAccordion from './FaqAccordion'
 import { PROFESSION_PRODUCT_SLUGS } from '@/lib/product-professions'
 import { getHeroImageSlug } from '@/lib/profession-hero-images'
 
+// ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
+export const revalidate = 3600
+
 export const metadata: Metadata = {
   title: { absolute: 'Dolma para Cozinheiro: Conforto e Praticidade para Cozinha Profissional | Jaleca' },
   description: 'Dolma para cozinheiro em tecido técnico para cozinha profissional. Antiderrapante, fácil limpeza, maleabilidade. Frete grátis SP/RJ/MG/ES acima R$499. Jaleca — fabricante com estoque próprio.',

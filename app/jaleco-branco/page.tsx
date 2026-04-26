@@ -9,6 +9,9 @@ import { getPosts, type WPPost } from '@/lib/wordpress'
 import { getGooglePlaceData } from '@/lib/google-places'
 import FaqAccordion from './FaqAccordion'
 
+// ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
+export const revalidate = 3600
+
 export const metadata: Metadata = {
   title: { absolute: 'Jaleco Branco Profissional — Conforto e Elegância para a Rotina Clínica | Jaleca' },
   description: 'Jaleco branco profissional em tecido premium com elastano. Modelos feminino e masculino do PP ao G3. Frete grátis SP/RJ/MG/ES acima R$499. Jaleca — fabricante com estoque próprio.',

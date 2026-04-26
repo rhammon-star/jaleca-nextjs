@@ -3,6 +3,9 @@ import Link from 'next/link'
 import { getGooglePlaceData } from '@/lib/google-places'
 import ProfessionProductGrid from '@/components/ProfessionProductGrid'
 
+// ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
+export const revalidate = 3600
+
 export const metadata: Metadata = {
   title: 'Jaleco Colorido: 12 Cores para Saúde e Estética',
   description: 'Jaleco colorido para nutricionista, fisioterapeuta, esteticista e pediatra. 12 cores: rosa, lilás, verde, azul, areia e mais. Do PP ao G3 com elastano. Frete grátis SE.',

@@ -10,6 +10,9 @@ import { getGooglePlaceData } from '@/lib/google-places'
 import FaqAccordion from './FaqAccordion'
 import { PROFESSION_PRODUCT_SLUGS } from '@/lib/product-professions'
 
+// ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
+export const revalidate = 3600
+
 export const metadata: Metadata = {
   title: 'Scrub Enfermagem: Conjunto Pijama Cirúrgico Premium',
   description: 'Scrub para Enfermagem em tecido respirável com elastano. Conjunto blusa + calça do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca.',

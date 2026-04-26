@@ -1,6 +1,9 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
+// ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
+export const revalidate = 3600
+
 export const metadata: Metadata = {
   title: 'Sobre a Jaleca — Nossa História e Compromisso com Profissionais',
   description: 'Conheça a Jaleca: marca brasileira especializada em jalecos e uniformes profissionais para a área da saúde. Nossa história, missão e valores. +200mil peças desde 2010.',

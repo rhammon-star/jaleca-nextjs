@@ -3,6 +3,9 @@ import Link from 'next/link'
 import { getGooglePlaceData } from '@/lib/google-places'
 import ProfessionProductGrid from '@/components/ProfessionProductGrid'
 
+// ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
+export const revalidate = 3600
+
 export const metadata: Metadata = {
   title: 'Jaleco Médico Feminino: Consultório, Plantão e Telemedicina',
   description: 'Jaleco médico feminino com molde próprio — do PP ao G3. Elastano para plantão, gabardine para consultório. Branco ou colorido. Frete grátis SE acima de R$499.',

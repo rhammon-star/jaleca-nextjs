@@ -2,6 +2,9 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getGooglePlaceData } from '@/lib/google-places'
 
+// ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
+export const revalidate = 3600
+
 export const metadata: Metadata = {
   title: 'Melhor Marca de Jaleco em 2026: Qual Escolher?',
   description: 'Descubra a melhor marca de jaleco para profissionais da saúde. Veja dicas, diferenciais e recomendações para médicos, dentistas e esteticistas!',

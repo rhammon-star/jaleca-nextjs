@@ -3,6 +3,9 @@ import Link from 'next/link'
 import { getGooglePlaceData } from '@/lib/google-places'
 import PretoProductGrid from '@/components/PretoProductGrid'
 
+// ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
+export const revalidate = 3600
+
 export const metadata: Metadata = {
   title: 'Jaleco Preto Profissional — Estética, Barbeiro e Chef',
   description: 'Jaleco preto para esteticistas, cabeleireiros, tatuadores e chefs. Tecido que não desbota, confortável para o dia todo. PP ao G3. Frete grátis SP, RJ, MG e ES acima de R$499.',

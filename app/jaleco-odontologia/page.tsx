@@ -12,6 +12,9 @@ import { PROFESSION_PRODUCT_SLUGS, prioritizeByColor, getVerMaisUrl } from '@/li
 import { getAllProducts } from '@/lib/all-products'
 import { getHeroImageSlug } from '@/lib/profession-hero-images'
 
+// ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
+export const revalidate = 3600
+
 export const metadata: Metadata = {
   title: 'Jaleco para Odontologia: Tecido que Aguenta Cloro',
   description: 'Jaleco para Odontologia com tecido resistente a químicos e cloro. Modelos Slim e Profissional do PP ao G3. Frete grátis SP/RJ/MG/ES.',

@@ -1,6 +1,9 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
+// ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
+export const revalidate = 3600
+
 export const metadata: Metadata = {
   title: 'Guia de Medidas e Tabela de Tamanhos — Jaleca',
   description: 'Encontre o seu tamanho ideal com o guia de medidas Jaleca. Tabela completa com busto, cintura e quadril para jalecos femininos, masculinos e scrubs.',

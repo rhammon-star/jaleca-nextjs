@@ -4,6 +4,9 @@ import { MapPin, Instagram } from 'lucide-react'
 import { franqueados } from '@/lib/franqueados'
 import StoreMapClient from '@/components/StoreMapClient'
 
+// ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
+export const revalidate = 3600
+
 export const metadata: Metadata = {
   title: 'Lojas Jaleca — Jalecos em Ipatinga, BH, Colatina, Contagem e Mais',
   description: '6 lojas físicas Jaleca em MG e ES: experimente jalecos, dólmãs e conjuntos antes de comprar. Ipatinga, Caratinga, Contagem, Colatina, Teófilo Otoni e Guarapuava. Atendimento personalizado e estoque completo.',

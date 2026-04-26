@@ -2,6 +2,9 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getGooglePlaceData } from '@/lib/google-places'
 
+// ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
+export const revalidate = 3600
+
 export const metadata: Metadata = {
   title: 'Uniformes Profissionais para Saúde: Guia Completo 2026',
   description: 'Guia completo de uniformes para saúde: jaleco para médico, dentista, enfermeiro, farmacêutico, fisioterapeuta, nutricionista e muito mais. Tecido certo, normas e modelos.',

@@ -2,6 +2,9 @@ import type { Metadata } from 'next'
 import ProductsClient from './ProductsClient'
 import { getAllProducts } from '@/lib/all-products'
 
+// ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
+export const revalidate = 3600
+
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {

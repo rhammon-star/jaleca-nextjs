@@ -6,6 +6,9 @@ import ProductCard from '@/components/ProductCard'
 import { getGooglePlaceData } from '@/lib/google-places'
 import FaqAccordion from './FaqAccordion'
 
+// ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
+export const revalidate = 3600
+
 export const metadata: Metadata = {
   title: { absolute: 'Uniformes para Gastronomia — Conforto e Praticidade para Cozinha Profissional | Jaleca' },
   description: 'Uniformes profissionais para gastronomia: nómã chef, jaleco cozinheiro, jaleco sushiman e churrasqueiro. Tecido resistente a manchas, calor e uso intenso. Frete grátis SP/RJ/MG/ES.',

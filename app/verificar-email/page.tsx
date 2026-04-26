@@ -1,6 +1,9 @@
 import Link from 'next/link'
 import { CheckCircle, XCircle, Clock } from 'lucide-react'
 
+// ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
+export const revalidate = 3600
+
 type Props = { searchParams: Promise<{ status?: string }> }
 
 export default async function VerificarEmailPage({ searchParams }: Props) {

@@ -2,6 +2,9 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { MapPin, Clock, Phone, Mail, MessageCircle } from 'lucide-react'
 
+// ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
+export const revalidate = 3600
+
 export const metadata: Metadata = {
   title: 'Contato — Fale Conosco',
   description: 'Entre em contato com a Jaleca. WhatsApp, e-mail ou visite nossa loja em Ipatinga, MG. Atendimento de segunda a sábado para jalecos e uniformes profissionais.',
