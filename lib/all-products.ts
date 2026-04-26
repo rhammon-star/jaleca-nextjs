@@ -3,6 +3,7 @@ import { readFile } from 'fs/promises'
 import { join } from 'path'
 import { graphqlClient, GET_PRODUCTS_LISTING } from '@/lib/graphql'
 import type { WooProduct } from '@/components/ProductCard'
+import { BEST_SELLER_SLUGS } from '@/lib/best-sellers'
 
 type ProductsPage = { products: { pageInfo: { hasNextPage: boolean; endCursor: string }; nodes: WooProduct[] } }
 
@@ -46,6 +47,11 @@ async function getColorVariants(mainProducts: WooProduct[]): Promise<{ variants:
     const variants: WooProduct[] = []
     colorPages.forEach((page, idx) => {
       const parentProduct = productMap.get(page.productName)
+
+      // Best-sellers sempre aparecem como produto pai (não duplicar com variantes de cor)
+      if (parentProduct && BEST_SELLER_SLUGS.includes(parentProduct.slug)) {
+        return
+      }
 
       let variantImage = parentProduct?.image
       let variantPrice = parentProduct?.price || ''
@@ -125,6 +131,7 @@ export async function getAllProducts(): Promise<WooProduct[]> {
     const { variants: colorVariants, productsWithColorPages } = await getColorVariants(mainProducts)
 
     const mainProductsWithoutColorPages = mainProducts.filter(p => {
+      if (BEST_SELLER_SLUGS.includes(p.slug)) return true
       const cleanName = p.name.replace(/ - Jaleca$/i, '').trim()
       return !productsWithColorPages.has(cleanName)
     })

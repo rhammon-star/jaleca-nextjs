@@ -98,7 +98,7 @@ async function getJalecos(): Promise<WooProduct[]> {
 
 async function getHeroImage(): Promise<{ src: string; alt: string } | null> {
   try {
-    const heroSlug = getHeroImageSlug('medico')
+    const heroSlug = getHeroImageSlug('medica')
     if (!heroSlug) return null
 
     const data = await graphqlClient.request<{ product: { name: string; image: { sourceUrl: string; altText: string } } | null }>(
