@@ -29,6 +29,9 @@ const fetchAllProducts = async (): Promise<WooProduct[]> => {
 
 const getAllProductsCached = unstable_cache(fetchAllProducts, ['all-products'], { revalidate: 3600, tags: ['products'] })
 
+// Lista de produtos que têm páginas de cores (para filtrar depois)
+const productsWithColorPages = new Set<string>()
+
 async function getColorVariants(mainProducts: WooProduct[]): Promise<WooProduct[]> {
   try {
     const jsonPath = join(process.cwd(), 'docs', 'SEO-PRODUTOS-CORES.json')
@@ -41,6 +44,12 @@ async function getColorVariants(mainProducts: WooProduct[]): Promise<WooProduct[
       // Normalizar nome: remover " - Jaleca" e limpar
       const cleanName = p.name.replace(/ - Jaleca$/i, '').trim()
       productMap.set(cleanName, p)
+    })
+
+    // Registrar quais produtos têm cores
+    colorPages.forEach(page => {
+      const cleanName = page.productName.replace(/ - Jaleca$/i, '').trim()
+      productsWithColorPages.add(cleanName)
     })
 
     // Transform each color page into a WooProduct-like object
@@ -104,10 +113,16 @@ async function getAllProducts(): Promise<WooProduct[]> {
     const mainProducts = await getAllProductsCached()
     const colorVariants = await getColorVariants(mainProducts)
 
-    console.log(`[getAllProducts] ${mainProducts.length} produtos principais + ${colorVariants.length} variantes de cores = ${mainProducts.length + colorVariants.length} total`)
+    // Filtrar produtos pai que já têm páginas de cores
+    const mainProductsWithoutColorPages = mainProducts.filter(p => {
+      const cleanName = p.name.replace(/ - Jaleca$/i, '').trim()
+      return !productsWithColorPages.has(cleanName)
+    })
 
-    // Combine main products + color variants
-    return [...mainProducts, ...colorVariants]
+    console.log(`[getAllProducts] ${mainProducts.length} produtos WC, ${productsWithColorPages.size} com cores no JSON → ${mainProductsWithoutColorPages.length} produtos pai sem cores + ${colorVariants.length} cores = ${mainProductsWithoutColorPages.length + colorVariants.length} total`)
+
+    // Combinar: cores primeiro (para aparecerem no topo) + produtos pai sem cores
+    return [...colorVariants, ...mainProductsWithoutColorPages]
   } catch (e) {
     // Cache guardou erro ou está vazio — tenta direto sem cache
     console.warn('[getAllProducts] Cache miss/error, tentando fetch direto...', e)
