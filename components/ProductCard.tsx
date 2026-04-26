@@ -84,8 +84,6 @@ const ProductCard = ({ product, colorFilter }: { product: WooProduct; colorFilte
             src={mainImage.sourceUrl}
             alt={mainImage.altText || product.name}
             fill
-            width={400}
-            height={533}
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
             className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.07] relative z-10"
             loading="lazy"
@@ -100,8 +98,6 @@ const ProductCard = ({ product, colorFilter }: { product: WooProduct; colorFilte
             src={hoverImage.sourceUrl}
             alt={hoverImage.altText || product.name}
             fill
-            width={400}
-            height={533}
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
             className="object-cover absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out"
             loading="lazy"
