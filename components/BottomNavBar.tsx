@@ -25,6 +25,13 @@ export default function BottomNavBar() {
     }
   }
 
+  function handleHomeClick(e: React.MouseEvent<HTMLAnchorElement>) {
+    if (pathname === '/' || pathname === '/home') {
+      e.preventDefault()
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+  }
+
   return (
     <nav
       className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-background border-t border-border"
@@ -34,6 +41,7 @@ export default function BottomNavBar() {
       <div className="flex items-stretch h-14">
         <Link
           href="/"
+          onClick={handleHomeClick}
           className="flex-1 flex flex-col items-center justify-center gap-0.5 text-muted-foreground hover:text-foreground transition-colors active:scale-95"
           aria-label="Início"
         >

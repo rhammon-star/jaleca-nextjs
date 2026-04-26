@@ -59,6 +59,14 @@ const Header = () => {
     }
   }, [mobileOpen]);
 
+  // Scroll to top quando clicar em Home estando na home
+  function handleHomeClick(e: React.MouseEvent<HTMLAnchorElement>) {
+    if (pathname === '/' || pathname === '/home') {
+      e.preventDefault()
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+  }
+
   return (
     <div className="relative z-50">
       <AnnouncementBar />
@@ -78,7 +86,7 @@ const Header = () => {
               >
                 {mobileOpen ? <X size={22} aria-hidden="true" /> : <Menu size={22} aria-hidden="true" />}
               </button>
-              <Link href="/" className="flex items-center">
+              <Link href="/" onClick={handleHomeClick} className="flex items-center">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/logo.svg"
@@ -97,7 +105,7 @@ const Header = () => {
               style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: '20px' }}
             >
               {/* Nav link styles */}
-              <Link href="/" className="text-muted-foreground hover:text-foreground transition-colors duration-200 text-[12px] font-semibold tracking-widest uppercase whitespace-nowrap">
+              <Link href="/" onClick={handleHomeClick} className="text-muted-foreground hover:text-foreground transition-colors duration-200 text-[12px] font-semibold tracking-widest uppercase whitespace-nowrap">
                 Início
               </Link>
               <Link href="/nossas-lojas" className="text-muted-foreground hover:text-foreground transition-colors duration-200 text-[12px] font-semibold tracking-widest uppercase whitespace-nowrap">
@@ -339,6 +347,11 @@ const Header = () => {
           </nav>
         </>
       )}
+
+      {/* ProfessionMenu mobile - sempre montado para event listener funcionar */}
+      <div className="md:hidden">
+        <ProfessionMenu />
+      </div>
 
       <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
       <AuthModal isOpen={authOpen} onClose={() => setAuthOpen(false)} />
