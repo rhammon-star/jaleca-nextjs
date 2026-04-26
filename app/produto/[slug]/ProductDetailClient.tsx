@@ -811,17 +811,19 @@ export default function ProductDetailClient({
                 {colorSlugs.map((slug, idx) => {
                   const label = colorNames[slug] ?? slug
                   const colorSlugPart = label.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '-')
-                  const colorUrl = `/produto/${product.slug}-${colorSlugPart}`
+                  // Se está em página de cor, link leva para produto mãe
+                  // Se está em produto mãe, link muda cor via JS (sem reload)
+                  const colorUrl = initialColor ? `/produto/${product.slug}` : `/produto/${product.slug}-${colorSlugPart}`
                   return (
                     <span key={slug}>
                       <Link
                         href={colorUrl}
                         className="text-primary-text hover:underline underline-offset-2"
-                        onClick={(e) => {
+                        onClick={!initialColor ? (e) => {
                           e.preventDefault()
                           setSelectedColor(slug)
                           window.history.pushState({ color: slug }, '', colorUrl)
-                        }}
+                        } : undefined}
                       >
                         {label}
                       </Link>
@@ -832,8 +834,8 @@ export default function ProductDetailClient({
               </div>
             )}
 
-            {/* Color/Estampa selector */}
-            {colorSlugs.length > 0 && (
+            {/* Color/Estampa selector - ESCONDIDO em páginas de cor específica */}
+            {!initialColor && colorSlugs.length > 0 && (
               <div className={`mb-6 ${shakeColor ? 'animate-shake' : ''}`}>
                 <p className="text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-3">
                   {formatAttrLabel(colorAttrDef?.name ?? 'Cor')}{selectedColor ? `: ${colorNames[selectedColor] ?? selectedColor}` : ''}
