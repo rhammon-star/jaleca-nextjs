@@ -1,14 +1,15 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Suspense } from 'react'
-import { graphqlClient, GET_PRODUCTS, GET_PRODUCT_BY_SLUG } from '@/lib/graphql'
+import { graphqlClient, GET_PRODUCT_BY_SLUG } from '@/lib/graphql'
 import type { WooProduct } from '@/components/ProductCard'
 import ProductCard from '@/components/ProductCard'
 import ProductDetailSection from '@/components/ProductDetailSection'
 import { getPosts, type WPPost } from '@/lib/wordpress'
 import { getGooglePlaceData } from '@/lib/google-places'
 import FaqAccordion from './FaqAccordion'
-import { PROFESSION_PRODUCT_SLUGS } from '@/lib/product-professions'
+import { PROFESSION_PRODUCT_SLUGS, prioritizeByColor, getVerMaisUrl } from '@/lib/product-professions'
+import { getAllProducts } from '@/lib/all-products'
 
 export const metadata: Metadata = {
   title: 'Jaleco Universitario — Conforto e Profissionalismo para a Vida Academica | Jaleca 2026',
@@ -66,13 +67,30 @@ const breadcrumbSchema = {
 
 async function getJalecos(): Promise<WooProduct[]> {
   try {
-    const data = await graphqlClient.request<{ products: { nodes: WooProduct[] } }>(GET_PRODUCTS, {
-      first: 50,
+    // Busca TODOS os produtos (inclui produtos filhos/cores)
+    const allProducts = await getAllProducts()
+
+    // Filtra por profissão universitario
+    const slugs = PROFESSION_PRODUCT_SLUGS['universitario'] ?? []
+    const professionProducts = allProducts.filter(p => {
+      // Produto mãe está na lista OU produto filho cujo pai está na lista
+      if (slugs.includes(p.slug)) return true
+
+      // Verifica se é produto filho (tem cor no slug)
+      const parts = p.slug.split('-')
+      const possibleColor = parts[parts.length - 1]
+      const baseSlug = parts.slice(0, -1).join('-')
+
+      return slugs.includes(baseSlug)
     })
-    const universitarioSlugs = PROFESSION_PRODUCT_SLUGS['universitario'] ?? []
-    const products = data?.products?.nodes ?? []
-    return products.filter(p => universitarioSlugs.includes(p.slug)).slice(0, 6)
-  } catch {
+
+    // Prioriza branco e preto primeiro (mais vendidos)
+    const prioritized = prioritizeByColor(professionProducts)
+
+    // Retorna 6 produtos
+    return prioritized.slice(0, 6)
+  } catch (error) {
+    console.error('[getJalecos] Error:', error)
     return []
   }
 }
@@ -234,8 +252,8 @@ export default async function JalecoUniversitarioPage() {
                     Jalecos para<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>Estudantes</em>
                   </h2>
                 </div>
-                <Link href="/produtos?categoria=jalecos" style={{ display: 'inline-flex', padding: '0.9rem 2rem', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a', color: '#1a1a1a' }}>
-                  Ver todos →
+                <Link href={getVerMaisUrl('universitario')} style={{ display: 'inline-flex', padding: '0.9rem 2rem', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a', color: '#1a1a1a' }}>
+                  Ver mais →
                 </Link>
               </div>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">

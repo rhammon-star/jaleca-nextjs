@@ -5,6 +5,7 @@ import ProductsClient from '@/app/produtos/ProductsClient'
 import type { WooProduct } from '@/components/ProductCard'
 import type { Metadata } from 'next'
 import { Truck, RotateCcw, ShieldCheck, Star } from 'lucide-react'
+import { getAllProducts } from '@/lib/all-products'
 
 type CidadeInfo = {
   nome: string
@@ -715,18 +716,6 @@ const CIDADES: Record<string, CidadeInfo> = {
   },
 }
 
-async function getProducts(): Promise<WooProduct[]> {
-  try {
-    const data = await graphqlClient.request<{ products: { nodes: WooProduct[] } }>(
-      GET_PRODUCTS,
-      { first: 100 }
-    )
-    return data.products.nodes
-  } catch {
-    return []
-  }
-}
-
 export async function generateMetadata({
   params,
 }: {
@@ -774,7 +763,7 @@ export default async function CidadePage({
   const cidade = CIDADES[slug]
   if (!cidade) notFound()
 
-  const products = await getProducts()
+  const products = await getAllProducts()
 
   const faq = FAQ_TEMPLATE(cidade.nome, cidade.estado)
 

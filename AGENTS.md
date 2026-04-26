@@ -354,6 +354,7 @@ dupla verificação de `billing.email` para pedidos guest. NÃO remover esse fal
 jwt-auth/v1/token como dependência — o sistema funciona sem ele.
 
 ## Pendente (prioridade)
+0. **PROJETO JALECA-CORES** — ✅ Pontos 1-3 + Padronização concluídos (26/04/2026). Pendentes: Pontos 4-9 (profissões, priorização cores, layout mobile, comunicação, sitemap/GSC, fallback deletado). Ver seção específica acima.
 1. **Cadastro de usuário** — ✅ RESOLVIDO (09/04/2026).
 2. **Melhor Envio** — ✅ RESOLVIDO (09/04/2026). Token real configurado, integração automática ME cart, renovação mensal automática via cron.
 3. **Rastreamento de compra browser** — ✅ RESOLVIDO (09/04/2026). `trackPurchase()` chamado no `/pagamento`.
@@ -616,3 +617,65 @@ O blog da Jaleca usa IA para gerar e reescrever conteúdo. Todas as saídas de I
 - `public/icon-flower.png` — logo flor circular 512×512 bege/branco fundo transparente
 - `public/icon-flower.svg` — versão SVG anterior (mantida como fallback)
 - `manifest.json` — ícones PWA atualizados: `icon-flower.png` com `purpose: maskable any`
+
+---
+
+## 🎨 PROJETO JALECA-CORES — Padronização WC (26/04/2026)
+
+### Problema Inicial
+- `/categoria/jalecos` não mostrava variantes de cor (só "mais vendidos")
+- Links quebrados: `/produto/jaleco-slim-feminino-lateral-jaleca-pink-2` (404 ou foto errada)
+- Display names com sufixos feios: "Pink 2", "Branco 3", "Rose 2"
+
+### Auditoria WC API
+```
+Cores com sufixo -N: 8 termos
+areia-2, branco-3, cereja-2, marinho-3, pink-2, preto-3, rose-2, vinho-2
+
+Colisões: 0 (nenhum produto tem cor base E sufixada)
+→ Renomear é seguro
+```
+
+### ✅ Execução Completa (26/04/2026)
+
+**1. WooCommerce API** — 8 termos renomeados via `PUT /products/attributes/20/terms/{id}`:
+- `areia-2 → areia`, `branco-3 → branco`, `cereja-2 → cereja`
+- `marinho-3 → marinho`, `pink-2 → pink`, `preto-3 → preto`
+- `rose-2 → rose`, `vinho-2 → vinho`
+- Atualiza automaticamente todas as variações em todos os produtos
+
+**2. JSON** — 34 entradas atualizadas em `docs/SEO-PRODUTOS-CORES.json`:
+- URLs: `/produto/...-pink-2` → `/produto/...-pink`
+- colorNames: `"Pink 2"` → `"Pink"`
+
+**3. Código** — refatoração completa:
+- **`lib/all-products.ts`**: módulo compartilhado entre `/produtos` e `/categoria/[slug]`
+  - `getColorVariants()`: filtra cores órfãs (JSON sem variação WC correspondente)
+  - Retorna `{ variants, productsWithColorPages }` — variants só inclui cores com match no WC
+- **`app/produto/[slug]/page.tsx`**: redirect cores órfãs → página mãe (evita 404/foto errada)
+- **`lib/product-colors.ts`**: adicionados termos base `pink`, `rose`, `cereja` ao `COLOR_SLUG_MAP`
+- Removido `cleanColorName()` (não precisa mais strip `-N`)
+
+**4. Deploy**: `dpl_HscoasCXnuK3USehdKLTzDc9Qoup`
+- Todas URLs limpas retornando 200
+- `/categoria/jalecos` mostra 141 variantes de cor
+- Display names limpos: "Pink", "Branco", "Rose"
+
+### Resultado
+- ✅ 141 páginas de cor aparecem em listings (`/produtos`, `/categoria/*`)
+- ✅ URLs padronizadas sem sufixos numéricos
+- ✅ Zero links quebrados (cores órfãs redirecionam ao pai)
+- ✅ Nomes exibidos limpos em todos os cards
+
+### Arquivos Modificados
+- `lib/all-products.ts` — criado (lógica compartilhada)
+- `app/produtos/page.tsx` — usa `getAllProducts()` de `lib/all-products`
+- `app/categoria/[slug]/page.tsx` — usa `getAllProducts()` de `lib/all-products`
+- `app/produto/[slug]/page.tsx` — redirect órfãos via `redirect()`
+- `lib/product-colors.ts` — termos base adicionados
+- `docs/SEO-PRODUTOS-CORES.json` — 34 entradas limpas
+
+### Impacto SEO
+**Nenhum** — páginas de cor não foram submetidas ao sitemap ainda. URLs finais desde o início (limpeza pré-indexação).
+
+---

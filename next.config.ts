@@ -48,6 +48,9 @@ const nextConfig: NextConfig = {
       { source: '/categoria/jalecos-personalizados', destination: '/produtos', permanent: true },
       { source: '/categoria/calcas', destination: '/produtos', permanent: true },
       { source: '/categoria/scrub', destination: '/categoria/conjuntos', permanent: true },
+      // Correções de produto/profissão (26/04/2026)
+      { source: '/conjunto-pastor', destination: '/jaleco-pastor', permanent: true },
+      { source: '/jaleco-cozinheiro', destination: '/dolma-cozinheiro', permanent: true },
       { source: '/categoria/calcados', destination: '/produtos', permanent: true },
       { source: '/categoria/uniformes', destination: '/produtos', permanent: true },
       { source: '/categoria/estilo-clinico', destination: '/produtos', permanent: true },

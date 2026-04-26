@@ -217,6 +217,9 @@ export default function ProductDetailClient({
   googlePlace,
   initialColor,
   colorUrls = {},
+  seoH1,
+  seoH2,
+  seoColorPsychology,
 }: {
   product: Product
   initialReviews?: Review[]
@@ -224,6 +227,9 @@ export default function ProductDetailClient({
   googlePlace?: PlaceData
   initialColor?: string | null
   colorUrls?: Record<string, string>
+  seoH1?: string
+  seoH2?: string
+  seoColorPsychology?: string
 }) {
   const searchParams = useSearchParams()
   const router = useRouter()
@@ -632,8 +638,18 @@ export default function ProductDetailClient({
           <div className="md:hidden order-1 col-span-full pb-2">
             <p className="text-[13px] text-primary-text tracking-[0.2em] uppercase mb-1">Jaleca</p>
             <h1 className="font-display text-3xl font-semibold leading-[1.1] tracking-[-0.03em] mb-2 text-balance">
-              {product.name.replace(/ - Jaleca$/i, '')}
+              {seoH1 || product.name.replace(/ - Jaleca$/i, '')}
             </h1>
+            {seoH2 && (
+              <h2 className="text-base md:text-lg text-muted-foreground mb-2 font-normal">
+                {seoH2}
+              </h2>
+            )}
+            {seoColorPsychology && (
+              <p className="text-sm text-muted-foreground mb-3 max-w-[52ch]">
+                {seoColorPsychology}
+              </p>
+            )}
             {isBestSeller(product.slug) && (
               <div className="inline-flex items-center gap-2 bg-[#1a1a1a] text-[#c4a97d] px-4 py-2 mb-3 self-start">
                 <span className="text-sm">🏆</span>
@@ -738,8 +754,18 @@ export default function ProductDetailClient({
             <div className="hidden md:block">
               <p className="text-[11px] text-primary-text tracking-[0.28em] uppercase mb-1">Jaleca</p>
               <h1 className="font-display text-4xl lg:text-5xl font-semibold leading-[1.1] tracking-[-0.03em] mb-2 text-balance">
-                {product.name.replace(/ - Jaleca$/i, '')}
+                {seoH1 || product.name.replace(/ - Jaleca$/i, '')}
               </h1>
+              {seoH2 && (
+                <h2 className="text-lg text-muted-foreground mb-3 font-normal">
+                  {seoH2}
+                </h2>
+              )}
+              {seoColorPsychology && (
+                <p className="text-sm text-muted-foreground mb-4 max-w-[52ch]">
+                  {seoColorPsychology}
+                </p>
+              )}
               {isBestSeller(product.slug) && (
                 <div className="inline-flex items-center gap-2 bg-[#1a1a1a] text-[#c4a97d] px-4 py-2 mb-4 self-start">
                   <span className="text-sm">🏆</span>

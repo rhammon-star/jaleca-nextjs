@@ -214,7 +214,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/dolma-cozinheiro`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     // Cluster Escritório — Conjunto
     { url: `${SITE_URL}/conjunto-advogado`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
-    { url: `${SITE_URL}/conjunto-pastor`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${SITE_URL}/conjunto-psicologa`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${SITE_URL}/conjunto-farmaceutico`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     // Cluster Serviços — Jaleco genérico professor
@@ -314,12 +313,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }))
 
-  // 164 páginas de produto por cor (SEO-PRODUTOS-CORES.json)
+  // 141 páginas de produto por cor (SEO-PRODUTOS-CORES.json)
+  // Priority 0.8 para páginas filhas (conforme PRD Jaleca-Cores)
   const colorProductPages: MetadataRoute.Sitemap = colorPagesData.map(page => ({
     url: `${SITE_URL}${page.url}`,
     lastModified: new Date(),
     changeFrequency: 'monthly' as const,
-    priority: 0.75,
+    priority: 0.8,
   }))
 
   return [...staticPages, ...categoryPages, ...cidadePages, ...diasDasMaesPages, ...productPages, ...colorProductPages, ...postPages]

@@ -37,8 +37,8 @@ export const PROFESSION_MAP: Record<string, ProfessionInfo> = {
   esteticista:         { label: 'Esteticista',         hub: '/jaleco-esteticista' },
   churrasqueiro:       { label: 'Churrasqueiro',       hub: '/jaleco-churrasqueiro' },
   churrasqueira:       { label: 'Churrasqueira',       hub: '/jaleco-churrasqueiro' },
-  cozinheiro:          { label: 'Cozinheiro',          hub: '/jaleco-cozinheiro' },
-  cozinheira:          { label: 'Cozinheira',          hub: '/jaleco-cozinheiro' },
+  cozinheiro:          { label: 'Cozinheiro',          hub: '/dolma-cozinheiro' },
+  cozinheira:          { label: 'Cozinheira',          hub: '/dolma-cozinheiro' },
   sushiman:            { label: 'Sushiman',            hub: '/jaleco-sushiman' },
   advogada:            { label: 'Advogada',            hub: '/jaleco-advogado' },
   advogado:            { label: 'Advogado',            hub: '/jaleco-advogado' },
@@ -46,9 +46,9 @@ export const PROFESSION_MAP: Record<string, ProfessionInfo> = {
   aluno:               { label: 'Aluno',               hub: '/jaleco-universitario' },
   universitario:       { label: 'Universitário',       hub: '/jaleco-universitario' },
   estudante:           { label: 'Estudante',           hub: '/jaleco-universitario' },
-  buffet:              { label: 'Buffet',              hub: '/jaleco-cozinheiro' },
-  confeiteira:         { label: 'Confeiteira',         hub: '/jaleco-cozinheiro' },
-  confeiteiro:         { label: 'Confeiteiro',         hub: '/jaleco-cozinheiro' },
+  buffet:              { label: 'Buffet',              hub: '/dolma-cozinheiro' },
+  confeiteira:         { label: 'Confeiteira',         hub: '/dolma-cozinheiro' },
+  confeiteiro:         { label: 'Confeiteiro',         hub: '/dolma-cozinheiro' },
   'secretaria do lar': { label: 'Secretária do Lar',  hub: '/jaleco-dona-casa' },
   'dona-de-casa':      { label: 'Dona de Casa',        hub: '/jaleco-dona-casa' },
   'cirurgico-feminino': { label: 'Pijama Cirúrgico Feminino', hub: '/pijama-cirurgico-feminino' },
@@ -140,17 +140,17 @@ export const PRODUCT_PROFESSIONS: ProductProfessions[] = [
   {
     slug: 'jaleco-slim-masculino-de-ziper-central-varias-cores-jaleca',
     name: 'Jaleco Slim Tradicional Masculino',
-    professions: ['medico','dentista','enfermeiro','farmaceutico','fisioterapeuta','nutricionista','biomedico','barbeiro','cabeleireiro','tatuador','pastor'],
+    professions: ['medico','dentista','enfermeiro','farmaceutico','veterinario','fisioterapeuta','nutricionista','biomedico','barbeiro','cabeleireiro','tatuador','pastor'],
   },
   {
     slug: 'jaleco-slim-recortes-masculino-varias-cores-jaleca',
     name: 'Jaleco Slim Recortes Masculino',
-    professions: ['medico','dentista','enfermeiro','farmaceutico','fisioterapeuta','nutricionista','biomedico','barbeiro','cabeleireiro','tatuador','pastor'],
+    professions: ['medico','dentista','enfermeiro','farmaceutico','veterinario','fisioterapeuta','nutricionista','biomedico','barbeiro','cabeleireiro','tatuador','pastor'],
   },
   {
     slug: 'jaleco-slim-moratty-masculino-ziper-central-jaleca',
     name: 'Jaleco Slim Moratty Masculino',
-    professions: ['medico','dentista','enfermeiro','farmaceutico','fisioterapeuta','nutricionista','biomedico','barbeiro','cabeleireiro','tatuador','pastor'],
+    professions: ['medico','dentista','enfermeiro','farmaceutico','veterinario','fisioterapeuta','nutricionista','biomedico','barbeiro','cabeleireiro','tatuador','pastor'],
   },
   {
     slug: 'jaleco-padrao-aluno-masculino-de-botao-varias-cores-jaleca',
@@ -174,7 +174,7 @@ export const PRODUCT_PROFESSIONS: ProductProfessions[] = [
   {
     slug: 'conjunto-pijama-cirurgico-scrub-masculino-varias-cores-jaleca',
     name: 'Conjunto Scrub Masculino',
-    professions: ['medico','dentista','enfermeiro','farmaceutico','fisioterapeuta','nutricionista','biomedico','veterinario','barbeiro','cabeleireiro','professor','massagista','tatuador','cirurgico-masculino','cirurgico'],
+    professions: ['medico','dentista','enfermeiro','farmaceutico','veterinario','advogado','fisioterapeuta','nutricionista','biomedico','barbeiro','cabeleireiro','professor','massagista','tatuador','cirurgico-masculino','cirurgico'],
   },
   {
     slug: 'conjunto-puff-ziper-feminino-jaleca',
@@ -303,4 +303,109 @@ export function getProductSlugsForProfession(professionKey: string): string[] {
 /** Retorna slugs dos produtos em preto */
 export function getPretoProductSlugs(): string[] {
   return PRETO_PRODUCT_SLUGS
+}
+
+/** Mapeamento profissão → filtro de gênero preferido */
+const PROFESSION_GENDER_FILTER: Record<string, 'feminino' | 'masculino' | null> = {
+  // Feminino
+  'medica': 'feminino',
+  'enfermeira': 'feminino',
+  'dentista': 'feminino',  // Por padrão feminino (mais comum)
+  'nutricionista': 'feminino',
+  'veterinaria': 'feminino',
+  'psicologa': 'feminino',
+  'farmaceutica': 'feminino',
+  'biomedica': 'feminino',
+  'podologa': 'feminino',
+  'advogada': 'feminino',
+  'secretaria': 'feminino',
+  'professora': 'feminino',
+  'cabeleireira': 'feminino',
+  'esteticista': 'feminino',
+  'massagista': 'feminino',
+  'fisioterapeuta': 'feminino',  // Profissão unissex, mas tendência feminina
+  'micropigmentadora': 'feminino',
+  'nail design': 'feminino',
+  'confeiteira': 'feminino',
+  'cozinheira': 'feminino',
+  'churrasqueira': 'feminino',
+  'dona-de-casa': 'feminino',
+  'secretaria do lar': 'feminino',
+
+  // Masculino
+  'medico': 'masculino',
+  'enfermeiro': 'masculino',
+  'veterinario': 'masculino',
+  'farmaceutico': 'masculino',
+  'biomedico': 'masculino',
+  'podologo': 'masculino',
+  'advogado': 'masculino',
+  'professor': 'masculino',
+  'cabeleireiro': 'masculino',
+  'barbeiro': 'masculino',
+  'tatuador': 'masculino',
+  'pastor': 'masculino',
+  'confeiteiro': 'masculino',
+  'cozinheiro': 'masculino',
+  'churrasqueiro': 'masculino',
+  'sushiman': 'masculino',
+
+  // Sem filtro de gênero (unissex ou genérico)
+  'enfermagem': null,
+  'aluno': null,
+  'universitario': null,
+  'estudante': null,
+  'buffet': null,
+  'cirurgico': null,
+  'cirurgico-feminino': 'feminino',
+  'cirurgico-masculino': 'masculino',
+  'estiloso': null,
+  'preto': null,
+}
+
+/**
+ * Retorna URL do filtro "Ver mais" para uma profissão
+ *
+ * @example
+ * getVerMaisUrl('medica') // '/produtos?categoria=jalecos-femininos'
+ * getVerMaisUrl('medico') // '/produtos?categoria=jalecos-masculinos'
+ * getVerMaisUrl('enfermagem') // '/produtos?categoria=jalecos'
+ */
+export function getVerMaisUrl(professionKey: string): string {
+  const gender = PROFESSION_GENDER_FILTER[professionKey]
+
+  if (gender === 'feminino') {
+    return '/produtos?categoria=jalecos-femininos'
+  } else if (gender === 'masculino') {
+    return '/produtos?categoria=jalecos-masculinos'
+  } else {
+    return '/produtos?categoria=jalecos'
+  }
+}
+
+/**
+ * Prioriza produtos por cor: branco e preto primeiro (mais vendidos)
+ *
+ * @param products - Lista de produtos WooCommerce
+ * @returns Lista ordenada com branco/preto primeiro
+ */
+export function prioritizeByColor<T extends { slug: string; name: string }>(products: T[]): T[] {
+  const priority: T[] = []
+  const others: T[] = []
+
+  products.forEach(product => {
+    const slug = product.slug.toLowerCase()
+    const name = product.name.toLowerCase()
+
+    // Branco ou preto no slug ou nome
+    if (slug.includes('branco') || name.includes('branco')) {
+      priority.unshift(product) // Branco no início
+    } else if (slug.includes('preto') || name.includes('preto')) {
+      priority.push(product) // Preto depois do branco
+    } else {
+      others.push(product)
+    }
+  })
+
+  return [...priority, ...others]
 }

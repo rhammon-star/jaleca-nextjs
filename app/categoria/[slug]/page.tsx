@@ -1,9 +1,7 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { unstable_cache } from 'next/cache'
-import { graphqlClient, GET_PRODUCTS_LISTING } from '@/lib/graphql'
 import ProductsClient from '@/app/produtos/ProductsClient'
-import type { WooProduct } from '@/components/ProductCard'
+import { getAllProducts } from '@/lib/all-products'
 import type { Metadata } from 'next'
 
 // FAQPage schema para GEO — responde perguntas que ChatGPT/Gemini usam para recomendar
@@ -111,25 +109,6 @@ const CATEGORY_MAP: Record<string, { label: string; description: string; keyword
   },
 }
 
-const fetchProducts = async (): Promise<WooProduct[]> => {
-  const data = await graphqlClient.request<{ products: { nodes: WooProduct[] } }>(
-    GET_PRODUCTS_LISTING,
-    { first: 100 }
-  )
-  if (!data.products.nodes.length) throw new Error('WooCommerce retornou 0 produtos')
-  return data.products.nodes
-}
-
-const getProductsCached = unstable_cache(fetchProducts, ['all-products'], { revalidate: 3600, tags: ['products'] })
-
-async function getProducts(): Promise<WooProduct[]> {
-  try {
-    return await getProductsCached()
-  } catch {
-    console.warn('[getProducts/categoria] Cache miss, tentando fetch direto...')
-    try { return await fetchProducts() } catch { return [] }
-  }
-}
 
 export async function generateMetadata({
   params,
@@ -177,7 +156,7 @@ export default async function CategoriaPage({
   const cat = CATEGORY_MAP[slug]
   if (!cat) notFound()
 
-  const products = await getProducts()
+  const products = await getAllProducts()
 
   const breadcrumbSchema = {
     '@context': 'https://schema.org',

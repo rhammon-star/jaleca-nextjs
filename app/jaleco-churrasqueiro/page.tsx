@@ -1,14 +1,15 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Suspense } from 'react'
-import { graphqlClient, GET_PRODUCTS, GET_PRODUCT_BY_SLUG } from '@/lib/graphql'
+import { graphqlClient, GET_PRODUCT_BY_SLUG } from '@/lib/graphql'
 import type { WooProduct } from '@/components/ProductCard'
 import ProductCard from '@/components/ProductCard'
 import ProductDetailSection from '@/components/ProductDetailSection'
 import { getPosts, type WPPost } from '@/lib/wordpress'
 import { getGooglePlaceData } from '@/lib/google-places'
 import FaqAccordion from './FaqAccordion'
-import { PROFESSION_PRODUCT_SLUGS } from '@/lib/product-professions'
+import { PROFESSION_PRODUCT_SLUGS, prioritizeByColor, getVerMaisUrl } from '@/lib/product-professions'
+import { getAllProducts } from '@/lib/all-products'
 
 export const metadata: Metadata = {
   title: 'Uniforme para Churrasqueiro: Dólmã Resistente à Gordura | Jaleca 2026',
@@ -64,15 +65,32 @@ const breadcrumbSchema = {
   ],
 }
 
-async function getProducts(): Promise<WooProduct[]> {
+async function getJalecos(): Promise<WooProduct[]> {
   try {
-    const data = await graphqlClient.request<{ products: { nodes: WooProduct[] } }>(GET_PRODUCTS, {
-      first: 50,
-    })
+    // Busca TODOS os produtos (inclui produtos filhos/cores)
+    const allProducts = await getAllProducts()
+
+    // Filtra por profissão churrasqueiro
     const slugs = PROFESSION_PRODUCT_SLUGS['churrasqueiro'] ?? []
-    const products = data?.products?.nodes ?? []
-    return products.filter(p => slugs.includes(p.slug)).slice(0, 6)
-  } catch {
+    const professionProducts = allProducts.filter(p => {
+      // Produto mãe está na lista OU produto filho cujo pai está na lista
+      if (slugs.includes(p.slug)) return true
+
+      // Verifica se é produto filho (tem cor no slug)
+      const parts = p.slug.split('-')
+      const possibleColor = parts[parts.length - 1]
+      const baseSlug = parts.slice(0, -1).join('-')
+
+      return slugs.includes(baseSlug)
+    })
+
+    // Prioriza branco e preto primeiro (mais vendidos)
+    const prioritized = prioritizeByColor(professionProducts)
+
+    // Retorna 6 produtos
+    return prioritized.slice(0, 6)
+  } catch (error) {
+    console.error('[getJalecos] Error:', error)
     return []
   }
 }
@@ -117,7 +135,7 @@ function HeroStars({ rating }: { rating: number }) {
 
 export default async function JalecoChurrasqueiroPage() {
   const [produtos, posts, placeData, heroImg] = await Promise.all([
-    getProducts(),
+    getAllProducts(),
     getBlogPosts(),
     getGooglePlaceData(),
     getHeroImage(),

@@ -1,163 +1,8 @@
 import type { Metadata } from 'next'
-import { unstable_cache } from 'next/cache'
-import { readFile } from 'fs/promises'
-import { join } from 'path'
-import { graphqlClient, GET_PRODUCTS_LISTING } from '@/lib/graphql'
 import ProductsClient from './ProductsClient'
-import type { WooProduct } from '@/components/ProductCard'
+import { getAllProducts } from '@/lib/all-products'
 
 export const dynamic = 'force-dynamic'
-
-type ProductsPage = { products: { pageInfo: { hasNextPage: boolean; endCursor: string }; nodes: WooProduct[] } }
-
-const fetchAllProducts = async (): Promise<WooProduct[]> => {
-  const all: WooProduct[] = []
-  let cursor: string | null = null
-  try {
-    do {
-      const data: ProductsPage = await graphqlClient.request<ProductsPage>(GET_PRODUCTS_LISTING, { first: 24, after: cursor })
-      all.push(...data.products.nodes)
-      cursor = data.products.pageInfo.hasNextPage ? data.products.pageInfo.endCursor : null
-    } while (cursor)
-  } catch (e) {
-    console.error('[getAllProducts] GraphQL error:', e)
-    if (all.length === 0) throw new Error('WooCommerce GraphQL retornou 0 produtos')
-  }
-  if (all.length === 0) throw new Error('Nenhum produto encontrado no WooCommerce')
-  return all
-}
-
-const getAllProductsCached = unstable_cache(fetchAllProducts, ['all-products'], { revalidate: 3600, tags: ['products'] })
-
-// Lista de produtos que têm páginas de cores (para filtrar depois)
-const productsWithColorPages = new Set<string>()
-
-async function getColorVariants(mainProducts: WooProduct[]): Promise<WooProduct[]> {
-  try {
-    const jsonPath = join(process.cwd(), 'docs', 'SEO-PRODUTOS-CORES.json')
-    const jsonContent = await readFile(jsonPath, 'utf-8')
-    const colorPages: Array<{ url: string; productName: string; colorName: string; title: string; metaDescription: string; category: string }> = JSON.parse(jsonContent)
-
-    // Criar mapa de produtos por nome para buscar imagem/preço
-    const productMap = new Map<string, WooProduct>()
-    mainProducts.forEach(p => {
-      // Normalizar nome: remover " - Jaleca" e limpar
-      const cleanName = p.name.replace(/ - Jaleca$/i, '').trim()
-      productMap.set(cleanName, p)
-    })
-
-    // Registrar quais produtos têm cores
-    colorPages.forEach(page => {
-      const cleanName = page.productName.replace(/ - Jaleca$/i, '').trim()
-      productsWithColorPages.add(cleanName)
-    })
-
-    // Transform each color page into a WooProduct-like object
-    return colorPages.map((page, idx) => {
-      const parentProduct = productMap.get(page.productName)
-
-      // Buscar variação específica dessa cor no produto pai
-      let variantImage = parentProduct?.image
-      let variantPrice = parentProduct?.price || ''
-      let variantRegularPrice = parentProduct?.regularPrice || ''
-      let variantSalePrice = parentProduct?.salePrice || null
-
-      if (parentProduct?.variations?.nodes) {
-        // Normaliza para slug WC: "Pink 2" → "pink-2", "Azul Bebê" → "azul-bebe"
-        const toSlug = (s: string) => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[\s_]+/g, '-')
-        const colorSlug = toSlug(page.colorName)
-
-        // Match: exato OU variação tem sufixo -N (ex: "preto" casa com "preto-3")
-        const matches = (vSlug: string) =>
-          vSlug === colorSlug ||
-          vSlug.startsWith(colorSlug + '-') ||
-          colorSlug.startsWith(vSlug + '-')
-
-        // 1ª tentativa: variação COM imagem própria
-        let variant = parentProduct.variations.nodes.find(v => {
-          const vColor = v.attributes?.nodes?.find(a => /cor|color/i.test(a.name))
-          if (!vColor || !v.image?.sourceUrl) return false
-          return matches(toSlug(vColor.value))
-        })
-
-        // 2ª tentativa: qualquer variação (mesmo sem imagem própria)
-        if (!variant) {
-          variant = parentProduct.variations.nodes.find(v => {
-            const vColor = v.attributes?.nodes?.find(a => /cor|color/i.test(a.name))
-            if (!vColor) return false
-            return matches(toSlug(vColor.value))
-          })
-        }
-
-        if (variant) {
-          variantImage = variant.image || variantImage
-          variantPrice = variant.price || variantPrice
-          variantRegularPrice = variant.regularPrice || variantRegularPrice
-          variantSalePrice = variant.salePrice || variantSalePrice
-        }
-      }
-
-      // Usa categorias REAIS do produto pai (do WooCommerce) — JSON tem categorias erradas
-      // Ex: "Max Colete" no JSON = "jalecos" mas WC tem "acessorios"
-      const realCategories = parentProduct?.productCategories?.nodes ?? [
-        { name: page.category, slug: page.category }
-      ]
-
-      return {
-        id: `color-variant-${idx}`,
-        databaseId: 90000 + idx,
-        name: page.title,
-        slug: page.url.replace('/produto/', ''),
-        price: variantPrice,
-        regularPrice: variantRegularPrice,
-        salePrice: variantSalePrice,
-        image: variantImage || { sourceUrl: '', altText: page.title },
-        productCategories: { nodes: realCategories },
-        attributes: {
-          nodes: [
-            {
-              name: 'pa_cor',
-              options: [page.colorName.toLowerCase()]
-            }
-          ]
-        },
-        variations: { nodes: [] }
-      } as WooProduct
-    })
-  } catch (e) {
-    console.error('[getColorVariants] Error loading color variants:', e)
-    return []
-  }
-}
-
-async function getAllProducts(): Promise<WooProduct[]> {
-  try {
-    const mainProducts = await getAllProductsCached()
-    const colorVariants = await getColorVariants(mainProducts)
-
-    // Filtrar produtos pai que já têm páginas de cores
-    const mainProductsWithoutColorPages = mainProducts.filter(p => {
-      const cleanName = p.name.replace(/ - Jaleca$/i, '').trim()
-      return !productsWithColorPages.has(cleanName)
-    })
-
-    console.log(`[getAllProducts] ${mainProducts.length} produtos WC, ${productsWithColorPages.size} com cores no JSON → ${mainProductsWithoutColorPages.length} produtos pai sem cores + ${colorVariants.length} cores = ${mainProductsWithoutColorPages.length + colorVariants.length} total`)
-
-    // Combinar: cores primeiro (para aparecerem no topo) + produtos pai sem cores
-    return [...colorVariants, ...mainProductsWithoutColorPages]
-  } catch (e) {
-    // Cache guardou erro ou está vazio — tenta direto sem cache
-    console.warn('[getAllProducts] Cache miss/error, tentando fetch direto...', e)
-    try {
-      const mainProducts = await fetchAllProducts()
-      const colorVariants = await getColorVariants(mainProducts)
-      return [...mainProducts, ...colorVariants]
-    } catch (e2) {
-      console.error('[getAllProducts] Fetch direto também falhou:', e2)
-      return []
-    }
-  }
-}
 
 export const metadata: Metadata = {
   title: 'Produtos Jaleca — Catálogo Completo de Uniformes Profissionais | 2026',
@@ -218,7 +63,6 @@ const schemaFaq = {
   ],
 }
 
-// Mapeia slugs WooCommerce do parâmetro ?categoria= para os filtros internos
 const CATEGORIA_MAP: Record<string, { cat?: string; genero?: string }> = {
   'jalecos-femininos':  { cat: 'Jalecos',   genero: 'Feminino'  },
   'jalecos-masculinos': { cat: 'Jalecos',   genero: 'Masculino' },
@@ -240,7 +84,6 @@ export default async function ProdutosPage({
   const { cat, sale, novidades, genero, cor, categoria } = await searchParams
   const products = await getAllProducts()
 
-  // Resolve filtros a partir de ?categoria= (vindo dos anúncios) ou ?cat= + ?genero=
   const catFromSlug = categoria ? CATEGORIA_MAP[categoria] : undefined
   const resolvedCat    = cat    || catFromSlug?.cat    || 'Todos'
   const resolvedGenero = genero || catFromSlug?.genero
@@ -259,7 +102,6 @@ export default async function ProdutosPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaFaq).replace(/</g, '\\u003c') }}
       />
-      {/* H1 server-side para SEO — invisível ao usuário, visível para crawlers no HTML inicial */}
       <h1 className="sr-only">Jalecos e Uniformes Médicos — Femininos e Masculinos | Jaleca</h1>
       <ProductsClient
         key={`${resolvedCat}-${resolvedGenero ?? ''}-${cor ?? ''}-${sale ?? ''}-${novidades ?? ''}`}

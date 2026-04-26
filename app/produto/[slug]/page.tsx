@@ -1,4 +1,4 @@
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { headers } from 'next/headers'
 import { cache } from 'react'
 import { readFile } from 'fs/promises'
@@ -15,25 +15,43 @@ import { generateColorMetaDescription } from '@/lib/product-seo-generator'
 
 export const revalidate = 3600
 
-// Mapeia cores → URLs corretas do JSON SEO
-async function getColorUrlsForProduct(productName: string): Promise<Record<string, string>> {
+type ColorSEOData = {
+  url: string
+  productName: string
+  colorName: string
+  category: string
+  h1?: string
+  h2?: string
+  metaDescription?: string
+  title?: string
+  colorPsychology?: string
+}
+
+// Mapeia cores → URLs + dados SEO do JSON
+async function getColorDataForProduct(productName: string): Promise<{
+  urls: Record<string, string>
+  seoData: Record<string, ColorSEOData>
+}> {
   try {
     const jsonPath = join(process.cwd(), 'docs', 'SEO-PRODUTOS-CORES.json')
     const jsonContent = await readFile(jsonPath, 'utf-8')
-    const colorPages: Array<{ url: string; productName: string; colorName: string }> = JSON.parse(jsonContent)
+    const colorPages: ColorSEOData[] = JSON.parse(jsonContent)
 
     const colorUrls: Record<string, string> = {}
+    const seoData: Record<string, ColorSEOData> = {}
+
     for (const page of colorPages) {
       if (page.productName === productName) {
-        // Normaliza nome da cor para usar como chave (ex: "Pink 2" → "pink-2")
+        // Normaliza nome da cor para usar como chave (ex: "Pink" → "pink")
         const normalizedColor = page.colorName.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '-')
         colorUrls[normalizedColor] = page.url
+        seoData[normalizedColor] = page
       }
     }
-    return colorUrls
+    return { urls: colorUrls, seoData }
   } catch (e) {
-    console.error('[getColorUrlsForProduct] Error:', e)
-    return {}
+    console.error('[getColorDataForProduct] Error:', e)
+    return { urls: {}, seoData: {} }
   }
 }
 
@@ -105,37 +123,45 @@ export async function generateMetadata({
     return { title: 'Produto não encontrado — Jaleca', robots: { index: false } }
   }
 
-  let name = String(product.name || '').replace(/ - Jaleca$/i, '')
+  let productName = String(product.name || '').replace(/ - Jaleca$/i, '')
+  let name = productName
   let imageUrl = product.image?.sourceUrl
   let actualSlug = slug
   let description: string
+  let metaTitle: string
 
-  // Se URL tem cor, busca dados da variação específica
+  // Se URL tem cor, busca dados da variação específica + dados SEO
   if (hasColor && colorName) {
     const variations = (product as any).variations?.nodes || []
     const variation = findVariationByColor(variations, colorName)
 
     if (variation) {
-      name = `${name} ${colorName}`
+      name = `${productName} ${colorName}`
       imageUrl = variation.image?.sourceUrl || imageUrl
 
-      // Determinar categoria para SEO personalizado
-      const categories = (product as any).productCategories?.nodes || []
-      const categorySlug = categories[0]?.slug || 'outros'
-      let category: 'jalecos' | 'conjuntos' | 'dolmas' | 'acessorios' | 'outros' = 'outros'
+      // Buscar dados SEO do JSON
+      const { seoData } = await getColorDataForProduct(productName)
+      const normalizedColor = colorName.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '-')
+      const colorSEO = seoData[normalizedColor]
 
-      if (categorySlug.includes('jaleco')) category = 'jalecos'
-      else if (categorySlug.includes('conjunto')) category = 'conjuntos'
-      else if (categorySlug.includes('dolma') || categorySlug.includes('doma')) category = 'dolmas'
-      else if (categorySlug.includes('acessorio')) category = 'acessorios'
+      if (colorSEO) {
+        // Usa dados SEO personalizados do JSON
+        metaTitle = colorSEO.title || `${name} | Jaleca`
+        description = colorSEO.metaDescription || `${name} na Jaleca. Uniforme profissional premium.`
+      } else {
+        // Fallback: gera descrição automaticamente
+        const categories = (product as any).productCategories?.nodes || []
+        const categorySlug = categories[0]?.slug || 'outros'
+        let category: 'jalecos' | 'conjuntos' | 'dolmas' | 'acessorios' | 'outros' = 'outros'
 
-      // Gera descrição única baseada no produto + cor
-      description = generateColorMetaDescription(
-        name.replace(` ${colorName}`, ''),
-        colorName,
-        Number(product.databaseId),
-        category
-      )
+        if (categorySlug.includes('jaleco')) category = 'jalecos'
+        else if (categorySlug.includes('conjunto')) category = 'conjuntos'
+        else if (categorySlug.includes('dolma') || categorySlug.includes('doma')) category = 'dolmas'
+        else if (categorySlug.includes('acessorio')) category = 'acessorios'
+
+        metaTitle = name
+        description = generateColorMetaDescription(productName, colorName, Number(product.databaseId), category)
+      }
     } else {
       // Cor não existe, retorna 404
       console.warn(`[404] Variação de cor não encontrada: ${slug}`)
@@ -149,6 +175,7 @@ export async function generateMetadata({
     const longDesc = product.description
       ? stripHtml(String(product.description)).slice(0, 160)
       : null
+    metaTitle = name
     description = shortDesc || longDesc || `Compre ${name} na Jaleca. Uniformes profissionais premium.`
   }
 
@@ -196,8 +223,13 @@ export default async function ProdutoPage({
   let name = String(product.name || '').replace(/ - Jaleca$/i, '')
   let selectedVariation = null
 
-  // Buscar mapa de cores → URLs corretas do JSON
-  const colorUrls = await getColorUrlsForProduct(name)
+  // Buscar mapa de cores → URLs + dados SEO do JSON
+  const { urls: colorUrls, seoData } = await getColorDataForProduct(name)
+
+  // Extrair dados SEO da cor atual (se houver)
+  let seoH1: string | undefined
+  let seoH2: string | undefined
+  let seoColorPsychology: string | undefined
 
   // Se URL tem cor, busca variação específica
   if (hasColor && colorName) {
@@ -205,11 +237,20 @@ export default async function ProdutoPage({
     selectedVariation = findVariationByColor(variations, colorName)
 
     if (!selectedVariation) {
-      // Cor não existe para este produto
-      notFound()
+      // Cor do JSON não existe como variação WC — redireciona pra página mãe
+      redirect(`/produto/${baseSlug}`)
     }
 
     name = `${name} - ${colorName}`
+
+    // Extrair dados SEO da cor atual
+    const normalizedColor = colorName.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '-')
+    const colorSEO = seoData[normalizedColor]
+    if (colorSEO) {
+      seoH1 = colorSEO.h1
+      seoH2 = colorSEO.h2
+      seoColorPsychology = colorSEO.colorPsychology
+    }
   }
 
   const shortDesc = product.shortDescription
@@ -563,6 +604,9 @@ export default async function ProdutoPage({
         googlePlace={googlePlace ?? undefined}
         initialColor={hasColor ? colorName : null}
         colorUrls={colorUrls}
+        seoH1={seoH1}
+        seoH2={seoH2}
+        seoColorPsychology={seoColorPsychology}
       />
     </>
   )

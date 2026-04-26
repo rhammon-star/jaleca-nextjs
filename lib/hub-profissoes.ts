@@ -62,7 +62,6 @@ export const CLUSTER_LINKS: Record<string, Array<{ label: string; href: string; 
     { label: 'Farmacêutico', href: '/jaleco-farmaceutico', desc: 'Jaleco' },
     { label: 'Secretária', href: '/jaleco-secretaria', desc: 'Jaleco e conjunto' },
     { label: 'Conjunto Advogado', href: '/conjunto-advogado', desc: 'Conjunto' },
-    { label: 'Conjunto Pastor', href: '/conjunto-pastor', desc: 'Conjunto' },
     { label: 'Conjunto Psicóloga', href: '/conjunto-psicologa', desc: 'Conjunto' },
     { label: 'Conjunto Farmacêutico', href: '/conjunto-farmaceutico', desc: 'Conjunto' },
   ],
@@ -1884,75 +1883,6 @@ export const HUB_PROFISSOES: HubProfissao[] = [
       { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Capitais do Sudeste recebem em 3 a 5 dias úteis.' },
     ],
     cta: { descricao: 'Do PP ao G3. Conjunto profissional para o escritório e o tribunal. Frete grátis no Sudeste acima de R$499.' },
-  dateModified: '2026-04-21',
-  },
-
-  {
-    slug: 'conjunto-pastor',
-    titulo: 'Pastor',
-    cluster: 'escritorio',
-    produto: 'conjunto',
-    urlSlug: 'conjunto-pastor',
-    metadata: {
-      title: 'Conjunto para Pastor: Guia Completo | Jaleca',
-      description: 'Conjunto pastoral para pastor evangélico: elegância cerimonial, conforto em cultos longos, tecido de bom caimento. Guia completo do PP ao G3.',
-    },
-    hero: { subtitulo: 'Tecido resistente, caimento perfeito e conforto para a cozinha profissional.' },
-    guia: {
-      tituloSidebar: 'Como escolher o conjunto ideal para pastor',
-      secoes: [
-        {
-          id: 'tecido', titulo: 'Tecido e composição para o ministério',
-          paragrafos: [
-            'Gabardine de viscose/poliéster (65/35) com toque suave é a composição que mais aparece em conjuntos pastorais. O caimento fluído e a resistência a vincos fazem o conjunto manter a apresentação durante cultos de 2-4 horas sem precisar repassar a ferro entre eventos.',
-            'Gramatura 150-165 g/m² equilibra elegância e conforto térmico — igrejas têm variação de temperatura entre santuário, sala de reunião e atividades externas. Um conjunto pesado demais fatiga em cultos longos.',
-          ],
-        },
-        {
-          id: 'modelagem', titulo: 'Modelagem para pastor',
-          paragrafos: [
-            'O conjunto com blusa de linha limpa e calça reta transmite autoridade espiritual sem excesso. A silhueta unificada (blusa + calça na mesma cor) cria impacto visual maior que qualquer outra combinação.',
-            'Para pastores que pregam com gesticulação intensa e braços levantados: a blusa precisa de manga com amplitude de cava suficiente. O conjunto não pode criar pressão axilar durante a pregação.',
-          ],
-        },
-        {
-          id: 'cores', titulo: 'Cores para conjunto pastoral',
-          paragrafos: [
-            'Branco é a cor mais associada ao conjunto pastoral no Brasil — simboliza santidade e separa o ministério do cotidiano. Para cerimônias de batismo e ordenação, o branco é quase universalmente adotado.',
-            'Preto, roxo e azul royal são usados em denominações com liturgia mais formal. Cada denominação tem sua própria simbologia de cor — pastores que atuam em múltiplos contextos optam por neutros que funcionam em qualquer ambiente.',
-          ],
-        },
-        {
-          id: 'ergonomia', titulo: 'Conforto em cultos e cerimônias',
-          paragrafos: [
-            'O pastor alterna entre sentado (reuniões, aconselhamento) e em pé (pregação, adoração) múltiplas vezes por dia. O conjunto com elastano bidirecional acompanha isso sem criar vincos que se acumulam ao longo do dia.',
-            'Para cultos de adoração onde o pastor levanta os braços por períodos longos: a blusa com cava funda faz diferença no cansaço acumulado na região do ombro após 30-40 minutos de ministério.',
-          ],
-        },
-        {
-          id: 'normas', titulo: 'Apresentação e reverência',
-          paragrafos: [
-            'Nenhum órgão regulador define vestimenta pastoral no Brasil. A escolha é guiada pela tradição denominacional e o manual de liturgia de cada ministério.',
-            'O conjunto pastoral precisa inspirar reverência na congregação. A apresentação do pastor reflete a seriedade do ministério — um conjunto bem cuidado comunica isso antes das primeiras palavras.',
-          ],
-        },
-      ],
-    },
-    comparacao: {
-      slimIdeal: 'Pastores que buscam visual moderno e elegante no ministério',
-      profissionalIdeal: 'Cerimônias longas e cultos com pregação de 45+ minutos',
-    },
-    faq: [
-      { q: 'Pastor usa jaleco ou conjunto?', a: 'Os dois são usados. O conjunto tem impacto visual maior — a silhouette unificada transmite mais autoridade pastoral do que jaleco sobre outra roupa.' },
-      { q: 'Conjunto branco é o padrão para pastor?', a: 'Não é regulamentado. Mas o conjunto branco é a tradição mais forte no ministério evangélico brasileiro — especialmente em batismos e ordenações.' },
-      { q: 'Qual cor de conjunto para pastor?', a: 'Branco para cerimônias. Preto, roxo e azul royal para cultos regulares — a escolha depende da denominação e da tradição da igreja.' },
-      { q: 'Conjunto aguentado cultos de 3-4 horas?', a: 'Sim, com elastano. O conjunto se adapta aos movimentos de pregação e ministério sem criar vincos ou apertar ao longo do culto.' },
-      { q: 'Os tecidos são transparentes?', a: 'Não. Usamos tecidos com boa gramatura — sem transparência em nenhuma cor.' },
-      { q: 'Jaleca tem conjuntos femininos e masculinos?', a: 'Sim. Temos conjuntos femininos e masculinos com elastano do PP ao G3.' },
-      { q: 'Como escolher o tamanho?', a: 'Use a tabela de medidas da Jaleca. Para conjunto, o tamanho que acomoda busto e quadril sem folha excessiva é o ideal.' },
-      { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Capitais do Sudeste recebem em 3 a 5 dias úteis.' },
-    ],
-    cta: { descricao: 'Do PP ao G3. Conjunto pastoral para o seu ministério. Frete grátis no Sudeste acima de R$499.' },
   dateModified: '2026-04-21',
   },
 

@@ -8,6 +8,8 @@ import ProductDetailSection from '@/components/ProductDetailSection'
 import { getPosts, type WPPost } from '@/lib/wordpress'
 import { getGooglePlaceData } from '@/lib/google-places'
 import FaqAccordion from './FaqAccordion'
+import { getAllProducts } from '@/lib/all-products'
+import { PROFESSION_PRODUCT_SLUGS, prioritizeByColor, getVerMaisUrl } from '@/lib/product-professions'
 
 export const metadata: Metadata = {
   title: 'Jaleco para Enfermagem — Conforto e Mobilidade para a Rotina Hospitalar | Jaleca 2026',
@@ -63,18 +65,32 @@ const breadcrumbSchema = {
   ],
 }
 
-async function getJalecosEnfermagem(): Promise<WooProduct[]> {
+async function getJalecos(): Promise<WooProduct[]> {
   try {
-    const data = await graphqlClient.request<{ products: { nodes: WooProduct[] } }>(GET_PRODUCTS, {
-      first: 50,
+    // Busca TODOS os produtos (inclui produtos filhos/cores)
+    const allProducts = await getAllProducts()
+
+    // Filtra por profissão enfermagem
+    const slugs = PROFESSION_PRODUCT_SLUGS['enfermagem'] ?? []
+    const professionProducts = allProducts.filter(p => {
+      // Produto mãe está na lista OU produto filho cujo pai está na lista
+      if (slugs.includes(p.slug)) return true
+
+      // Verifica se é produto filho (tem cor no slug)
+      const parts = p.slug.split('-')
+      const possibleColor = parts[parts.length - 1]
+      const baseSlug = parts.slice(0, -1).join('-')
+
+      return slugs.includes(baseSlug)
     })
-    const products = data?.products?.nodes ?? []
-    // Filter for nursing jalecos - check name/slug for "enfermagem" or related
-    return products.filter(p =>
-      p.name?.toLowerCase().includes('enfermagem') ||
-      p.slug?.includes('enfermagem')
-    ).slice(0, 6)
-  } catch {
+
+    // Prioriza branco e preto primeiro (mais vendidos)
+    const prioritized = prioritizeByColor(professionProducts)
+
+    // Retorna 6 produtos
+    return prioritized.slice(0, 6)
+  } catch (error) {
+    console.error('[getJalecos] Error:', error)
     return []
   }
 }
@@ -123,7 +139,7 @@ function HeroStars({ rating }: { rating: number }) {
 
 export default async function JalecoEnfermagemPage() {
   const [produtos, posts, placeData, heroImg] = await Promise.all([
-    getJalecosEnfermagem(),
+    getJalecos(),
     getBlogPosts(),
     getGooglePlaceData(),
     getHeroImage(),
@@ -238,8 +254,8 @@ export default async function JalecoEnfermagemPage() {
                     Jalecos para<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>Enfermagem</em>
                   </h2>
                 </div>
-                <Link href="/produtos?categoria=jalecos" style={{ display: 'inline-flex', padding: '0.9rem 2rem', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a', color: '#1a1a1a' }}>
-                  Ver todos →
+                <Link href={getVerMaisUrl('enfermagem')} style={{ display: 'inline-flex', padding: '0.9rem 2rem', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a', color: '#1a1a1a' }}>
+                  Ver mais →
                 </Link>
               </div>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">

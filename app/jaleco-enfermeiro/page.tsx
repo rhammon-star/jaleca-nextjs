@@ -1,14 +1,15 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Suspense } from 'react'
-import { graphqlClient, GET_PRODUCTS, GET_PRODUCT_BY_SLUG } from '@/lib/graphql'
+import { graphqlClient, GET_PRODUCT_BY_SLUG } from '@/lib/graphql'
 import type { WooProduct } from '@/components/ProductCard'
 import ProductCard from '@/components/ProductCard'
 import ProductDetailSection from '@/components/ProductDetailSection'
 import { getPosts, type WPPost } from '@/lib/wordpress'
 import { getGooglePlaceData } from '@/lib/google-places'
 import FaqAccordion from './FaqAccordion'
-import { PROFESSION_PRODUCT_SLUGS } from '@/lib/product-professions'
+import { PROFESSION_PRODUCT_SLUGS, prioritizeByColor, getVerMaisUrl } from '@/lib/product-professions'
+import { getAllProducts } from '@/lib/all-products'
 
 export const metadata: Metadata = {
   title: 'Jaleco para Enfermeiro: Tecido Premium, Caimento Perfeito | Jaleca 2026',
@@ -66,14 +67,30 @@ const breadcrumbSchema = {
 
 async function getJalecos(): Promise<WooProduct[]> {
   try {
-    // Busca produtos sem filtro de categoria, depois filtra por slug de enfermeiro
-    const data = await graphqlClient.request<{ products: { nodes: WooProduct[] } }>(GET_PRODUCTS, {
-      first: 50,
-    })
+    // Busca TODOS os produtos (inclui produtos filhos/cores)
+    const allProducts = await getAllProducts()
+
+    // Filtra por profissão enfermeiro
     const slugs = PROFESSION_PRODUCT_SLUGS['enfermeiro'] ?? []
-    const products = data?.products?.nodes ?? []
-    return products.filter(p => slugs.includes(p.slug)).slice(0, 6)
-  } catch {
+    const professionProducts = allProducts.filter(p => {
+      // Produto mãe está na lista OU produto filho cujo pai está na lista
+      if (slugs.includes(p.slug)) return true
+
+      // Verifica se é produto filho (tem cor no slug)
+      const parts = p.slug.split('-')
+      const possibleColor = parts[parts.length - 1]
+      const baseSlug = parts.slice(0, -1).join('-')
+
+      return slugs.includes(baseSlug)
+    })
+
+    // Prioriza branco e preto primeiro (mais vendidos)
+    const prioritized = prioritizeByColor(professionProducts)
+
+    // Retorna 6 produtos
+    return prioritized.slice(0, 6)
+  } catch (error) {
+    console.error('[getJalecos] Error:', error)
     return []
   }
 }
@@ -236,8 +253,8 @@ export default async function JalecoEnfermeiroPage() {
                     Jalecos para<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>Enfermeiros</em>
                   </h2>
                 </div>
-                <Link href="/produtos?categoria=jalecos" style={{ display: 'inline-flex', padding: '0.9rem 2rem', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a', color: '#1a1a1a' }}>
-                  Ver todos →
+                <Link href={getVerMaisUrl('enfermeiro')} style={{ display: 'inline-flex', padding: '0.9rem 2rem', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a', color: '#1a1a1a' }}>
+                  Ver mais →
                 </Link>
               </div>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
