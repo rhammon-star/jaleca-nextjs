@@ -213,7 +213,7 @@ export default async function Page() {
 
         {/* ── PRODUTOS ── */}
         <CategoryProductGrid
-          categorySlug="jalecos-femininos"
+          categorySlug="femininos-jalecos"
           professionLabel="Profissionais Premium"
           collectionLabel="Coleção Premium"
           productLabel="Jalecos"

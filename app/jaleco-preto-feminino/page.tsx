@@ -184,7 +184,7 @@ export default async function Page() {
         </div>
 
         <CategoryProductGrid
-          categorySlug="jalecos-femininos"
+          categorySlug="femininos-jalecos"
           color="preto"
           professionLabel="Profissionais de Beleza e Estética"
           collectionLabel="Jalecos Pretos"

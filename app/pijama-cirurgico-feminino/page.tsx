@@ -189,7 +189,7 @@ export default async function Page() {
         </div>
 
         <CategoryProductGrid
-          categorySlug="conjuntos-femininos"
+          categorySlug="femininos-conjuntos"
           professionLabel="Pijama Cirúrgico Feminino"
           collectionLabel="Scrubs & Pijamas Cirúrgicos"
           productLabel="Conjuntos"
