@@ -190,7 +190,7 @@ export default async function Page() {
         </section>
 
         {/* ── TRUST BAR ── */}
-        <div className="grid" style={{ gridTemplateColumns: 'repeat(2,1fr)', background: '#1a1a1a', padding: '1.5rem clamp(1.5rem,5vw,4rem)' }}>
+        <div className="grid" style={{ background: '#1a1a1a', padding: '1.5rem clamp(1.5rem,5vw,4rem)' }}>
           {[
             { title: 'Estilo sem abrir mão', sub: 'Gabardine com elastano em todos' },
             { title: 'Modelos exclusivos', sub: 'Cortes pensados por designers' },
@@ -268,7 +268,7 @@ export default async function Page() {
             <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2rem,3.5vw,3rem)', fontWeight: 400, color: '#fff', marginBottom: '2rem' }}>
               Estilo é detalhe.<br />Qualidade é base.
             </h2>
-            <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(min(260px, 100%), 1fr))', gap: '1.5rem' }}>
+            <div className="grid" style={{ gap: '1.5rem' }}>
               {[
                 { titulo: 'Tecido primeiro', desc: 'Jaleco estiloso em algodão puro amassa na segunda lavagem. Gabardine com elastano mantém o visual por centenas de ciclos.' },
                 { titulo: 'Molde define tudo', desc: 'Cor e detalhe não salvam um jaleco com ombro largo, manga comprida demais ou comprimento desproporcional.' },

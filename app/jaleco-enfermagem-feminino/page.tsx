@@ -184,7 +184,7 @@ export default async function Page() {
         </section>
 
         {/* ── TRUST BAR ── */}
-        <div className="grid" style={{ gridTemplateColumns: 'repeat(2,1fr)', background: '#1a1a1a', padding: '1.5rem clamp(1.5rem,5vw,4rem)' }}>
+        <div className="grid" style={{ background: '#1a1a1a', padding: '1.5rem clamp(1.5rem,5vw,4rem)' }}>
           {[
             { title: 'Molde feminino real', sub: 'Não é o masculino adaptado' },
             { title: 'Lavagem a 60°C', sub: 'Biossegurança hospitalar' },

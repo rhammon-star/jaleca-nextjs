@@ -193,7 +193,7 @@ export default async function Page() {
         </section>
 
         {/* ── TRUST BAR ── */}
-        <div className="grid" style={{ gridTemplateColumns: 'repeat(2,1fr)', background: '#1a1a1a', padding: '1.5rem clamp(1.5rem,5vw,4rem)' }}>
+        <div className="grid" style={{ background: '#1a1a1a', padding: '1.5rem clamp(1.5rem,5vw,4rem)' }}>
           {[
             { title: 'Gabardine com elastano', sub: 'Tecido técnico para jornada longa' },
             { title: 'Grade PP ao G3', sub: 'Tamanho real, não apenas "M e G"' },
@@ -261,7 +261,7 @@ export default async function Page() {
             <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2rem,3.5vw,3rem)', fontWeight: 400, color: '#fff', marginBottom: '2rem' }}>
               Quem usa jaleco premium
             </h2>
-            <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(min(260px, 100%), 1fr))', gap: '1px', background: 'rgba(255,255,255,0.08)' }}>
+            <div className="grid" style={{ gap: '1px', background: 'rgba(255,255,255,0.08)' }}>
               {[
                 { profissao: 'Médica/Médico', motivo: 'Imagem de autoridade antes de qualquer fala. Jaleco como extensão da competência clínica.' },
                 { profissao: 'Dentista', motivo: 'Consultório com identidade visual definida. Jaleco premium fecha o conjunto visual da marca pessoal.' },

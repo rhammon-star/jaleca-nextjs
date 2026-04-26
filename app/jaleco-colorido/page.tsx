@@ -157,7 +157,7 @@ export default async function Page() {
           </div>
         </section>
 
-        <div className="grid" style={{ gridTemplateColumns: 'repeat(2,1fr)', background: '#1a1a1a', padding: '1.5rem clamp(1.5rem,5vw,4rem)' }}>
+        <div className="grid" style={{ background: '#1a1a1a', padding: '1.5rem clamp(1.5rem,5vw,4rem)' }}>
           {[
             { title: '12 cores', sub: 'Rosa, lilás, verde, azul e mais' },
             { title: 'PP ao G3', sub: 'Molde feminino próprio' },
@@ -196,7 +196,7 @@ export default async function Page() {
             <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2rem,3.5vw,3rem)', fontWeight: 400, color: '#1a1a1a', marginBottom: '2.5rem' }}>
               Qual cor combina<br />com a sua profissão
             </h2>
-            <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(min(200px, 100%), 1fr))', gap: '1rem' }}>
+            <div className="grid" style={{ gap: '1rem' }}>
               {CORES.map((item, i) => (
                 <div key={i} style={{ background: '#fff', border: '1px solid #e5e0d8', padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                   <div style={{ width: 40, height: 40, borderRadius: '50%', background: item.hex, border: '1px solid rgba(0,0,0,0.08)' }} />

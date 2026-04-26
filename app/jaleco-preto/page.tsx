@@ -139,7 +139,7 @@ export default async function Page() {
             <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2rem,3.5vw,3rem)', fontWeight: 400, color: '#1a1a1a', marginBottom: '2.5rem' }}>
               Quem usa jaleco preto
             </h2>
-            <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(min(240px,100%), 1fr))', gap: '1rem' }}>
+            <div className="grid" style={{ gap: '1rem' }}>
               {PROFISSOES.map((p, i) => (
                 <Link key={i} href={p.href} style={{ display: 'block', border: '1px solid #e5e0d8', padding: '1.5rem', textDecoration: 'none' }}>
                   <strong style={{ display: 'block', fontFamily: "'Cormorant', Georgia, serif", fontSize: '1.25rem', fontWeight: 400, color: '#1a1a1a', marginBottom: '0.4rem' }}>{p.label}</strong>
@@ -194,7 +194,7 @@ export default async function Page() {
             <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(1.8rem,3vw,2.5rem)', fontWeight: 400, color: '#1a1a1a', marginBottom: '2rem' }}>
               Jalecos pretos que não perdem a cor
             </h2>
-            <div className="grid" style={{ gridTemplateColumns: 'repeat(3,1fr)', gap: '1.5rem', marginTop: '2.5rem' }}>
+            <div className="grid" style={{ gap: '1.5rem', marginTop: '2.5rem' }}>
               {[
                 { numero: '200.000+', label: 'peças vendidas de jalecos escuros' },
                 { numero: 'PP ao G3', label: 'grade completa' },
