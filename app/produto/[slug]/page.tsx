@@ -1,4 +1,4 @@
-import { notFound, redirect } from 'next/navigation'
+import { notFound, redirect, permanentRedirect } from 'next/navigation'
 import { headers } from 'next/headers'
 import { cache } from 'react'
 import { readFile } from 'fs/promises'
@@ -220,7 +220,20 @@ export default async function ProdutoPage({
   const productSlug = hasColor ? baseSlug : slug
   const product = await getProduct(productSlug)
 
-  if (!product) notFound()
+  if (!product) {
+    // Produto deletado do WC — redireciona 308 para categoria mais próxima
+    const s = productSlug.toLowerCase()
+    if (s.includes('conjunto') || s.includes('scrub') || s.includes('puff') || s.includes('laco') || s.includes('executiva')) {
+      permanentRedirect('/produtos?categoria=conjuntos')
+    }
+    if (s.includes('dolma') || s.includes('doma') || s.includes('churras') || s.includes('cozinheir')) {
+      permanentRedirect('/produtos?categoria=dolmas')
+    }
+    if (s.includes('touca') || s.includes('acessorio')) {
+      permanentRedirect('/produtos?categoria=acessorios')
+    }
+    permanentRedirect('/produtos')
+  }
 
   let name = String(product.name || '').replace(/ - Jaleca$/i, '')
   let selectedVariation = null

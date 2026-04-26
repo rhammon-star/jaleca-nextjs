@@ -344,10 +344,20 @@ export default function ProductDetailClient({
   const inStockVariations = variations.filter(v => v.stockStatus !== 'OUT_OF_STOCK' && !!v.price && parsePrice(v.price) > 0)
   const activeVariations = inStockVariations.length > 0 ? inStockVariations : variations.filter(v => !!v.price && parsePrice(v.price) > 0)
 
-  const colorSlugs = (variations.length > 0
-    ? [...new Set(activeVariations.flatMap(v => v.attributes.nodes.filter(a => isColorAttr(a)).map(a => a.value)).filter(Boolean))]
-    : (colorAttrDef?.options ?? [])
-  ).sort((a, b) => (colorNames[a] ?? a).toLowerCase().localeCompare((colorNames[b] ?? b).toLowerCase(), 'pt-BR'))
+  const colorSlugs = (() => {
+    const raw = variations.length > 0
+      ? [...new Set(activeVariations.flatMap(v => v.attributes.nodes.filter(a => isColorAttr(a)).map(a => a.value)).filter(Boolean))]
+      : (colorAttrDef?.options ?? [])
+    const PRIORITY: Record<string, number> = { branco: 0, white: 0, preto: 1, black: 1, azul: 2, azul_marinho: 2, marinho: 2 }
+    return raw.sort((a, b) => {
+      const la = (colorNames[a] ?? a).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      const lb = (colorNames[b] ?? b).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      const pa = PRIORITY[la] ?? 99
+      const pb = PRIORITY[lb] ?? 99
+      if (pa !== pb) return pa - pb
+      return la.localeCompare(lb, 'pt-BR')
+    })
+  })()
 
   // Sizes: when color is selected, only show sizes in-stock for that color
   const sizeSlugs = (() => {

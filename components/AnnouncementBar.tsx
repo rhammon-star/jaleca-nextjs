@@ -9,7 +9,7 @@ const messages = [
   { text: '🏪 6 lojas físicas · Atendimento via WhatsApp 7 dias por semana', href: '/nossas-lojas', cta: 'Ver lojas' },
   { text: '🔄 Devolução em 7 dias · Garantia do produto por 30 dias', href: '/trocas-e-devolucoes', cta: 'Saiba mais' },
   { text: '⭐ +200 mil peças vendidas · Marca aprovada por profissionais de saúde', href: '/produtos', cta: 'Conferir' },
-  { text: '💚 Prepare-se! Nova Coleção Outono/Inverno está chegando', href: '/produtos?novidades=true', cta: 'Ver novidades' },
+  { text: '🎁 Bordado corporativo a partir de 5 peças · Nome + logo da empresa', href: '/contato', cta: 'Solicitar orçamento' },
 ]
 
 export default function AnnouncementBar() {

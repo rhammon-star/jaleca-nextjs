@@ -176,14 +176,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly',
       priority: 0.9,
     },
-    // Cluster Saúde
+    // Cluster Saúde — Masculino
+    { url: `${SITE_URL}/jaleco-medico`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
+    { url: `${SITE_URL}/jaleco-enfermeiro`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
     { url: `${SITE_URL}/jaleco-podologo`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
     { url: `${SITE_URL}/jaleco-biomedico`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
-    { url: `${SITE_URL}/jaleco-enfermeiro`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
     { url: `${SITE_URL}/jaleco-fisioterapeuta`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
     { url: `${SITE_URL}/jaleco-nutricionista`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
     { url: `${SITE_URL}/jaleco-veterinario`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
-    { url: `${SITE_URL}/jaleco-medico`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
+    // Cluster Saúde — Feminino
+    { url: `${SITE_URL}/jaleco-medica`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
+    { url: `${SITE_URL}/jaleco-enfermeira`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
+    { url: `${SITE_URL}/jaleco-farmaceutica`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${SITE_URL}/jaleco-veterinaria`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${SITE_URL}/jaleco-biomedica`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${SITE_URL}/jaleco-podologa`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${SITE_URL}/jaleco-cabeleireira`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     // Novas landings (25/04/2026) — DataForSEO descobriu volume
     { url: `${SITE_URL}/jaleco-medicina`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
     { url: `${SITE_URL}/jaleco-fisioterapia`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
@@ -205,6 +213,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/jaleco-vendedor`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     // Cluster Escritório
     { url: `${SITE_URL}/jaleco-advogado`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${SITE_URL}/jaleco-advogada`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${SITE_URL}/jaleco-pastor`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${SITE_URL}/jaleco-psicologa`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${SITE_URL}/jaleco-farmaceutico`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
