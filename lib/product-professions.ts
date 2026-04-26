@@ -51,11 +51,35 @@ export const PROFESSION_MAP: Record<string, ProfessionInfo> = {
   confeiteiro:         { label: 'Confeiteiro',         hub: '/dolma-cozinheiro' },
   'secretaria do lar': { label: 'Secretária do Lar',  hub: '/jaleco-dona-casa' },
   'dona-de-casa':      { label: 'Dona de Casa',        hub: '/jaleco-dona-casa' },
-  'cirurgico-feminino': { label: 'Pijama Cirúrgico Feminino', hub: '/pijama-cirurgico-feminino' },
+
+  // Hubs genéricos de profissões (aliases para áreas)
+  enfermagem:          { label: 'Enfermagem',          hub: '/jaleco-enfermagem' },
+  medicina:            { label: 'Medicina',            hub: '/jaleco-medicina' },
+  odontologia:         { label: 'Odontologia',         hub: '/jaleco-odontologia' },
+  farmacia:            { label: 'Farmácia',            hub: '/jaleco-farmacia' },
+  fisioterapia:        { label: 'Fisioterapia',        hub: '/jaleco-fisioterapia' },
+  nutricao:            { label: 'Nutrição',            hub: '/jaleco-nutricao' },
+
+  // Variações de conjunto/dólma específicas
+  'conjunto-advogado':     { label: 'Conjunto Advogado',     hub: '/conjunto-advogado' },
+  'conjunto-farmaceutico': { label: 'Conjunto Farmacêutico', hub: '/conjunto-farmaceutico' },
+  'conjunto-psicologa':    { label: 'Conjunto Psicóloga',    hub: '/conjunto-psicologa' },
+  'dolma-churrasqueiro':   { label: 'Dólmã Churrasqueiro',   hub: '/dolma-churrasqueiro' },
+  'dolma-sushiman':        { label: 'Dólmã Sushiman',        hub: '/dolma-sushiman' },
+
+  // Variações de gênero específicas
+  'dentista-feminino':     { label: 'Dentista Feminino',     hub: '/jaleco-dentista-feminino' },
+  'medico-feminino':       { label: 'Médica',                hub: '/jaleco-medico-feminino' },
+  'enfermagem-feminino':   { label: 'Enfermagem Feminino',   hub: '/jaleco-enfermagem-feminino' },
+  'uniforme-professor':    { label: 'Uniforme Professor',    hub: '/uniforme-professor' },
+  'scrub-enfermagem':      { label: 'Scrub Enfermagem',      hub: '/scrub-enfermagem' },
+
+  // Scrubs/cirúrgico
+  'cirurgico-feminino': { label: 'Scrub Feminino',     hub: '/scrub-feminino' },
   'cirurgico-masculino': { label: 'Scrub Masculino',   hub: '/scrub-medico' },
   'cirurgico':         { label: 'Scrub Médico',        hub: '/scrub-medico' },
   'estiloso':          { label: 'Estiloso',            hub: '/jaleco-estiloso' },
-  'preto':             { label: 'Preto',                hub: '/jaleco-preto' },
+  'preto':             { label: 'Preto',               hub: '/jaleco-preto' },
 }
 
 export type ProductProfessions = {

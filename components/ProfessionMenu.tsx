@@ -81,7 +81,7 @@ export default function ProfessionMenu() {
       {/* Botão Mobile */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="md:hidden flex items-center gap-2 w-full px-4 py-3 text-sm font-medium text-foreground/80 hover:bg-muted/50 transition-colors"
+        className="md:hidden flex items-center gap-2 w-full py-3.5 text-[11px] font-semibold tracking-[0.2em] uppercase text-white/70 hover:text-white transition-colors duration-150"
       >
         <Briefcase size={18} />
         Buscar por Profissão
@@ -235,20 +235,20 @@ export default function ProfessionMenu() {
           </div>
 
           {/* Mobile: Lista simples */}
-          <div className="md:hidden bg-muted/30 border-t border-border">
+          <div className="md:hidden bg-white/5 border-t border-white/10">
             <div className="p-4 space-y-2">
               {/* Search */}
               <div className="relative mb-3">
                 <Search
                   size={18}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-white/40"
                 />
                 <input
                   type="text"
                   placeholder="Buscar profissão..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 text-sm border border-border rounded-md bg-white"
+                  className="w-full pl-10 pr-4 py-2 text-sm border border-white/20 rounded-md bg-white/10 text-white placeholder:text-white/40"
                 />
               </div>
 
@@ -259,13 +259,13 @@ export default function ProfessionMenu() {
                     key={key}
                     href={info.hub}
                     onClick={() => setIsOpen(false)}
-                    className="block px-3 py-2 text-sm text-foreground/80 hover:bg-white rounded-md transition-colors"
+                    className="block px-3 py-2 text-sm text-white/70 hover:text-white hover:bg-white/10 rounded-md transition-colors"
                   >
                     {info.label}
                   </Link>
                 ))}
                 {filteredProfessions.length === 0 && (
-                  <p className="text-sm text-muted-foreground text-center py-8">
+                  <p className="text-sm text-white/40 text-center py-8">
                     Nenhuma profissão encontrada
                   </p>
                 )}
