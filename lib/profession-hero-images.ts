@@ -31,7 +31,7 @@ export const PROFESSION_HERO_IMAGES: Record<string, string> = {
   // ── MASCULINO ─────────────────────────────────────────────────────────
   'medico': 'jaleco-slim-tradicional-masculino-jaleca',
   'dentista-masculino': 'jaleco-slim-tradicional-masculino-jaleca',
-  'enfermeiro': 'conjunto-scrub-masculino-jaleca',
+  'enfermeiro': 'jaleco-slim-tradicional-masculino-jaleca',
   'farmaceutico': 'jaleco-slim-tradicional-masculino-jaleca',
   'veterinario': 'jaleco-slim-tradicional-masculino-jaleca',
   'biomedico': 'jaleco-slim-tradicional-masculino-jaleca',
