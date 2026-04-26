@@ -804,26 +804,20 @@ export default function ProductDetailClient({
               />
             )}
 
-            {/* Available colors - SEO links */}
+            {/* Available colors - SEO links CRAWLÁVEIS */}
             {colorSlugs.length > 0 && (
               <div className="mb-8 text-sm text-muted-foreground">
                 <span className="font-medium">Cores disponíveis: </span>
                 {colorSlugs.map((slug, idx) => {
                   const label = colorNames[slug] ?? slug
                   const colorSlugPart = label.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '-')
-                  // Se está em página de cor, link leva para produto mãe
-                  // Se está em produto mãe, link muda cor via JS (sem reload)
-                  const colorUrl = initialColor ? `/produto/${product.slug}` : `/produto/${product.slug}-${colorSlugPart}`
+                  // Link sempre para a página de cor específica (crawlável pelo Google)
+                  const colorUrl = `/produto/${product.slug}-${colorSlugPart}`
                   return (
                     <span key={slug}>
                       <Link
                         href={colorUrl}
                         className="text-primary-text hover:underline underline-offset-2"
-                        onClick={!initialColor ? (e) => {
-                          e.preventDefault()
-                          setSelectedColor(slug)
-                          window.history.pushState({ color: slug }, '', colorUrl)
-                        } : undefined}
                       >
                         {label}
                       </Link>
