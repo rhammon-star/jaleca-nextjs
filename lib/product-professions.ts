@@ -435,8 +435,8 @@ export function prioritizeByColor<T extends { slug: string; name: string }>(prod
     const slug = product.slug.toLowerCase()
     const name = product.name.toLowerCase()
 
-    // Touca sempre no final (segunda fileira ou além)
-    if (slug.includes('touca') || name.includes('touca')) {
+    // Acessórios (touca, faixa) sempre no final
+    if (slug.includes('touca') || name.includes('touca') || slug.includes('faixa') || name.includes('faixa')) {
       toucas.push(product)
     } else if (slug.includes('branco') || name.includes('branco')) {
       priority.unshift(product) // Branco no início
