@@ -644,12 +644,16 @@ export default function ProductDetailClient({
         ]} />
 
         <div className="grid grid-cols-1 md:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] gap-8 md:gap-16 lg:gap-20 items-start">
+          {/* H1 único — visível apenas para SEO/screen readers, posicionado antes do grid visual */}
+          <h1 className="sr-only">
+            {seoH1 || product.name.replace(/ - Jaleca$/i, '')}
+          </h1>
           {/* Mobile header — nome + badges + trust acima da foto (só mobile) */}
           <div className="md:hidden order-1 col-span-full pb-2">
             <p className="text-[13px] text-primary-text tracking-[0.2em] uppercase mb-1">Jaleca</p>
-            <h1 className="font-display text-3xl font-semibold leading-[1.1] tracking-[-0.03em] mb-2 text-balance">
+            <p className="font-display text-3xl font-semibold leading-[1.1] tracking-[-0.03em] mb-2 text-balance">
               {seoH1 || product.name.replace(/ - Jaleca$/i, '')}
-            </h1>
+            </p>
             {seoH2 && (
               <h2 className="text-base md:text-lg text-muted-foreground mb-2 font-normal">
                 {seoH2}
@@ -763,9 +767,9 @@ export default function ProductDetailClient({
             {/* Desktop only: nome + badge + trust + rating (no mobile ficam acima da foto) */}
             <div className="hidden md:block">
               <p className="text-[11px] text-primary-text tracking-[0.28em] uppercase mb-1">Jaleca</p>
-              <h1 className="font-display text-4xl lg:text-5xl font-semibold leading-[1.1] tracking-[-0.03em] mb-2 text-balance">
+              <p className="font-display text-4xl lg:text-5xl font-semibold leading-[1.1] tracking-[-0.03em] mb-2 text-balance">
                 {seoH1 || product.name.replace(/ - Jaleca$/i, '')}
-              </h1>
+              </p>
               {seoH2 && (
                 <h2 className="text-lg text-muted-foreground mb-3 font-normal">
                   {seoH2}
