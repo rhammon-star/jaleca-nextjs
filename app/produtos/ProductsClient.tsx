@@ -333,7 +333,7 @@ export default function ProductsClient({ products, initialCat = "Todos", initial
 
           {/* Mobile overlay */}
           {filtersOpen && (
-            <div className="md:hidden fixed inset-0 z-40 bg-background p-6 overflow-y-auto animate-fade-in">
+            <div className="md:hidden fixed inset-0 z-[110] bg-background p-6 overflow-y-auto animate-fade-in">
               <div className="flex justify-between items-center mb-8">
                 <p className="font-display text-lg font-semibold">Filtros</p>
                 <button onClick={() => setFiltersOpen(false)} className="p-2 active:scale-95"><X size={20} /></button>
