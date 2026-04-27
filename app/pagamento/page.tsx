@@ -241,6 +241,13 @@ function PagamentoContent() {
       data.orderItems ?? []
     )
 
+    // Microsoft Ads UET — Purchase event
+    ;(window as any).uetq = (window as any).uetq || []
+    ;(window as any).uetq.push('event', 'purchase', {
+      revenue_value: data.orderValue ?? 0,
+      currency: 'BRL',
+    })
+
     // Google Customer Reviews — Survey Opt-in
     if (data.customerEmail) {
       const deliveryDate = new Date()
