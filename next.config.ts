@@ -299,6 +299,12 @@ const nextConfig: NextConfig = {
         ],
       },
       {
+        source: "/_next/:path*",
+        headers: [
+          { key: "X-Robots-Tag", value: "noindex, nofollow" },
+        ],
+      },
+      {
         source: "/:path*.(jpg|jpeg|png|gif|svg|webp|avif|ico|woff|woff2|mp4|ttf|otf)",
         headers: [
           {

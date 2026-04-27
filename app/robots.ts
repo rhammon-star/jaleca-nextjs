@@ -18,10 +18,18 @@ export default function robots(): MetadataRoute.Robots {
           '/checkout',
           '/pagamento',
           // Next.js build assets - não precisam ser rastreados
+          '/_next/',
           '/_next/static/chunks/',
           '/_next/static/media/',
           '/_next/data/',
           '/_next/image/',
+          // Querystrings legacy WordPress que ainda aparecem no índice
+          '/?wc-ajax=',
+          '/?add-to-cart=',
+          '/*?wc-ajax=',
+          '/*?add-to-cart=',
+          '/*?replytocom=',
+          '/*?orderby=',
           // WordPress backend — usado apenas para backlinks, não para indexação
           '/wp-admin/',
           '/wp-login.php',

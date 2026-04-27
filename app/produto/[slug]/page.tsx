@@ -358,7 +358,7 @@ export default async function ProdutoPage({
       // Handles WC returning concatenated values like "280,00330,00"
       const parsePrice = (raw: string | null | undefined): number | undefined => {
         if (!raw) return undefined
-        const match = String(raw).trim().match(/^[\d.,]+/)
+        const match = String(raw).match(/[\d][\d.,]*/)
         if (!match) return undefined
         let token = match[0]
         // BRL format: comma = decimal separator, periods = thousands separators
@@ -472,9 +472,11 @@ export default async function ProdutoPage({
         }
       }
 
+      if (basePrice === undefined) return null
+
       return {
         '@type': 'Offer',
-        ...(basePrice !== undefined && { price: basePrice.toFixed(2) }),
+        price: basePrice.toFixed(2),
         priceCurrency: 'BRL',
         availability:
           product.stockStatus === 'OUT_OF_STOCK'
