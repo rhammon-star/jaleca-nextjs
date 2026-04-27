@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { ArrowRight, Calendar, User, Tag } from 'lucide-react'
-import { getPosts } from '@/lib/wordpress'
+import { getPostsWithMeta } from '@/lib/wordpress'
 import type { Metadata } from 'next'
 import type { WPPost } from '@/lib/wordpress'
 
@@ -64,8 +64,11 @@ export default async function BlogPage({
   const perPage = 10
 
   let posts: WPPost[] = []
+  let totalPages = 1
   try {
-    posts = await getPosts({ per_page: perPage, page: currentPage })
+    const result = await getPostsWithMeta({ per_page: perPage, page: currentPage })
+    posts = result.posts
+    totalPages = result.totalPages
   } catch {
     posts = []
   }
@@ -241,7 +244,7 @@ export default async function BlogPage({
         )}
 
         {/* Pagination */}
-        {(currentPage > 1 || posts.length === perPage) && (
+        {totalPages > 1 && (
           <div className="flex items-center justify-center gap-4 mt-12 pt-8 border-t border-border">
             {currentPage > 1 ? (
               <Link
@@ -253,8 +256,8 @@ export default async function BlogPage({
             ) : (
               <span className="w-24" />
             )}
-            <span className="text-sm text-muted-foreground">Página {currentPage}</span>
-            {posts.length === perPage ? (
+            <span className="text-sm text-muted-foreground">Página {currentPage} de {totalPages}</span>
+            {currentPage < totalPages ? (
               <Link
                 href={`/blog?page=${currentPage + 1}`}
                 className="inline-flex items-center gap-2 text-sm font-medium text-foreground border border-border px-4 py-2 hover:bg-secondary/20 transition-colors"

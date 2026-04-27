@@ -141,11 +141,11 @@ export async function uploadMedia(
   return media.id
 }
 
-export async function getPosts(params?: {
+export async function getPostsWithMeta(params?: {
   per_page?: number
   page?: number
   search?: string
-}): Promise<WPPost[]> {
+}): Promise<{ posts: WPPost[]; totalPages: number; total: number }> {
   const query = new URLSearchParams()
   query.set('_embed', '1')
   if (params?.per_page) query.set('per_page', String(params.per_page))
@@ -155,8 +155,20 @@ export async function getPosts(params?: {
   const res = await fetch(`${WP_URL}/posts?${query.toString()}`, {
     next: { revalidate: 60 },
   })
-  if (!res.ok) return []
-  return res.json()
+  if (!res.ok) return { posts: [], totalPages: 0, total: 0 }
+  const posts: WPPost[] = await res.json()
+  const totalPages = Number(res.headers.get('X-WP-TotalPages') ?? 1)
+  const total = Number(res.headers.get('X-WP-Total') ?? posts.length)
+  return { posts, totalPages, total }
+}
+
+export async function getPosts(params?: {
+  per_page?: number
+  page?: number
+  search?: string
+}): Promise<WPPost[]> {
+  const { posts } = await getPostsWithMeta(params)
+  return posts
 }
 
 export async function getPostBySlug(slug: string): Promise<WPPost | null> {

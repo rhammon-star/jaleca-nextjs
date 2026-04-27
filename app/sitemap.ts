@@ -11,7 +11,7 @@ const GET_PRODUCTS_FOR_SITEMAP = `
     }
   }
 `
-import { getPosts } from '@/lib/wordpress'
+import { getPostsWithMeta } from '@/lib/wordpress'
 import type { WPPost } from '@/lib/wordpress'
 import { readFile } from 'fs/promises'
 import { join } from 'path'
@@ -40,8 +40,15 @@ async function getAllProductSlugs(): Promise<ProductNode[]> {
 
 async function getAllPosts(): Promise<WPPost[]> {
   try {
-    const posts = await getPosts({ per_page: 100 })
-    return posts
+    const perPage = 100
+    const { posts: firstPage, totalPages } = await getPostsWithMeta({ per_page: perPage })
+    if (totalPages <= 1) return firstPage
+    const rest = await Promise.all(
+      Array.from({ length: totalPages - 1 }, (_, i) =>
+        getPostsWithMeta({ per_page: perPage, page: i + 2 }).then(r => r.posts)
+      )
+    )
+    return [...firstPage, ...rest.flat()]
   } catch {
     return []
   }
