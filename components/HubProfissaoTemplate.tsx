@@ -169,6 +169,10 @@ export default async function HubProfissaoTemplate({ profissao }: { profissao: s
       name: item.q,
       acceptedAnswer: { '@type': 'Answer', text: item.a },
     })),
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['[itemprop="name"]', '[itemprop="acceptedAnswer"]'],
+    },
   }
 
   const schemaArticle = {
@@ -185,6 +189,10 @@ export default async function HubProfissaoTemplate({ profissao }: { profissao: s
     url: `https://jaleca.com.br/${pageUrl}`,
     datePublished: '2026-04-18',
     dateModified: '2026-04-21',
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['h1', 'h2', '.hub-intro', '[data-speakable]'],
+    },
   }
 
   const breadcrumbSchema = {

@@ -785,6 +785,21 @@ export default async function CidadePage({
       name: pergunta,
       acceptedAnswer: { '@type': 'Answer', text: resposta },
     })),
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['[itemprop="name"]', '[itemprop="acceptedAnswer"]'],
+    },
+  }
+
+  const speakableSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: `Jalecos em ${cidade.nome}`,
+    url: `https://jaleca.com.br/cidade/${slug}`,
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['h1', 'h2', '[data-speakable]'],
+    },
   }
 
   const localBusinessSchema = {
@@ -823,6 +838,10 @@ export default async function CidadePage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(speakableSchema) }}
       />
 
       {/* Hero */}

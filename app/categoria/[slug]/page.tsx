@@ -158,6 +158,33 @@ export default async function CategoriaPage({
 
   const products = await getAllProducts()
 
+  // Filtra produtos da categoria atual para o ItemList
+  const filterLabel = (cat.filterLabel ?? cat.label).toLowerCase()
+  const categoryProducts = products
+    .filter(p => {
+      const matchCat = p.productCategories?.nodes?.some(c =>
+        c.name.toLowerCase().includes(filterLabel) ||
+        filterLabel.includes(c.name.toLowerCase()) ||
+        c.slug.toLowerCase().includes(slug.toLowerCase())
+      )
+      return matchCat
+    })
+    .slice(0, 30)
+
+  const itemListSchema = categoryProducts.length > 0 ? {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: `${cat.label} — Jaleca`,
+    description: cat.description,
+    numberOfItems: categoryProducts.length,
+    itemListElement: categoryProducts.map((p, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      url: `https://jaleca.com.br/produto/${p.slug}`,
+      name: p.name,
+    })),
+  } : null
+
   const breadcrumbSchema = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
@@ -194,7 +221,23 @@ export default async function CategoriaPage({
       name: q,
       acceptedAnswer: { '@type': 'Answer', text: a },
     })),
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['[itemprop="name"]', '[itemprop="acceptedAnswer"]'],
+    },
   } : null
+
+  // Speakable schema — para assistentes de voz e IAs (Google Assistant, Copilot)
+  const speakableSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: cat.h1 ?? `${cat.label} — Jaleca`,
+    url: `https://jaleca.com.br/categoria/${slug}`,
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['h1', 'h2', 'h3', '[aria-label*="Sobre"] p'],
+    },
+  }
 
   return (
     <>
@@ -218,6 +261,21 @@ export default async function CategoriaPage({
           }}
         />
       )}
+      {itemListSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(itemListSchema).replace(/</g, '\\u003c'),
+          }}
+        />
+      )}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(speakableSchema).replace(/</g, '\\u003c'),
+        }}
+      />
+
       <h1 className="sr-only">{cat.h1 ?? `${cat.label} — Jaleca`}</h1>
       <ProductsClient
         products={products}

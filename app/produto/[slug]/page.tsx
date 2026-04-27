@@ -608,6 +608,22 @@ export default async function ProdutoPage({
         },
       },
     ],
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['[itemprop="name"]', '[itemprop="acceptedAnswer"]'],
+    },
+  }
+
+  // Speakable schema — assistentes de voz e IAs (Copilot, Google Assistant, ChatGPT)
+  const speakableJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name,
+    description: shortDesc || longDesc || name,
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['h1', '[data-speakable]', '.product-description'],
+    },
   }
 
   return (
@@ -623,6 +639,10 @@ export default async function ProdutoPage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd).replace(/</g, '\\u003c') }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(speakableJsonLd).replace(/</g, '\\u003c') }}
       />
       <ProductDetailClient
         product={product as Parameters<typeof ProductDetailClient>[0]['product']}

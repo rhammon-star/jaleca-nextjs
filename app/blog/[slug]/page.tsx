@@ -215,6 +215,10 @@ export default async function BlogPostPage({
       name: 'Uniformes Profissionais para Saúde',
     },
     keywords: categories.map(c => c.name).join(', ') || 'jaleco, uniforme profissional, saúde',
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['h1', 'h2', '.post-excerpt', '[data-speakable]'],
+    },
   }
 
   const breadcrumbJsonLd = {

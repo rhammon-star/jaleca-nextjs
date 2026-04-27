@@ -91,6 +91,10 @@ export default async function Page() {
       name: item.q,
       acceptedAnswer: { '@type': 'Answer', text: item.a },
     })),
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['[itemprop="name"]', '[itemprop="acceptedAnswer"]'],
+    },
   }
 
   const schemaArticle = {
@@ -103,6 +107,10 @@ export default async function Page() {
     url: 'https://jaleca.com.br/jaleco-preto-feminino',
     datePublished: '2026-04-22',
     dateModified: '2026-04-22',
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['h1', 'h2', '[data-speakable]'],
+    },
   }
 
   const breadcrumbSchema = {

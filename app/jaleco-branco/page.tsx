@@ -62,6 +62,10 @@ export default async function Page() {
       name: item.q,
       acceptedAnswer: { '@type': 'Answer', text: item.a },
     })),
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['[itemprop="name"]', '[itemprop="acceptedAnswer"]'],
+    },
   }
 
   const breadcrumbSchema = {

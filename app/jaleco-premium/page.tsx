@@ -102,6 +102,10 @@ export default async function Page() {
       name: item.q,
       acceptedAnswer: { '@type': 'Answer', text: item.a },
     })),
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['[itemprop="name"]', '[itemprop="acceptedAnswer"]'],
+    },
   }
 
   const schemaArticle = {
@@ -118,6 +122,10 @@ export default async function Page() {
     url: 'https://jaleca.com.br/jaleco-premium',
     datePublished: '2026-04-21',
     dateModified: '2026-04-21',
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['h1', 'h2', '[data-speakable]'],
+    },
   }
 
   const breadcrumbSchema = {
