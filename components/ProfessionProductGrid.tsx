@@ -56,7 +56,7 @@ const fetchByProfession = unstable_cache(
       return []
     }
   },
-  ['profession-products'],
+  ['profession-products-v2-faixa-last'],
   { revalidate: 3600, tags: ['products'] }
 )
 

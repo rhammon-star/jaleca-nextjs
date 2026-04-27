@@ -842,29 +842,34 @@ export default function ProductDetailClient({
               />
             )}
 
-            {/* Available colors - SEO links CRAWLÁVEIS */}
-            {colorSlugs.length > 0 && (
-              <div className="mb-8 text-sm text-muted-foreground">
-                <span className="font-medium">Cores disponíveis: </span>
-                {colorSlugs.map((slug, idx) => {
-                  const label = colorNames[slug] ?? slug
-                  const colorSlugPart = label.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '-')
+            {/* Available colors - botões nas páginas de cor, oculto no produto pai */}
+            {initialColor && colorSlugs.length > 0 && (
+              <div className="mb-8">
+                <p className="text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-3">
+                  Cores disponíveis
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {colorSlugs.map((slug) => {
+                    const label = colorNames[slug] ?? slug
+                    const colorSlugPart = label.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '-')
+                    const colorUrl = colorUrls[colorSlugPart] || `/produto/${product.slug}-${colorSlugPart}`
+                    const isActive = (colorNames[slug] ?? slug) === initialColor
 
-                  // Usa URL do JSON (fonte de verdade) ou fallback para URL gerada
-                  const colorUrl = colorUrls[colorSlugPart] || `/produto/${product.slug}-${colorSlugPart}`
-
-                  return (
-                    <span key={slug}>
+                    return (
                       <Link
+                        key={slug}
                         href={colorUrl}
-                        className="text-primary-text hover:underline underline-offset-2"
+                        className={`px-4 py-2 text-xs font-semibold tracking-widest uppercase border transition-colors ${
+                          isActive
+                            ? 'border-foreground bg-foreground text-background'
+                            : 'border-border text-foreground hover:border-foreground'
+                        }`}
                       >
                         {label}
                       </Link>
-                      {idx < colorSlugs.length - 1 && ', '}
-                    </span>
-                  )
-                })}
+                    )
+                  })}
+                </div>
               </div>
             )}
 

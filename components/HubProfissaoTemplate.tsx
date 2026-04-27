@@ -331,16 +331,6 @@ export default async function HubProfissaoTemplate({ profissao }: { profissao: s
         <section style={{ background: '#f9f7f4', padding: 'clamp(3rem,8vw,7rem) clamp(1.25rem,5vw,4rem)' }}>
           <div style={{ maxWidth: 1200, margin: '0 auto' }}>
 
-            {/* Mobile: nav horizontal scrollável acima do artigo */}
-            <div className="block md:hidden mb-6 -mx-5 px-5 overflow-x-auto">
-              <div className="flex gap-3 pb-2" style={{ width: 'max-content' }}>
-                {hub.guia.secoes.map(sec => (
-                  <a key={sec.id} href={`#${sec.id}`} style={{ fontSize: '0.72rem', color: '#6b6b6b', textDecoration: 'none', whiteSpace: 'nowrap', padding: '0.4rem 0.8rem', border: '1px solid #e5e0d8', background: '#fff' }}>
-                    {sec.titulo}
-                  </a>
-                ))}
-              </div>
-            </div>
 
             {/* Desktop: sidebar + artigo */}
             <div className="hidden md:grid" style={{ gridTemplateColumns: '280px 1fr', gap: 'clamp(3rem,6vw,6rem)', alignItems: 'start' }}>
@@ -382,13 +372,12 @@ export default async function HubProfissaoTemplate({ profissao }: { profissao: s
               </article>
             </div>
 
-            {/* Mobile: header + CTA antes do artigo */}
-            <div className="block md:hidden mb-6">
-              <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.5rem' }}>Guia completo</div>
-              <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '1.6rem', fontWeight: 400, lineHeight: 1.15, color: '#1a1a1a', marginBottom: '1rem' }}>
+            {/* Mobile: título + CTA — visualmente conectados */}
+            <div className="block md:hidden" style={{ marginBottom: '1.5rem', paddingBottom: '1.5rem', borderBottom: '1px solid #e5e0d8' }}>
+              <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '1.7rem', fontWeight: 400, lineHeight: 1.2, color: '#1a1a1a', marginBottom: '1rem' }}>
                 {hub.guia.tituloSidebar}
               </h2>
-              <Link href={`/produtos?categoria=${produtoConfig.catAll}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', padding: '0.75rem 1.5rem', background: '#1a1a1a', color: '#fff', fontSize: '0.72rem', fontWeight: 400, letterSpacing: '0.12em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
+              <Link href={`/produtos?categoria=${produtoConfig.catAll}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', padding: '0.85rem 1.75rem', background: '#1a1a1a', color: '#fff', fontSize: '0.72rem', fontWeight: 400, letterSpacing: '0.12em', textTransform: 'uppercase', textDecoration: 'none' }}>
                 Ver coleção →
               </Link>
             </div>
