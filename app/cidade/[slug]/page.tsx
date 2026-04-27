@@ -787,6 +787,29 @@ export default async function CidadePage({
     })),
   }
 
+  const localBusinessSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    name: 'Jaleca',
+    url: `https://jaleca.com.br/cidade/${slug}`,
+    logo: 'https://jaleca.com.br/logo-cropped.jpg',
+    image: 'https://jaleca.com.br/og-home.jpg',
+    telephone: '+553134461777',
+    description: `Uniformes profissionais com entrega em ${cidade.nome}. Jalecos, dólmãs e conjuntos para ${cidade.profissoes}.`,
+    areaServed: {
+      '@type': 'City',
+      name: cidade.nome,
+      containedInPlace: {
+        '@type': 'State',
+        name: cidade.estado,
+      },
+    },
+    sameAs: [
+      'https://www.instagram.com/jalecaa/',
+      'https://www.facebook.com/jalecaa/',
+    ],
+  }
+
   return (
     <main>
       <script
@@ -796,6 +819,10 @@ export default async function CidadePage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
       />
 
       {/* Hero */}

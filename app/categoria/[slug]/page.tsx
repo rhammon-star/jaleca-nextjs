@@ -218,6 +218,7 @@ export default async function CategoriaPage({
           }}
         />
       )}
+      <h1 className="sr-only">{cat.h1 ?? `${cat.label} — Jaleca`}</h1>
       <ProductsClient
         products={products}
         initialCat={cat.filterLabel ?? cat.label}
