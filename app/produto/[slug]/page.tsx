@@ -130,6 +130,7 @@ export async function generateMetadata({
   let actualSlug = slug
   let description: string
   let metaTitle: string
+  let hasColorSEO = false
 
   // Se URL tem cor, busca dados da variação específica + dados SEO
   if (hasColor && colorName) {
@@ -147,6 +148,7 @@ export async function generateMetadata({
       const colorSEO = seoData[normalizedColor]
 
       if (colorSEO) {
+        hasColorSEO = true
         // Usa dados SEO personalizados do JSON
         metaTitle = colorSEO.title || `${name} | Jaleca`
         description = colorSEO.metaDescription || `${name} na Jaleca. Uniforme profissional premium.`
@@ -181,8 +183,10 @@ export async function generateMetadata({
     description = shortDesc || longDesc || `Compre ${name} na Jaleca. Uniformes profissionais premium.`
   }
 
-  // Canonical: páginas filhas (com cor) apontam para página mãe
-  const canonical = hasColor
+  // Canonical: páginas filhas com SEO próprio (no JSON SEO-PRODUTOS-CORES) são self-canonical
+  // — têm H1/H2/metaDescription únicos, são páginas distintas para o Google.
+  // Páginas filhas SEM SEO próprio apontam para o produto mãe (consolida duplicate content).
+  const canonical = hasColor && !hasColorSEO
     ? `https://jaleca.com.br/produto/${baseSlug}`
     : `https://jaleca.com.br/produto/${slug}`
 

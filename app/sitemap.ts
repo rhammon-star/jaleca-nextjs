@@ -1,5 +1,16 @@
 import type { MetadataRoute } from 'next'
-import { graphqlClient, GET_PRODUCTS } from '@/lib/graphql'
+import { graphqlClient } from '@/lib/graphql'
+
+const GET_PRODUCTS_FOR_SITEMAP = `
+  query GetProductsForSitemap($first: Int) {
+    products(first: $first) {
+      nodes {
+        slug
+        modified
+      }
+    }
+  }
+`
 import { getPosts } from '@/lib/wordpress'
 import type { WPPost } from '@/lib/wordpress'
 import { readFile } from 'fs/promises'
@@ -20,7 +31,7 @@ const SITE_URL = 'https://jaleca.com.br'
 
 async function getAllProductSlugs(): Promise<ProductNode[]> {
   try {
-    const data = await graphqlClient.request<ProductsResponse>(GET_PRODUCTS, { first: 100 })
+    const data = await graphqlClient.request<ProductsResponse>(GET_PRODUCTS_FOR_SITEMAP, { first: 100 })
     return data.products.nodes
   } catch {
     return []
@@ -242,7 +253,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const productPages: MetadataRoute.Sitemap = productNodes.map(product => ({
     url: `${SITE_URL}/produto/${product.slug}`,
-    lastModified: new Date(),
+    lastModified: product.modified ? new Date(product.modified) : new Date(),
     changeFrequency: 'weekly' as const,
     priority: 0.8,
   }))
