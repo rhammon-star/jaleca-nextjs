@@ -205,7 +205,7 @@ const Header = () => {
             </nav>
 
             {/* RIGHT — icons (marginLeft: auto pushes to right on mobile when nav is hidden) */}
-            <div style={{ display: 'flex', alignItems: 'center', flexShrink: 0, gap: '2px', marginLeft: 'auto' }}>
+            <div style={{ display: 'flex', alignItems: 'center', flexShrink: 0, gap: '2px', marginLeft: 'auto', paddingRight: '8px' }}>
               <LoyaltyBadge />
               <button
                 onClick={() => setSearchOpen(true)}

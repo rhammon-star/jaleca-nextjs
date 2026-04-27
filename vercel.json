@@ -50,6 +50,10 @@
     {
       "path": "/api/cron/seo-track",
       "schedule": "0 7 * * *"
+    },
+    {
+      "path": "/api/search/index",
+      "schedule": "0 6 * * *"
     }
   ]
 }

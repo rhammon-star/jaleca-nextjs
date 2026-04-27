@@ -1,46 +1,57 @@
 'use client'
 
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import { X, Search, Loader2 } from 'lucide-react'
 import Link from 'next/link'
-import { graphqlClient, SEARCH_PRODUCTS } from '@/lib/graphql'
 import { trackSearch } from '@/components/Analytics'
-import { BEST_SELLER_SLUGS } from '@/lib/best-sellers'
-
-type SearchProduct = {
-  id: string
-  databaseId: number
-  name: string
-  slug: string
-  price?: string
-  regularPrice?: string
-  image?: { sourceUrl: string; altText: string }
-}
-
-type SearchResult = {
-  products: {
-    nodes: SearchProduct[]
-  }
-}
+import type { SearchIndexEntry } from '@/app/api/search/index/route'
 
 type Props = {
   isOpen: boolean
   onClose: () => void
 }
 
+let cachedIndex: SearchIndexEntry[] | null = null
+let inflight: Promise<SearchIndexEntry[]> | null = null
+
+function loadIndex(): Promise<SearchIndexEntry[]> {
+  if (cachedIndex) return Promise.resolve(cachedIndex)
+  if (inflight) return inflight
+  inflight = fetch('/api/search/index')
+    .then(r => r.json())
+    .then((d: { entries: SearchIndexEntry[] }) => {
+      cachedIndex = d.entries
+      return cachedIndex
+    })
+    .catch(() => {
+      inflight = null
+      return [] as SearchIndexEntry[]
+    })
+  return inflight
+}
+
+function normalize(s: string) {
+  return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+}
+
 export default function SearchModal({ isOpen, onClose }: Props) {
   const [query, setQuery] = useState('')
-  const [results, setResults] = useState<SearchProduct[]>([])
+  const [index, setIndex] = useState<SearchIndexEntry[] | null>(cachedIndex)
   const [loading, setLoading] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
   const overlayRef = useRef<HTMLDivElement>(null)
-  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const trackedRef = useRef<Set<string>>(new Set())
 
   useEffect(() => {
-    if (isOpen) {
-      setQuery('')
-      setResults([])
-      setTimeout(() => inputRef.current?.focus(), 50)
+    if (!isOpen) return
+    setQuery('')
+    setTimeout(() => inputRef.current?.focus(), 50)
+    if (!cachedIndex) {
+      setLoading(true)
+      loadIndex().then(d => {
+        setIndex(d)
+        setLoading(false)
+      })
     }
   }, [isOpen])
 
@@ -53,36 +64,24 @@ export default function SearchModal({ isOpen, onClose }: Props) {
     return () => window.removeEventListener('keydown', handleKey)
   }, [isOpen, onClose])
 
-  const search = useCallback(async (term: string) => {
-    if (term.length < 2) {
-      setResults([])
-      return
-    }
-    setLoading(true)
-    try {
-      const data = await graphqlClient.request<SearchResult>(SEARCH_PRODUCTS, { search: term, first: 20 })
-      const sorted = [...data.products.nodes].sort((a, b) => {
-        const aIdx = BEST_SELLER_SLUGS.indexOf(a.slug)
-        const bIdx = BEST_SELLER_SLUGS.indexOf(b.slug)
-        const aRank = aIdx >= 0 ? aIdx : 999
-        const bRank = bIdx >= 0 ? bIdx : 999
-        return aRank - bRank
+  const results = useMemo(() => {
+    if (!index || query.length < 2) return []
+    const nq = normalize(query)
+    const tokens = nq.split(/\s+/).filter(Boolean)
+    return index
+      .filter(e => {
+        const n = normalize(e.name)
+        return tokens.every(t => n.includes(t))
       })
-      setResults(sorted.slice(0, 10))
-      if (sorted.length > 0) trackSearch(term)
-    } catch {
-      setResults([])
-    } finally {
-      setLoading(false)
-    }
-  }, [])
+      .slice(0, 12)
+  }, [index, query])
 
-  function handleInput(e: React.ChangeEvent<HTMLInputElement>) {
-    const val = e.target.value
-    setQuery(val)
-    if (debounceRef.current) clearTimeout(debounceRef.current)
-    debounceRef.current = setTimeout(() => search(val), 300)
-  }
+  useEffect(() => {
+    if (query.length >= 2 && results.length > 0 && !trackedRef.current.has(query)) {
+      trackedRef.current.add(query)
+      trackSearch(query)
+    }
+  }, [query, results.length])
 
   function handleOverlayClick(e: React.MouseEvent) {
     if (e.target === overlayRef.current) onClose()
@@ -104,7 +103,6 @@ export default function SearchModal({ isOpen, onClose }: Props) {
         className="bg-background w-full max-w-lg shadow-2xl border border-border"
         aria-hidden="false"
       >
-        {/* Search input */}
         <div className="flex items-center px-4 py-3 border-b border-border gap-3">
           <Search size={18} className="text-muted-foreground flex-shrink-0" aria-hidden="true" />
           <label htmlFor="search-modal-input" className="sr-only">Buscar produtos</label>
@@ -113,7 +111,7 @@ export default function SearchModal({ isOpen, onClose }: Props) {
             ref={inputRef}
             type="search"
             value={query}
-            onChange={handleInput}
+            onChange={e => setQuery(e.target.value)}
             placeholder="Buscar produtos..."
             className="flex-1 bg-transparent text-sm outline-none text-foreground placeholder:text-muted-foreground"
             autoComplete="off"
@@ -128,7 +126,6 @@ export default function SearchModal({ isOpen, onClose }: Props) {
           </button>
         </div>
 
-        {/* Results */}
         {query.length >= 2 && (
           <div className="max-h-[400px] overflow-y-auto">
             {results.length === 0 && !loading ? (
@@ -140,7 +137,7 @@ export default function SearchModal({ isOpen, onClose }: Props) {
                 {results.map(product => (
                   <Link
                     key={product.id}
-                    href={`/produto/${product.slug}`}
+                    href={product.href}
                     onClick={onClose}
                     className="flex items-center gap-4 px-4 py-3 hover:bg-secondary/30 transition-colors border-b border-border last:border-0"
                   >
@@ -150,6 +147,10 @@ export default function SearchModal({ isOpen, onClose }: Props) {
                         <img
                           src={product.image.sourceUrl}
                           alt={product.image.altText || product.name}
+                          width={56}
+                          height={64}
+                          loading="lazy"
+                          decoding="async"
                           className="w-full h-full object-cover"
                         />
                       ) : (
@@ -158,7 +159,7 @@ export default function SearchModal({ isOpen, onClose }: Props) {
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-foreground truncate">
-                        {product.name.replace(/ - Jaleca$/i, '')}
+                        {product.name}
                       </p>
                       {product.price && (
                         <p className="text-sm text-muted-foreground mt-0.5">{product.price}</p>

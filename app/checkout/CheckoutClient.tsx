@@ -11,7 +11,7 @@ import ShippingCalculator, { type ShippingOption } from '@/components/ShippingCa
 import { graphqlClient, GET_PRODUCTS } from '@/lib/graphql'
 import type { WooProduct } from '@/components/ProductCard'
 import { formatCPF, validateCPF, cleanCPF } from '@/lib/cpf'
-import { trackAddPaymentInfo } from '@/components/Analytics'
+import { trackAddPaymentInfo, trackInitiateCheckout } from '@/components/Analytics'
 
 type AddressForm = {
   first_name: string
@@ -101,6 +101,13 @@ export default function CheckoutClient() {
   }
 
   const subtotal = items.reduce((sum, i) => sum + parsePrice(i.price) * i.quantity, 0)
+  const icFiredRef = useRef(false)
+  useEffect(() => {
+    if (icFiredRef.current) return
+    if (items.length === 0 || subtotal <= 0) return
+    icFiredRef.current = true
+    trackInitiateCheckout(subtotal, items.length)
+  }, [items.length, subtotal])
   const shippingCost = shipping?.cost ?? 0
   const total = subtotal + shippingCost
   const pixDiscount = paymentMethod === 'pix' ? (subtotal - couponDiscount) * 0.05 : 0
