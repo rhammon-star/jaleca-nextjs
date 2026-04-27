@@ -9,7 +9,7 @@ const messages = [
   { text: '🏪 6 lojas físicas · Atendimento via WhatsApp 7 dias por semana', href: '/nossas-lojas', cta: 'Ver lojas' },
   { text: '🔄 Devolução em 7 dias · Garantia do produto por 30 dias', href: '/trocas-e-devolucoes', cta: 'Saiba mais' },
   { text: '⭐ +200 mil peças vendidas · Marca aprovada por profissionais de saúde', href: '/produtos', cta: 'Conferir' },
-  { text: '🎁 Bordado corporativo a partir de 5 peças · Nome + logo da empresa', href: '/contato', cta: 'Solicitar orçamento' },
+  { text: '🏥 Uniforme para sua clínica · Atendimento personalizado via WhatsApp', href: 'https://wa.me/5531992901940?text=Ol%C3%A1!%20Quero%20uniformes%20para%20minha%20cl%C3%ADnica.', cta: 'Falar no WhatsApp' },
 ]
 
 export default function AnnouncementBar() {
@@ -43,6 +43,8 @@ export default function AnnouncementBar() {
         <span className="truncate min-w-0" aria-label={msg.text.replace(/[\u{1F300}-\u{1F9FF}]/gu, '').trim()}>{msg.text}</span>
         <Link
           href={msg.href}
+          target={msg.href.startsWith('http') ? '_blank' : undefined}
+          rel={msg.href.startsWith('http') ? 'noopener noreferrer' : undefined}
           className="underline underline-offset-2 opacity-70 hover:opacity-100 transition-opacity whitespace-nowrap shrink-0"
         >
           {msg.cta}

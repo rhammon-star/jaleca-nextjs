@@ -44,11 +44,14 @@ const fetchByProfession = unstable_cache(
         GET_PRODUCTS_BY_SLUGS,
         { slugs }
       )
-      // preserve order from our mapping
+      // preserve order from our mapping, but always push faixa/touca to the end
       const ordered = slugs
         .map(s => data.products.nodes.find(p => p.slug === s))
         .filter(Boolean) as WooProduct[]
-      return ordered
+      const isAccessoryLast = (p: WooProduct) => /faixa|touca/i.test(p.slug) || /faixa|touca/i.test(p.name)
+      const main = ordered.filter(p => !isAccessoryLast(p))
+      const accessories = ordered.filter(isAccessoryLast)
+      return [...main, ...accessories]
     } catch {
       return []
     }

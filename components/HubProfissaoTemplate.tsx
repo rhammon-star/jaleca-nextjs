@@ -361,6 +361,9 @@ export default async function HubProfissaoTemplate({ profissao }: { profissao: s
                     ))}
                   </ul>
                 </nav>
+                <Link href={`/produtos?categoria=${produtoConfig.catAll}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', padding: '0.85rem 1.5rem', marginTop: '2rem', background: '#1a1a1a', color: '#fff', fontSize: '0.72rem', fontWeight: 400, letterSpacing: '0.12em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
+                  Ver coleção →
+                </Link>
               </aside>
 
               <article>
@@ -377,6 +380,17 @@ export default async function HubProfissaoTemplate({ profissao }: { profissao: s
                   </div>
                 ))}
               </article>
+            </div>
+
+            {/* Mobile: header + CTA antes do artigo */}
+            <div className="block md:hidden mb-6">
+              <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.5rem' }}>Guia completo</div>
+              <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '1.6rem', fontWeight: 400, lineHeight: 1.15, color: '#1a1a1a', marginBottom: '1rem' }}>
+                {hub.guia.tituloSidebar}
+              </h2>
+              <Link href={`/produtos?categoria=${produtoConfig.catAll}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', padding: '0.75rem 1.5rem', background: '#1a1a1a', color: '#fff', fontSize: '0.72rem', fontWeight: 400, letterSpacing: '0.12em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
+                Ver coleção →
+              </Link>
             </div>
 
             {/* Mobile: artigo full-width */}
