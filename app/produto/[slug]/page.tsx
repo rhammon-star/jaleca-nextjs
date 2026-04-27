@@ -371,12 +371,18 @@ export default async function ProdutoPage({
 
       // Se é página filha (com cor), usa oferta única da variação
       if (selectedVariation) {
-        const varPrice = parsePrice(selectedVariation.price) ?? parsePrice(selectedVariation.regularPrice)
+        const siblingPrices = ((product as any).variations?.nodes ?? [])
+          .flatMap((v: any) => [parsePrice(v.price), parsePrice(v.regularPrice)])
+          .filter((p: number | undefined): p is number => p !== undefined)
+        const fallbackPrice = siblingPrices.length ? Math.min(...siblingPrices) : parsePrice(product.regularPrice) ?? parsePrice(product.price)
+        const varPrice = parsePrice(selectedVariation.price) ?? parsePrice(selectedVariation.regularPrice) ?? fallbackPrice
         const pixPrice = varPrice !== undefined ? Math.round(varPrice * 0.95 * 100) / 100 : undefined
+
+        if (varPrice === undefined) return null
 
         return {
           '@type': 'Offer',
-          ...(varPrice !== undefined && { price: varPrice.toFixed(2) }),
+          price: varPrice.toFixed(2),
           priceCurrency: 'BRL',
           availability:
             selectedVariation.stockStatus === 'OUT_OF_STOCK'
