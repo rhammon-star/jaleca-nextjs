@@ -15,6 +15,10 @@ import type { SeoEntry } from '@/lib/kv'
 
 export const runtime = 'nodejs'
 
+function log(event: string, data: Record<string, unknown>) {
+  console.log(JSON.stringify({ ts: new Date().toISOString(), src: 'variation-sync', event, ...data }))
+}
+
 function unauthorized() {
   return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
 }
@@ -60,14 +64,19 @@ function buildTemplateSeo(
 
 export async function POST(req: NextRequest) {
   if (req.headers.get('x-jaleca-secret') !== process.env.JALECA_PLUGIN_SECRET) {
+    log('unauthorized', {})
     return unauthorized()
   }
 
   const body = (await req.json().catch(() => null)) as { variationId?: number } | null
   const variationId = body?.variationId
   if (!variationId) {
+    log('bad_request', { reason: 'variationId required' })
     return NextResponse.json({ error: 'variationId required' }, { status: 400 })
   }
+
+  const t0 = Date.now()
+  log('received', { variationId })
 
   const live = await fetchVariation(variationId)
 
@@ -84,13 +93,23 @@ export async function POST(req: NextRequest) {
       })
       revalidatePath(seo.url)
     }
+    log('done', { variationId, action: 'DESATIVAR_DELETED', ms: Date.now() - t0 })
     return NextResponse.json({ action: 'DESATIVAR (deletada)', variationId })
   }
 
   const prev = await getSnapshot(variationId)
   const action: Action = decideAction(prev, live.snapshot)
+  log('decided', {
+    variationId,
+    action,
+    prevStock: prev?.stockStatus ?? null,
+    nextStock: live.snapshot.stockStatus,
+    prevStatus: prev?.status ?? null,
+    nextStatus: live.snapshot.status,
+  })
 
   if (action === 'IGNORAR') {
+    log('done', { variationId, action, ms: Date.now() - t0 })
     return NextResponse.json({ action, variationId })
   }
 
@@ -114,7 +133,9 @@ export async function POST(req: NextRequest) {
     await upsertSeo(seo)
     await setSnapshot(variationId, live.snapshot)
     revalidatePath(seo.url)
+    log('upserted', { variationId, slug: seo.url, seoQuality: seo.seoQuality, noindex: seo.noindex })
   })
 
+  log('done', { variationId, action, ms: Date.now() - t0 })
   return NextResponse.json({ action, variationId })
 }
