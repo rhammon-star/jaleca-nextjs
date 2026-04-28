@@ -53,3 +53,9 @@ export async function setNoindex(slug: string, noindex: boolean) {
   revalidatePath(current.url)
   revalidatePath('/blog/admin/variacoes')
 }
+
+export async function deleteVariation(slug: string) {
+  await requireAdmin()
+  await kv.del(seoKey(slug))
+  revalidatePath('/blog/admin/variacoes')
+}

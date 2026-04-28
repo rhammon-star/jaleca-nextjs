@@ -2,7 +2,7 @@
 import { useState, useMemo, useTransition } from 'react'
 import Link from 'next/link'
 import type { SeoEntry } from '@/lib/kv'
-import { regenerateGemini, forceRevalidate, submitToGoogle } from './actions'
+import { regenerateGemini, forceRevalidate, submitToGoogle, deleteVariation } from './actions'
 
 const QUALITY_BADGE: Record<string, string> = {
   template: 'bg-yellow-100 text-yellow-800',
@@ -125,6 +125,19 @@ export default function VariacoesTable({ entries }: { entries: SeoEntry[] }) {
                       className="text-xs bg-stone-100 px-2 py-1 rounded disabled:opacity-50"
                     >
                       IndexNow
+                    </button>
+                    <button
+                      disabled={pending}
+                      onClick={() => {
+                        if (confirm(`Deletar "${e.productName} — ${e.colorName}"?`)) {
+                          startTransition(() =>
+                            deleteVariation(e.url.replace(/^\/produto\//, 'produto/')),
+                          )
+                        }
+                      }}
+                      className="text-xs bg-red-100 text-red-700 px-2 py-1 rounded disabled:opacity-50"
+                    >
+                      Deletar
                     </button>
                   </div>
                 </td>
