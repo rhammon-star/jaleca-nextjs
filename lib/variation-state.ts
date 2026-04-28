@@ -1,5 +1,5 @@
 // lib/variation-state.ts
-import { kv, lockKey } from './kv'
+import { kv, lockKey, variationKey, seoKey, type SeoEntry } from './kv'
 import type { VariationSnapshot } from './kv'
 
 export async function acquireLock(owner: string, ttlSeconds = 30): Promise<boolean> {
@@ -50,4 +50,33 @@ export function decideAction(
   if (wasActive && !isActive) return 'SEM_ESTOQUE'
   if (!wasActive && isActive) return 'VOLTOU_ESTOQUE'
   return 'IGNORAR'
+}
+
+export async function getSnapshot(variationId: number): Promise<VariationSnapshot | null> {
+  return (await kv.get<VariationSnapshot>(variationKey(variationId))) ?? null
+}
+
+export async function setSnapshot(
+  variationId: number,
+  snap: VariationSnapshot,
+): Promise<void> {
+  await kv.set(variationKey(variationId), snap)
+}
+
+export async function getSeoBySlug(slug: string): Promise<SeoEntry | null> {
+  return (await kv.get<SeoEntry>(seoKey(slug))) ?? null
+}
+
+export async function getSeoByVariationId(variationId: number): Promise<SeoEntry | null> {
+  const slug = await kv.get<string>(`variationToSlug:${variationId}`)
+  if (!slug) return null
+  return getSeoBySlug(slug)
+}
+
+export async function upsertSeo(entry: SeoEntry): Promise<void> {
+  const slug = entry.url.replace(/^\//, '')
+  await Promise.all([
+    kv.set(seoKey(slug), entry),
+    kv.set(`variationToSlug:${entry.variationId}`, slug),
+  ])
 }
