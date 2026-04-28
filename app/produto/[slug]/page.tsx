@@ -116,7 +116,12 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params
   const kvColors = await getKnownColorSlugs()
-  const { baseSlug, colorName, hasColor } = parseColorSlug(slug, kvColors)
+  const parsed = parseColorSlug(slug, kvColors)
+
+  // Só trata como cor se existir entrada no KV para esse slug exato
+  const kvSeoMeta = parsed.hasColor ? await getVariationSEO(`produto/${slug}`) : null
+  const hasColor = parsed.hasColor && kvSeoMeta !== null
+  const { baseSlug, colorName } = parsed
 
   // Busca produto mãe se slug tiver cor, senão busca o próprio slug
   const productSlug = hasColor ? baseSlug : slug
@@ -236,7 +241,12 @@ export default async function ProdutoPage({
   }
 
   const kvColors = await getKnownColorSlugs()
-  const { baseSlug, colorName, hasColor } = parseColorSlug(slug, kvColors)
+  const parsed = parseColorSlug(slug, kvColors)
+
+  // Só trata como cor se existir entrada no KV para esse slug exato
+  // Evita que verde-militar de um produto "vaze" para outros
+  const hasColor = parsed.hasColor && kvSeo !== null
+  const { baseSlug, colorName } = parsed
 
   // Busca produto mãe se slug tiver cor
   const productSlug = hasColor ? baseSlug : slug
