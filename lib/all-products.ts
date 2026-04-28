@@ -4,6 +4,7 @@ import { join } from 'path'
 import { graphqlClient, GET_PRODUCTS_LISTING } from '@/lib/graphql'
 import type { WooProduct } from '@/components/ProductCard'
 import { BEST_SELLER_SLUGS } from '@/lib/best-sellers'
+import { kv, seoKey, type SeoEntry } from '@/lib/kv'
 
 type ProductsPage = { products: { pageInfo: { hasNextPage: boolean; endCursor: string }; nodes: WooProduct[] } }
 
@@ -125,6 +126,21 @@ async function getColorVariants(mainProducts: WooProduct[]): Promise<{ variants:
   }
 }
 
+async function filterOutOfStockVariants(variants: WooProduct[]): Promise<WooProduct[]> {
+  try {
+    const results: WooProduct[] = []
+    for (const v of variants) {
+      const kvSlug = `produto/${v.slug}`
+      const entry = await kv.get<SeoEntry>(seoKey(kvSlug))
+      if (entry?.stockStatus === 'outofstock') continue
+      results.push(v)
+    }
+    return results
+  } catch {
+    return variants // KV indisponível → manter todos visíveis
+  }
+}
+
 export async function getAllProducts(): Promise<WooProduct[]> {
   try {
     const mainProducts = await getAllProductsCached()
@@ -136,9 +152,12 @@ export async function getAllProducts(): Promise<WooProduct[]> {
       return !productsWithColorPages.has(cleanName)
     })
 
-    console.log(`[getAllProducts] ${mainProducts.length} produtos WC, ${productsWithColorPages.size} com cores no JSON → ${mainProductsWithoutColorPages.length} produtos pai sem cores + ${colorVariants.length} cores = ${mainProductsWithoutColorPages.length + colorVariants.length} total`)
+    // Filtrar variantes cujo KV marca como outofstock (sem estoque)
+    const inStockVariants = await filterOutOfStockVariants(colorVariants)
 
-    return [...colorVariants, ...mainProductsWithoutColorPages]
+    console.log(`[getAllProducts] ${mainProducts.length} produtos WC, ${productsWithColorPages.size} com cores → ${mainProductsWithoutColorPages.length} pai + ${inStockVariants.length}/${colorVariants.length} cores instock`)
+
+    return [...inStockVariants, ...mainProductsWithoutColorPages]
   } catch (e) {
     console.warn('[getAllProducts] Cache miss/error, tentando fetch direto...', e)
     try {
