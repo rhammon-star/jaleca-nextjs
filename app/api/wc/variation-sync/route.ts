@@ -1,6 +1,8 @@
 // app/api/wc/variation-sync/route.ts
 import { NextRequest, NextResponse } from 'next/server'
 import { revalidatePath } from 'next/cache'
+import { waitUntil } from '@vercel/functions'
+import { tryGeminiOrEnqueue } from '@/lib/variation-seo-generator'
 import { fetchVariation, type FullVariation } from '@/lib/wc-variation'
 import {
   decideAction,
@@ -135,6 +137,10 @@ export async function POST(req: NextRequest) {
     revalidatePath(seo.url)
     log('upserted', { variationId, slug: seo.url, seoQuality: seo.seoQuality, noindex: seo.noindex })
   })
+
+  if (action === 'CRIAR') {
+    waitUntil(tryGeminiOrEnqueue(variationId))
+  }
 
   log('done', { variationId, action, ms: Date.now() - t0 })
   return NextResponse.json({ action, variationId })
