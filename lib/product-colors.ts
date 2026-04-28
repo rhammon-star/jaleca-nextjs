@@ -103,6 +103,8 @@ export const COLOR_SLUG_MAP: Record<string, string> = {
   'gelo': 'Gelo',
   'marrom': 'Marrom',
   'palha': 'Palha',
+  'militar-giz': 'Militar Giz',
+  'violeta': 'Violeta',
 }
 
 /**
