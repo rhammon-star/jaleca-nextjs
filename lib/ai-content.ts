@@ -72,7 +72,8 @@ const WRITING_STYLES = [
 
 export async function generateContent(
   topic: string,
-  keywords?: string[]
+  keywords?: string[],
+  linkedProduct?: string,
 ): Promise<GeneratedContent> {
   const keywordsStr = keywords?.length ? `Palavras-chave a incluir: ${keywords.join(', ')}.` : ''
   const style = WRITING_STYLES[Math.floor(Math.random() * WRITING_STYLES.length)]
@@ -103,6 +104,10 @@ Páginas:
 - /faq
 `
 
+  const productLink = linkedProduct
+    ? `- OBRIGATÓRIO: inclua um link para https://jaleca.com.br/produto/${linkedProduct} com texto natural relacionado ao produto`
+    : ''
+
   const prompt = `Você é ${style.persona}. Crie um artigo de blog completo e otimizado para SEO sobre: "${topic}".
 
 Tom de escrita: ${style.tone}
@@ -113,7 +118,9 @@ Requisitos:
 - Artigo entre 500 e 700 palavras (IMPORTANTE: seja conciso)
 - Máximo 4 seções com H2, sem H3
 - Foco em profissionais de saúde (médicos, enfermeiros, dentistas, etc.)
-- No máximo 2 links internos — use APENAS as URLs da lista abaixo, NUNCA invente URLs
+- SEMPRE inclua um link para https://jaleca.com.br com texto natural (ex: "confira na Jaleca", "veja na Jaleca")
+${productLink}
+- No máximo 3 links internos no total — use APENAS as URLs da lista abaixo ou as URLs absolutas acima
 - PROIBIDO criar links para páginas que não existem na lista
 - Integre as palavras-chave naturalmente no texto
 - Conteúdo em português brasileiro

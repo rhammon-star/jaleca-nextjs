@@ -106,6 +106,12 @@ export default function NovoPostClient() {
   const [saveLink, setSaveLink] = useState('')
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null)
   const [categories, setCategories] = useState<WPCategory[]>([])
+  const [linkedProduct, setLinkedProduct] = useState('')
+  const [trends, setTrends] = useState<string[]>([])
+  const [loadingTrends, setLoadingTrends] = useState(false)
+  const [duplicateWarning, setDuplicateWarning] = useState('')
+  const [suggestedKws, setSuggestedKws] = useState<string[]>([])
+  const [loadingKws, setLoadingKws] = useState(false)
   const abortRef = useRef<AbortController | null>(null)
 
   useEffect(() => {
@@ -114,6 +120,55 @@ export default function NovoPostClient() {
       .then(data => Array.isArray(data) && setCategories(data))
       .catch(() => {})
   }, [])
+
+  async function handleLoadTrends() {
+    setLoadingTrends(true)
+    setTrends([])
+    try {
+      const res = await fetch('/api/blog/trends', { method: 'POST' })
+      const data = await res.json()
+      setTrends(data.trends ?? [])
+    } catch {
+      // silently fail
+    } finally {
+      setLoadingTrends(false)
+    }
+  }
+
+  async function handleCheckDuplicate() {
+    if (!topic.trim()) return
+    setDuplicateWarning('')
+    try {
+      const res = await fetch('/api/blog/check-duplicate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ topic: topic.trim() }),
+      })
+      const data = await res.json()
+      if (data.similar) setDuplicateWarning(data.message)
+    } catch {
+      // silently fail
+    }
+  }
+
+  async function handleSuggestKeywords() {
+    if (!topic.trim()) return
+    setLoadingKws(true)
+    setSuggestedKws([])
+    try {
+      const res = await fetch('/api/blog/suggest-keywords', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ topic: topic.trim() }),
+      })
+      const data = await res.json()
+      setSuggestedKws(data.keywords ?? [])
+    } catch {
+      // silently fail
+    } finally {
+      setLoadingKws(false)
+    }
+  }
 
   // ── Lookbook state ──
   const [lookTitle, setLookTitle] = useState('')
@@ -152,6 +207,7 @@ export default function NovoPostClient() {
         body: JSON.stringify({
           topic: topic.trim(),
           keywords: keywords.trim() ? keywords.split(',').map(k => k.trim()).filter(Boolean) : [],
+          linkedProduct: linkedProduct.trim() || undefined,
           publishDirectly: false,
         }),
         signal: controller.signal,
@@ -681,6 +737,37 @@ export default function NovoPostClient() {
         )}
 
         <div className="space-y-5">
+          {/* Tendências */}
+          <div className="border border-border rounded p-4 bg-secondary/10">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs font-semibold tracking-widest uppercase text-muted-foreground">Tendências da semana</span>
+              <button
+                type="button"
+                onClick={handleLoadTrends}
+                disabled={loadingTrends}
+                className="inline-flex items-center gap-1.5 text-xs text-primary hover:text-primary/80 disabled:opacity-40"
+              >
+                {loadingTrends ? <Loader2 size={12} className="animate-spin" /> : <Sparkles size={12} />}
+                Buscar tendências
+              </button>
+            </div>
+            {trends.length > 0 && (
+              <div className="flex flex-wrap gap-2 mt-2">
+                {trends.map((t, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => setTopic(t)}
+                    className="text-xs border border-border px-2 py-1 hover:bg-secondary/30 transition-colors text-left"
+                  >
+                    {t}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Tema */}
           <div>
             <label className="block text-xs font-semibold tracking-widests uppercase text-muted-foreground mb-1.5">
               Tema / Título do conteúdo *
@@ -688,17 +775,50 @@ export default function NovoPostClient() {
             <input
               type="text"
               value={topic}
-              onChange={e => setTopic(e.target.value)}
+              onChange={e => { setTopic(e.target.value); setDuplicateWarning('') }}
+              onBlur={handleCheckDuplicate}
               required
               placeholder="Ex: Como escolher o jaleco ideal para enfermeiros"
               className="w-full border border-border bg-background px-3 py-2.5 text-sm focus:outline-none focus:border-foreground transition-colors"
             />
+            {duplicateWarning && (
+              <p className="text-xs text-yellow-600 mt-1 flex items-center gap-1">
+                <AlertCircle size={12} /> {duplicateWarning}
+              </p>
+            )}
           </div>
 
+          {/* Produto vinculado */}
           <div>
             <label className="block text-xs font-semibold tracking-widests uppercase text-muted-foreground mb-1.5">
-              Palavras-chave (opcional, separadas por vírgula)
+              Produto vinculado (slug WooCommerce)
             </label>
+            <input
+              type="text"
+              value={linkedProduct}
+              onChange={e => setLinkedProduct(e.target.value)}
+              placeholder="jaleco-feminino-branco — deixe vazio para vincular só à home"
+              className="w-full border border-border bg-background px-3 py-2.5 text-sm focus:outline-none focus:border-foreground transition-colors"
+            />
+            <p className="text-[10px] text-muted-foreground mt-1">O post sempre linka para jaleca.com.br. Se informar slug, também linka para o produto.</p>
+          </div>
+
+          {/* Keywords */}
+          <div>
+            <div className="flex items-center justify-between mb-1.5">
+              <label className="block text-xs font-semibold tracking-widests uppercase text-muted-foreground">
+                Palavras-chave (separadas por vírgula)
+              </label>
+              <button
+                type="button"
+                onClick={handleSuggestKeywords}
+                disabled={!topic.trim() || loadingKws}
+                className="inline-flex items-center gap-1.5 text-xs text-primary hover:text-primary/80 disabled:opacity-40"
+              >
+                {loadingKws ? <Loader2 size={12} className="animate-spin" /> : <Sparkles size={12} />}
+                Sugerir
+              </button>
+            </div>
             <input
               type="text"
               value={keywords}
@@ -706,6 +826,20 @@ export default function NovoPostClient() {
               placeholder="jaleco feminino, uniforme médico, moda clínica"
               className="w-full border border-border bg-background px-3 py-2.5 text-sm focus:outline-none focus:border-foreground transition-colors"
             />
+            {suggestedKws.length > 0 && (
+              <div className="flex flex-wrap gap-1 mt-2">
+                {suggestedKws.map((kw, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => setKeywords(prev => prev ? `${prev}, ${kw}` : kw)}
+                    className="text-[10px] border border-border px-2 py-0.5 hover:bg-secondary/30 transition-colors"
+                  >
+                    + {kw}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
           <button

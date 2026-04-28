@@ -24,14 +24,14 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Token inválido' }, { status: 401 })
   }
 
-  let body: { topic?: string; keywords?: string[]; publishDirectly?: boolean }
+  let body: { topic?: string; keywords?: string[]; publishDirectly?: boolean; linkedProduct?: string }
   try {
     body = await request.json()
   } catch {
     return NextResponse.json({ error: 'Corpo da requisição inválido' }, { status: 400 })
   }
 
-  const { topic, keywords, publishDirectly } = body
+  const { topic, keywords, publishDirectly, linkedProduct } = body
   if (!topic) {
     return NextResponse.json({ error: 'Tema é obrigatório' }, { status: 400 })
   }
@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
       try {
         // Step 1: Generate content
         send('progress', { step: 1, message: 'Gerando conteúdo...' })
-        const generated = await generateContent(topic, keywords)
+        const generated = await generateContent(topic, keywords, linkedProduct)
 
         // Step 2: Humanize
         send('progress', { step: 2, message: 'Humanizando texto...' })
