@@ -54,6 +54,10 @@
     {
       "path": "/api/search/index",
       "schedule": "0 6 * * *"
+    },
+    {
+      "path": "/api/cron/regen-seo-pendente",
+      "schedule": "0 6 * * *"
     }
   ]
 }
