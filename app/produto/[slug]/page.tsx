@@ -12,6 +12,8 @@ import type { Metadata } from 'next'
 import { sendMetaViewContent } from '@/lib/meta-conversions'
 import { parseColorSlug, findVariationByColor } from '@/lib/product-colors'
 import { generateColorMetaDescription } from '@/lib/product-seo-generator'
+import { getVariationSEO, getInStockSiblings } from '@/lib/variation-seo'
+import OutOfStockPage from '@/components/OutOfStockPage'
 
 export const revalidate = 3600
 
@@ -190,9 +192,14 @@ export async function generateMetadata({
     ? `https://jaleca.com.br/produto/${baseSlug}`
     : `https://jaleca.com.br/produto/${slug}`
 
+  // KV noindex override (variação sem estoque)
+  const kvSeo = await getVariationSEO(`produto/${slug}`)
+  const noindex = kvSeo?.noindex ?? false
+
   return {
     title: name,
     description,
+    robots: noindex ? { index: false, follow: true } : undefined,
     alternates: { canonical },
     openGraph: {
       title: name,
@@ -218,6 +225,14 @@ export default async function ProdutoPage({
   params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
+
+  // Se KV marca como outofstock, renderiza página sem estoque
+  const kvSeo = await getVariationSEO(`produto/${slug}`)
+  if (kvSeo?.stockStatus === 'outofstock') {
+    const otherColors = await getInStockSiblings(kvSeo.productSlug, kvSeo.variationId)
+    return <OutOfStockPage seo={kvSeo} otherColors={otherColors} />
+  }
+
   const { baseSlug, colorName, hasColor } = parseColorSlug(slug)
 
   // Busca produto mãe se slug tiver cor

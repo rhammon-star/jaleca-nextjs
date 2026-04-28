@@ -29,8 +29,9 @@ export const getAllSeoSlugs = cache(async (): Promise<string[]> => {
   const slugs: string[] = []
   let cursor: string | number = '0'
   do {
-    const [next, keys] = await kv.scan(cursor, { match: 'seo:*', count: 200 })
-    cursor = next.toString()
+    const scanResult: [string | number, string[]] = await kv.scan(cursor, { match: 'seo:*', count: 200 }) as [string | number, string[]]
+    cursor = scanResult[0].toString()
+    const keys = scanResult[1]
     for (const k of keys as string[]) slugs.push(k.replace(/^seo:/, ''))
   } while (cursor !== '0')
   return slugs
