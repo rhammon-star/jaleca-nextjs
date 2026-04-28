@@ -107,11 +107,15 @@ export default function NovoPostClient() {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null)
   const [categories, setCategories] = useState<WPCategory[]>([])
   const [linkedProduct, setLinkedProduct] = useState('')
+  const [productSearch, setProductSearch] = useState('')
+  const [productOptions, setProductOptions] = useState<{ slug: string; name: string }[]>([])
+  const [showProductDropdown, setShowProductDropdown] = useState(false)
   const [trends, setTrends] = useState<string[]>([])
   const [loadingTrends, setLoadingTrends] = useState(false)
   const [duplicateWarning, setDuplicateWarning] = useState('')
   const [suggestedKws, setSuggestedKws] = useState<string[]>([])
   const [loadingKws, setLoadingKws] = useState(false)
+  const productInputRef = useRef<HTMLInputElement>(null)
   const abortRef = useRef<AbortController | null>(null)
 
   useEffect(() => {
@@ -120,6 +124,18 @@ export default function NovoPostClient() {
       .then(data => Array.isArray(data) && setCategories(data))
       .catch(() => {})
   }, [])
+
+  useEffect(() => {
+    const q = productSearch.trim()
+    if (!q) { setProductOptions([]); return }
+    const timer = setTimeout(() => {
+      fetch(`/api/blog/products-list?q=${encodeURIComponent(q)}`)
+        .then(r => r.json())
+        .then(data => { setProductOptions(data); setShowProductDropdown(true) })
+        .catch(() => {})
+    }, 300)
+    return () => clearTimeout(timer)
+  }, [productSearch])
 
   async function handleLoadTrends() {
     setLoadingTrends(true)
@@ -789,18 +805,57 @@ export default function NovoPostClient() {
           </div>
 
           {/* Produto vinculado */}
-          <div>
+          <div className="relative">
             <label className="block text-xs font-semibold tracking-widests uppercase text-muted-foreground mb-1.5">
-              Produto vinculado (slug WooCommerce)
+              Produto vinculado
             </label>
-            <input
-              type="text"
-              value={linkedProduct}
-              onChange={e => setLinkedProduct(e.target.value)}
-              placeholder="jaleco-feminino-branco — deixe vazio para vincular só à home"
-              className="w-full border border-border bg-background px-3 py-2.5 text-sm focus:outline-none focus:border-foreground transition-colors"
-            />
-            <p className="text-[10px] text-muted-foreground mt-1">O post sempre linka para jaleca.com.br. Se informar slug, também linka para o produto.</p>
+            {linkedProduct ? (
+              <div className="flex items-center gap-2 border border-border px-3 py-2.5 bg-secondary/10">
+                <span className="text-sm flex-1 truncate">{linkedProduct}</span>
+                <button
+                  type="button"
+                  onClick={() => { setLinkedProduct(''); setProductSearch(''); setProductOptions([]) }}
+                  className="text-muted-foreground hover:text-foreground text-xs"
+                >
+                  ✕
+                </button>
+              </div>
+            ) : (
+              <div className="relative">
+                <input
+                  ref={productInputRef}
+                  type="text"
+                  value={productSearch}
+                  onChange={e => setProductSearch(e.target.value)}
+                  onFocus={() => productSearch && setShowProductDropdown(true)}
+                  onBlur={() => setTimeout(() => setShowProductDropdown(false), 150)}
+                  placeholder="Digite para buscar produto... (deixe vazio = só linka à home)"
+                  className="w-full border border-border bg-background px-3 py-2.5 text-sm focus:outline-none focus:border-foreground transition-colors"
+                />
+                {showProductDropdown && productOptions.length > 0 && (
+                  <div className="absolute z-10 w-full border border-border bg-background shadow-md max-h-52 overflow-y-auto">
+                    {productOptions.map((p) => (
+                      <button
+                        key={p.slug}
+                        type="button"
+                        onMouseDown={() => {
+                          setLinkedProduct(p.slug)
+                          setProductSearch(p.name)
+                          setShowProductDropdown(false)
+                        }}
+                        className="w-full text-left px-3 py-2 text-sm hover:bg-secondary/30 border-b border-border last:border-0"
+                      >
+                        <span className="font-medium">{p.name}</span>
+                        <span className="text-xs text-muted-foreground ml-2">{p.slug}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+            <p className="text-[10px] text-muted-foreground mt-1">
+              O post sempre linka para jaleca.com.br. Se selecionar produto, também linka diretamente para ele.
+            </p>
           </div>
 
           {/* Keywords */}
