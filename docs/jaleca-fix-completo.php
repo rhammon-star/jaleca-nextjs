@@ -272,3 +272,53 @@ function jaleca_desativa_variacao_sem_preco($variation_id, $i) {
         add_action('woocommerce_save_product_variation', 'jaleca_desativa_variacao_sem_preco', 20, 2);
     }
 }
+
+// ── Endpoint: GET /jaleca/v1/variation/{id} — usado pelo Next sync ────────────
+add_action('rest_api_init', 'jaleca_register_variation_route');
+
+function jaleca_register_variation_route() {
+    register_rest_route('jaleca/v1', '/variation/(?P<id>\d+)', array(
+        'methods'             => 'GET',
+        'permission_callback' => '__return_true',
+        'callback'            => 'jaleca_get_variation',
+    ));
+}
+
+function jaleca_get_variation(WP_REST_Request $request) {
+    $secret_expected = defined('JALECA_REGISTER_SECRET') ? JALECA_REGISTER_SECRET : 'jaleca-register-secret-2026';
+    if ($request->get_header('X-Jaleca-Secret') !== $secret_expected) {
+        return new WP_Error('unauthorized', 'Unauthorized', array('status' => 401));
+    }
+
+    $id = absint($request['id']);
+    if (!$id) return new WP_Error('invalid', 'ID invalido', array('status' => 400));
+
+    if (!function_exists('wc_get_product')) {
+        return new WP_Error('wc_missing', 'WooCommerce nao disponivel', array('status' => 500));
+    }
+
+    $variation = wc_get_product($id);
+    if (!$variation || $variation->get_type() !== 'variation') {
+        return new WP_Error('not_found', 'Variation not found', array('status' => 404));
+    }
+
+    $attrs = array();
+    foreach ($variation->get_attributes() as $name => $option) {
+        $attrs[] = array(
+            'name'   => wc_attribute_label($name),
+            'option' => $option,
+        );
+    }
+
+    $modified = $variation->get_date_modified();
+    return rest_ensure_response(array(
+        'id'                => $variation->get_id(),
+        'parent_id'         => $variation->get_parent_id(),
+        'status'            => $variation->get_status(),
+        'stock_status'      => $variation->get_stock_status(),
+        'price'             => (string) $variation->get_price(),
+        'sku'               => (string) $variation->get_sku(),
+        'date_modified_gmt' => $modified ? $modified->date('c') : gmdate('c'),
+        'attributes'        => $attrs,
+    ));
+}
