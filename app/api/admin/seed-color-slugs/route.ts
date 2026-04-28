@@ -23,7 +23,8 @@ export async function POST(req: NextRequest) {
   } while (cursor !== 0)
 
   if (slugs.size > 0) {
-    await kv.sadd(COLOR_SLUGS_KEY, ...[...slugs])
+    const slugArr = [...slugs]
+    await kv.sadd(COLOR_SLUGS_KEY, slugArr[0], ...slugArr.slice(1))
   }
 
   return NextResponse.json({ scanned, registered: slugs.size, slugs: [...slugs].sort() })
