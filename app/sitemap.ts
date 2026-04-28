@@ -1,5 +1,7 @@
 import type { MetadataRoute } from 'next'
 import { graphqlClient } from '@/lib/graphql'
+import { getAllSeoSlugs } from '@/lib/variation-seo'
+import { kv, seoKey, type SeoEntry } from '@/lib/kv'
 
 const GET_PRODUCTS_FOR_SITEMAP = `
   query GetProductsForSitemap($first: Int) {
@@ -54,31 +56,49 @@ async function getAllPosts(): Promise<WPPost[]> {
   }
 }
 
-type ColorPageData = {
-  url: string
-}
-
-async function getColorPages(): Promise<ColorPageData[]> {
+async function getKvColorPages(): Promise<MetadataRoute.Sitemap> {
   try {
-    const jsonPath = join(process.cwd(), 'docs', 'SEO-PRODUTOS-CORES.json')
-    const jsonContent = await readFile(jsonPath, 'utf-8')
-    const colorPages: ColorPageData[] = JSON.parse(jsonContent)
-    return colorPages
+    const slugs = await getAllSeoSlugs()
+    const entries: MetadataRoute.Sitemap = []
+    for (const slug of slugs) {
+      const e = await kv.get<SeoEntry>(seoKey(slug))
+      if (!e || e.noindex) continue
+      entries.push({
+        url: `${SITE_URL}${e.url}`,
+        lastModified: e.lastSyncedAt,
+        changeFrequency: 'daily',
+        priority: 0.8,
+      })
+    }
+    return entries
   } catch {
-    return []
+    // KV não disponível — fallback para JSON
+    try {
+      const jsonPath = join(process.cwd(), 'docs', 'SEO-PRODUTOS-CORES.json')
+      const jsonContent = await readFile(jsonPath, 'utf-8')
+      const colorPages: { url: string }[] = JSON.parse(jsonContent)
+      return colorPages.map((page) => ({
+        url: `${SITE_URL}${page.url}`,
+        lastModified: new Date('2025-04-15'),
+        changeFrequency: 'monthly' as const,
+        priority: 0.8,
+      }))
+    } catch {
+      return []
+    }
   }
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [products, posts, colorPages] = await Promise.allSettled([
+  const [products, posts, colorProductPages] = await Promise.allSettled([
     getAllProductSlugs(),
     getAllPosts(),
-    getColorPages(),
+    getKvColorPages(),
   ])
 
   const productNodes = products.status === 'fulfilled' ? products.value : []
   const postNodes = posts.status === 'fulfilled' ? posts.value : []
-  const colorPagesData = colorPages.status === 'fulfilled' ? colorPages.value : []
+  const kvColorPages = colorProductPages.status === 'fulfilled' ? colorProductPages.value : []
 
   const staticPages: MetadataRoute.Sitemap = [
     {
@@ -335,14 +355,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }))
 
-  // 141 páginas de produto por cor (SEO-PRODUTOS-CORES.json)
-  // Priority 0.8 para páginas filhas (conforme PRD Jaleca-Cores)
-  const colorProductPages: MetadataRoute.Sitemap = colorPagesData.map(page => ({
-    url: `${SITE_URL}${page.url}`,
-    lastModified: new Date('2025-04-15'),
-    changeFrequency: 'monthly' as const,
-    priority: 0.8,
-  }))
-
-  return [...staticPages, ...categoryPages, ...cidadePages, ...productPages, ...colorProductPages, ...postPages]
+  return [...staticPages, ...categoryPages, ...cidadePages, ...productPages, ...kvColorPages, ...postPages]
 }
