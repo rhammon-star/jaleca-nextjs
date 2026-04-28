@@ -31,3 +31,48 @@ describe('mutex', () => {
     expect(kv.del).toHaveBeenCalledWith('lock:seo-write')
   })
 })
+
+import { decideAction } from '@/lib/variation-state'
+
+describe('decideAction', () => {
+  const wcLive = (over = {}) => ({
+    stockStatus: 'instock' as const,
+    status: 'publish' as const,
+    price: '159.90',
+    sku: 'SKU',
+    updatedAt: '2026-04-27T14:00:00Z',
+    ...over,
+  })
+
+  it('CRIAR quando snapshot vazio e WC publish+instock+price', () => {
+    expect(decideAction(null, wcLive())).toBe('CRIAR')
+  })
+
+  it('IGNORAR quando snapshot vazio e price vazio', () => {
+    expect(decideAction(null, wcLive({ price: '' }))).toBe('IGNORAR')
+  })
+
+  it('SEM_ESTOQUE quando snapshot instock vira outofstock', () => {
+    const prev = wcLive()
+    expect(decideAction(prev, wcLive({ stockStatus: 'outofstock', updatedAt: '2026-04-27T15:00:00Z' }))).toBe('SEM_ESTOQUE')
+  })
+
+  it('SEM_ESTOQUE quando status sai de publish', () => {
+    const prev = wcLive()
+    expect(decideAction(prev, wcLive({ status: 'draft', updatedAt: '2026-04-27T15:00:00Z' }))).toBe('SEM_ESTOQUE')
+  })
+
+  it('VOLTOU_ESTOQUE quando outofstock vira instock', () => {
+    const prev = wcLive({ stockStatus: 'outofstock' })
+    expect(decideAction(prev, wcLive({ updatedAt: '2026-04-27T15:00:00Z' }))).toBe('VOLTOU_ESTOQUE')
+  })
+
+  it('DESATIVAR quando status vira trash', () => {
+    expect(decideAction(wcLive(), wcLive({ status: 'trash', updatedAt: '2026-04-27T15:00:00Z' }))).toBe('DESATIVAR')
+  })
+
+  it('IGNORAR quando updatedAt idêntico', () => {
+    const same = wcLive()
+    expect(decideAction(same, same)).toBe('IGNORAR')
+  })
+})
