@@ -11,31 +11,48 @@ async function callGemini(prompt: string, maxTokens = 2000): Promise<string> {
   const apiKey = process.env.GEMINI_API_KEY
   if (!apiKey) throw new Error('GEMINI_API_KEY not set')
 
-  const res = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: { maxOutputTokens: maxTokens },
-      }),
-    }
-  )
+  const RETRIES = 3
+  const DELAYS = [10000, 30000, 60000] // 10s, 30s, 1min
 
-  if (!res.ok) {
+  for (let attempt = 0; attempt <= RETRIES; attempt++) {
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: { maxOutputTokens: maxTokens },
+        }),
+      }
+    )
+
+    if (res.ok) {
+      const data = (await res.json()) as {
+        candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>
+      }
+      const text = data.candidates?.[0]?.content?.parts?.[0]?.text
+      if (typeof text !== 'string') throw new Error('Unexpected Gemini response')
+      return text
+    }
+
     const err = await res.json().catch(() => ({}))
     const message = (err as { error?: { message?: string } }).error?.message ?? `Gemini API error: ${res.status}`
-    throw new Error(message)
+    const isOverload = res.status === 503 || res.status === 429 || message.toLowerCase().includes('high demand') || message.toLowerCase().includes('overloaded')
+
+    if (isOverload && attempt < RETRIES) {
+      await new Promise(r => setTimeout(r, DELAYS[attempt]))
+      continue
+    }
+
+    throw new Error(
+      isOverload
+        ? 'O Gemini está sobrecarregado. Tente novamente em 3 minutos.'
+        : message
+    )
   }
 
-  const data = (await res.json()) as {
-    candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>
-  }
-
-  const text = data.candidates?.[0]?.content?.parts?.[0]?.text
-  if (typeof text !== 'string') throw new Error('Unexpected Gemini response')
-  return text
+  throw new Error('O Gemini está sobrecarregado. Tente novamente em 3 minutos.')
 }
 
 export type GeneratedContent = {
