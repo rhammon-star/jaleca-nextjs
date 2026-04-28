@@ -1,4 +1,6 @@
 import type { SeoEntry } from './kv'
+import { upsertSeo, getSeoByVariationId } from './variation-state'
+import { enqueueRetry } from './seo-retry-queue'
 
 const REQUIRED = ['h1', 'h2', 'metaDescription', 'title', 'colorPsychology'] as const
 type GeminiSeo = Record<(typeof REQUIRED)[number], string>
@@ -64,5 +66,33 @@ export function applyGeminiToEntry(entry: SeoEntry, gen: GeminiSeo): SeoEntry {
     seoQuality: 'gemini',
     lastGeminiAttempt: new Date().toISOString(),
     geminiAttempts: (entry.geminiAttempts ?? 0) + 1,
+  }
+}
+
+export async function tryGeminiOrEnqueue(variationId: number): Promise<void> {
+  const seo = await getSeoByVariationId(variationId)
+  if (!seo) return
+  if (seo.seoQuality === 'premium') return
+
+  try {
+    const gen = await generateSeoForVariation(seo.productName, seo.colorName, seo.category)
+    if (!gen) throw new Error('Gemini retornou JSON inválido')
+    await upsertSeo(applyGeminiToEntry(seo, gen))
+  } catch (err) {
+    const attempts = (seo.geminiAttempts ?? 0) + 1
+    const backoffHours = Math.min(24, 2 ** attempts)
+    await upsertSeo({
+      ...seo,
+      lastGeminiAttempt: new Date().toISOString(),
+      geminiAttempts: attempts,
+    })
+    if (attempts < 3) {
+      await enqueueRetry({
+        variationId,
+        attempts,
+        nextRetryAt: new Date(Date.now() + backoffHours * 3600 * 1000).toISOString(),
+        lastError: String(err).slice(0, 200),
+      })
+    }
   }
 }
