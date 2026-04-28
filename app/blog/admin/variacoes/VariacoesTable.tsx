@@ -77,7 +77,7 @@ export default function VariacoesTable({ entries }: { entries: SeoEntry[] }) {
               <tr key={e.url} className="border-t hover:bg-stone-50">
                 <td className="p-2">
                   <Link
-                    href={`/admin/variacoes/${e.url.replace(/^\/produto\//, '')}`}
+                    href={`/blog/admin/variacoes/${e.url.replace(/^\/produto\//, '')}`}
                     className="font-semibold hover:underline"
                   >
                     {e.productName} — {e.colorName}

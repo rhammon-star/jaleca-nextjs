@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { cookies } from 'next/headers'
 import { verifyBlogToken } from '@/lib/blog-auth'
-import { LayoutDashboard, FileText, PenLine, Users, LogOut } from 'lucide-react'
+import { LayoutDashboard, FileText, PenLine, Users, LogOut, Layers } from 'lucide-react'
 import BlogAdminLogoutButton from './LogoutButton'
 
 export default async function BlogAdminLayout({
@@ -26,6 +26,7 @@ export default async function BlogAdminLayout({
     { href: '/blog/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { href: '/blog/admin/novo-post', label: 'Novo Conteúdo', icon: PenLine },
     { href: '/blog/admin/posts', label: 'Posts', icon: FileText },
+    { href: '/blog/admin/variacoes', label: 'Variações', icon: Layers },
     ...(payload.role === 'admin'
       ? [{ href: '/blog/admin/usuarios', label: 'Usuários', icon: Users }]
       : []),

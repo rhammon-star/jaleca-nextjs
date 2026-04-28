@@ -9,14 +9,14 @@ import { upsertSeo } from '@/lib/variation-state'
 export async function regenerateGemini(variationId: number) {
   await requireAdmin()
   await tryGeminiOrEnqueue(variationId)
-  revalidatePath('/admin/variacoes')
+  revalidatePath('/blog/admin/variacoes')
 }
 
 export async function forceRevalidate(slug: string) {
   await requireAdmin()
   const entry = await kv.get<SeoEntry>(seoKey(slug))
   if (entry) revalidatePath(entry.url)
-  revalidatePath('/admin/variacoes')
+  revalidatePath('/blog/admin/variacoes')
 }
 
 export async function submitToGoogle(slug: string) {
@@ -42,7 +42,7 @@ export async function savePremium(slug: string, formData: FormData) {
   }
   await upsertSeo(updated)
   revalidatePath(updated.url)
-  revalidatePath('/admin/variacoes')
+  revalidatePath('/blog/admin/variacoes')
 }
 
 export async function setNoindex(slug: string, noindex: boolean) {
@@ -51,5 +51,5 @@ export async function setNoindex(slug: string, noindex: boolean) {
   if (!current) return
   await upsertSeo({ ...current, noindex, lastSyncedAt: new Date().toISOString() })
   revalidatePath(current.url)
-  revalidatePath('/admin/variacoes')
+  revalidatePath('/blog/admin/variacoes')
 }

@@ -17,7 +17,7 @@ export default async function VariacaoDetail({
 
   return (
     <div>
-      <Link href="/admin/variacoes" className="text-sm text-blue-700 hover:underline">
+      <Link href="/blog/admin/variacoes" className="text-sm text-blue-700 hover:underline">
         ← Voltar à listagem
       </Link>
       <h1 className="text-2xl font-bold mt-2 mb-1">

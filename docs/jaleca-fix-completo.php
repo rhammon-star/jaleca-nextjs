@@ -313,8 +313,12 @@ add_action('rest_api_init', 'jaleca_register_product_route');
 function jaleca_register_product_route() {
     register_rest_route('jaleca/v1', '/product/(?P<id>\d+)', array(
         'methods'             => 'GET',
-        'permission_callback' => 'jaleca_auth_secret',
+        'permission_callback' => '__return_true',
         'callback'            => function(WP_REST_Request $req) {
+            $secret_expected = defined('JALECA_REGISTER_SECRET') ? JALECA_REGISTER_SECRET : 'jaleca-register-secret-2026';
+            if ($req->get_header('X-Jaleca-Secret') !== $secret_expected) {
+                return new WP_Error('unauthorized', 'Unauthorized', array('status' => 401));
+            }
             $id = absint($req['id']);
             $product = wc_get_product($id);
             if (!$product) return new WP_Error('not_found', 'Not found', array('status' => 404));
