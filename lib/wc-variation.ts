@@ -1,4 +1,25 @@
 // lib/wc-variation.ts
+export type ParentProduct = {
+  id: number
+  name: string
+  slug: string
+  categories: string[]
+}
+
+export async function fetchParentProduct(parentId: number): Promise<ParentProduct | null> {
+  const secret = process.env.JALECA_PLUGIN_SECRET
+  if (!secret) return null
+  const res = await fetch(
+    `https://wp.jaleca.com.br/wp-json/jaleca/v1/product/${parentId}`,
+    {
+      headers: { 'X-Jaleca-Secret': secret },
+      next: { revalidate: 3600 },
+    },
+  )
+  if (!res.ok) return null
+  return (await res.json()) as ParentProduct
+}
+
 import type { VariationSnapshot } from './kv'
 
 type WcVariationResponse = {

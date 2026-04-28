@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { revalidatePath } from 'next/cache'
 import { waitUntil } from '@vercel/functions'
 import { tryGeminiOrEnqueue } from '@/lib/variation-seo-generator'
-import { fetchVariation, type FullVariation } from '@/lib/wc-variation'
+import { fetchVariation, fetchParentProduct, type FullVariation } from '@/lib/wc-variation'
 import {
   decideAction,
   getSnapshot,
@@ -34,17 +34,18 @@ function slugify(s: string): string {
     .replace(/^-|-$/g, '')
 }
 
-function buildTemplateSeo(
+async function buildTemplateSeo(
   variationId: number,
   live: FullVariation,
   now: string,
-): SeoEntry {
-  // Fallback names — Phase 4 enriches with real parent product name
-  const colorName = live.attributes['Cor'] ?? live.attributes['cor'] ?? 'Padrão'
+): Promise<SeoEntry> {
+  const parent = await fetchParentProduct(live.parentId)
+  const productName = parent?.name ?? `Produto ${live.parentId}`
+  const productSlug = parent?.slug ?? `produto-${live.parentId}`
+  const category = parent?.categories?.[0] ?? 'geral'
+  const colorName = live.attributes['Cor'] ?? live.attributes['cor'] ?? live.attributes['pa_color'] ?? 'Padrão'
   const colorSlug = slugify(colorName)
-  const productSlug = `produto-${live.parentId}`
-  const productName = `Produto ${live.parentId}`
-  const url = `/${productSlug}-${colorSlug}`
+  const url = `/produto/${productSlug}-${colorSlug}`
 
   return {
     url,
@@ -53,7 +54,7 @@ function buildTemplateSeo(
     colorName,
     colorSlug,
     variationId,
-    category: 'geral',
+    category,
     title: `${productName} ${colorName} | Jaleca`,
     metaDescription: `${productName} na cor ${colorName}. Compre online com entrega para todo Brasil.`,
     seoQuality: 'template',
@@ -129,7 +130,7 @@ export async function POST(req: NextRequest) {
         lastSyncedAt: now,
       }
     } else {
-      seo = buildTemplateSeo(variationId, live, now)
+      seo = await buildTemplateSeo(variationId, live, now)
     }
 
     await upsertSeo(seo)
