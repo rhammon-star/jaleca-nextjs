@@ -9,7 +9,7 @@ import {
 import { createOrder } from '@/lib/woocommerce'
 import type { WCOrderData } from '@/lib/woocommerce'
 import { addPoints } from '@/lib/loyalty'
-import { sendOrderConfirmation, sendInternalOrderNotification, sendPaymentFailed, sendPixPaymentEmail, sendBoletoEmail, sendInternalPaymentFailureAlert } from '@/lib/email'
+import { sendOrderConfirmation, sendInternalOrderNotification, sendPaymentFailed, sendPixPaymentEmail, sendBoletoEmail, sendInternalPaymentFailureAlert, sendWcCaptureFailureAlert } from '@/lib/email'
 import { sendMetaPurchase } from '@/lib/meta-conversions'
 import { sendGA4PurchaseMP } from '@/lib/ga4-measurement-protocol'
 import { addShipmentToMECart, ME_SERVICE_MAP } from '@/lib/melhor-envio'
@@ -78,6 +78,12 @@ function phoneNumbers(phone: string): { area_code: string; number: string } {
 
 function toCents(value: number): number {
   return Math.round(value * 100)
+}
+
+// Detecta erro de WordPress/MySQL fora — sinal pra ativar captura sem WC
+function isWcDbError(err: unknown): boolean {
+  const msg = err instanceof Error ? err.message : String(err)
+  return /error establishing a database connection|database connection|mysql.*server|too many connections|<!DOCTYPE html|<html|ECONNREFUSED|ETIMEDOUT|fetch failed|503|502|504/i.test(msg)
 }
 
 function getClientInfo(req: NextRequest) {
@@ -194,16 +200,21 @@ export async function POST(request: NextRequest) {
     }
 
     // ── SECURITY: Verificar cupom de primeira compra ─────────────────────────
+    // Tolerante a WC fora — se a verificação falhar, segue (vale mais finalizar venda do que travar)
     if (couponCode && /primeiracompra/i.test(couponCode) && customer_id) {
-      const prevOrdersRes = await fetch(
-        `${WC_API}/orders?customer=${customer_id}&per_page=5&status=processing,completed,on-hold`,
-        { headers: { Authorization: wcAuth() }, cache: 'no-store' }
-      )
-      if (prevOrdersRes.ok) {
-        const prevOrders = await prevOrdersRes.json()
-        if (Array.isArray(prevOrders) && prevOrders.length > 0) {
-          return NextResponse.json({ error: 'O cupom "PRIMEIRACOMPRA" é exclusivo para a primeira compra. Você já possui pedidos anteriores.' }, { status: 400 })
+      try {
+        const prevOrdersRes = await fetch(
+          `${WC_API}/orders?customer=${customer_id}&per_page=5&status=processing,completed,on-hold`,
+          { headers: { Authorization: wcAuth() }, cache: 'no-store' }
+        )
+        if (prevOrdersRes.ok) {
+          const prevOrders = await prevOrdersRes.json().catch(() => null)
+          if (Array.isArray(prevOrders) && prevOrders.length > 0) {
+            return NextResponse.json({ error: 'O cupom "PRIMEIRACOMPRA" é exclusivo para a primeira compra. Você já possui pedidos anteriores.' }, { status: 400 })
+          }
         }
+      } catch (err) {
+        console.warn('[payment/create] PRIMEIRACOMPRA check skipped (WC fora?):', err instanceof Error ? err.message : err)
       }
     }
 
@@ -258,16 +269,41 @@ export async function POST(request: NextRequest) {
       ],
     }
 
-    let wcOrder = await createOrder(wcOrderData).catch(async (err: Error) => {
-      // WC rejeita customer_id de usuários WP não indexados na wc_customer_lookup
-      // Retenta como pedido guest (customer_id removido)
-      if (/customer|cliente/i.test(err.message)) {
-        console.warn('[payment/create] WC customer_id rejected, retrying as guest:', err.message)
-        const guestOrderData = { ...wcOrderData, customer_id: undefined }
-        return createOrder(guestOrderData)
-      }
-      throw err
-    })
+    let wcFailed = false
+    let wcFailureReason = ''
+    let wcOrder: Awaited<ReturnType<typeof createOrder>>
+    try {
+      wcOrder = await createOrder(wcOrderData).catch(async (err: Error) => {
+        // WC rejeita customer_id de usuários WP não indexados na wc_customer_lookup
+        // Retenta como pedido guest (customer_id removido)
+        if (/customer|cliente/i.test(err.message)) {
+          console.warn('[payment/create] WC customer_id rejected, retrying as guest:', err.message)
+          const guestOrderData = { ...wcOrderData, customer_id: undefined }
+          return createOrder(guestOrderData)
+        }
+        throw err
+      })
+    } catch (err) {
+      if (!isWcDbError(err)) throw err
+      // WC/MySQL fora — segue captura sem WC com pedido sintético TEMP
+      wcFailed = true
+      wcFailureReason = err instanceof Error ? err.message.slice(0, 200) : 'WC indisponível'
+      console.error('[payment/create] ⚠️ WC indisponível, ativando captura sem WC:', wcFailureReason)
+      const itemsTotal = items.reduce((s, i) => s + i.price * i.quantity, 0)
+      const computedTotal = Math.max(
+        1,
+        itemsTotal + shipping.cost - (totalDiscount || 0) - (paymentMethod === 'pix' ? calculatedPixDiscount : 0)
+      )
+      const tempNumber = `TEMP-${Date.now()}`
+      wcOrder = {
+        id: 0,
+        number: tempNumber,
+        order_key: tempNumber,
+        total: computedTotal.toFixed(2),
+        status: 'pending',
+        billing,
+      } as unknown as Awaited<ReturnType<typeof createOrder>>
+    }
 
     // ── 2. Build Cielo params ────────────────────────────────────────────────
     const wcTotalCents = Math.round(parseFloat(wcOrder.total || '0') * 100)
@@ -335,17 +371,29 @@ export async function POST(request: NextRequest) {
 
       if (isPaid) {
         creditCardPaid = true
-        try {
-          const res = await fetch(`${WC_API}/orders/${wcOrder.id}`, {
-            method: 'PUT',
-            headers: { Authorization: wcAuth(), 'Content-Type': 'application/json' },
-            body: JSON.stringify({ status: 'processing' }),
-          })
-          if (res.ok) {
-            const updatedOrder = await res.json()
-            sendOrderConfirmation(updatedOrder, billing.email).catch(() => {})
-          }
-        } catch {}
+        if (!wcFailed) {
+          try {
+            const res = await fetch(`${WC_API}/orders/${wcOrder.id}`, {
+              method: 'PUT',
+              headers: { Authorization: wcAuth(), 'Content-Type': 'application/json' },
+              body: JSON.stringify({ status: 'processing' }),
+            })
+            if (res.ok) {
+              const updatedOrder = await res.json()
+              sendOrderConfirmation(updatedOrder, billing.email).catch(() => {})
+            }
+          } catch {}
+        } else {
+          // WC fora — manda confirmação direto com dados sintéticos
+          sendOrderConfirmation({
+            id: wcOrder.id,
+            number: wcOrder.number,
+            total: wcOrder.total,
+            billing: { first_name: billing.first_name, email: billing.email },
+            line_items: items.map(i => ({ name: i.name, quantity: i.quantity, total: (i.price * i.quantity).toFixed(2) })),
+            shipping_lines: [{ method_title: shipping.method_title, total: shipping.cost.toFixed(2) }],
+          } as Parameters<typeof sendOrderConfirmation>[0], billing.email).catch(() => {})
+        }
 
         // GA4 Measurement Protocol — Purchase event (server-side, usa client_id real do browser)
         sendGA4PurchaseMP({
@@ -379,7 +427,7 @@ export async function POST(request: NextRequest) {
 
       if (isFailed) {
         // Update WC order to failed
-        fetch(`${WC_API}/orders/${wcOrder.id}`, {
+        if (!wcFailed) fetch(`${WC_API}/orders/${wcOrder.id}`, {
           method: 'PUT',
           headers: { Authorization: wcAuth(), 'Content-Type': 'application/json' },
           body: JSON.stringify({ status: 'failed' }),
@@ -412,7 +460,7 @@ export async function POST(request: NextRequest) {
 
       if (isSoftDecline) {
         // Soft decline: card authorized but capture failed — treat as failed so customer can retry
-        fetch(`${WC_API}/orders/${wcOrder.id}`, {
+        if (!wcFailed) fetch(`${WC_API}/orders/${wcOrder.id}`, {
           method: 'PUT',
           headers: { Authorization: wcAuth(), 'Content-Type': 'application/json' },
           body: JSON.stringify({ status: 'failed' }),
@@ -441,12 +489,12 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Award loyalty points only on successful payment
-    if (creditCardPaid && customer_id && wcOrder.total) {
+    // Award loyalty points only on successful payment (skip se WC fora — pontos vão na reconciliação manual)
+    if (!wcFailed && creditCardPaid && customer_id && wcOrder.total) {
       addPoints(customer_id, parseFloat(wcOrder.total)).catch(() => {})
     }
     // PIX/Boleto: points awarded via webhook when payment confirmed
-    if (paymentMethod !== 'credit_card' && customer_id && wcOrder.total) {
+    if (!wcFailed && paymentMethod !== 'credit_card' && customer_id && wcOrder.total) {
       addPoints(customer_id, parseFloat(wcOrder.total)).catch(() => {})
     }
 
@@ -467,7 +515,7 @@ export async function POST(request: NextRequest) {
     const meTotalItems = items.reduce((s, i) => s + i.quantity, 0)
     const meWeight = Math.max(0.6 * meTotalItems, 0.6)
     const meTotalValue = items.reduce((s, i) => s + i.price * i.quantity, 0)
-    if (!isCreditCardFailed) addShipmentToMECart({
+    if (!isCreditCardFailed && !wcFailed) addShipmentToMECart({
       serviceId: meServiceId,
       wcOrderId: wcOrder.id,
       to: {
@@ -520,7 +568,52 @@ export async function POST(request: NextRequest) {
     }).catch(err => console.error('[ME Cart] Erro:', err))
 
     // ── 4c. Notificação interna — só dispara se pagamento não falhou ─────────
-    if (!isCreditCardFailed) {
+    if (!isCreditCardFailed && wcFailed) {
+      // WC fora — alerta especial pra criar pedido manual
+      const totalFormatted = `R$ ${parseFloat(wcOrder.total || '0').toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`
+      const paymentStatus = paymentMethod === 'credit_card'
+        ? (creditCardPaid ? 'aprovado' : 'pendente')
+        : 'aguardando confirmação'
+      const itemsSubtotal = items.reduce((s, i) => s + i.price * i.quantity, 0)
+      const ccPayment = paymentMethod === 'credit_card'
+        ? (cieloResult.Payment as import('@/lib/cielo').CieloCreditResult['Payment'])
+        : undefined
+      sendWcCaptureFailureAlert({
+        tempOrderId: wcOrder.number || String(wcOrder.id),
+        createdAt: new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
+        customerFirstName: billing.first_name,
+        customerLastName: billing.last_name,
+        customerEmail: billing.email,
+        customerPhone: billing.phone,
+        customerCpf: cpf,
+        customerId: customer_id,
+        customerIp: clientInfo.clientIp,
+        paymentMethod: wcTitleMap[paymentMethod],
+        paymentStatus,
+        cieloPaymentId,
+        cardBrand: ccPayment ? detectBrand(cardData!.number) : undefined,
+        cardLast4: cardData ? cardData.number.replace(/\D/g, '').slice(-4) : undefined,
+        installments: installments || 1,
+        amount: totalFormatted,
+        itemsSubtotal,
+        totalDiscount: totalDiscount || 0,
+        pixDiscount: paymentMethod === 'pix' ? calculatedPixDiscount : 0,
+        couponCode,
+        items,
+        shipping: { method_id: shipping.method_id, method_title: shipping.method_title, cost: shipping.cost },
+        billing: {
+          address_1: billing.address_1,
+          address_2: billing.address_2,
+          neighborhood: billing.neighborhood,
+          city: billing.city,
+          state: billing.state,
+          postcode: billing.postcode,
+          country: billing.country,
+        },
+        failureReason: wcFailureReason,
+      }).catch(err => console.error('[payment/create] sendWcCaptureFailureAlert failed:', err))
+    }
+    if (!isCreditCardFailed && !wcFailed) {
       const totalFormatted = `R$ ${parseFloat(wcOrder.total || '0').toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`
       const paymentTitle = wcTitleMap[paymentMethod]
       sendInternalOrderNotification(
@@ -620,6 +713,12 @@ export async function POST(request: NextRequest) {
     if (/coupon.*expired/i.test(message))           message = 'Este cupom está expirado.'
     if (/coupon.*minimum spend/i.test(message))     message = 'O valor mínimo para usar este cupom não foi atingido.'
     if (/invalid coupon/i.test(message))            message = 'Cupom inválido.'
+    // Instabilidade do WordPress/MySQL — sinaliza retry automático no front
+    let retryable = false
+    if (/error establishing a database connection|database connection|mysql.*server|too many connections|<!DOCTYPE html|<html/i.test(message)) {
+      message = 'Estamos com uma instabilidade momentânea no sistema. Vamos tentar novamente em instantes — não saia desta página.'
+      retryable = true
+    }
     console.error('[Payment] Error:', message)
 
     // Alerta interno — qualquer throw no checkout (Cielo, WC, validação, etc.)
@@ -647,6 +746,6 @@ export async function POST(request: NextRequest) {
       console.error('[Payment] Error building internal alert:', alertErr)
     }
 
-    return NextResponse.json({ error: message }, { status: 400 })
+    return NextResponse.json({ error: message, retryable }, { status: 400 })
   }
 }

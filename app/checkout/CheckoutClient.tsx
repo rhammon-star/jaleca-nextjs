@@ -61,6 +61,20 @@ export default function CheckoutClient() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [paymentFailed, setPaymentFailed] = useState(false)
+  const [retryCountdown, setRetryCountdown] = useState<number | null>(null)
+  const formRef = useRef<HTMLFormElement>(null)
+
+  useEffect(() => {
+    if (retryCountdown === null) return
+    if (retryCountdown <= 0) {
+      setRetryCountdown(null)
+      setError('')
+      formRef.current?.requestSubmit()
+      return
+    }
+    const t = setTimeout(() => setRetryCountdown(c => (c === null ? null : c - 1)), 1000)
+    return () => clearTimeout(t)
+  }, [retryCountdown])
   const [upsellProducts, setUpsellProducts] = useState<WooProduct[]>([])
 
   // Device fingerprint (Konduto)
@@ -554,7 +568,11 @@ export default function CheckoutClient() {
       const data = await res.json()
       if (!res.ok) {
         setError(data.error || 'Erro ao processar pagamento')
-        setPaymentFailed(true)
+        if (data.retryable) {
+          setRetryCountdown(30)
+        } else {
+          setPaymentFailed(true)
+        }
         return
       }
 
@@ -595,7 +613,7 @@ export default function CheckoutClient() {
       <div className="container">
         <h1 className="font-display text-3xl md:text-4xl font-semibold mb-8">Finalizar Compra</h1>
 
-        <form onSubmit={handleSubmit}>
+        <form ref={formRef} onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-8 lg:gap-12 items-start">
             {/* Right column: Upsell + Order summary */}
             <aside className="space-y-6 lg:col-start-2 lg:row-start-1 order-2 lg:order-none">
@@ -1230,7 +1248,26 @@ export default function CheckoutClient() {
 
             {/* Submit row: order-3 on mobile (after summary), col-1 on desktop */}
             <div className="order-3 lg:col-start-1 space-y-4">
-              {error && (
+              {retryCountdown !== null && (
+                <div role="status" aria-live="polite" className="p-4 bg-amber-50 border border-amber-300 text-amber-900 text-sm rounded">
+                  <p className="font-semibold mb-2">⏳ Instabilidade momentânea no sistema</p>
+                  <p className="text-xs mb-3">Não saia desta página. Vamos tentar processar seu pagamento automaticamente em <strong>{retryCountdown}s</strong>.</p>
+                  <div className="w-full h-2 bg-amber-200 rounded overflow-hidden">
+                    <div
+                      className="h-full bg-amber-600 transition-all duration-1000 ease-linear"
+                      style={{ width: `${((30 - retryCountdown) / 30) * 100}%` }}
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => { setRetryCountdown(null); setError(''); formRef.current?.requestSubmit() }}
+                    className="mt-3 text-xs font-semibold underline hover:no-underline"
+                  >
+                    Tentar agora
+                  </button>
+                </div>
+              )}
+              {error && retryCountdown === null && (
                 <div role="alert" aria-live="assertive" className="space-y-3">
                   <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-sm">
                     {error}

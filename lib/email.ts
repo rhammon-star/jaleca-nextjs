@@ -875,6 +875,137 @@ export async function sendPaymentFailed(
 }
 
 // ── Alerta interno — falha de pagamento ──────────────────────────────────────
+// Pagamento capturado mas WooCommerce está fora — admin precisa criar pedido manual
+export async function sendWcCaptureFailureAlert(params: {
+  tempOrderId: string
+  createdAt?: string
+  customerFirstName: string
+  customerLastName: string
+  customerEmail: string
+  customerPhone?: string
+  customerCpf?: string
+  customerId?: number
+  customerIp?: string
+  paymentMethod: string
+  paymentStatus: string
+  cieloPaymentId: string
+  cardBrand?: string
+  cardLast4?: string
+  installments?: number
+  amount: string
+  itemsSubtotal: number
+  totalDiscount?: number
+  pixDiscount?: number
+  couponCode?: string
+  items: Array<{ name: string; quantity: number; price: number; color?: string; size?: string; product_id: number; variation_id?: number }>
+  shipping: { method_id: string; method_title: string; cost: number }
+  billing: { address_1: string; address_2?: string; neighborhood?: string; city: string; state: string; postcode: string; country?: string }
+  failureReason: string
+}): Promise<void> {
+  const { tempOrderId, createdAt, customerFirstName, customerLastName, customerEmail, customerPhone, customerCpf, customerId, customerIp, paymentMethod, paymentStatus, cieloPaymentId, cardBrand, cardLast4, installments, amount, itemsSubtotal, totalDiscount, pixDiscount, couponCode, items, shipping, billing, failureReason } = params
+
+  const customerName = `${customerFirstName} ${customerLastName}`.trim()
+  const waLink = customerPhone ? `https://wa.me/55${customerPhone.replace(/\D/g, '')}` : ''
+  const dateStr = createdAt || new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })
+  const brl = (n: number) => `R$ ${n.toFixed(2).replace('.', ',')}`
+
+  const itemsRows = items.map(i => `<tr>
+    <td style="padding:8px 4px;border-bottom:1px solid #f0f0f0;font-size:13px;vertical-align:top;">
+      <strong>${i.name}</strong>${i.color ? ` — ${i.color}` : ''}${i.size ? ` (${i.size})` : ''}<br/>
+      <span style="color:#999;font-size:11px;font-family:monospace;">product_id: ${i.product_id}${i.variation_id ? ` &nbsp;|&nbsp; variation_id: ${i.variation_id}` : ''}</span>
+    </td>
+    <td style="padding:8px 4px;border-bottom:1px solid #f0f0f0;font-size:13px;text-align:center;vertical-align:top;">${i.quantity}</td>
+    <td style="padding:8px 4px;border-bottom:1px solid #f0f0f0;font-size:13px;text-align:right;vertical-align:top;">${brl(i.price)}</td>
+    <td style="padding:8px 4px;border-bottom:1px solid #f0f0f0;font-size:13px;text-align:right;vertical-align:top;"><strong>${brl(i.price * i.quantity)}</strong></td>
+  </tr>`).join('')
+
+  const cardInfo = (cardBrand || cardLast4 || installments)
+    ? `<tr><td style="padding:4px 0;color:#666;">Cartão</td><td style="padding:4px 0;">${cardBrand || ''}${cardLast4 ? ` •••• ${cardLast4}` : ''}${installments && installments > 1 ? ` — ${installments}x` : ' — à vista'}</td></tr>`
+    : ''
+
+  const html = `<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="UTF-8"/><title>Pedido sem WooCommerce — ${tempOrderId}</title></head>
+<body style="margin:0;padding:0;background:#f5f5f0;font-family:Arial,sans-serif;color:#1a1a1a;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="padding:24px 16px;"><tr><td align="center">
+    <table width="680" cellpadding="0" cellspacing="0" style="background:#fff;border:1px solid #e5e5e5;max-width:680px;width:100%;">
+      <tr><td style="background:#d97706;padding:18px 28px;">
+        <p style="margin:0;color:#fff;font-size:11px;letter-spacing:3px;text-transform:uppercase;">Jaleca — Pedido recebido sem integração WC</p>
+      </td></tr>
+      <tr><td style="padding:28px;">
+        <h2 style="margin:0 0 8px;font-size:20px;">💰 Pagamento ${paymentStatus} — ${tempOrderId}</h2>
+        <p style="margin:0 0 20px;font-size:13px;color:#b45309;background:#fef3c7;padding:12px;border-left:3px solid #d97706;">
+          <strong>O pedido foi feito e o pagamento foi capturado no Cielo, mas o WooCommerce estava fora — o pedido NÃO foi criado no WP.</strong><br/>
+          Crie o pedido manualmente com os dados abaixo, baixe o estoque e marque com o status correto. NF deve ser emitida manualmente.<br/>
+          <span style="font-size:11px;color:#92400e;display:block;margin-top:6px;">Erro técnico: ${failureReason}</span>
+        </p>
+
+        <h3 style="margin:20px 0 8px;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:#666;border-bottom:1px solid #eee;padding-bottom:6px;">Pedido</h3>
+        <table width="100%" cellpadding="0" cellspacing="0" style="font-size:14px;margin-bottom:16px;">
+          <tr><td style="padding:4px 0;color:#666;width:140px;">ID temporário</td><td style="padding:4px 0;font-family:monospace;"><strong>${tempOrderId}</strong></td></tr>
+          <tr><td style="padding:4px 0;color:#666;">Data/hora</td><td style="padding:4px 0;">${dateStr}</td></tr>
+          <tr><td style="padding:4px 0;color:#666;">Cielo PaymentId</td><td style="padding:4px 0;font-family:monospace;font-size:12px;">${cieloPaymentId}</td></tr>
+          <tr><td style="padding:4px 0;color:#666;">Status pagamento</td><td style="padding:4px 0;"><strong>${paymentStatus}</strong></td></tr>
+        </table>
+
+        <h3 style="margin:20px 0 8px;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:#666;border-bottom:1px solid #eee;padding-bottom:6px;">Cliente</h3>
+        <table width="100%" cellpadding="0" cellspacing="0" style="font-size:14px;margin-bottom:16px;">
+          <tr><td style="padding:4px 0;color:#666;width:140px;">Nome</td><td style="padding:4px 0;"><strong>${customerFirstName}</strong></td></tr>
+          <tr><td style="padding:4px 0;color:#666;">Sobrenome</td><td style="padding:4px 0;"><strong>${customerLastName}</strong></td></tr>
+          <tr><td style="padding:4px 0;color:#666;">Email</td><td style="padding:4px 0;"><a href="mailto:${customerEmail}" style="color:#1a1a1a;">${customerEmail}</a></td></tr>
+          ${customerPhone ? `<tr><td style="padding:4px 0;color:#666;">Telefone</td><td style="padding:4px 0;"><a href="${waLink}" style="color:#1a1a1a;">${customerPhone}</a></td></tr>` : ''}
+          ${customerCpf ? `<tr><td style="padding:4px 0;color:#666;">CPF</td><td style="padding:4px 0;font-family:monospace;">${customerCpf}</td></tr>` : ''}
+          ${customerId ? `<tr><td style="padding:4px 0;color:#666;">customer_id WP</td><td style="padding:4px 0;font-family:monospace;">${customerId}</td></tr>` : '<tr><td style="padding:4px 0;color:#666;">Cliente WP</td><td style="padding:4px 0;color:#999;">Guest (sem cadastro)</td></tr>'}
+          ${customerIp ? `<tr><td style="padding:4px 0;color:#666;">IP</td><td style="padding:4px 0;font-family:monospace;font-size:12px;">${customerIp}</td></tr>` : ''}
+        </table>
+
+        <h3 style="margin:20px 0 8px;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:#666;border-bottom:1px solid #eee;padding-bottom:6px;">Endereço de entrega</h3>
+        <table width="100%" cellpadding="0" cellspacing="0" style="font-size:14px;margin-bottom:16px;">
+          <tr><td style="padding:4px 0;color:#666;width:140px;">Logradouro</td><td style="padding:4px 0;">${billing.address_1}</td></tr>
+          ${billing.address_2 ? `<tr><td style="padding:4px 0;color:#666;">Complemento/nº</td><td style="padding:4px 0;">${billing.address_2}</td></tr>` : ''}
+          ${billing.neighborhood ? `<tr><td style="padding:4px 0;color:#666;">Bairro</td><td style="padding:4px 0;">${billing.neighborhood}</td></tr>` : ''}
+          <tr><td style="padding:4px 0;color:#666;">Cidade</td><td style="padding:4px 0;">${billing.city}</td></tr>
+          <tr><td style="padding:4px 0;color:#666;">Estado</td><td style="padding:4px 0;">${billing.state}</td></tr>
+          <tr><td style="padding:4px 0;color:#666;">CEP</td><td style="padding:4px 0;font-family:monospace;">${billing.postcode}</td></tr>
+          <tr><td style="padding:4px 0;color:#666;">País</td><td style="padding:4px 0;">${billing.country || 'BR'}</td></tr>
+        </table>
+
+        <h3 style="margin:20px 0 8px;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:#666;border-bottom:1px solid #eee;padding-bottom:6px;">Itens (${items.reduce((s, i) => s + i.quantity, 0)})</h3>
+        <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:16px;border-collapse:collapse;">
+          <thead><tr style="background:#f5f5f0;">
+            <td style="padding:8px 4px;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#666;">Produto</td>
+            <td style="padding:8px 4px;text-align:center;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#666;">Qtd</td>
+            <td style="padding:8px 4px;text-align:right;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#666;">Unit.</td>
+            <td style="padding:8px 4px;text-align:right;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#666;">Total</td>
+          </tr></thead>
+          <tbody>${itemsRows}</tbody>
+        </table>
+
+        <h3 style="margin:20px 0 8px;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:#666;border-bottom:1px solid #eee;padding-bottom:6px;">Pagamento &amp; totais</h3>
+        <table width="100%" cellpadding="0" cellspacing="0" style="font-size:14px;margin-bottom:20px;">
+          <tr><td style="padding:4px 0;color:#666;width:140px;">Método</td><td style="padding:4px 0;"><strong>${paymentMethod}</strong></td></tr>
+          ${cardInfo}
+          <tr><td style="padding:4px 0;color:#666;">Subtotal itens</td><td style="padding:4px 0;text-align:right;">${brl(itemsSubtotal)}</td></tr>
+          <tr><td style="padding:4px 0;color:#666;">Frete (${shipping.method_title})</td><td style="padding:4px 0;text-align:right;">${brl(shipping.cost)}</td></tr>
+          <tr><td style="padding:4px 0;color:#666;">Método de envio (ID)</td><td style="padding:4px 0;text-align:right;font-family:monospace;font-size:12px;">${shipping.method_id}</td></tr>
+          ${couponCode ? `<tr><td style="padding:4px 0;color:#666;">Cupom</td><td style="padding:4px 0;text-align:right;font-family:monospace;">${couponCode}</td></tr>` : ''}
+          ${totalDiscount && totalDiscount > 0 ? `<tr><td style="padding:4px 0;color:#666;">Desconto cupom</td><td style="padding:4px 0;text-align:right;color:#c0392b;">-${brl(totalDiscount)}</td></tr>` : ''}
+          ${pixDiscount && pixDiscount > 0 ? `<tr><td style="padding:4px 0;color:#666;">Desconto PIX</td><td style="padding:4px 0;text-align:right;color:#c0392b;">-${brl(pixDiscount)}</td></tr>` : ''}
+          <tr style="border-top:2px solid #1a1a1a;"><td style="padding:10px 0 4px;font-size:16px;"><strong>Total cobrado</strong></td><td style="padding:10px 0 4px;text-align:right;font-size:18px;"><strong>${amount}</strong></td></tr>
+        </table>
+
+        <a href="https://wp.jaleca.com.br/wp-admin/post-new.php?post_type=shop_order" style="display:inline-block;background:#1a1a1a;color:#fff;padding:12px 24px;text-decoration:none;font-size:12px;letter-spacing:2px;margin-right:12px;">CRIAR PEDIDO NO WP</a>
+        ${customerPhone ? `<a href="${waLink}" style="display:inline-block;background:#25d366;color:#fff;padding:12px 24px;text-decoration:none;font-size:12px;letter-spacing:2px;">WHATSAPP CLIENTE</a>` : ''}
+      </td></tr>
+    </table>
+  </td></tr></table>
+</body></html>`
+
+  const internalRecipients = ['financeiro@jaleca.com.br', 'contato@jaleca.com.br', 'rhammon@objetivasolucao.com.br']
+  await Promise.all(
+    internalRecipients.map(to => sendMail({ to, subject: `Pedido feito e recebido porém não foi integrado ao WooCommerce — ${tempOrderId} (${amount}) — ${customerName}`, html }))
+  )
+}
+
 export async function sendInternalPaymentFailureAlert(params: {
   orderId: number | string
   orderNumber: string
