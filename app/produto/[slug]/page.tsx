@@ -11,6 +11,7 @@ import type { WooProduct } from '@/components/ProductCard'
 import type { Metadata } from 'next'
 import { sendMetaViewContent } from '@/lib/meta-conversions'
 import { parseColorSlug, findVariationByColor } from '@/lib/product-colors'
+import { getKnownColorSlugs } from '@/lib/kv-colors'
 import { generateColorMetaDescription } from '@/lib/product-seo-generator'
 import { getVariationSEO, getInStockSiblings } from '@/lib/variation-seo'
 import OutOfStockPage from '@/components/OutOfStockPage'
@@ -114,7 +115,8 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>
 }): Promise<Metadata> {
   const { slug } = await params
-  const { baseSlug, colorName, hasColor } = parseColorSlug(slug)
+  const kvColors = await getKnownColorSlugs()
+  const { baseSlug, colorName, hasColor } = parseColorSlug(slug, kvColors)
 
   // Busca produto mãe se slug tiver cor, senão busca o próprio slug
   const productSlug = hasColor ? baseSlug : slug
@@ -233,7 +235,8 @@ export default async function ProdutoPage({
     return <OutOfStockPage seo={kvSeo} otherColors={otherColors} />
   }
 
-  const { baseSlug, colorName, hasColor } = parseColorSlug(slug)
+  const kvColors = await getKnownColorSlugs()
+  const { baseSlug, colorName, hasColor } = parseColorSlug(slug, kvColors)
 
   // Busca produto mãe se slug tiver cor
   const productSlug = hasColor ? baseSlug : slug

@@ -139,37 +139,32 @@ export const PRIORITY_COLORS = {
  * parseColorSlug('jaleco-slim-tradicional')
  * // { baseSlug: 'jaleco-slim-tradicional', colorSlug: null, hasColor: false }
  */
-export function parseColorSlug(slug: string): {
+export function parseColorSlug(
+  slug: string,
+  extraColorSlugs?: Set<string>,
+): {
   baseSlug: string
   colorSlug: string | null
   colorName: string | null
   hasColor: boolean
 } {
-  // Tenta encontrar cores de 2 palavras primeiro (ex: azul-marinho, rosa-bebe)
-  const twoWordColors = Object.keys(COLOR_SLUG_MAP).filter(c => c.includes('-'))
-  for (const colorSlug of twoWordColors) {
-    if (slug.endsWith(`-${colorSlug}`)) {
-      const baseSlug = slug.replace(`-${colorSlug}`, '')
+  const allColors = new Set([
+    ...Object.keys(COLOR_SLUG_MAP),
+    ...(extraColorSlugs ?? []),
+  ])
+
+  // Tenta cores mais longas primeiro (3 partes, 2 partes, 1 parte)
+  const parts = slug.split('-')
+  for (let len = Math.min(3, parts.length - 1); len >= 1; len--) {
+    const colorSlug = parts.slice(parts.length - len).join('-')
+    if (allColors.has(colorSlug)) {
+      const baseSlug = parts.slice(0, parts.length - len).join('-')
       return {
         baseSlug,
         colorSlug,
-        colorName: COLOR_SLUG_MAP[colorSlug],
+        colorName: COLOR_SLUG_MAP[colorSlug] ?? colorSlug,
         hasColor: true,
       }
-    }
-  }
-
-  // Depois tenta cores de 1 palavra
-  const parts = slug.split('-')
-  const lastPart = parts[parts.length - 1]
-
-  if (COLOR_SLUG_MAP[lastPart]) {
-    const baseSlug = parts.slice(0, -1).join('-')
-    return {
-      baseSlug,
-      colorSlug: lastPart,
-      colorName: COLOR_SLUG_MAP[lastPart],
-      hasColor: true,
     }
   }
 

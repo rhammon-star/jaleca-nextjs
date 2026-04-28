@@ -16,6 +16,7 @@ import {
 import { kv, notifyKey, type SeoEntry } from '@/lib/kv'
 import { notifyAllForUrl } from '@/lib/google-indexing'
 import { sendBackInStock } from '@/lib/email'
+import { registerColorSlug } from '@/lib/kv-colors'
 
 export const runtime = 'nodejs'
 
@@ -48,6 +49,8 @@ async function buildTemplateSeo(
   const colorName = live.attributes['Cor'] ?? live.attributes['cor'] ?? live.attributes['pa_color'] ?? 'Padrão'
   const colorSlug = slugify(colorName)
   const url = `/produto/${productSlug}-${colorSlug}`
+
+  await registerColorSlug(colorSlug)
 
   return {
     url,
