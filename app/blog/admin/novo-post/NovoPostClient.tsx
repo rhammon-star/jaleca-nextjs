@@ -348,6 +348,22 @@ export default function NovoPostClient() {
 
   async function handleSave(status: 'draft' | 'publish') {
     if (!result) return
+
+    // Bloquear publicação se tiver palavras da blacklist
+    if (status === 'publish') {
+      const res = await fetch('/api/blog/check-ai', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content: editContent }),
+      })
+      const data = await res.json()
+      if (data.flagged) {
+        setSaveStatus('error')
+        setSaveError(`Texto contém linguagem de IA: "${data.found.slice(0, 3).join('", "')}". Clique em "Humanizar Texto" antes de publicar.`)
+        return
+      }
+    }
+
     setSaveStatus('saving')
     setSaveError('')
     try {
