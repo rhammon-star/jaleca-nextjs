@@ -155,8 +155,16 @@ Retorne APENAS um JSON válido (sem markdown, sem texto antes ou depois) no segu
   "suggestedKeywords": ["keyword1", "keyword2", "keyword3", "keyword4", "keyword5"]
 }`
 
-  const raw = await callGemini(prompt, 4000)
-  return JSON.parse(stripMarkdownCodeBlock(raw)) as GeneratedContent
+  const raw = await callGemini(prompt, 8192)
+  const cleaned = stripMarkdownCodeBlock(raw)
+  try {
+    return JSON.parse(cleaned) as GeneratedContent
+  } catch {
+    // Tenta recuperar JSON truncado cortando na última chave completa
+    const lastBrace = cleaned.lastIndexOf('"}')
+    if (lastBrace === -1) throw new Error('Resposta do Gemini inválida')
+    return JSON.parse(cleaned.slice(0, lastBrace + 2) + '}') as GeneratedContent
+  }
 }
 
 // ── Blacklist de palavras/frases robóticas de IA ──────────────────────────────
