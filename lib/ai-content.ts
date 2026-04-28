@@ -11,10 +11,13 @@ async function callGemini(prompt: string, maxTokens = 2000): Promise<string> {
   const apiKey = process.env.GEMINI_API_KEY
   if (!apiKey) throw new Error('GEMINI_API_KEY not set')
 
-  const RETRIES = 3
-  const DELAYS = [10000, 30000, 60000] // 10s, 30s, 1min
+  const MAX_WAIT = 5 * 60 * 1000 // 5 minutos no total
+  const RETRY_DELAY = 15000 // 15s entre tentativas
+  const start = Date.now()
+  let attempt = 0
 
-  for (let attempt = 0; attempt <= RETRIES; attempt++) {
+  while (true) {
+    attempt++
     const res = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
       {
@@ -40,16 +43,14 @@ async function callGemini(prompt: string, maxTokens = 2000): Promise<string> {
     const message = (err as { error?: { message?: string } }).error?.message ?? `Gemini API error: ${res.status}`
     const isOverload = res.status === 503 || res.status === 429 || message.toLowerCase().includes('high demand') || message.toLowerCase().includes('overloaded')
 
-    if (isOverload && attempt < RETRIES) {
-      await new Promise(r => setTimeout(r, DELAYS[attempt]))
-      continue
+    if (!isOverload) throw new Error(message)
+
+    if (Date.now() - start > MAX_WAIT) {
+      throw new Error('O Gemini continua sobrecarregado após 5 minutos. Tente mais tarde.')
     }
 
-    throw new Error(
-      isOverload
-        ? 'O Gemini está sobrecarregado. Tente novamente em 3 minutos.'
-        : message
-    )
+    console.log(`[Gemini] sobrecarregado, tentativa ${attempt}, aguardando ${RETRY_DELAY / 1000}s...`)
+    await new Promise(r => setTimeout(r, RETRY_DELAY))
   }
 
   throw new Error('O Gemini está sobrecarregado. Tente novamente em 3 minutos.')

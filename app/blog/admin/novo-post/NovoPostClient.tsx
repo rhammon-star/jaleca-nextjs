@@ -115,6 +115,7 @@ export default function NovoPostClient() {
   const [duplicateWarning, setDuplicateWarning] = useState('')
   const [suggestedKws, setSuggestedKws] = useState<string[]>([])
   const [loadingKws, setLoadingKws] = useState(false)
+  const [retryMessage, setRetryMessage] = useState('')
   const productInputRef = useRef<HTMLInputElement>(null)
   const abortRef = useRef<AbortController | null>(null)
 
@@ -258,6 +259,11 @@ export default function NovoPostClient() {
 
           if (eventType === 'progress') {
             const stepId = data.step as number
+            if (data.retrying) {
+              setRetryMessage(`Gemini sobrecarregado, aguardando... tentativa ${data.attempt}`)
+            } else {
+              setRetryMessage('')
+            }
             for (let i = 1; i < stepId; i++) updateStep(i, 'done')
             updateStep(stepId, 'loading')
           } else if (eventType === 'complete') {
@@ -931,6 +937,11 @@ export default function NovoPostClient() {
     return (
       <div className="max-w-md mx-auto text-center py-12">
         <h2 className="font-display text-xl font-semibold mb-8">Gerando seu conteúdo...</h2>
+        {retryMessage && (
+          <p className="text-xs text-yellow-600 bg-yellow-50 border border-yellow-200 rounded px-3 py-2 mb-6">
+            ⏳ {retryMessage}
+          </p>
+        )}
         <div className="space-y-4 text-left">
           {generationSteps.map(s => (
             <div key={s.id} className="flex items-center gap-3 py-2">
