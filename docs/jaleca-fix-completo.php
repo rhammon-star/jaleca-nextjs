@@ -273,6 +273,29 @@ function jaleca_desativa_variacao_sem_preco($variation_id, $i) {
     }
 }
 
+// ── Hooks: notifica Next.js quando variacao muda ─────────────────────────────
+add_action('woocommerce_update_product_variation',     'jaleca_notify_variation_change', 20, 1);
+add_action('woocommerce_save_product_variation',       'jaleca_notify_variation_change', 20, 1);
+add_action('woocommerce_variation_set_stock_status',   'jaleca_notify_variation_change', 20, 1);
+add_action('woocommerce_variation_set_visible',        'jaleca_notify_variation_change', 20, 1);
+
+function jaleca_notify_variation_change($variation_id) {
+    $variation_id = absint($variation_id);
+    if (!$variation_id) return;
+
+    $secret = defined('JALECA_REGISTER_SECRET') ? JALECA_REGISTER_SECRET : 'jaleca-register-secret-2026';
+
+    wp_remote_post('https://jaleca.com.br/api/wc/variation-sync', array(
+        'headers'  => array(
+            'Content-Type'    => 'application/json',
+            'X-Jaleca-Secret' => $secret,
+        ),
+        'body'     => json_encode(array('variationId' => $variation_id)),
+        'timeout'  => 5,
+        'blocking' => false, // nao trava o admin do WP
+    ));
+}
+
 // ── Endpoint: GET /jaleca/v1/variation/{id} — usado pelo Next sync ────────────
 add_action('rest_api_init', 'jaleca_register_variation_route');
 
