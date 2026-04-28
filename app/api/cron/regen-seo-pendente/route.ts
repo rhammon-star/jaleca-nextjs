@@ -3,6 +3,7 @@ import { drainRetries } from '@/lib/seo-retry-queue'
 import { tryGeminiOrEnqueue } from '@/lib/variation-seo-generator'
 import { getAllSeoSlugs } from '@/lib/variation-seo'
 import { kv, seoKey, type SeoEntry } from '@/lib/kv'
+import { pingSitemap } from '@/lib/google-indexing'
 
 export const runtime = 'nodejs'
 export const maxDuration = 300
@@ -32,6 +33,10 @@ export async function GET(req: NextRequest) {
     if (Date.now() - lastAttempt < ONE_HOUR) continue
     await tryGeminiOrEnqueue(e.variationId)
     results.push({ from: 'scan', variationId: e.variationId })
+  }
+
+  if (results.length > 0) {
+    await pingSitemap()
   }
 
   return NextResponse.json({ processed: results.length, results })

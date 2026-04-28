@@ -13,7 +13,9 @@ import {
   withLock,
   type Action,
 } from '@/lib/variation-state'
-import type { SeoEntry } from '@/lib/kv'
+import { kv, notifyKey, type SeoEntry } from '@/lib/kv'
+import { notifyAllForUrl } from '@/lib/google-indexing'
+import { sendBackInStock } from '@/lib/email'
 
 export const runtime = 'nodejs'
 
@@ -63,6 +65,20 @@ async function buildTemplateSeo(
     lastSyncedAt: now,
     geminiAttempts: 0,
   }
+}
+
+async function drainAndNotify(seo: SeoEntry) {
+  const emails = (await kv.smembers(notifyKey(seo.variationId))) as string[]
+  if (!emails.length) return
+  for (const email of emails) {
+    await sendBackInStock({
+      to: email,
+      productName: seo.productName,
+      colorName: seo.colorName,
+      url: seo.url,
+    }).catch((e) => console.error('[backinstock email]', email, e))
+  }
+  await kv.del(notifyKey(seo.variationId))
 }
 
 export async function POST(req: NextRequest) {
@@ -116,6 +132,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ action, variationId })
   }
 
+  let updatedSeo: SeoEntry | null = null
   const owner = `webhook-${variationId}-${Date.now()}`
   await withLock(owner, async () => {
     const existingSeo = await getSeoByVariationId(variationId)
@@ -136,11 +153,21 @@ export async function POST(req: NextRequest) {
     await upsertSeo(seo)
     await setSnapshot(variationId, live.snapshot)
     revalidatePath(seo.url)
+    updatedSeo = seo
     log('upserted', { variationId, slug: seo.url, seoQuality: seo.seoQuality, noindex: seo.noindex })
   })
 
-  if (action === 'CRIAR') {
-    waitUntil(tryGeminiOrEnqueue(variationId))
+  if (updatedSeo) {
+    const seo = updatedSeo as SeoEntry
+    if (action === 'CRIAR' || action === 'VOLTOU_ESTOQUE') {
+      waitUntil(notifyAllForUrl(seo.url))
+    }
+    if (action === 'CRIAR') {
+      waitUntil(tryGeminiOrEnqueue(variationId))
+    }
+    if (action === 'VOLTOU_ESTOQUE') {
+      waitUntil(drainAndNotify(seo))
+    }
   }
 
   log('done', { variationId, action, ms: Date.now() - t0 })

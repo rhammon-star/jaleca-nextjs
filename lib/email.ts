@@ -1107,3 +1107,32 @@ export async function sendSeoDropAlert(
     html,
   })
 }
+
+
+export async function sendBackInStock(args: {
+  to: string
+  productName: string
+  colorName: string
+  url: string
+  imageUrl?: string
+}): Promise<void> {
+  const { to, productName, colorName, url, imageUrl } = args
+  const html = `
+    <div style="font-family:sans-serif;max-width:560px;margin:auto">
+      <h1 style="color:#7a5d3a">Voltou ao estoque!</h1>
+      <p>O <strong>${productName}</strong> na cor <strong>${colorName}</strong> que você queria já está disponível.</p>
+      ${imageUrl ? `<img src="${imageUrl}" alt="${productName}" style="width:100%;border-radius:8px"/>` : ''}
+      <p style="margin-top:24px">
+        <a href="https://jaleca.com.br${url}" style="background:#7a5d3a;color:white;padding:12px 24px;border-radius:6px;text-decoration:none;display:inline-block">Comprar agora</a>
+      </p>
+      <p style="font-size:12px;color:#888;margin-top:32px">
+        Você recebeu este email porque pediu para ser avisado quando este produto voltasse.
+      </p>
+    </div>
+  `
+  await sendMail({
+    to,
+    subject: `${productName} ${colorName} voltou ao estoque!`,
+    html,
+  })
+}
