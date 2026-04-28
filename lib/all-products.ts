@@ -141,6 +141,84 @@ async function filterOutOfStockVariants(variants: WooProduct[]): Promise<WooProd
   }
 }
 
+async function getKVVariants(
+  mainProducts: WooProduct[],
+  jsonSlugs: Set<string>,
+): Promise<WooProduct[]> {
+  try {
+    // Indexa produtos pai por slug para lookup rápido
+    const productBySlug = new Map<string, WooProduct>()
+    mainProducts.forEach(p => productBySlug.set(p.slug, p))
+
+    // Varre todas as entradas SEO do KV
+    const variants: WooProduct[] = []
+    let cursor = 0
+    let idx = 0
+    do {
+      const [next, keys] = await (kv as any).scan(cursor, { match: 'seo:produto/*', count: 100 })
+      cursor = Number(next)
+
+      for (const key of keys as string[]) {
+        const entry = await kv.get<SeoEntry>(key)
+        if (!entry) continue
+        if (entry.stockStatus === 'outofstock' || entry.noindex) continue
+
+        const slug = entry.url.replace('/produto/', '')
+
+        // Pula se já está coberto pelo JSON estático
+        if (jsonSlugs.has(slug)) continue
+
+        const parent = productBySlug.get(entry.productSlug)
+
+        // Tenta achar a variação específica pelo variationId (databaseId)
+        let variantImage = parent?.image
+        let variantPrice = parent?.price || ''
+        let variantRegularPrice = parent?.regularPrice || ''
+        let variantSalePrice = parent?.salePrice || null
+
+        if (parent?.variations?.nodes && entry.variationId) {
+          const variation = parent.variations.nodes.find(
+            (v: any) => v.databaseId === entry.variationId
+          )
+          if (variation) {
+            variantImage = variation.image || variantImage
+            variantPrice = variation.price || variantPrice
+            variantRegularPrice = variation.regularPrice || variantRegularPrice
+            variantSalePrice = variation.salePrice || variantSalePrice
+          }
+        }
+
+        const categories = parent?.productCategories?.nodes ?? [
+          { name: entry.category, slug: entry.category }
+        ]
+
+        variants.push({
+          id: `kv-variant-${idx}`,
+          databaseId: 95000 + idx,
+          name: `${entry.productName} - ${entry.colorName}`,
+          slug,
+          price: variantPrice,
+          regularPrice: variantRegularPrice,
+          salePrice: variantSalePrice,
+          image: variantImage || { sourceUrl: '', altText: entry.productName },
+          productCategories: { nodes: categories },
+          attributes: {
+            nodes: [{ name: 'pa_cor', options: [entry.colorName.toLowerCase()] }]
+          },
+          variations: { nodes: [] },
+        } as WooProduct)
+
+        idx++
+      }
+    } while (cursor !== 0)
+
+    return variants
+  } catch (e) {
+    console.error('[getKVVariants] error:', e)
+    return []
+  }
+}
+
 export async function getAllProducts(): Promise<WooProduct[]> {
   try {
     const mainProducts = await getAllProductsCached()
@@ -152,12 +230,18 @@ export async function getAllProducts(): Promise<WooProduct[]> {
       return !productsWithColorPages.has(cleanName)
     })
 
-    // Filtrar variantes cujo KV marca como outofstock (sem estoque)
+    // Slugs já cobertos pelo JSON — para deduplicar com KV
+    const jsonSlugs = new Set(colorVariants.map(v => v.slug))
+
+    // Variantes do KV (webhook) que não estão no JSON estático
+    const kvVariants = await getKVVariants(mainProducts, jsonSlugs)
+
+    // Filtrar variantes JSON cujo KV marca como outofstock
     const inStockVariants = await filterOutOfStockVariants(colorVariants)
 
-    console.log(`[getAllProducts] ${mainProducts.length} produtos WC, ${productsWithColorPages.size} com cores → ${mainProductsWithoutColorPages.length} pai + ${inStockVariants.length}/${colorVariants.length} cores instock`)
+    console.log(`[getAllProducts] ${mainProducts.length} WC, ${productsWithColorPages.size} JSON cores, ${kvVariants.length} KV novas → ${inStockVariants.length} JSON instock + ${kvVariants.length} KV + ${mainProductsWithoutColorPages.length} pai`)
 
-    return [...inStockVariants, ...mainProductsWithoutColorPages]
+    return [...inStockVariants, ...kvVariants, ...mainProductsWithoutColorPages]
   } catch (e) {
     console.warn('[getAllProducts] Cache miss/error, tentando fetch direto...', e)
     try {
