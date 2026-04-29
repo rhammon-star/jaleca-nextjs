@@ -74,6 +74,9 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
+  verification: {
+    apple: 'wkrD2hgOtQdo2VVw',
+  },
 };
 
 const organizationJsonLd = {
