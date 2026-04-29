@@ -179,14 +179,18 @@ Retorne APENAS um JSON válido (sem markdown, sem texto antes ou depois) no segu
 
   const raw = await callGemini(prompt, 8192)
   const cleaned = stripMarkdownCodeBlock(raw)
+  let parsed: GeneratedContent
   try {
-    return JSON.parse(cleaned) as GeneratedContent
+    parsed = JSON.parse(cleaned) as GeneratedContent
   } catch {
-    // Tenta recuperar JSON truncado cortando na última chave completa
     const lastBrace = cleaned.lastIndexOf('"}')
     if (lastBrace === -1) throw new Error('Resposta do Gemini inválida')
-    return JSON.parse(cleaned.slice(0, lastBrace + 2) + '}') as GeneratedContent
+    parsed = JSON.parse(cleaned.slice(0, lastBrace + 2) + '}') as GeneratedContent
   }
+  if (parsed.metaDescription?.length > 160) {
+    parsed.metaDescription = parsed.metaDescription.slice(0, 157) + '...'
+  }
+  return parsed
 }
 
 // ── Blacklist de palavras/frases robóticas de IA ──────────────────────────────
@@ -246,7 +250,7 @@ REGRAS OBRIGATÓRIAS:
 
 Retorne APENAS o HTML reescrito, sem explicações, sem markdown.`
 
-  const raw = await callGemini(prompt, 4000)
+  const raw = await callGemini(prompt, 8192)
   return stripMarkdownCodeBlock(raw)
 }
 
@@ -267,7 +271,7 @@ REGRAS:
 
 Retorne APENAS o HTML reescrito, sem markdown, sem explicações.`
 
-  const raw = await callGemini(prompt, 4000)
+  const raw = await callGemini(prompt, 8192)
   return stripMarkdownCodeBlock(raw)
 }
 
@@ -321,7 +325,7 @@ Retorne APENAS JSON válido (sem markdown) no formato:
       headingsAnalysis: { h1: 0, h2: 2, h3: 1, issues: [] },
       metaDescriptionAnalysis: { length: data.metaDescription.length, hasKeyword: true, issues: [] },
       titleAnalysis: { length: data.title.length, hasKeyword: true, issues: [] },
-      internalLinksCount: 0,
+      internalLinksCount: (data.content.match(/<a\s+[^>]*href=/gi) ?? []).length,
       scannability: { bulletPoints: false, shortParagraphs: true, boldText: false },
       suggestions: ['Análise SEO indisponível no momento'],
     }
@@ -352,7 +356,7 @@ REGRAS:
 - NUNCA adicione ou altere links — mantenha apenas os links já existentes no conteúdo
 - Retorne APENAS o HTML melhorado`
 
-  const raw = await callGemini(prompt, 4000)
+  const raw = await callGemini(prompt, 8192)
   return stripMarkdownCodeBlock(raw)
 }
 
