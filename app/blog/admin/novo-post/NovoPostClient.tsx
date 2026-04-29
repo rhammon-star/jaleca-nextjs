@@ -27,6 +27,7 @@ type GeneratedResult = {
   seoScore: number
   seoAnalysis: SEOAnalysis
   imageUrl: string | null
+  imageCaption: string | null
   imageAuthor: { name: string; link: string } | null
 }
 
@@ -298,7 +299,7 @@ export default function NovoPostClient() {
       })
       if (!res.ok) throw new Error('Erro ao buscar imagem')
       const data = await res.json()
-      setResult(prev => prev ? { ...prev, imageUrl: data.imageUrl, imageAuthor: data.imageAuthor } : prev)
+      setResult(prev => prev ? { ...prev, imageUrl: data.imageUrl, imageCaption: data.imageCaption ?? null, imageAuthor: data.imageAuthor } : prev)
     } catch {
       // silently fail
     } finally {
@@ -1003,24 +1004,29 @@ export default function NovoPostClient() {
                     Trocar foto
                   </button>
                 </div>
-                <div className="aspect-[16/9] max-w-md overflow-hidden bg-secondary/20 relative">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={result.imageUrl} alt="Imagem destacada sugerida" className="w-full h-full object-cover" />
-                  {refreshingImage && (
-                    <div className="absolute inset-0 bg-background/60 flex items-center justify-center">
-                      <Loader2 size={24} className="animate-spin text-foreground" />
-                    </div>
+                <figure className="max-w-md">
+                  <div className="aspect-[16/9] overflow-hidden bg-secondary/20 relative">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={result.imageUrl} alt={result.imageCaption ?? 'Imagem destacada sugerida'} className="w-full h-full object-cover" />
+                    {refreshingImage && (
+                      <div className="absolute inset-0 bg-background/60 flex items-center justify-center">
+                        <Loader2 size={24} className="animate-spin text-foreground" />
+                      </div>
+                    )}
+                  </div>
+                  {result.imageCaption && (
+                    <figcaption className="text-xs text-muted-foreground mt-1 italic">{result.imageCaption}</figcaption>
                   )}
-                </div>
-                {result.imageAuthor && (
-                  <p className="text-[10px] text-muted-foreground mt-1">
-                    Foto por{' '}
-                    <a href={result.imageAuthor.link} target="_blank" rel="noopener noreferrer" className="underline">
-                      {result.imageAuthor.name}
-                    </a>{' '}
-                    no Unsplash
-                  </p>
-                )}
+                  {result.imageAuthor && (
+                    <p className="text-[10px] text-muted-foreground mt-0.5">
+                      Foto por{' '}
+                      <a href={result.imageAuthor.link} target="_blank" rel="noopener noreferrer" className="underline">
+                        {result.imageAuthor.name}
+                      </a>{' '}
+                      no Pexels
+                    </p>
+                  )}
+                </figure>
               </div>
             )}
 

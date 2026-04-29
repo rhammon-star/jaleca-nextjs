@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { verifyBlogToken, getUserById } from '@/lib/blog-auth'
 import { generateContent, humanizeContent, analyzeSEO, generateImageQuery, improveSEOContent } from '@/lib/ai-content'
-import { searchImage } from '@/lib/unsplash'
+import { searchImage } from '@/lib/pexels'
 import { publishPost, uploadMedia } from '@/lib/wordpress'
 import { cookies } from 'next/headers'
 
@@ -133,6 +133,7 @@ export async function POST(request: NextRequest) {
           seoScore: finalSEO.score,
           seoAnalysis: finalSEO,
           imageUrl: imageResult?.url ?? null,
+          imageCaption: imageResult?.caption ?? null,
           imageAuthor: imageResult
             ? { name: imageResult.authorName, link: imageResult.authorLink }
             : null,
