@@ -74,8 +74,8 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
-  verification: {
-    apple: 'wkrD2hgOtQdo2VVw',
+  other: {
+    'apple-domain-verification': 'wkrD2hgOtQdo2VVw',
   },
 };
 
