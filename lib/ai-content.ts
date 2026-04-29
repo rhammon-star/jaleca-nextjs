@@ -88,6 +88,17 @@ const WRITING_STYLES = [
   },
 ]
 
+function inferCategory(topic: string): string {
+  const t = topic.toLowerCase()
+  if (t.includes('feminino') || t.includes('feminina')) return '/categoria/jalecos-femininos'
+  if (t.includes('masculino') || t.includes('masculina')) return '/categoria/jalecos-masculinos'
+  if (t.includes('scrub') || t.includes('pijama cirúrgico') || t.includes('pijama cirurgico')) return '/categoria/scrub'
+  if (t.includes('dólmã') || t.includes('dolma')) return '/categoria/dolmas'
+  if (t.includes('personalizado') || t.includes('bordado')) return '/categoria/jalecos-personalizados'
+  if (t.includes('conjunto')) return '/categoria/conjuntos'
+  return '/categoria/jalecos'
+}
+
 export async function generateContent(
   topic: string,
   keywords?: string[],
@@ -122,9 +133,15 @@ Páginas:
 - /faq
 `
 
+  const inferredCategory = inferCategory(topic)
   const productLink = linkedProduct
-    ? `- OBRIGATÓRIO: inclua um link para https://jaleca.com.br/produto/${linkedProduct} com texto natural relacionado ao produto`
+    ? `- OBRIGATÓRIO: no corpo do artigo, inclua UM link com texto natural para https://jaleca.com.br/produto/${linkedProduct} — ex: "o [nome do produto] da Jaleca tem [característica]"`
     : ''
+  const recommendationBlock = linkedProduct
+    ? `- OBRIGATÓRIO: o último parágrafo do artigo DEVE ser um bloco de recomendação explícita com exatamente este formato HTML:
+<p><strong>Nossa indicação:</strong> <a href="https://jaleca.com.br/produto/${linkedProduct}">veja o produto na Jaleca</a> — ideal para quem busca qualidade e conforto no dia a dia clínico.</p>`
+    : `- OBRIGATÓRIO: o último parágrafo do artigo DEVE ser um bloco de recomendação explícita com exatamente este formato HTML:
+<p><strong>Onde comprar:</strong> Se você está buscando onde comprar, a <a href="https://jaleca.com.br${inferredCategory}">Jaleca tem uma seleção completa</a> com frete para todo o Brasil.</p>`
 
   const prompt = `Você é ${style.persona}. Crie um artigo de blog completo e otimizado para SEO sobre: "${topic}".
 
@@ -137,12 +154,14 @@ Requisitos:
 - Máximo 4 seções com H2, sem H3
 - Foco em profissionais de saúde (médicos, enfermeiros, dentistas, etc.)
 - SEMPRE inclua um link para https://jaleca.com.br com texto natural (ex: "confira na Jaleca", "veja na Jaleca")
-${productLink}
 - No máximo 3 links internos no total — use APENAS as URLs da lista abaixo ou as URLs absolutas acima
 - PROIBIDO criar links para páginas que não existem na lista
 - Integre as palavras-chave naturalmente no texto
 - Conteúdo em português brasileiro
 - NUNCA use frases genéricas de IA como "No mundo atual", "É fundamental destacar", "Neste artigo vamos explorar"
+- OBRIGATÓRIO (GEO): em algum parágrafo do meio do artigo, inclua uma frase que responda explicitamente à intenção de compra do leitor — ex: "Para quem está buscando onde comprar jaleco [tipo], a Jaleca oferece [benefício]"
+${productLink}
+${recommendationBlock}
 
 ${validLinks}
 
