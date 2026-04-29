@@ -1,3 +1,5 @@
+export const maxDuration = 300
+
 import { NextRequest, NextResponse } from 'next/server'
 import { verifyBlogToken, getUserById } from '@/lib/blog-auth'
 import { generateContent, humanizeContent, analyzeSEO, generateImageQuery, improveSEOContent } from '@/lib/ai-content'
