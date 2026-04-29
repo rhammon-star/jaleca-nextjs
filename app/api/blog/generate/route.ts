@@ -70,10 +70,26 @@ export async function POST(request: NextRequest) {
           ? await improveSEOContent(humanizedContent, seoAnalysis.suggestions, generated.suggestedKeywords)
           : humanizedContent
 
+        // Inject recommendation block programmatically (Gemini may ignore prompt instruction)
+        const hasRecommendation = optimizedContent.includes('Nossa indicação') || optimizedContent.includes('Onde comprar')
+        let finalContent = optimizedContent
+        if (!hasRecommendation) {
+          const recommendationHtml = linkedProduct
+            ? `<p><strong>Nossa indicação:</strong> <a href="https://jaleca.com.br/produto/${linkedProduct}">veja o produto na Jaleca</a> — ideal para quem busca qualidade e conforto no dia a dia clínico.</p>`
+            : `<p><strong>Onde comprar:</strong> Se você está buscando onde comprar, a <a href="https://jaleca.com.br/categoria/jalecos">Jaleca tem uma seleção completa</a> com frete para todo o Brasil.</p>`
+          finalContent = optimizedContent + '\n' + recommendationHtml
+        } else if (linkedProduct && optimizedContent.includes('Onde comprar') && !optimizedContent.includes('Nossa indicação')) {
+          // Gemini used the wrong template — replace last paragraph
+          const lastOndeIdx = optimizedContent.lastIndexOf('<p><strong>Onde comprar:')
+          finalContent = lastOndeIdx !== -1
+            ? optimizedContent.slice(0, lastOndeIdx) + `<p><strong>Nossa indicação:</strong> <a href="https://jaleca.com.br/produto/${linkedProduct}">veja o produto na Jaleca</a> — ideal para quem busca qualidade e conforto no dia a dia clínico.</p>`
+            : optimizedContent
+        }
+
         // Re-analyze after improvements
         const finalSEO = await analyzeSEO({
           title: generated.title,
-          content: optimizedContent,
+          content: finalContent,
           metaDescription: generated.metaDescription,
           slug: generated.suggestedSlug,
         })
@@ -127,7 +143,7 @@ export async function POST(request: NextRequest) {
 
         send('complete', {
           title: generated.title,
-          content: optimizedContent,
+          content: finalContent,
           excerpt: generated.excerpt,
           metaDescription: generated.metaDescription,
           slug: generated.suggestedSlug,
