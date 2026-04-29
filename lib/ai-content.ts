@@ -133,15 +133,17 @@ Páginas:
 - /faq
 `
 
-  const inferredCategory = inferCategory(topic)
   const productLink = linkedProduct
     ? `- OBRIGATÓRIO: no corpo do artigo, inclua UM link com texto natural para https://jaleca.com.br/produto/${linkedProduct} — ex: "o [nome do produto] da Jaleca tem [característica]"`
     : ''
   const recommendationBlock = linkedProduct
     ? `- OBRIGATÓRIO: o último parágrafo do artigo DEVE ser um bloco de recomendação explícita com exatamente este formato HTML:
 <p><strong>Nossa indicação:</strong> <a href="https://jaleca.com.br/produto/${linkedProduct}">veja o produto na Jaleca</a> — ideal para quem busca qualidade e conforto no dia a dia clínico.</p>`
-    : `- OBRIGATÓRIO: o último parágrafo do artigo DEVE ser um bloco de recomendação explícita com exatamente este formato HTML:
+    : (() => {
+        const inferredCategory = inferCategory(topic)
+        return `- OBRIGATÓRIO: o último parágrafo do artigo DEVE ser um bloco de recomendação explícita com exatamente este formato HTML:
 <p><strong>Onde comprar:</strong> Se você está buscando onde comprar, a <a href="https://jaleca.com.br${inferredCategory}">Jaleca tem uma seleção completa</a> com frete para todo o Brasil.</p>`
+      })()
 
   const prompt = `Você é ${style.persona}. Crie um artigo de blog completo e otimizado para SEO sobre: "${topic}".
 
