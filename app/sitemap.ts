@@ -240,6 +240,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Pivot 04/26 — URLs de campanhas Google Ads (adicionadas 26/04/2026)
     { url: `${SITE_URL}/jaleco-enfermagem`, lastModified: new Date('2025-04-01'), changeFrequency: 'monthly', priority: 0.9 },
     { url: `${SITE_URL}/scrub-feminino`, lastModified: new Date('2025-04-01'), changeFrequency: 'monthly', priority: 0.9 },
+    // Topical Authority Hub — Scrub Feminino clusters (30/04/2026)
+    { url: `${SITE_URL}/blog/melhores-tecidos-scrub-feminino`, lastModified: new Date('2026-04-30'), changeFrequency: 'monthly', priority: 0.85 },
+    { url: `${SITE_URL}/blog/como-cuidar-scrub-feminino`, lastModified: new Date('2026-04-30'), changeFrequency: 'monthly', priority: 0.85 },
+    { url: `${SITE_URL}/blog/scrub-feminino-colorido`, lastModified: new Date('2026-04-30'), changeFrequency: 'monthly', priority: 0.85 },
+    { url: `${SITE_URL}/blog/scrub-feminino-plus-size`, lastModified: new Date('2026-04-30'), changeFrequency: 'monthly', priority: 0.85 },
+    { url: `${SITE_URL}/blog/scrub-feminino-gravidas`, lastModified: new Date('2026-04-30'), changeFrequency: 'monthly', priority: 0.85 },
+    { url: `${SITE_URL}/blog/onde-comprar-scrub-feminino`, lastModified: new Date('2026-04-30'), changeFrequency: 'monthly', priority: 0.85 },
     { url: `${SITE_URL}/jaleco-preto-feminino`, lastModified: new Date('2025-04-01'), changeFrequency: 'monthly', priority: 0.85 },
     { url: `${SITE_URL}/pijama-cirurgico-feminino`, lastModified: new Date('2025-04-01'), changeFrequency: 'monthly', priority: 0.9 },
     { url: `${SITE_URL}/jaleco-plus-size`, lastModified: new Date('2025-04-01'), changeFrequency: 'monthly', priority: 0.85 },
