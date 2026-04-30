@@ -10,6 +10,7 @@ export type SearchIndexEntry = {
   href: string
   price?: string
   image?: { sourceUrl: string; altText: string }
+  searchText?: string
 }
 
 export async function GET() {
@@ -18,13 +19,28 @@ export async function GET() {
   const bestRank = new Map<string, number>()
   BEST_SELLER_SLUGS.forEach((slug, i) => bestRank.set(slug, i))
 
-  const entries: SearchIndexEntry[] = products.map(p => ({
-    id: String(p.id),
-    name: p.name.replace(/ - Jaleca$/i, ''),
-    href: `/produto/${p.slug}`,
-    price: p.price || undefined,
-    image: p.image?.sourceUrl ? { sourceUrl: p.image.sourceUrl, altText: p.image.altText || p.name } : undefined,
-  }))
+  const entries: SearchIndexEntry[] = products.map(p => {
+    const cleanName = p.name.replace(/ - Jaleca$/i, '')
+    const slugWords = p.slug.replace(/-/g, ' ')
+    const categories = p.productCategories?.nodes.map(c => c.name).join(' ') ?? ''
+    const colors = p.attributes?.nodes
+      .filter(a => /cor|color/i.test(a.name))
+      .flatMap(a => a.options)
+      .join(' ') ?? ''
+    const searchText = [cleanName, slugWords, categories, colors]
+      .filter(Boolean)
+      .join(' ')
+      .toLowerCase()
+
+    return {
+      id: String(p.id),
+      name: cleanName,
+      href: `/produto/${p.slug}`,
+      price: p.price || undefined,
+      image: p.image?.sourceUrl ? { sourceUrl: p.image.sourceUrl, altText: p.image.altText || p.name } : undefined,
+      searchText,
+    }
+  })
 
   entries.sort((a, b) => {
     const slugA = a.href.replace('/produto/', '')

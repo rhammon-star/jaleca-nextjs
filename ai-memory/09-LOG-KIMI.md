@@ -1,0 +1,14 @@
+- [2026-04-30 02:35:28] Atualização oficial da memória. Processados docs brutos: `ANALISE-JALECA-2026.md`, `CRO-SALES-ANALYSIS.md`, `PROBLEMA-URGENTE.md`, `RELATORIO-MESTRE-JALECA-2026.md`, `RESUMO-PARA-PROXIMO-AGENTE.md`, `ultima-execucao-claude.md`, `teste.md`. Consolidado: build, KV, busca, menu, blog GEO, SEO local, GA4 MP secret corrigido, checkout 403 resolvido, tracking histórico 0, gateway PENDENTE, testes falhando, miniatura KV pai, Microsoft Ads budget/cartão, Meta Ads reestruturação 30/04.
+- [2026-04-30 01:53:08] Atualização oficial da memória. Processados docs brutos: `ANALISE-JALECA-2026.md`, `CRO-SALES-ANALYSIS.md`, `PROBLEMA-URGENTE.md`, `RELATORIO-MESTRE-JALECA-2026.md`, `RESUMO-PARA-PROXIMO-AGENTE.md`, `ultima-execucao-claude.md`, `teste.md`. Consolidado: build, KV, busca, menu, blog GEO, SEO local, GA4 MP secret corrigido, checkout 403, tracking histórico 0, gateway PENDENTE, testes falhando, miniatura KV pai, Microsoft Ads budget/cartão.
+- [2026-04-29 23:49:07] Atualização oficial da memória. Processados docs brutos: `ANALISE-JALECA-2026.md`, `CRO-SALES-ANALYSIS.md`, `PROBLEMA-URGENTE.md`, `RELATORIO-MESTRE-JALECA-2026.md`, `RESUMO-PARA-PROXIMO-AGENTE.md`, `ultima-execucao-claude.md`, `teste.md`. Consolidado: build, KV, busca, menu, blog GEO, SEO local, GA4 MP secret corrigido, checkout 403, tracking histórico 0, gateway PENDENTE, testes falhando, miniatura KV pai, Microsoft Ads budget/cartão.
+- [2026-04-29 21:57:28] Atualização oficial. Processados docs brutos antigos + `ultima-execucao-claude.md`. Consolidado: SEO local, diagnóstico GSC, CRO gaps, plano 90 dias, quick wins, cart recovery, keywords 100+, blog meta 30+.
+- [2026-04-29 17:08:54] Atualização oficial. Consolidado: deploy 29/04 (build, KV, busca, menu), blog GEO e Pexels; checkout 403, tracking 0 e gateway PENDENTE mantidos; testes falhando; miniatura KV pai.
+- [2026-04-29 02:16:30] Atualização oficial. Consolidado: deploy 29/04, checkout 403, tracking 0, gateway PENDENTE.
+- [2026-04-29 00:11:04] Atualização oficial. Consolidado: deploy 29/04, checkout 403, tracking 0, gateway PENDENTE.
+- [2026-04-28 23:31:44] Atualização anterior. Correção local dos 3 arquivos de build por Claude em 28/04 (não commitada); testes pré-existentes falhando.
+- [2026-04-28 23:25:36] Atualização anterior. Processados 6 documentos brutos.
+- [2026-04-28 22:39:09] Memória inicializada. Memória anterior: vazia. Processado `ai-source-docs/teste.md`.
+- [2026-04-24 ~21:00] Deploys falhando em 3 arquivos (`medidas`, `nossas-lojas`, `termos`) após commit `bbb64dd`.
+- [2026-04-24 ~09:00] Redirect loop infinito resolvido via Vercel Dashboard (`/` → `/home`, 307 temporário).
+- [2026-04-24] Pedido teste #62823 realizado (cartão aprovado); conversão não apareceu no Google Ads.
+- [2026-04-04] Relatório mestre e análise CRO compilados; estabelecido plano de 90 dias e quick wins.

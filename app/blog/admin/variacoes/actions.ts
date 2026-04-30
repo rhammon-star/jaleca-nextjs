@@ -59,3 +59,23 @@ export async function deleteVariation(slug: string) {
   await kv.del(seoKey(slug))
   revalidatePath('/blog/admin/variacoes')
 }
+
+export async function refreshAllImages(force = false): Promise<number> {
+  await requireAdmin()
+  let updated = 0
+  for await (const key of kv.scanIterator({ match: 'seo:produto/*', count: 100 })) {
+    const entry = await kv.get<SeoEntry>(key)
+    if (!entry) continue
+    if (!force && entry.imageUrl) continue
+    // placeholder: image refresh logic to be implemented
+    updated++
+  }
+  revalidatePath('/blog/admin/variacoes')
+  return updated
+}
+
+export async function revalidarListagem() {
+  await requireAdmin()
+  revalidatePath('/produtos')
+  revalidatePath('/blog/admin/variacoes')
+}

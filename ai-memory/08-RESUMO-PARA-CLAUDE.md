@@ -1,0 +1,12 @@
+- Você está no projeto Jaleca. Use apenas esta memória consolidada para contexto; não leia `/ai-source-docs/`.
+- Site operacional em produção (https://jaleca.com.br); deploys DESBLOQUEADOS desde 29/04 com correções de build, KV, busca, menu e blog GEO.
+- NUNCA remova o redirect `/` → `/home` do Vercel Dashboard nem delete `app/home/page.tsx`. Se editar homepage, edite AMBOS `app/page.tsx` e `app/home/page.tsx`.
+- PENDENTE: gateway de pagamento ativo (Cielo vs Pagar.me); não altere checkout/webhook até confirmação explícita.
+- Aguarde instruções do usuário ou itens no backlog aprovado (04-BACKLOG-CLAUDE.md) antes de implementar.
+- Build estável desde 29/04; ao retomar, verifique se `npx tsc --noEmit` passa e se testes pré-existentes (`variation-sync-route.test.ts`) não impedem pipeline.
+- **ALERTA ADS (29/04)**: Google Ads acumulou R$1.294,25 em ~3 meses com 0 conversões históricas — bug parcialmente corrigido (GA4 MP secret adicionado). Meta Ads: R$1.745,60 gastos, 21 compras. Microsoft Ads: evento Purchase duplicado removido, meta recriada, conta ativa, budgets ainda não ajustados. Total mídia paga ~R$3.040. Aguardar 7-14 dias de dados reais antes de rebalancear budget.
+- **ALERTA KV (29/04)**: Miniatura de variantes KV na listagem ainda exibe foto do produto pai apesar de `imageUrl` salvo. Debug necessário: `refreshAllImages`, `revalidateTag('products')`, retorno `image.src` do plugin WP.
+- **ALERTA SEO (29/04)**: GSC mostra 577 cliques/90 dias 100% branded ("jaleca", "jaleca ipatinga"); zero tráfego para genéricas. SEO local iniciado (GMB, Bing, Apple, Yelp). Próximo passo: artigos blog + interlinking para `/cidade/[slug]`.
+- Credenciais de ads em `.env.google-ads`: Google Ads API, Meta Ads Token, GA4 Service Account (JSON com encoding quebrado — pendente correção).
+- Muitos itens estão marcados como PENDENTE; confirme dados antes de assumir premissas.
+- Sempre faça backup de `.env.production` antes de modificar variáveis no Vercel.

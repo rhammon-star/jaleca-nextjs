@@ -4,6 +4,7 @@ import type { SeoEntry, VariationSnapshot } from '@/lib/kv'
 
 const store = new Map<string, unknown>()
 
+const colorSlugsSet = new Set<string>()
 vi.mock('@vercel/kv', () => ({
   kv: {
     get: vi.fn(async (k: string) => store.get(k) ?? null),
@@ -17,14 +18,28 @@ vi.mock('@vercel/kv', () => ({
       return 1
     }),
     scan: vi.fn(async () => [0, [] as string[]]),
+    sadd: vi.fn(async (_k: string, ...members: string[]) => {
+      members.forEach(m => colorSlugsSet.add(m))
+      return members.length
+    }),
+    smembers: vi.fn(async () => [...colorSlugsSet]),
+    lpush: vi.fn(async () => 1),
+    lrange: vi.fn(async () => []),
+    llen: vi.fn(async () => 0),
   },
 }))
 
 vi.mock('next/cache', () => ({ revalidatePath: vi.fn() }))
 
-const fetchVariationMock = vi.fn<[number], Promise<FullVariation | null>>()
+const fetchVariationMock = vi.fn<(id: number) => Promise<FullVariation | null>>()
 vi.mock('@/lib/wc-variation', () => ({
   fetchVariation: (id: number) => fetchVariationMock(id),
+  fetchParentProduct: vi.fn(async (parentId: number) => ({
+    id: parentId,
+    name: `Produto ${parentId}`,
+    slug: `produto-${parentId}`,
+    categories: [],
+  })),
 }))
 
 process.env.JALECA_PLUGIN_SECRET = 'test-secret'
@@ -53,7 +68,7 @@ function liveOf(stock: 'instock' | 'outofstock', status: 'publish' | 'draft' = '
     snapshot: snap,
     parentId: 1234,
     attributes: { Cor: 'Azul' },
-    raw: {},
+    raw: {} as import('@/lib/wc-variation').FullVariation['raw'],
   }
 }
 
@@ -73,7 +88,7 @@ describe('POST /api/wc/variation-sync', () => {
     const res = await POST(makeReq({ variationId: 100 }))
     const json = await res.json()
     expect(json.action).toBe('CRIAR')
-    const seo = store.get('seo:produto-1234-azul') as SeoEntry
+    const seo = store.get('seo:produto/produto-1234-azul') as SeoEntry
     expect(seo).toBeTruthy()
     expect(seo.noindex).toBe(false)
     expect(seo.stockStatus).toBe('instock')
@@ -88,7 +103,7 @@ describe('POST /api/wc/variation-sync', () => {
     const res = await POST(makeReq({ variationId: 200 }))
     const json = await res.json()
     expect(json.action).toBe('SEM_ESTOQUE')
-    const seo = store.get('seo:produto-1234-azul') as SeoEntry
+    const seo = store.get('seo:produto/produto-1234-azul') as SeoEntry
     expect(seo.noindex).toBe(true)
     expect(seo.stockStatus).toBe('outofstock')
   })
@@ -102,7 +117,7 @@ describe('POST /api/wc/variation-sync', () => {
     const res = await POST(makeReq({ variationId: 300 }))
     const json = await res.json()
     expect(json.action).toBe('VOLTOU_ESTOQUE')
-    const seo = store.get('seo:produto-1234-azul') as SeoEntry
+    const seo = store.get('seo:produto/produto-1234-azul') as SeoEntry
     expect(seo.noindex).toBe(false)
   })
 

@@ -132,6 +132,7 @@ export const GET_PRODUCTS_LISTING = `
           }
           variations(first: 100) {
             nodes {
+              databaseId
               regularPrice
               salePrice
               image {

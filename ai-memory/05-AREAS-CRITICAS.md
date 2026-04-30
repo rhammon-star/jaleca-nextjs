@@ -1,0 +1,11 @@
+- **Rastreamento Google Ads**: 0 conversões registradas em ~3 meses (R$1.294,25); GA4 MP secret corrigido 29/04, mas importação GA4→Ads e dados históricos ainda pendentes de validação.
+- **Gateway de pagamento**: documentação conflitante (Cielo vs Pagar.me); risco de quebra ao editar webhooks/checkout sem confirmação.
+- **Cart recovery**: implementação atual inutilizável em serverless (JSON file); dados de abandono perdidos.
+- **Miniaturas KV**: variantes KV exibem imagem do produto pai na listagem apesar de `imageUrl` salvo; impacta UX e conversão.
+- **Concorrentes agressivos**: Bisou (B2P1), Dr. Charm (cashback+reviews), JalecoChic (anti-microbial); Jaleca sem mecanismos de conversão equivalentes.
+- **SEO gender-split ausente**: perda de tráfego qualificado para keywords "jaleco feminino/masculino".
+- **Blog subdimensionado**: 10 posts vs meta 30+; autoridade SEO menor que concorrentes ativos.
+- **Testes falhando**: 4 falhas em `variation-sync-route.test.ts` podem mascarar regressões futuras em pipeline.
+- **Dependência 100% branded search**: GSC mostra zero tráfego para genéricas; risco alto de estagnação orgânica.
+- **CRO gaps**: trust badges na homepage ausentes, guarantee near CTA, reviews visíveis, urgência/escassez, email capture, empty cart recs.
+- **PENDENTE**: estado atualizado do backup `.env.production.backup`; confirmação se reflete últimas alterações no Vercel.

@@ -31,12 +31,14 @@ type WcVariationResponse = {
   date_modified_gmt: string
   parent_id: number
   attributes: Array<{ name: string; option: string }>
+  image?: { src: string }
 }
 
 export type FullVariation = {
   snapshot: VariationSnapshot
   parentId: number
   attributes: Record<string, string>
+  imageUrl?: string
   raw: WcVariationResponse
 }
 
@@ -72,6 +74,7 @@ export async function fetchVariation(variationId: number): Promise<FullVariation
     },
     parentId: data.parent_id,
     attributes,
+    imageUrl: data.image?.src,
     raw: data,
   }
 }

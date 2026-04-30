@@ -62,6 +62,14 @@ export async function sendGA4PurchaseMP(params: {
           })),
         },
       },
+      {
+        name: 'conversion_event_purchase',
+        params: {
+          transaction_id: params.orderId,
+          value: params.value,
+          currency: 'BRL',
+        },
+      },
     ],
   }
 

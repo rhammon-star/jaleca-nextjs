@@ -127,21 +127,28 @@ async function getColorVariants(mainProducts: WooProduct[]): Promise<{ variants:
 }
 
 async function filterOutOfStockVariants(variants: WooProduct[]): Promise<WooProduct[]> {
-  try {
-    const results: WooProduct[] = []
-    for (const v of variants) {
-      const kvSlug = `produto/${v.slug}`
-      const entry = await kv.get<SeoEntry>(seoKey(kvSlug))
-      if (entry?.stockStatus === 'outofstock') continue
-      results.push(v)
-    }
-    return results
-  } catch {
-    return variants // KV indisponível → manter todos visíveis
+  // Verifica em batches de 10 para não sobrecarregar conexões KV
+  const BATCH = 10
+  const results: WooProduct[] = []
+  for (let i = 0; i < variants.length; i += BATCH) {
+    const batch = variants.slice(i, i + BATCH)
+    const entries = await Promise.all(
+      batch.map(v => kv.get<SeoEntry>(seoKey(`produto/${v.slug}`)).catch(() => null))
+    )
+    batch.forEach((v, j) => {
+      if (entries[j]?.stockStatus !== 'outofstock') results.push(v)
+    })
   }
+  return results
 }
 
-async function getKVVariants(
+const getKVVariantsCached = unstable_cache(
+  async (mainProducts: WooProduct[], jsonSlugs: Set<string>) => _getKVVariants(mainProducts, jsonSlugs),
+  ['kv-variants'],
+  { revalidate: 3600, tags: ['products'] },
+)
+
+async function _getKVVariants(
   mainProducts: WooProduct[],
   jsonSlugs: Set<string>,
 ): Promise<WooProduct[]> {
@@ -152,13 +159,8 @@ async function getKVVariants(
 
     // Varre todas as entradas SEO do KV
     const variants: WooProduct[] = []
-    let cursor = 0
     let idx = 0
-    do {
-      const [next, keys] = await (kv as any).scan(cursor, { match: 'seo:produto/*', count: 100 })
-      cursor = Number(next)
-
-      for (const key of keys as string[]) {
+    for await (const key of kv.scanIterator({ match: 'seo:produto/*', count: 100 })) {
         const entry = await kv.get<SeoEntry>(key)
         if (!entry) continue
         if (entry.stockStatus === 'outofstock' || entry.noindex) continue
@@ -188,6 +190,12 @@ async function getKVVariants(
           }
         }
 
+        // Se temos imageUrl no KV e a variação não tem imagem própria (ou é a mesma do pai), usa a do KV
+        const variantSameAsParent = variantImage?.sourceUrl === parent?.image?.sourceUrl
+        if (entry.imageUrl && (!variantImage || variantSameAsParent)) {
+          variantImage = { sourceUrl: entry.imageUrl, altText: `${entry.productName} ${entry.colorName}` }
+        }
+
         const categories = parent?.productCategories?.nodes ?? [
           { name: entry.category, slug: entry.category }
         ]
@@ -209,8 +217,7 @@ async function getKVVariants(
         } as WooProduct)
 
         idx++
-      }
-    } while (cursor !== 0)
+    }
 
     return variants
   } catch (e) {
@@ -219,29 +226,33 @@ async function getKVVariants(
   }
 }
 
+async function _buildAllProducts(): Promise<WooProduct[]> {
+  const mainProducts = await fetchAllProducts()
+  const { variants: colorVariants, productsWithColorPages } = await getColorVariants(mainProducts)
+
+  const mainProductsWithoutColorPages = mainProducts.filter(p => {
+    if (BEST_SELLER_SLUGS.includes(p.slug)) return true
+    const cleanName = p.name.replace(/ - Jaleca$/i, '').trim()
+    return !productsWithColorPages.has(cleanName)
+  })
+
+  const jsonSlugs = new Set(colorVariants.map(v => v.slug))
+  const kvVariants = await getKVVariantsCached(mainProducts, jsonSlugs)
+  const inStockVariants = await filterOutOfStockVariants(colorVariants)
+
+  console.log(`[getAllProducts] ${mainProducts.length} WC, ${productsWithColorPages.size} JSON cores, ${kvVariants.length} KV novas → ${inStockVariants.length} JSON instock + ${kvVariants.length} KV + ${mainProductsWithoutColorPages.length} pai`)
+
+  return [...inStockVariants, ...kvVariants, ...mainProductsWithoutColorPages]
+}
+
+const getAllProductsFinal = unstable_cache(_buildAllProducts, ['all-products-final'], {
+  revalidate: 3600,
+  tags: ['products'],
+})
+
 export async function getAllProducts(): Promise<WooProduct[]> {
   try {
-    const mainProducts = await getAllProductsCached()
-    const { variants: colorVariants, productsWithColorPages } = await getColorVariants(mainProducts)
-
-    const mainProductsWithoutColorPages = mainProducts.filter(p => {
-      if (BEST_SELLER_SLUGS.includes(p.slug)) return true
-      const cleanName = p.name.replace(/ - Jaleca$/i, '').trim()
-      return !productsWithColorPages.has(cleanName)
-    })
-
-    // Slugs já cobertos pelo JSON — para deduplicar com KV
-    const jsonSlugs = new Set(colorVariants.map(v => v.slug))
-
-    // Variantes do KV (webhook) que não estão no JSON estático
-    const kvVariants = await getKVVariants(mainProducts, jsonSlugs)
-
-    // Filtrar variantes JSON cujo KV marca como outofstock
-    const inStockVariants = await filterOutOfStockVariants(colorVariants)
-
-    console.log(`[getAllProducts] ${mainProducts.length} WC, ${productsWithColorPages.size} JSON cores, ${kvVariants.length} KV novas → ${inStockVariants.length} JSON instock + ${kvVariants.length} KV + ${mainProductsWithoutColorPages.length} pai`)
-
-    return [...inStockVariants, ...kvVariants, ...mainProductsWithoutColorPages]
+    return await getAllProductsFinal()
   } catch (e) {
     console.warn('[getAllProducts] Cache miss/error, tentando fetch direto...', e)
     try {

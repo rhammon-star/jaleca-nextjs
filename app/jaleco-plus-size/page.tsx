@@ -4,6 +4,7 @@ import { graphqlClient, GET_PRODUCTS } from '@/lib/graphql'
 import type { WooProduct } from '@/components/ProductCard'
 import ProductCard from '@/components/ProductCard'
 import ProductDetailSection from '@/components/ProductDetailSection'
+import {  } from '@/lib/profession-page-data'
 
 // ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
 export const revalidate = 3600
@@ -62,28 +63,6 @@ async function getPlusSizeProducts(): Promise<WooProduct[]> {
     return []
   }
 }
-
-async function getHeroImage(): Promise<{ src: string; alt: string } | null> {
-  try {
-    const products = await getPlusSizeProducts()
-    const targetProduct = products.find(p =>
-      p.variations?.nodes.some(v =>
-        v.attributes.nodes.some(a =>
-          a.name.toLowerCase().includes('tamanho') &&
-          a.value.toUpperCase().includes('GG')
-        )
-      )
-    )
-    if (!targetProduct?.image?.sourceUrl) return null
-    return {
-      src: targetProduct.image.sourceUrl,
-      alt: targetProduct.image.altText || targetProduct.name,
-    }
-  } catch {
-    return null
-  }
-}
-
 export default async function JalecoPlusSizePage() {
   const produtos = await getPlusSizeProducts()
 

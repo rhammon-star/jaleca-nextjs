@@ -5,9 +5,9 @@ import { graphqlClient, GET_PRODUCTS } from '@/lib/graphql'
 import type { WooProduct } from '@/components/ProductCard'
 import ProductCard from '@/components/ProductCard'
 import ProductDetailSection from '@/components/ProductDetailSection'
-import { getPosts, type WPPost } from '@/lib/wordpress'
 import { getGooglePlaceData } from '@/lib/google-places'
 import FaqAccordion from './FaqAccordion'
+import { getCachedBlogPosts, getCachedHeroImage } from '@/lib/profession-page-data'
 
 // ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
 export const revalidate = 3600
@@ -86,30 +86,7 @@ async function getScrubsFemininos(): Promise<WooProduct[]> {
 }
 
 async function getHeroImage(): Promise<{ src: string; alt: string } | null> {
-  try {
-    const data = await graphqlClient.request<{ products: { nodes: { name: string; image: { sourceUrl: string; altText: string } }[] } }>(
-      GET_PRODUCTS,
-      { first: 100 }
-    )
-    const scrubProduct = data?.products?.nodes?.find(p =>
-      p.name?.toLowerCase().includes('scrub') && p.name?.toLowerCase().includes('feminino')
-    )
-    if (scrubProduct?.image?.sourceUrl) {
-      return { src: scrubProduct.image.sourceUrl, alt: scrubProduct.image.altText || scrubProduct.name }
-    }
-    return null
-  } catch {
-    return null
-  }
-}
-
-async function getBlogPosts(): Promise<WPPost[]> {
-  try {
-    const posts = await getPosts({ per_page: 3, search: 'scrub' })
-    return posts.slice(0, 3)
-  } catch {
-    return []
-  }
+  return getCachedHeroImage('conjunto-scrub-feminino-jaleca')
 }
 
 function HeroStars({ rating }: { rating: number }) {
@@ -130,7 +107,7 @@ function HeroStars({ rating }: { rating: number }) {
 export default async function ScrubFemininoPage() {
   const [produtos, posts, placeData, heroImg] = await Promise.all([
     getScrubsFemininos(),
-    getBlogPosts(),
+    getCachedBlogPosts('scrub'),
     getGooglePlaceData(),
     getHeroImage(),
   ])

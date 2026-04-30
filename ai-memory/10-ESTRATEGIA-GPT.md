@@ -1,0 +1,6 @@
+- GPT utilizado para análise CRO/Vendas (framework 7 fases) e análise estratégica do projeto em 04/04/2026.
+- Entregáveis confirmados: mapa de posicionamento contra 8 concorrentes, 100+ keywords mapeadas, plano de 90 dias, quick wins de conversão, copy recommendations, cart recovery messages, estrutura de URLs ideal.
+- Impacto financeiro estimado por GPT: +R$10.800/mês (+R$129.600/ano) com quick wins; potencial total R$428k–831k/ano.
+- PENDENTE: backlog aprovado de automação GPT, geração de copy ou assistentes virtuais.
+- PENDENTE: calendário de uso, custos estimados ou integração API OpenAI não constam na documentação.
+- PENDENTE: decisão se GPT será utilizado para CRO copy recorrente, atendimento ou automação de email.

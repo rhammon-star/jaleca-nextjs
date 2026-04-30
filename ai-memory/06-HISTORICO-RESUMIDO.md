@@ -1,0 +1,5 @@
+- **2026-04-30**: Claude reestruturou Meta Ads (pausou Remarketing Dinâmico, criou Awareness Público Frio Mai 2026 R$40/dia via API Graph v19.0); checkout confirmado 200 OK; free shipping bar e trust badges em produto verificados; 60+ páginas de cidade confirmadas.
+- **2026-04-29 (noite)**: Sessão SEO — diagnóstico GSC (577 cliques/90 dias, 100% branded), SEO local iniciado, CRO gaps, plano 90 dias, quick wins, keywords 100+, blog meta 30+.
+- **2026-04-29**: Deploy build corrigido (tsc passa, 3 arquivos problemáticos corrigidos), KV scanIterator corrigido, busca inteligente deployada, menu Dólmãs/Conjuntos corrigido, blog GEO e Pexels; checkout 403 resolvido, tracking 0 e gateway PENDENTE mantidos.
+- **2026-04-24**: Redirect loop infinito resolvido via Vercel Dashboard (`/` → `/home`, 307 temporário); pedido teste #62823 realizado (cartão aprovado); conversão não apareceu no Google Ads.
+- **2026-04-04**: Relatório mestre e análise CRO compilados; estabelecido plano de 90 dias e quick wins.

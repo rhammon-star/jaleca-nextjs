@@ -76,8 +76,7 @@ export function trackPurchase(
   if (isInternalTraffic()) return // ignora tráfego de teste (ex: Ipatinga)
 
   whenGtag(() => {
-    // GA4 purchase — importado pelo Google Ads como "Compra (purchase)"
-    window.gtag?.('event', 'purchase', {
+    const eventParams = {
       transaction_id: orderId,
       value,
       currency: 'BRL',
@@ -87,7 +86,11 @@ export function trackPurchase(
         price: i.price,
         quantity: i.quantity,
       })),
-    })
+    }
+    // GA4 purchase event (Google Ads import via GA4 key event)
+    window.gtag?.('event', 'purchase', eventParams)
+    // Also fire conversion_event_purchase — Google Ads may import this event name
+    window.gtag?.('event', 'conversion_event_purchase', eventParams)
   })
 
   // Meta Pixel — eventID deve coincidir com CAPI para deduplicação correta

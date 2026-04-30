@@ -5,10 +5,10 @@ import { graphqlClient, GET_PRODUCTS, GET_PRODUCT_BY_SLUG } from '@/lib/graphql'
 import type { WooProduct } from '@/components/ProductCard'
 import ProductCard from '@/components/ProductCard'
 import ProductDetailSection from '@/components/ProductDetailSection'
-import { getPosts, type WPPost } from '@/lib/wordpress'
 import { getGooglePlaceData } from '@/lib/google-places'
 import FaqAccordion from './FaqAccordion'
 import { PROFESSION_PRODUCT_SLUGS } from '@/lib/product-professions'
+import { getCachedHeroImage, getCachedBlogPosts } from '@/lib/profession-page-data'
 
 // ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
 export const revalidate = 3600
@@ -79,32 +79,7 @@ async function getDólmãs(): Promise<WooProduct[]> {
   } catch {
     return []
   }
-}
-
-async function getHeroImage(): Promise<{ src: string; alt: string } | null> {
-  try {
-    const data = await graphqlClient.request<{ product: { name: string; image: { sourceUrl: string; altText: string } } }>(
-      GET_PRODUCT_BY_SLUG,
-      { slug: 'dolma-churrasqueiro-jaleca' }
-    )
-    const img = data?.product?.image
-    if (!img?.sourceUrl) return null
-    return { src: img.sourceUrl, alt: img.altText || data.product.name }
-  } catch {
-    return null
-  }
-}
-
-async function getBlogPosts(): Promise<WPPost[]> {
-  try {
-    const posts = await getPosts({ per_page: 3, search: 'churrasco cozinha' })
-    return posts.slice(0, 3)
-  } catch {
-    return []
-  }
-}
-
-function HeroStars({ rating }: { rating: number }) {
+}function HeroStars({ rating }: { rating: number }) {
   const full = Math.floor(rating)
   const half = rating - full >= 0.5
   return (
@@ -122,9 +97,9 @@ function HeroStars({ rating }: { rating: number }) {
 export default async function DolmaChurrasqueiroPage() {
   const [produtos, posts, placeData, heroImg] = await Promise.all([
     getDólmãs(),
-    getBlogPosts(),
+    getCachedBlogPosts('churrasco cozinha'),
     getGooglePlaceData(),
-    getHeroImage(),
+    getCachedHeroImage('dolma-churrasqueiro-jaleca'),
   ])
 
   return (

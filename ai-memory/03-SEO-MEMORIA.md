@@ -1,0 +1,13 @@
+- **Estrutura técnica OK**: titles, meta descriptions, canonical, Open Graph, Twitter Cards, JSON-LD completos em todas as páginas principais.
+- **Sitemap**: 30 páginas processadas pelo Google; 38 URLs com `lastmod` idêntico em `app/sitemap.ts` — bug a corrigir.
+- **URLs duplicadas de blog**: posts com sufixo `-2` sem canonical — corrigido via API WordPress segundo análise.
+- **Título duplo em produtos**: `| Jaleca | Jaleca` (`app/produto/[slug]/page.tsx` ou GraphQL).
+- **Categorias não SEO-friendly**: `/categoria/jalecos` em vez de `/categoria/jaleco-feminino` etc.; necessário criar rotas genderadas com redirect 301.
+- **Alt de imagens**: usa nome do arquivo em vez de descrição (WooCommerce).
+- **Sem página `/faq` própria**: FAQPage schema existe apenas em `/trocas-e-devolucoes`.
+- **Sem `aggregateRating` visível**: schema existe mas não renderiza estrelas na UI.
+- **Paginação blog sem `rel=prev/next`**; hreflang ausente (apenas pt-BR declarado).
+- **Mapa de keywords**: 100+ palavras mapeadas (fundo/meio/topo de funil + long-tail). Prioridades críticas: "jaleco feminino comprar", "jaleco premium comprar", "melhor jaleco para médica".
+- **H2 dinâmico ausente** em `/produtos` quando filtro ativo.
+- **Índice de busca interna** agora enriquecido com campo `searchText` (nome + cor + categoria + profissão).
+- **Páginas de cidade**: 60+ criadas em `app/cidade/[slug]/page.tsx`; PENDENTE: adicionar links internos para elas na homepage e páginas de produto; verificar inclusão no sitemap.

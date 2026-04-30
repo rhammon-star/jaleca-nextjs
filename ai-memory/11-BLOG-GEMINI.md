@@ -1,0 +1,10 @@
+- Blog ativo com CMS integrado a Gemini AI para geração, humanização, SEO, imagem e publicação.
+- 10 posts publicados até 04/04/2026; meta são 30+ posts para autoridade SEO.
+- Todos os 10 posts podem ter data idêntica (04/04/2026) por bug CMS — verificar `lastmod` e datas no WordPress.
+- Tópicos existentes: tecidos, cores, fisioterapeuta, scrub vs jaleco, dentista, lavar/conservar, enfermagem, guia de tamanhos, jaleco feminino, escolher por especialidade.
+- 20+ tópicos prioritários faltando em 5 clusters: SEO/Compra, Instrução/Tutorial, Diferenciação, Especialidade (long-tail) e Viral.
+- GEO implementado: injeção programática do bloco de recomendação final; tokens aumentados para 8192; `maxDuration=300` na rota generate; migração Unsplash → Pexels concluída.
+- Próximo passo confirmado: Gemini escreve, Claude implementa (maior impacto SEO orgânico).
+- PENDENTE: calendário editorial formal, frequência de publicação, persona de conteúdo Gemini, revisão humana obrigatória ou não.
+- PENDENTE: estratégia de distribuição/orgânico para posts além de SEO.
+- PENDENTE: métricas de tráfego do blog e conversão de leitores para compradores.

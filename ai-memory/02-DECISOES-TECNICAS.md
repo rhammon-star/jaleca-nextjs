@@ -1,0 +1,12 @@
+- **Arquitetura de memória**: Claude Code consome exclusivamente `ai-memory`; acesso direto a `/ai-source-docs/` é proibido para o agente executor.
+- **Redirect `/` → `/home`**: mantido no Vercel Dashboard (Edge), nunca no código; `app/page.tsx` permanece como fallback fantasma; se editar homepage, editar AMBOS os arquivos.
+- **Build**: 260 páginas estáticas geradas; fallback para dados WooCommerce implementado em `/produtos`; GraphQL pode retornar 503 durante builds.
+- **Variáveis de ambiente**: 62 no Vercel; backup obrigatório em `.env.production.backup`.
+- **Cache de produtos**: `getAllProducts()` usa `unstable_cache` com tag `products` e TTL 1h; invalidação via `revalidateTag('products')` no webhook de variações.
+- **KV variants**: usar `kv.scanIterator()` (API oficial do `@vercel/kv`); nunca `(kv as any).scan()`; armazenar `imageUrl` quando disponível.
+- **Webhook variações**: `app/api/wc/variation-sync/route.ts` deve revalidar tag `products` ao criar/atualizar variantes; campo `imageUrl` persistido no KV.
+- **Categorias dinâmicas**: `app/categoria/[slug]/page.tsx` usa `export const revalidate = 3600`; menu Dólmãs/Conjuntos usa rotas de categoria ISR.
+- **Rastreamento multi-plataforma**: GA4 Measurement Protocol server-side + frontend `trackPurchase()`; webhook em `app/api/payment/webhook/route.ts`; arquivos-chave: `components/Analytics.tsx`, `lib/ga4-measurement-protocol.ts`, `app/pagamento/page.tsx`; página de teste em `public/test-tracking.html`. Apple Maps verification via metadata + arquivo público; Microsoft Ads UET Purchase único via `PurchaseTracker.tsx` (duplicata removida de `app/pagamento/page.tsx`).
+- **Blog generator GEO**: injeção programática do bloco de recomendação final; tokens Gemini aumentados para 8192; `maxDuration=300` na rota generate; migração Unsplash → Pexels concluída.
+- **Páginas de cidade**: 60+ rotas em `app/cidade/[slug]/page.tsx` criadas e deployadas.
+- **PENDENTE**: decisões sobre CI/CD, padrões de código, repositórios e estratégia de branches além do `main`.

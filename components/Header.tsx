@@ -144,7 +144,7 @@ const Header = () => {
 
               {/* Dólmãs dropdown */}
               <div className="relative group/nav2" style={{ display: 'flex', alignItems: 'center' }}>
-                <Link href="/produtos?cat=Dólmãs" className="text-muted-foreground hover:text-foreground transition-colors duration-200 text-[12px] font-semibold tracking-widest uppercase whitespace-nowrap flex items-center gap-1 py-5">
+                <Link href="/categoria/domas" className="text-muted-foreground hover:text-foreground transition-colors duration-200 text-[12px] font-semibold tracking-widest uppercase whitespace-nowrap flex items-center gap-1 py-5">
                   Dólmãs
                   <ChevronDown size={11} className="transition-transform duration-200 group-hover/nav2:rotate-180" />
                 </Link>
@@ -153,9 +153,9 @@ const Header = () => {
                     <p className="text-[10px] font-semibold tracking-widest uppercase text-muted-foreground mb-3">Dólmãs</p>
                     <div className="space-y-2.5">
                       {[
-                        { label: 'Todas as Dólmãs', href: '/produtos?cat=Dólmãs' },
-                        { label: 'Dólmãs Femininas', href: '/produtos?cat=Dólmãs&genero=feminino' },
-                        { label: 'Dólmãs Masculinas', href: '/produtos?cat=Dólmãs&genero=masculino' },
+                        { label: 'Todas as Dólmãs', href: '/categoria/domas' },
+                        { label: 'Dólmãs Femininas', href: '/categoria/domas-femininas' },
+                        { label: 'Dólmãs Masculinas', href: '/categoria/domas-masculinas' },
                         { label: 'Promoções', href: '/produtos?cat=Dólmãs&sale=true' },
                       ].map(item => (
                         <Link key={item.href} href={item.href} className="block text-sm text-muted-foreground hover:text-foreground hover:translate-x-1 transition-all duration-150">
@@ -169,7 +169,7 @@ const Header = () => {
 
               {/* Conjuntos dropdown */}
               <div className="relative group/nav3" style={{ display: 'flex', alignItems: 'center' }}>
-                <Link href="/produtos?cat=Conjuntos" className="text-muted-foreground hover:text-foreground transition-colors duration-200 text-[12px] font-semibold tracking-widest uppercase whitespace-nowrap flex items-center gap-1 py-5">
+                <Link href="/categoria/conjuntos" className="text-muted-foreground hover:text-foreground transition-colors duration-200 text-[12px] font-semibold tracking-widest uppercase whitespace-nowrap flex items-center gap-1 py-5">
                   Conjuntos
                   <ChevronDown size={11} className="transition-transform duration-200 group-hover/nav3:rotate-180" />
                 </Link>
@@ -178,9 +178,9 @@ const Header = () => {
                     <p className="text-[10px] font-semibold tracking-widest uppercase text-muted-foreground mb-3">Conjuntos</p>
                     <div className="space-y-2.5">
                       {[
-                        { label: 'Todos os Conjuntos', href: '/produtos?cat=Conjuntos' },
-                        { label: 'Conjuntos Femininos', href: '/produtos?cat=Conjuntos&genero=feminino' },
-                        { label: 'Conjuntos Masculinos', href: '/produtos?cat=Conjuntos&genero=masculino' },
+                        { label: 'Todos os Conjuntos', href: '/categoria/conjuntos' },
+                        { label: 'Conjuntos Femininos', href: '/categoria/conjuntos-femininos' },
+                        { label: 'Conjuntos Masculinos', href: '/categoria/conjuntos-masculinos' },
                         { label: 'Promoções', href: '/produtos?cat=Conjuntos&sale=true' },
                       ].map(item => (
                         <Link key={item.href} href={item.href} className="block text-sm text-muted-foreground hover:text-foreground hover:translate-x-1 transition-all duration-150">

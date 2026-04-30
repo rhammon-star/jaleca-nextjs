@@ -5,19 +5,19 @@ import { graphqlClient, GET_PRODUCT_BY_SLUG } from '@/lib/graphql'
 import type { WooProduct } from '@/components/ProductCard'
 import ProductCard from '@/components/ProductCard'
 import ProductDetailSection from '@/components/ProductDetailSection'
-import { getPosts, type WPPost } from '@/lib/wordpress'
 import { getGooglePlaceData } from '@/lib/google-places'
 import FaqAccordion from './FaqAccordion'
 import { PROFESSION_PRODUCT_SLUGS, prioritizeByColor, getVerMaisUrl } from '@/lib/product-professions'
 import { getAllProducts } from '@/lib/all-products'
 import { getHeroImageSlug } from '@/lib/profession-hero-images'
+import { getCachedHeroImage, getCachedBlogPosts } from '@/lib/profession-page-data'
 
 // ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
 export const revalidate = 3600
 
 export const metadata: Metadata = {
   title: { absolute: 'Jaleco para Médica: Tecido Premium, Caimento Perfeito | Jaleca' },
-  description: 'Jaleco para Médico em tecido premium com caimento perfeito. Modelos Slim e Profissional do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
+  description: 'Jaleco para Médica em tecido premium com caimento perfeito. Modelos Slim e Profissional do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-medica' },
   openGraph: {
     title: 'Jaleco para Médico | Tecido Premium, Caimento Perfeito — Jaleca',
@@ -53,8 +53,8 @@ const schemaArticle = {
   headline: 'Jaleco para Médica: Tecido Premium, Caimento Perfeito',
   description: 'Guia completo do jaleco para médico: tecido premium, caimento perfeito, modelo Slim vs Profissional e custo-benefício.',
   author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
-  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/jaleco-medica' } },
-  url: 'https://jaleca.com.br/jaleco-medico',
+  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
+  url: 'https://jaleca.com.br/jaleco-medica',
   datePublished: '2026-04-18',
   dateModified: '2026-04-21',
 }
@@ -97,40 +97,7 @@ async function getJalecos(): Promise<WooProduct[]> {
     console.error('[getJalecos] Error:', error)
     return []
   }
-}
-
-async function getHeroImage(): Promise<{ src: string; alt: string } | null> {
-  try {
-    const heroSlug = getHeroImageSlug('medica')
-    if (!heroSlug) return null
-
-    const data = await graphqlClient.request<{ product: { name: string; image: { sourceUrl: string; altText: string } } | null }>(
-      GET_PRODUCT_BY_SLUG,
-      { slug: heroSlug }
-    )
-
-    if (data?.product?.image?.sourceUrl) {
-      return {
-        src: data.product.image.sourceUrl,
-        alt: data.product.image.altText || data.product.name
-      }
-    }
-    return null
-  } catch {
-    return null
-  }
-}
-
-async function getBlogPosts(): Promise<WPPost[]> {
-  try {
-    const posts = await getPosts({ per_page: 3, search: 'jaleco' })
-    return posts.slice(0, 3)
-  } catch {
-    return []
-  }
-}
-
-// Stars sem contagem — apenas nota
+}// Stars sem contagem — apenas nota
 function HeroStars({ rating }: { rating: number }) {
   const full = Math.floor(rating)
   const half = rating - full >= 0.5
@@ -149,9 +116,9 @@ function HeroStars({ rating }: { rating: number }) {
 export default async function JalecoDentistaPage() {
   const [produtos, posts, placeData, heroImg] = await Promise.all([
     getJalecos(),
-    getBlogPosts(),
+    getCachedBlogPosts('jaleco'),
     getGooglePlaceData(),
-    getHeroImage(),
+    getCachedHeroImage(getHeroImageSlug('medica') ?? ''),
   ])
 
   return (

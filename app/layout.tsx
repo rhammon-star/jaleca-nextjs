@@ -18,7 +18,6 @@ import dynamic from "next/dynamic";
 
 // Componentes não-críticos: lazy-loaded fora do bundle inicial.
 // Mantém tracking/funcionalidade intactos mas tira ~50-80KB do JS crítico.
-const FirstPurchasePopup = dynamic(() => import("@/components/FirstPurchasePopup"));
 const CartRecoveryCapture = dynamic(() => import("@/components/CartRecoveryCapture"));
 const CompareBar = dynamic(() => import("@/components/CompareBar"));
 const TawkToChat = dynamic(() => import("@/components/TawkToChat"));
@@ -218,7 +217,6 @@ export default function RootLayout({
                 <div id="main-content" className="flex-1 pb-14 md:pb-0">{children}</div>
                 <Footer />
                 <WhatsAppButton />
-                <FirstPurchasePopup />
                 <CartRecoveryCapture />
                 <CompareBar />
                 <TawkToChat />

@@ -1,0 +1,13 @@
+- **Projeto**: Jaleca (jaleca.com.br). E-commerce mid-premium de jalecos (R$280–350).
+- **Stack**: Next.js 16.2.x, React 19, TypeScript, WooCommerce (GraphQL + REST), Vercel Pro.
+- **Integrações ativas**: Melhor Envio (frete), Brevo (email transacional), GA4 + Meta Pixel + CAPI + ContentSquare, Blog CMS com Gemini AI, Tawk.to chat, Google Meu Negócio, Bing Places, Apple Maps, Yelp.
+- **Pagamentos**: PENDENTE — conflito documentado entre Cielo E-commerce 3.0 e Pagar.me v5; não alterar checkout/webhook até confirmação explícita de qual gateway está em produção.
+- **Infra**: 260 páginas estáticas; 62 variáveis de ambiente no Vercel (backup `.env.production.backup`); redirect crítico no Vercel Dashboard (`/` → `/home`, 307 temporário).
+- **Homepage real**: `app/home/page.tsx`; `app/page.tsx` é fantasma (não renderiza). NUNCA remover redirect do Vercel nem deletar `app/home/page.tsx`.
+- **Design**: Tipografia Cormorant Garamond + DM Sans, paleta neutros quentes, editorial layout.
+- **Programa de fidelidade**: 1 ponto/R$1, 100pts=R$5; existe mas pouco visível ao cliente.
+- **Concorrentes principais**: Bisou (premium, B2P1), Dr. Charm (cashback+reviews), JalecoChic (mesmo preço, anti-microbial), Dana Jalecos (blog ativo).
+- **Meta Ads Token**: expira 13/06/2026; renovar via Graph API Explorer.
+- **Melhor Envio**: token expira mensalmente; renovação automática via cron (`/api/melhor-envio/refresh`); IDs PAC=1, SEDEX=2, Jadlog=7,8.
+- **Busca inteligente deployada**: índice com campo `searchText` enriquecido (nome + cor + categoria + profissão) e expansão de 24 sinônimos.
+- **Páginas de cidade**: 60+ criadas em `app/cidade/[slug]/page.tsx` (confirmado em 30/04).

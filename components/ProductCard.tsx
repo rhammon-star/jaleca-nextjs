@@ -8,7 +8,7 @@ import { useWishlist } from "@/contexts/WishlistContext";
 import { isBestSeller } from "@/lib/best-sellers";
 
 type VariationAttr = { name: string; value: string }
-type Variation = { id: string; name: string; stockStatus: string; price?: string; regularPrice?: string; salePrice?: string; image?: { sourceUrl: string; altText: string }; attributes: { nodes: VariationAttr[] } }
+type Variation = { id: string; databaseId?: number; name: string; stockStatus: string; price?: string; regularPrice?: string; salePrice?: string; image?: { sourceUrl: string; altText: string }; attributes: { nodes: VariationAttr[] } }
 
 export type WooProduct = {
   id: string;
@@ -64,9 +64,10 @@ const ProductCard = ({ product, colorFilter }: { product: WooProduct; colorFilte
   const inWishlist = isInWishlist(String(product.databaseId));
   const hoverImage = product.galleryImages?.nodes?.[0];
 
-  // When a color filter is active, prefer the matching variation's image
+  // Prefer variation image: by color filter, or single-variation product (desmembrado por cor)
   const colorVariationImage = getColorVariationImage(variations, colorFilter ?? null);
-  const mainImage = colorVariationImage ?? product.image;
+  const singleVariationImage = !colorVariationImage && variations.length === 1 ? variations[0].image : null;
+  const mainImage = colorVariationImage ?? singleVariationImage ?? product.image;
 
   // Calculate discount % (only when all variants are on sale)
   const discount = isOnSale && product.regularPrice && product.salePrice

@@ -18,6 +18,7 @@ export type SeoEntry = {
   metaDescription?: string
   title?: string
   colorPsychology?: string
+  imageUrl?: string
   seoQuality: SeoQuality
   stockStatus: 'instock' | 'outofstock'
   noindex: boolean

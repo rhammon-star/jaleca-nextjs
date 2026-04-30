@@ -1,0 +1,13 @@
+- **Produção**: https://jaleca.com.br operacional. Último deploy: 29/04/2026 (ID: `dpl_J9M5dPF726fnokVu4o4Bfnb5KTAs`). Branch `main`.
+- **Build corrigido e deployado em 29/04**: `npx tsc --noEmit` passa; 4 testes pré-existentes ainda falham em `tests/variation-sync-route.test.ts`.
+- **Checkout**: retorna 200 OK em produção (403 resolvido em 30/04).
+- **Google Ads**: 0 conversões históricas em ~3 meses (R$1.294,25 gastos). Em 29/04 o `GA4_MEASUREMENT_PROTOCOL_SECRET` foi corrigido no Vercel; aguardar 7-14 dias de dados reais para validar importação GA4→Ads.
+- **Meta Ads**: R$1.745,60 gastos, 21 compras registradas (~R$83/compra). Campanha "Awareness — Público Frio — Mai 2026" criada em 30/04 (R$40/dia, Advantage+), em aprovação. Remarketing Carrinho Abandonado: 11 compras, CAC R$71,58 — texto a atualizar.
+- **Microsoft Ads**: evento Purchase duplicado removido em 29/04; meta "Purchase" recriada; conta regularizada (saldo recarregado); metas de funil desativadas da otimização; budgets ainda não ajustados para R$40/dia total; cartão de pagamento precisa ser trocado.
+- **Variações KV corrigidas**: `kv.scanIterator()` substituiu `(kv as any).scan()`; revalidação automática via webhook; campo `imageUrl` adicionado ao KV, mas miniatura da listagem ainda exibe foto do produto pai.
+- **Menu Dólmãs/Conjuntos corrigido**: aceita slug `"doma"` (WC) e categoriza corretamente; rotas ISR (`revalidate = 3600`).
+- **Carrinho recovery usa JSON file** (`app/api/cart-recovery/route.ts`) — perde dados em produção serverless.
+- **SEO estável**: JSON-LD completos, sitemap 30 páginas indexadas, canonical/OG/Twitter OK, PageSpeed 69 mobile / 83 desktop; SEO Local iniciado (GMB, Bing, Apple, Yelp); 60+ páginas de cidade criadas.
+- **GSC (90 dias)**: 577 cliques, posição média 7,5; ranqueamento 100% branded ("jaleca", "jaleca ipatinga"); zero conversões de keywords genéricas. Blog: 10 posts publicados; meta são 30+; possível bug de data idêntica (04/04/2026).
+- **Free shipping bar implementada** em `components/CartDrawer.tsx` (threshold R$499, estados SP/RJ/MG/ES).
+- **Trust badges existentes** nas páginas de produto.

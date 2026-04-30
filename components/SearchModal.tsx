@@ -34,6 +34,38 @@ function normalize(s: string) {
   return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
 }
 
+// Expande cada token com sin\u00f4nimos antes de buscar
+const SYNONYMS: Record<string, string[]> = {
+  dolma:       ['dolma', 'dolmas'],
+  doma:        ['dolma', 'dolmas'],
+  jaleco:      ['jaleco'],
+  scrub:       ['scrub', 'conjunto', 'pijama'],
+  pijama:      ['pijama', 'scrub', 'conjunto'],
+  branco:      ['branco', 'branca', 'white', 'claro'],
+  preto:       ['preto', 'preta', 'black', 'escuro', 'dark'],
+  rosa:        ['rosa', 'pink'],
+  azul:        ['azul', 'blue'],
+  verde:       ['verde', 'green'],
+  roxo:        ['roxo', 'lilas', 'lil\u00e1s'],
+  colorido:    ['rosa', 'azul', 'verde', 'roxo', 'amarelo', 'colorido', 'colorida'],
+  dentista:    ['dentista', 'odontologia'],
+  medico:      ['medico', 'medica', 'medicina'],
+  medica:      ['medico', 'medica', 'medicina'],
+  enfermeiro:  ['enfermeiro', 'enfermeira', 'enfermagem'],
+  enfermeira:  ['enfermeiro', 'enfermeira', 'enfermagem'],
+  cirurgiao:   ['cirurgiao', 'cirurgia', 'cirurgico'],
+  universitario: ['universitario', 'estudante', 'faculdade'],
+  cozinheiro:  ['cozinheiro', 'gastronomia', 'chef'],
+  chef:        ['chef', 'cozinheiro', 'gastronomia'],
+  nutricionista: ['nutricionista'],
+  veterinario: ['veterinario', 'veterinaria'],
+  farmaceutico: ['farmaceutico', 'farmacia', 'farmaceutica'],
+}
+
+function expandTokens(tokens: string[]): string[][] {
+  return tokens.map(t => SYNONYMS[t] ?? [t])
+}
+
 export default function SearchModal({ isOpen, onClose }: Props) {
   const [query, setQuery] = useState('')
   const [index, setIndex] = useState<SearchIndexEntry[] | null>(cachedIndex)
@@ -68,10 +100,12 @@ export default function SearchModal({ isOpen, onClose }: Props) {
     if (!index || query.length < 2) return []
     const nq = normalize(query)
     const tokens = nq.split(/\s+/).filter(Boolean)
+    const expanded = expandTokens(tokens) // [[sin1a, sin1b], [sin2a], ...]
     return index
       .filter(e => {
-        const n = normalize(e.name)
-        return tokens.every(t => n.includes(t))
+        const haystack = normalize((e as any).searchText ?? e.name)
+        // cada token original deve ter pelo menos um sinônimo presente
+        return expanded.every(syns => syns.some(s => haystack.includes(s)))
       })
       .slice(0, 12)
   }, [index, query])
@@ -167,6 +201,13 @@ export default function SearchModal({ isOpen, onClose }: Props) {
                     </div>
                   </Link>
                 ))}
+                <Link
+                  href={`/produtos?q=${encodeURIComponent(query)}`}
+                  onClick={onClose}
+                  className="flex items-center justify-center px-4 py-3 text-sm text-muted-foreground hover:text-foreground hover:bg-secondary/20 transition-colors gap-1"
+                >
+                  Ver todos os resultados para &ldquo;{query}&rdquo; →
+                </Link>
               </div>
             )}
           </div>
@@ -188,7 +229,7 @@ export default function SearchModal({ isOpen, onClose }: Props) {
                 { label: 'Jaleco branco', href: '/jaleco-branco' },
                 { label: 'Jaleco preto', href: '/jaleco-preto' },
                 { label: 'Conjuntos', href: '/categoria/conjuntos' },
-                { label: 'Mais vendidos', href: '/produtos?sort=mais-vendidos' },
+                { label: 'Mais vendidos', href: '/produtos' },
               ].map(item => (
                 <Link
                   key={item.label}
