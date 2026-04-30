@@ -4,7 +4,7 @@ const faqItems = [
   { q: 'Qual o melhor jaleco para vendedor?', a: 'O vendedor que atua em loja ou showroom usa o jaleco para transmitir profissionalismo. O modelo com elastano é confortável para quem passa horas em pé.' },
   { q: 'Vendedor pode usar jaleco?', a: 'Pode. O jaleco é comum em lojas de uniformes profissionais, материала de construção e outros estabelecimentos onde o vendedor precisa de um visual profissional.' },
   { q: 'Qual a diferença entre jaleco Slim e Profissional?', a: 'O Slim tem corte ajustado e visual moderno. O Profissional tem corte mais amplo, transmitindo mais formalidade para o ambiente comercial.' },
-  { q: 'O jaleco de vendedor pode ter bordado?', a: 'Sim. Borda o nome da loja ou nome do vendedor é prática comum. Para pedidos a partir de 5 peças, oferecemos condições especiais.' },
+  { q: 'O jaleco de vendedor pode ter bordado com o nome?', a: 'A Jaleca não oferece serviço de bordado. O jaleco é vendido sem bordado. Você pode levar a peça em uma bordadeira local após receber. Importante: após o bordado, o jaleco não pode ser trocado.' },
   { q: 'Como funciona a troca?', a: 'Arrependimento: até 7 dias após o recebimento, produto sem uso e com etiqueta. Garantia Jaleca: 30 dias, sem marca de uso e com etiqueta. WhatsApp ou e-mail com número do pedido.' },
   { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Prazo de 3 a 8 dias úteis conforme região — calculado no checkout.' },
 ]

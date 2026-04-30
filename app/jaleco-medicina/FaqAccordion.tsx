@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 const faqItems = [
-  { q: 'Como deve ser o jaleco do estudante de Medicina?', a: 'O jaleco do estudante de Medicina deve ter manga longa, comprimento médio e tecido respirável com elastano. O modelo Slim acompanha o corpo sem apertar e tem caimento moderno; o Profissional é mais estruturado. Branco é o padrão; bordado com nome é comum em algumas faculdades.' },
+  { q: 'Como deve ser o jaleco do estudante de Medicina?', a: 'O jaleco do estudante de Medicina deve ter manga longa, comprimento médio e tecido respirável com elastano. O modelo Slim acompanha o corpo sem apertar e tem caimento moderno; o Profissional é mais estruturado. Branco é o padrão. Algumas faculdades exigem identificação bordada — a Jaleca não oferece serviço de bordado, mas você pode levar a peça em uma bordadeira local após receber.' },
   { q: 'Como se chama o jaleco do médico?', a: 'No Brasil é chamado de "jaleco" ou "guarda-pó". Internamente nos hospitais, profissionais usam também o "scrub" (pijama cirúrgico). Na Jaleca o jaleco profissional vem nas modelagens Slim, Profissional, Princesa e Tradicional.' },
   { q: 'Qual o preço médio de um jaleco?', a: 'Jaleco profissional de boa qualidade custa entre R$200 e R$350. Versões com tecido premium e elastano (caso da Jaleca) ficam na faixa de R$280-R$320. Pagando no PIX, 5% de desconto.' },
   { q: 'O que significa "scrubs"?', a: 'Scrub é o conjunto de blusa + calça (pijama cirúrgico) usado em ambiente hospitalar. Tecido respirável, mais leve que o jaleco tradicional. A Jaleca tem scrubs femininos e masculinos do PP ao G3.' },

@@ -328,14 +328,14 @@ export default async function JalecoAdvogadoPage() {
                   },
                   {
                     id: 'bordado',
-                    title: 'Bordado com nome e número da OAB',
+                    title: 'Identificação profissional no jaleco',
                     body: (
                       <>
                         <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          O bordado do nome e número da OAB no jaleco é prática comum e recomendada. Agrega profissionalismo e facilita a identificação pelo cliente.
+                          Bordar o nome e número da OAB no jaleco é prática comum e recomendada — agrega profissionalismo e facilita a identificação pelo cliente. A Jaleca não oferece serviço de bordado. O jaleco é vendido sem bordado. Você pode levar a peça em uma bordadeira local após receber.
                         </p>
                         <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          Para pedidos corporativos a partir de 5 peças, a Jaleca oferece condições especiais de bordado. Entre em contato pelo e-mail contato@jaleca.com.br.
+                          Importante: após o bordado, o jaleco não pode ser trocado.
                         </p>
                       </>
                     ),

@@ -29,7 +29,7 @@ export default function OutOfStockPage({ seo, otherColors }: Props) {
             {otherColors.map((c) => (
               <Link key={c.url} href={c.url} className="block border rounded p-3 hover:shadow">
                 {c.image && (
-                  <img src={c.image} alt={c.colorName} className="w-full h-32 object-cover rounded" />
+                  <img src={c.image} alt={c.colorName} width={300} height={128} className="w-full h-32 object-cover rounded" />
                 )}
                 <p className="mt-2 text-sm">{c.colorName}</p>
               </Link>

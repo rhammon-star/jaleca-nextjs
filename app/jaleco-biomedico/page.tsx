@@ -342,14 +342,14 @@ export default async function JalecoBiomedicoPage() {
                   },
                   {
                     id: 'bordado',
-                    title: 'Bordado e identificação profissional',
+                    title: 'Identificação profissional no jaleco',
                     body: (
                       <>
                         <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          Borda o nome e número do CRB no jaleco é prática comum e recomendada. Facilita a identificação do profissional e transmite credibilidade ao paciente ou cliente.
+                          Bordar o nome e número do CRB no jaleco é prática comum e recomendada — facilita a identificação e transmite credibilidade. A Jaleca não oferece serviço de bordado. O jaleco é vendido sem bordado. Você pode levar a peça em uma bordadeira local após receber.
                         </p>
                         <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          Para pedidos corporativos a partir de 5 peças, a Jaleca oferece condições especiais de bordado. Entre em contato pelo e-mail contato@jaleca.com.br.
+                          Importante: após o bordado, o jaleco não pode ser trocado.
                         </p>
                       </>
                     ),

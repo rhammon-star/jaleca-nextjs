@@ -3,7 +3,7 @@ import { useState } from 'react'
 const faqItems = [
   { q: 'Qual o melhor jaleco para farmacêutico?', a: 'O farmacêutico trabalha em ambiente de farmácia ou laboratório. O modelo com elastano é ideal para longas horas em pé ou no bancada. O branco é a cor mais tradicional e higiênica.' },
   { q: 'Farmacêutico precisa de jaleco com proteção?', a: 'Sim. Em laboratórios farmacêuticos, o jaleco funciona como EPI complementar contra respingos de substâncias químicas. Deve ser usado exclusivamente no ambiente de trabalho.' },
-  { q: 'Jaleco de farmacêutico pode ter bordado?', a: 'Sim. Borda o nome e CRF é prática comum. Para pedidos a partir de 5 peças, oferecemos condições especiais de bordado corporativo.' },
+  { q: 'Jaleco de farmacêutico pode ter bordado com nome e CRF?', a: 'A Jaleca não oferece serviço de bordado. O jaleco é vendido sem bordado. Você pode levar a peça em uma bordadeira local após receber. Importante: após o bordado, o jaleco não pode ser trocado.' },
   { q: 'Qual a diferença entre jaleco Slim e Profissional?', a: 'O Slim tem corte ajustado e moderno. O Profissional tem corte mais amplo e estruturado, transmitindo mais formalidade para o ambiente de farmácia.' },
   { q: 'Como funciona a troca?', a: 'Arrependimento: até 7 dias após o recebimento, produto sem uso e com etiqueta. Garantia Jaleca: 30 dias, sem marca de uso e com etiqueta. WhatsApp ou e-mail com número do pedido.' },
   { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Prazo de 3 a 8 dias úteis conforme região — calculado no checkout.' },

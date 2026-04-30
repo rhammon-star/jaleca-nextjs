@@ -30,8 +30,8 @@ const FAQ_ITEMS = [
     a: 'Trabalhamos com gabardine com elastano (150-165 g/m²) para o dia a dia clínico — leve, sem amasso, fácil de lavar. Os modelos slim têm elastano bidirecional que acompanha o movimento de agachamento e extensão de braço. Todos os tecidos passam por lavagem industrial sem perder o caimento.',
   },
   {
-    q: 'Posso personalizar o jaleco com bordado?',
-    a: 'Sim. Nome e especialidade bordados são padrão COFEN e CFM. Aceitamos pedidos com bordado de nome, cargo, CRM, CRO e logo da clínica. Consulte prazo adicional antes de finalizar o pedido — bordado costuma adicionar 3-5 dias úteis.',
+    q: 'Posso ter bordado no jaleco com meu nome?',
+    a: 'A Jaleca não oferece serviço de bordado. O jaleco é vendido sem bordado. Você pode levar a peça em uma bordadeira local após receber. Importante: após o bordado, o jaleco não pode ser trocado.',
   },
   {
     q: 'Qual o prazo de entrega?',

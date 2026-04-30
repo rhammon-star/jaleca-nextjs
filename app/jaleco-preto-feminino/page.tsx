@@ -7,8 +7,8 @@ import CategoryProductGrid from '@/components/CategoryProductGrid'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Jaleco Preto Feminino: Esteticista, Barbeiro e Tatuador',
-  description: 'Jaleco preto feminino com elastano — para esteticista, cabeleireiro e tatuador. Tecido que não retém pelos, repele produtos. Do PP ao G3. Frete grátis SE acima de R$499.',
+  title: 'Jaleco Preto Feminino: Slim, Elegante e Profissional | Jaleca',
+  description: 'Jaleco preto feminino com elastano — modelos Slim e Profissional para médicas, esteticistas e cabeleireiras. Tecido que não desbota. PP ao G3. Frete grátis SE acima de R$499.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-preto-feminino' },
   openGraph: {
     title: 'Jaleco Preto Feminino: Esteticista, Barbeiro e Tatuador',

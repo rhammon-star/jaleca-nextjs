@@ -7,8 +7,8 @@ import PretoProductGrid from '@/components/PretoProductGrid'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Jaleco Preto Profissional — Estética, Barbeiro e Chef',
-  description: 'Jaleco preto para esteticistas, cabeleireiros, tatuadores e chefs. Tecido que não desbota, confortável para o dia todo. PP ao G3. Frete grátis SP, RJ, MG e ES acima de R$499.',
+  title: 'Jaleco Preto: Feminino e Masculino para Profissionais | Jaleca',
+  description: 'Jaleco preto masculino e feminino para estética, barbearia, gastronomia e clínicas. Tecido que não desbota, com elastano. PP ao G3. Frete grátis SP/RJ/MG/ES acima de R$499.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-preto' },
   openGraph: {
     title: 'Jaleco Preto Profissional — Estética, Barbeiro e Chef',

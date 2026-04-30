@@ -716,6 +716,9 @@ const CIDADES: Record<string, CidadeInfo> = {
   },
 }
 
+// Apenas cidades com loja física são indexadas — demais recebem noindex para liberar crawl budget
+const CIDADES_INDEXADAS = new Set(['jaleco-ipatinga', 'jaleco-belo-horizonte', 'jaleco-colatina', 'jaleco-contagem'])
+
 export async function generateMetadata({
   params,
 }: {
@@ -731,6 +734,7 @@ export async function generateMetadata({
   return {
     title,
     description,
+    ...(CIDADES_INDEXADAS.has(slug) ? {} : { robots: { index: false, follow: false } }),
     keywords: `jaleco ${cidade.nome.toLowerCase()}, jaleca ${cidade.nome.toLowerCase()}, jaleco ${cidade.uf.toLowerCase()}, jaleco feminino ${cidade.nome.toLowerCase()}, jaleco médico ${cidade.nome.toLowerCase()}, comprar jaleco ${cidade.nome.toLowerCase()}, uniforme saúde ${cidade.nome.toLowerCase()}`,
     alternates: { canonical: `https://jaleca.com.br/cidade/${slug}` },
     openGraph: {

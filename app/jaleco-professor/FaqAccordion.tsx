@@ -4,7 +4,7 @@ const faqItems = [
   { q: 'Qual o melhor jaleco para professor?', a: 'O professor universitário e de cursos técnicos usa o jaleco em laboratório e sala de aula. O modelo Profissional transmite autoridade acadêmica. O Slim tem visual mais moderno.' },
   { q: 'Professor pode usar jaleco no ensino básico?', a: 'No ensino básico, o jaleco é mais comum em disciplinas de ciências e química. Em universidades, é usado amplamente em laboratórios e Faculdades de medicina e saúde.' },
   { q: 'Qual a diferença entre jaleco Slim e Profissional?', a: 'O Profissional tem corte mais amplo, transmitindo formalidade. O Slim tem corte ajustado, visual mais contemporâneo — ideal para ambientes universitários modernos.' },
-  { q: 'O jaleco de professor pode ter bordado?', a: 'Sim. Borda o nome e departamento ou instituição é prática comum. Para pedidos a partir de 5 peças, oferecemos condições especiais.' },
+  { q: 'O jaleco de professor pode ter bordado com o nome?', a: 'A Jaleca não oferece serviço de bordado. O jaleco é vendido sem bordado. Você pode levar a peça em uma bordadeira local após receber. Importante: após o bordado, o jaleco não pode ser trocado.' },
   { q: 'Como funciona a troca?', a: 'Arrependimento: até 7 dias após o recebimento, produto sem uso e com etiqueta. Garantia Jaleca: 30 dias, sem marca de uso e com etiqueta. WhatsApp ou e-mail com número do pedido.' },
   { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Prazo de 3 a 8 dias úteis conforme região — calculado no checkout.' },
 ]

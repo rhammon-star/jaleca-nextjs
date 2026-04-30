@@ -16,8 +16,8 @@ import { getCachedHeroImage, getCachedBlogPosts } from '@/lib/profession-page-da
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: { absolute: 'Jaleco para Médica: Tecido Premium, Caimento Perfeito | Jaleca' },
-  description: 'Jaleco para Médica em tecido premium com caimento perfeito. Modelos Slim e Profissional do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
+  title: { absolute: 'Jaleco para Médica: SLIM, Princesa e Elastex | Jaleca' },
+  description: 'Jaleco feminino para médica com corte acinturado, tecido Elastex e modelagem própria. Branco, preto e colorido. PP ao G3. Normas do CFM. Frete grátis SP/RJ/MG/ES.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-medica' },
   openGraph: {
     title: 'Jaleco para Médico | Tecido Premium, Caimento Perfeito — Jaleca',

@@ -305,7 +305,7 @@ export default async function ConjuntoFarmaceuticoPage() {
                           O CRF exige crachá de identificação com nome e número do registro profissional. Um uniforme com bordado do nome transmite mais credibilidade ao paciente.
                         </p>
                         <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          A Jaleca oferece serviço de bordado personalizado para dar mais profissionalismo ao seu uniforme.
+                          A Jaleca não oferece serviço de bordado. O uniforme é vendido sem bordado. Você pode levar a peça em uma bordadeira local após receber — é simples e acessível.
                         </p>
                       </>
                     ),

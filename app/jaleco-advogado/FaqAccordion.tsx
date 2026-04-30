@@ -12,8 +12,8 @@ const faqItems = [
     a: 'O modelo Profissional com corte mais estruturado é o mais adequado — passa autoridade e seriedade. A cor preta ou marinho são as mais aceitas no meio jurídico. O modelo Slim também é aceito em escritórios mais modernos.',
   },
   {
-    q: 'Jaleco para advogado pode ter bordado?',
-    a: 'Sim. É muito comum bordar o nome do advogado e o número da OAB. Para pedidos acima de 5 peças, a Jaleca oferece condições especiais de bordado corporativo. Basta enviar um e-mail para contato@jaleca.com.br.',
+    q: 'Jaleco para advogado pode ter bordado com nome e OAB?',
+    a: 'A Jaleca não oferece serviço de bordado. O jaleco é vendido sem bordado. Você pode levar a peça em uma bordadeira local após receber. Importante: após o bordado, o jaleco não pode ser trocado.',
   },
   {
     q: 'Jaleco de advogado pode ser preto?',

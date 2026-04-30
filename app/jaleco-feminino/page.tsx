@@ -40,8 +40,8 @@ const FAQ_ITEMS = [
     a: 'Para atendimento clínico diário: gabardine com elastano (150-165 g/m²) — leve, sem amasso, lavagem a 40°C. Para procedimentos estéticos com exposição a produtos químicos: tecido DWR que repele líquidos. Para laboratório: gramatura maior (200+ g/m²). Evite algodão puro — amassa, encolhe e não mantém o caimento após lavagem frequente.',
   },
   {
-    q: 'Jaleco feminino pode ser personalizado?',
-    a: 'Sim. Bordado com nome e registro profissional é recomendado pelos principais conselhos — COFEN, CFM, COFFITO. Além do bordado de identificação, algumas marcas oferecem personalização de cor de vivo, botões e bolsos. Pergunte antes do pedido sobre prazo adicional para personalização.',
+    q: 'Jaleco feminino pode ter bordado com o nome?',
+    a: 'A Jaleca não oferece serviço de bordado. O jaleco é vendido sem bordado. Você pode levar a peça em uma bordadeira local após receber — é uma alternativa simples e acessível. Importante: após o bordado, o jaleco não pode ser trocado.',
   },
   {
     q: 'Quais modelos de jaleco feminino são mais pedidos?',

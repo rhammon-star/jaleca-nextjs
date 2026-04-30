@@ -16,8 +16,8 @@ import { getCachedHeroImage, getCachedBlogPosts } from '@/lib/profession-page-da
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Jaleco para Farmácia: Visual Profissional e Confiança',
-  description: 'Jaleco para Farmácia em tecido premium. Modelagem que transmite confiança ao cliente. Do PP ao G3. Frete grátis SP/RJ/MG/ES.',
+  title: 'Jaleco para Farmácia: Feminino e Masculino | Jaleca',
+  description: 'Jaleco para farmacêutico e atendente de farmácia. Modelos femininos e masculinos, branco e colorido, PP ao G3. Transmite confiança e profissionalismo. Frete grátis SP/RJ/MG/ES.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-farmacia' },
   openGraph: {
     title: 'Jaleco para Farmácia: Visual Profissional e Confiança',

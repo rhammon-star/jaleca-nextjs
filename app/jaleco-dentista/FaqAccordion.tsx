@@ -12,8 +12,8 @@ const faqItems = [
     a: 'Nossos jalecos aguentam lavagem a 60°C para higienização clínica. Use alvejante clorado com moderação. Recomendamos alvejante sem cloro para preservar o tecido e a cor.',
   },
   {
-    q: 'Tenho um consultório e quero personalizar com bordado. É possível?',
-    a: 'Sim. Para pedidos corporativos acima de 5 peças, fala com a gente pelo contato@jaleca.com.br. Temos condições especiais para bordado com nome, CRO e logo do consultório.',
+    q: 'Jaleco de dentista pode ter bordado com nome e CRO?',
+    a: 'A Jaleca não oferece serviço de bordado. O jaleco é vendido sem bordado. Você pode levar a peça em uma bordadeira local após receber — é simples e acessível. Importante: após o bordado, o jaleco não pode ser trocado.',
   },
   {
     q: 'Como funciona a troca de tamanho?',

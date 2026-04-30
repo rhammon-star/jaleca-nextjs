@@ -36,7 +36,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'Posso personalizar um jaleco de marca conhecida?',
-    a: 'Sim. Bordado com nome e registro profissional é padrão nos principais conselhos de saúde — COFEN, CFM e COFFITO recomendam identificação visível no jaleco. Marcas especializadas como a Jaleca oferecem bordado personalizado direto no pedido, sem custo adicional em pedidos acima de um determinado volume.',
+    a: 'Bordado com nome e registro profissional é recomendado pelos conselhos (COFEN, CFM, COFFITO). A Jaleca não oferece serviço de bordado — o jaleco é vendido sem bordado. Você pode levar a peça em uma bordadeira local após receber.',
   },
   {
     q: 'Qual tecido é melhor num jaleco de qualidade?',

@@ -12,8 +12,8 @@ const faqItems = [
     a: 'O Conjunto Executiva transmite autoridade e sofisticação — ideal para audiências e escritórios. O Conjunto Puff Zíper é mais moderno, aceito em departamentos jurídicos de empresas. Ambos em tecido premium com elastano.',
   },
   {
-    q: 'Conjunto para advogada pode ter bordado?',
-    a: 'Sim. É muito comum bordar o nome da advogada e o número da OAB. Para pedidos acima de 5 peças, a Jaleca oferece condições especiais de bordado corporativo. Entre em contato pelo e-mail contato@jaleca.com.br.',
+    q: 'Conjunto para advogada pode ter bordado com nome e OAB?',
+    a: 'A Jaleca não oferece serviço de bordado. O jaleco é vendido sem bordado. Você pode levar a peça em uma bordadeira local após receber. Importante: após o bordado, o jaleco não pode ser trocado.',
   },
   {
     q: 'Qual cor é mais indicada para advogada?',

@@ -20,8 +20,8 @@ const faqItems = [
     a: 'Sim. Os jalecos Jaleca suportam lavagem até 60°C, temperatura suficiente para desinfecção em ambiente laboratorial. Use alvejante sem cloro para preservar o tecido.',
   },
   {
-    q: 'Biomédico pode ter jaleco com bordado?',
-    a: 'Sim, bordar o nome e número do CRB é prática comum. Para pedidos a partir de 5 peças com bordado corporativo, a Jaleca oferece condições especiais. Entre em contato pelo e-mail.',
+    q: 'Jaleco de biomédico pode ter bordado com o nome?',
+    a: 'A Jaleca não oferece serviço de bordado. O jaleco é vendido sem bordado. Você pode levar a peça em uma bordadeira local após receber. Importante: após o bordado, o jaleco não pode ser trocado.',
   },
   {
     q: 'Qual o prazo de entrega?',

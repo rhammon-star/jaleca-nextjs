@@ -4,7 +4,7 @@ const faqItems = [
   { q: 'Qual o melhor jaleco para pastor?', a: 'O pastor usa o jaleco em ceremonies religiosas e atividades pastorais. O modelo Profissional transmite seriedade e respeito. O branco é a cor mais tradicional para contextos religiosos.' },
   { q: 'Pastor pode usar jaleco preto?', a: 'Pode. O jaleco preto é cada vez mais aceito em contextos religiosos modernos. Transmite seriedade e elegância em ceremonies e eventos eclesiásticos.' },
   { q: 'Qual a diferença entre jaleco Slim e Profissional?', a: 'O Profissional tem corte mais amplo e estruturado — ideal para ceremonies formais. O Slim tem visual mais contemporâneo, aceito em ambientes religiosos mais informais.' },
-  { q: 'O jaleco de pastor pode ter bordado?', a: 'Sim. Borda o nome e título pastoral é prática comum. Para pedidos a partir de 5 peças, oferecemos condições especiais de bordado.' },
+  { q: 'O jaleco de pastor pode ter bordado com o nome?', a: 'A Jaleca não oferece serviço de bordado. O jaleco é vendido sem bordado. Você pode levar a peça em uma bordadeira local após receber. Importante: após o bordado, o jaleco não pode ser trocado.' },
   { q: 'Como funciona a troca?', a: 'Arrependimento: até 7 dias após o recebimento, produto sem uso e com etiqueta. Garantia Jaleca: 30 dias, sem marca de uso e com etiqueta. WhatsApp ou e-mail com número do pedido.' },
   { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Prazo de 3 a 8 dias úteis conforme região — calculado no checkout.' },
 ]

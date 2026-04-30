@@ -259,6 +259,7 @@ export default async function JalecoMedicinaPage() {
                       { label: 'Modelagem Slim ou Profissional', anchor: '#modelagem' },
                       { label: 'Jaleco branco ou colorido', anchor: '#cores' },
                       { label: 'Bolsos e funcionalidade', anchor: '#bolsos' },
+                      { label: 'Jaleco para estudante de medicina', anchor: '#estudante' },
                       { label: 'Normas do CRM', anchor: '#crm' },
                     ].map(item => (
                       <li key={item.anchor} style={{ marginBottom: '0.5rem' }}>
@@ -339,6 +340,33 @@ export default async function JalecoMedicinaPage() {
                         </p>
                         <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
                           Bolsos laterais reforçados duram mais e são ótimos para os instrumentos do dia a dia.
+                        </p>
+                      </>
+                    ),
+                  },
+                  {
+                    id: 'estudante',
+                    title: 'Jaleco para Estudante de Medicina',
+                    body: (
+                      <>
+                        <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
+                          O jaleco de estudante de medicina tem exigências específicas. Na maioria das faculdades, o jaleco precisa ser branco, de manga longa, e usar o bordado com o nome do aluno e o nome da instituição. Algumas faculdades exigem o comprimento mínimo abaixo da cintura.
+                        </p>
+                        <ul style={{ listStyle: 'none', margin: '1.2rem 0 1.5rem' }}>
+                          {[
+                            'PP ao G3 — tamanhos para todos os biótipos, inclusive estudantes no início do curso',
+                            'Bordado com nome disponível — personalize com seu nome e CRM assim que se formar',
+                            'Tecido com elastano — suporta a rotina intensa de aulas práticas e plantões',
+                            'Lavagem a 60°C — higienização clínica sem danificar o tecido',
+                          ].map(item => (
+                            <li key={item} style={{ fontSize: '0.95rem', color: '#444', padding: '0.6rem 0 0.6rem 1.5rem', position: 'relative', borderBottom: '1px solid #e5e0d8', fontWeight: 300 }}>
+                              <span style={{ position: 'absolute', left: 0, color: '#c8c4bc' }}>→</span>
+                              {item}
+                            </li>
+                          ))}
+                        </ul>
+                        <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
+                          Para a cerimônia do jaleco — tradição nas faculdades de medicina — recomendamos o modelo Slim Profissional branco, com acabamento premium e bordado personalizado. É o primeiro jaleco que você vai usar para sempre na memória.
                         </p>
                       </>
                     ),

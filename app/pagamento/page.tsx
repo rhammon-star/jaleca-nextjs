@@ -71,7 +71,7 @@ function PixView({ data }: { data: PaymentData }) {
       {data.pixQrCodeUrl && (
         <div className="flex justify-center">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={data.pixQrCodeUrl} alt="QR Code PIX" className="w-52 h-52 border border-border" />
+          <img src={data.pixQrCodeUrl} alt="QR Code PIX" width={208} height={208} className="w-52 h-52 border border-border" />
         </div>
       )}
 

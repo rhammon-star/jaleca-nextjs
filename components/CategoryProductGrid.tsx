@@ -3,7 +3,8 @@ import { getAllProducts } from '@/lib/all-products'
 import ProductCard, { type WooProduct } from '@/components/ProductCard'
 
 type Props = {
-  categorySlug: string
+  categorySlug?: string
+  nameContains?: string
   color?: string
   professionLabel: string
   collectionLabel?: string
@@ -40,6 +41,7 @@ function matchesCategory(p: WooProduct, slug: string): boolean {
 
 export default async function CategoryProductGrid({
   categorySlug,
+  nameContains,
   color,
   professionLabel,
   collectionLabel,
@@ -51,7 +53,11 @@ export default async function CategoryProductGrid({
   const all = await getAllProducts()
 
   const filtered = all.filter(p => {
-    if (!matchesCategory(p, categorySlug)) return false
+    if (categorySlug && !matchesCategory(p, categorySlug)) return false
+    if (nameContains) {
+      const name = normalize(p.name ?? '')
+      if (!name.includes(normalize(nameContains))) return false
+    }
     if (color && !matchesColor(p, color)) return false
     return true
   }).slice(0, limit)

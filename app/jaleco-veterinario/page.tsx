@@ -16,8 +16,8 @@ import { getCachedHeroImage, getCachedBlogPosts } from '@/lib/profession-page-da
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: { absolute: 'Jaleco para Veterinário: Tecido Premium, Caimento Perfeito | Jaleca' },
-  description: 'Jaleco para Veterinário em tecido premium com caimento perfeito. Modelos Slim e Profissional do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
+  title: { absolute: 'Jaleco para Veterinário: Resistente, Lavável e Profissional | Jaleca' },
+  description: 'Jaleco para veterinário com tecido resistente a pelos e produtos. Feminino e masculino, Slim e Profissional, PP ao G3. Frete grátis SP/RJ/MG/ES.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-veterinario' },
   openGraph: {
     title: 'Jaleco para Veterinário | Tecido Premium, Caimento Perfeito — Jaleca',

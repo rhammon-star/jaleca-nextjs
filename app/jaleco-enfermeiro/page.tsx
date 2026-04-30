@@ -16,8 +16,8 @@ import { getCachedHeroImage, getCachedBlogPosts } from '@/lib/profession-page-da
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: { absolute: 'Jaleco para Enfermeiro: Tecido Premium, Caimento Perfeito | Jaleca' },
-  description: 'Jaleco para Enfermeiro em tecido premium com caimento perfeito. Modelos Slim e Profissional do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
+  title: { absolute: 'Jaleco Enfermagem: Slim, Profissional, Plus Size | Jaleca' },
+  description: 'Jaleco para enfermeiro com elastano e bolsos funcionais. Modelos Slim e Profissional do PP ao G3. Frete grátis Sudeste acima de R$499.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-enfermeiro' },
   openGraph: {
     title: 'Jaleco para Enfermeiro | Tecido Premium, Caimento Perfeito — Jaleca',

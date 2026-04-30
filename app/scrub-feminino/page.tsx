@@ -13,8 +13,8 @@ import { getCachedBlogPosts, getCachedHeroImage } from '@/lib/profession-page-da
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: { absolute: 'Scrub Feminino — Conforto e Praticidade para Profissionais da Saúde | Jaleca' },
-  description: 'Scrub feminino profissional em tecido premium com elastano. Conjuntos completos do PP ao G3. Frete grátis SP/RJ/MG/ES acima R$499. Jaleca — fabricante com estoque próprio.',
+  title: { absolute: 'Scrub Feminino: Conjunto Profissional com Elastano | Jaleca' },
+  description: 'Scrub feminino para médicas, enfermeiras e profissionais de saúde. Conjunto blusa + calça com elastano, corte feminino real, 12 cores. PP ao G3. Frete grátis SP/RJ/MG/ES acima de R$499.',
   alternates: { canonical: 'https://jaleca.com.br/scrub-feminino' },
   openGraph: {
     title: 'Scrub Feminino — Conforto e Praticidade',
@@ -164,7 +164,7 @@ export default async function ScrubFemininoPage() {
               <em style={{ fontStyle: 'italic', fontWeight: 300 }}>Feminino</em>
             </h1>
             <p style={{ fontSize: '1rem', fontWeight: 300, color: '#6b6b6b', maxWidth: 420, marginBottom: '2.5rem', lineHeight: 1.8 }}>
-              Conforto e praticidade para profissionais da saúde. Tecido premium com elastano.
+              Conjunto blusa + calça com corte feminino real — não é o masculino adaptado. Elastano para mobilidade, 12 cores, do PP ao G3.
             </p>
             <div className="flex gap-4 flex-wrap">
               <Link href="/produtos?categoria=conjuntos-femininos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: '#1a1a1a', color: '#fff', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>

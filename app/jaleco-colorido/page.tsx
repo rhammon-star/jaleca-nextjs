@@ -53,8 +53,8 @@ const FAQ_ITEMS = [
     a: 'A cor do jaleco deve seguir a paleta da marca da clínica. Clínicas de estética optam por tons neutros (areia, bege, rosê) para transmitir sofisticação. Clínicas de saúde infantil usam cores vibrantes. Consultórios de terapias holísticas preferem lilás e verde.',
   },
   {
-    q: 'Jaleco colorido pode ser personalizado com bordado?',
-    a: 'Sim. Bordado com nome e registro profissional é recomendado pelos conselhos (COFEN, COFFITO, CRN). O bordado em jaleco colorido fica bem com linhas na cor do próprio jaleco ou em branco/dourado para destacar.',
+    q: 'Jaleco colorido pode ter bordado com o nome?',
+    a: 'A Jaleca não oferece serviço de bordado. O jaleco é vendido sem bordado. Você pode levar a peça em uma bordadeira local após receber. Em jalecos coloridos, o bordado fica bem com linhas na cor do próprio jaleco ou em branco. Importante: após o bordado, o jaleco não pode ser trocado.',
   },
   {
     q: 'Jaleco colorido tem as mesmas opções de tamanho que o branco?',
