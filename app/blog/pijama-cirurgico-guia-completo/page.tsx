@@ -203,6 +203,9 @@ export default function BlogPost() {
           <p>
             Já o jaleco funciona como uma camada de proteção por cima da sua roupa (ou até do scrub), sendo perfeito para atendimentos em consultórios, laboratórios e para transitar em áreas administrativas. Cada um tem seu momento. Por isso ter um bom <Link href="/jaleco-medico">jaleco para médico</Link> ou um <Link href="/jaleco-enfermeiro">jaleco para enfermeiro</Link> de qualidade no armário é tão fundamental quanto ter um bom scrub.
           </p>
+          <p>
+            Se você ainda tem dúvidas sobre qual <Link href="/blog/scrub-feminino-guia-completo">scrub feminino</Link> escolher, como cuidar dos tecidos ou quais cores usar, confira nosso hub completo sobre o tema — do <Link href="/blog/melhores-tecidos-scrub-feminino">guia de tecidos</Link> ao <Link href="/blog/como-cuidar-scrub-feminino">passo a passo de lavagem</Link>.
+          </p>
 
           <h2>Onde encontrar o pijama cirúrgico ideal?</h2>
           <p>

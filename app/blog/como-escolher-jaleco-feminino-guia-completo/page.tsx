@@ -216,6 +216,14 @@ export default async function BlogPost() {
             Lave em água fria ou morna (máximo 40°C), use sabão neutro e evite alvejante. Seque à sombra — sol direto danifica as fibras. Jalecos com elastano devem ser secado em superfície plana para manter o caimento.
           </p>
 
+          <h2>Jaleco ou scrub? Quando usar cada um</h2>
+          <p>
+            O jaleco cobre a roupa e é ideal para consultórios e laboratórios. Já o <Link href="/blog/scrub-feminino-guia-completo">scrub feminino</Link> é o uniforme completo para quem trabalha em ambiente hospitalar ou precisa de máxima mobilidade. Muitas profissionais usam os dois: o scrub como uniforme base e o jaleco por cima quando necessário.
+          </p>
+          <p>
+            Se você ainda não conhece os scrubs da Jaleca, vale conferir nosso guia sobre <Link href="/blog/melhores-tecidos-scrub-feminino">melhores tecidos para scrub feminino</Link> e entender qual combina mais com sua rotina.
+          </p>
+
           <h2>Onde comprar jaleco femenino de qualidade</h2>
           <p>
             A Jaleca é especialista em jalecos profissionais para mulheres há mais de uma década. Oferecemos:
