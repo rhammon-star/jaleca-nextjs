@@ -256,6 +256,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/blog/jaleco-colorido-clinica`, lastModified: new Date('2026-04-30'), changeFrequency: 'monthly', priority: 0.85 },
     { url: `${SITE_URL}/blog/jaleco-feminino-tamanho-certo`, lastModified: new Date('2026-04-30'), changeFrequency: 'monthly', priority: 0.85 },
     { url: `${SITE_URL}/blog/jaleco-para-formatura-medicina`, lastModified: new Date('2026-04-30'), changeFrequency: 'monthly', priority: 0.85 },
+    // PAA Posts — Jaleco (01/05/2026)
+    { url: `${SITE_URL}/blog/jaleco-manga-curta-clinica`, lastModified: new Date('2026-05-01'), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${SITE_URL}/blog/jaleco-ou-scrub-consultorio`, lastModified: new Date('2026-05-01'), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${SITE_URL}/blog/jaleco-elastano-vale-a-pena`, lastModified: new Date('2026-05-01'), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${SITE_URL}/blog/jaleco-plus-size-feminino-guia`, lastModified: new Date('2026-05-01'), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${SITE_URL}/jaleco-preto-feminino`, lastModified: new Date('2025-04-01'), changeFrequency: 'monthly', priority: 0.85 },
     { url: `${SITE_URL}/pijama-cirurgico-feminino`, lastModified: new Date('2025-04-01'), changeFrequency: 'monthly', priority: 0.9 },
     { url: `${SITE_URL}/jaleco-plus-size`, lastModified: new Date('2025-04-01'), changeFrequency: 'monthly', priority: 0.85 },
