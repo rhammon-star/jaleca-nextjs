@@ -183,7 +183,7 @@ export default function Page() {
 
           <h3>Como medir para jaleco slim?</h3>
           <p>
-            Meça busto (na altura dos mamilos) e cintura (parte mais estreita). Compare com a <Link href="/jaleco-feminino" className="text-[#c4a97d]">tabela de medidas da Jaleca</Link>. Para o slim, a medida de busto é mais determinante — escolha o tamanho pelo busto e o jaleco vai casar com a cintura.
+            Meça busto (na altura dos mamilos) e cintura (parte mais estreita). Compare com a <Link href="/categoria/jalecos-femininos" className="text-[#c4a97d]">tabela de medidas da Jaleca</Link>. Para o slim, a medida de busto é mais determinante — escolha o tamanho pelo busto e o jaleco vai casar com a cintura.
           </p>
 
           <div className="mt-8 p-6 bg-[#faf9f7] border border-[#e8e0d5]">
@@ -200,7 +200,7 @@ export default function Page() {
         <div className="mt-12 p-8 bg-[#faf9f7] border border-[#e8e0d5]">
           <h3 className="font-display text-xl font-semibold mb-2">Ver jalecos slim feminino</h3>
           <p className="text-muted-foreground mb-4">Slim Tradicional, Gold, Elastex e Princesa — do PP ao G3, em até 12 cores.</p>
-          <Link href="/jaleco-feminino" className="inline-flex items-center gap-2 bg-[#1a1a1a] text-white px-6 py-3 text-sm font-semibold tracking-widest uppercase hover:bg-[#333]">
+          <Link href="/categoria/jalecos-femininos" className="inline-flex items-center gap-2 bg-[#1a1a1a] text-white px-6 py-3 text-sm font-semibold tracking-widest uppercase hover:bg-[#333]">
             Ver Jalecos Slim →
           </Link>
         </div>

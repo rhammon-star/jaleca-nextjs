@@ -183,7 +183,7 @@ export default function Page() {
         <div className="mt-12 p-8 bg-[#faf9f7] border border-[#e8e0d5]">
           <h3 className="font-display text-xl font-semibold mb-2">Jaleco plus size Jaleca — G1 ao G3</h3>
           <p className="text-muted-foreground mb-4">Slim e clássico em tamanhos G1, G2 e G3 — molde redesenhado, não escalonado.</p>
-          <Link href="/jaleco-feminino" className="inline-flex items-center gap-2 bg-[#1a1a1a] text-white px-6 py-3 text-sm font-semibold tracking-widest uppercase hover:bg-[#333]">
+          <Link href="/categoria/jalecos-femininos" className="inline-flex items-center gap-2 bg-[#1a1a1a] text-white px-6 py-3 text-sm font-semibold tracking-widest uppercase hover:bg-[#333]">
             Ver Jalecos Plus Size →
           </Link>
         </div>

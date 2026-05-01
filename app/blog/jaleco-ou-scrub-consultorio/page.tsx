@@ -190,7 +190,7 @@ export default function Page() {
         <div className="mt-12 p-8 bg-[#faf9f7] border border-[#e8e0d5]">
           <h3 className="font-display text-xl font-semibold mb-2">Ver jalecos e scrubs Jaleca</h3>
           <p className="text-muted-foreground mb-4">Jaleco slim e scrub feminino — PP ao G3, em até 12 cores.</p>
-          <Link href="/jaleco-feminino" className="inline-flex items-center gap-2 bg-[#1a1a1a] text-white px-6 py-3 text-sm font-semibold tracking-widest uppercase hover:bg-[#333]">
+          <Link href="/categoria/jalecos-femininos" className="inline-flex items-center gap-2 bg-[#1a1a1a] text-white px-6 py-3 text-sm font-semibold tracking-widest uppercase hover:bg-[#333]">
             Ver Uniformes →
           </Link>
         </div>

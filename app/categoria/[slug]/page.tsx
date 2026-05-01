@@ -49,11 +49,11 @@ const CATEGORY_MAP: Record<string, { label: string; description: string; keyword
   },
   'jalecos-femininos': {
     label: 'Jalecos Femininos',
-    title: 'Jaleco Feminino: Slim, Princesa, Elastex | Jaleca',
+    title: 'Jaleco Feminino Slim, Princesa e Elastex | PP ao G3 | Jaleca',
     h1: 'Jalecos Femininos Premium: Slim, Princesa e Elastex',
     filterLabel: 'Jalecos',
     gender: 'Feminino',
-    description: 'Jalecos femininos com molde próprio — não é o masculino adaptado. 12 cores, modelos Slim, Princesa e Duquesa. Do PP ao G3. Frete grátis SP/MG/RJ/ES acima de R$499.',
+    description: 'Jaleco feminino com corte elegante e confortável para clínica, consultório e plantão. Modelos Slim, Princesa e Elastex, do PP ao G3, em várias cores.',
     keywords: 'jaleco feminino, jalecos femininos, jaleco slim feminino, jaleco princesa, jaleco duquesa, jaleco elastex, comprar jaleco feminino, jaleco médica, jaleco dentista feminino, jaleco enfermagem feminino',
   },
   'jalecos-masculinos': {
