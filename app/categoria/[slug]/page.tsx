@@ -315,28 +315,88 @@ export default async function CategoriaPage({
 
           {slug === 'jalecos-femininos' && (
             <>
-              <h3 className="text-sm font-semibold mb-2 mt-5">Modelos de jaleco feminino disponíveis</h3>
-              <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside mb-4">
-                <li><strong>Jaleco Slim Feminino</strong> — corte acinturado que valoriza a silhueta sem perder a seriedade clínica. O modelo mais escolhido por médicas e dentistas em consultórios.</li>
-                <li><strong>Jaleco Princesa</strong> — modelagem levemente evasê na parte inferior, com logo Jaleca no bolso. Elegante e confortável para longas jornadas.</li>
-                <li><strong>Jaleco Duquesa</strong> — manga longa com punho trabalhado, visual sofisticado para quem quer transmitir autoridade no ambiente clínico.</li>
-                <li><strong>Jaleco Elastex</strong> — confeccionado em tecido com elastano, oferece mobilidade máxima. Ideal para profissionais que passam horas em pé ou se movimentam bastante.</li>
-              </ul>
-              <h3 className="text-sm font-semibold mb-2">Como escolher o jaleco feminino certo</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-                A escolha do jaleco feminino ideal depende da rotina de trabalho e do ambiente clínico. Para consultórios de médicas e dentistas, o <strong>Jaleco Slim</strong> é a escolha certa: o corte acinturado transmite profissionalismo e elegância sem abrir mão do conforto. Para enfermeiras e profissionais que precisam de maior mobilidade durante plantões, o <strong>Jaleco Elastex</strong> é o mais indicado — o elastano acompanha o movimento do corpo sem prender. Se a preferência é por um visual mais clássico e sóbrio, o <strong>Jaleco Duquesa</strong> com manga longa e punho é a opção mais formal da linha.
+              {/* Texto editorial de abertura */}
+              <p className="text-sm text-muted-foreground leading-relaxed mb-5">
+                O jaleco feminino certo não é o masculino adaptado — é um modelo pensado do molde para cima para o corpo e a rotina de quem trabalha na saúde. A Jaleca desenvolve jalecos femininos com molde próprio: corte que acompanha a silhueta, manga calibrada para o biótipo feminino, comprimento proporcional e tecido que mantém o caimento após dezenas de lavagens. Seja para um consultório de dermatologia, um plantão de 12 horas na UTI ou uma clínica de estética, há um modelo específico para cada contexto — e <Link href="/blog/como-escolher-jaleco-feminino-guia-completo" className="underline underline-offset-2 hover:text-foreground transition-colors">escolher o modelo certo faz diferença real no conforto e na percepção do paciente</Link>.
               </p>
-              <h3 className="text-sm font-semibold mb-2">Jaleco feminino por profissão</h3>
-              <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside mb-4">
-                <li><Link href="/jaleco-medica" className="underline underline-offset-2 hover:text-foreground transition-colors">Jaleco para médica</Link> — Slim e Duquesa, branco ou colorido, com normas do CFM</li>
-                <li><Link href="/jaleco-dentista-feminino" className="underline underline-offset-2 hover:text-foreground transition-colors">Jaleco para dentista feminino</Link> — modelos aprovados em clínicas odontológicas</li>
-                <li><Link href="/jaleco-enfermeira" className="underline underline-offset-2 hover:text-foreground transition-colors">Jaleco para enfermeira</Link> — resistência e praticidade para plantões longos</li>
-                <li><Link href="/jaleco-nutricionista" className="underline underline-offset-2 hover:text-foreground transition-colors">Jaleco para nutricionista</Link> — modelos femininos em cores variadas</li>
+
+              {/* Modelos */}
+              <h2 className="font-display text-lg font-semibold mb-3 mt-6">Modelos de jaleco feminino</h2>
+              <ul className="text-sm text-muted-foreground space-y-3 mb-6">
+                <li>
+                  <strong>Jaleco Slim Feminino</strong> — corte acinturado com recortes laterais que definem a cintura sem apertar. O modelo mais pedido por médicas e dentistas de consultório. <Link href="/blog/jaleco-slim-feminino" className="underline underline-offset-2 hover:text-foreground transition-colors">Saiba quando o slim é a escolha certa →</Link>
+                </li>
+                <li>
+                  <strong>Jaleco Princesa</strong> — modelagem levemente evasê na parte inferior, bordado delicado no bolso. Visual mais humanizado, muito escolhido por nutricionistas, psicólogas e profissionais de estética.
+                </li>
+                <li>
+                  <strong>Jaleco Duquesa</strong> — manga longa com punho trabalhado, visual sofisticado. A opção mais formal da linha para quem precisa transmitir autoridade máxima no ambiente clínico.
+                </li>
+                <li>
+                  <strong>Jaleco Elastex</strong> — tecido com elastano bidirecional, maior amplitude de movimento. Indicado para plantões longos, pronto-socorro e fisioterapeutas. <Link href="/blog/jaleco-elastano-vale-a-pena" className="underline underline-offset-2 hover:text-foreground transition-colors">Jaleco com elastano vale a pena? →</Link>
+                </li>
               </ul>
-              <h3 className="text-sm font-semibold mb-2">Tecidos e composição</h3>
+
+              {/* Tabela de decisão */}
+              <h2 className="font-display text-lg font-semibold mb-3">Qual modelo escolher — guia rápido</h2>
+              <div className="overflow-x-auto mb-6">
+                <table className="w-full text-xs border-collapse">
+                  <thead>
+                    <tr className="bg-[#1a1a1a] text-white">
+                      <th className="text-left p-2">Ambiente / rotina</th>
+                      <th className="text-left p-2">Modelo indicado</th>
+                    </tr>
+                  </thead>
+                  <tbody className="text-muted-foreground">
+                    <tr className="border-b border-border"><td className="p-2">Consultório médico ou odontológico</td><td className="p-2">Slim Tradicional ou Gold</td></tr>
+                    <tr className="border-b border-border bg-[#faf9f7]"><td className="p-2">Plantão 12h, UTI, pronto-socorro</td><td className="p-2">Slim Elastex</td></tr>
+                    <tr className="border-b border-border"><td className="p-2">Nutrição, estética, psicologia</td><td className="p-2">Slim Princesa</td></tr>
+                    <tr className="border-b border-border bg-[#faf9f7]"><td className="p-2">Visual mais formal e estruturado</td><td className="p-2">Duquesa manga longa</td></tr>
+                    <tr className="border-b border-border"><td className="p-2">Tamanhos plus size (G1 ao G3)</td><td className="p-2">Slim ou Clássico c/ molde redesenhado</td></tr>
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Por profissão */}
+              <h2 className="font-display text-lg font-semibold mb-3">Jaleco feminino por profissão</h2>
+              <ul className="text-sm text-muted-foreground space-y-2 mb-6">
+                <li><Link href="/jaleco-medico-feminino" className="underline underline-offset-2 hover:text-foreground transition-colors font-medium">Jaleco para médica</Link> — Slim e Duquesa, branco ou colorido, dentro das normas do CFM</li>
+                <li><Link href="/jaleco-dentista-feminino" className="underline underline-offset-2 hover:text-foreground transition-colors font-medium">Jaleco para dentista feminino</Link> — modelos aprovados em clínicas odontológicas de todos os portes</li>
+                <li><Link href="/jaleco-enfermagem-feminino" className="underline underline-offset-2 hover:text-foreground transition-colors font-medium">Jaleco para enfermeira</Link> — resistência e praticidade para plantões longos com movimento constante</li>
+                <li><Link href="/jaleco-nutricionista" className="underline underline-offset-2 hover:text-foreground transition-colors font-medium">Jaleco para nutricionista</Link> — modelos femininos em cores variadas, Slim e Princesa</li>
+                <li><Link href="/jaleco-fisioterapeuta" className="underline underline-offset-2 hover:text-foreground transition-colors font-medium">Jaleco para fisioterapeuta</Link> — Elastex com máxima amplitude de movimento</li>
+              </ul>
+
+              {/* Tamanhos */}
+              <h2 className="font-display text-lg font-semibold mb-3">Tamanhos — do PP ao G3</h2>
               <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-                Os jalecos femininos da Jaleca são produzidos em <strong>tecido Elastex</strong> (poliéster com elastano), <strong>gabardine</strong> e <strong>Oxford premium</strong>. Todos os tecidos passam por controle de qualidade rigoroso e são pensados para resistir a múltiplas lavagens sem perder o caimento. As cores são fixadas com tingimento de alta durabilidade — o branco continua branco após dezenas de lavagens.
+                Os jalecos femininos da Jaleca vão do <strong>PP ao G3</strong>. Os tamanhos plus size (G1 ao G3) têm molde redesenhado — não é o G ampliado, mas um molde específico com maior amplitude no quadril, ombro proporcional e manga com circunferência adequada para o braço. Na dúvida entre dois tamanhos no modelo Slim, sempre vá para o maior. <Link href="/blog/jaleco-feminino-tamanho-certo" className="underline underline-offset-2 hover:text-foreground transition-colors">Veja o guia completo de medidas para jaleco feminino →</Link>
               </p>
+
+              {/* Cores */}
+              <h2 className="font-display text-lg font-semibold mb-3">Cores disponíveis</h2>
+              <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+                A linha feminina está disponível em <strong>12 cores</strong>, incluindo branco hospitalar, preto, marsala, verde musgo, azul marinho, rosê e outros. O tingimento de alta durabilidade garante que o branco permanece branco após dezenas de lavagens com alvejante. Para ambientes que exigem cor específica por protocolo, consulte o guia de <Link href="/blog/jaleco-colorido-clinica" className="underline underline-offset-2 hover:text-foreground transition-colors">jaleco colorido na clínica</Link>.
+              </p>
+
+              {/* Tecidos */}
+              <h2 className="font-display text-lg font-semibold mb-3">Tecidos e composição</h2>
+              <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+                Todos os jalecos femininos da Jaleca são produzidos em <strong>Elastex</strong> (poliéster com elastano bidirecional), <strong>gabardine</strong> ou <strong>Oxford premium</strong>. Cada tecido passa por controle de qualidade e é testado para resistir a múltiplas lavagens sem perder o caimento ou encolher. O elastano bidirecional — presente no Slim Elastex — cede em x e y, não apenas em um eixo, garantindo liberdade total de movimento.
+              </p>
+
+              {/* Blog hub links */}
+              <h2 className="font-display text-lg font-semibold mb-3">Guias e leituras sobre jaleco feminino</h2>
+              <ul className="text-sm space-y-2 mb-2">
+                <li><Link href="/blog/como-escolher-jaleco-feminino-guia-completo" className="text-[#c4a97d] hover:underline">→ Guia completo: como escolher jaleco feminino</Link></li>
+                <li><Link href="/blog/jaleco-slim-feminino" className="text-[#c4a97d] hover:underline">→ Jaleco slim feminino: modelos e quando usar</Link></li>
+                <li><Link href="/blog/jaleco-feminino-tamanho-certo" className="text-[#c4a97d] hover:underline">→ Como encontrar o tamanho certo de jaleco feminino</Link></li>
+                <li><Link href="/blog/jaleco-plus-size-feminino-guia" className="text-[#c4a97d] hover:underline">→ Jaleco feminino plus size: do G1 ao G3</Link></li>
+                <li><Link href="/blog/jaleco-branco-profissional" className="text-[#c4a97d] hover:underline">→ Jaleco branco: como manter sempre imaculado</Link></li>
+                <li><Link href="/blog/jaleco-colorido-clinica" className="text-[#c4a97d] hover:underline">→ Jaleco colorido na clínica: o que cada conselho permite</Link></li>
+                <li><Link href="/blog/jaleco-elastano-vale-a-pena" className="text-[#c4a97d] hover:underline">→ Jaleco com elastano: vale a pena?</Link></li>
+                <li><Link href="/blog/jaleco-ou-scrub-consultorio" className="text-[#c4a97d] hover:underline">→ Jaleco ou scrub: qual escolher para o consultório?</Link></li>
+              </ul>
             </>
           )}
 
