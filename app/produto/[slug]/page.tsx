@@ -128,7 +128,6 @@ export async function generateMetadata({
   const product = await getProduct(productSlug)
 
   if (!product) {
-    console.warn(`[404] Produto não encontrado: /produto/${slug}`)
     return { title: 'Produto não encontrado — Jaleca', robots: { index: false } }
   }
 
@@ -177,7 +176,6 @@ export async function generateMetadata({
       }
     } else {
       // Cor não existe, retorna 404
-      console.warn(`[404] Variação de cor não encontrada: ${slug}`)
       return { title: 'Produto não encontrado — Jaleca', robots: { index: false } }
     }
   } else {
