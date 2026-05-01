@@ -16,12 +16,12 @@ import { getCachedHeroImage, getCachedBlogPosts } from '@/lib/profession-page-da
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: { absolute: 'Jaleco para Nutricionista: Tecido Premium, Caimento Perfeito | Jaleca' },
-  description: 'Jaleco para Nutricionista em tecido premium com caimento perfeito. Modelos Slim e Profissional do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
+  title: { absolute: 'Jaleco para Nutricionista: Slim Colorido ou Branco | Jaleca' },
+  description: 'Jaleco para nutricionista Slim colorido ou branco — transmite acolhimento e autoridade no consultório. PP ao G3, com elastano. O CFN não define cor. Frete grátis SE acima de R$499.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-nutricionista' },
   openGraph: {
-    title: 'Jaleco para Nutricionista | Tecido Premium, Caimento Perfeito — Jaleca',
-    description: 'Qual jaleco usar na nutrição? Jaleco premium com elastano, caimento impecável e preço justo. Do PP ao G3. Frete grátis.',
+    title: 'Jaleco para Nutricionista: Slim Colorido ou Branco | Jaleca',
+    description: 'Jaleco para nutricionista Slim colorido ou branco. PP ao G3. O que o CFN permite. Transmite acolhimento e autoridade.',
     url: 'https://jaleca.com.br/jaleco-nutricionista',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -39,19 +39,19 @@ const schemaFaq = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   mainEntity: [
-    { '@type': 'Question', name: 'Qual comprimento de jaleco é mais indicado para nutricionistas?', acceptedAnswer: { '@type': 'Answer', text: 'Para nutrição, o jaleco médio a longo — facilita o atendimento em consultório e UBS.' } },
-    { '@type': 'Question', name: 'O jaleco pode ser lavado com água quente?', acceptedAnswer: { '@type': 'Answer', text: 'Os jalecos Jaleca suportam lavagem até 60°C, temperatura suficiente para higienização clínica. Use alvejante sem cloro para preservar o tecido.' } },
-    { '@type': 'Question', name: 'Jaleco com elastano é bom para nutricionista?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. O elastano adiciona memória ao tecido, retornando à forma após o movimento — essencial para quem passa horas em atendimento.' } },
-    { '@type': 'Question', name: 'Jaleco de nutricionista precisa ser branco?', acceptedAnswer: { '@type': 'Answer', text: 'Não é obrigação. O branco é o clássico, mas tons pastel e cores discretas são bem aceitos. O CFN não restringe a cor.' } },
-    { '@type': 'Question', name: 'Qual a diferença entre jaleco Slim e Profissional?', acceptedAnswer: { '@type': 'Answer', text: 'O Slim tem corte ajustado ao corpo, ideal para quem quer visual mais moderno. O Profissional tem corte mais amplo e estruturado, com mais espaço para movimento.' } },
+    { '@type': 'Question', name: 'O CFN define cor de jaleco para nutricionista?', acceptedAnswer: { '@type': 'Answer', text: 'O CFN não restringe cor. Em consultório particular e clínicas de nutrição estética, jaleco colorido (verde, rosê, azul) é cada vez mais comum — transmite acolhimento e diferenciação. Em UBS e hospitais, o protocolo da instituição prevalece.' } },
+    { '@type': 'Question', name: 'Nutricionista precisa usar jaleco?', acceptedAnswer: { '@type': 'Answer', text: 'O jaleco identifica o profissional e transmite autoridade clínica — isso tem impacto direto na percepção do paciente e na adesão ao tratamento. Em locais com acesso a alimentos (cozinha hospitalar, UAN), o jaleco também é exigência de biossegurança.' } },
+    { '@type': 'Question', name: 'Jaleco slim é bom para nutricionista?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. O Slim é o modelo mais pedido por nutricionistas: corte valorizado que transmite cuidado com a própria imagem — relevante em consultorias de nutrição estética e emagrecimento. O Princesa é uma alternativa mais casual, com visual mais acolhedor.' } },
+    { '@type': 'Question', name: 'Qual cor de jaleco nutricionista combina com consultório?', acceptedAnswer: { '@type': 'Answer', text: 'Verde pistache e verde água: associados a saúde e vitalidade. Rosê e blush: acolhimento, muito usado em nutrição comportamental. Branco: autoridade e limpeza. Azul: confiança e serenidade. A escolha pode reforçar a identidade visual do consultório.' } },
+    { '@type': 'Question', name: 'Jaleco de nutricionista precisa de bordado com CRN?', acceptedAnswer: { '@type': 'Answer', text: 'O CFN recomenda que o jaleco tenha identificação do profissional. Bordado com nome e CRN é a forma mais adotada. Jaleca não oferece bordado — apenas o logo Jaleca no bolso. Para bordado personalizado, procure gráfica ou bordadeira local.' } },
   ],
 }
 
 const schemaArticle = {
   '@context': 'https://schema.org',
   '@type': 'Article',
-  headline: 'Jaleco para Nutricionista: Tecido Premium, Caimento Perfeito',
-  description: 'Guia completo do jaleco para nutricionista: tecido premium, caimento perfeito, modelo Slim vs Profissional e custo-benefício.',
+  headline: 'Jaleco para Nutricionista: Slim Colorido ou Branco — Guia Completo',
+  description: 'Jaleco para nutricionista Slim colorido ou branco. PP ao G3. O que o CFN permite. Transmite acolhimento e autoridade no consultório.',
   author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
   publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
   url: 'https://jaleca.com.br/jaleco-nutricionista',

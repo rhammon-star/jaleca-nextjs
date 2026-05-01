@@ -16,12 +16,12 @@ import { getCachedHeroImage, getCachedBlogPosts } from '@/lib/profession-page-da
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: { absolute: 'Jaleco para Dentista: Tecido Premium, Caimento Perfeito | Jaleca' },
-  description: 'Jaleco para dentista em tecido premium com caimento perfeito. Modelos Slim e Profissional do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
+  title: { absolute: 'Jaleco para Dentista: Curto, Slim e com Elastano | Jaleca' },
+  description: 'Jaleco para dentista curto ou longo, Slim com elastano — ergonomia ao redor da cadeira odontológica. PP ao G3, branco e colorido. O que o CRO permite. Frete grátis SE.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-dentista' },
   openGraph: {
-    title: 'Jaleco para Dentista | Tecido Premium, Caimento Perfeito — Jaleca',
-    description: 'Qual jaleco usar na odontologia? Jaleco premium com elastano, caimento impecável e preço justo. Do PP ao G3. Frete grátis.',
+    title: 'Jaleco para Dentista: Curto, Slim e com Elastano | Jaleca',
+    description: 'Jaleco para dentista curto ou longo, com elastano para movimento ao redor da cadeira. O que o CRO permite. PP ao G3.',
     url: 'https://jaleca.com.br/jaleco-dentista',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -39,19 +39,19 @@ const schemaFaq = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   mainEntity: [
-    { '@type': 'Question', name: 'Qual comprimento de jaleco é mais indicado para dentistas?', acceptedAnswer: { '@type': 'Answer', text: 'Para odontologia, o jaleco curto (até o quadril) é mais popular por facilitar o movimento ao redor da cadeira odontológica. O longo é mais usado em procedimentos cirúrgicos.' } },
-    { '@type': 'Question', name: 'O jaleco pode ser lavado com água quente?', acceptedAnswer: { '@type': 'Answer', text: 'Os jalecos Jaleca suportam lavagem até 60°C, temperatura suficiente para higienização clínica. Use alvejante sem cloro para preservar o tecido.' } },
-    { '@type': 'Question', name: 'Jaleco com elastano é bom para dentista?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. O elastano adiciona memória ao tecido, retornando à forma após o movimento — essencial para quem passa horas com braços elevados.' } },
-    { '@type': 'Question', name: 'Jaleco de dentista precisa ser branco?', acceptedAnswer: { '@type': 'Answer', text: 'Não é obrigação. O branco é o clássico, mas tons pastel e cores discretas são aceitos. O CRO não restringe a cor.' } },
-    { '@type': 'Question', name: 'Qual a diferença entre jaleco Slim e Profissional?', acceptedAnswer: { '@type': 'Answer', text: 'O Slim tem corte ajustado ao corpo, ideal para quem quer visual mais moderno. O Profissional tem corte mais amplo e estruturado, com mais espaço para movimento.' } },
+    { '@type': 'Question', name: 'Jaleco curto ou longo para dentista?', acceptedAnswer: { '@type': 'Answer', text: 'O jaleco curto (até o quadril) é o mais usado por dentistas clínicos — facilita o movimento ao redor da cadeira e levantamento de braços. O longo fica mais restrito a cirurgiões bucomaxilofaciais e procedimentos com maior risco de contaminação.' } },
+    { '@type': 'Question', name: 'O CRO obriga dentista a usar jaleco branco?', acceptedAnswer: { '@type': 'Answer', text: 'O CRO não determina cor obrigatória. O branco é o padrão em hospitais e clínicas integradas ao SUS. Em consultórios privados, azul, verde e cores neutras são aceitas. O importante é que o jaleco esteja limpo e identificado com nome e CRO.' } },
+    { '@type': 'Question', name: 'Qual jaleco tem mais liberdade de movimento para dentista?', acceptedAnswer: { '@type': 'Answer', text: 'O Jaleco Elastex é o que oferece maior amplitude — o tecido com elastano bidirecional acompanha a elevação de braços e a rotação do tronco. O Slim também funciona bem, mas o Elastex é o preferido de quem faz muitos procedimentos.' } },
+    { '@type': 'Question', name: 'Jaleco de dentista pode ter bolso?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. Dois bolsos laterais são o padrão. Evite bolsos no peito para procedimentos que exigem inclinação sobre o paciente — objetos caem. O bolso lateral na altura do quadril é mais funcional e seguro.' } },
+    { '@type': 'Question', name: 'Como tirar mancha de amálgama ou resina do jaleco?', acceptedAnswer: { '@type': 'Answer', text: 'Amálgama: não esfregue — remova o excesso seco antes de molhar. Resina composta: álcool isopropílico antes da lavagem. Anestésico ou hemostático: água fria imediata. Em todos os casos, lave a 40°C com sabão neutro.' } },
   ],
 }
 
 const schemaArticle = {
   '@context': 'https://schema.org',
   '@type': 'Article',
-  headline: 'Jaleco para Dentista: Tecido Premium, Caimento Perfeito',
-  description: 'Guia completo do jaleco para dentista: tecido premium, caimento perfeito, modelo Slim vs Profissional, normas do CRO e custo-benefício.',
+  headline: 'Jaleco para Dentista: Curto, Slim e com Elastano — Guia Completo',
+  description: 'Jaleco para dentista curto ou longo, com elastano para movimento ao redor da cadeira. O que o CRO permite, PP ao G3.',
   author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
   publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
   url: 'https://jaleca.com.br/jaleco-dentista',

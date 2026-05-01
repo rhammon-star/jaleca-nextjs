@@ -7,12 +7,12 @@ import ProfessionProductGrid from '@/components/ProfessionProductGrid'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Jalecos Femininos — Modelos Profissionais com Conforto e Elegância',
-  description: 'Jalecos femininos do PP ao G3 com molde próprio — não é o masculino adaptado. Elastano bidirecional, gabardine premium, 12 cores. Frete grátis SP, RJ, MG e ES acima de R$499.',
+  title: 'Jaleco Feminino Branco, Slim e Plus Size | Jaleca',
+  description: 'Jaleco feminino branco, jaleco slim, plus size do PP ao G3. Modelos Slim, Princesa e Elastex para médica, dentista e enfermeira. Frete grátis SP, RJ, MG e ES acima de R$499.',
   alternates: { canonical: 'https://jaleca.com.br/jalecos-femininos' },
   openGraph: {
-    title: 'Jalecos Femininos — Modelos Profissionais com Conforto e Elegância',
-    description: 'Jalecos femininos do PP ao G3 com molde próprio. Elastano bidirecional, gabardine premium, 12 cores.',
+    title: 'Jaleco Feminino Branco, Slim e Plus Size | Jaleca',
+    description: 'Jaleco feminino branco, slim e plus size do PP ao G3. Modelos para médica, dentista e enfermeira.',
     url: 'https://jaleca.com.br/jalecos-femininos',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -20,8 +20,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Jalecos Femininos — Modelos Profissionais com Conforto e Elegância',
-    description: 'Jalecos femininos do PP ao G3 com molde próprio. Elastano bidirecional, gabardine premium, 12 cores.',
+    title: 'Jaleco Feminino Branco, Slim e Plus Size | Jaleca',
+    description: 'Jaleco feminino branco, slim e plus size do PP ao G3. Modelos para médica, dentista e enfermeira.',
     images: ['https://jaleca.com.br/og-home.jpg'],
   },
 }
@@ -82,9 +82,9 @@ const INTERNAL_LINKS = [
   { href: '/jaleco-enfermeiro', label: 'Jaleco para Enfermeiro' },
   { href: '/jaleco-esteticista', label: 'Jaleco para Esteticista' },
   { href: '/jaleco-fisioterapeuta', label: 'Jaleco para Fisioterapeuta' },
-  { href: '/jaleco-premium', label: 'Jaleco Premium' },
-  { href: '/jaleco-estiloso', label: 'Jaleco Estiloso' },
+  { href: '/jaleco-nutricionista', label: 'Jaleco para Nutricionista' },
   { href: '/jaleco-plus-size', label: 'Jaleco Plus Size' },
+  { href: '/jaleco-premium', label: 'Jaleco Premium' },
 ]
 
 export default async function Page() {
@@ -103,8 +103,8 @@ export default async function Page() {
   const schemaArticle = {
     '@context': 'https://schema.org',
     '@type': 'Article',
-    headline: 'Jalecos Femininos: Modelos Profissionais com Conforto e Elegância',
-    description: 'Guia completo de jalecos femininos para profissionais da saúde e estética — modelos, tecidos e como escolher o tamanho certo.',
+    headline: 'Jaleco Feminino Branco, Slim e Plus Size — Guia Completo',
+    description: 'Jaleco feminino branco, slim e plus size do PP ao G3. Modelos Slim, Princesa e Elastex para médica, dentista e enfermeira.',
     author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
     publisher: {
       '@type': 'Organization',
@@ -178,11 +178,11 @@ export default async function Page() {
                 marginBottom: '1.5rem',
               }}
             >
-              Jalecos Femininos —<br />
-              <em style={{ fontStyle: 'italic', fontWeight: 300 }}>Modelos Profissionais com Conforto e Elegância</em>
+              Jaleco Feminino —<br />
+              <em style={{ fontStyle: 'italic', fontWeight: 300 }}>Branco, Slim e Plus Size</em>
             </h1>
             <p style={{ fontSize: '1rem', fontWeight: 300, color: '#6b6b6b', maxWidth: 620, margin: '0 auto 2.5rem', lineHeight: 1.8 }}>
-              Com corte pensado para o corpo feminino real. Elastano que acompanha o movimento. Grade do PP ao G3 com molde próprio por tamanho.
+              Modelos Slim, Princesa e Elastex para médica, dentista e enfermeira. Do PP ao G3, com molde feminino real — não é o masculino adaptado.
             </p>
             <div className="flex gap-4 flex-wrap justify-center">
               <a href="#colecao" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: '#1a1a1a', color: '#fff', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none' }}>
@@ -216,6 +216,26 @@ export default async function Page() {
           ))}
         </div>
 
+        {/* ── INTRO — texto antes do grid para SEO e conversão mobile ── */}
+        <section style={{ background: '#fff', padding: 'clamp(2rem,4vw,3rem) clamp(1.5rem,5vw,4rem)' }}>
+          <div style={{ maxWidth: 800, margin: '0 auto' }}>
+            <p style={{ fontSize: '0.97rem', lineHeight: 1.9, color: '#4a4a4a', marginBottom: '1rem' }}>
+              <strong>Jaleco feminino branco</strong> é o mais pedido — funciona em hospital, consultório e clínica sem precisar negociar protocolo. Mas se você trabalha em estética ou clínica com identidade visual própria, temos <strong>jaleco slim colorido</strong> em 12 cores, incluindo rosê, marsala e verde água.
+            </p>
+            <p style={{ fontSize: '0.97rem', lineHeight: 1.9, color: '#4a4a4a', marginBottom: '1rem' }}>
+              O <strong>jaleco slim feminino</strong> é o modelo mais vendido: corte acinturado, elastano bidirecional, sem apertar. O Elastex veste e tira rápido — ideal para plantões com troca frequente. O Princesa tem cava americana e mais liberdade de movimento. Todos do <strong>PP ao G3 com molde próprio</strong> — não é o masculino com mais tecido.
+            </p>
+            <p style={{ fontSize: '0.97rem', lineHeight: 1.9, color: '#4a4a4a' }}>
+              Escolha por profissão:{' '}
+              <Link href="/jaleco-medico" style={{ color: '#c8a96e', textDecoration: 'none' }}>médica</Link>,{' '}
+              <Link href="/jaleco-dentista" style={{ color: '#c8a96e', textDecoration: 'none' }}>dentista</Link>,{' '}
+              <Link href="/jaleco-enfermeiro" style={{ color: '#c8a96e', textDecoration: 'none' }}>enfermeira</Link>,{' '}
+              <Link href="/jaleco-fisioterapeuta" style={{ color: '#c8a96e', textDecoration: 'none' }}>fisioterapeuta</Link> ou{' '}
+              <Link href="/jaleco-plus-size" style={{ color: '#c8a96e', textDecoration: 'none' }}>jaleco plus size até G3</Link>.
+            </p>
+          </div>
+        </section>
+
         <div id="colecao">
           <ProfessionProductGrid
             professionKey="medica"
@@ -225,21 +245,6 @@ export default async function Page() {
             allHref="/produtos?categoria=jalecos-femininos"
           />
         </div>
-
-        {/* ── INTRO ── */}
-        <section style={{ background: '#fff', padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)' }}>
-          <div style={{ maxWidth: 800, margin: '0 auto' }}>
-            <p style={{ fontSize: '1rem', lineHeight: 1.9, color: '#4a4a4a', marginBottom: '1.5rem' }}>
-              Jaleco feminino que é só o masculino com tamanho diferente não funciona. O ombro fica largo, a manga fica longa, o comprimento fica desproporcional. E o problema piora nos tamanhos maiores — o G3 de jaleco básico é literalmente mais tecido num molde que não foi pensado para aquele corpo.
-            </p>
-            <p style={{ fontSize: '1rem', lineHeight: 1.9, color: '#4a4a4a', marginBottom: '1.5rem' }}>
-              Um jaleco feminino bem feito começa no molde: ombro ajustado ao ombro feminino, cava com amplitude certa, comprimento proporcional à altura real das profissionais que vão usar. O elastano no tecido resolve o resto — movimento de braço, agachamento, postura longa em atendimento.
-            </p>
-            <p style={{ fontSize: '1rem', lineHeight: 1.9, color: '#4a4a4a' }}>
-              Abaixo, os modelos, o que diferencia cada um e como escolher pelo tipo de trabalho.
-            </p>
-          </div>
-        </section>
 
         {/* ── MODELOS ── */}
         <section style={{ background: '#f9f7f4', padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)' }}>

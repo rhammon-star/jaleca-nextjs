@@ -716,8 +716,25 @@ const CIDADES: Record<string, CidadeInfo> = {
   },
 }
 
-// Apenas cidades com loja física são indexadas — demais recebem noindex para liberar crawl budget
-const CIDADES_INDEXADAS = new Set(['jaleco-ipatinga', 'jaleco-belo-horizonte', 'jaleco-colatina', 'jaleco-contagem'])
+// Cidades com tráfego real (≥1 clique OU ≥50 impressões — GSC auditado 2026-04-30)
+const CIDADES_INDEXADAS = new Set([
+  // lojas físicas
+  'jaleco-ipatinga', 'jaleco-belo-horizonte', 'jaleco-colatina', 'jaleco-contagem',
+  // cidades com cliques reais nos últimos 90 dias
+  'jaleco-joinville', 'jaleco-curitiba', 'jaleco-marilia', 'jaleco-salvador',
+  'jaleco-cuiaba', 'jaleco-montes-claros', 'jaleco-palmas', 'jaleco-florianopolis',
+  'jaleco-bauru', 'jaleco-campos-dos-goytacazes', 'jaleco-caxias-do-sul',
+  'jaleco-joao-monlevade', 'jaleco-jundiai', 'jaleco-natal', 'jaleco-ponta-grossa',
+  'jaleco-porto-velho', 'jaleco-recife', 'jaleco-anapolis', 'jaleco-barbacena',
+  'jaleco-blumenau', 'jaleco-boa-vista', 'jaleco-campinas', 'jaleco-divinopolis',
+  'jaleco-feira-de-santana', 'jaleco-fortaleza', 'jaleco-juiz-de-fora',
+  'jaleco-lagoa-santa', 'jaleco-londrina', 'jaleco-manaus', 'jaleco-maringa',
+  'jaleco-muriae', 'jaleco-patos-de-minas', 'jaleco-porto-alegre', 'jaleco-pouso-alegre',
+  'jaleco-sao-jose-do-rio-preto', 'jaleco-sao-luis', 'jaleco-sorocaba',
+  'jaleco-uberaba', 'jaleco-vitoria-da-conquista',
+  // 0 cliques mas ≥50 impressões (potencial real)
+  'jaleco-betim', 'jaleco-macapa', 'jaleco-santos', 'jaleco-cachoeiro-de-itapemirim',
+])
 
 export async function generateMetadata({
   params,

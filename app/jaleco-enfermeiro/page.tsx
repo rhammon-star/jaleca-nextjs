@@ -16,12 +16,12 @@ import { getCachedHeroImage, getCachedBlogPosts } from '@/lib/profession-page-da
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: { absolute: 'Jaleco Enfermagem: Slim, Profissional, Plus Size | Jaleca' },
-  description: 'Jaleco para enfermeiro com elastano e bolsos funcionais. Modelos Slim e Profissional do PP ao G3. Frete grátis Sudeste acima de R$499.',
+  title: { absolute: 'Jaleco de Enfermagem: Elastex para Plantão de 12h | Jaleca' },
+  description: 'Jaleco de enfermagem Elastex com elastano para plantão de 12 horas. Não amassa, seca rápido, bolsos funcionais. PP ao G3. O que o COFEN exige. Frete grátis SE acima de R$499.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-enfermeiro' },
   openGraph: {
-    title: 'Jaleco para Enfermeiro | Tecido Premium, Caimento Perfeito — Jaleca',
-    description: 'Qual jaleco usar na enfermagem? Jaleco premium com elastano, caimento impecável e preço justo. Do PP ao G3. Frete grátis.',
+    title: 'Jaleco de Enfermagem: Elastex para Plantão de 12h | Jaleca',
+    description: 'Jaleco de enfermagem Elastex para plantão. Não amassa, seca rápido, PP ao G3. O que o COFEN exige.',
     url: 'https://jaleca.com.br/jaleco-enfermeiro',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -39,19 +39,19 @@ const schemaFaq = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   mainEntity: [
-    { '@type': 'Question', name: 'Qual comprimento de jaleco é mais indicado para enfermeiros?', acceptedAnswer: { '@type': 'Answer', text: 'Para enfermagem, o jaleco médio — permite mobilidade e atende os padrões hospitalares.' } },
-    { '@type': 'Question', name: 'O jaleco pode ser lavado com água quente?', acceptedAnswer: { '@type': 'Answer', text: 'Os jalecos Jaleca suportam lavagem até 60°C, temperatura suficiente para higienização clínica. Use alvejante sem cloro para preservar o tecido.' } },
-    { '@type': 'Question', name: 'Jaleco com elastano é bom para enfermeiro?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. O elastano adiciona memória ao tecido, retornando à forma após o movimento — essencial para quem passa horas em atendimento.' } },
-    { '@type': 'Question', name: 'Jaleco de enfermeiro precisa ser branco?', acceptedAnswer: { '@type': 'Answer', text: 'Não é obrigação. O branco é o clássico, mas tons pastel e cores discretas são aceitos. O COREN não restringe a cor.' } },
-    { '@type': 'Question', name: 'Qual a diferença entre jaleco Slim e Profissional?', acceptedAnswer: { '@type': 'Answer', text: 'O Slim tem corte ajustado ao corpo, ideal para quem quer visual mais moderno. O Profissional tem corte mais amplo e estruturado, com mais espaço para movimento.' } },
+    { '@type': 'Question', name: 'O COFEN define cor de jaleco para enfermeiro?', acceptedAnswer: { '@type': 'Answer', text: 'O COFEN não restringe cor de jaleco. O branco é o padrão em hospitais públicos e UTIs. Em UPAs, clínicas e hospitais privados, azul, vinho e verde são aceitos. Cada instituição pode ter protocolo próprio — verifique com o setor de enfermagem.' } },
+    { '@type': 'Question', name: 'Qual jaleco aguenta plantão de 12 horas?', acceptedAnswer: { '@type': 'Answer', text: 'O Jaleco Elastex é o mais indicado para plantões: elastano bidirecional que acompanha todos os movimentos, tecido que não amassa mesmo após 12 horas, seca rápido entre lavagens. O Slim também funciona para plantões menos intensos.' } },
+    { '@type': 'Question', name: 'Jaleco de enfermagem pode ir na lavanderia hospitalar?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. O gabardine com elastano da Jaleca suporta lavagem a 60°C e ciclos industriais. Alvejante sem cloro preserva o tecido. Para manter a durabilidade, secar em temperatura baixa ou à sombra — calor excessivo degrada o elastano.' } },
+    { '@type': 'Question', name: 'Quantos bolsos precisa ter jaleco de enfermagem?', acceptedAnswer: { '@type': 'Answer', text: 'O mínimo funcional são dois bolsos laterais (para estetoscópio, caneta, luvas). Enfermeiros que carregam oxímetro, termômetro e outros instrumentos preferem modelos com 3 a 4 bolsos, incluindo um no peito.' } },
+    { '@type': 'Question', name: 'Jaleco de enfermeiro é diferente do jaleco de médico?', acceptedAnswer: { '@type': 'Answer', text: 'O modelo pode ser o mesmo, mas o uso difere. Enfermeiros geralmente optam por modelos com mais bolsos e tecido de maior durabilidade para lavagens frequentes. Médicos tendem a preferir modelos mais estruturados para consultório. A Jaleca oferece os mesmos modelos para ambos.' } },
   ],
 }
 
 const schemaArticle = {
   '@context': 'https://schema.org',
   '@type': 'Article',
-  headline: 'Jaleco para Enfermeiro: Tecido Premium, Caimento Perfeito',
-  description: 'Guia completo do jaleco para enfermeiro: tecido premium, caimento perfeito, modelo Slim vs Profissional e custo-benefício.',
+  headline: 'Jaleco de Enfermagem: Elastex para Plantão de 12 Horas',
+  description: 'Jaleco de enfermagem Elastex para plantão. Não amassa, seca rápido, bolsos funcionais, PP ao G3. O que o COFEN exige.',
   author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
   publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
   url: 'https://jaleca.com.br/jaleco-enfermeiro',

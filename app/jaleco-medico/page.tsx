@@ -16,12 +16,12 @@ import { getCachedHeroImage, getCachedBlogPosts } from '@/lib/profession-page-da
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: { absolute: 'Jaleco para Médico: SLIM e Profissional | Jaleca' },
-  description: 'Jaleco médico masculino e feminino em tecido Elastex. Modelagem Slim e Profissional. PP ao G3. Confira as normas do CFM. Frete grátis SP/RJ/MG/ES.',
+  title: { absolute: 'Jaleco para Médico: Slim, Branco e Colorido | Jaleca' },
+  description: 'Jaleco médico Slim com elastano para consultório e plantão. Branco ou colorido, manga longa ou curta, do PP ao G3. Confira o que o CFM permite. Frete grátis SE acima de R$499.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-medico' },
   openGraph: {
-    title: 'Jaleco para Médico | Tecido Premium, Caimento Perfeito — Jaleca',
-    description: 'Qual jaleco usar na medicina? Jaleco premium com elastano, caimento impecável e preço justo. Do PP ao G3. Frete grátis.',
+    title: 'Jaleco para Médico: Slim, Branco e Colorido | Jaleca',
+    description: 'Jaleco médico Slim para consultório e plantão. Branco ou colorido, PP ao G3, elastano. O que o CFM permite.',
     url: 'https://jaleca.com.br/jaleco-medico',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -39,19 +39,19 @@ const schemaFaq = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   mainEntity: [
-    { '@type': 'Question', name: 'Qual comprimento de jaleco é mais indicado para médicos?', acceptedAnswer: { '@type': 'Answer', text: 'Para medicina, o jaleco médio a longo — hospitais e consultórios preferem modelos mais longos para maior cobertura.' } },
-    { '@type': 'Question', name: 'O jaleco pode ser lavado com água quente?', acceptedAnswer: { '@type': 'Answer', text: 'Os jalecos Jaleca suportam lavagem até 60°C, temperatura suficiente para higienização clínica. Use alvejante sem cloro para preservar o tecido.' } },
-    { '@type': 'Question', name: 'Jaleco com elastano é bom para médico?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. O elastano adiciona memória ao tecido, retornando à forma após o movimento — essencial para quem passa horas em atendimento.' } },
-    { '@type': 'Question', name: 'Jaleco de médico precisa ser branco?', acceptedAnswer: { '@type': 'Answer', text: 'Não é obrigação. O branco é o clássico, mas tons pastel e cores discretas são bem aceitos. O CRM não restringe a cor.' } },
-    { '@type': 'Question', name: 'Qual a diferença entre jaleco Slim e Profissional?', acceptedAnswer: { '@type': 'Answer', text: 'O Slim tem corte ajustado ao corpo, ideal para quem quer visual mais moderno. O Profissional tem corte mais amplo e estruturado, com mais espaço para movimento.' } },
+    { '@type': 'Question', name: 'O CFM obriga médico a usar jaleco branco?', acceptedAnswer: { '@type': 'Answer', text: 'O CFM não define cor obrigatória de jaleco. O branco é o padrão aceito em hospitais e convenios ao SUS, mas em consultórios e clínicas privadas cores discretas (azul royal, verde água, cinza) são totalmente aceitas.' } },
+    { '@type': 'Question', name: 'Qual jaleco é melhor para médico de plantão?', acceptedAnswer: { '@type': 'Answer', text: 'Para plantões de 12 horas: jaleco Elastex (elastano bidirecional) — não amassa, seca rápido, permite total liberdade de movimento. Para consultório: jaleco Slim ou Duquesa, que mantém caimento elegante por mais tempo.' } },
+    { '@type': 'Question', name: 'Jaleco médico pode ser manga curta?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. Manga curta é comum em clínicas e consultórios de especialidades ambulatoriais. Em ambiente cirúrgico ou procedimentos invasivos, manga longa é mais indicada por biossegurança.' } },
+    { '@type': 'Question', name: 'Como lavar jaleco de médico sem perder o branco?', acceptedAnswer: { '@type': 'Answer', text: 'Lave em água até 60°C com sabão neutro. Alvejante sem cloro pode ser usado pontualmente. Seque à sombra — o sol direto amarela o gabardine. Para manchas de sangue ou iodo, aplique removedor antes da lavagem.' } },
+    { '@type': 'Question', name: 'Jaleco slim é adequado para médico?', acceptedAnswer: { '@type': 'Answer', text: 'Sim — o Slim é o modelo mais pedido por médicos em consultório. Corte acinturado que valoriza sem apertar, elastano que acompanha o movimento. Para médicos que fazem procedimentos com muito alcance, o Elastex dá ainda mais liberdade.' } },
   ],
 }
 
 const schemaArticle = {
   '@context': 'https://schema.org',
   '@type': 'Article',
-  headline: 'Jaleco para Médico: Tecido Premium, Caimento Perfeito',
-  description: 'Guia completo do jaleco para médico: tecido premium, caimento perfeito, modelo Slim vs Profissional e custo-benefício.',
+  headline: 'Jaleco para Médico: Slim, Branco e Colorido — Guia Completo',
+  description: 'Jaleco médico Slim para consultório e plantão. Branco ou colorido, manga longa ou curta, PP ao G3. O que o CFM permite e como escolher.',
   author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
   publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
   url: 'https://jaleca.com.br/jaleco-medico',

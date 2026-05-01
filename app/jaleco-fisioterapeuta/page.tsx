@@ -16,12 +16,12 @@ import { getCachedHeroImage, getCachedBlogPosts } from '@/lib/profession-page-da
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: { absolute: 'Jaleco para Fisioterapeuta: Tecido Premium, Caimento Perfeito | Jaleca' },
-  description: 'Jaleco para Fisioterapeuta em tecido premium com caimento perfeito. Modelos Slim e Profissional do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
+  title: { absolute: 'Jaleco para Fisioterapeuta: Elastex com Amplitude de Movimento | Jaleca' },
+  description: 'Jaleco para fisioterapeuta com elastano máximo — amplitude de movimento para técnicas manuais, RPG e pilates clínico. Curto ou longo, PP ao G3. O COFFITO não define cor. Frete grátis SE.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-fisioterapeuta' },
   openGraph: {
-    title: 'Jaleco para Fisioterapeuta | Tecido Premium, Caimento Perfeito — Jaleca',
-    description: 'Qual jaleco usar na fisioterapia? Jaleco premium com elastano, caimento impecável e preço justo. Do PP ao G3. Frete grátis.',
+    title: 'Jaleco para Fisioterapeuta: Elastex com Amplitude de Movimento | Jaleca',
+    description: 'Jaleco para fisioterapeuta Elastex — amplitude de movimento para técnicas manuais. PP ao G3. O que o COFFITO permite.',
     url: 'https://jaleca.com.br/jaleco-fisioterapeuta',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -39,19 +39,19 @@ const schemaFaq = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   mainEntity: [
-    { '@type': 'Question', name: 'Qual comprimento de jaleco é mais indicado para fisioterapeutas?', acceptedAnswer: { '@type': 'Answer', text: 'Para fisioterapia, o jaleco médio — permite amplo movimento dos braços durante os atendimentos.' } },
-    { '@type': 'Question', name: 'O jaleco pode ser lavado com água quente?', acceptedAnswer: { '@type': 'Answer', text: 'Os jalecos Jaleca suportam lavagem até 60°C, temperatura suficiente para higienização clínica. Use alvejante sem cloro para preservar o tecido.' } },
-    { '@type': 'Question', name: 'Jaleco com elastano é bom para fisioterapeuta?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. O elastano adiciona memória ao tecido, retornando à forma após o movimento — essencial para quem passa horas em atendimento.' } },
-    { '@type': 'Question', name: 'Jaleco de fisioterapeuta precisa ser branco?', acceptedAnswer: { '@type': 'Answer', text: 'Não é obrigação. O branco é o clássico, mas tons pastel e cores discretas são bem aceitos. O CREFITO não restringe a cor.' } },
-    { '@type': 'Question', name: 'Qual a diferença entre jaleco Slim e Profissional?', acceptedAnswer: { '@type': 'Answer', text: 'O Slim tem corte ajustado ao corpo, ideal para quem quer visual mais moderno. O Profissional tem corte mais amplo e estruturado, com mais espaço para movimento.' } },
+    { '@type': 'Question', name: 'Fisioterapeuta é obrigado a usar jaleco?', acceptedAnswer: { '@type': 'Answer', text: 'O COFFITO (Conselho Federal de Fisioterapia) recomenda o uso de jaleco ou uniforme identificado, mas não determina modelo específico. Clínicas e hospitais podem ter protocolo próprio. Em consultório particular, o fisioterapeuta tem liberdade de escolha.' } },
+    { '@type': 'Question', name: 'Qual jaleco tem mais liberdade de movimento para fisioterapeuta?', acceptedAnswer: { '@type': 'Answer', text: 'O Jaleco Elastex é o mais indicado: elastano bidirecional que se expande em todas as direções. Essencial para técnicas manuais, RPG, Mulligan e pilates clínico, onde o fisioterapeuta precisa de amplitude total de tronco e braços.' } },
+    { '@type': 'Question', name: 'Jaleco curto ou longo para fisioterapia?', acceptedAnswer: { '@type': 'Answer', text: 'Depende da especialidade. Para fisio respiratória e neurológica (mais estática): longo. Para esportiva, ortopédica e pilates clínico (muito movimento): curto ou médio. O curto não embaraça agachamentos e inclinações frequentes.' } },
+    { '@type': 'Question', name: 'Jaleco de fisioterapeuta pode ser colorido?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. O COFFITO não restringe cor. Em fisioterapia pediátrica, cores vibrantes (verde, azul) são usadas para reduzir a tensão da criança. Em neuroreabilitação, combinações de cor ajudam na identificação do profissional por pacientes com déficit visual.' } },
+    { '@type': 'Question', name: 'Qual tecido de jaleco não incomoda na fisioterapia?', acceptedAnswer: { '@type': 'Answer', text: 'Gabardine com elastano (150-165 g/m²) é o padrão: leve, sem gerar calor, com stretch suficiente para qualquer posição. Evite tecido sem elastano — amarra o movimento de braços elevados e se desgasta nas costuras com o uso intenso.' } },
   ],
 }
 
 const schemaArticle = {
   '@context': 'https://schema.org',
   '@type': 'Article',
-  headline: 'Jaleco para Fisioterapeuta: Tecido Premium, Caimento Perfeito',
-  description: 'Guia completo do jaleco para fisioterapeuta: tecido premium, caimento perfeito, modelo Slim vs Profissional e custo-benefício.',
+  headline: 'Jaleco para Fisioterapeuta: Elastex com Amplitude de Movimento',
+  description: 'Jaleco para fisioterapeuta com elastano máximo. Amplitude para técnicas manuais, RPG e pilates clínico. PP ao G3.',
   author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
   publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
   url: 'https://jaleca.com.br/jaleco-fisioterapeuta',
