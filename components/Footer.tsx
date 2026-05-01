@@ -169,6 +169,7 @@ const Footer = () => {
               { label: 'Gastronomia', href: '/uniformes-gastronomia' },
               { label: 'Serviços', href: '/uniformes-servicos' },
               { label: 'Escritório', href: '/uniformes-escritorio' },
+              { label: 'Jaleco Feminino', href: '/categoria/jalecos-femininos' },
               { label: 'Jaleco Médico', href: '/jaleco-medico' },
               { label: 'Jaleco Dentista', href: '/jaleco-dentista' },
               { label: 'Jaleco Enfermeiro', href: '/jaleco-enfermeiro' },

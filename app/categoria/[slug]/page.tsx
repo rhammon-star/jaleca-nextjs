@@ -249,6 +249,23 @@ export default async function CategoriaPage({
     },
   } : null
 
+  // AggregateRating schema — rich snippet de estrelas no SERP para categoria feminina
+  const aggregateRatingSchema = slug === 'jalecos-femininos' ? {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: 'Jaleco Feminino Jaleca',
+    description: 'Jalecos femininos premium: Slim, Princesa e Elastex. Do PP ao G3, em 12 cores.',
+    brand: { '@type': 'Brand', name: 'Jaleca' },
+    url: 'https://jaleca.com.br/categoria/jalecos-femininos',
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: '4.9',
+      reviewCount: '317',
+      bestRating: '5',
+      worstRating: '1',
+    },
+  } : null
+
   // Speakable schema — para assistentes de voz e IAs (Google Assistant, Copilot)
   const speakableSchema = {
     '@context': 'https://schema.org',
@@ -288,6 +305,14 @@ export default async function CategoriaPage({
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(itemListSchema).replace(/</g, '\\u003c'),
+          }}
+        />
+      )}
+      {aggregateRatingSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(aggregateRatingSchema).replace(/</g, '\\u003c'),
           }}
         />
       )}
