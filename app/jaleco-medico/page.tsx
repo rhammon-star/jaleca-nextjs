@@ -16,8 +16,8 @@ import { getCachedHeroImage, getCachedBlogPosts } from '@/lib/profession-page-da
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: { absolute: 'Jaleco para Médico: Slim, Branco e Colorido | Jaleca' },
-  description: 'Jaleco médico Slim com elastano para consultório e plantão. Branco ou colorido, manga longa ou curta, do PP ao G3. Confira o que o CFM permite. Frete grátis SE acima de R$499.',
+  title: { absolute: 'Jaleco Médico Slim para Consultório e Plantão — 4.9★ | Jaleca' },
+  description: 'Jaleco médico Slim com elastano para consultório e plantão de 12h. Nota 4.9★ no Google com 61 avaliações. Branco ou colorido, manga longa ou curta, PP ao G3. Frete grátis SE acima de R$499.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-medico' },
   openGraph: {
     title: 'Jaleco para Médico: Slim, Branco e Colorido | Jaleca',

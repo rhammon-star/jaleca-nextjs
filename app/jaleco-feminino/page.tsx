@@ -7,12 +7,12 @@ import ProfessionProductGrid from '@/components/ProfessionProductGrid'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Jaleco Feminino: Modelos Slim, Princesa e Plus Size',
-  description: 'Jaleco feminino do PP ao G3 com molde próprio — não é o masculino adaptado. Elastano bidirecional, gabardine premium, 12 cores. Frete grátis SP, RJ, MG e ES acima de R$499.',
+  title: 'Jaleco Feminino para Médica e Enfermeira — Slim PP ao G3 | Jaleca',
+  description: 'Jaleco feminino Slim com molde real para o corpo feminino — não é o masculino adaptado. Avaliação 4.9★ no Google. Do PP ao G3, 12 cores, elastano. Frete grátis SP/RJ/MG/ES acima de R$499.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-feminino' },
   openGraph: {
-    title: 'Jaleco Feminino: Modelos Slim, Princesa e Plus Size',
-    description: 'Jaleco feminino do PP ao G3 com molde próprio. Elastano bidirecional, gabardine premium, 12 cores.',
+    title: 'Jaleco Feminino para Médica e Enfermeira — Slim PP ao G3 | Jaleca',
+    description: 'Jaleco feminino Slim com molde real. Avaliação 4.9★ no Google. PP ao G3, 12 cores, elastano. Frete grátis SE.',
     url: 'https://jaleca.com.br/jaleco-feminino',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -103,8 +103,8 @@ export default async function Page() {
   const schemaArticle = {
     '@context': 'https://schema.org',
     '@type': 'Article',
-    headline: 'Jaleco Feminino: Estilo e Proteção para Profissionais',
-    description: 'Guia de jaleco feminino para profissionais da saúde e estética — modelos, tecidos e como escolher.',
+    headline: 'Jaleco Feminino para Médica e Enfermeira — Slim, PP ao G3',
+    description: 'Jaleco feminino Slim com molde real para o corpo feminino. Avaliação 4.9★. PP ao G3, 12 cores, elastano.',
     author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
     publisher: {
       '@type': 'Organization',
@@ -113,7 +113,21 @@ export default async function Page() {
     },
     url: 'https://jaleca.com.br/jaleco-feminino',
     datePublished: '2026-04-21',
-    dateModified: '2026-04-21',
+    dateModified: '2026-04-30',
+  }
+
+  const schemaAggregateRating = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'Jaleca Uniformes Profissionais',
+    url: 'https://jaleca.com.br',
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: '4.9',
+      reviewCount: '61',
+      bestRating: '5',
+      worstRating: '1',
+    },
   }
 
   const breadcrumbSchema = {
@@ -131,6 +145,7 @@ export default async function Page() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaFaq).replace(/</g, '\\u003c') }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaArticle).replace(/</g, '\\u003c') }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaAggregateRating).replace(/</g, '\\u003c') }} />
 
       <main style={{ fontWeight: 300 }}>
 

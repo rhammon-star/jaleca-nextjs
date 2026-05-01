@@ -16,8 +16,8 @@ import { getCachedHeroImage, getCachedBlogPosts } from '@/lib/profession-page-da
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: { absolute: 'Jaleco para Massagista: Tecido Premium, Caimento Perfeito | Jaleca' },
-  description: 'Jaleco para Massagista em tecido premium com caimento perfeito. Modelos Slim e Profissional do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
+  title: { absolute: 'Jaleco para Massagista: Elastano para Movimento Total — 4.9★ | Jaleca' },
+  description: 'Jaleco massagista com elastano bidirecional — amplitude total para drenagem, relaxamento e RPG. Nota 4.9★ no Google. PP ao G3, Slim e Princesa. Frete grátis SP/RJ/MG/ES acima de R$499.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-massagista' },
   openGraph: {
     title: 'Jaleco para Massagista | Tecido Premium, Caimento Perfeito — Jaleca',

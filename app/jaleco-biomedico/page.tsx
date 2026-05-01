@@ -16,8 +16,8 @@ import { getCachedHeroImage, getCachedBlogPosts } from '@/lib/profession-page-da
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: { absolute: 'Jaleco para Biomédico: Norma ANVISA e Conforto em Laboratório | Jaleca' },
-  description: 'Jaleco para biomédico em tecido premium com elastano. Modelos Profissional e Slim do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
+  title: { absolute: 'Jaleco para Biomédico: Norma ANVISA, Slim PP ao G3 — 4.9★ | Jaleca' },
+  description: 'Jaleco biomédico Slim com elastano para laboratório e harmonização. Nota 4.9★ no Google · 61 avaliações. O que a ANVISA exige. PP ao G3. Frete grátis SP/RJ/MG/ES acima de R$499.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-biomedico' },
   openGraph: {
     title: 'Jaleco para Biomédico | Norma ANVISA e Conforto — Jaleca',

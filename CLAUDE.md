@@ -73,6 +73,17 @@ Próximo passo: [ação concreta]
 
 Nunca pule este passo. Sem registro, o contexto se perde.
 
+## Regra absoluta — NUNCA remover páginas ou URLs sem autorização explícita
+
+**Claude NUNCA pode:**
+- Remover, desativar ou aplicar `noindex` em qualquer página ou URL existente
+- Deletar arquivos de rota (`page.tsx`, `route.ts`) existentes
+- Redirecionar ou bloquear URLs que já existem no site
+
+**Sem exceção.** Mesmo que a página pareça inútil, duplicada ou prejudicial ao SEO — Claude apresenta a análise e aguarda autorização do usuário antes de qualquer ação de remoção.
+
+**Por que:** Remoção de URL afeta indexação, tráfego e backlinks. O custo de re-indexação pode ser semanas. Só o usuário decide o que sai do ar.
+
 ## Áreas críticas — só com plano + aprovação explícita
 
 checkout, carrinho, pagamento, WooCommerce, login/cadastro, preço, estoque, pixel Meta/Google, Google Ads, Meta Ads, sitemap, canonical, schema principal, tracking de conversão, redirect `/` → `/home`, `app/page.tsx`, `app/home/page.tsx`.

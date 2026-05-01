@@ -16,8 +16,8 @@ import { getCachedHeroImage, getCachedBlogPosts } from '@/lib/profession-page-da
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: { absolute: 'Jaleco para Dentista: Curto, Slim e com Elastano | Jaleca' },
-  description: 'Jaleco para dentista curto ou longo, Slim com elastano — ergonomia ao redor da cadeira odontológica. PP ao G3, branco e colorido. O que o CRO permite. Frete grátis SE.',
+  title: { absolute: 'Jaleco Dentista: Curto ou Longo? Elastano para a Cadeira — 4.9★' },
+  description: 'Jaleco dentista curto ou longo com elastano para movimento ao redor da cadeira. Nota 4.9★ no Google · 61 avaliações. PP ao G3, branco e colorido. O que o CRO permite. Frete grátis SE.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-dentista' },
   openGraph: {
     title: 'Jaleco para Dentista: Curto, Slim e com Elastano | Jaleca',

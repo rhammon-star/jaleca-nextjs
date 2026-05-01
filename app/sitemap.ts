@@ -250,6 +250,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/blog/scrub-feminino-gravidas`, lastModified: new Date('2026-04-30'), changeFrequency: 'monthly', priority: 0.85 },
     { url: `${SITE_URL}/blog/onde-comprar-scrub-feminino`, lastModified: new Date('2026-04-30'), changeFrequency: 'monthly', priority: 0.85 },
     { url: `${SITE_URL}/blog/tabela-medidas-scrub-feminino`, lastModified: new Date('2026-04-30'), changeFrequency: 'monthly', priority: 0.9 },
+    // Topical Authority Hub — Jaleco Feminino (30/04/2026)
+    { url: `${SITE_URL}/blog/jaleco-slim-feminino`, lastModified: new Date('2026-04-30'), changeFrequency: 'monthly', priority: 0.9 },
+    { url: `${SITE_URL}/blog/jaleco-branco-profissional`, lastModified: new Date('2026-04-30'), changeFrequency: 'monthly', priority: 0.85 },
+    { url: `${SITE_URL}/blog/jaleco-colorido-clinica`, lastModified: new Date('2026-04-30'), changeFrequency: 'monthly', priority: 0.85 },
+    { url: `${SITE_URL}/blog/jaleco-feminino-tamanho-certo`, lastModified: new Date('2026-04-30'), changeFrequency: 'monthly', priority: 0.85 },
+    { url: `${SITE_URL}/blog/jaleco-para-formatura-medicina`, lastModified: new Date('2026-04-30'), changeFrequency: 'monthly', priority: 0.85 },
     { url: `${SITE_URL}/jaleco-preto-feminino`, lastModified: new Date('2025-04-01'), changeFrequency: 'monthly', priority: 0.85 },
     { url: `${SITE_URL}/pijama-cirurgico-feminino`, lastModified: new Date('2025-04-01'), changeFrequency: 'monthly', priority: 0.9 },
     { url: `${SITE_URL}/jaleco-plus-size`, lastModified: new Date('2025-04-01'), changeFrequency: 'monthly', priority: 0.85 },
