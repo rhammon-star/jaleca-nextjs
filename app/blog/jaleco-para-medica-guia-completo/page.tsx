@@ -114,7 +114,7 @@ export default function Page() {
 
         <div className="mt-8 p-6 bg-[#faf9f7] border border-[#e8e0d5]">
           <p className="text-sm text-muted-foreground mb-3">Continue lendo:</p>
-            <Link href="/jaleco-feminino" className="text-[#c4a97d] hover:underline text-sm">→ Jaleco feminino: guia completo por especialidade</Link>
+            <Link href="/categoria/jalecos-femininos" className="text-[#c4a97d] hover:underline text-sm">→ Jaleco feminino: guia completo por especialidade</Link>
           <div className="flex flex-col gap-2">
             <Link href="/jaleco-medica" className="text-[#c4a97d] hover:underline text-sm">→ Ver landing page — jaleco para médica</Link>
             <Link href="/blog/jaleco-feminino-como-escolher-modelo-certo-especialidade" className="text-[#c4a97d] hover:underline text-sm">→ Como escolher o jaleco certo por especialidade</Link>
