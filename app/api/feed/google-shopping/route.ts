@@ -113,7 +113,7 @@ function colorFromName(name: string): string | undefined {
 // Mapeia atributos WooCommerce → campos Google Shopping
 function mapAttr(attrs: Array<{ name: string; option: string }>) {
   const get = (regex: RegExp) => attrs.find(a => regex.test(a.name))?.option
-  const color   = get(/^cores?$/i)          // "Cor" e "Cores"
+  const color   = get(/^cor(es?)?$/i)        // "Cor", "Core", "Cores"
   const pattern = get(/estampa|print|padrão/i)
   return {
     color:    color ?? pattern,              // usa estampa como cor se não tiver cor (aceito pelo Google)
@@ -129,7 +129,7 @@ function mapProductAttr(attrs: Array<{ name: string; options: string[] }>) {
     const found = attrs.find(a => regex.test(a.name))
     return found?.options?.join(', ') || undefined
   }
-  const color   = get(/^cores?$/i)          // "Cor" e "Cores"
+  const color   = get(/^cor(es?)?$/i)        // "Cor", "Core", "Cores"
   const pattern = get(/estampa|print|padrão/i)
   return {
     color:    color ?? pattern,
