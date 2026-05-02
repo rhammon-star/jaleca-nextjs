@@ -128,7 +128,9 @@ export async function generateMetadata({
   const { slug } = await params
 
   if (isNoindexProduct(slug)) {
-    return { title: 'Produto não encontrado — Jaleca', robots: { index: false } }
+    const p = await getProduct(slug)
+    const pName = p ? String(p.name || '').replace(/ - Jaleca$/i, '') : slug
+    return { title: `${pName} | Jaleca`, robots: { index: false, follow: false } }
   }
 
   const kvColors = await getKnownColorSlugs()
