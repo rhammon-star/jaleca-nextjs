@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import { SlidersHorizontal, X, ChevronDown } from "lucide-react";
 import { categories, colorOptions, sizeOptions, genderOptions } from "@/lib/products";
 import ProductCard, { type WooProduct } from "@/components/ProductCard";
@@ -118,7 +118,7 @@ const SORT_LABELS: Record<SortOption, string> = {
   newest: "Novidades",
 };
 
-type Props = { products: WooProduct[]; initialCat?: string; initialSale?: boolean; initialNovidades?: boolean; initialGenero?: string; initialCor?: string; initialBestSellersOnly?: boolean; pageTitle?: string; pageDescription?: string };
+type Props = { products: WooProduct[]; initialCat?: string; initialSale?: boolean; initialNovidades?: boolean; initialGenero?: string; initialCor?: string; initialBestSellersOnly?: boolean; pageTitle?: string; pageDescription?: string; pageIntro?: React.ReactNode };
 
 const FilterPanel = ({
   selectedCategory, setSelectedCategory,
@@ -217,7 +217,7 @@ function resolveInitialCor(c?: string): string | null {
   return match ?? null;
 }
 
-export default function ProductsClient({ products, initialCat = "Todos", initialSale = false, initialNovidades = false, initialGenero, initialCor, initialBestSellersOnly = false, pageTitle, pageDescription }: Props) {
+export default function ProductsClient({ products, initialCat = "Todos", initialSale = false, initialNovidades = false, initialGenero, initialCor, initialBestSellersOnly = false, pageTitle, pageDescription, pageIntro }: Props) {
   const [selectedCategory, setSelectedCategory] = useState(initialCat);
   const [selectedGender, setSelectedGender] = useState(() => resolveInitialGender(initialGenero));
   const [saleOnly] = useState(initialSale);
@@ -282,6 +282,7 @@ export default function ProductsClient({ products, initialCat = "Todos", initial
           { label: 'Início', href: '/' },
           { label: selectedCategory === 'Todos' ? 'Produtos' : selectedCategory },
         ]} />
+        {pageIntro && <div className="mb-6">{pageIntro}</div>}
         <div className="mb-6 flex items-end justify-between gap-4">
           <div>
             <h1 className="font-display text-3xl md:text-4xl font-semibold mb-1">{pageTitle ?? 'Nossos Produtos'}</h1>

@@ -18,10 +18,12 @@ const CAT_FAQ: Record<string, { q: string; a: string }[]> = {
     { q: 'Jaleco feminino ou masculino: qual a diferença?', a: 'O jaleco feminino tem corte acinturado, manga mais curta e botões laterais. O masculino tem corte reto e manga mais longa. Ambos disponíveis na Jaleca em tamanhos PP ao G3.' },
   ],
   'jalecos-femininos': [
-    { q: 'Qual jaleco feminino é mais elegante para consultório?', a: 'O Jaleco Slim Feminino é o modelo mais elegante para consultório: corte acinturado, tecido premium e disponível em branco, preto e colorido. Ideal para médicas e dentistas que querem aliar estilo e profissionalismo.' },
-    { q: 'Como escolher o tamanho certo de jaleco feminino?', a: 'Para escolher o tamanho certo de jaleco feminino, meça o busto e a cintura. A Jaleca disponibiliza tabela de medidas detalhada e Size Advisor no site. Tamanhos de PP ao G3.' },
-    { q: 'Qual a diferença entre jaleco Slim, Princesa e Elastex feminino?', a: 'O Slim tem corte acinturado moderno, ideal para consultórios e clínicas. O Princesa tem modelagem mais solta na parte de baixo, perfeito para quem prefere mais conforto. O Elastex é feito em tecido com elastano, oferecendo máxima mobilidade para longas jornadas de trabalho.' },
-    { q: 'Jaleco feminino branco ou colorido: qual é mais profissional?', a: 'O jaleco branco é o mais tradicional em ambientes hospitalares. O jaleco colorido é muito comum em clínicas, consultórios e estética. Ambos são profissionais dependendo do ambiente de trabalho.' },
+    { q: 'Qual a diferença entre jaleco feminino e masculino?', a: 'O jaleco feminino tem modelagem própria desenvolvida para o corpo feminino: corte acinturado, manga calibrada para o biótipo feminino e comprimento proporcional. O jaleco masculino tem corte reto e estrutura mais larga. A Jaleca não adapta molde masculino — cada jaleco feminino é projetado do zero para vestir melhor.' },
+    { q: 'Jaleco feminino precisa ser acinturado?', a: 'Não é obrigatório, mas o modelo acinturado (Slim) é o mais escolhido por médicas e dentistas que querem manter visual profissional e elegante. Para quem prefere mais liberdade de movimento, o modelo Princesa oferece modelagem mais solta na parte inferior sem perder o caimento.' },
+    { q: 'Qual o melhor jaleco feminino para faculdade?', a: 'Para faculdade, o Jaleco Slim Tradicional é a escolha mais popular: custo-benefício alto, tecido durável, corte acinturado e disponível em branco. O Jaleco Universitário Unissex também é uma opção econômica para quem está começando o curso.' },
+    { q: 'Jaleco feminino branco é obrigatório?', a: 'Depende da instituição. Em hospitais e faculdades de medicina e enfermagem, o branco é o padrão mais comum. Em clínicas privadas, consultórios e áreas como nutrição, estética e odontologia, jaleco colorido é amplamente aceito. Cada conselho de classe (CFM, CRO, COFEN) não proíbe o colorido — a norma é institucional.' },
+    { q: 'Como escolher o tamanho certo de jaleco feminino?', a: 'Meça o busto e a cintura e consulte a tabela de medidas da Jaleca. Em caso de dúvida entre dois tamanhos no modelo Slim, opte pelo maior — o corte acinturado tem menos folga. Os modelos plus size (G1 ao G3) têm molde redesenhado com maior amplitude no quadril e ombro proporcional.' },
+    { q: 'A Jaleca vende jaleco feminino para médica e dentista?', a: 'Sim. A Jaleca é especialista em jalecos femininos para profissionais da saúde. Os modelos Slim e Duquesa são os mais pedidos por médicas e dentistas. Disponíveis em branco, preto e 12 cores, do PP ao G3, com entrega para todo o Brasil.' },
   ],
   conjuntos: [
     { q: 'O que é scrub médico?', a: 'Scrub médico é o conjunto de calça e blusa usados por profissionais da saúde, especialmente em cirurgias e centros cirúrgicos. É confortável, fácil de lavar e disponível em diversas cores. A Jaleca oferece scrubs femininos e masculinos de alta qualidade.' },
@@ -49,8 +51,8 @@ const CATEGORY_MAP: Record<string, { label: string; description: string; keyword
   },
   'jalecos-femininos': {
     label: 'Jalecos Femininos',
-    title: 'Jaleco Feminino Slim, Princesa e Elastex | PP ao G3 | Jaleca',
-    h1: 'Jalecos Femininos Premium: Slim, Princesa e Elastex',
+    title: 'Jaleco Feminino com Molde Próprio | Slim, Princesa e Elastex | Jaleca',
+    h1: 'Jaleco Feminino',
     filterLabel: 'Jalecos',
     gender: 'Feminino',
     description: 'Jaleco feminino com corte exclusivo para o corpo feminino. Slim, Princesa, Duquesa e Elastex. 12 cores, do PP ao G3. Frete grátis no Sudeste.',
@@ -330,6 +332,20 @@ export default async function CategoriaPage({
         initialGenero={cat.gender}
         pageTitle={cat.h1 ?? `${cat.label} — Jaleca`}
         pageDescription={cat.description}
+        pageIntro={slug === 'jalecos-femininos' ? (
+          <div className="mt-2">
+            <p className="text-sm text-muted-foreground leading-relaxed mb-3">
+              Encontre jaleco feminino com modelagem própria da Jaleca, desenvolvido para vestir melhor o corpo feminino. Modelos brancos, acinturados, modernos e profissionais para médicas, dentistas, estudantes, veterinárias e profissionais da saúde.
+            </p>
+            <ul className="flex flex-wrap gap-2 text-xs text-muted-foreground">
+              {['Modelagem feminina exclusiva', 'Modelos brancos e acinturados', '12 cores disponíveis', 'Do PP ao G3', 'Frete grátis no Sudeste'].map(d => (
+                <li key={d} className="flex items-center gap-1 border border-border px-2 py-1 rounded-sm">
+                  <span className="text-[#c4a97d]">✓</span> {d}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : undefined}
       />
 
       {/* SEO text block — visible to crawlers, useful para usuário */}
@@ -409,6 +425,14 @@ export default async function CategoriaPage({
               <p className="text-sm text-muted-foreground leading-relaxed mb-4">
                 Todos os jalecos femininos da Jaleca são produzidos em <strong>Elastex</strong> (poliéster com elastano bidirecional), <strong>gabardine</strong> ou <strong>Oxford premium</strong>. Cada tecido passa por controle de qualidade e é testado para resistir a múltiplas lavagens sem perder o caimento ou encolher. O elastano bidirecional — presente no Slim Elastex — cede em x e y, não apenas em um eixo, garantindo liberdade total de movimento.
               </p>
+
+              {/* Páginas de suporte */}
+              <h2 className="font-display text-lg font-semibold mb-3">Páginas por tipo de jaleco feminino</h2>
+              <ul className="text-sm space-y-2 mb-6">
+                <li><Link href="/jaleco-feminino-branco" className="text-[#c4a97d] hover:underline">→ Jaleco feminino branco — para médicas, dentistas e faculdade</Link></li>
+                <li><Link href="/jaleco-feminino-acinturado" className="text-[#c4a97d] hover:underline">→ Jaleco feminino acinturado — Slim para consultório</Link></li>
+                <li><Link href="/jaleco-feminino" className="text-[#c4a97d] hover:underline">→ Jaleco feminino — guia completo de modelos</Link></li>
+              </ul>
 
               {/* Blog hub links */}
               <h2 className="font-display text-lg font-semibold mb-3">Guias e leituras sobre jaleco feminino</h2>

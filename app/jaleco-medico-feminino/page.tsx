@@ -170,7 +170,7 @@ export default async function Page() {
               Molde pensado para o corpo feminino. Elastano que acompanha o movimento. Grade do PP ao G3 com molde próprio por tamanho.
             </p>
             <div className="flex gap-4 flex-wrap justify-center">
-              <Link href="/produtos?categoria=jalecos-femininos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: '#1a1a1a', color: '#fff', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none' }}>
+              <Link href="/categoria/jalecos-femininos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: '#1a1a1a', color: '#fff', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none' }}>
                 Ver jalecos femininos ↗
               </Link>
               <Link href="/jaleco-medico" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: 'transparent', color: '#1a1a1a', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
@@ -206,7 +206,7 @@ export default async function Page() {
           professionLabel="Médicas"
           collectionLabel="Coleção Médica Feminina"
           productLabel="Jalecos"
-          allHref="/produtos?categoria=jalecos-femininos"
+          allHref="/categoria/jalecos-femininos"
         />
 
         {/* ── INTRO ── */}
@@ -249,7 +249,7 @@ export default async function Page() {
                     {modelo.nome}
                   </strong>
                   <p style={{ fontSize: '0.85rem', color: '#4a4a4a', lineHeight: 1.75, margin: '0 0 1.25rem' }}>{modelo.desc}</p>
-                  <Link href="/produtos?categoria=jalecos-femininos" style={{ fontSize: '0.72rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: '#c8a96e', textDecoration: 'none' }}>
+                  <Link href="/categoria/jalecos-femininos" style={{ fontSize: '0.72rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: '#c8a96e', textDecoration: 'none' }}>
                     Ver modelos →
                   </Link>
                 </div>
@@ -348,7 +348,7 @@ export default async function Page() {
               Molde feminino. Do PP ao G3. Gabardine com elastano. Frete grátis para SP, RJ, MG e ES acima de R$499.
             </p>
             <div className="flex gap-4 flex-wrap justify-center">
-              <Link href="/produtos?categoria=jalecos-femininos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: '#1a1a1a', color: '#fff', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none' }}>
+              <Link href="/categoria/jalecos-femininos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: '#1a1a1a', color: '#fff', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none' }}>
                 Ver jalecos femininos ↗
               </Link>
               <Link href="/jaleco-plus-size" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: 'transparent', color: '#1a1a1a', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>

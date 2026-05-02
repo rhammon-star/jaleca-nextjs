@@ -170,7 +170,7 @@ export default async function Page() {
               Manga longa NR-32. Elastano bidirecional para procedimentos. Antimicrobiano para consultórios de alto fluxo. Grade do PP ao G3.
             </p>
             <div className="flex gap-4 flex-wrap justify-center">
-              <Link href="/produtos?categoria=jalecos-femininos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: '#1a1a1a', color: '#fff', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none' }}>
+              <Link href="/categoria/jalecos-femininos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: '#1a1a1a', color: '#fff', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none' }}>
                 Ver jalecos femininos ↗
               </Link>
               <Link href="/jaleco-dentista" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: 'transparent', color: '#1a1a1a', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
@@ -206,7 +206,7 @@ export default async function Page() {
           professionLabel="Dentistas"
           collectionLabel="Coleção Odontologia"
           productLabel="Jalecos"
-          allHref="/produtos?categoria=jalecos-femininos"
+          allHref="/categoria/jalecos-femininos"
         />
 
         {/* ── INTRO ── */}
@@ -249,7 +249,7 @@ export default async function Page() {
                     {modelo.nome}
                   </strong>
                   <p style={{ fontSize: '0.85rem', color: '#4a4a4a', lineHeight: 1.75, margin: '0 0 1.25rem' }}>{modelo.desc}</p>
-                  <Link href="/produtos?categoria=jalecos-femininos" style={{ fontSize: '0.72rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: '#c8a96e', textDecoration: 'none' }}>
+                  <Link href="/categoria/jalecos-femininos" style={{ fontSize: '0.72rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: '#c8a96e', textDecoration: 'none' }}>
                     Ver modelos →
                   </Link>
                 </div>
@@ -348,7 +348,7 @@ export default async function Page() {
               Molde feminino. Do PP ao G3. Manga longa com elastano. Frete grátis para SP, RJ, MG e ES acima de R$499.
             </p>
             <div className="flex gap-4 flex-wrap justify-center">
-              <Link href="/produtos?categoria=jalecos-femininos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: '#1a1a1a', color: '#fff', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none' }}>
+              <Link href="/categoria/jalecos-femininos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: '#1a1a1a', color: '#fff', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none' }}>
                 Ver jalecos femininos ↗
               </Link>
               <Link href="/jaleco-dentista" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: 'transparent', color: '#1a1a1a', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
