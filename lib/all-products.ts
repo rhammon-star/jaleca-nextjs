@@ -27,8 +27,9 @@ const fetchAllProducts = async (): Promise<WooProduct[]> => {
 
 const getAllProductsCached = unstable_cache(fetchAllProducts, ['all-products'], { revalidate: 3600, tags: ['products'] })
 
-async function getColorVariants(mainProducts: WooProduct[]): Promise<{ variants: WooProduct[]; productsWithColorPages: Set<string> }> {
+async function getColorVariants(mainProducts: WooProduct[]): Promise<{ variants: WooProduct[]; productsWithColorPages: Set<string>; parentsWithGeneratedVariants: Set<string> }> {
   const productsWithColorPages = new Set<string>()
+  const parentsWithGeneratedVariants = new Set<string>()
   try {
     const jsonPath = join(process.cwd(), 'docs', 'SEO-PRODUTOS-CORES.json')
     const jsonContent = await readFile(jsonPath, 'utf-8')
@@ -92,6 +93,8 @@ async function getColorVariants(mainProducts: WooProduct[]): Promise<{ variants:
         variantSalePrice = variant.salePrice || variantSalePrice
       }
 
+      if (parentProduct) parentsWithGeneratedVariants.add(parentProduct.slug)
+
       const realCategories = parentProduct?.productCategories?.nodes ?? [
         { name: page.category, slug: page.category }
       ]
@@ -122,10 +125,10 @@ async function getColorVariants(mainProducts: WooProduct[]): Promise<{ variants:
       } as WooProduct)
     })
 
-    return { variants, productsWithColorPages }
+    return { variants, productsWithColorPages, parentsWithGeneratedVariants }
   } catch (e) {
     console.error('[getColorVariants] Error loading color variants:', e)
-    return { variants: [], productsWithColorPages }
+    return { variants: [], productsWithColorPages, parentsWithGeneratedVariants }
   }
 }
 
@@ -232,12 +235,14 @@ async function _getKVVariants(
 
 async function _buildAllProducts(): Promise<WooProduct[]> {
   const mainProducts = await fetchAllProducts()
-  const { variants: colorVariants, productsWithColorPages } = await getColorVariants(mainProducts)
+  const { variants: colorVariants, productsWithColorPages, parentsWithGeneratedVariants } = await getColorVariants(mainProducts)
 
   const mainProductsWithoutColorPages = mainProducts.filter(p => {
     if (BEST_SELLER_SLUGS.includes(p.slug)) return true
-    const cleanName = p.name.replace(/ - Jaleca$/i, '').trim()
-    return !productsWithColorPages.has(cleanName)
+    const cleanName = p.name.replace(/\s*[\u2013\-]\s*Jaleca\s*$/i, '').trim()
+    if (!productsWithColorPages.has(cleanName)) return true
+    // Fallback: pai está no JSON mas nenhuma variante foi gerada (cores não bateram com WC)
+    return !parentsWithGeneratedVariants.has(p.slug)
   })
 
   const jsonSlugs = new Set(colorVariants.map(v => v.slug))
