@@ -182,18 +182,18 @@ function buildItem(fields: {
 
 // Produtos permitidos no Google Shopping: slug WC (pai) → cores permitidas (vazio = todas)
 const ALLOWED_PRODUCTS = new Map<string, string[]>([
-  ['jaleco-slim-dama-feminino-jaleca',           ['palha', 'branco']],
-  ['jaleco-slim-princesa-laise-feminino-jaleca', ['branco']],
-  ['jaleco-slim-elastex-feminino-jaleca',        ['amarelo', 'branco']],
-  ['jaleco-slim-gold-feminino-jaleca',           ['branco']],
-  ['conjunto-scrub-feminino-jaleca',             ['rose', 'azul pastel', 'azul marinho']],
-  ['jaleco-slim-tradicional-feminino-jaleca',    ['branco']],
-  ['jaleco-slim-princesa-feminino-jaleca',       ['preto', 'branco']],
-  ['jaleco-slim-tradicional-masculino-jaleca',   ['azul marinho', 'preto']],
-  ['conjunto-dolma-cozinheiro-feminino-jaleca',  ['branco']],
-  ['conjunto-princesa-nobre-feminino-jaleca',    ['marinho']],
-  ['conjunto-laco-feminino-jaleca',              ['rose']],
-  ['conjunto-executiva-feminino-jaleca',         ['preto']],
+  ['jaleco-slim-dama-feminino-jaleca',           ['Palha', 'Branco']],
+  ['jaleco-slim-princesa-laise-feminino-jaleca', ['Branco']],
+  ['jaleco-slim-elastex-feminino-jaleca',        ['Amarelo', 'Branco']],
+  ['jaleco-slim-gold-feminino-jaleca',           ['Branco']],
+  ['conjunto-scrub-feminino-jaleca',             ['Rosê', 'Azul Pastel', 'Azul Marinho']],
+  ['jaleco-slim-tradicional-feminino-jaleca',    ['Branco']],
+  ['jaleco-slim-princesa-feminino-jaleca',       ['Preto', 'Branco']],
+  ['jaleco-slim-tradicional-masculino-jaleca',   ['Azul Marinho', 'Preto']],
+  ['conjunto-dolma-cozinheiro-feminino-jaleca',  ['Branco']],
+  ['conjunto-princesa-nobre-feminino-jaleca',    ['Marinho']],
+  ['conjunto-laco-feminino-jaleca',              ['Rosê']],
+  ['conjunto-executiva-feminino-jaleca',         ['Preto']],
 ])
 
 export async function GET() {
