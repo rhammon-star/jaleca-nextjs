@@ -4,7 +4,7 @@ import { getPostsWithMeta } from '@/lib/wordpress'
 import type { Metadata } from 'next'
 import type { WPPost } from '@/lib/wordpress'
 
-export const revalidate = 300
+export const revalidate = 60
 
 export const metadata: Metadata = {
   title: 'Blog — Dicas para Profissionais da Saúde',
