@@ -12,7 +12,7 @@ async function fetchAllMeta() {
   const accountId = process.env.META_ADS_ACCOUNT_ID
   if (!token || !accountId) return { error: 'META vars ausentes' }
 
-  const fields = 'campaign_name,campaign_id,spend,impressions,clicks,reach,cpm,cpc,actions,status'
+  const fields = 'campaign_name,campaign_id,spend,impressions,clicks,reach,cpm,cpc,actions'
   const url = `https://graph.facebook.com/v20.0/${accountId}/insights?fields=${fields}&level=campaign&date_preset=last_14d&limit=50&access_token=${token}`
 
   const res = await fetch(url)
