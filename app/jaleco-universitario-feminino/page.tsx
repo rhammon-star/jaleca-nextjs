@@ -1,7 +1,5 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { Suspense } from 'react'
-import { graphqlClient, GET_PRODUCT_BY_SLUG } from '@/lib/graphql'
 import type { WooProduct } from '@/components/ProductCard'
 import ProductCard from '@/components/ProductCard'
 import ProductDetailSection from '@/components/ProductDetailSection'
@@ -12,26 +10,25 @@ import { getAllProducts } from '@/lib/all-products'
 import { getHeroImageSlug } from '@/lib/profession-hero-images'
 import { getCachedHeroImage, getCachedBlogPosts } from '@/lib/profession-page-data'
 
-// ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: { absolute: 'Jaleco Universitario — Conforto e Profissionalismo para a Vida Academica | Jaleca' },
-  description: 'Jaleco universitario em tecido premium com caimento perfeito. Modelos do PP ao G3. Frete gratis SP/RJ/MG/ES. Jaleca — fabricante com estoque proprio.',
-  alternates: { canonical: 'https://jaleca.com.br/jaleco-universitario' },
+  title: { absolute: 'Jaleco Universitário Feminino — Medicina, Enfermagem e Odontologia | Jaleca' },
+  description: 'Jaleco feminino para estudantes de medicina, enfermagem, odontologia, fisioterapia e biomedicina. Corte acinturado, tecido premium com elastano. PP ao G3. Frete grátis SP/RJ/MG/ES.',
+  alternates: { canonical: 'https://jaleca.com.br/jaleco-universitario-feminino' },
   openGraph: {
-    title: 'Jaleco Universitario — Conforto e Profissionalismo para a Vida Academica — Jaleca',
-    description: 'Qual jaleco comprar para a faculdade? Tecido premium com elastano, caimento impecavel e preco justo. Do PP ao G3. Frete gratis.',
-    url: 'https://jaleca.com.br/jaleco-universitario',
+    title: 'Jaleco Universitário Feminino — Medicina, Enfermagem e Odontologia | Jaleca',
+    description: 'Jaleco feminino para caloura e estudante de saúde. Corte acinturado, tecido com elastano, do PP ao G3. Frete grátis.',
+    url: 'https://jaleca.com.br/jaleco-universitario-feminino',
     siteName: 'Jaleca',
     locale: 'pt_BR',
     type: 'article',
   },
   twitter: {
-    card: "summary_large_image",
-    title: 'Jaleco Universitario — Conforto e Profissionalismo para a Vida Academica — Jaleca',
-    description: 'Jaleco universitario premium. Tecido de qualidade, caimento perfeito, preco justo. Do PP ao G3.',
-    images: ["https://jaleca.com.br/og-home.jpg"],
+    card: 'summary_large_image',
+    title: 'Jaleco Universitário Feminino | Jaleca',
+    description: 'Jaleco feminino para estudantes de medicina, enfermagem, odontologia e mais. PP ao G3.',
+    images: ['https://jaleca.com.br/og-home.jpg'],
   },
 }
 
@@ -39,24 +36,24 @@ const schemaFaq = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   mainEntity: [
-    { '@type': 'Question', name: 'Qual jaleco comprar para a faculdade?', acceptedAnswer: { '@type': 'Answer', text: 'O Jaleco Padrao Aluno e o mais indicado — cor branca, corte neutro, aceito pela maioria das IES. Verifique o modelo especifico exigido pelo seu curso antes de comprar.' } },
-    { '@type': 'Question', name: 'O jaleco universitario pode ter bordado?', acceptedAnswer: { '@type': 'Answer', text: 'Depende da instituicao. A maioria das faculdades de saude permite bordado com nome a partir de determinado semestre. Confirme com a coordenacao.' } },
-    { '@type': 'Question', name: 'Jaleco unissex ou masculino/feminino?', acceptedAnswer: { '@type': 'Answer', text: 'A Jaleca tem jaleco universitario unissex, feminino e masculino. O unissex tem caimento mais neutro. Feminino tem corte mais ajustado; masculino tem ombros mais amplos.' } },
-    { '@type': 'Question', name: 'Precisa de manga longa ou curta?', acceptedAnswer: { '@type': 'Answer', text: 'Para laboratorios de risco biologico ou quimico: manga longa e obrigatoria pela NR-6. Para clinica e estagio hospitalar: manga longa e o padrao. Verifique a exigencia do curso.' } },
-    { '@type': 'Question', name: 'Quantos jalecos comprar?', acceptedAnswer: { '@type': 'Answer', text: 'O minimo e 2: um para usar e um para lavar. Cursos com aulas praticas diarias pedem 3 ou mais — principalmente para nao faltar jaleco limpo em provas praticas.' } },
+    { '@type': 'Question', name: 'Qual jaleco feminino comprar para a faculdade?', acceptedAnswer: { '@type': 'Answer', text: 'O Jaleco Padrão Aluno Feminino é o mais indicado para o início da graduação — branco, corte neutro, aceito pela maioria das IES.' } },
+    { '@type': 'Question', name: 'Jaleco feminino ou unissex para a faculdade?', acceptedAnswer: { '@type': 'Answer', text: 'O feminino tem corte acinturado e veste melhor em mulheres. O unissex pode ficar largo nos ombros. Para quem tem cintura definida, o feminino é mais confortável no dia a dia.' } },
+    { '@type': 'Question', name: 'Posso usar jaleco slim na faculdade?', acceptedAnswer: { '@type': 'Answer', text: 'Depende da IES. A maioria aceita slim no estágio e em clínicas. Confirme com a coordenação antes de comprar.' } },
+    { '@type': 'Question', name: 'O jaleco feminino pode ter bordado com nome?', acceptedAnswer: { '@type': 'Answer', text: 'Depende da fase do curso. A maioria das faculdades libera bordado com nome e número de registro provisório a partir do terceiro ou quarto período.' } },
+    { '@type': 'Question', name: 'Quantos jalecos comprar para a faculdade?', acceptedAnswer: { '@type': 'Answer', text: 'O mínimo é 2: um para usar e um de reserva na lavagem. Cursos com estágio hospitalar pedem 3 ou mais.' } },
   ],
 }
 
 const schemaArticle = {
   '@context': 'https://schema.org',
   '@type': 'Article',
-  headline: 'Jaleco Universitario — Conforto e Profissionalismo para a Vida Academica',
-  description: 'Guia completo do jaleco universitario: tecido premium, caimento perfeito, modelo Padrao vs Slim, normas da IES e custo-beneficio.',
+  headline: 'Jaleco Universitário Feminino — Guia para Estudantes de Saúde',
+  description: 'Guia completo do jaleco feminino para estudantes: qual modelo comprar, normas das IES, tamanhos e cuidados.',
   author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
   publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
-  url: 'https://jaleca.com.br/jaleco-universitario',
-  datePublished: '2026-04-24',
-  dateModified: '2026-04-24',
+  url: 'https://jaleca.com.br/jaleco-universitario-feminino',
+  datePublished: '2026-05-02',
+  dateModified: '2026-05-02',
 }
 
 const breadcrumbSchema = {
@@ -64,40 +61,31 @@ const breadcrumbSchema = {
   '@type': 'BreadcrumbList',
   itemListElement: [
     { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://jaleca.com.br' },
-    { '@type': 'ListItem', position: 2, name: 'Jalecos', item: 'https://jaleca.com.br/produtos?categoria=jalecos' },
-    { '@type': 'ListItem', position: 3, name: 'Jaleco para Universitario', item: 'https://jaleca.com.br/jaleco-universitario' },
+    { '@type': 'ListItem', position: 2, name: 'Jalecos Femininos', item: 'https://jaleca.com.br/categoria/jalecos-femininos' },
+    { '@type': 'ListItem', position: 3, name: 'Jaleco Universitário Feminino', item: 'https://jaleca.com.br/jaleco-universitario-feminino' },
   ],
 }
 
 async function getJalecos(): Promise<WooProduct[]> {
   try {
-    // Busca TODOS os produtos (inclui produtos filhos/cores)
     const allProducts = await getAllProducts()
-
-    // Filtra por profissão universitario
     const slugs = PROFESSION_PRODUCT_SLUGS['universitario'] ?? []
     const professionProducts = allProducts.filter(p => {
-      // Produto mãe está na lista OU produto filho cujo pai está na lista
+      const isFeminino = p.slug.includes('feminino') || p.slug.includes('aluno-feminino')
+      if (!isFeminino) return false
       if (slugs.includes(p.slug)) return true
-
-      // Verifica se é produto filho (tem cor no slug)
       const parts = p.slug.split('-')
-      const possibleColor = parts[parts.length - 1]
       const baseSlug = parts.slice(0, -1).join('-')
-
       return slugs.includes(baseSlug)
     })
-
-    // Prioriza branco e preto primeiro (mais vendidos)
     const prioritized = prioritizeByColor(professionProducts)
-
-    // Retorna 6 produtos
     return prioritized.slice(0, 6)
   } catch (error) {
     console.error('[getJalecos] Error:', error)
     return []
   }
-}// Stars sem contagem — apenas nota
+}
+
 function HeroStars({ rating }: { rating: number }) {
   const full = Math.floor(rating)
   const half = rating - full >= 0.5
@@ -113,12 +101,12 @@ function HeroStars({ rating }: { rating: number }) {
   )
 }
 
-export default async function JalecoUniversitarioPage() {
+export default async function JalecoUniversitarioFemininoPage() {
   const [produtos, posts, placeData, heroImg] = await Promise.all([
     getJalecos(),
     getCachedBlogPosts('jaleco'),
     getGooglePlaceData(),
-    getCachedHeroImage(getHeroImageSlug('universitario') ?? ''),
+    getCachedHeroImage(getHeroImageSlug('professora') ?? ''),
   ])
 
   return (
@@ -134,8 +122,8 @@ export default async function JalecoUniversitarioPage() {
           <ol className="flex items-center gap-2 max-w-[1200px] mx-auto" style={{ listStyle: 'none' }}>
             {[
               { label: 'Inicio', href: '/' },
-              { label: 'Jalecos', href: '/produtos?categoria=jalecos' },
-              { label: 'Universitário', href: null },
+              { label: 'Jalecos Femininos', href: '/categoria/jalecos-femininos' },
+              { label: 'Universitário Feminino', href: null },
             ].map((crumb, i, arr) => (
               <li key={crumb.label} className="flex items-center gap-2 text-xs" style={{ color: crumb.href ? '#6b6b6b' : '#1a1a1a' }}>
                 {crumb.href ? <Link href={crumb.href} style={{ color: '#6b6b6b', textDecoration: 'none' }}>{crumb.label}</Link> : crumb.label}
@@ -146,50 +134,36 @@ export default async function JalecoUniversitarioPage() {
         </div>
 
         {/* ── HERO ── */}
-        <section className="grid grid-cols-1 lg:grid-cols-2" style={{ minHeight: '88vh', padding: 0 }}
-        >
-          <div className="flex flex-col justify-center order-2 lg:order-1 px-4 py-8 lg:px-16 lg:py-20" style={{ padding: 'clamp(3rem,8vw,5rem) clamp(2rem,5vw,4rem) clamp(3rem,8vw,5rem) clamp(2rem,8vw,7rem)', background: '#f9f7f4' }}
-          >
+        <section className="grid grid-cols-1 lg:grid-cols-2" style={{ minHeight: '88vh', padding: 0 }}>
+          <div className="flex flex-col justify-center order-2 lg:order-1" style={{ padding: 'clamp(3rem,8vw,5rem) clamp(2rem,5vw,4rem) clamp(3rem,8vw,5rem) clamp(2rem,8vw,7rem)', background: '#f9f7f4' }}>
             <div className="flex items-center gap-3 mb-6" style={{ fontSize: '0.72rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#6b6b6b' }}>
               <span style={{ display: 'inline-block', width: 32, height: 1, background: '#c8c4bc' }} />
-              Uniforme profissional
+              Uniforme feminino universitário
             </div>
-            <h1
-              style={{
-                fontFamily: "'Cormorant', Georgia, serif",
-                fontSize: 'clamp(3rem,5.5vw,5.2rem)',
-                fontWeight: 400,
-                lineHeight: 1.05,
-                letterSpacing: '-0.01em',
-                color: '#1a1a1a',
-                marginBottom: '1.5rem',
-              }}
-            >
+            <h1 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(3rem,5.5vw,5.2rem)', fontWeight: 400, lineHeight: 1.05, letterSpacing: '-0.01em', color: '#1a1a1a', marginBottom: '1.5rem' }}>
               Jaleco<br />
-              <em style={{ fontStyle: 'italic', fontWeight: 300 }}>Universitario</em>
+              <em style={{ fontStyle: 'italic', fontWeight: 300 }}>Universitário Feminino</em>
             </h1>
-            <p style={{ fontSize: '1rem', fontWeight: 300, color: '#6b6b6b', maxWidth: 420, marginBottom: '2.5rem', lineHeight: 1.8 }}>
-              Conforto e profissionalismo para a vida academica.
+            <p style={{ fontSize: '1rem', fontWeight: 300, color: '#6b6b6b', maxWidth: 420, marginBottom: '1rem', lineHeight: 1.8 }}>
+              Para calouras e estudantes de medicina, enfermagem, odontologia, fisioterapia, biomedicina e veterinária.
+            </p>
+            <p style={{ fontSize: '0.9rem', fontWeight: 300, color: '#6b6b6b', maxWidth: 420, marginBottom: '2.5rem', lineHeight: 1.8 }}>
+              Corte acinturado, tecido com elastano, do PP ao G3.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 lg:gap-4">
-              <Link href="/produtos?categoria=jalecos-femininos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: '#1a1a1a', color: '#fff', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
-                Feminino ↗
+              <Link href="/categoria/jalecos-femininos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: '#1a1a1a', color: '#fff', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
+                Ver Coleção ↗
               </Link>
-              <Link href="/produtos?categoria=jalecos-masculinos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: 'transparent', color: '#1a1a1a', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
-                Masculino →
+              <Link href="/jaleco-universitario" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: 'transparent', color: '#1a1a1a', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
+                Ver Unissex →
               </Link>
             </div>
-            {/* Estrelas Google reais — sem contagem */}
             {placeData && <HeroStars rating={placeData.rating} />}
           </div>
 
           <div className="relative order-1 lg:order-2" style={{ background: '#e5e0d8', minHeight: 480, overflow: 'hidden' }}>
             {heroImg ? (
-              <img
-                src={heroImg.src}
-                alt={heroImg.alt}
-                style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block', position: 'absolute', inset: 0 }}
-              />
+              <img src={heroImg.src} alt={heroImg.alt} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block', position: 'absolute', inset: 0 }} />
             ) : (
               <div style={{ width: '100%', height: '100%', background: 'linear-gradient(160deg, #ccc8c0 0%, #bfbab2 100%)', position: 'absolute', inset: 0 }} />
             )}
@@ -199,10 +173,10 @@ export default async function JalecoUniversitarioPage() {
         {/* ── TRUST BAR ── */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-y-4 lg:gap-y-0" style={{ background: '#1a1a1a', padding: '2rem clamp(1.5rem,5vw,4rem)' }}>
           {[
-            { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><path d="M3 6h18M3 12h18M3 18h18" /></svg>, title: 'Tamanhos PP ao G3', sub: 'Grade completa, corpo real' },
-            { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><ellipse cx="12" cy="12" rx="9" ry="6" /><path d="M12 3v18M3 12h18" opacity=".5" /></svg>, title: 'Com elastano', sub: 'Movimento sem restricao' },
-            { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><path d="M5 12h14M12 5l7 7-7 7" /></svg>, title: 'Frete gratis', sub: 'SP · RJ · MG · ES acima R$499' },
-            { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0" /><path d="m9 12 2 2 4-4" /></svg>, title: 'Troca em 7 dias', sub: 'Direito do consumidor' },
+            { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><path d="M3 6h18M3 12h18M3 18h18" /></svg>, title: 'Corte Feminino', sub: 'Acinturado, veste o corpo real' },
+            { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><ellipse cx="12" cy="12" rx="9" ry="6" /><path d="M12 3v18M3 12h18" opacity=".5" /></svg>, title: 'Com elastano', sub: 'Movimento sem restrição' },
+            { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><path d="M5 12h14M12 5l7 7-7 7" /></svg>, title: 'Frete grátis', sub: 'SP · RJ · MG · ES acima R$499' },
+            { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0" /><path d="m9 12 2 2 4-4" /></svg>, title: 'PP ao G3', sub: 'Grade completa, plus size incluso' },
           ].map((item, i) => (
             <div key={i} className="flex items-center gap-4" style={{ padding: '0.5rem 1.5rem', borderRight: i < 3 ? '1px solid rgba(255,255,255,0.12)' : 'none' }}>
               <div className="shrink-0 flex items-center justify-center" style={{ width: 40, height: 40, border: '1px solid rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.8)' }}>
@@ -216,25 +190,23 @@ export default async function JalecoUniversitarioPage() {
           ))}
         </div>
 
-        {/* ── PRODUTOS — Above the Fold ── */}
+        {/* ── PRODUTOS ── */}
         {produtos.length > 0 && (
-          <section className="px-4 py-12 lg:px-16 lg:py-20" style={{ background: '#f9f7f4', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
+          <section style={{ background: '#f9f7f4', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
             <div style={{ maxWidth: 1200, width: '100%', margin: '0 auto' }}>
               <div className="mb-10">
-                <div>
-                  <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>Colecao universitario</div>
-                  <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2rem,3.5vw,3rem)', fontWeight: 400, lineHeight: 1.15, color: '#1a1a1a' }}>
-                    Jalecos para<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>Estudantes</em>
-                  </h2>
-                </div>
-                </div>
+                <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>Coleção feminina universitária</div>
+                <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2rem,3.5vw,3rem)', fontWeight: 400, lineHeight: 1.15, color: '#1a1a1a' }}>
+                  Jalecos para<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>Estudantes</em>
+                </h2>
+              </div>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {produtos.slice(0, 6).map(product => (
                   <ProductCard key={product.id} product={product} />
                 ))}
               </div>
               <div className="flex justify-center mt-8">
-                <Link href={getVerMaisUrl('universitario')} style={{ display: 'inline-flex', padding: '0.9rem 2rem', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a', color: '#1a1a1a' }}>
+                <Link href="/categoria/jalecos-femininos" style={{ display: 'inline-flex', padding: '0.9rem 2rem', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a', color: '#1a1a1a' }}>
                   Ver mais →
                 </Link>
               </div>
@@ -242,23 +214,49 @@ export default async function JalecoUniversitarioPage() {
           </section>
         )}
 
-        {/* ── GUIA ── */}
-        <section className="px-4 py-12 lg:px-16 lg:py-20" style={{ background: '#f9f7f4', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
+        {/* ── CURSOS ── */}
+        <section style={{ background: '#fff', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
           <div style={{ maxWidth: 1200, width: '100%', margin: '0 auto' }}>
-            <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-8 lg:gap-24" style={{ gap: 'clamp(3rem,6vw,6rem)', alignItems: 'start' }}>
+            <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>Por área de estudo</div>
+            <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2rem,3.5vw,3rem)', fontWeight: 400, lineHeight: 1.15, color: '#1a1a1a', marginBottom: '3rem' }}>
+              Jaleco certo<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>para cada curso</em>
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3" style={{ gap: '1px', background: '#e5e0d8' }}>
+              {[
+                { curso: 'Medicina', desc: 'Jaleco branco, manga longa, corte neutro ou slim. O Padrão Aluno Feminino é aceito em quase todas as faculdades de medicina do país.', link: '/jaleco-medica' },
+                { curso: 'Enfermagem', desc: 'Jaleco branco ou conjunto scrub. Muitas escolas de enfermagem aceitam calça e casaco scrub como alternativa ao jaleco tradicional.', link: '/jaleco-enfermeira' },
+                { curso: 'Odontologia', desc: 'Jaleco branco obrigatório nas aulas clínicas desde o início do curso. Slim ou Padrão — confirme com a coordenação.', link: '/jaleco-dentista' },
+                { curso: 'Fisioterapia', desc: 'Jaleco leve com elastano é ideal para atendimento. O modelo Princesa Feminino é o mais usado por fisioterapeutas em formação.', link: '/jaleco-fisioterapeuta' },
+                { curso: 'Biomedicina', desc: 'Manga longa obrigatória no laboratório. Jaleco Padrão Aluno Feminino é a escolha mais segura para cumprir as normas da NR-6.', link: '/jaleco-biomedica' },
+                { curso: 'Veterinária', desc: 'Jaleco resistente para aulas práticas com animais. Opte por tecido com elastano para maior liberdade de movimento no campo.', link: '/jaleco-veterinaria' },
+              ].map((item) => (
+                <Link key={item.curso} href={item.link} style={{ background: '#fff', padding: '2rem', textDecoration: 'none', color: 'inherit', display: 'block' }}>
+                  <div style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '1.4rem', fontWeight: 400, color: '#1a1a1a', marginBottom: '0.75rem' }}>{item.curso}</div>
+                  <p style={{ fontSize: '0.88rem', color: '#6b6b6b', lineHeight: 1.75, fontWeight: 300, marginBottom: '1rem' }}>{item.desc}</p>
+                  <span style={{ fontSize: '0.72rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1a1a1a' }}>Ver jaleco →</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── GUIA ── */}
+        <section style={{ background: '#f9f7f4', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
+          <div style={{ maxWidth: 1200, width: '100%', margin: '0 auto' }}>
+            <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr]" style={{ gap: 'clamp(3rem,6vw,6rem)', alignItems: 'start' }}>
               <aside style={{ position: 'sticky', top: 80 }}>
                 <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>Guia completo</div>
                 <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '1.8rem', fontWeight: 400, lineHeight: 1.15, color: '#1a1a1a', marginBottom: '1.5rem' }}>
-                  Como escolher o jaleco ideal para a vida academica
+                  Como escolher o jaleco feminino para a graduação
                 </h2>
                 <nav className="hidden lg:block">
                   <ul style={{ listStyle: 'none' }}>
                     {[
-                      { label: 'Cursos que exigem jaleco', anchor: '#curso' },
-                      { label: 'Modelo Padrao ou Slim', anchor: '#modelo' },
-                      { label: 'Bordado com nome', anchor: '#bordado' },
+                      { label: 'Feminino ou unissex', anchor: '#feminino-unissex' },
+                      { label: 'Modelo Padrão ou Slim', anchor: '#modelo' },
+                      { label: 'Normas da faculdade', anchor: '#normas' },
                       { label: 'Como escolher o tamanho', anchor: '#tamanho' },
-                      { label: 'Cuidados e conservacao', anchor: '#cuidados' },
+                      { label: 'Primeiro jaleco: o que comprar', anchor: '#primeiro' },
                     ].map(item => (
                       <li key={item.anchor} style={{ marginBottom: '0.5rem' }}>
                         <a href={item.anchor} style={{ fontSize: '0.82rem', color: '#6b6b6b', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
@@ -274,19 +272,19 @@ export default async function JalecoUniversitarioPage() {
               <article>
                 {[
                   {
-                    id: 'curso',
-                    title: 'Quais cursos exigem jaleco universitario?',
+                    id: 'feminino-unissex',
+                    title: 'Jaleco feminino ou unissex para a faculdade?',
                     body: (
                       <>
                         <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          Medicina, enfermagem, farmacia, fisioterapia, biomedicina, nutricao, odontologia e veterinaria sao os cursos onde o jaleco e obrigatorio desde o primeiro periodo. Em biologia, Quimica e engenharia Quimica, o jaleco e exigido nas aulas de laboratorio.
+                          O jaleco feminino tem corte acinturado, ombros ajustados ao corpo feminino e cava mais estreita. Para mulheres, veste melhor e é mais confortável no dia a dia de aulas práticas — não apertando nos ombros nem ficando largo na cintura.
                         </p>
                         <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          A IES (instituicao de ensino) costuma definir o modelo, a cor e se pode ter bordado. A maioria exige jaleco branco simples, sem detalhes, para manter a padronizacao na turma.
+                          O unissex tem caimento neutro — ideal para quem prefere volume maior ou está entre tamanhos. A maioria das IES aceita os dois modelos sem restrição.
                         </p>
                         <div style={{ background: '#1a1a1a', color: '#fff', padding: '1.5rem 2rem', margin: '2rem 0', borderLeft: '3px solid #c8c4bc' }}>
                           <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.95rem', fontStyle: 'italic', fontWeight: 300, margin: 0 }}>
-                            "O jaleco certo evita problemas na admissao da residencia ou estagio. Modelo branco, sem detalhes, e o padrao mais aceito."
+                            "O jaleco feminino com elastano é a escolha mais confortável para quem passa 4 a 8 horas por dia em aulas práticas."
                           </p>
                         </div>
                       </>
@@ -294,19 +292,20 @@ export default async function JalecoUniversitarioPage() {
                   },
                   {
                     id: 'modelo',
-                    title: 'Jaleco Padrao ou Slim: qual comprar?',
+                    title: 'Jaleco Padrão Aluno ou Slim: qual comprar?',
                     body: (
                       <>
                         <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          O Jaleco Padrao Aluno e o mais indicado: corte neutro, branco, sem detalhes que possam conflitar com exigencias da faculdade. E o que a maioria das instituicoes aceita sem questionamento.
+                          Para o início da graduação, o Padrão Aluno Feminino é a escolha mais segura — aceito pela esmagadora maioria das IES, sem risco de questionamento nas aulas práticas ou estágios.
                         </p>
                         <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          O Slim funciona para quem ja concluiu o periodo de identificacao com a turma e quer um visual mais ajustado. Verifique com a coordenacao antes — algumas IES proibem cortes muito ajustados nas aulas praticas.
+                          O Slim é ideal para quem já está em estágio clínico ou consultório — visual mais moderno, mas algumas faculdades restringem uso em laboratórios de risco. Confirme com a coordenação antes de comprar.
                         </p>
                         <ul style={{ listStyle: 'none', margin: '1.2rem 0 1.5rem' }}>
                           {[
-                            'Padrao Aluno — Corte neutro, branco, aceito pela maioria das IES, ideal para quem esta no inicio da graduacao',
-                            'Slim — Corte mais ajustado, visual moderno, recomendado para quem ja passou do periodo de adaptacao da turma',
+                            'Padrão Aluno Feminino — Corte neutro-feminino, branco, aceito em todas as IES, ideal para 1° ao 4° período',
+                            'Slim Feminino — Corte ajustado, visual moderno, recomendado para estágio e clínica',
+                            'Princesa Feminino — Corte com detalhe exclusivo, ideal para fisioterapia e odontologia',
                           ].map(item => (
                             <li key={item} style={{ fontSize: '0.95rem', color: '#444', padding: '0.6rem 0 0.6rem 1.5rem', position: 'relative', borderBottom: '1px solid #e5e0d8', fontWeight: 300 }}>
                               <span style={{ position: 'absolute', left: 0, color: '#c8c4bc' }}>→</span>
@@ -318,44 +317,47 @@ export default async function JalecoUniversitarioPage() {
                     ),
                   },
                   {
-                    id: 'bordado',
-                    title: 'Jaleco pode ter bordado com nome?',
+                    id: 'normas',
+                    title: 'Normas da faculdade: o que a IES pode exigir',
                     body: (
                       <>
                         <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          Depende da instituicao. A maioria das faculdades de medicina, enfermagem e farmacia permite bordado com nome e CRM/COREN provisorio a partir de determinado semestre.
+                          A maioria das faculdades de saúde exige jaleco branco, manga longa, sem estampas. Em laboratórios de risco biológico ou químico, a manga longa é obrigatória pela NR-6 — norma de segurança do trabalho que vale para estudantes em aulas práticas.
                         </p>
                         <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          O bordado ajuda muito na identificacao em estagio hospitalar — pacientes e equipe sabem com quem estao falando. A Jaleca oferece personalizacao com bordado.
+                          Bordado com nome e número de registro provisório (CRM, COREN, CRO etc.) é liberado na maioria das IES a partir do terceiro ou quarto período. Verifique o regulamento da sua instituição antes de encomendar personalização.
                         </p>
                       </>
                     ),
                   },
                   {
                     id: 'tamanho',
-                    title: 'Como escolher o tamanho certo do jaleco',
+                    title: 'Como escolher o tamanho do jaleco feminino',
                     body: (
                       <>
                         <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          Mede o busto e compare com a tabela da Jaleca. Para estudante que usa jaleco sobre roupa comum, um tamanho com folga nos ombros e o melhor — nao aperta ao movimentar os braços.
+                          Meça o busto (parte mais larga do peito) e compare com a tabela Jaleca. O corte feminino já tem ajuste na cintura — não precisa pegar tamanho maior por isso. Para usar sobre roupa, adicione 2 a 4 cm ao busto medido.
                         </p>
                         <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          O jaleco universitario precisa de espaco para dobrar e carregar. Um tamanho com 2 a 4cm de folga no busto e o ideal para rotina academica.
+                          Em caso de dúvida entre dois tamanhos, prefira o maior — jaleco apertado nos ombros restringe movimento e fica desconfortável em aulas longas. A grade Jaleca vai do PP ao G3.
                         </p>
                       </>
                     ),
                   },
                   {
-                    id: 'cuidados',
-                    title: 'Como lavar e conservar o jaleco da faculdade',
+                    id: 'primeiro',
+                    title: 'Primeiro jaleco: o que comprar na entrada da faculdade',
                     body: (
                       <>
                         <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          Lave a 40°C para higienizacao adequada — temperatura suficiente para eliminar contaminantes de laboratorio sem danificar o tecido.
+                          Para o primeiro jaleco, compre pelo menos 2 unidades do Padrão Aluno Feminino branco. Um para usar, um para lavar. Com aulas práticas diárias ou estágio hospitalar, 3 jalecos evitam imprevistos.
                         </p>
                         <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          Separe o jaleco das roupas comuns na lavagem. Para tirar manchas de laboratorio: pre-tratamento com detergente enzimatico antes da lavagem. Nao use cloro — amarela o tecido com o tempo.
+                          Evite comprar jaleco de segunda mão ou de qualidade desconhecida — tecido que não aguenta lavagem frequente a 40°C descola, amarela e perde a forma em poucos meses. O jaleco Jaleca é fabricado para higienização clínica intensiva.
                         </p>
+                        <Link href="/categoria/jalecos-femininos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: '#1a1a1a', color: '#fff', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', marginTop: '0.5rem' }}>
+                          Ver jalecos femininos →
+                        </Link>
                       </>
                     ),
                   },
@@ -372,26 +374,27 @@ export default async function JalecoUniversitarioPage() {
           </div>
         </section>
 
-        {/* ── PRODUTO — Detalhamento ── */}
+        {/* ── PRODUTO DETAIL ── */}
         <ProductDetailSection productType="jaleco" />
+
+        {/* ── FAQ ── */}
         <section style={{ background: '#fff', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
           <div style={{ maxWidth: 1200, width: '100%', margin: '0 auto' }}>
-            <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>Duvidas frequentes</div>
+            <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>Dúvidas frequentes</div>
             <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2rem,3.5vw,3rem)', fontWeight: 400, lineHeight: 1.15, color: '#1a1a1a' }}>
-              Perguntas sobre jaleco<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>para universitario</em>
+              Perguntas sobre jaleco<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>feminino universitário</em>
             </h2>
             <FaqAccordion />
           </div>
         </section>
 
-        {/* ── ARTIGOS DO BLOG (reais do WordPress) ── */}
+        {/* ── BLOG ── */}
         <section style={{ background: '#f9f7f4', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
           <div style={{ maxWidth: 1200, width: '100%', margin: '0 auto' }}>
             <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>Blog Jaleca</div>
             <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2rem,3.5vw,3rem)', fontWeight: 400, lineHeight: 1.15, color: '#1a1a1a', marginBottom: 0 }}>
-              Leitura para<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>profissionais</em>
+              Leitura para<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>estudantes</em>
             </h2>
-
             <div className="grid grid-cols-1 md:grid-cols-3" style={{ gap: '2px', background: '#e5e0d8', marginTop: '3rem' }}>
               {posts.length > 0 ? posts.map(post => {
                 const img = post._embedded?.['wp:featuredmedia']?.[0]?.source_url
@@ -417,11 +420,10 @@ export default async function JalecoUniversitarioPage() {
                   </Link>
                 )
               }) : (
-                // Fallback: artigos fixos relevantes para o cluster
                 [
-                  { title: 'Como lavar e conservar seu jaleco profissional', href: '/blog/como-lavar-jaleco', tag: 'Cuidados', excerpt: 'Erros simples de lavagem aceleram o amarelamento e encurtam a vida do jaleco. Veja o guia completo.' },
-                  { title: 'Jaleco branco: tradicao e cuidados essenciais', href: '/blog', tag: 'Guia', excerpt: 'Por que o branco domina e o que fazer para manter o jaleco com aspecto profissional por mais tempo.' },
-                  { title: 'Como escolher o tamanho certo do jaleco', href: '/medidas', tag: 'Guia de Tamanhos', excerpt: 'Passo a passo para medir busto, cintura e quadril e encontrar o tamanho ideal na grade Jaleca.' },
+                  { title: 'Como lavar e conservar seu jaleco profissional', href: '/blog/como-lavar-jaleco', tag: 'Cuidados', excerpt: 'Erros simples de lavagem aceleram o amarelamento. Veja o guia completo.' },
+                  { title: 'Jaleco branco: tradição e cuidados essenciais', href: '/blog', tag: 'Guia', excerpt: 'Por que o branco domina e como manter o jaleco com aspecto profissional.' },
+                  { title: 'Como escolher o tamanho certo do jaleco', href: '/medidas', tag: 'Guia de Tamanhos', excerpt: 'Passo a passo para encontrar o tamanho ideal na grade Jaleca.' },
                 ].map(post => (
                   <Link key={post.href} href={post.href} style={{ background: '#fff', textDecoration: 'none', color: 'inherit', display: 'block' }}>
                     <div style={{ aspectRatio: '16/10', background: 'linear-gradient(135deg, #f9f7f4 0%, #e5e0d8 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -437,7 +439,6 @@ export default async function JalecoUniversitarioPage() {
                 ))
               )}
             </div>
-
             <div style={{ textAlign: 'center', marginTop: '2rem' }}>
               <Link href="/blog" style={{ fontSize: '0.78rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: '#6b6b6b', textDecoration: 'none' }}>
                 Ver todos os artigos →
@@ -446,24 +447,23 @@ export default async function JalecoUniversitarioPage() {
           </div>
         </section>
 
-        {/* ── TOPICAL AUTHORITY — Outros profissionais de saúde ── */}
+        {/* ── LINKS INTERNOS — outros cursos ── */}
         <section style={{ background: '#1a1a1a', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
           <div style={{ maxWidth: 1200, width: '100%', margin: '0 auto' }}>
-            <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)', marginBottom: '0.75rem' }}>Outros uniformes profissionais</div>
+            <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)', marginBottom: '0.75rem' }}>Jalecos femininos por profissão</div>
             <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(1.8rem,3vw,2.5rem)', fontWeight: 400, lineHeight: 1.15, color: '#fff', marginBottom: '2.5rem' }}>
-              Jaleco para outras<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>profissoes</em>
+              Jaleco para cada<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>profissional de saúde</em>
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-4" style={{ gap: '1px', background: 'rgba(255,255,255,0.08)' }}>
               {[
-                { label: 'Universitário Feminino', href: '/jaleco-universitario-feminino', desc: 'Guia completo' },
-                { label: 'Professor', href: '/jaleco-professor', desc: 'Guia completo' },
-                { label: 'Enfermeiro', href: '/jaleco-enfermeiro', desc: 'Guia completo' },
-                { label: 'Biomedico', href: '/jaleco-biomedico', desc: 'Guia completo' },
-                { label: 'Nutricionista', href: '/jaleco-nutricionista', desc: 'Guia completo' },
+                { label: 'Médica', href: '/jaleco-medica', desc: 'Guia completo' },
+                { label: 'Enfermeira', href: '/jaleco-enfermeira', desc: 'Guia completo' },
+                { label: 'Dentista', href: '/jaleco-dentista', desc: 'Guia completo' },
                 { label: 'Fisioterapeuta', href: '/jaleco-fisioterapeuta', desc: 'Guia completo' },
-                { label: 'Veterinario', href: '/jaleco-veterinario', desc: 'Guia completo' },
-                { label: 'Medico', href: '/jaleco-medico', desc: 'Guia completo' },
-                { label: 'Ver todos', href: '/produtos?categoria=jalecos', desc: 'Loja completa' },
+                { label: 'Biomédica', href: '/jaleco-biomedica', desc: 'Guia completo' },
+                { label: 'Nutricionista', href: '/jaleco-nutricionista', desc: 'Guia completo' },
+                { label: 'Veterinária', href: '/jaleco-veterinaria', desc: 'Guia completo' },
+                { label: 'Universitário Unissex', href: '/jaleco-universitario', desc: 'Para todos os cursos' },
               ].map(item => (
                 <Link key={item.href} href={item.href} className="block hover:bg-white/5 transition-colors duration-200" style={{ padding: '1.5rem', textDecoration: 'none' }}>
                   <div style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '1.15rem', fontWeight: 400, color: '#fff', marginBottom: '0.25rem' }}>{item.label}</div>
@@ -480,19 +480,19 @@ export default async function JalecoUniversitarioPage() {
             JALECA
           </span>
           <div style={{ position: 'relative', zIndex: 1 }}>
-            <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>200.000+ pecas vendidas</div>
+            <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>200.000+ peças vendidas</div>
             <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2.5rem,5vw,4.5rem)', fontWeight: 400, lineHeight: 1.1, maxWidth: 700, margin: '0 auto 1rem', color: '#1a1a1a' }}>
-              O jaleco certo<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>faz a diferenca</em>
+              Seu primeiro jaleco<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>merece ser o certo</em>
             </h2>
             <p style={{ fontSize: '0.97rem', color: '#6b6b6b', maxWidth: 480, margin: '0 auto 2.5rem', fontWeight: 300, lineHeight: 1.8 }}>
-              Do PP ao G3. Elastano para total conforto. 12 cores. Frete gratis no Sudeste para compras acima de R$499.
+              Corte feminino, tecido com elastano, do PP ao G3. Frete grátis no Sudeste para compras acima de R$499.
             </p>
             <div className="flex gap-4 justify-center flex-wrap">
-              <Link href="/produtos?categoria=jalecos-femininos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2.5rem', background: '#1a1a1a', color: '#fff', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
-                Ver Colecao Feminina
+              <Link href="/categoria/jalecos-femininos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2.5rem', background: '#1a1a1a', color: '#fff', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
+                Ver Coleção Feminina
               </Link>
-              <Link href="/produtos?categoria=jalecos-masculinos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2.5rem', background: 'transparent', color: '#1a1a1a', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
-                Ver Colecao Masculina
+              <Link href="/jaleco-universitario" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2.5rem', background: 'transparent', color: '#1a1a1a', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
+                Ver Unissex
               </Link>
             </div>
           </div>

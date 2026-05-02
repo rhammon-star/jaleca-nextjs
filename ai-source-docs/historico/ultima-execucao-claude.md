@@ -1,32 +1,54 @@
-Data: 2026-05-02 11:30
-Tarefa: Fix produtos em destaque aparecerem primeiros em /categoria/jalecos-femininos
+Data: 2026-05-02 18:30
+Tarefa: #7 Link building satélites (9 artigos nos 6 sites) + #8 Meta catalog check + #10 GSC baseline
+O que foi feito:
+- #7: 9 novos artigos publicados nos 6 sites satélite linkando para os 10 posts PAA:
+  Netlify saudetodahora: fisioterapeuta + enfermeira (COFEN)
+  Netlify maxiodonto: esteticista
+  GitHub institutocarioca: nutricionista + psicóloga
+  CF hospitalveterinariopompeia: veterinária
+  Vercel jalecoesaltoalto: manga curta + gestante
+  Vercel jobtech: slim vs reto
+- #8: Meta catalog Jaleca_Products (ID 911366368567879) — 109 produtos, NENHUMA TOUCA presente. Catálogo já limpo.
+- #10: GSC baseline 02/05/2026: 616 cliques, 24.908 impressões, pos 7.9. "jaleco feminino" pos 26.8. "como lavar jaleco branco" pos 10.5 (oportunidade). "jaleco farmaceutico" pos 9.8.
+Resultado: OK
+Próximo passo: criar post "como lavar jaleco branco" (pos 10.5 → top 3 potencial); pages profissão×cidade; checar Best Practices com PageSpeed real
 
-Arquivos alterados:
-- lib/all-products.ts — pais featured sempre incluídos no array final
-- app/produtos/ProductsClient.tsx — sort: best-seller > pai featured > variante featured > resto
+---
+
+Data: 2026-05-02 17:30
+Tarefa: 10 posts PAA blog por especialidade — fisio, nutri, médica, enfermeira, esteticista, vet, psicóloga, slim vs reto, manga curta, gestante
+Arquivos alterados: 10 novos page.tsx em app/blog/jaleco-para-*/  jaleco-slim-vs-* jaleco-manga-* jaleco-feminino-gestante-*
+O que foi feito:
+- 10 posts Next.js com Article+FAQPage+BreadcrumbList schema, internal links, CTA /categoria/jalecos-femininos
+- Posts WP correspondentes já publicados via REST API
+- Commit dc60d3a, vercel --prod READY → jaleca.com.br
+Resultado: OK
+Próximo passo: #2 internal linking "jaleco feminino" pos22; #3 páginas profissão×cidade; #4 FAQ schema landings
+
+---
+
+Data: 2026-05-02 16:30
+Tarefa: Criação da página /jaleco-universitario-feminino + deploy produção
+
+Arquivos criados/alterados:
+- app/jaleco-universitario-feminino/page.tsx (novo)
+- app/jaleco-universitario-feminino/FaqAccordion.tsx (novo)
+- app/jaleco-universitario/page.tsx (link interno adicionado)
 
 O que foi feito:
-- Diagnóstico: variantes de cor de produtos featured (Princesa, Gold, Elastex) inundavam rank 1, empurrando Slim Duquesa e Slim Dama para página 2 (43 restantes)
-- Fix 1 (commit f996376): incluir pai como fallback quando variantes JSON não casam com cores WC (Verde Garrafa, Azul Pastel)
-- Fix 2 (commit f314b76): pais featured sempre incluídos + nova hierarquia de sort que dá rank 1 (prioridade) para o pai como card único, antes das variantes de cor (rank 2)
-- Resultado validado via curl: ordem agora é Slim Tradicional → Princesa Laise → Princesa → Gold → Elastex → Duquesa → Dama → variantes de cor
+- Criada landing page SEO /jaleco-universitario-feminino
+  - Foco: medicina, enfermagem, odontologia, fisioterapia, biomedicina, veterinária
+  - Seção por curso com 6 cards linkando para profissões femininas
+  - Guia: feminino vs unissex, Padrão vs Slim, normas IES, tamanho, primeiro jaleco
+  - FAQ schema (5 perguntas) + FaqAccordion (8 perguntas interativas)
+  - Links internos: categoria/jalecos-femininos, jaleco-universitario, profissões femininas
+- /jaleco-universitario atualizado com link para nova página
+- Deploy produção: READY em 5min, HTTP 200 confirmado
 
-Comandos rodados:
-- git push (2 commits: f996376, f314b76)
-- vercel --prod (2 deploys)
-- POST /api/revalidate com tag products + paths
+Resultado: OK — página no ar em jaleca.com.br/jaleco-universitario-feminino
 
-Resultado: OK — todos os 7 produtos featured do home aparecem primeiros em /categoria/jalecos-femininos como cards únicos
-
-Riscos identificados: nenhum — mudança isolada na lógica de ordenação
-
-Próximo passo: monitorar GSC nos próximos 30 dias para "jaleco feminino" (item #10 do backlog)
-
-### Consumo estimado por IA nesta tarefa
-
-| IA | Participação estimada | Papel na tarefa |
-|---|---:|---|
-| Claude Code | 100% | Diagnóstico, fix em 2 etapas, deploy, validação |
-| Gemini | 0% | Não acionado |
-| GPT | 0% | Não acionado |
-| GSC | 0% | Não acionado |
+Próximo passo:
+- Submeter URL no GSC para indexação
+- Monitorar posições em 2-4 semanas
+- Monitorar alcance Público Frio (targeting atualizado hoje) em 48h
+- Aguardar 1ª conversão Google Ads → libera R$700 crédito
