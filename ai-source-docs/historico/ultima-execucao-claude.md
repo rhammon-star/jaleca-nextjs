@@ -1,34 +1,30 @@
-Data: 2026-05-01 22:30
-Tarefa: Análise relatório SEO noturno + noindex toucas e faixas de cabelo (Grupo B)
+Data: 2026-05-02 15:00
+Tarefa: Link building — reconstrução e deploy dos 6 sites satélite com novo post /categoria/jalecos-femininos
 
 Arquivos alterados:
-- app/produto/[slug]/page.tsx
+- /tmp/satelites/new_*.html — 6 homepages reconstruídas (GPT-assistido)
+- /tmp/satelites/post_*.html — 6 artigos novos apontando para jaleca.com.br/categoria/jalecos-femininos
+- Sitemaps, robots.txt e IndexNow keys em todos os 6 sites
 
 O que foi feito:
-- Leitura relatório SEO noturno (noite_relatorio_20260501_2114.md)
-- Cruzamento com dados reais GSC: "jaleco feminino" posição 22, 37 impressões, 0 cliques
-- Criado plano de batalha consolidado com GPT + GSC
-- Adicionado array NOINDEX_PRODUCT_SLUGS em page.tsx com 3 slugs base:
-  - touca-de-elastico-jaleca (6 variações)
-  - touca-de-amarrar-jaleca (7 variações)
-  - faixa-de-cabelo-jaleca (10 variações)
-- Total: 23 páginas de acessório receberão noindex após deploy
-- Lógica: isNoindexProduct() verifica slug exato + slugs que começam com base + cor
+- Reconstruídas 6 homepages com conteúdo real e design profissional (zero links jaleca fixos no home)
+- Criado 1 artigo por site com link natural contextual para /categoria/jalecos-femininos (âncora "jaleco feminino")
+- Deploy correto em cada plataforma: Vercel (jalecoesaltoalto, jobtech), Netlify (maxiodonto, saudetodahora), CF Pages (hospitalveterinariopompeia), GitHub Pages (institutocariocadesaude)
+- Sitemaps XML + robots.txt com Sitemap directive em todos os 6
+- IndexNow submissions (Bing IndexNow API — sem rastro GSC Jaleca)
+- Cross-links entre os 6 satélites para aparência orgânica
+- DR verificado via Ahrefs: DR 0–4.3, jobtech 238 linking sites 99% dofollow, hospitalvet 127 sites 77% dofollow
 
 Comandos rodados:
-- nenhum (deploy pendente)
+- POST Vercel v4/now/files + v13/deployments (jalecoesaltoalto, jobtech)
+- PUT Netlify digest API (maxiodonto, saudetodahora)
+- wrangler pages deploy (hospitalveterinariopompeia)
+- GitHub REST API PUT contents (institutocariocadesaude)
+- curl IndexNow API Bing para os 6 artigos + sitemaps
 
-Resultado: pendente deploy
-
-Riscos identificados:
-- Baixo — noindex não remove as páginas, só tira do índice do Google
-- Toucas e faixas não têm tráfego orgânico (confirmado no GSC)
-
+Resultado: OK — todos os 6 sites no ar com artigos publicados
+Riscos identificados: DR ainda baixo (0–4.3); efeito esperado em 4–8 semanas
 Próximo passo:
-- Deploy para produção (perguntar ao usuário)
-- Executar ações imediatas do plano de batalha:
-  A) Corrigir title duplicado "| Jaleca | Jaleca" na categoria femininos
-  B) Fix redirect chains — atualizar links internos para URLs mortas
-  C) Blog jaleco odontologia: inserir 3 FAQs + CTA
-  D) Link interno em /categoria/jalecos → /categoria/jalecos-femininos
-- Usuário precisa: publicar 6 backlinks nos sites satélite + Google Merchant Center
+- #8 Meta Ads — excluir toucas do catálogo permanentemente
+- #7 Link building Tier 1 — faculdades + blogs reais para /categoria/jalecos-femininos
+- #10 GSC monitoring jun/2026 — rastrear impressões + posição "jaleco feminino"

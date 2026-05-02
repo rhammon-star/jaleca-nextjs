@@ -1,8 +1,18 @@
-# Link Building — Hub Scrub Feminino Jaleca
+# Link Building — Jaleca (Scrub Feminino + Jalecos)
 Data: 2026-04-30
 
+## Produtos que vendemos
+- **Scrubs femininos e masculinos** (conjuntos cirúrgicos)
+- **Jalecos femininos e masculinos** (slim, princesa, duquesa, elastex, universitário)
+- **Dolmas** (gastronomia)
+- **Acessórios** (toucas, faixas)
+
 ## Objetivo
-Obter links externos apontando para o hub topical authority de scrub feminino, especialmente para a pillar page `/blog/scrub-feminino-guia-completo`.
+Obter links externos apontando para o hub topical authority de scrub feminino E para as principais landing pages de jaleco. Páginas-alvo prioritárias:
+- `/blog/scrub-feminino-guia-completo` (pillar page scrub)
+- `/blog/tabela-medidas-scrub-feminino` (link bait)
+- `/jaleco-medico`, `/jaleco-enfermeiro`, `/jaleco-dentista` (landings de jaleco)
+- `/blog/como-escolher-jaleco-feminino-guia-completo` (post jaleco)
 
 ---
 

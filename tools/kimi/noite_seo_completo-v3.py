@@ -32,6 +32,10 @@ from dotenv import load_dotenv
 from xml.etree import ElementTree as ET
 from bs4 import BeautifulSoup
 import re
+from platformdirs import user_config_dir
+from google.oauth2.credentials import Credentials
+from google.auth.transport.requests import Request as GoogleAuthRequest
+from googleapiclient.discovery import build
 
 load_dotenv()
 
@@ -517,83 +521,79 @@ def buscar_cwv(urls):
 # 11. GSC DIÁRIO — CTR baixo + perdas de posição
 # ══════════════════════════════════════════
 
-def buscar_dados_gsc():
-    log("📊 GSC — queries com CTR baixo e perdas de posição...")
+def _gsc_service():
+    """Retorna cliente autenticado da GSC API usando token do mcp-gsc."""
+    token_file = os.path.join(user_config_dir("mcp-gsc"), "token.json")
+    client_secrets = "/Users/rhammon/mcp-gsc/client_secrets.json"
+    scopes = ["https://www.googleapis.com/auth/webmasters.readonly"]
 
-    hoje = datetime.now().strftime("%Y-%m-%d")
+    creds = Credentials.from_authorized_user_file(token_file, scopes)
+    if creds.expired and creds.refresh_token:
+        creds.refresh(GoogleAuthRequest())
+        with open(token_file, "w") as f:
+            f.write(creds.to_json())
+    return build("searchconsole", "v1", credentials=creds, cache_discovery=False)
+
+
+def _gsc_query(service, date_from, date_to, row_limit=500):
+    """Busca queries com clicks/impressões/ctr/position via GSC API."""
+    site_url = f"sc-domain:{JALECA_DOMAIN}"
+    body = {
+        "startDate": date_from,
+        "endDate":   date_to,
+        "dimensions": ["query"],
+        "rowLimit":   row_limit,
+        "searchType": "web",
+    }
+    resp = service.searchanalytics().query(siteUrl=site_url, body=body).execute()
+    return resp.get("rows", [])
+
+
+def buscar_dados_gsc():
+    log("📊 GSC — queries com CTR baixo e perdas de posição (API direta)...")
+
+    hoje         = datetime.now().strftime("%Y-%m-%d")
     semana_atras = (datetime.now() - timedelta(days=7)).strftime("%Y-%m-%d")
     duas_semanas = (datetime.now() - timedelta(days=14)).strftime("%Y-%m-%d")
 
-    # Queries com impressões altas e CTR baixo (esta semana)
-    result_semana = dfs_post(
-        "keywords_data/google_search_console/errors/live",
-        [{
-            "website":        f"https://{JALECA_DOMAIN}",
-            "date_from":      semana_atras,
-            "date_to":        hoje,
-            "search_type":    "web",
-            "location_code":  BRASIL,
-            "language_code":  "pt"
-        }]
-    )
-
-    # Busca dados de performance
-    result_perf = dfs_post(
-        "keywords_data/google_search_console/live",
-        [{
-            "website":       f"https://{JALECA_DOMAIN}",
-            "date_from":     semana_atras,
-            "date_to":       hoje,
-            "search_type":   "web",
-            "location_code": BRASIL,
-            "language_code": "pt"
-        }]
-    )
+    try:
+        svc = _gsc_service()
+        rows_atual    = _gsc_query(svc, semana_atras, hoje)
+        rows_anterior = _gsc_query(svc, duas_semanas, semana_atras)
+    except Exception as e:
+        log(f"   ⚠️  GSC API erro: {e}")
+        return [], []
 
     queries_ctr_baixo = []
-    perdas_posicao = []
+    perdas_posicao    = []
 
-    items = result_perf.get("items", [])
-    for item in items:
-        impressoes = item.get("impressions", 0)
-        ctr = item.get("ctr", 0)
-        posicao = item.get("position", 0)
-        keyword = item.get("keyword", "")
+    posicoes_anterior = {}
+    for r in rows_anterior:
+        kw = r["keys"][0]
+        posicoes_anterior[kw] = r.get("position", 0)
 
-        # CTR baixo com muitas impressões
+    for r in rows_atual:
+        kw        = r["keys"][0]
+        impressoes = r.get("impressions", 0)
+        ctr        = r.get("ctr", 0)
+        pos_atual  = r.get("position", 0)
+
         if impressoes > 100 and ctr < 0.05:
             queries_ctr_baixo.append({
-                "keyword":    keyword,
-                "impressoes": impressoes,
+                "keyword":    kw,
+                "impressoes": int(impressoes),
                 "ctr":        round(ctr * 100, 2),
-                "posicao":    round(posicao, 1),
+                "posicao":    round(pos_atual, 1),
                 "problema":   "Título/meta description fraco — reescrever"
             })
 
-    # Compara posições com semana anterior
-    result_anterior = dfs_post(
-        "keywords_data/google_search_console/live",
-        [{
-            "website":       f"https://{JALECA_DOMAIN}",
-            "date_from":     duas_semanas,
-            "date_to":       semana_atras,
-            "search_type":   "web",
-            "location_code": BRASIL,
-            "language_code": "pt"
-        }]
-    )
-
-    posicoes_anterior = {i.get("keyword"): i.get("position") for i in result_anterior.get("items", [])}
-    for item in items:
-        kw = item.get("keyword")
-        pos_atual = item.get("position", 0)
         pos_ant = posicoes_anterior.get(kw)
         if pos_ant and pos_atual and pos_atual - pos_ant > 3:
             perdas_posicao.append({
-                "keyword":        kw,
-                "posicao_antes":  round(pos_ant, 1),
-                "posicao_agora":  round(pos_atual, 1),
-                "queda":          round(pos_atual - pos_ant, 1)
+                "keyword":       kw,
+                "posicao_antes": round(pos_ant, 1),
+                "posicao_agora": round(pos_atual, 1),
+                "queda":         round(pos_atual - pos_ant, 1)
             })
 
     queries_ctr_baixo.sort(key=lambda x: x["impressoes"], reverse=True)
@@ -601,6 +601,201 @@ def buscar_dados_gsc():
 
     log(f"   ✅ {len(queries_ctr_baixo)} queries CTR baixo, {len(perdas_posicao)} perdas de posição")
     return queries_ctr_baixo[:20], perdas_posicao[:20]
+
+
+# ══════════════════════════════════════════
+# 12a. ANÁLISE DE CONTEÚDO — Jaleca vs concorrentes
+# ══════════════════════════════════════════
+
+def analisar_conteudo_editorial():
+    log("📝 Análise de conteúdo editorial — Jaleca vs concorrentes...")
+
+    urls_jaleca = [
+        f"https://{JALECA_DOMAIN}/",
+        f"https://{JALECA_DOMAIN}/categoria/jalecos-femininos",
+        f"https://{JALECA_DOMAIN}/categoria/jaleco-medico",
+        f"https://{JALECA_DOMAIN}/categoria/scrub-feminino",
+    ]
+    urls_conc = [c["url"] for c in CONCORRENTES[:5]]
+    todas = [{"url": u, "tipo": "jaleca"} for u in urls_jaleca] + \
+            [{"url": u, "tipo": "concorrente"} for u in urls_conc]
+
+    resultados = []
+    for item in todas:
+        result = dfs_post(
+            "content_analysis/search/live",
+            [{"url": item["url"], "keyword": "jaleco feminino"}]
+        )
+        items = result.get("items", [])
+        if items:
+            r = items[0]
+            resultados.append({
+                "url":          item["url"],
+                "tipo":         item["tipo"],
+                "word_count":   r.get("word_count", 0),
+                "readability":  r.get("readability_score", 0),
+                "keyword_density": r.get("keyword_density", 0),
+                "headings_count":  len(r.get("headings", [])),
+                "images_count":    r.get("images_count", 0),
+            })
+        time.sleep(0.5)
+
+    log(f"   ✅ {len(resultados)} páginas analisadas")
+    return resultados
+
+
+# ══════════════════════════════════════════
+# 12b. SEARCH VOLUME + CPC — keywords do mercado
+# ══════════════════════════════════════════
+
+def buscar_volume_cpc():
+    log("💰 Search volume + CPC por keyword...")
+
+    keywords_check = TOP_KEYWORDS[:20]
+    result = dfs_post(
+        "keywords_data/google_ads/search_volume/live",
+        [{
+            "keywords":      keywords_check,
+            "location_code": BRASIL,
+            "language_code": "pt"
+        }]
+    )
+
+    dados = []
+    for item in result.get("items", []):
+        dados.append({
+            "keyword":     item.get("keyword", ""),
+            "volume":      item.get("search_volume", 0),
+            "cpc":         item.get("cpc", 0),
+            "competition": item.get("competition", ""),
+            "trend":       item.get("monthly_searches", [])[-3:] if item.get("monthly_searches") else []
+        })
+
+    dados.sort(key=lambda x: x["volume"] or 0, reverse=True)
+    log(f"   ✅ {len(dados)} keywords com volume/CPC")
+    return dados
+
+
+# ══════════════════════════════════════════
+# 12c. GOOGLE SHOPPING — produtos da Jaleca
+# ══════════════════════════════════════════
+
+def monitorar_google_shopping():
+    log("🛒 Google Shopping — visibilidade dos produtos Jaleca...")
+
+    keywords_shop = ["jaleco feminino", "jaleco médico feminino", "scrub feminino", "jaleco bordado"]
+    resultados = []
+
+    for kw in keywords_shop:
+        result = dfs_post(
+            "merchant/google/products/live/advanced",
+            [{
+                "keyword":       kw,
+                "location_code": BRASIL,
+                "language_code": "pt",
+                "depth":         20
+            }]
+        )
+        jaleca_items = []
+        todos_items  = []
+        for item in result.get("items", []):
+            loja  = item.get("shop_name", "")
+            title = item.get("title", "")
+            price = item.get("price", "")
+            pos   = item.get("rank_absolute", 0)
+            todos_items.append({"loja": loja, "titulo": title, "preco": price, "posicao": pos})
+            if "jaleca" in loja.lower() or "jaleca.com" in item.get("url", "").lower():
+                jaleca_items.append({"titulo": title, "preco": price, "posicao": pos})
+
+        resultados.append({
+            "keyword":        kw,
+            "jaleca_aparece": len(jaleca_items) > 0,
+            "jaleca_produtos": jaleca_items,
+            "top5_concorrentes": todos_items[:5]
+        })
+        time.sleep(0.5)
+
+    log(f"   ✅ Shopping monitorado para {len(resultados)} keywords")
+    return resultados
+
+
+# ══════════════════════════════════════════
+# 12d. WHOIS — detectar domínios novos no nicho
+# ══════════════════════════════════════════
+
+def detectar_dominios_novos():
+    log("🌐 WHOIS — verificando idade dos domínios concorrentes...")
+
+    dominios = [c["dominio"] for c in CONCORRENTES]
+    resultados = []
+
+    for dom in dominios:
+        result = dfs_post(
+            "domain_analytics/whois/overview/live",
+            [{"domain": dom}]
+        )
+        items = result.get("items", [])
+        if items:
+            r = items[0]
+            resultados.append({
+                "dominio":         dom,
+                "criado_em":       r.get("created_datetime", ""),
+                "expira_em":       r.get("expiry_datetime", ""),
+                "anos_de_vida":    r.get("domain_age", 0),
+                "registrar":       r.get("registrar", ""),
+            })
+        time.sleep(0.3)
+
+    resultados.sort(key=lambda x: x.get("anos_de_vida", 999))
+    log(f"   ✅ {len(resultados)} domínios verificados")
+    return resultados
+
+
+# ══════════════════════════════════════════
+# 12e. HISTÓRICO DE POSIÇÕES — curva de ranking
+# ══════════════════════════════════════════
+
+def buscar_historico_posicoes():
+    log("📈 Histórico de posições — curva de ranking (30 dias)...")
+
+    hoje         = datetime.now().strftime("%Y-%m-%d")
+    mes_atras    = (datetime.now() - timedelta(days=30)).strftime("%Y-%m-%d")
+    kws_monit    = TOP_KEYWORDS[:10]
+    historico    = []
+
+    for kw in kws_monit:
+        result = dfs_post(
+            "serp/google/organic/live/advanced",
+            [{
+                "keyword":          kw,
+                "location_code":    BRASIL,
+                "language_code":    "pt",
+                "device":           "desktop",
+                "depth":            30,
+                "calculate_rectangles": False,
+            }]
+        )
+        posicao_jaleca = None
+        for item in result.get("items", []):
+            if item.get("type") == "organic":
+                url = item.get("url", "")
+                if JALECA_DOMAIN in url:
+                    posicao_jaleca = item.get("rank_absolute")
+                    break
+
+        historico.append({
+            "keyword":         kw,
+            "posicao_atual":   posicao_jaleca,
+            "data":            hoje,
+            "top3_urls":       [
+                i.get("url") for i in result.get("items", [])
+                if i.get("type") == "organic"
+            ][:3]
+        })
+        time.sleep(0.5)
+
+    log(f"   ✅ Histórico coletado para {len(historico)} keywords")
+    return historico
 
 
 # ══════════════════════════════════════════
@@ -755,6 +950,21 @@ PROBLEMA CENTRAL: O site tem 100% tráfego branded e zero tráfego orgânico gen
 === PEOPLE ALSO ASK ===
 {json.dumps(dados['paa'], ensure_ascii=False)}
 
+=== ANÁLISE DE CONTEÚDO — Jaleca vs Concorrentes ===
+{json.dumps(dados['conteudo_editorial'], ensure_ascii=False)}
+
+=== SEARCH VOLUME + CPC POR KEYWORD ===
+{json.dumps(dados['volume_cpc'], ensure_ascii=False)}
+
+=== GOOGLE SHOPPING — VISIBILIDADE DOS PRODUTOS ===
+{json.dumps(dados['google_shopping'], ensure_ascii=False)}
+
+=== WHOIS — IDADE DOS DOMÍNIOS CONCORRENTES ===
+{json.dumps(dados['dominios_novos'], ensure_ascii=False)}
+
+=== HISTÓRICO DE POSIÇÕES (RANKING ATUAL TOP 10 KWS) ===
+{json.dumps(dados['historico_posicoes'], ensure_ascii=False)}
+
 GERE RELATÓRIO COMPLETO:
 
 ## 🚨 ALERTAS DO DIA
@@ -800,6 +1010,25 @@ GERE RELATÓRIO COMPLETO:
 ## 9. PERFORMANCE
 - Páginas com score abaixo de 70
 - O que corrigir
+
+## 10. CONTEÚDO EDITORIAL — JALECA VS CONCORRENTES
+- Compare word count, legibilidade e densidade de keyword da Jaleca com concorrentes
+- Quais páginas da Jaleca estão com conteúdo claramente inferior?
+- Recomendação específica para cada página fraca
+
+## 11. GOOGLE SHOPPING
+- A Jaleca aparece nos resultados de Shopping? Em qual posição?
+- Quem domina o Shopping para "jaleco feminino" e similares?
+- O que fazer para aparecer (feed, preço, título do produto)
+
+## 12. OPORTUNIDADE DE KEYWORDS — VOLUME + CPC
+- Keywords com alto volume que a Jaleca não está rankeando
+- Keywords com CPC alto = alta intenção de compra — priorizar
+- Quais têm competição baixa e vale criar conteúdo agora
+
+## 13. INTELIGÊNCIA COMPETITIVA — DOMÍNIOS
+- Concorrentes mais novos (domínio jovem) que já rankeiam bem — alerta
+- Concorrentes com domínio antigo e autoridade consolidada — como superar
 
 ## 10. PLANO DE AÇÃO DE HOJE
 
@@ -886,6 +1115,11 @@ def main():
     backlinks                    = buscar_backlinks()
     cwv                          = buscar_cwv(urls)
     queries_ctr_baixo, perdas    = buscar_dados_gsc()
+    conteudo_editorial           = analisar_conteudo_editorial()
+    volume_cpc                   = buscar_volume_cpc()
+    google_shopping              = monitorar_google_shopping()
+    dominios_novos               = detectar_dominios_novos()
+    historico_posicoes           = buscar_historico_posicoes()
     saude_tecnica                = verificar_saude_tecnica(jaleca_pages, erros_scrape)
     pagina_2, paa                = buscar_oportunidades(posicoes_hoje)
 
@@ -905,6 +1139,11 @@ def main():
         "cwv":                  cwv,
         "queries_ctr_baixo":    queries_ctr_baixo,
         "perdas_posicao":       perdas,
+        "conteudo_editorial":   conteudo_editorial,
+        "volume_cpc":           volume_cpc,
+        "google_shopping":      google_shopping,
+        "dominios_novos":       dominios_novos,
+        "historico_posicoes":   historico_posicoes,
         "saude_tecnica":        saude_tecnica,
         "pagina_2":             pagina_2,
         "paa":                  paa
