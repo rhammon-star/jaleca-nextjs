@@ -25,8 +25,6 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   async redirects() {
     return [
-// Strip ?srsltid= (Google Merchant Center param) — evita URL duplicada indexada
-      { source: '/:path*', has: [{ type: 'query', key: 'srsltid' }], destination: '/:path*', permanent: true },
 // Consolidar trailing slashes — antes de todos os redirects específicos
       { source: '/produto/:slug/', destination: '/produto/:slug', permanent: true },
       { source: '/blog/:slug/', destination: '/blog/:slug', permanent: true },
