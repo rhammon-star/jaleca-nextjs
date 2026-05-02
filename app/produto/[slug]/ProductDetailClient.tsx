@@ -445,7 +445,9 @@ export default function ProductDetailClient({
   const baseImage = activeVariationForGallery?.image?.sourceUrl ? activeVariationForGallery.image : product.image
 
   const allImages = varGallery.length > 0
-    ? varGallery  // variation has its own gallery → use it entirely
+    ? (baseImage && !varGallery.some(img => img.sourceUrl === baseImage.sourceUrl)
+        ? [baseImage, ...varGallery]
+        : varGallery)
     : baseImage ? [baseImage] : []  // only show the single main/variation image
 
   const displayImage = allImages[activeImageIdx] ?? baseImage
@@ -563,15 +565,32 @@ export default function ProductDetailClient({
   }, [user])
 
 
-  // Load variation galleries from GraphQL jalecaGalleryImages (no REST fallback)
+  // Load variation galleries — inherits gallery from same-color variation when missing
   useEffect(() => {
     if (!product.variations?.nodes.length) return
+    const variations = product.variations.nodes
+
+    // Step 1: collect explicit galleries
     const fromGraphQL: Record<number, GalleryImage[]> = {}
-    for (const v of product.variations.nodes) {
+    for (const v of variations) {
       if (v.jalecaGalleryImages && v.jalecaGalleryImages.length > 0) {
         fromGraphQL[v.databaseId] = v.jalecaGalleryImages
       }
     }
+
+    // Step 2: inherit gallery from same-color donor for variations without one
+    for (const v of variations) {
+      if (fromGraphQL[v.databaseId]) continue
+      const vColor = v.attributes.nodes.find(a => isColorAttr(a))?.value
+      if (!vColor) continue
+      const donor = variations.find(d =>
+        d.databaseId !== v.databaseId &&
+        fromGraphQL[d.databaseId] &&
+        d.attributes.nodes.find(a => isColorAttr(a))?.value === vColor
+      )
+      if (donor) fromGraphQL[v.databaseId] = fromGraphQL[donor.databaseId]
+    }
+
     if (Object.keys(fromGraphQL).length > 0) setVariationGalleries(fromGraphQL)
   }, [product.variations])
 
