@@ -405,9 +405,9 @@ export default async function JalecoEnfermagemPage() {
                 )
               }) : (
                 [
-                  { title: 'Jaleco de enfermagem: conforto e mobilidade para o plantão', href: '/blog', tag: 'Enfermagem', excerpt: 'Guia completo sobre jaleco para enfermagem: melhores tecidos, elastano, Bolsos e normas do COREN.' },
-                  { title: 'Como lavar e conservar seu jaleco hospitalar', href: '/blog', tag: 'Cuidados', excerpt: 'Erros comuns na lavagem do jaleco que danificam o tecido e encurtam a vida útil.' },
-                  { title: 'Como escolher o tamanho certo do jaleco', href: '/medidas', tag: 'Guia de Tamanhos', excerpt: 'Passo a passo para medir e encontrar o tamanho ideal na grade Jaleca.' },
+                  { title: 'Jaleco de enfermeiro: semana da saúde e normas do COREN', href: '/blog/jaleco-enfermeiro-semana-saude', tag: 'Enfermagem', excerpt: 'O que o COREN regulamenta sobre vestimenta de enfermagem e como escolher o jaleco certo para plantão.' },
+                  { title: 'Jaleco com elastano vale a pena para plantão?', href: '/blog/jaleco-elastano-vale-a-pena', tag: 'Tecidos', excerpt: 'O elastano é essencial para quem trabalha 12h. Veja como o tecido certo faz diferença no plantão hospitalar.' },
+                  { title: 'Jaleco ou scrub: qual usar no hospital?', href: '/blog/jaleco-ou-scrub-consultorio', tag: 'Guia', excerpt: 'Enfermeiros usam jaleco ou scrub? Entenda quando cada uniforme é o mais adequado para o ambiente hospitalar.' },
                 ].map(post => (
                   <Link key={post.href} href={post.href} style={{ background: '#fff', textDecoration: 'none', color: 'inherit', display: 'block' }}>
                     <div style={{ aspectRatio: '16/10', background: 'linear-gradient(135deg, #f9f7f4 0%, #e5e0d8 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

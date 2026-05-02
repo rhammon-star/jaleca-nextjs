@@ -413,9 +413,9 @@ export default async function ScrubFemininoPage() {
                 )
               }) : (
                 [
-                  { title: 'Scrub vs jaleco: qual a melhor escolha para você', href: '/blog', tag: 'Guia', excerpt: 'Compare scrub e jaleco para profissionais de saúde: mobilidade, conforto, praticidade e normas.' },
-                  { title: 'Como lavar seu scrub e mantê-lo impecável', href: '/blog', tag: 'Cuidados', excerpt: 'Erros comuns na lavagem do scrub que danificam o tecido e encurtam a vida útil.' },
-                  { title: 'Como escolher o tamanho certo do uniforme', href: '/medidas', tag: 'Guia de Tamanhos', excerpt: 'Passo a passo para medir e encontrar o tamanho ideal na grade Jaleca.' },
+                  { title: 'Scrub feminino: guia completo para profissionais de saúde', href: '/blog/scrub-feminino-guia-completo', tag: 'Guia', excerpt: 'Tudo sobre scrub feminino: tecidos, modelagens, cores e como escolher o conjunto certo para cada profissão.' },
+                  { title: 'Melhores tecidos para scrub feminino', href: '/blog/melhores-tecidos-scrub-feminino', tag: 'Tecidos', excerpt: 'Polyester, elastano ou algodão? Veja qual tecido aguenta mais lavagens, não amassa e mantém a cor no trabalho.' },
+                  { title: 'Como cuidar do scrub feminino para durar mais', href: '/blog/como-cuidar-scrub-feminino', tag: 'Cuidados', excerpt: 'Dicas de lavagem, secagem e armazenamento para o scrub feminino manter o caimento após dezenas de lavagens.' },
                 ].map(post => (
                   <Link key={post.href} href={post.href} style={{ background: '#fff', textDecoration: 'none', color: 'inherit', display: 'block' }}>
                     <div style={{ aspectRatio: '16/10', background: 'linear-gradient(135deg, #f9f7f4 0%, #e5e0d8 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

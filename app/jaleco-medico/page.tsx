@@ -396,8 +396,8 @@ export default async function JalecoDentistaPage() {
                 ...(posts.length > 0
                   ? posts.slice(0, 2).map(p => ({ title: p.title.rendered.replace(/<[^>]+>/g, ''), href: `/blog/${p.slug}`, tag: 'Blog', excerpt: p.excerpt.rendered.replace(/<[^>]+>/g, '').slice(0, 120) + '…', img: p._embedded?.['wp:featuredmedia']?.[0]?.source_url || null }))
                   : [
-                      { title: 'Como lavar e conservar seu jaleco profissional', href: '/blog/como-lavar-jaleco', tag: 'Cuidados', excerpt: 'Erros simples de lavagem aceleram o amarelamento e encurtam a vida do jaleco. Veja o guia completo.', img: null },
-                      { title: 'Jaleco branco: tradição e protocolos em medicina', href: '/blog', tag: 'Medicina', excerpt: 'Por que o branco é tão usado em medicina e o que recomendam sobre cores e vestimenta.', img: null },
+                      { title: 'Jaleco com elastano vale a pena para médico?', href: '/blog/jaleco-elastano-vale-a-pena', tag: 'Tecidos', excerpt: 'O elastano mantém o caimento durante plantões longos e procedimentos. Saiba o que faz diferença no jaleco médico.', img: null },
+                      { title: 'Jaleco colorido em consultório: o que o CFM permite', href: '/blog/jaleco-colorido-clinica', tag: 'Protocolos', excerpt: 'O CFM não proíbe jaleco colorido. Entenda as normas de vestimenta médica por tipo de ambiente.', img: null },
                     ]
                 ),
               ] as { title: string; href: string; tag: string; excerpt: string; img: string | null | undefined }[]).map(post => (

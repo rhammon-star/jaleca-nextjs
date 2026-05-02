@@ -417,9 +417,9 @@ export default async function JalecoFarmaciaPage() {
               }) : (
                 // Fallback: artigos fixos relevantes para o cluster
                 [
-                  { title: 'Como lavar e conservar seu jaleco profissional', href: '/blog/como-lavar-jaleco', tag: 'Cuidados', excerpt: 'Erros simples de lavagem aceleram o amarelamento e encurtam a vida do jaleco. Veja o guia completo.' },
-                  { title: 'Jaleco branco: tradição e protocolos em farmácia', href: '/blog', tag: 'Farmácia', excerpt: 'Por que o branco é tão usado em farmácia e o que recomendam sobre cores e vestimenta.' },
-                  { title: 'Como escolher o tamanho certo do jaleco', href: '/medidas', tag: 'Guia de Tamanhos', excerpt: 'Passo a passo para medir busto, cintura e quadril e encontrar o tamanho ideal na grade Jaleca.' },
+                  { title: 'Jaleco colorido em clínica: o que o CFF e CRF permitem', href: '/blog/jaleco-colorido-clinica', tag: 'Protocolos', excerpt: 'Farmacêutico pode usar jaleco colorido? Veja o que cada conselho de saúde regulamenta sobre cores na farmácia.' },
+                  { title: 'Jaleco com elastano: vale a pena para atendimento em farmácia?', href: '/blog/jaleco-elastano-vale-a-pena', tag: 'Tecidos', excerpt: 'Tecido com elastano mantém o caimento durante jornadas longas atrás do balcão. Saiba o que faz diferença.' },
+                  { title: 'Como escolher jaleco feminino: guia completo', href: '/blog/como-escolher-jaleco-feminino-guia-completo', tag: 'Guia', excerpt: 'Modelo, tecido e tamanho certos para cada profissão de saúde. Guia completo para farmacêuticas e atendentes.' },
                 ].map(post => (
                   <Link key={post.href} href={post.href} style={{ background: '#fff', textDecoration: 'none', color: 'inherit', display: 'block' }}>
                     <div style={{ aspectRatio: '16/10', background: 'linear-gradient(135deg, #f9f7f4 0%, #e5e0d8 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

@@ -417,9 +417,9 @@ export default async function JalecoDentistaPage() {
               }) : (
                 // Fallback: artigos fixos relevantes para o cluster
                 [
-                  { title: 'Como lavar e conservar seu jaleco profissional', href: '/blog/como-lavar-jaleco', tag: 'Cuidados', excerpt: 'Erros simples de lavagem aceleram o amarelamento e encurtam a vida do jaleco. Veja o guia completo.' },
-                  { title: 'Jaleco branco: tradição e protocolos na odontologia', href: '/blog', tag: 'Odontologia', excerpt: 'Por que o branco domina a odontologia e o que o CRO recomenda sobre cores e vestimenta clínica.' },
-                  { title: 'Como escolher o tamanho certo do jaleco', href: '/medidas', tag: 'Guia de Tamanhos', excerpt: 'Passo a passo para medir busto, cintura e quadril e encontrar o tamanho ideal na grade Jaleca.' },
+                  { title: 'Jaleco para dentista: modelos, cores e como escolher', href: '/blog/guia-jaleco-para-dentista-modelos-cores-como-escolher', tag: 'Odontologia', excerpt: 'Guia completo sobre jaleco odontológico: modelo Slim vs Profissional, NR-32 e cores aceitas pelo CRO.' },
+                  { title: 'Jaleco manga curta em consultório: quando usar', href: '/blog/jaleco-manga-curta-clinica', tag: 'Protocolos', excerpt: 'Manga curta facilita o trabalho na cadeira odontológica. Saiba quando é aceita e quando exige manga longa.' },
+                  { title: 'Jaleco ou scrub: qual usar no consultório?', href: '/blog/jaleco-ou-scrub-consultorio', tag: 'Guia', excerpt: 'Dentistas usam jaleco ou scrub? Entenda a diferença e quando cada um é o mais indicado.' },
                 ].map(post => (
                   <Link key={post.href} href={post.href} style={{ background: '#fff', textDecoration: 'none', color: 'inherit', display: 'block' }}>
                     <div style={{ aspectRatio: '16/10', background: 'linear-gradient(135deg, #f9f7f4 0%, #e5e0d8 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

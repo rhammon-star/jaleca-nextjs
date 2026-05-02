@@ -39,11 +39,11 @@ const schemaFaq = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   mainEntity: [
-    { '@type': 'Question', name: 'Qual comprimento de jaleco é mais indicado para fisioterapeutas?', acceptedAnswer: { '@type': 'Answer', text: 'Para fisioterapia, o jaleco médio — permite amplo movimento dos braços durante os atendimentos.' } },
-    { '@type': 'Question', name: 'O jaleco pode ser lavado com água quente?', acceptedAnswer: { '@type': 'Answer', text: 'Os jalecos Jaleca suportam lavagem até 60°C, temperatura suficiente para higienização clínica. Use alvejante sem cloro para preservar o tecido.' } },
-    { '@type': 'Question', name: 'Jaleco com elastano é bom para fisioterapeuta?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. O elastano adiciona memória ao tecido, retornando à forma após o movimento — essencial para quem passa horas em atendimento.' } },
-    { '@type': 'Question', name: 'Jaleco de fisioterapeuta precisa ser branco?', acceptedAnswer: { '@type': 'Answer', text: 'Não é obrigação. O branco é o clássico, mas tons pastel e cores discretas são bem aceitos. O CREFITO não restringe a cor.' } },
-    { '@type': 'Question', name: 'Qual a diferença entre jaleco Slim e Profissional?', acceptedAnswer: { '@type': 'Answer', text: 'O Slim tem corte ajustado ao corpo, ideal para quem quer visual mais moderno. O Profissional tem corte mais amplo e estruturado, com mais espaço para movimento.' } },
+    { '@type': 'Question', name: 'Fisioterapeuta é obrigado a usar jaleco?', acceptedAnswer: { '@type': 'Answer', text: 'O CREFITO não exige jaleco obrigatório, mas a maioria das clínicas e hospitais adota como padrão de vestimenta profissional. Em ambientes com risco biológico, o jaleco é recomendado como EPI.' } },
+    { '@type': 'Question', name: 'Qual o melhor modelo de jaleco para fisioterapeuta?', acceptedAnswer: { '@type': 'Answer', text: 'O jaleco Elastex é o mais indicado para fisioterapeuta: o tecido com elastano acompanha movimentos de agachar, inclinar e elevar os braços sem rasgar ou apertar. O modelo Slim feminino tem corte acinturado que mantém a elegância mesmo em jornadas longas.' } },
+    { '@type': 'Question', name: 'Jaleco manga curta é aceito em clínica de fisioterapia?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. A manga curta é aceita na maioria das clínicas de fisioterapia e facilita o trabalho manual com o paciente. Verifique o protocolo da sua instituição — em hospitais com UTI ou centro cirúrgico, pode ser exigida manga longa.' } },
+    { '@type': 'Question', name: 'Fisioterapeuta pode usar jaleco colorido?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. O CREFITO não restringe cores. Jalecos azul marinho, verde e lilás são comuns em clínicas pediátricas de fisioterapia pois transmitem acolhimento. O branco continua sendo o padrão em hospitais.' } },
+    { '@type': 'Question', name: 'Como lavar jaleco de fisioterapia sem perder o caimento?', acceptedAnswer: { '@type': 'Answer', text: 'Lave em água fria ou morna (máx. 40°C) com alvejante sem cloro. Não torça — retire excesso de água na centrífuga. Estenda imediatamente para secar à sombra. O tecido Elastex Jaleca mantém o caimento após mais de 50 lavagens.' } },
   ],
 }
 
@@ -417,9 +417,9 @@ export default async function JalecoFisioterapiaPage() {
               }) : (
                 // Fallback: artigos fixos relevantes para o cluster
                 [
-                  { title: 'Como lavar e conservar seu jaleco profissional', href: '/blog/como-lavar-jaleco', tag: 'Cuidados', excerpt: 'Erros simples de lavagem aceleram o amarelamento e encurtam a vida do jaleco. Veja o guia completo.' },
-                  { title: 'Jaleco branco: tradição e protocolos em fisioterapia', href: '/blog', tag: 'Fisioterapia', excerpt: 'Por que o branco é tão usado em fisioterapia e o que recomendam sobre cores e vestimenta.' },
-                  { title: 'Como escolher o tamanho certo do jaleco', href: '/medidas', tag: 'Guia de Tamanhos', excerpt: 'Passo a passo para medir busto, cintura e quadril e encontrar o tamanho ideal na grade Jaleca.' },
+                  { title: 'Jaleco com elastano: vale a pena para fisioterapeuta?', href: '/blog/jaleco-elastano-vale-a-pena', tag: 'Tecidos', excerpt: 'O elastano é essencial para quem faz movimentos amplos no trabalho. Saiba como escolher o jaleco certo para fisioterapia.' },
+                  { title: 'Jaleco manga curta em clínica: quando usar', href: '/blog/jaleco-manga-curta-clinica', tag: 'Fisioterapia', excerpt: 'A manga curta facilita o trabalho manual com pacientes. Veja quando é aceita e quando o protocolo exige manga longa.' },
+                  { title: 'Jaleco colorido em clínica: o que cada conselho permite', href: '/blog/jaleco-colorido-clinica', tag: 'Protocolos', excerpt: 'CREFITO, CFM, CRO — nenhum proíbe jaleco colorido. Entenda as regras de vestimenta por área de saúde.' },
                 ].map(post => (
                   <Link key={post.href} href={post.href} style={{ background: '#fff', textDecoration: 'none', color: 'inherit', display: 'block' }}>
                     <div style={{ aspectRatio: '16/10', background: 'linear-gradient(135deg, #f9f7f4 0%, #e5e0d8 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
