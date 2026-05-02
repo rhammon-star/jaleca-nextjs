@@ -18,6 +18,17 @@ import OutOfStockPage from '@/components/OutOfStockPage'
 
 export const revalidate = 3600
 
+// Produtos de acessório sem valor SEO — noindex para não diluir autoridade do domínio
+const NOINDEX_PRODUCT_SLUGS = [
+  'touca-de-elastico-jaleca',
+  'touca-de-amarrar-jaleca',
+  'faixa-de-cabelo-jaleca',
+]
+
+function isNoindexProduct(slug: string): boolean {
+  return NOINDEX_PRODUCT_SLUGS.some(base => slug === base || slug.startsWith(base + '-'))
+}
+
 type ColorSEOData = {
   url: string
   productName: string
@@ -115,6 +126,11 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>
 }): Promise<Metadata> {
   const { slug } = await params
+
+  if (isNoindexProduct(slug)) {
+    return { title: 'Produto não encontrado — Jaleca', robots: { index: false } }
+  }
+
   const kvColors = await getKnownColorSlugs()
   const parsed = parseColorSlug(slug, kvColors)
 
