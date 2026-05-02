@@ -180,6 +180,23 @@ function buildItem(fields: {
     </item>`
 }
 
+// Slugs permitidos no Google Shopping — apenas produtos selecionados
+const ALLOWED_SLUGS = new Set([
+  'jaleco-slim-dama-feminino-jaleca-palha',
+  'jaleco-slim-princesa-laise-feminino-jaleca-branco',
+  'jaleco-slim-elastex-feminino-jaleca-amarelo',
+  'jaleco-slim-elastex-feminino-jaleca-branco',
+  'jaleco-slim-gold-feminino-jaleca-branco',
+  'conjunto-scrub-feminino-jaleca-rose',
+  'jaleco-slim-tradicional-feminino-jaleca-branco',
+  'jaleco-slim-princesa-feminino-jaleca-preto',
+  'jaleco-slim-princesa-feminino-jaleca-branco',
+  'jaleco-slim-tradicional-masculino-jaleca-azul-marinho',
+  'jaleco-slim-tradicional-masculino-jaleca-preto',
+  'conjunto-dolma-cozinheiro-feminino-jaleca-branco',
+  'jaleco-slim-dama-feminino-jaleca-branco',
+])
+
 export async function GET() {
   try {
     // Busca todos os produtos publicados (paginado)
@@ -197,9 +214,12 @@ export async function GET() {
 
     const items: string[] = []
 
+    // Filtrar apenas produtos permitidos no Shopping
+    const filteredProducts = allProducts.filter(p => ALLOWED_SLUGS.has(p.slug))
+
     // Produtos em estoque apenas
-    const variableProducts = allProducts.filter(p => p.type === 'variable')
-    const simpleProducts = allProducts.filter(p => p.type === 'simple' && p.price && parseFloat(p.price) > 0 && p.stock_status === 'instock')
+    const variableProducts = filteredProducts.filter(p => p.type === 'variable')
+    const simpleProducts = filteredProducts.filter(p => p.type === 'simple' && p.price && parseFloat(p.price) > 0 && p.stock_status === 'instock')
 
     // Produtos simples
     for (const p of simpleProducts) {
