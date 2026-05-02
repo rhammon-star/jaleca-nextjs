@@ -1,5 +1,5 @@
 {
-  "buildCommand": "next build && node scripts/warm-cache.mjs",
+  "buildCommand": "next build",
   "redirects": [
     { "source": "/(.*)", "has": [{ "type": "host", "value": "lojadejaleco.com.br" }], "destination": "https://jaleca.com.br/loja-jaleco", "permanent": true },
     { "source": "/(.*)", "has": [{ "type": "host", "value": "www.lojadejaleco.com.br" }], "destination": "https://jaleca.com.br/loja-jaleco", "permanent": true },
