@@ -17,6 +17,25 @@ type CidadeInfo = {
   conteudoLocal?: string
 }
 
+async function getCidadeHeroImage(nomeCidade: string): Promise<string | null> {
+  const key = process.env.UNSPLASH_ACCESS_KEY?.replace(/[\r\n]/g, '')
+  if (!key) return null
+  try {
+    const res = await fetch(
+      `https://api.unsplash.com/photos/random?query=${encodeURIComponent(nomeCidade + ' Brasil turismo')}&orientation=landscape&content_filter=high`,
+      {
+        headers: { Authorization: `Client-ID ${key}` },
+        next: { revalidate: 60 * 60 * 24 }, // cache 24h por cidade
+      }
+    )
+    if (!res.ok) return null
+    const data = await res.json()
+    return data?.urls?.regular ?? null
+  } catch {
+    return null
+  }
+}
+
 const FAQ_TEMPLATE = (nome: string, estado: string) => [
   {
     pergunta: `Qual o prazo de entrega para jalecos em ${nome}?`,
@@ -784,7 +803,10 @@ export default async function CidadePage({
   const cidade = CIDADES[slug]
   if (!cidade) notFound()
 
-  const products = await getAllProducts()
+  const [products, heroImage] = await Promise.all([
+    getAllProducts(),
+    getCidadeHeroImage(cidade.nome),
+  ])
 
   const faq = FAQ_TEMPLATE(cidade.nome, cidade.estado)
 
@@ -866,15 +888,30 @@ export default async function CidadePage({
       />
 
       {/* Hero */}
-      <section className="bg-[#1a1a1a] text-white py-14 px-4">
-        <div className="container max-w-3xl text-center">
-          <p className="text-xs font-semibold tracking-widest uppercase text-white/50 mb-3">
+      <section
+        className="relative text-white py-20 px-4"
+        style={
+          heroImage
+            ? {
+                backgroundImage: `url(${heroImage})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundColor: '#1a1a1a',
+              }
+            : { backgroundColor: '#1a1a1a' }
+        }
+      >
+        {heroImage && (
+          <div className="absolute inset-0 bg-black/55" aria-hidden="true" />
+        )}
+        <div className="container max-w-3xl text-center relative z-10">
+          <p className="text-xs font-semibold tracking-widest uppercase text-white/60 mb-3">
             Entregamos em {cidade.nome} — {cidade.uf}
           </p>
-          <h1 className="font-display text-4xl md:text-5xl font-semibold mb-4">
+          <h1 className="font-display text-4xl md:text-5xl font-semibold mb-4 drop-shadow-md">
             Jaleco em {cidade.nome}
           </h1>
-          <p className="text-white/70 text-lg max-w-xl mx-auto mb-8">
+          <p className="text-white/80 text-lg max-w-xl mx-auto mb-8 drop-shadow">
             Jalecos, dólmãs e conjuntos profissionais para {cidade.profissoes}.
             Qualidade premium, entrega rápida, troca garantida.
           </p>

@@ -1,3 +1,16 @@
+Data: 2026-05-02 19:15
+Tarefa: #2 Internal linking jaleco-feminino + #4 Hub page jaleco feminino
+Arquivos alterados: 10 posts blog (adicionado link → /jaleco-feminino) + app/jaleco-feminino/page.tsx (INTERNAL_LINKS atualizado com 12 links para posts PAA)
+O que foi feito:
+- #2: 10 posts PAA receberam link "→ Jaleco feminino: guia completo por especialidade" na seção "Continue lendo", anchor text + URL /jaleco-feminino
+- #4: Hub /jaleco-feminino já existia — atualizado INTERNAL_LINKS para incluir todos os 10 posts PAA (antes apontava para landings inexistentes /jaleco-medico etc)
+- Cluster bidirecional: hub → spokes + spokes → hub, fortalece "jaleco feminino" pos 26.8 → alvo top 10
+- Commit 373b84d, aguardando deploy
+Resultado: OK — aguardando deploy prod (usuário vai confirmar)
+Próximo passo: deploy prod; após indexação monitorar "jaleco feminino" no GSC em 2-4 semanas; criar páginas profissão×cidade
+
+---
+
 Data: 2026-05-02 18:30
 Tarefa: #7 Link building satélites (9 artigos nos 6 sites) + #8 Meta catalog check + #10 GSC baseline
 O que foi feito:
