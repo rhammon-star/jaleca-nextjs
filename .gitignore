@@ -44,3 +44,4 @@ scripts/gsc-submit-with-token.mjs
 .env
 .env
 .ai-cache/
+.venv/
