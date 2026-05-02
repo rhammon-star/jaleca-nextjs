@@ -77,14 +77,18 @@ const MODELOS = [
 ]
 
 const INTERNAL_LINKS = [
-  { href: '/jaleco-medico', label: 'Jaleco para Médico' },
-  { href: '/jaleco-dentista', label: 'Jaleco para Dentista' },
-  { href: '/jaleco-enfermeiro', label: 'Jaleco para Enfermeiro' },
-  { href: '/jaleco-esteticista', label: 'Jaleco para Esteticista' },
-  { href: '/jaleco-fisioterapeuta', label: 'Jaleco para Fisioterapeuta' },
-  { href: '/jaleco-premium', label: 'Jaleco Premium' },
-  { href: '/jaleco-estiloso', label: 'Jaleco Estiloso' },
+  { href: '/blog/jaleco-para-medica-guia-completo', label: 'Jaleco para Médica' },
+  { href: '/blog/jaleco-para-enfermeira-regras-cofen', label: 'Jaleco para Enfermeira' },
+  { href: '/blog/jaleco-para-nutricionista-consultorio', label: 'Jaleco para Nutricionista' },
+  { href: '/blog/jaleco-para-fisioterapeuta-guia', label: 'Jaleco para Fisioterapeuta' },
+  { href: '/blog/jaleco-para-esteticista-guia', label: 'Jaleco para Esteticista' },
+  { href: '/blog/jaleco-para-veterinaria-guia', label: 'Jaleco para Veterinária' },
+  { href: '/blog/jaleco-para-psicologa-guia', label: 'Jaleco para Psicóloga' },
+  { href: '/blog/jaleco-slim-vs-jaleco-reto-diferencas', label: 'Slim vs Reto' },
+  { href: '/blog/jaleco-manga-curta-quando-usar-profissionais', label: 'Manga Curta' },
+  { href: '/blog/jaleco-feminino-gestante-como-escolher', label: 'Jaleco Gestante' },
   { href: '/jaleco-plus-size', label: 'Jaleco Plus Size' },
+  { href: '/jaleco-universitario-feminino', label: 'Jaleco Universitária' },
 ]
 
 export default async function Page() {
