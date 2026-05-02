@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { graphqlClient, GET_PRODUCTS } from '@/lib/graphql'
@@ -866,9 +868,6 @@ export async function generateMetadata({
   }
 }
 
-export function generateStaticParams() {
-  return Object.keys(CIDADES).map(slug => ({ slug }))
-}
 
 export default async function CidadePage({
   params,
