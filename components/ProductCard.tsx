@@ -42,7 +42,7 @@ function getColorVariationImage(variations: Variation[], color: string | null) {
   return match?.image ?? null;
 }
 
-const ProductCard = ({ product, colorFilter }: { product: WooProduct; colorFilter?: string | null }) => {
+const ProductCard = ({ product, colorFilter, priority }: { product: WooProduct; colorFilter?: string | null; priority?: boolean }) => {
   const variations = product.variations?.nodes ?? [];
 
   // A variation is on sale only if it has both salePrice and regularPrice and they differ
@@ -88,7 +88,8 @@ const ProductCard = ({ product, colorFilter }: { product: WooProduct; colorFilte
             fill
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
             className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.07] relative z-10"
-            loading="lazy"
+            loading={priority ? 'eager' : 'lazy'}
+            priority={priority}
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-muted-foreground text-sm bg-secondary/20">Sem imagem</div>

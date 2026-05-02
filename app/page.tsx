@@ -146,6 +146,9 @@ export default async function Home() {
 
   return (
     <>
+    {/* Preload hero images para melhorar LCP */}
+    <link rel="preload" as="image" href="/jaleco-hero-mobile.webp" media="(max-width: 767px)" fetchPriority="high" />
+    <link rel="preload" as="image" href="/jaleco-hero-desktop.webp" media="(min-width: 768px)" fetchPriority="high" />
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd).replace(/</g, '\\u003c') }}
@@ -296,7 +299,7 @@ export default async function Home() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
               {products.map((p, i) => (
                 <ScrollReveal key={p.id} delay={i * 80}>
-                  <ProductCard product={p} />
+                  <ProductCard product={p} priority={i < 2} />
                 </ScrollReveal>
               ))}
             </div>
