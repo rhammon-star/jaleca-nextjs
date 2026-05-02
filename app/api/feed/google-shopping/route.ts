@@ -198,7 +198,7 @@ export async function GET() {
     const items: string[] = []
 
     // Produtos em estoque apenas
-    const variableProducts = allProducts.filter(p => p.type === 'variable' && p.price !== '')
+    const variableProducts = allProducts.filter(p => p.type === 'variable')
     const simpleProducts = allProducts.filter(p => p.type === 'simple' && p.price && parseFloat(p.price) > 0 && p.stock_status === 'instock')
 
     // Produtos simples
@@ -212,10 +212,7 @@ export async function GET() {
       const attrs = mapProductAttr(p.attributes ?? [])
       const g = gender(p.name)
 
-      // Produtos femininos redirecionam para /jaleco-feminino
-      const link = g === 'female'
-        ? 'https://jaleca.com.br/jaleco-feminino'
-        : `https://jaleca.com.br/produto/${p.slug}`
+      const link = `https://jaleca.com.br/produto/${p.slug}`
 
       items.push(buildItem({
         id: String(p.id),
@@ -281,10 +278,7 @@ export async function GET() {
         const titleParts = [p.name, group.colorLabel].filter(Boolean)
         const title = titleParts.join(' — ')
 
-        // Produtos femininos redirecionam para /jaleco-feminino
-        const link = g === 'female'
-          ? 'https://jaleca.com.br/jaleco-feminino'
-          : `https://jaleca.com.br/produto/${p.slug}?cor=${encodeURIComponent(colorKey)}&vid=${group.rep.id}`
+        const link = `https://jaleca.com.br/produto/${p.slug}`
 
         // Tamanhos disponíveis — join para mostrar todos (ex: "PP / P / M / G")
         const sizeValue = group.sizes.length > 0 ? group.sizes.join(' / ') : 'Tamanho Único'
