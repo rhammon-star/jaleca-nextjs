@@ -180,21 +180,20 @@ function buildItem(fields: {
     </item>`
 }
 
-// Slugs permitidos no Google Shopping — apenas produtos selecionados
-const ALLOWED_SLUGS = new Set([
-  'jaleco-slim-dama-feminino-jaleca-palha',
-  'jaleco-slim-princesa-laise-feminino-jaleca-branco',
-  'jaleco-slim-elastex-feminino-jaleca-amarelo',
-  'jaleco-slim-elastex-feminino-jaleca-branco',
-  'jaleco-slim-gold-feminino-jaleca-branco',
-  'conjunto-scrub-feminino-jaleca-rose',
-  'jaleco-slim-tradicional-feminino-jaleca-branco',
-  'jaleco-slim-princesa-feminino-jaleca-preto',
-  'jaleco-slim-princesa-feminino-jaleca-branco',
-  'jaleco-slim-tradicional-masculino-jaleca-azul-marinho',
-  'jaleco-slim-tradicional-masculino-jaleca-preto',
-  'conjunto-dolma-cozinheiro-feminino-jaleca-branco',
-  'jaleco-slim-dama-feminino-jaleca-branco',
+// Produtos permitidos no Google Shopping: slug WC (pai) → cores permitidas (vazio = todas)
+const ALLOWED_PRODUCTS = new Map<string, string[]>([
+  ['jaleco-slim-dama-feminino-jaleca',           ['palha', 'branco']],
+  ['jaleco-slim-princesa-laise-feminino-jaleca', ['branco']],
+  ['jaleco-slim-elastex-feminino-jaleca',        ['amarelo', 'branco']],
+  ['jaleco-slim-gold-feminino-jaleca',           ['branco']],
+  ['conjunto-scrub-feminino-jaleca',             ['rose', 'azul pastel', 'azul marinho']],
+  ['jaleco-slim-tradicional-feminino-jaleca',    ['branco']],
+  ['jaleco-slim-princesa-feminino-jaleca',       ['preto', 'branco']],
+  ['jaleco-slim-tradicional-masculino-jaleca',   ['azul marinho', 'preto']],
+  ['conjunto-dolma-cozinheiro-feminino-jaleca',  ['branco']],
+  ['conjunto-princesa-nobre-feminino-jaleca',    ['marinho']],
+  ['conjunto-laco-feminino-jaleca',              ['rose']],
+  ['conjunto-executiva-feminino-jaleca',         ['preto']],
 ])
 
 export async function GET() {
@@ -215,7 +214,7 @@ export async function GET() {
     const items: string[] = []
 
     // Filtrar apenas produtos permitidos no Shopping
-    const filteredProducts = allProducts.filter(p => ALLOWED_SLUGS.has(p.slug))
+    const filteredProducts = allProducts.filter(p => ALLOWED_PRODUCTS.has(p.slug))
 
     // Produtos em estoque apenas
     const variableProducts = filteredProducts.filter(p => p.type === 'variable')
@@ -272,11 +271,19 @@ export async function GET() {
         sizes: string[]
       }>()
 
+      const allowedColors = ALLOWED_PRODUCTS.get(p.slug) ?? []
+
       for (const v of variations) {
         if (!v.price || v.stock_status !== 'instock') continue
         if (v.stock_quantity !== null && v.stock_quantity <= 0) continue
         const attrs = mapAttr(v.attributes)
         const colorLabel = attrs.color ?? attrs.pattern ?? ''
+        // Filtra por cor permitida (case-insensitive, sem acento)
+        if (allowedColors.length > 0) {
+          const norm = (s: string) => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+          const colorNorm = norm(colorLabel)
+          if (!allowedColors.some(c => norm(c) === colorNorm)) continue
+        }
         const colorKey = colorLabel.toLowerCase().replace(/\s+/g, '_') || 'unica'
         const image = v.image?.src || baseImage
         if (!image) continue
