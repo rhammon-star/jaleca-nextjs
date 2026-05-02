@@ -441,6 +441,7 @@ export default async function CategoriaPage({
               </p>
               <h3 className="text-sm font-semibold mb-2">Jalecos por profissão</h3>
               <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside mb-4">
+                <li><Link href="/categoria/jalecos-femininos" className="underline underline-offset-2 hover:text-foreground transition-colors">Jaleco feminino</Link> — linha completa Slim, Princesa e Elastex para profissionais de saúde</li>
                 <li><Link href="/jaleco-medico" className="underline underline-offset-2 hover:text-foreground transition-colors">Jaleco para médico</Link> — elegância e autoridade no consultório</li>
                 <li><Link href="/jaleco-dentista" className="underline underline-offset-2 hover:text-foreground transition-colors">Jaleco para dentista</Link> — modelos aprovados em clínicas odontológicas</li>
                 <li><Link href="/jaleco-enfermeiro" className="underline underline-offset-2 hover:text-foreground transition-colors">Jaleco para enfermagem</Link> — resistência e praticidade para plantões</li>
