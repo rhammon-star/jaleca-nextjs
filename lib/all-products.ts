@@ -36,8 +36,10 @@ async function getColorVariants(mainProducts: WooProduct[]): Promise<{ variants:
 
     const productMap = new Map<string, WooProduct>()
     mainProducts.forEach(p => {
-      const cleanName = p.name.replace(/ - Jaleca$/i, '').trim()
+      // Remove "– Jaleca" ou "- Jaleca" do final (em dash U+2013 ou hífen comum)
+      const cleanName = p.name.replace(/\s*[\u2013\-]\s*Jaleca\s*$/i, '').trim()
       productMap.set(cleanName, p)
+      productMap.set(p.name, p) // também indexa pelo nome completo
     })
 
     colorPages.forEach(page => {
