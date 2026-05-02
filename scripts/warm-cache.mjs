@@ -6,7 +6,9 @@
 
 const SITE_URL      = 'https://jaleca.com.br'
 const GRAPHQL_URL   = 'https://wp.jaleca.com.br/graphql'
-const DELAY_MS      = 1200 // pausa entre requisições para não sobrecarregar o WordPress
+const DELAY_MS      = 3000 // pausa entre produtos para não sobrecarregar o WordPress
+const STATIC_DELAY  = 2000 // pausa entre páginas estáticas
+const MAX_PRODUCTS  = 100  // aquece todos os produtos
 
 async function getSlugs() {
   const res = await fetch(GRAPHQL_URL, {
@@ -65,7 +67,7 @@ async function warmStaticPages() {
     } catch (e) {
       console.error(`[ERR] ${SITE_URL}${path} — ${e.message}`)
     }
-    await sleep(500)
+    await sleep(STATIC_DELAY)
   }
 }
 
