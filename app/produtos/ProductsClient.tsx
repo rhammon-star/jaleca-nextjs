@@ -251,11 +251,13 @@ export default function ProductsClient({ products, initialCat = "Todos", initial
     if (sortBy === "newest") {
       return [...base].reverse();
     }
-    // relevance: best-sellers > featured (destaque WC) > resto
+    // relevance: best-seller > featured pai (1 card único) > featured variante de cor > resto
+    const isVariant = (p: WooProduct) => typeof p.id === 'string' && (p.id.startsWith('color-variant-') || p.id.startsWith('kv-variant-'));
     const rank = (p: WooProduct) => {
       if (isBestSeller(p.slug)) return 0;
-      if (p.featured) return 1;
-      return 2;
+      if (p.featured && !isVariant(p)) return 1;
+      if (p.featured) return 2;
+      return 3;
     };
     return [...base].sort((a, b) => rank(a) - rank(b));
   }, [products, selectedCategory, selectedGender, selectedColor, selectedSize, sortBy, saleOnly, initialNovidades, initialBestSellersOnly]);

@@ -239,6 +239,8 @@ async function _buildAllProducts(): Promise<WooProduct[]> {
 
   const mainProductsWithoutColorPages = mainProducts.filter(p => {
     if (BEST_SELLER_SLUGS.includes(p.slug)) return true
+    // Pais featured sempre aparecem (mesmo com variantes de cor) para garantir presença no topo
+    if (p.featured) return true
     const cleanName = p.name.replace(/\s*[\u2013\-]\s*Jaleca\s*$/i, '').trim()
     if (!productsWithColorPages.has(cleanName)) return true
     // Fallback: pai está no JSON mas nenhuma variante foi gerada (cores não bateram com WC)
