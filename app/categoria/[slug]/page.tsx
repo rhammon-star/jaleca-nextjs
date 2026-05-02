@@ -53,7 +53,7 @@ const CATEGORY_MAP: Record<string, { label: string; description: string; keyword
     h1: 'Jalecos Femininos Premium: Slim, Princesa e Elastex',
     filterLabel: 'Jalecos',
     gender: 'Feminino',
-    description: 'Jaleco feminino com molde próprio — não o masculino adaptado. Slim, Princesa, Duquesa e Elastex. 12 cores, do PP ao G3. Frete grátis no Sudeste.',
+    description: 'Jaleco feminino com corte exclusivo para o corpo feminino. Slim, Princesa, Duquesa e Elastex. 12 cores, do PP ao G3. Frete grátis no Sudeste.',
     keywords: 'jaleco feminino, jalecos femininos, jaleco slim feminino, jaleco princesa, jaleco duquesa, jaleco elastex, comprar jaleco feminino, jaleco médica, jaleco dentista feminino, jaleco enfermagem feminino',
   },
   'jalecos-masculinos': {
@@ -342,7 +342,7 @@ export default async function CategoriaPage({
             <>
               {/* Texto editorial de abertura */}
               <p className="text-sm text-muted-foreground leading-relaxed mb-5">
-                O jaleco feminino certo não é o masculino adaptado — é um modelo pensado do molde para cima para o corpo e a rotina de quem trabalha na saúde. A Jaleca desenvolve jalecos femininos com molde próprio: corte que acompanha a silhueta, manga calibrada para o biótipo feminino, comprimento proporcional e tecido que mantém o caimento após dezenas de lavagens. Seja para um consultório de dermatologia, um plantão de 12 horas na UTI ou uma clínica de estética, há um modelo específico para cada contexto — e <Link href="/blog/como-escolher-jaleco-feminino-guia-completo" className="underline underline-offset-2 hover:text-foreground transition-colors">escolher o modelo certo faz diferença real no conforto e na percepção do paciente</Link>.
+                A Jaleca desenvolve jalecos femininos com molde exclusivo para o corpo feminino: corte que acompanha a silhueta, manga calibrada, comprimento proporcional e tecido que mantém o caimento após dezenas de lavagens. Seja para um consultório de dermatologia, um plantão de 12 horas na UTI ou uma clínica de estética, há um modelo específico para cada contexto — e <Link href="/blog/como-escolher-jaleco-feminino-guia-completo" className="underline underline-offset-2 hover:text-foreground transition-colors">escolher o modelo certo faz diferença real no conforto e na percepção do paciente</Link>.
               </p>
 
               {/* Modelos */}
