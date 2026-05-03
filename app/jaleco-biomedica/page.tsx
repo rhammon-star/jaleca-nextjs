@@ -106,7 +106,7 @@ async function getJalecos(): Promise<WooProduct[]> {
         {'★'.repeat(full)}{half ? '½' : ''}
       </span>
       <span style={{ fontSize: '0.78rem', color: '#6b6b6b' }}>
-        {rating.toFixed(1)} de 5 no Google
+        {rating.toFixed(1)}★
       </span>
     </div>
   )

@@ -69,7 +69,7 @@ function HeroStars({ rating }: { rating: number }) {
   return (
     <div className="flex items-center gap-2 mt-10">
       <span style={{ color: '#c8a96e', fontSize: '0.85rem', letterSpacing: 2 }}>{'★'.repeat(full)}{half ? '½' : ''}</span>
-      <span style={{ fontSize: '0.78rem', color: '#6b6b6b' }}>{rating.toFixed(1)} de 5 no Google</span>
+      <span style={{ fontSize: '0.78rem', color: '#6b6b6b' }}>{rating.toFixed(1)}★</span>
     </div>
   )
 }
