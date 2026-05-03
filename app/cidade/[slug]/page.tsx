@@ -144,7 +144,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     tipo: 'revenda',
     profissoes: 'médicos, dentistas, enfermeiros e profissionais de saúde de Curitiba',
     conteudoLocal: 'Profissionais de Curitiba, do Hospital Marcelino Champagnat às clínicas do Batel, escolhem a Jaleca pelo jaleco que não murcha no frio do sul. Tecido encorpado, corte ajustado, entrega via PAC ou SEDEX pra todo o Paraná.',
-    heroUrl: 'https://images.unsplash.com/photo-1544963584-bef0e32be1dd?w=1400&q=80',
+    heroUrl: 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1400&q=80',
   },
   'jaleco-londrina': {
     nome: 'Londrina',
@@ -245,7 +245,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     heroUrl: 'https://images.unsplash.com/photo-1444723121867-7a241cacace9?w=1400&q=80',
   },
   'jaleco-sao-paulo': {
-    heroUrl: 'https://images.unsplash.com/photo-1578948856697-db91d246b7b8?w=1400&q=80',
+    heroUrl: 'https://images.unsplash.com/photo-1483729558449-99ef09a8c325?w=1400&q=80',
     nome: 'São Paulo',
     estado: 'São Paulo',
     uf: 'SP',
@@ -365,7 +365,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     conteudoLocal: 'Em Belém, capital do Pará, do Hospital Universitário João de Barros Barreto ao Santa Casa de Misericórdia, a Jaleca fornece jalecos profissionais com tecido de qualidade e corte elegante para os profissionais de saúde paraenses.',
   },
   'jaleco-guarulhos': {
-    heroUrl: 'https://images.unsplash.com/photo-1578948856697-db91d246b7b8?w=1400&q=80',
+    heroUrl: 'https://images.unsplash.com/photo-1483729558449-99ef09a8c325?w=1400&q=80',
     nome: 'Guarulhos',
     estado: 'São Paulo',
     uf: 'SP',
@@ -699,7 +699,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     conteudoLocal: 'Caxias do Sul, segunda maior cidade gaúcha e polo industrial da Serra Gaúcha, conta com o Hospital Geral e diversas clínicas especializadas. A Jaleca veste profissionais de saúde com jalecos de tecido premium e corte moderno.',
   },
   'jaleco-maringa': {
-    heroUrl: 'https://images.unsplash.com/photo-1544963584-bef0e32be1dd?w=1400&q=80',
+    heroUrl: 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1400&q=80',
     nome: 'Maringá',
     estado: 'Paraná',
     uf: 'PR',
