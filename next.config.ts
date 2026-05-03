@@ -282,6 +282,19 @@ const nextConfig: NextConfig = {
       destination: '/produto/conjunto-princesa-nobre-feminino-jaleca',
       permanent: true,
     },
+    // ── Cores renomeadas/descontinuadas no WC — 301 para cor mais próxima disponível (03/05/2026) ──
+    // jaleco-slim-princesa-laise: "marinho" → não existe mais → redireciona para produto mãe
+    { source: '/produto/jaleco-slim-princesa-laise-feminino-jaleca-marinho', destination: '/produto/jaleco-slim-princesa-laise-feminino-jaleca', permanent: true },
+    // jaleco-slim-tradicional-feminino: "verde-agua" → mais próximo disponível: "verde-musgo"
+    { source: '/produto/jaleco-slim-tradicional-feminino-jaleca-verde-agua', destination: '/produto/jaleco-slim-tradicional-feminino-jaleca-verde-musgo', permanent: true },
+    // jaleco-slim-tradicional-masculino: "verde-militar" e "azul-pastel" → "azul-marinho" (mais próximo)
+    { source: '/produto/jaleco-slim-tradicional-masculino-jaleca-verde-militar', destination: '/produto/jaleco-slim-tradicional-masculino-jaleca-azul-marinho', permanent: true },
+    { source: '/produto/jaleco-slim-tradicional-masculino-jaleca-azul-pastel', destination: '/produto/jaleco-slim-tradicional-masculino-jaleca-azul-marinho', permanent: true },
+    // jaleco-slim-recortes-masculino: "azul-pastel" → "azul-claro"; "verde-folha" → produto mãe
+    { source: '/produto/jaleco-slim-recortes-masculino-jaleca-azul-pastel', destination: '/produto/jaleco-slim-recortes-masculino-jaleca-azul-claro', permanent: true },
+    { source: '/produto/jaleco-slim-recortes-masculino-jaleca-verde-folha', destination: '/produto/jaleco-slim-recortes-masculino-jaleca', permanent: true },
+    // jaleco-slim-feminino-lateral: "verde-folha" → produto mãe (cor descontinuada)
+    { source: '/produto/jaleco-slim-feminino-lateral-jaleca-verde-folha', destination: '/produto/jaleco-slim-feminino-lateral-jaleca', permanent: true },
     ]
   },
   async headers() {
