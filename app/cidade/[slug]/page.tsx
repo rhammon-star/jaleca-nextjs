@@ -1023,6 +1023,13 @@ export default async function CidadePage({
         <section className="py-10 px-4">
           <div className="container max-w-2xl text-center">
             <p className="text-muted-foreground leading-relaxed">{cidade.conteudoLocal}</p>
+            <p className="mt-4 text-sm text-muted-foreground">
+              Veja a coleção completa de{' '}
+              <a href="/categoria/jalecos-femininos" className="text-[#c4a97d] hover:underline">
+                jaleco feminino em {cidade.nome}
+              </a>{' '}
+              com entrega para todo o Brasil.
+            </p>
           </div>
         </section>
       )}

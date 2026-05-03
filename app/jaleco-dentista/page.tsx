@@ -47,6 +47,28 @@ const schemaFaq = {
   ],
 }
 
+const schemaProduct = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: 'Jaleco para Dentista',
+  brand: { '@type': 'Brand', name: 'Jaleca' },
+  description: 'Jaleco para dentista curto ou longo com elastano para movimento ao redor da cadeira. PP ao G3, branco e colorido.',
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: '4.9',
+    reviewCount: '61',
+    bestRating: '5',
+    worstRating: '1',
+  },
+  offers: {
+    '@type': 'AggregateOffer',
+    priceCurrency: 'BRL',
+    availability: 'https://schema.org/InStock',
+    url: 'https://jaleca.com.br/jaleco-dentista',
+    seller: { '@type': 'Organization', name: 'Jaleca' },
+  },
+}
+
 const schemaArticle = {
   '@context': 'https://schema.org',
   '@type': 'Article',
@@ -123,6 +145,7 @@ export default async function JalecoDentistaPage() {
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaProduct).replace(/</g, '\\u003c') }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaFaq).replace(/</g, '\\u003c') }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaArticle).replace(/</g, '\\u003c') }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }} />
