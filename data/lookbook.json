@@ -1,38 +1,41 @@
 [
   {
-    "id": "look-clinica-elegante",
-    "title": "Clínica Elegante",
-    "image": "/product-1.jpg",
-    "description": "Sofisticação no ambiente clínico com jaleco slim e detalhes refinados.",
+    "id": "look-jaleco-feminino",
+    "title": "Jaleco Feminino",
+    "description": "Elegância e caimento perfeito para a profissional de saúde. Corte slim que valoriza a silhueta sem abrir mão da funcionalidade.",
     "products": [
-      { "name": "Jaleco Clássico Slim", "slug": "jaleco-classico-slim", "price": "R$ 289,00" }
+      { "slug": "jaleco-slim-tradicional-feminino-jaleca" },
+      { "slug": "jaleco-slim-duquesa-feminino-jaleca" },
+      { "slug": "jaleco-slim-princesa-feminino-jaleca" }
     ]
   },
   {
-    "id": "look-dia-a-dia",
-    "title": "Dia a Dia com Estilo",
-    "image": "/product-2.jpg",
-    "description": "Conforto e praticidade para as longas jornadas no plantão.",
+    "id": "look-jaleco-masculino",
+    "title": "Jaleco Masculino",
+    "description": "Corte moderno e tecido premium para o profissional que quer transmitir autoridade e conforto em cada atendimento.",
     "products": [
-      { "name": "Scrub Essencial Verde", "slug": "scrub-essencial-verde", "price": "R$ 199,00" }
+      { "slug": "jaleco-slim-tradicional-masculino-jaleca" },
+      { "slug": "jaleco-slim-recortes-masculino-jaleca" },
+      { "slug": "jaleco-slim-moratty-masculino-jaleca" }
     ]
   },
   {
-    "id": "look-premium",
-    "title": "Linha Premium",
-    "image": "/product-3.jpg",
-    "description": "Exclusividade e acabamento premium para profissionais exigentes.",
+    "id": "look-scrub",
+    "title": "Scrub — Conjunto Cirúrgico",
+    "description": "Praticidade e estilo para o ambiente hospitalar. O conjunto scrub ideal para médicos, enfermeiros e cirurgiões.",
     "products": [
-      { "name": "Scrub Premium Cinza", "slug": "scrub-premium-cinza", "price": "R$ 219,00" }
+      { "slug": "conjunto-scrub-feminino-jaleca" },
+      { "slug": "conjunto-scrub-masculino-jaleca" },
+      { "slug": "conjunto-princesa-nobre-feminino-jaleca" }
     ]
   },
   {
-    "id": "look-performance",
-    "title": "Performance Total",
-    "image": "/product-4.jpg",
-    "description": "Alta performance e tecnologia em cada detalhe do uniforme.",
+    "id": "look-dolma",
+    "title": "Dólmã Profissional",
+    "description": "A escolha clássica para gastronomia e procedimentos clínicos. Leveza, ventilação e identidade profissional.",
     "products": [
-      { "name": "Scrub Performance Azul", "slug": "scrub-performance-azul", "price": "R$ 239,00" }
+      { "slug": "conjunto-dolma-cozinheiro-feminino-jaleca" },
+      { "slug": "conjunto-dolma-cozinheiro-masculino-jaleca" }
     ]
   }
 ]

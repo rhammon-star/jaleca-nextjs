@@ -2,9 +2,8 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import { getLooks } from '@/lib/lookbook-data'
-import { graphqlClient, GET_PRODUCTS } from '@/lib/graphql'
+import { graphqlClient, GET_PRODUCT_BY_SLUG } from '@/lib/graphql'
 import type { WooProduct } from '@/components/ProductCard'
-import ProductCard from '@/components/ProductCard'
 
 export const metadata: Metadata = {
   title: 'Lookbook Jaleca — Inspirações de Estilo para Profissionais | 2026',
@@ -48,20 +47,46 @@ const schemaFaq = {
   ],
 }
 
-export const revalidate = 0
+export const revalidate = 3600
 
-async function getFeaturedProducts(): Promise<WooProduct[]> {
+type WooProductData = {
+  name: string
+  slug: string
+  price: string
+  image: { sourceUrl: string; altText: string } | null
+}
+
+async function fetchProduct(slug: string): Promise<WooProductData | null> {
   try {
-    const data = await graphqlClient.request<{ products: { nodes: WooProduct[] } }>(GET_PRODUCTS, { first: 6 })
-    return data?.products?.nodes?.slice(0, 6) ?? []
+    const data = await graphqlClient.request<{ product: WooProduct & { image?: { sourceUrl: string; altText: string } } }>(
+      GET_PRODUCT_BY_SLUG,
+      { slug }
+    )
+    if (!data?.product) return null
+    const p = data.product
+    return {
+      name: p.name,
+      slug: p.slug,
+      price: p.price ?? '',
+      image: p.image ?? null,
+    }
   } catch {
-    return []
+    return null
   }
 }
 
 export default async function LookbookPage() {
   const looks = getLooks()
-  const produtos = await getFeaturedProducts()
+
+  // Busca todos os produtos de todos os looks em paralelo
+  const looksWithProducts = await Promise.all(
+    looks.map(async (look, idx) => {
+      const products = await Promise.all(look.products.map(p => fetchProduct(p.slug)))
+      const validProducts = products.filter(Boolean) as WooProductData[]
+      const heroProduct = validProducts[0] ?? null
+      return { ...look, resolvedProducts: validProducts, heroProduct, idx }
+    })
+  )
 
   return (
     <>
@@ -89,17 +114,17 @@ export default async function LookbookPage() {
           </p>
         </div>
 
-        {looks.length === 0 ? (
+        {looksWithProducts.length === 0 ? (
           <p style={{ textAlign: 'center', color: '#999', padding: '4rem 0' }}>Nenhum look publicado ainda.</p>
         ) : (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 2, background: '#e5e0d8' }}>
-            {looks.map((look, idx) => (
+            {looksWithProducts.map(({ id, title, description, resolvedProducts, heroProduct, idx }) => (
               <div
-                key={look.id}
+                key={id}
                 className={`group ${idx === 0 ? 'md:col-span-2' : ''}`}
                 style={{ background: '#fff' }}
               >
-                {/* Image */}
+                {/* Imagem do primeiro produto */}
                 <div
                   style={{
                     position: 'relative',
@@ -109,36 +134,46 @@ export default async function LookbookPage() {
                     background: '#f9f7f4',
                   }}
                 >
-                  <Image
-                    src={look.image}
-                    alt={look.title}
-                    fill
-                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    priority={idx === 0}
-                  />
-                  <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0)', transition: 'background 0.3s' }} />
+                  {heroProduct?.image?.sourceUrl ? (
+                    <Image
+                      src={heroProduct.image.sourceUrl}
+                      alt={heroProduct.image.altText || title}
+                      fill
+                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      priority={idx === 0}
+                    />
+                  ) : (
+                    <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <span style={{ color: '#c8c4bc', fontSize: '0.75rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Jaleca</span>
+                    </div>
+                  )}
                 </div>
 
                 {/* Info */}
                 <div style={{ padding: '0 1.5rem 1.5rem' }}>
-                  <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '1.25rem', fontWeight: 500, marginBottom: '0.5rem', color: '#1a1a1a' }}>{look.title}</h2>
-                  <p style={{ fontSize: '0.85rem', color: '#6b6b6b', lineHeight: 1.7, fontWeight: 300, marginBottom: '1rem' }}>{look.description}</p>
+                  <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '1.25rem', fontWeight: 500, marginBottom: '0.5rem', color: '#1a1a1a' }}>{title}</h2>
+                  <p style={{ fontSize: '0.85rem', color: '#6b6b6b', lineHeight: 1.7, fontWeight: 300, marginBottom: '1rem' }}>{description}</p>
 
-                  {look.products?.length > 0 && (
+                  {resolvedProducts.length > 0 && (
                     <div>
                       <p style={{ fontSize: '0.6rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>
                         Shop the look
                       </p>
                       <div style={{ display: 'flex', flexDirection: 'column' }}>
-                        {look.products.map(product => (
+                        {resolvedProducts.map(product => (
                           <Link
                             key={product.slug}
                             href={`/produto/${product.slug}`}
                             style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '0.85rem', color: '#1a1a1a', textDecoration: 'none', padding: '0.4rem 0', borderBottom: '1px solid #f0ede8' }}
                           >
                             <span style={{ textDecoration: 'underline', textUnderlineOffset: '3px' }}>{product.name}</span>
-                            <span style={{ color: '#6b6b6b', fontSize: '0.8rem' }}>{product.price}</span>
+                            {product.price && (
+                              <span
+                                style={{ color: '#6b6b6b', fontSize: '0.8rem' }}
+                                dangerouslySetInnerHTML={{ __html: product.price }}
+                              />
+                            )}
                           </Link>
                         ))}
                       </div>
@@ -148,28 +183,6 @@ export default async function LookbookPage() {
               </div>
             ))}
           </div>
-        )}
-
-        {/* Produtos em destaque */}
-        {produtos.length > 0 && (
-          <section style={{ marginTop: 'clamp(4rem,8vw,7rem)', background: '#f9f7f4', padding: 'clamp(3rem,6vw,5rem)', marginLeft: 'clamp(-1.5rem,-4vw,-3rem)', marginRight: 'clamp(-1.5rem,-4vw,-3rem)' }}>
-            <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-              <div style={{ fontSize: '0.65rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>Destaques da coleção</div>
-              <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(1.8rem,3vw,2.5rem)', fontWeight: 400, lineHeight: 1.15, color: '#1a1a1a', marginBottom: '2rem' }}>
-                Produtos mais vendidos
-              </h2>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {produtos.map(product => (
-                  <ProductCard key={product.id} product={product} />
-                ))}
-              </div>
-              <div style={{ textAlign: 'center', marginTop: '2rem' }}>
-                <Link href="/produtos" style={{ fontSize: '0.78rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: '#6b6b6b', textDecoration: 'none' }}>
-                  Ver todos os produtos →
-                </Link>
-              </div>
-            </div>
-          </section>
         )}
 
         {/* FAQ */}

@@ -3,13 +3,13 @@ import path from 'path'
 
 const DATA_FILE = path.join(process.cwd(), 'data', 'lookbook.json')
 
-export type LookProduct = { name: string; slug: string; price: string }
+export type LookProductRef = { slug: string }
+
 export type Look = {
   id: string
   title: string
-  image: string
   description: string
-  products: LookProduct[]
+  products: LookProductRef[]
 }
 
 export function getLooks(): Look[] {
