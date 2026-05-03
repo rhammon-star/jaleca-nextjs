@@ -1,3 +1,80 @@
+Data: 2026-05-03 00:30
+Tarefa: #26 Link building — 6 novos artigos nos sites satélite
+O que foi feito:
+- jalecoesaltoalto.com.br (Vercel): novo post "Jaleco Feminino por Profissão" → /categoria/jalecos-femininos
+- jobtech.com.br (Vercel): novo post "Jaleco Médico com Elastano" → /jaleco-medico
+- maxiodonto.com (Netlify): seção "Jaleco para Dentista" adicionada ao index.html → /jaleco-dentista
+- saudetodahora.com.br (Netlify): seção "Jaleco Plus Size Feminino" adicionada ao index.html → /jaleco-plus-size
+- hospitalveterinariopompeia.com.br (Cloudflare Pages): novo post "Jaleco Médico para Plantão" → /jaleco-medico
+- institutocariocadesaude.com.br (GitHub Pages): novo post "Jaleco Feminino por Profissão" → /categoria/jalecos-femininos
+- #14: Yoast title/meta WP post 62455 "jaleco-ou-scrub" atualizado (176 impr, CTR 0%)
+- #15: Yoast title/meta WP post 62808 "roupa-medica-profissional" atualizado (270 impr, CTR 0%)
+Resultado: OK — todos deploys READY
+Próximo passo: commit + deploy jaleca-nextjs (#21, #22); monitorar GSC em 2-4 semanas
+
+---
+
+Data: 2026-05-02 23:30
+Tarefa: Plano 7 dias SEO — Dia 5 executado (#19, #21, #22)
+Arquivos alterados:
+- app/blog/jaleco-feminino-gestante-como-escolher/page.tsx (444→900+ palavras: guia por trimestre, tabela tamanhos gestante, 3 FAQs extras)
+- app/jaleco-plus-size/page.tsx (856→1200+ palavras: tabela G1-G3, 3 cards de modelos, FAQ 5 perguntas, FAQPage+BreadcrumbList schema)
+O que foi feito:
+- #19: Cannibalização "como lavar jaleco branco" resolvida — canonical Yoast atualizado nos 2 posts WP (IDs 62454, 62559) → https://jaleca.com.br/blog/como-lavar-jaleco-branco (Next.js dona)
+- #21: Post gestante expandido: intro, guia 1º/2º/3º trimestre, tabela conversão de tamanhos, seção visual profissional, 3 FAQs adicionais
+- #22: Plus size expandido: tabela medidas GG-G3 (busto/cintura/quadril/comprimento), 3 cards de modelos (Slim, Elastex, Reto), FAQ 5 perguntas, FAQPage schema + BreadcrumbList schema
+Resultado: OK — pendente deploy (usuário solicitou commit/deploy só quando pedir)
+Próximo passo: #20 criar /jaleco-bordado, #14/#15 títulos WP, #26 artigos satélite
+
+---
+
+Data: 2026-05-02 22:00
+Tarefa: Plano 7 dias SEO — Dias 1 a 4 executados
+Arquivos alterados:
+- app/produto/[slug]/page.tsx (fix título toucas/faixas noindex)
+- app/jaleco-medico/page.tsx (title CTR zero)
+- app/categoria/[slug]/page.tsx (title jalecos-femininos)
+- app/jaleco-dentista/page.tsx (AggregateRating schema + visual stars)
+- app/cidade/[slug]/page.tsx (link interno /categoria/jalecos-femininos)
+- app/jaleco-feminino/page.tsx (cannibalização — title editorial)
+- 51 páginas de profissão/landing (HeroStars visual só pontuação)
+O que foi feito:
+- Dia 1: toucas/faixas noindex agora mostram nome real (não "Produto não encontrado"); title /categoria/jalecos-femininos corrigido
+- Dia 2: title/meta /jaleco-medico (330 impr, CTR 0%) + /categoria/jalecos-femininos reescritos para capturar intenção de compra
+- Dia 3: AggregateRating schema em /jaleco-dentista (pos 8.2); city pages com link âncora /categoria/jalecos-femininos; 65 páginas visual HeroStars simplificado (só 4.9★, sem "61 avaliações")
+- Dia 4: cannibalização jaleco feminino resolvida — /jaleco-feminino title mudado para editorial ("Guia por Especialidade"), /categoria/jalecos-femininos é a URL dona de "jaleco feminino"
+Commits: f845b24, ffa0eb4, a5826e1, 03216ff, ed15373
+Resultado: OK — 5 deploys prod READY
+Próximo passo: Dia 5 — expandir /jaleco-plus-size (856→1200 palavras) + post jaleco gestante (444→900 palavras)
+
+---
+
+Data: 2026-05-02 21:00
+Tarefa: Fix hero Unsplash nas páginas /cidade/[slug] — imagens não apareciam em produção
+Arquivos alterados: app/cidade/[slug]/page.tsx
+O que foi feito:
+- Root cause: páginas geradas estaticamente no build (generateStaticParams) → getCidadeHeroImage chamada 75× simultâneas → rate limit Unsplash → heroImage = null em todas
+- Fix: adicionado `export const dynamic = 'force-dynamic'` no topo do arquivo (fetch ocorre em runtime por request)
+- Removido generateStaticParams (conflitava com force-dynamic)
+- Commit a44fe71, deploy prod READY — jaleca.com.br/cidade/* HTTP 200
+Resultado: OK — imagens devem aparecer ao acessar as páginas agora
+Próximo passo: checar uma página de cidade no browser para confirmar foto aparecendo; monitorar GSC para indexação
+
+---
+
+Data: 2026-05-02 20:30
+Tarefa: Fix título produtos noindex (toucas/faixas) — "Produto não encontrado" → nome real
+Arquivos alterados: app/produto/[slug]/page.tsx
+O que foi feito:
+- Identificado que toucas/faixas estavam em NOINDEX_PRODUCT_SLUGS mas retornando título falso "Produto não encontrado — Jaleca"
+- Corrigido: generateMetadata agora busca o produto no WooCommerce e usa o nome real, mantendo robots noindex/nofollow
+- Produtos continuam ativos e vendendo, apenas sem indexação no Google
+- Commit f845b24, deploy prod READY
+Resultado: OK
+Próximo passo: Dia 2 do plano — corrigir titles/metas CTR zero (/jaleco-medico, /categoria/jalecos-femininos, 2 posts blog)
+
+---
+
 Data: 2026-05-02 19:15
 Tarefa: #2 Internal linking jaleco-feminino + #4 Hub page jaleco feminino
 Arquivos alterados: 10 posts blog (adicionado link → /jaleco-feminino) + app/jaleco-feminino/page.tsx (INTERNAL_LINKS atualizado com 12 links para posts PAA)

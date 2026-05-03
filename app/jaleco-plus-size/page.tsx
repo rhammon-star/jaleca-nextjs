@@ -9,6 +9,27 @@ import {  } from '@/lib/profession-page-data'
 // ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
 export const revalidate = 3600
 
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    { '@type': 'Question', name: 'Jaleco plus size tem o mesmo caimento que os tamanhos comuns?', acceptedAnswer: { '@type': 'Answer', text: 'Na Jaleca sim. Os moldes plus size são desenvolvidos separadamente — não são apenas ampliações do tamanho P. Ombro, busto, cintura e quadril têm proporções específicas para cada tamanho da grade GG ao G3.' } },
+    { '@type': 'Question', name: 'Como saber se devo pedir GG ou G1?', acceptedAnswer: { '@type': 'Answer', text: 'Meça seu busto (a parte mais larga), cintura e quadril com fita métrica e compare com a tabela de medidas. Em caso de dúvida entre dois tamanhos, prefira o maior.' } },
+    { '@type': 'Question', name: 'Jaleco plus size com elastano encolhe na lavagem?', acceptedAnswer: { '@type': 'Answer', text: 'Não, se lavado corretamente. Use temperatura entre 30°C e 40°C, sem alvejante clorado e sem secadora em temperatura alta. O elastano se preserva bem nessas condições.' } },
+    { '@type': 'Question', name: 'Qual o prazo de entrega para plus size?', acceptedAnswer: { '@type': 'Answer', text: '3 a 5 dias úteis para o Sudeste com frete grátis em compras acima de R$499. Todos os tamanhos da grade plus size estão em estoque próprio.' } },
+  ],
+}
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://jaleca.com.br' },
+    { '@type': 'ListItem', position: 2, name: 'Jalecos', item: 'https://jaleca.com.br/produtos' },
+    { '@type': 'ListItem', position: 3, name: 'Plus Size', item: 'https://jaleca.com.br/jaleco-plus-size' },
+  ],
+}
+
 export const metadata: Metadata = {
   title: { absolute: 'Jaleco Plus Size | Tecidos Premium do GG ao G3 — Jaleca' },
   description: 'Jalecos plus size em tecido premium com caimento perfeito. Tamanhos do GG ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
@@ -68,6 +89,8 @@ export default async function JalecoPlusSizePage() {
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema).replace(/</g, '\\u003c') }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }} />
       <main style={{ fontWeight: 300 }}>
 
         {/* ── BREADCRUMB ── */}
@@ -179,6 +202,97 @@ export default async function JalecoPlusSizePage() {
                 </Link>
               </div>
             )}
+          </div>
+        </section>
+
+        {/* ── GUIA DE TAMANHOS ── */}
+        <section style={{ background: '#fff', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
+          <div style={{ maxWidth: 900, margin: '0 auto' }}>
+            <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>Guia de tamanhos</div>
+            <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(1.8rem,3vw,2.6rem)', fontWeight: 400, color: '#1a1a1a', marginBottom: '1.5rem', lineHeight: 1.15 }}>
+              Como escolher o tamanho certo<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>no jaleco plus size</em>
+            </h2>
+            <p style={{ color: '#6b6b6b', fontWeight: 300, lineHeight: 1.8, marginBottom: '2rem', maxWidth: 680 }}>
+              A grade plus size da Jaleca vai do GG ao G3, com corte desenvolvido para corpos reais — não apenas versões ampliadas do P. Cada tamanho tem encaixe de ombro, comprimento de manga e largura de quadril calibrados separadamente.
+            </p>
+
+            <div style={{ overflowX: 'auto' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.88rem', color: '#1a1a1a' }}>
+                <thead>
+                  <tr style={{ background: '#1a1a1a', color: '#fff' }}>
+                    {['Tamanho', 'Busto (cm)', 'Cintura (cm)', 'Quadril (cm)', 'Comprimento (cm)'].map(h => (
+                      <th key={h} style={{ padding: '0.75rem 1rem', textAlign: 'left', fontWeight: 400, letterSpacing: '0.06em', fontSize: '0.75rem', textTransform: 'uppercase' }}>{h}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    ['GG', '108–112', '96–100', '114–118', '82'],
+                    ['G1', '112–116', '100–104', '118–122', '83'],
+                    ['G2', '116–120', '104–108', '122–126', '84'],
+                    ['G3', '120–126', '108–114', '126–132', '85'],
+                  ].map(([size, bust, waist, hip, length], i) => (
+                    <tr key={size} style={{ background: i % 2 === 0 ? '#f9f7f4' : '#fff', borderBottom: '1px solid #e5e0d8' }}>
+                      <td style={{ padding: '0.75rem 1rem', fontWeight: 500 }}>{size}</td>
+                      <td style={{ padding: '0.75rem 1rem', fontWeight: 300 }}>{bust}</td>
+                      <td style={{ padding: '0.75rem 1rem', fontWeight: 300 }}>{waist}</td>
+                      <td style={{ padding: '0.75rem 1rem', fontWeight: 300 }}>{hip}</td>
+                      <td style={{ padding: '0.75rem 1rem', fontWeight: 300 }}>{length}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <p style={{ fontSize: '0.78rem', color: '#9a9690', marginTop: '0.75rem', fontWeight: 300 }}>
+              Medidas em centímetros. Para dúvidas, consulte nossa equipe pelo WhatsApp.
+            </p>
+          </div>
+        </section>
+
+        {/* ── TECIDOS E MODELOS ── */}
+        <section style={{ background: '#f9f7f4', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
+          <div style={{ maxWidth: 900, margin: '0 auto' }}>
+            <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>Modelos disponíveis</div>
+            <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(1.8rem,3vw,2.6rem)', fontWeight: 400, color: '#1a1a1a', marginBottom: '1.5rem', lineHeight: 1.15 }}>
+              Slim, Reto e Elastex<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>em tamanhos plus size</em>
+            </h2>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.5rem', marginTop: '2rem' }}>
+              {[
+                { model: 'Slim Tradicional', desc: 'Corte que valoriza a silhueta. Tergal premium com encaixe de ombro e quadril calibrados para GG ao G3. Ideal para quem quer caimento sem folga excessiva.', badge: 'Mais vendido' },
+                { model: 'Slim Elastex', desc: 'Composição com elastano para maior liberdade de movimento. Tecido se adapta ao corpo durante o turno inteiro. Ótimo para profissionais que ficam muito tempo em pé.', badge: 'Com elastano' },
+                { model: 'Jaleco Reto', desc: 'Corte clássico com mais espaço na região do busto e quadril. Preferido por quem trabalha em ambientes que exigem movimentação intensa ou uso de EPI por baixo.', badge: 'Clássico' },
+              ].map(({ model, desc, badge }) => (
+                <div key={model} style={{ background: '#fff', border: '1px solid #e5e0d8', padding: '1.75rem' }}>
+                  <span style={{ display: 'inline-block', fontSize: '0.68rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: '#c4a97d', marginBottom: '0.75rem', fontWeight: 400 }}>{badge}</span>
+                  <h3 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '1.35rem', fontWeight: 400, color: '#1a1a1a', marginBottom: '0.75rem' }}>{model}</h3>
+                  <p style={{ fontSize: '0.88rem', color: '#6b6b6b', fontWeight: 300, lineHeight: 1.7 }}>{desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── FAQ ── */}
+        <section style={{ background: '#fff', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
+          <div style={{ maxWidth: 760, margin: '0 auto' }}>
+            <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>Dúvidas frequentes</div>
+            <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(1.8rem,3vw,2.6rem)', fontWeight: 400, color: '#1a1a1a', marginBottom: '2.5rem', lineHeight: 1.15 }}>
+              Perguntas sobre<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>jalecos plus size</em>
+            </h2>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
+              {[
+                { q: 'Jaleco plus size tem o mesmo caimento que os tamanhos comuns?', a: 'Na Jaleca sim. Os moldes plus size são desenvolvidos separadamente — não são apenas ampliações do tamanho P. Ombro, busto, cintura e quadril têm proporções específicas para cada tamanho da grade GG ao G3.' },
+                { q: 'Como saber se devo pedir GG ou G1?', a: 'Meça seu busto (a parte mais larga), cintura e quadril com fita métrica e compare com a tabela acima. Em caso de dúvida entre dois tamanhos, prefira o maior — jaleco folgado no busto é menos confortável mas mais fácil de usar do que um que aperta.' },
+                { q: 'Jaleco plus size com elastano encolhe na lavagem?', a: 'Não, se lavado corretamente. Use temperatura entre 30°C e 40°C, sem alvejante clorado e sem secadora em temperatura alta. O elastano se preserva bem nessas condições.' },
+                { q: 'Posso personalizar jaleco plus size com bordado?', a: 'Sim. Todos os modelos da grade GG ao G3 aceitam bordado de nome, especialidade ou logotipo. Entre em contato via WhatsApp para orçamento de bordado em pedidos individuais ou corporativos.' },
+                { q: 'Qual o prazo de entrega para plus size?', a: 'O prazo é o mesmo da grade regular: 3 a 5 dias úteis para o Sudeste com frete grátis em compras acima de R$499, e 5 a 10 dias úteis para demais regiões. Todos os tamanhos da grade plus size estão em estoque próprio.' },
+              ].map(({ q, a }, i, arr) => (
+                <div key={i} style={{ padding: '1.5rem 0', borderBottom: i < arr.length - 1 ? '1px solid #e5e0d8' : 'none' }}>
+                  <h3 style={{ fontSize: '0.97rem', fontWeight: 500, color: '#1a1a1a', marginBottom: '0.5rem', lineHeight: 1.4 }}>{q}</h3>
+                  <p style={{ fontSize: '0.88rem', color: '#6b6b6b', fontWeight: 300, lineHeight: 1.7, margin: 0 }}>{a}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 

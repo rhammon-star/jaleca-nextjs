@@ -57,6 +57,30 @@ const faqSchema = {
       "@type": "Answer",
       "text": "Quando o jaleco aperta na cintura ou fica desconfortável ao sentar — geralmente entre o 3º e 4º mês. Não espere apertar demais: um jaleco apertado durante a gravidez prejudica a circulação e o conforto."
     }
+  },
+  {
+    "@type": "Question",
+    "name": "Qual tamanho de jaleco comprar na gravidez?",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Regra prática: pegue 1 tamanho acima do seu habitual no 1º trimestre, 2 tamanhos acima no 2º trimestre. No 3º trimestre, jaleco reto em 2 a 3 tamanhos acima ou jaleco gestante específico. Jalecos com elastano (Slim Elastex) acompanham melhor as mudanças de medida."
+    }
+  },
+  {
+    "@type": "Question",
+    "name": "Jaleco com elastano é melhor para gestante?",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Sim. O elastano dá stretch ao tecido, permitindo que um único tamanho sirva por mais tempo durante a gravidez. O Slim Elastex da Jaleca, por exemplo, tem composição com elastano que acompanha o corpo sem apertar."
+    }
+  },
+  {
+    "@type": "Question",
+    "name": "Como lavar jaleco durante a gravidez?",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Mesmo processo de sempre: 30°C a 40°C, sem alvejante clorado. Durante a gravidez, atenção extra a manchas: tirar mancha de sangue sempre com água fria imediata. Evitar amaciante que pode irritar pele sensível."
+    }
   }
 ],
 }
@@ -102,14 +126,78 @@ export default function Page() {
         </header>
 
         <div className="prose prose-lg max-w-none">
-                    <h2>Gestante pode usar jaleco slim?</h2>
-          <p>Até o final do primeiro trimestre geralmente sim. A partir do segundo trimestre, quando a barriga cresce, o jaleco reto em tamanho maior é mais confortável. O Slim Elastex em tamanho maior pode funcionar por mais tempo por causa do elastano.</p>
+          <p>
+            A gravidez traz mudanças rápidas de medida — em alguns casos, 2 tamanhos em poucos meses. Entender o que muda em cada trimestre evita comprar jaleco errado (grande demais cedo, pequeno de novo rápido) e garante aparência profissional do início ao fim da gestação.
+          </p>
+
+          <h2>Guia por trimestre: qual jaleco usar em cada fase</h2>
+
+          <h3>1º trimestre (semanas 1–13)</h3>
+          <p>
+            O corpo ainda não mudou muito visivelmente. Na maioria dos casos, o jaleco atual serve — mas pode já apertar na cintura se você usar corte muito justo. <strong>O que fazer:</strong> verifique se o botão central fecha sem tensão. Se apertar, este é o momento de pedir o Slim Elastex no tamanho atual — o elastano acompanha o crescimento por mais tempo.
+          </p>
+
+          <h3>2º trimestre (semanas 14–27)</h3>
+          <p>
+            A barriga cresce de forma mais visível. O jaleco slim regular normalmente já não fecha bem na frente. <strong>O que fazer:</strong> jaleco reto 1 tamanho acima OU Slim Elastex 1 tamanho acima. O modelo reto dá mais espaço abdominal sem parecer largo nos ombros. É o trimestre em que a maioria das profissionais troca o jaleco.
+          </p>
+
+          <h3>3º trimestre (semanas 28–40)</h3>
+          <p>
+            Trimestre de maior variação. A barriga cresce rápido e o volume na região lombar aumenta. <strong>O que fazer:</strong> jaleco reto 2 tamanhos acima, ou considerar jaleco especial para gestante (corte com mais espaço frontal). Evite jalecos com cinto ou amarração na cintura — pressão abdominal é desconfortável e pode ser perigosa.
+          </p>
+
+          <h2>Tabela de tamanhos: como converter durante a gravidez</h2>
+          <p>Referência prática baseada nas mudanças típicas de medida por trimestre:</p>
+
+          <div className="not-prose overflow-x-auto my-6">
+            <table className="w-full text-sm border-collapse">
+              <thead>
+                <tr className="bg-[#1a1a1a] text-white">
+                  {['Tamanho habitual', '1º trimestre', '2º trimestre', '3º trimestre'].map(h => (
+                    <th key={h} className="px-4 py-3 text-left font-normal text-xs uppercase tracking-widest">{h}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ['PP', 'PP', 'P ou M', 'M ou G'],
+                  ['P', 'P', 'M ou G', 'G ou GG'],
+                  ['M', 'M', 'G ou GG', 'GG ou G1'],
+                  ['G', 'G', 'GG ou G1', 'G1 ou G2'],
+                  ['GG', 'GG', 'G1 ou G2', 'G2 ou G3'],
+                ].map(([base, t1, t2, t3], i) => (
+                  <tr key={base} className={i % 2 === 0 ? 'bg-[#faf9f7]' : 'bg-white'}>
+                    <td className="px-4 py-3 font-medium border-b border-[#e5e0d8]">{base}</td>
+                    <td className="px-4 py-3 font-light border-b border-[#e5e0d8]">{t1}</td>
+                    <td className="px-4 py-3 font-light border-b border-[#e5e0d8]">{t2}</td>
+                    <td className="px-4 py-3 font-light border-b border-[#e5e0d8]">{t3}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="text-xs text-muted-foreground -mt-2 mb-6">Referência geral — cada corpo é diferente. Priorize conforto abdominal ao escolher.</p>
+
+          <h2>Gestante pode usar jaleco slim?</h2>
+          <p>Até o final do primeiro trimestre geralmente sim. A partir do segundo trimestre, quando a barriga cresce, o jaleco reto em tamanho maior é mais confortável. O <strong>Slim Elastex</strong> em tamanho maior pode funcionar por mais tempo por causa do elastano — é o modelo que mais profissionais gestantes escolhem na Jaleca.</p>
 
           <h2>Qual jaleco para gestante profissional de saúde?</h2>
-          <p>Jaleco reto em 1 ou 2 tamanhos acima do habitual é a opção mais prática. O Slim Elastex em tamanho maior também funciona bem até o 6º ou 7º mês na maioria dos casos.</p>
+          <p>Jaleco reto em 1 ou 2 tamanhos acima do habitual é a opção mais prática para o 2º e 3º trimestre. O Slim Elastex em tamanho maior também funciona bem até o 6º ou 7º mês na maioria dos casos. A vantagem do modelo com elastano é que ele acompanha o corpo — você compra 1 tamanho e ele dura mais.</p>
 
           <h2>Quando trocar o jaleco na gravidez?</h2>
           <p>Quando o jaleco aperta na cintura ou fica desconfortável ao sentar — geralmente entre o 3º e 4º mês. Não espere apertar demais: um jaleco apertado durante a gravidez prejudica a circulação e o conforto.</p>
+
+          <h2>Como manter o visual profissional durante a gestação</h2>
+          <p>
+            Jaleco maior não precisa parecer folgado. Dicas práticas:
+          </p>
+          <ul>
+            <li><strong>Escolha comprimento adequado:</strong> jalecos de comprimento médio (abaixo da cintura, acima do joelho) disfarçam melhor a barriga do que os curtos.</li>
+            <li><strong>Priorize tecidos com queda:</strong> tergal e viscose caem melhor do que algodão, que tende a volumar na frente.</li>
+            <li><strong>Bordado no jaleco maior:</strong> ter o nome/especialidade bordado no jaleco de gestante reforça a identidade profissional mesmo em tamanho diferente.</li>
+            <li><strong>Cor neutra:</strong> branco e azul clarinho disfarçam melhor as variações de volume do que cores escuras em tamanhos maiores.</li>
+          </ul>
         </div>
 
         <div className="mt-8 p-6 bg-[#faf9f7] border border-[#e8e0d5]">

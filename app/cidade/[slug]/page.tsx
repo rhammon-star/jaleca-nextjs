@@ -56,7 +56,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     tipo: 'fechada',
     profissoes: 'médicos, dentistas e profissionais de saúde de Campo Grande',
     conteudoLocal: 'Em Campo Grande, onde o calor é constante boa parte do ano, o tecido do jaleco importa. A Jaleca tem opções leves e duráveis pra quem trabalha na Santa Casa, no Hospital Regional ou nas clínicas da Avenida Afonso Pena. Entrega rastreada pra todo o MS.',
-    heroUrl: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/d/d9/Lago_do_Parque_das_Na%C3%A7%C3%B5es_Ind%C3%ADgenas.jpg',
   },
   'jaleco-vitoria': {
     nome: 'Vitória',
@@ -66,7 +66,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     profissoes: 'médicos, dentistas, enfermeiros e profissionais de saúde de Vitória',
     freteGratis: true,
     conteudoLocal: 'Em Vitória, ES, profissionais do HUCAM e das clínicas da Praia do Canto precisam de jaleco que aguente o clima úmido da ilha e ainda fique bem depois de horas de uso. Tecido leve, corte moderno e frete grátis pra ES acima de R$499.',
-    heroUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/4/46/VitorJubini_TerceiraPonte_Vitoria_ES_%2827121005458%29.jpg',
   },
   'jaleco-barra-da-tijuca': {
     nome: 'Barra da Tijuca',
@@ -76,7 +76,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     profissoes: 'médicos, dentistas e profissionais de saúde da Barra da Tijuca',
     freteGratis: true,
     conteudoLocal: 'Profissionais de saúde na Barra da Tijuca, atuando em clínicas renomadas ou no Hospital Barra D\'Or, encontram na Jaleca o jaleco feminino ideal que une estilo e conforto para sua rotina. Frete grátis pra RJ nas compras acima de R$499.',
-    heroUrl: 'https://images.unsplash.com/photo-1483729558449-99ef09a8c325?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/c/c5/Rua_Martinho_de_Mesquita_-_Barra_da_Tijuca_-_Rio_de_Janeiro%2C_RJ.jpg',
   },
   'jaleco-muriae': {
     nome: 'Muriaé',
@@ -86,7 +86,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     profissoes: 'médicos, dentistas e profissionais de saúde de Muriaé',
     freteGratis: true,
     conteudoLocal: 'Em Muriaé, no leste de Minas, profissionais de saúde do Hospital São Paulo e das clínicas da cidade contam com a Jaleca pra jaleco que aguenta o dia a dia — sem encolher, sem amolgar. Frete grátis pra MG acima de R$499.',
-    heroUrl: 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Muria%C3%A9_MG_Brasil_-_Vista_parcial_-_panoramio.jpg/3840px-Muria%C3%A9_MG_Brasil_-_Vista_parcial_-_panoramio.jpg',
   },
   'jaleco-marilia': {
     nome: 'Marília',
@@ -135,7 +135,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     tipo: 'fechada',
     profissoes: 'médicos, dentistas e profissionais de saúde de Teixeira de Freitas',
     conteudoLocal: 'Atendendo Teixeira de Freitas, a Jaleca oferece jalecos femininos profissionais para quem atua no Hospital Municipal ou nas diversas clínicas da cidade, com muito estilo e qualidade.',
-    heroUrl: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/2/22/Imagem_a%C3%A9rea_Teixeira_de_Freitas.png',
   },
   'jaleco-curitiba': {
     nome: 'Curitiba',
@@ -153,7 +153,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     tipo: 'revenda',
     profissoes: 'médicos, dentistas e profissionais de saúde de Londrina',
     conteudoLocal: 'Em Londrina, do HU ao Hospital da Zona Norte, a Jaleca atende profissionais de saúde do norte paranaense. Tecido que não desfia, costura que não cede, tamanhos de PP ao G3. Entrega rastreada pra todo o PR.',
-    heroUrl: 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/9/93/Panoramica3-lago.jpg',
   },
   'jaleco-governador-valadares': {
     nome: 'Governador Valadares',
@@ -173,7 +173,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     profissoes: 'médicos, dentistas e profissionais de saúde de Uberaba',
     freteGratis: true,
     conteudoLocal: 'Em Uberaba, polo da medicina veterinária e da saúde no Triângulo Mineiro, profissionais do HC da UFTM e do Hospital Mário Palmério encontram na Jaleca jaleco que cabe no dia corrido — leve, sem amolgar. Frete grátis pra MG acima de R$499.',
-    heroUrl: 'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/2/28/Skyline_de_Uberaba.png',
   },
   'jaleco-montes-claros': {
     nome: 'Montes Claros',
@@ -193,7 +193,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     profissoes: 'médicos, dentistas e profissionais de saúde de Vila Velha',
     freteGratis: true,
     conteudoLocal: 'Em Vila Velha, na Grande Vitória, profissionais do Hospital Santa Mônica e do HVV escolhem a Jaleca pelo tecido que respira no calor do ES. Frete grátis pra compras acima de R$499 no Espírito Santo.',
-    heroUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/7/73/Convento_da_Penha_-_Vila_Velha-ES%2C_Brazil_03103.jpg',
   },
   'jaleco-cachoeiro-de-itapemirim': {
     nome: 'Cachoeiro de Itapemirim',
@@ -203,7 +203,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     profissoes: 'médicos, dentistas e profissionais de saúde de Cachoeiro de Itapemirim',
     freteGratis: true,
     conteudoLocal: 'Em Cachoeiro de Itapemirim, profissionais da Santa Casa ou do Hospital Evangélico escolhem Jaleca para jalecos que unem design moderno e alta performance, essenciais no dia a dia.',
-    heroUrl: 'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/e/e9/Cachoeiro.jpg',
   },
   'jaleco-serra': {
     nome: 'Serra',
@@ -213,7 +213,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     profissoes: 'médicos, dentistas e profissionais de saúde de Serra',
     freteGratis: true,
     conteudoLocal: 'Profissionais de saúde na Serra, do Hospital Jayme dos Santos Neves a outras unidades, encontram na Jaleca a qualidade e o estilo ideais para seus jalecos femininos, garantindo conforto e durabilidade.',
-    heroUrl: 'https://images.unsplash.com/photo-1490730141103-6cac27aaab94?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Mestre_%C3%81lvaro.jpg/3840px-Mestre_%C3%81lvaro.jpg',
   },
   'jaleco-vitoria-da-conquista': {
     nome: 'Vitória da Conquista',
@@ -265,7 +265,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     conteudoLocal: 'No Rio de Janeiro, dos grandes hospitais às clínicas do Leblon, profissionais de saúde escolhem a Jaleca pela qualidade dos jalecos e entrega rápida. Frete grátis para RJ nas compras acima de R$499.',
   },
   'jaleco-campinas': {
-    heroUrl: 'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/a/ae/Werner_Haberkorn_-_Vista_panor%C3%A2mica_da_cidade._Campinas-SP.jpg',
     nome: 'Campinas',
     estado: 'São Paulo',
     uf: 'SP',
@@ -365,7 +365,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     conteudoLocal: 'Em Belém, capital do Pará, do Hospital Universitário João de Barros Barreto ao Santa Casa de Misericórdia, a Jaleca fornece jalecos profissionais com tecido de qualidade e corte elegante para os profissionais de saúde paraenses.',
   },
   'jaleco-guarulhos': {
-    heroUrl: 'https://images.unsplash.com/photo-1483729558449-99ef09a8c325?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/2/2c/Vista_da_cidade_de_Guarulhos_%28SP%29.JPG',
     nome: 'Guarulhos',
     estado: 'São Paulo',
     uf: 'SP',
@@ -425,7 +425,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     conteudoLocal: 'Em João Pessoa, capital da Paraíba, do Hospital Universitário Lauro Wanderley ao Instituto de Medicina Integral Professor Fernando Figueira, a Jaleca entrega jalecos profissionais com qualidade e design para os profissionais de saúde pessoenses.',
   },
   'jaleco-ribeirao-preto': {
-    heroUrl: 'https://images.unsplash.com/photo-1444723121867-7a241cacace9?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/2/2e/Vista_a%C3%A9rea_Ribeir%C3%A3o_Preto_2025.jpg',
     nome: 'Ribeirão Preto',
     estado: 'São Paulo',
     uf: 'SP',
@@ -455,7 +455,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     conteudoLocal: 'Uberlândia é o maior polo de saúde do Triângulo Mineiro. Profissionais do Hospital de Clínicas da UFU, da Santa Casa e das clínicas do Bairro Brasil encontram na Jaleca jalecos com tecido premium e corte moderno.',
   },
   'jaleco-juiz-de-fora': {
-    heroUrl: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/d/dc/Catedral_de_Ju%C3%ADz_de_Fora.jpg',
     nome: 'Juiz de Fora',
     estado: 'Minas Gerais',
     uf: 'MG',
@@ -465,7 +465,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     conteudoLocal: 'Juiz de Fora é o maior polo de saúde da Zona da Mata Mineira. Profissionais do Hospital Universitário da UFJF, do Santa Casa e das clínicas do Bairro São Mateus encontram na Jaleca jalecos com tecido premium, frete grátis para MG acima de R$499.',
   },
   'jaleco-betim': {
-    heroUrl: 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/5/5a/Betim_vista_do_alto.jpg',
     nome: 'Betim',
     estado: 'Minas Gerais',
     uf: 'MG',
@@ -475,7 +475,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     conteudoLocal: 'Em Betim, na Grande BH, profissionais de saúde do Hospital Municipal e das clínicas da cidade contam com a Jaleca para jalecos de alta qualidade com entrega rápida e frete grátis para MG acima de R$499.',
   },
   'jaleco-sete-lagoas': {
-    heroUrl: 'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/1/17/Sete_Lagoas%2C_Minas_Gerais_-2.jpg',
     nome: 'Sete Lagoas',
     estado: 'Minas Gerais',
     uf: 'MG',
@@ -495,7 +495,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     conteudoLocal: 'Divinópolis é referência em saúde no Centro-Oeste de Minas. Profissionais do Hospital São João de Deus e das clínicas da cidade escolhem a Jaleca por jalecos que aliam design moderno, conforto e frete grátis para MG acima de R$499.',
   },
   'jaleco-pocos-de-caldas': {
-    heroUrl: 'https://images.unsplash.com/photo-1473800447596-01729482b8eb?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/3/34/Po%C3%A7os_de_Caldas_-_Serra.jpg',
     nome: 'Poços de Caldas',
     estado: 'Minas Gerais',
     uf: 'MG',
@@ -546,7 +546,7 @@ const CIDADES: Record<string, CidadeInfo> = {
   },
   // MG — ex-franquia / demanda confirmada
   'jaleco-ipatinga': {
-    heroUrl: 'https://images.unsplash.com/photo-1490730141103-6cac27aaab94?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/e/ea/Vista_parcial_de_Ipatinga_MG_a_partir_do_Morro_do_C3.JPG',
     nome: 'Ipatinga',
     estado: 'Minas Gerais',
     uf: 'MG',
@@ -607,7 +607,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     conteudoLocal: 'Em Boa Vista, capital de Roraima e cidade mais ao norte do Brasil, do Hospital Geral de Roraima às clínicas da cidade, profissionais de saúde escolhem a Jaleca por jalecos com qualidade e entrega para toda a região.',
   },
   'jaleco-rio-branco': {
-    heroUrl: 'https://images.unsplash.com/photo-1448375240586-882707db888b?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/3/3b/Marcos_Vicentti_Rio_Acre_Rio_Branco_AC_%2840821853872%29.jpg',
     nome: 'Rio Branco',
     estado: 'Acre',
     uf: 'AC',
@@ -638,7 +638,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     conteudoLocal: 'Sorocaba, polo industrial e de saúde do interior paulista, conta com o Hospital Regional e diversas clínicas especializadas. Profissionais de saúde da cidade escolhem a Jaleca por jalecos premium com frete grátis para SP acima de R$499.',
   },
   'jaleco-sao-jose-do-rio-preto': {
-    heroUrl: 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Vista_A%C3%A9rea_de_S%C3%A3o_Jos%C3%A9_do_Rio_Preto.jpg/3840px-Vista_A%C3%A9rea_de_S%C3%A3o_Jos%C3%A9_do_Rio_Preto.jpg',
     nome: 'São José do Rio Preto',
     estado: 'São Paulo',
     uf: 'SP',
@@ -648,7 +648,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     conteudoLocal: 'São José do Rio Preto é referência em saúde no interior paulista, com o Hospital de Base e a FUNFARME atendendo toda a região Noroeste de SP. A Jaleca entrega jalecos premium para profissionais da cidade com frete grátis acima de R$499.',
   },
   'jaleco-santos': {
-    heroUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/d/da/Ponta_da_Praia2.jpg',
     nome: 'Santos',
     estado: 'São Paulo',
     uf: 'SP',
@@ -658,7 +658,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     conteudoLocal: 'Santos, maior porto da América Latina e polo de saúde da Baixada Santista, do Hospital Guilherme Álvaro às clínicas da Orla, a Jaleca entrega jalecos de qualidade com frete grátis para SP acima de R$499.',
   },
   'jaleco-jundiai': {
-    heroUrl: 'https://images.unsplash.com/photo-1444723121867-7a241cacace9?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/7/7b/Serra_do_Japi.JPG',
     nome: 'Jundiaí',
     estado: 'São Paulo',
     uf: 'SP',
@@ -668,7 +668,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     conteudoLocal: 'Em Jundiaí, uma das cidades com maior IDH do interior paulista, profissionais de saúde do Hospital São Vicente e das clínicas da cidade encontram na Jaleca jalecos com design elegante e frete grátis para SP acima de R$499.',
   },
   'jaleco-bauru': {
-    heroUrl: 'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/9/9f/Bauru_SaoPaulo_Brasil.jpg',
     nome: 'Bauru',
     estado: 'São Paulo',
     uf: 'SP',
@@ -679,7 +679,7 @@ const CIDADES: Record<string, CidadeInfo> = {
   },
   // Sul
   'jaleco-joinville': {
-    heroUrl: 'https://images.unsplash.com/photo-1473800447596-01729482b8eb?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Rua_das_Palmeiras%2C_Joinville.jpg',
     nome: 'Joinville',
     estado: 'Santa Catarina',
     uf: 'SC',
@@ -689,7 +689,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     conteudoLocal: 'Joinville, maior cidade de Santa Catarina e polo industrial do Sul, conta com o Hospital Regional Hans Dieter Schmidt e diversas clínicas de alto padrão. Profissionais de saúde encontram na Jaleca jalecos premium com entrega rápida.',
   },
   'jaleco-caxias-do-sul': {
-    heroUrl: 'https://images.unsplash.com/photo-1543832923-44667a44c804?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/c/c5/Casa_de_pedra.jpg',
     nome: 'Caxias do Sul',
     estado: 'Rio Grande do Sul',
     uf: 'RS',
@@ -699,7 +699,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     conteudoLocal: 'Caxias do Sul, segunda maior cidade gaúcha e polo industrial da Serra Gaúcha, conta com o Hospital Geral e diversas clínicas especializadas. A Jaleca veste profissionais de saúde com jalecos de tecido premium e corte moderno.',
   },
   'jaleco-maringa': {
-    heroUrl: 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/a/a1/Maring%C3%A1_City.jpg',
     nome: 'Maringá',
     estado: 'Paraná',
     uf: 'PR',
@@ -709,7 +709,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     conteudoLocal: 'Em Maringá, uma das cidades mais planejadas do Brasil, profissionais do Hospital Universitário e das clínicas da Zona 7 escolhem a Jaleca pelo jaleco que fica bem o dia inteiro. Entrega via PAC e SEDEX pra todo o norte do Paraná.',
   },
   'jaleco-ponta-grossa': {
-    heroUrl: 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Ponta_Grossa_2019_%28cropped%29.jpg/3840px-Ponta_Grossa_2019_%28cropped%29.jpg',
     nome: 'Ponta Grossa',
     estado: 'Paraná',
     uf: 'PR',
@@ -719,7 +719,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     conteudoLocal: 'Ponta Grossa, polo regional dos Campos Gerais no Paraná, do Hospital Universitário ao São Lucas, profissionais de saúde encontram na Jaleca jalecos com tecido de qualidade e design que transmite profissionalismo.',
   },
   'jaleco-blumenau': {
-    heroUrl: 'https://images.unsplash.com/photo-1473800447596-01729482b8eb?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/8/8a/Foto_a%C3%A9rea_Blumenau.jpg',
     nome: 'Blumenau',
     estado: 'Santa Catarina',
     uf: 'SC',
@@ -730,7 +730,7 @@ const CIDADES: Record<string, CidadeInfo> = {
   },
   // RJ interior
   'jaleco-niteroi': {
-    heroUrl: 'https://images.unsplash.com/photo-1483729558449-99ef09a8c325?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/3/31/MAC_Niter%C3%B3i_-_Glauber_Silveira.jpg',
     nome: 'Niterói',
     estado: 'Rio de Janeiro',
     uf: 'RJ',
@@ -751,7 +751,7 @@ const CIDADES: Record<string, CidadeInfo> = {
   },
   // Nordeste interior
   'jaleco-feira-de-santana': {
-    heroUrl: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/2/2c/Urban_landscapes_of_Feira_de_Santana_02.jpg',
     nome: 'Feira de Santana',
     estado: 'Bahia',
     uf: 'BA',
@@ -771,7 +771,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     conteudoLocal: 'Campina Grande, polo tecnológico e de saúde do interior paraibano com a UFCG e o Hospital Universitário Alcides Carneiro, é referência no sertão nordestino. A Jaleca entrega jalecos profissionais com qualidade para os profissionais da cidade.',
   },
   'jaleco-mossoro': {
-    heroUrl: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/d/df/Apr2024._Mossor%C3%B3%2C_state_of_Rio_Grande_do_Norte%2C_Brazil_04.jpg',
     nome: 'Mossoró',
     estado: 'Rio Grande do Norte',
     uf: 'RN',
