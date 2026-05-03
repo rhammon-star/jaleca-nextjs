@@ -1,17 +1,15 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
-import Image from 'next/image'
-import { getLooks } from '@/lib/lookbook-data'
 import { graphqlClient, GET_PRODUCT_BY_SLUG } from '@/lib/graphql'
 import type { WooProduct } from '@/components/ProductCard'
+import LookbookClient from './LookbookClient'
 
 export const metadata: Metadata = {
-  title: 'Lookbook Jaleca — Inspirações de Estilo para Profissionais | 2026',
-  description: 'Inspiração editorial para profissionais da saúde: veja como usar nossos jalecos e uniformes com estilo. Looks completos para a rotina clínica. Frete grátis SP/RJ/MG/ES.',
+  title: 'Lookbook Jaleca 2026 — Uniformes Profissionais Premium',
+  description: 'Experiência editorial de moda profissional. Jalecos femininos, masculinos, scrub e dólmã — descubra o uniforme que reflete sua excelência.',
   alternates: { canonical: 'https://jaleca.com.br/lookbook' },
   openGraph: {
-    title: 'Lookbook Jaleca — Inspirações de Estilo para Profissionais | 2026',
-    description: 'Inspiração editorial para profissionais da saúde: veja como usar nossos jalecos e uniformes com estilo.',
+    title: 'Lookbook Jaleca 2026 — Uniformes Profissionais Premium',
+    description: 'Experiência editorial de moda profissional. Jalecos femininos, masculinos, scrub e dólmã.',
     url: 'https://jaleca.com.br/lookbook',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -20,196 +18,123 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Lookbook Jaleca — Inspirações de Estilo para Profissionais',
-    description: 'Inspiração editorial para profissionais da saúde: veja como usar nossos jalecos e uniformes com estilo.',
+    title: 'Lookbook Jaleca 2026',
+    description: 'Experiência editorial de moda profissional Jaleca.',
     images: ['https://jaleca.com.br/og-home.jpg'],
   },
 }
 
+export const revalidate = 3600
+
 const schemaCollection = {
   '@context': 'https://schema.org',
   '@type': 'CollectionPage',
-  name: 'Lookbook Jaleca 2026 — Inspirações de Estilo para Profissionais',
-  description: 'Inspiração editorial para profissionais da saúde: veja como usar nossos jalecos e uniformes com estilo.',
+  name: 'Lookbook Jaleca 2026 — Uniformes Profissionais Premium',
+  description: 'Experiência editorial de moda profissional. Jalecos femininos, masculinos, scrub e dólmã.',
   url: 'https://jaleca.com.br/lookbook',
   publisher: { '@type': 'Organization', name: 'Jaleca', url: 'https://jaleca.com.br' },
 }
 
-const schemaFaq = {
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  mainEntity: [
-    { '@type': 'Question', name: 'Como usar jaleco com estilo no dia a dia?', acceptedAnswer: { '@type': 'Answer', text: 'Combine jalecos slim com calças sociais escuras para um visual moderno. Acessórios discretos como relógio e sapato fechado complementam o look profissional sem perder a identidade.' } },
-    { '@type': 'Question', name: 'Jaleco branco combina com sapato de qualquer cor?', acceptedAnswer: { '@type': 'Answer', text: 'Com jaleco branco, opte por sapatos em tons neutros ou escuros para manter a elegância. Tênis branco é aceito em ambientes mais casuais, mas sapato social fecha melhor o visual clínico.' } },
-    { '@type': 'Question', name: 'Qual jaleco para quem trabalha em hospital e clínica?', acceptedAnswer: { '@type': 'Answer', text: 'Para ambiente hospitalar, prefira jaleco branco manga longa com tecido que soporte lavagem alta temperatura. A modelagem Profissional oferece mais liberdade de movimento durante procedimentos longos.' } },
-    { '@type': 'Question', name: 'Lookbook serve para inspiração de uniformes corporativos?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. O lookbook Jaleca mostra combinações que funcionam tanto em clínicas quanto em consultórios e ambientes corporativos onde a imagem profissional é valorizada.' } },
-    { '@type': 'Question', name: 'Posso comprar os produtos do lookbook diretamente?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. Cada look tem links para os produtos usados. Você pode comprar cada peça separadamente ou montar seu kit com os itens que mais gostar.' } },
-  ],
-}
+type ProductMini = { slug: string; name: string; price: string; image?: string }
 
-export const revalidate = 3600
-
-type WooProductData = {
-  name: string
-  slug: string
-  price: string
-  image: { sourceUrl: string; altText: string } | null
-}
-
-async function fetchProduct(slug: string): Promise<WooProductData | null> {
+async function fetchProduct(slug: string): Promise<ProductMini | null> {
   try {
-    const data = await graphqlClient.request<{ product: WooProduct & { image?: { sourceUrl: string; altText: string } } }>(
+    const data = await graphqlClient.request<{ product: WooProduct & { image?: { sourceUrl: string } } }>(
       GET_PRODUCT_BY_SLUG,
       { slug }
     )
     if (!data?.product) return null
     const p = data.product
     return {
-      name: p.name,
       slug: p.slug,
+      name: p.name,
       price: p.price ?? '',
-      image: p.image ?? null,
+      image: p.image?.sourceUrl,
     }
   } catch {
     return null
   }
 }
 
-export default async function LookbookPage() {
-  const looks = getLooks()
+// Imagens editoriais reais do WP para cada look
+const LOOK_IMAGES = {
+  feminino: 'https://wp.jaleca.com.br/wp-content/uploads/2026/04/JALECO-SLIM-TRADICIONAL-FEMININO-BRANCO-ACINTURADO-JALECA-91.webp',
+  masculino: 'https://wp.jaleca.com.br/wp-content/uploads/2022/07/Slim-Masc-Branco-Frente.jpg',
+  scrub: 'https://wp.jaleca.com.br/wp-content/uploads/2026/04/WhatsApp-Image-2026-04-05-at-01.46.32-e1775365394298.jpeg',
+  dolma: 'https://wp.jaleca.com.br/wp-content/uploads/2022/07/Dolma-Fem-BrancoPreto-Bolsos.jpg',
+}
 
-  // Busca todos os produtos de todos os looks em paralelo
-  const looksWithProducts = await Promise.all(
-    looks.map(async (look, idx) => {
-      const products = await Promise.all(look.products.map(p => fetchProduct(p.slug)))
-      const validProducts = products.filter(Boolean) as WooProductData[]
-      const heroProduct = validProducts[0] ?? null
-      return { ...look, resolvedProducts: validProducts, heroProduct, idx }
-    })
-  )
+export default async function LookbookPage() {
+  // Buscar todos os produtos em paralelo
+  const [
+    feminino1, feminino2, feminino3,
+    masculino1, masculino2, masculino3,
+    scrub1, scrub2, scrub3,
+    dolma1, dolma2,
+  ] = await Promise.all([
+    fetchProduct('jaleco-slim-tradicional-feminino-jaleca'),
+    fetchProduct('jaleco-slim-duquesa-feminino-jaleca'),
+    fetchProduct('jaleco-slim-princesa-feminino-jaleca'),
+    fetchProduct('jaleco-slim-tradicional-masculino-jaleca'),
+    fetchProduct('jaleco-slim-recortes-masculino-jaleca'),
+    fetchProduct('jaleco-slim-moratty-masculino-jaleca'),
+    fetchProduct('conjunto-scrub-feminino-jaleca'),
+    fetchProduct('conjunto-scrub-masculino-jaleca'),
+    fetchProduct('conjunto-princesa-nobre-feminino-jaleca'),
+    fetchProduct('conjunto-dolma-cozinheiro-feminino-jaleca'),
+    fetchProduct('conjunto-dolma-cozinheiro-masculino-jaleca'),
+  ])
+
+  const looks = [
+    {
+      number: '01',
+      category: 'Essencial Feminino',
+      title: 'JALECO FEMININO',
+      description: 'Corte arquitetônico. Tecido inteligente. Performance que desafia convenções. O jaleco reimaginado para a profissional que lidera a transformação.',
+      heroImage: LOOK_IMAGES.feminino,
+      heroImageAlt: 'Jaleco Feminino Premium Jaleca',
+      featured: feminino1 ?? { slug: 'jaleco-slim-tradicional-feminino-jaleca', name: 'Jaleco Slim Tradicional Feminino', price: '', image: LOOK_IMAGES.feminino },
+      others: [feminino2, feminino3].filter(Boolean) as ProductMini[],
+    },
+    {
+      number: '02',
+      category: 'Essencial Masculino',
+      title: 'JALECO MASCULINO',
+      description: 'Estrutura. Autoridade. Movimento. Design pensado para quem não aceita compromissos. Performance profissional em cada detalhe.',
+      heroImage: LOOK_IMAGES.masculino,
+      heroImageAlt: 'Jaleco Masculino Premium Jaleca',
+      featured: masculino1 ?? { slug: 'jaleco-slim-tradicional-masculino-jaleca', name: 'Jaleco Slim Tradicional Masculino', price: '', image: LOOK_IMAGES.masculino },
+      others: [masculino2, masculino3].filter(Boolean) as ProductMini[],
+    },
+    {
+      number: '03',
+      category: 'Performance Cirúrgica',
+      title: 'SCRUB PREMIUM',
+      description: 'Zero limites. Máxima mobilidade. Conforto absoluto. O conjunto scrub para quem vive jornadas intensas sem perder o estilo.',
+      heroImage: LOOK_IMAGES.scrub,
+      heroImageAlt: 'Conjunto Scrub Premium Jaleca',
+      featured: scrub1 ?? { slug: 'conjunto-scrub-feminino-jaleca', name: 'Conjunto Scrub Feminino', price: '', image: LOOK_IMAGES.scrub },
+      others: [scrub2, scrub3].filter(Boolean) as ProductMini[],
+    },
+    {
+      number: '04',
+      category: 'Gastronomia Premium',
+      title: 'DÓLMÃ CHEF',
+      description: 'Tradição reinventada. Ventilação estratégica. Identidade profissional. Design que une herança culinária com inovação contemporânea.',
+      heroImage: LOOK_IMAGES.dolma,
+      heroImageAlt: 'Dólmã Chef Profissional Jaleca',
+      featured: dolma1 ?? { slug: 'conjunto-dolma-cozinheiro-feminino-jaleca', name: 'Conjunto Dólmã Cozinheiro Feminino', price: '', image: LOOK_IMAGES.dolma },
+      others: [dolma2].filter(Boolean) as ProductMini[],
+    },
+  ]
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaCollection).replace(/</g, '\\u003c') }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaFaq).replace(/</g, '\\u003c') }} />
-
-      <main style={{ maxWidth: 1200, margin: '0 auto', padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,4vw,3rem)' }}>
-        {/* Breadcrumb */}
-        <nav style={{ fontSize: '0.75rem', color: '#999', marginBottom: '2rem' }}>
-          <Link href="/" style={{ color: '#999', textDecoration: 'none' }}>Jaleca</Link>
-          {' › '}
-          <span>Lookbook</span>
-        </nav>
-
-        {/* Hero */}
-        <div style={{ textAlign: 'center', marginBottom: 'clamp(3rem,6vw,4rem)' }}>
-          <p style={{ fontSize: '0.65rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>
-            Editorial
-          </p>
-          <h1 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2.5rem,5vw,4.5rem)', fontWeight: 400, lineHeight: 1.1, marginBottom: '1rem', color: '#1a1a1a' }}>
-            Lookbook Jaleca — Inspirações de Estilo para Profissionais
-          </h1>
-          <p style={{ fontSize: '1rem', color: '#6b6b6b', maxWidth: 560, margin: '0 auto', fontWeight: 300, lineHeight: 1.8 }}>
-            Cada peça conta uma história. Descubra como o uniforme certo transforma a sua presença profissional.
-          </p>
-        </div>
-
-        {looksWithProducts.length === 0 ? (
-          <p style={{ textAlign: 'center', color: '#999', padding: '4rem 0' }}>Nenhum look publicado ainda.</p>
-        ) : (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 2, background: '#e5e0d8' }}>
-            {looksWithProducts.map(({ id, title, description, resolvedProducts, heroProduct, idx }) => (
-              <div
-                key={id}
-                className={`group ${idx === 0 ? 'md:col-span-2' : ''}`}
-                style={{ background: '#fff' }}
-              >
-                {/* Imagem do primeiro produto */}
-                <div
-                  style={{
-                    position: 'relative',
-                    overflow: 'hidden',
-                    marginBottom: '1rem',
-                    aspectRatio: idx % 3 === 0 ? '3/4' : '1/1',
-                    background: '#f9f7f4',
-                  }}
-                >
-                  {heroProduct?.image?.sourceUrl ? (
-                    <Image
-                      src={heroProduct.image.sourceUrl}
-                      alt={heroProduct.image.altText || title}
-                      fill
-                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      priority={idx === 0}
-                    />
-                  ) : (
-                    <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <span style={{ color: '#c8c4bc', fontSize: '0.75rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Jaleca</span>
-                    </div>
-                  )}
-                </div>
-
-                {/* Info */}
-                <div style={{ padding: '0 1.5rem 1.5rem' }}>
-                  <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '1.25rem', fontWeight: 500, marginBottom: '0.5rem', color: '#1a1a1a' }}>{title}</h2>
-                  <p style={{ fontSize: '0.85rem', color: '#6b6b6b', lineHeight: 1.7, fontWeight: 300, marginBottom: '1rem' }}>{description}</p>
-
-                  {resolvedProducts.length > 0 && (
-                    <div>
-                      <p style={{ fontSize: '0.6rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>
-                        Shop the look
-                      </p>
-                      <div style={{ display: 'flex', flexDirection: 'column' }}>
-                        {resolvedProducts.map(product => (
-                          <Link
-                            key={product.slug}
-                            href={`/produto/${product.slug}`}
-                            style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '0.85rem', color: '#1a1a1a', textDecoration: 'none', padding: '0.4rem 0', borderBottom: '1px solid #f0ede8' }}
-                          >
-                            <span style={{ textDecoration: 'underline', textUnderlineOffset: '3px' }}>{product.name}</span>
-                            {product.price && (
-                              <span
-                                style={{ color: '#6b6b6b', fontSize: '0.8rem' }}
-                                dangerouslySetInnerHTML={{ __html: product.price }}
-                              />
-                            )}
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* FAQ */}
-        <section style={{ borderTop: '1px solid #e5e0d8', paddingTop: '3rem', marginTop: 'clamp(4rem,8vw,7rem)' }}>
-          <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(1.8rem,3vw,2.5rem)', fontWeight: 400, lineHeight: 1.15, color: '#1a1a1a', marginBottom: '0.75rem' }}>
-            Perguntas sobre o lookbook
-          </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '0 3rem', marginTop: '2.5rem' }}>
-            {schemaFaq.mainEntity.map((item, i) => (
-              <div key={i} style={{ borderTop: '1px solid #e5e0d8' }}>
-                <div style={{ padding: '1.25rem 0 0.5rem', fontSize: '0.95rem', fontWeight: 400, color: '#1a1a1a' }}>{item.name}</div>
-                <div style={{ paddingBottom: '1.25rem', fontSize: '0.88rem', color: '#6b6b6b', lineHeight: 1.8, fontWeight: 300 }}>{item.acceptedAnswer.text}</div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* CTA */}
-        <div style={{ textAlign: 'center', marginTop: '4rem', paddingBottom: '2rem' }}>
-          <Link
-            href="/produtos"
-            style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '1rem 2.5rem', background: '#1a1a1a', color: '#fff', textDecoration: 'none', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase' }}
-          >
-            Ver toda a coleção
-          </Link>
-        </div>
-      </main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaCollection).replace(/</g, '\\u003c') }}
+      />
+      <LookbookClient looks={looks} />
     </>
   )
 }
