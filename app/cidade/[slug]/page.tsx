@@ -47,7 +47,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     profissoes: 'médicos, dentistas, enfermeiros e profissionais de saúde de BH',
     freteGratis: true,
     conteudoLocal: 'Profissionais de saúde em BH, do Mater Dei ao Santa Casa e as clínicas do Savassi, escolhem a Jaleca pelo tecido que não amassa e pelo corte que valoriza — seja no plantão ou no consultório particular. Frete grátis pra MG acima de R$499.',
-    heroUrl: 'https://images.unsplash.com/photo-1580974852861-c381510bc98a?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/9/9a/Praca_do_Papa%2C_Belo_Horizonte_%28cropped%292.jpg',
   },
   'jaleco-campo-grande': {
     nome: 'Campo Grande',
@@ -144,7 +144,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     tipo: 'revenda',
     profissoes: 'médicos, dentistas, enfermeiros e profissionais de saúde de Curitiba',
     conteudoLocal: 'Profissionais de Curitiba, do Hospital Marcelino Champagnat às clínicas do Batel, escolhem a Jaleca pelo jaleco que não murcha no frio do sul. Tecido encorpado, corte ajustado, entrega via PAC ou SEDEX pra todo o Paraná.',
-    heroUrl: 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/2/2f/Estufa_principal_do_Jardim_Bot%C3%A2nico_de_Curitiba_02.jpg',
   },
   'jaleco-londrina': {
     nome: 'Londrina',
@@ -183,7 +183,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     profissoes: 'médicos, dentistas e profissionais de saúde de Montes Claros',
     freteGratis: true,
     conteudoLocal: 'Em Montes Claros, polo regional do Norte de Minas, profissionais da Santa Casa e do Hospital Aroldo Tourinho escolhem a Jaleca pelo jaleco que aguenta a jornada longa. Frete grátis pra MG acima de R$499.',
-    heroUrl: 'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/f/fe/MOCcity_%28cropped%29.jpg',
   },
   'jaleco-vila-velha': {
     nome: 'Vila Velha',
@@ -222,7 +222,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     tipo: 'revenda',
     profissoes: 'médicos, dentistas e profissionais de saúde de Vitória da Conquista',
     conteudoLocal: 'Em Vitória da Conquista, maior cidade do sudoeste baiano, profissionais do Hospital Geral e das clínicas da cidade contam com a Jaleca pra jaleco que não perde a forma. Entrega rastreada pra toda a região.',
-    heroUrl: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/3/32/Panoramica_Conquista.png',
   },
   'jaleco-colatina': {
     nome: 'Colatina',
@@ -245,7 +245,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     heroUrl: 'https://images.unsplash.com/photo-1444723121867-7a241cacace9?w=1400&q=80',
   },
   'jaleco-sao-paulo': {
-    heroUrl: 'https://images.unsplash.com/photo-1483729558449-99ef09a8c325?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Marginal_Pinheiros_e_Jockey_Club.jpg/1280px-Marginal_Pinheiros_e_Jockey_Club.jpg',
     nome: 'São Paulo',
     estado: 'São Paulo',
     uf: 'SP',
@@ -255,7 +255,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     conteudoLocal: 'São Paulo concentra o maior número de profissionais de saúde do Brasil. A Jaleca entrega jalecos premium para médicas, dentistas e enfermeiras da capital paulista com frete grátis para SP acima de R$499.',
   },
   'jaleco-rio-de-janeiro': {
-    heroUrl: 'https://images.unsplash.com/photo-1483729558449-99ef09a8c325?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Cidade_Maravilhosa.jpg/1280px-Cidade_Maravilhosa.jpg',
     nome: 'Rio de Janeiro',
     estado: 'Rio de Janeiro',
     uf: 'RJ',
@@ -275,7 +275,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     conteudoLocal: 'Em Campinas, polo médico do interior paulista, a Jaleca fornece jalecos premium para profissionais do Unicamp e das clínicas da cidade. Frete grátis para SP acima de R$499.',
   },
   'jaleco-porto-alegre': {
-    heroUrl: 'https://images.unsplash.com/photo-1543832923-44667a44c804?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/IBPA_17398_-_Vista_a%C3%A9rea_da_Orla_Moacyr_Scliar%2C_na_capital._O_-_2018-10-02_-_Luciano_Lanes-PMPA_%28cropped%29.jpg/1280px-IBPA_17398_-_Vista_a%C3%A9rea_da_Orla_Moacyr_Scliar%2C_na_capital._O_-_2018-10-02_-_Luciano_Lanes-PMPA_%28cropped%29.jpg',
     nome: 'Porto Alegre',
     estado: 'Rio Grande do Sul',
     uf: 'RS',
@@ -285,7 +285,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     conteudoLocal: 'Em Porto Alegre, do Hospital de Clínicas ao Santa Casa e as clínicas do Moinhos de Vento, profissionais de saúde escolhem a Jaleca pelo jaleco que aguentam a jornada longa sem amolgar. Tecido encorpado pro frio gaúcho, corte que fica bem mesmo depois de um plantão inteiro.',
   },
   'jaleco-goiania': {
-    heroUrl: 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Panomara_Goi%C3%A2nia_2022.jpg/1280px-Panomara_Goi%C3%A2nia_2022.jpg',
     nome: 'Goiânia',
     estado: 'Goiás',
     uf: 'GO',
@@ -295,7 +295,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     conteudoLocal: 'Goiânia é um dos maiores polos de saúde do Centro-Oeste. Profissionais do Hospital das Clínicas da UFG e dos centros médicos do Setor Bueno encontram na Jaleca jalecos com tecido premium, corte moderno e entrega rápida para toda a capital goiana.',
   },
   'jaleco-florianopolis': {
-    heroUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Morro_da_Cruz%2C_Florian%C3%B3polis_-_SC%2C_Brazil_-_panoramio_%28cropped%29.jpg/1280px-Morro_da_Cruz%2C_Florian%C3%B3polis_-_SC%2C_Brazil_-_panoramio_%28cropped%29.jpg',
     nome: 'Florianópolis',
     estado: 'Santa Catarina',
     uf: 'SC',
@@ -305,7 +305,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     conteudoLocal: 'Em Florianópolis, capital catarinense com alto IDH e crescente setor de saúde, do HU-UFSC às clínicas da Trindade e Kobrasol, a Jaleca veste profissionais que valorizam qualidade, estilo e conforto em seus jalecos.',
   },
   'jaleco-brasilia': {
-    heroUrl: 'https://images.unsplash.com/photo-1554629947-334ff61d85dc?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Planalto_Central_%28cropped%29.jpg/1280px-Planalto_Central_%28cropped%29.jpg',
     nome: 'Brasília',
     estado: 'Distrito Federal',
     uf: 'DF',
@@ -315,7 +315,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     conteudoLocal: 'Em Brasília, capital federal com um dos maiores complexos de saúde do país — do Hospital de Base ao Hospital Sarah Kubitschek e HUB da UnB — profissionais de saúde encontram na Jaleca jalecos que combinam elegância, conforto e durabilidade para a rotina exigente.',
   },
   'jaleco-salvador': {
-    heroUrl: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Salvador_BA_%28cropped%29_2.jpg/1280px-Salvador_BA_%28cropped%29_2.jpg',
     nome: 'Salvador',
     estado: 'Bahia',
     uf: 'BA',
@@ -325,7 +325,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     conteudoLocal: 'Em Salvador, maior cidade do Nordeste, do HUPES (Hospital das Clínicas) às clínicas do Corredor da Vitória e do Itaigara, profissionais de saúde escolhem a Jaleca por jalecos premium que unem estilo e funcionalidade para a rotina baiana.',
   },
   'jaleco-fortaleza': {
-    heroUrl: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/7/73/Fortaleza%2C_Brazil_%284%29_%28cropped%29.jpg',
     nome: 'Fortaleza',
     estado: 'Ceará',
     uf: 'CE',
@@ -335,7 +335,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     conteudoLocal: 'Em Fortaleza, polo de saúde do Nordeste, do Hospital Geral de Fortaleza ao HU Walter Cantídio e às clínicas da Aldeota, a Jaleca entrega jalecos com tecido premium e design moderno para médicas e enfermeiras que exigem o melhor.',
   },
   'jaleco-manaus': {
-    heroUrl: 'https://images.unsplash.com/photo-1448375240586-882707db888b?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Manaus_amazonas.jpg/1280px-Manaus_amazonas.jpg',
     nome: 'Manaus',
     estado: 'Amazonas',
     uf: 'AM',
@@ -345,7 +345,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     conteudoLocal: 'Em Manaus, capital da Amazônia, do Hospital Universitário Getúlio Vargas ao FMT-HVD e HPS 28 de Agosto, profissionais de saúde encontram na Jaleca jalecos de alta qualidade com entrega rápida para toda a cidade.',
   },
   'jaleco-recife': {
-    heroUrl: 'https://images.unsplash.com/photo-1519677100203-a0e668c92439?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Antonio_Vaz_island_-_Recife%2C_Pernambuco%2C_Brazil_%28cropped%29.jpg/1280px-Antonio_Vaz_island_-_Recife%2C_Pernambuco%2C_Brazil_%28cropped%29.jpg',
     nome: 'Recife',
     estado: 'Pernambuco',
     uf: 'PE',
@@ -355,7 +355,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     conteudoLocal: 'Em Recife, do HCFMUPE ao Real Hospital Português, profissionais de saúde escolhem a Jaleca pelo tecido que respira no calor pernambucano e pelo corte que valoriza. Entrega rastreada pra toda Região Metropolitana do Recife.',
   },
   'jaleco-belem': {
-    heroUrl: 'https://images.unsplash.com/photo-1448375240586-882707db888b?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/L1010748-L1010765_copie_%28cropped%29.jpg/1280px-L1010748-L1010765_copie_%28cropped%29.jpg',
     nome: 'Belém',
     estado: 'Pará',
     uf: 'PA',
@@ -375,7 +375,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     conteudoLocal: 'Em Guarulhos, segunda maior cidade paulista, do Hospital Municipal de Urgências ao Pronto-Socorro Central, profissionais de saúde contam com a Jaleca para jalecos premium com frete grátis para SP nas compras acima de R$499.',
   },
   'jaleco-sao-luis': {
-    heroUrl: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/8/80/S%C3%A3o_Lu%C3%ADs_A%C3%A9rea_%28cropped%29.jpg',
     nome: 'São Luís',
     estado: 'Maranhão',
     uf: 'MA',
@@ -385,7 +385,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     conteudoLocal: 'Em São Luís, capital do Maranhão, do HUUFMA ao Hospital Presidente Vargas e às clínicas do Renascença, profissionais de saúde encontram na Jaleca jalecos com qualidade superior e entrega ágil para toda a ilha.',
   },
   'jaleco-maceio': {
-    heroUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Ponta_Verde_Lighthouse_landscape_-_Macei%C3%B3%2C_Brazil_%28edited%29.jpg/1280px-Ponta_Verde_Lighthouse_landscape_-_Macei%C3%B3%2C_Brazil_%28edited%29.jpg',
     nome: 'Maceió',
     estado: 'Alagoas',
     uf: 'AL',
@@ -395,7 +395,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     conteudoLocal: 'Em Maceió, cidade litorânea com calor constante, profissionais do HU da UFAL e das clínicas da Pajuçara precisam de jaleco que respire. A Jaleca entrega pra todo o AL — tecido leve, costura que dura.',
   },
   'jaleco-natal': {
-    heroUrl: 'https://images.unsplash.com/photo-1519677100203-a0e668c92439?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Natal%2C_capital_do_Rio_Grande_do_Norte%2C_Brasil.jpg/1280px-Natal%2C_capital_do_Rio_Grande_do_Norte%2C_Brasil.jpg',
     nome: 'Natal',
     estado: 'Rio Grande do Norte',
     uf: 'RN',
@@ -405,7 +405,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     conteudoLocal: 'Em Natal, capital potiguar, do Hospital Walfredo Gurgel ao HU Onofre Lopes da UFRN e às clínicas de Ponta Negra, profissionais de saúde escolhem a Jaleca por jalecos com tecido premium e design moderno.',
   },
   'jaleco-teresina': {
-    heroUrl: 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Ponte_Estaiada_-_Teresina.jpg/1280px-Ponte_Estaiada_-_Teresina.jpg',
     nome: 'Teresina',
     estado: 'Piauí',
     uf: 'PI',
@@ -415,7 +415,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     conteudoLocal: 'Em Teresina, capital do Piauí e polo de saúde do Meio-Norte, do Hospital Getúlio Vargas ao HU da UFPI, profissionais de saúde encontram na Jaleca jalecos de alta qualidade com entrega para toda a cidade.',
   },
   'jaleco-joao-pessoa': {
-    heroUrl: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Centro_Hist%C3%B3rico_de_Jo%C3%A3o_Pessoa.jpg/1280px-Centro_Hist%C3%B3rico_de_Jo%C3%A3o_Pessoa.jpg',
     nome: 'João Pessoa',
     estado: 'Paraíba',
     uf: 'PB',
@@ -557,7 +557,7 @@ const CIDADES: Record<string, CidadeInfo> = {
   },
   // Capitais brasileiras restantes
   'jaleco-cuiaba': {
-    heroUrl: 'https://images.unsplash.com/photo-1448375240586-882707db888b?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Cuiab%C3%A1_center.jpg/1280px-Cuiab%C3%A1_center.jpg',
     nome: 'Cuiabá',
     estado: 'Mato Grosso',
     uf: 'MT',
@@ -567,7 +567,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     conteudoLocal: 'Em Cuiabá, capital do Mato Grosso e porta de entrada para o Pantanal, do Hospital Universitário Júlio Müller às clínicas do Bosque da Saúde, profissionais de saúde encontram na Jaleca jalecos com qualidade e entrega rápida.',
   },
   'jaleco-aracaju': {
-    heroUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Ponte_tobias_barreto2.jpg/1280px-Ponte_tobias_barreto2.jpg',
     nome: 'Aracaju',
     estado: 'Sergipe',
     uf: 'SE',
@@ -577,7 +577,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     conteudoLocal: 'Em Aracaju, capital sergipana com forte polo de saúde, profissionais do HU da UFS e das clínicas da Atalaia escolhem a Jaleca pelo tecido que respira no calor nordestino. Entrega rastreada pra todo o Sergipe.',
   },
   'jaleco-porto-velho': {
-    heroUrl: 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/SILVAJUNIOR_MUSEU_PALACIO_DA_MEMORIA_RONDONIENSE_PORTO_VELHO_RO_%2840036370975%29.jpg/1280px-SILVAJUNIOR_MUSEU_PALACIO_DA_MEMORIA_RONDONIENSE_PORTO_VELHO_RO_%2840036370975%29.jpg',
     nome: 'Porto Velho',
     estado: 'Rondônia',
     uf: 'RO',
@@ -587,7 +587,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     conteudoLocal: 'Em Porto Velho, capital de Rondônia, do Hospital de Base ao Cemetron e às clínicas da cidade, profissionais de saúde contam com a Jaleca para jalecos de alta qualidade com entrega para todo o estado.',
   },
   'jaleco-macapa': {
-    heroUrl: 'https://images.unsplash.com/photo-1448375240586-882707db888b?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Orla_de_Macap%C3%A1%2C_Amap%C3%A1.jpg/1280px-Orla_de_Macap%C3%A1%2C_Amap%C3%A1.jpg',
     nome: 'Macapá',
     estado: 'Amapá',
     uf: 'AP',
@@ -597,7 +597,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     conteudoLocal: 'Em Macapá, capital do Amapá às margens do Rio Amazonas, do Hospital de Emergências ao HU da UNIFAP, profissionais de saúde encontram na Jaleca jalecos premium com entrega ágil para a capital amapaense.',
   },
   'jaleco-boa-vista': {
-    heroUrl: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Centro_c%C3%ADvico_de_Boa_Vista%2C_RR_%28cropped%29.jpg/1280px-Centro_c%C3%ADvico_de_Boa_Vista%2C_RR_%28cropped%29.jpg',
     nome: 'Boa Vista',
     estado: 'Roraima',
     uf: 'RR',
@@ -617,7 +617,7 @@ const CIDADES: Record<string, CidadeInfo> = {
     conteudoLocal: 'Em Rio Branco, capital do Acre na fronteira da Amazônia, do Hospital das Clínicas ao Instituto de Traumatologia, profissionais de saúde encontram na Jaleca jalecos profissionais com entrega rápida para toda a capital acreana.',
   },
   'jaleco-palmas': {
-    heroUrl: 'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=1400&q=80',
+    heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/3/3f/Palmas-TO.jpg',
     nome: 'Palmas',
     estado: 'Tocantins',
     uf: 'TO',
