@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 
 type ProductData = {
   slug: string
@@ -26,112 +26,12 @@ type Props = {
 }
 
 export default function LookbookClient({ looks }: Props) {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const currentPanelRef = useRef(0)
-  const isScrollingRef = useRef(false)
-
   useEffect(() => {
-    // Fonts
     const link = document.createElement('link')
     link.rel = 'stylesheet'
     link.href = 'https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap'
     document.head.appendChild(link)
-
-    // Overflow
-    const originalOverflow = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
-
-    return () => {
-      document.body.style.overflow = originalOverflow
-      document.head.removeChild(link)
-    }
-  }, [])
-
-  useEffect(() => {
-    const container = containerRef.current
-    if (!container) return
-    const safeContainer = container
-
-    const panels = safeContainer.querySelectorAll<HTMLElement>('.lb-panel')
-    const progressBar = document.querySelector<HTMLElement>('.lb-progress')
-    const cursor = document.querySelector<HTMLElement>('.lb-cursor')
-    const cursorDot = document.querySelector<HTMLElement>('.lb-cursor-dot')
-
-    function scrollToPanel(index: number) {
-      if (index < 0 || index >= panels.length || isScrollingRef.current) return
-      isScrollingRef.current = true
-      currentPanelRef.current = index
-      safeContainer.style.transform = `translateX(-${index * 100}vw)`
-      if (progressBar) {
-        progressBar.style.width = `${(index / (panels.length - 1)) * 100}%`
-      }
-      setTimeout(() => { isScrollingRef.current = false }, 1000)
-    }
-
-    // Mouse move
-    function onMouseMove(e: MouseEvent) {
-      if (cursor) {
-        cursor.style.left = e.clientX + 'px'
-        cursor.style.top = e.clientY + 'px'
-      }
-      if (cursorDot) {
-        cursorDot.style.left = (e.clientX - 4) + 'px'
-        cursorDot.style.top = (e.clientY - 4) + 'px'
-      }
-    }
-
-    // Cursor scale on links
-    function onEnter() { if (cursor) cursor.style.transform = 'scale(1.5) translate(-50%,-50%)' }
-    function onLeave() { if (cursor) cursor.style.transform = 'scale(1) translate(-50%,-50%)' }
-    document.querySelectorAll('a, button').forEach(el => {
-      el.addEventListener('mouseenter', onEnter)
-      el.addEventListener('mouseleave', onLeave)
-    })
-
-    // Wheel
-    let wheelTimeout: ReturnType<typeof setTimeout>
-    function onWheel(e: WheelEvent) {
-      clearTimeout(wheelTimeout)
-      wheelTimeout = setTimeout(() => {
-        if (e.deltaY > 0) scrollToPanel(currentPanelRef.current + 1)
-        else scrollToPanel(currentPanelRef.current - 1)
-      }, 50)
-    }
-
-    // Touch
-    let touchStartX = 0
-    function onTouchStart(e: TouchEvent) { touchStartX = e.changedTouches[0].screenX }
-    function onTouchEnd(e: TouchEvent) {
-      const diff = touchStartX - e.changedTouches[0].screenX
-      if (diff > 50) scrollToPanel(currentPanelRef.current + 1)
-      if (diff < -50) scrollToPanel(currentPanelRef.current - 1)
-    }
-
-    // Keyboard
-    function onKeyDown(e: KeyboardEvent) {
-      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') scrollToPanel(currentPanelRef.current + 1)
-      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') scrollToPanel(currentPanelRef.current - 1)
-    }
-
-    document.addEventListener('mousemove', onMouseMove)
-    window.addEventListener('wheel', onWheel, { passive: true })
-    safeContainer.addEventListener('touchstart', onTouchStart, { passive: true })
-    safeContainer.addEventListener('touchend', onTouchEnd, { passive: true })
-    document.addEventListener('keydown', onKeyDown)
-
-    scrollToPanel(0)
-
-    return () => {
-      document.removeEventListener('mousemove', onMouseMove)
-      window.removeEventListener('wheel', onWheel)
-      safeContainer.removeEventListener('touchstart', onTouchStart)
-      safeContainer.removeEventListener('touchend', onTouchEnd)
-      document.removeEventListener('keydown', onKeyDown)
-      document.querySelectorAll('a, button').forEach(el => {
-        el.removeEventListener('mouseenter', onEnter)
-        el.removeEventListener('mouseleave', onLeave)
-      })
-    }
+    return () => { if (document.head.contains(link)) document.head.removeChild(link) }
   }, [])
 
   return (
@@ -147,166 +47,37 @@ export default function LookbookClient({ looks }: Props) {
           --accent: #c9a961;
         }
 
-        .lb-wrapper {
-          position: fixed;
-          inset: 0;
-          z-index: 9999;
-          background: var(--cream);
-          cursor: none;
-          font-family: 'Space Grotesk', sans-serif;
-          overflow: hidden;
-        }
+        .lb-wrap { font-family: 'Space Grotesk', sans-serif; background: var(--cream); }
 
-        .lb-cursor {
-          width: 40px;
-          height: 40px;
-          border: 2px solid var(--gold);
-          border-radius: 50%;
-          position: fixed;
-          pointer-events: none;
-          z-index: 10000;
-          mix-blend-mode: difference;
-          transform: translate(-50%, -50%);
-          transition: transform 0.2s ease;
-        }
-
-        .lb-cursor-dot {
-          width: 8px;
-          height: 8px;
-          background: var(--gold);
-          border-radius: 50%;
-          position: fixed;
-          pointer-events: none;
-          z-index: 10001;
-        }
-
-        .lb-progress {
-          position: fixed;
-          top: 0;
-          left: 0;
+        /* Progress bar top */
+        .lb-progress-bar {
+          position: fixed; top: 0; left: 0;
           height: 3px;
-          width: 0%;
           background: linear-gradient(90deg, var(--gold), var(--gold-light));
-          z-index: 10000;
-          transition: width 0.3s ease;
-          box-shadow: 0 0 10px var(--gold), 0 0 20px rgba(212,175,55,0.5);
-        }
-
-        .lb-nav {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          z-index: 1000;
-          padding: 2rem 3rem;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          mix-blend-mode: difference;
-        }
-
-        .lb-logo {
-          font-family: 'Bebas Neue', sans-serif;
-          font-size: 2rem;
-          letter-spacing: 0.1em;
-          color: var(--white);
-          text-decoration: none;
-        }
-
-        .lb-nav-menu {
-          display: flex;
-          gap: 2rem;
-          list-style: none;
-        }
-
-        .lb-nav-menu a {
-          font-family: 'IBM Plex Mono', monospace;
-          font-size: 0.75rem;
-          letter-spacing: 0.2em;
-          text-transform: uppercase;
-          color: var(--white);
-          text-decoration: none;
-          position: relative;
-        }
-
-        .lb-nav-menu a::after {
-          content: '';
-          position: absolute;
-          bottom: -4px;
-          left: 0;
+          z-index: 9999;
           width: 0;
-          height: 1px;
-          background: var(--white);
-          transition: width 0.3s;
-        }
-
-        .lb-nav-menu a:hover::after { width: 100%; }
-
-        .lb-scroll-hint {
-          position: fixed;
-          bottom: 3rem;
-          right: 3rem;
-          z-index: 1000;
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-          font-family: 'IBM Plex Mono', monospace;
-          font-size: 0.7rem;
-          letter-spacing: 0.2em;
-          text-transform: uppercase;
-          color: var(--black);
-          mix-blend-mode: difference;
-        }
-
-        .lb-arrow {
-          width: 40px;
-          height: 1px;
-          background: currentColor;
-          position: relative;
-        }
-
-        .lb-arrow::after {
-          content: '';
-          position: absolute;
-          right: 0;
-          top: 50%;
-          transform: translateY(-50%) rotate(45deg);
-          width: 8px;
-          height: 8px;
-          border-right: 1px solid currentColor;
-          border-top: 1px solid currentColor;
-        }
-
-        .lb-container {
-          display: flex;
-          height: 100vh;
-          width: fit-content;
-          transition: transform 1s cubic-bezier(0.76, 0, 0.24, 1);
-        }
-
-        .lb-panel {
-          width: 100vw;
-          height: 100vh;
-          position: relative;
-          flex-shrink: 0;
-          overflow: hidden;
+          box-shadow: 0 0 8px var(--gold);
+          transition: width 0.1s;
         }
 
         /* Hero */
         .lb-hero {
           background: var(--black);
+          min-height: 100svh;
           display: flex;
+          flex-direction: column;
           align-items: center;
           justify-content: center;
+          position: relative;
+          overflow: hidden;
         }
 
         .lb-hero-title {
           font-family: 'Anton', sans-serif;
-          font-size: clamp(5rem, 20vw, 18rem);
+          font-size: clamp(4rem, 18vw, 16rem);
           line-height: 0.85;
           color: var(--cream);
           text-align: center;
-          z-index: 2;
           animation: lb-breathe 4s ease-in-out infinite;
         }
 
@@ -316,161 +87,140 @@ export default function LookbookClient({ looks }: Props) {
         }
 
         .lb-hero-sub {
-          position: absolute;
-          bottom: 4rem;
-          left: 50%;
-          transform: translateX(-50%) rotate(-2deg);
+          margin-top: 2rem;
           font-family: 'IBM Plex Mono', monospace;
-          font-size: 0.9rem;
+          font-size: clamp(0.65rem, 2vw, 0.9rem);
           letter-spacing: 0.3em;
           color: var(--gold);
           text-transform: uppercase;
         }
 
-        .lb-hero-year {
+        .lb-hero-scroll {
           position: absolute;
-          top: 50%;
-          right: 5rem;
-          transform: translateY(-50%) rotate(90deg);
-          font-family: 'Bebas Neue', sans-serif;
-          font-size: 10rem;
-          color: rgba(245,245,220,0.05);
-          letter-spacing: 0.1em;
+          bottom: 2.5rem;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 0.5rem;
+          font-family: 'IBM Plex Mono', monospace;
+          font-size: 0.65rem;
+          letter-spacing: 0.2em;
+          text-transform: uppercase;
+          color: rgba(255,255,255,0.4);
         }
 
-        /* Look panels */
+        .lb-hero-scroll-line {
+          width: 1px;
+          height: 40px;
+          background: linear-gradient(to bottom, var(--gold), transparent);
+          animation: lb-scroll-line 1.5s ease-in-out infinite;
+        }
+
+        @keyframes lb-scroll-line {
+          0% { transform: scaleY(0); transform-origin: top; }
+          50% { transform: scaleY(1); transform-origin: top; }
+          51% { transform: scaleY(1); transform-origin: bottom; }
+          100% { transform: scaleY(0); transform-origin: bottom; }
+        }
+
+        /* Look section — grid desktop, stack mobile */
         .lb-look {
           display: grid;
-          grid-template-columns: 1.2fr 1fr;
-          background: var(--cream);
+          grid-template-columns: 1fr 1fr;
+          min-height: 100svh;
         }
 
-        .lb-look.lb-even {
-          grid-template-columns: 1fr 1.2fr;
-          background: var(--white);
-        }
+        .lb-look.lb-even { direction: rtl; }
+        .lb-look.lb-even > * { direction: ltr; }
 
-        .lb-look.lb-even .lb-img { order: 2; }
-
-        .lb-img {
-          position: relative;
+        .lb-look-img {
+          position: sticky;
+          top: 0;
+          height: 100svh;
           overflow: hidden;
-          height: 100vh;
         }
 
-        .lb-img img {
-          width: 100%;
-          height: 100%;
+        .lb-look-img img {
+          width: 100%; height: 100%;
           object-fit: cover;
-          transform: scale(1.1);
-          transition: transform 2s cubic-bezier(0.76, 0, 0.24, 1);
+          transition: transform 8s ease;
         }
 
-        .lb-look:hover .lb-img img { transform: scale(1); }
+        .lb-look:hover .lb-look-img img { transform: scale(1.04); }
 
-        .lb-img::before {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(45deg, transparent, var(--gold));
-          opacity: 0;
-          mix-blend-mode: multiply;
-          transition: opacity 0.8s;
-          z-index: 1;
-        }
-
-        .lb-look:hover .lb-img::before { opacity: 0.15; }
-
-        .lb-look-num {
-          position: absolute;
-          top: -2rem;
-          left: -2rem;
-          font-family: 'Anton', sans-serif;
-          font-size: 25rem;
-          line-height: 0.8;
-          background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-light));
-          -webkit-background-clip: text;
-          background-clip: text;
-          -webkit-text-fill-color: transparent;
-          opacity: 0.1;
-          z-index: 0;
-          transform: rotate(-5deg);
-          pointer-events: none;
-        }
-
-        .lb-content {
-          padding: 8rem 5rem;
+        .lb-look-body {
+          padding: clamp(3rem, 6vw, 8rem) clamp(2rem, 5vw, 6rem);
           display: flex;
           flex-direction: column;
           justify-content: center;
-          position: relative;
-          overflow-y: auto;
+          background: var(--cream);
+        }
+
+        .lb-look.lb-even .lb-look-body { background: var(--white); }
+
+        .lb-num {
+          font-family: 'IBM Plex Mono', monospace;
+          font-size: 0.7rem;
+          letter-spacing: 0.3em;
+          color: var(--accent);
+          margin-bottom: 0.5rem;
+          text-transform: uppercase;
         }
 
         .lb-cat {
           font-family: 'IBM Plex Mono', monospace;
-          font-size: 0.7rem;
-          letter-spacing: 0.3em;
+          font-size: 0.65rem;
+          letter-spacing: 0.25em;
+          color: rgba(0,0,0,0.35);
           text-transform: uppercase;
-          color: var(--accent);
-          margin-bottom: 2rem;
-          transform: rotate(-2deg);
+          margin-bottom: 1.5rem;
         }
 
-        .lb-title {
+        .lb-look-title {
           font-family: 'Bebas Neue', sans-serif;
-          font-size: clamp(3rem, 8vw, 7rem);
+          font-size: clamp(3rem, 7vw, 7rem);
           line-height: 0.9;
-          letter-spacing: 0.05em;
-          margin-bottom: 2rem;
           color: var(--black);
+          margin-bottom: 1.5rem;
         }
 
         .lb-desc {
-          font-size: 1.05rem;
-          line-height: 1.6;
-          color: #333;
+          font-size: clamp(0.9rem, 1.5vw, 1.05rem);
+          line-height: 1.7;
+          color: #444;
           margin-bottom: 2.5rem;
-          max-width: 500px;
+          max-width: 480px;
         }
 
-        /* Products grid */
-        .lb-products {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 1.5rem;
-        }
+        /* Products */
+        .lb-products { display: flex; flex-direction: column; gap: 1rem; }
 
         .lb-featured {
-          grid-column: 1 / -1;
           background: var(--black);
           color: var(--cream);
-          padding: 2rem;
-          display: grid;
-          grid-template-columns: 1fr 1.5fr;
-          gap: 2rem;
-          border: 3px solid var(--gold);
-          position: relative;
-          box-shadow: 0 0 30px rgba(212,175,55,0.4), inset 0 0 0 1px rgba(212,175,55,0.2);
+          border: 2px solid var(--gold);
+          box-shadow: 0 0 24px rgba(212,175,55,0.25);
           text-decoration: none;
+          display: grid;
+          grid-template-columns: 1fr 1.6fr;
+          position: relative;
           transition: box-shadow 0.4s;
+          overflow: hidden;
         }
 
-        .lb-featured::after {
+        .lb-featured:hover { box-shadow: 0 0 40px rgba(212,175,55,0.45); }
+
+        .lb-featured::before {
           content: '★ DESTAQUE';
           position: absolute;
-          top: -0.8rem;
-          right: 2rem;
+          top: -0.7rem; right: 1.5rem;
           background: var(--black);
-          padding: 0 1rem;
+          padding: 0 0.75rem;
           font-family: 'IBM Plex Mono', monospace;
-          font-size: 0.65rem;
+          font-size: 0.6rem;
           letter-spacing: 0.2em;
           color: var(--gold);
-        }
-
-        .lb-featured:hover {
-          box-shadow: 0 0 50px rgba(212,175,55,0.6), inset 0 0 0 1px rgba(212,175,55,0.4);
+          z-index: 2;
         }
 
         .lb-feat-img {
@@ -479,38 +229,34 @@ export default function LookbookClient({ looks }: Props) {
         }
 
         .lb-feat-img img {
-          width: 100%;
-          height: 100%;
+          width: 100%; height: 100%;
           object-fit: cover;
-          filter: grayscale(30%);
-          transition: filter 0.6s;
+          filter: grayscale(20%);
+          transition: filter 0.5s, transform 0.8s;
         }
 
-        .lb-featured:hover .lb-feat-img img { filter: grayscale(0%); }
+        .lb-featured:hover .lb-feat-img img {
+          filter: grayscale(0%);
+          transform: scale(1.04);
+        }
 
         .lb-feat-body {
+          padding: 1.5rem;
           display: flex;
           flex-direction: column;
           justify-content: center;
-          gap: 1.5rem;
+          gap: 1rem;
         }
 
         .lb-feat-name {
           font-family: 'Bebas Neue', sans-serif;
-          font-size: 2.5rem;
-          line-height: 0.9;
-          letter-spacing: 0.05em;
-        }
-
-        .lb-feat-desc {
-          font-size: 1rem;
-          line-height: 1.6;
-          opacity: 0.85;
+          font-size: clamp(1.4rem, 3vw, 2.2rem);
+          line-height: 0.95;
         }
 
         .lb-feat-price {
           font-family: 'IBM Plex Mono', monospace;
-          font-size: 2rem;
+          font-size: clamp(1.2rem, 2.5vw, 1.8rem);
           color: var(--gold);
           font-weight: 600;
         }
@@ -518,237 +264,209 @@ export default function LookbookClient({ looks }: Props) {
         .lb-feat-btn {
           background: linear-gradient(135deg, var(--gold), var(--gold-light));
           color: var(--black);
-          padding: 1.2rem 3rem;
+          padding: 0.9rem 1.5rem;
           font-family: 'IBM Plex Mono', monospace;
-          font-size: 0.8rem;
-          letter-spacing: 0.2em;
+          font-size: 0.72rem;
+          letter-spacing: 0.18em;
           text-transform: uppercase;
           font-weight: 600;
-          display: inline-block;
-          width: fit-content;
-          transition: all 0.4s cubic-bezier(0.76, 0, 0.24, 1);
-          position: relative;
-          overflow: hidden;
-          box-shadow: 0 4px 20px rgba(212,175,55,0.3);
+          display: block;
+          text-align: center;
+          transition: box-shadow 0.3s, transform 0.3s;
         }
 
-        .lb-feat-btn:hover {
-          box-shadow: 0 8px 30px rgba(212,175,55,0.5);
-          transform: translateY(-2px);
+        .lb-featured:hover .lb-feat-btn {
+          box-shadow: 0 4px 16px rgba(212,175,55,0.5);
+          transform: translateY(-1px);
         }
 
-        /* Small product card */
         .lb-card {
           background: rgba(0,0,0,0.03);
-          padding: 1.5rem;
+          border: 1px solid rgba(212,175,55,0.2);
+          padding: 1rem 1.25rem;
           text-decoration: none;
           color: inherit;
-          transition: all 0.4s cubic-bezier(0.76, 0, 0.24, 1);
-          position: relative;
-          overflow: hidden;
-          border: 1px solid transparent;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          transition: background 0.3s, border-color 0.3s, transform 0.3s;
         }
-
-        .lb-card::before {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(135deg, var(--gold), var(--gold-light));
-          transform: translateX(-100%) skewX(-15deg);
-          transition: transform 0.6s cubic-bezier(0.76, 0, 0.24, 1);
-        }
-
-        .lb-card:hover::before { transform: translateX(0) skewX(-15deg); }
 
         .lb-card:hover {
+          background: rgba(212,175,55,0.08);
           border-color: var(--gold);
-          transform: translateX(10px);
-          box-shadow: 0 10px 30px rgba(212,175,55,0.3);
+          transform: translateX(4px);
         }
 
-        .lb-card-info { position: relative; z-index: 1; }
-
         .lb-card-name {
-          font-size: 0.85rem;
+          font-size: 0.88rem;
           font-weight: 600;
-          margin-bottom: 0.5rem;
-          line-height: 1.3;
+          flex: 1;
         }
 
         .lb-card-price {
           font-family: 'IBM Plex Mono', monospace;
-          font-size: 1.1rem;
+          font-size: 0.95rem;
           font-weight: 600;
           color: var(--accent);
+          margin-left: 1rem;
+          white-space: nowrap;
         }
-
-        .lb-card:hover .lb-card-price { color: var(--black); }
 
         /* Final panel */
         .lb-final {
           background: var(--black);
+          min-height: 80svh;
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: center;
           position: relative;
           overflow: hidden;
+          padding: 4rem 2rem;
+          text-align: center;
         }
 
         .lb-final-grid {
-          position: absolute;
-          inset: 0;
+          position: absolute; inset: 0;
           background:
-            repeating-linear-gradient(0deg, transparent, transparent 50px, rgba(255,215,0,0.03) 50px, rgba(255,215,0,0.03) 51px),
-            repeating-linear-gradient(90deg, transparent, transparent 50px, rgba(255,215,0,0.03) 50px, rgba(255,215,0,0.03) 51px);
+            repeating-linear-gradient(0deg, transparent, transparent 50px, rgba(255,215,0,0.025) 50px, rgba(255,215,0,0.025) 51px),
+            repeating-linear-gradient(90deg, transparent, transparent 50px, rgba(255,215,0,0.025) 50px, rgba(255,215,0,0.025) 51px);
           pointer-events: none;
         }
 
         .lb-final-title {
           font-family: 'Anton', sans-serif;
-          font-size: clamp(4rem, 15vw, 12rem);
+          font-size: clamp(3.5rem, 12vw, 10rem);
           line-height: 0.85;
           color: var(--gold);
-          text-align: center;
-          margin-bottom: 2rem;
-          text-transform: uppercase;
-          transform: rotate(-3deg);
-          position: relative;
-          z-index: 1;
+          margin-bottom: 1.5rem;
+          transform: rotate(-2deg);
+          position: relative; z-index: 1;
         }
 
         .lb-final-sub {
-          font-size: 1.3rem;
-          color: var(--cream);
-          text-align: center;
-          max-width: 600px;
-          margin-bottom: 3rem;
-          line-height: 1.6;
-          position: relative;
-          z-index: 1;
+          font-size: clamp(0.9rem, 2vw, 1.2rem);
+          color: rgba(255,255,255,0.8);
+          max-width: 560px;
+          line-height: 1.7;
+          margin-bottom: 2.5rem;
+          position: relative; z-index: 1;
         }
 
         .lb-final-cta {
           background: linear-gradient(135deg, var(--gold), var(--gold-light));
           color: var(--black);
-          padding: 1.5rem 4rem;
+          padding: 1.3rem 4rem;
           font-family: 'Bebas Neue', sans-serif;
-          font-size: 1.5rem;
+          font-size: 1.4rem;
           letter-spacing: 0.1em;
           text-decoration: none;
-          transition: all 0.4s cubic-bezier(0.76, 0, 0.24, 1);
-          box-shadow: 0 8px 30px rgba(212,175,55,0.4);
-          position: relative;
-          z-index: 1;
+          transition: all 0.4s;
+          box-shadow: 0 6px 24px rgba(212,175,55,0.35);
+          position: relative; z-index: 1;
         }
 
         .lb-final-cta:hover {
-          box-shadow: 0 12px 40px rgba(212,175,55,0.6);
-          transform: translateY(-3px);
+          box-shadow: 0 10px 36px rgba(212,175,55,0.55);
+          transform: translateY(-2px);
         }
 
-        @media (max-width: 768px) {
-          .lb-nav { padding: 1.5rem; }
-          .lb-logo { font-size: 1.5rem; }
-          .lb-nav-menu { display: none; }
-          .lb-look, .lb-look.lb-even {
+        /* Mobile */
+        @media (max-width: 767px) {
+          .lb-look {
             grid-template-columns: 1fr;
-            grid-template-rows: 50vh 50vh;
+            min-height: unset;
           }
-          .lb-look.lb-even .lb-img { order: 0; }
-          .lb-content { padding: 3rem 2rem; overflow-y: auto; }
-          .lb-look-num { font-size: 12rem; }
-          .lb-products { grid-template-columns: 1fr; }
-          .lb-featured { grid-template-columns: 1fr; }
-          .lb-scroll-hint { bottom: 1.5rem; right: 1.5rem; }
+
+          .lb-look-img {
+            position: relative;
+            height: 75vw;
+            top: 0;
+          }
+
+          .lb-look-body { padding: 2rem 1.5rem 3rem; }
+
+          .lb-featured {
+            grid-template-columns: 1fr;
+          }
+
+          .lb-feat-img { aspect-ratio: 16/9; }
         }
       `}</style>
 
-      <div className="lb-wrapper">
-        <div className="lb-cursor" />
-        <div className="lb-cursor-dot" />
-        <div className="lb-progress" />
+      {/* Barra de progresso scroll */}
+      <script dangerouslySetInnerHTML={{ __html: `
+        (function(){
+          var bar = document.querySelector('.lb-progress-bar');
+          if(!bar) return;
+          window.addEventListener('scroll', function(){
+            var pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+            bar.style.width = pct + '%';
+          }, {passive:true});
+        })();
+      `}} />
 
-        <nav className="lb-nav">
-          <Link href="/" className="lb-logo">JALECA</Link>
-          <ul className="lb-nav-menu">
-            <li><Link href="/categoria/jalecos">Jalecos</Link></li>
-            <li><Link href="/categoria/conjuntos">Conjuntos</Link></li>
-            <li><Link href="/lookbook">Lookbook</Link></li>
-          </ul>
-        </nav>
+      <div className="lb-wrap">
+        <div className="lb-progress-bar" />
 
-        <div className="lb-scroll-hint">
-          <span>Arraste</span>
-          <div className="lb-arrow" />
-        </div>
+        {/* Hero */}
+        <section className="lb-hero">
+          <h1 className="lb-hero-title">JALECA<br />LOOKBOOK</h1>
+          <p className="lb-hero-sub">Revolução em Uniformes · 2026</p>
+          <div className="lb-hero-scroll">
+            <span>scroll</span>
+            <div className="lb-hero-scroll-line" />
+          </div>
+        </section>
 
-        <div className="lb-container" ref={containerRef}>
-          {/* Hero */}
-          <section className="lb-panel lb-hero">
-            <h1 className="lb-hero-title">JALECA<br />LOOKBOOK</h1>
-            <div className="lb-hero-sub">Revolução em Uniformes</div>
-            <div className="lb-hero-year">2026</div>
-          </section>
+        {/* Looks */}
+        {looks.map((look, i) => (
+          <section key={look.number} className={`lb-look${i % 2 !== 0 ? ' lb-even' : ''}`}>
+            <div className="lb-look-img">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={look.heroImage} alt={look.heroImageAlt} loading="lazy" />
+            </div>
+            <div className="lb-look-body">
+              <div className="lb-num">{look.number} / {String(looks.length).padStart(2, '0')}</div>
+              <div className="lb-cat">/// {look.category}</div>
+              <h2 className="lb-look-title">{look.title}</h2>
+              <p className="lb-desc">{look.description}</p>
 
-          {/* Looks */}
-          {looks.map((look, i) => (
-            <section key={look.number} className={`lb-panel lb-look${i % 2 !== 0 ? ' lb-even' : ''}`}>
-              <div className="lb-img">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={look.heroImage} alt={look.heroImageAlt} loading="lazy" />
-              </div>
-              <div className="lb-content">
-                <div className="lb-look-num">{look.number}</div>
-                <div className="lb-cat">/// {look.category}</div>
-                <h2 className="lb-title">{look.title}</h2>
-                <p className="lb-desc">{look.description}</p>
+              <div className="lb-products">
+                <Link href={`/produto/${look.featured.slug}`} className="lb-featured">
+                  <div className="lb-feat-img">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={look.featured.image || look.heroImage} alt={look.featured.name} />
+                  </div>
+                  <div className="lb-feat-body">
+                    <div className="lb-feat-name">{look.featured.name}</div>
+                    <div className="lb-feat-price" dangerouslySetInnerHTML={{ __html: look.featured.price || '—' }} />
+                    <span className="lb-feat-btn">Ver Produto →</span>
+                  </div>
+                </Link>
 
-                <div className="lb-products">
-                  {/* Featured card */}
-                  <Link href={`/produto/${look.featured.slug}`} className="lb-featured">
-                    <div className="lb-feat-img">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={look.featured.image || look.heroImage} alt={look.featured.name} />
-                    </div>
-                    <div className="lb-feat-body">
-                      <div className="lb-feat-name">{look.featured.name}</div>
-                      <div
-                        className="lb-feat-price"
-                        dangerouslySetInnerHTML={{ __html: look.featured.price || '—' }}
-                      />
-                      <span className="lb-feat-btn">Ver Produto</span>
-                    </div>
+                {look.others.map(p => (
+                  <Link key={p.slug} href={`/produto/${p.slug}`} className="lb-card">
+                    <span className="lb-card-name">{p.name}</span>
+                    <span className="lb-card-price" dangerouslySetInnerHTML={{ __html: p.price || '—' }} />
                   </Link>
-
-                  {/* Other cards */}
-                  {look.others.map(p => (
-                    <Link key={p.slug} href={`/produto/${p.slug}`} className="lb-card">
-                      <div className="lb-card-info">
-                        <div className="lb-card-name">{p.name}</div>
-                        <div
-                          className="lb-card-price"
-                          dangerouslySetInnerHTML={{ __html: p.price || '—' }}
-                        />
-                      </div>
-                    </Link>
-                  ))}
-                </div>
+                ))}
               </div>
-            </section>
-          ))}
-
-          {/* Final */}
-          <section className="lb-panel lb-final">
-            <div className="lb-final-grid" />
-            <h2 className="lb-final-title">EXPLORE A COLEÇÃO</h2>
-            <p className="lb-final-sub">
-              Mais de 200 modelos que transformam profissionais em referências.
-              Descubra o uniforme que reflete sua excelência.
-            </p>
-            <Link href="/produtos" className="lb-final-cta">VER TUDO</Link>
+            </div>
           </section>
-        </div>
+        ))}
+
+        {/* Final */}
+        <section className="lb-final">
+          <div className="lb-final-grid" />
+          <h2 className="lb-final-title">EXPLORE A COLEÇÃO</h2>
+          <p className="lb-final-sub">
+            Mais de 200 modelos que transformam profissionais em referências.
+            Descubra o uniforme que reflete sua excelência.
+          </p>
+          <Link href="/produtos" className="lb-final-cta">VER TUDO</Link>
+        </section>
       </div>
     </>
   )
