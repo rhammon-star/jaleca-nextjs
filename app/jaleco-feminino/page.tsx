@@ -7,12 +7,12 @@ import ProfessionProductGrid from '@/components/ProfessionProductGrid'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Jaleco Feminino para Médica e Enfermeira — Slim PP ao G3 | Jaleca',
-  description: 'Jaleco feminino Slim com molde real para o corpo feminino — não é o masculino adaptado. Avaliação 4.9★ no Google. Do PP ao G3, 12 cores, elastano. Frete grátis SP/RJ/MG/ES acima de R$499.',
+  title: 'Guia de Jaleco Feminino por Especialidade: Médica, Dentista, Enfermeira | Jaleca',
+  description: 'Guia completo de jaleco feminino por profissão: médica, dentista, enfermeira, fisioterapeuta e mais. Qual modelo, tecido e cor escolher para cada especialidade.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-feminino' },
   openGraph: {
-    title: 'Jaleco Feminino para Médica e Enfermeira — Slim PP ao G3 | Jaleca',
-    description: 'Jaleco feminino Slim com molde real. Avaliação 4.9★ no Google. PP ao G3, 12 cores, elastano. Frete grátis SE.',
+    title: 'Guia de Jaleco Feminino por Especialidade | Jaleca',
+    description: 'Qual jaleco feminino escolher para cada profissão? Guia completo por especialidade com modelos Slim, Princesa e Elastex.',
     url: 'https://jaleca.com.br/jaleco-feminino',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -20,8 +20,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Jaleco Feminino: Modelos Slim, Princesa e Plus Size',
-    description: 'Jaleco feminino do PP ao G3 com molde próprio. Elastano bidirecional, gabardine premium, 12 cores.',
+    title: 'Guia de Jaleco Feminino por Especialidade | Jaleca',
+    description: 'Qual jaleco feminino para cada profissão? Médica, dentista, enfermeira, fisioterapeuta e mais.',
     images: ['https://jaleca.com.br/og-home.jpg'],
   },
 }
