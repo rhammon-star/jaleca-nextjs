@@ -7,6 +7,8 @@ const faqItems = [
   { q: 'Médico pode ter jaleco com bordado?', a: 'Sim. Borda o nome e CRM é prática comum e recomendada. Para pedidos a partir de 5 peças, oferecemos condições especiais de bordado corporativo.' },
   { q: 'Como funciona a troca?', a: 'Arrependimento: até 7 dias após o recebimento, produto sem uso e com etiqueta. Garantia Jaleca: 30 dias, sem marca de uso e com etiqueta. WhatsApp ou e-mail com número do pedido.' },
   { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Prazo de 3 a 8 dias úteis conforme região — calculado no checkout.' },
+  { q: 'Qual o melhor tecido para jaleco de médico?', a: 'O mais pedido é o gabardine com elastano: dura o dia todo sem perder o caimento, suporta lavagens frequentes e oferece total liberdade de movimento. Para diretores e gestores clínicos, o tecido alfaiataria premium transmite mais autoridade. Estudantes de medicina geralmente escolhem o gabardine 100% poliéster pelo custo-benefício.' },
+  { q: 'Como escolher o tamanho certo do jaleco?', a: 'M e G acinturados são os mais vendidos. O erro mais frequente é pedir M e precisar trocar por G — o jaleco acinturado parece menor no cabide. Meça a largura dos seus ombros antes de comprar: essa é a medida que define o tamanho, não a cintura. Na dúvida entre dois tamanhos, escolha o maior.' },
 ]
 export default function FaqAccordion() {
   const [openIndex, setOpenIndex] = useState<number | null>(0)

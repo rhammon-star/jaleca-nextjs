@@ -44,6 +44,8 @@ const schemaFaq = {
     { '@type': 'Question', name: 'Jaleco com elastano é bom para professor?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. O elastano adiciona memória ao tecido, retornando à forma após o movimento — essencial para quem passa horas em atendimento.' } },
     { '@type': 'Question', name: 'Jaleco de professor precisa ser branco?', acceptedAnswer: { '@type': 'Answer', text: 'Não é obrigação. O branco é o clássico, mas tons pastel e cores discretas são bem aceitos. Não há restrição de cor.' } },
     { '@type': 'Question', name: 'Qual a diferença entre jaleco Slim e Profissional?', acceptedAnswer: { '@type': 'Answer', text: 'O Slim tem corte ajustado ao corpo, ideal para quem quer visual mais moderno. O Profissional tem corte mais amplo e estruturado, com mais espaço para movimento.' } },
+    { '@type': 'Question', name: 'Qual o melhor tecido para jaleco de professor?', acceptedAnswer: { '@type': 'Answer', text: 'Para uso diário em sala de aula, o gabardine 100% poliéster é o mais escolhido por professores na Jaleca: excelente custo-benefício e fácil lavagem. Professores universitários e coordenadores geralmente optam pelo tecido alfaiataria premium para transmitir mais autoridade. O gabardine com elastano é ideal para quem quer conforto durante longas horas em pé.' } },
+    { '@type': 'Question', name: 'Qual tamanho de jaleco escolher para professor?', acceptedAnswer: { '@type': 'Answer', text: 'M e G acinturados são os mais pedidos por professores na Jaleca. O erro mais comum é pedir M e precisar trocar por G. O jaleco deve ter folga suficiente para escrever no quadro com os braços levantados sem apertar. Meça a largura dos ombros antes de comprar.' } },
   ],
 }
 
@@ -416,8 +418,8 @@ export default async function JalecoDentistaPage() {
               }) : (
                 // Fallback: artigos fixos relevantes para o cluster
                 [
+                  { title: 'Jaleco professor: diferença entre sala de aula e laboratório', href: '/blog/jaleco-professor-diferenca-sala-aula', tag: 'Guia', excerpt: 'Entenda quando usar jaleco longo ou curto, manga longa ou curta, e o que pedem as diretorias de ensino.' },
                   { title: 'Como lavar e conservar seu jaleco profissional', href: '/blog/como-lavar-jaleco', tag: 'Cuidados', excerpt: 'Erros simples de lavagem aceleram o amarelamento e encurtam a vida do jaleco. Veja o guia completo.' },
-                  { title: 'Jaleco branco: tradição e protocolos em educação', href: '/blog', tag: 'Educação', excerpt: 'Por que o branco é tão usado em educação e o que recomendam sobre cores e vestimenta.' },
                   { title: 'Como escolher o tamanho certo do jaleco', href: '/medidas', tag: 'Guia de Tamanhos', excerpt: 'Passo a passo para medir busto, cintura e quadril e encontrar o tamanho ideal na grade Jaleca.' },
                 ].map(post => (
                   <Link key={post.href} href={post.href} style={{ background: '#fff', textDecoration: 'none', color: 'inherit', display: 'block' }}>
@@ -459,6 +461,7 @@ export default async function JalecoDentistaPage() {
                 { label: 'Nutricionista', href: '/jaleco-nutricionista', desc: 'Guia completo' },
                 { label: 'Veterinário', href: '/jaleco-veterinario', desc: 'Guia completo' },
                 { label: 'Médico', href: '/jaleco-medico', desc: 'Guia completo' },
+                { label: 'Pastor', href: '/jaleco-pastor', desc: 'Guia completo' },
                 { label: 'Ver todos', href: '/produtos?categoria=jalecos', desc: 'Loja completa' },
               ].map(item => (
                 <Link key={item.href} href={item.href} className="block hover:bg-white/5 transition-colors duration-200" style={{ padding: '1.5rem', textDecoration: 'none' }}>

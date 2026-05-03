@@ -35,6 +35,14 @@ const faqItems = [
     q: 'Qual o prazo de entrega?',
     a: 'Enviamos em até 2 dias úteis após a confirmação do pagamento. O prazo varia de 3 a 8 dias úteis conforme sua região — calculado no checkout com o CEP. Capitais do Sudeste geralmente recebem em 3 a 5 dias.',
   },
+  {
+    q: 'Qual o melhor tecido para jaleco de dentista?',
+    a: 'O gabardine com elastano é o mais pedido por dentistas na Jaleca: resiste a lavagens frequentes, seca rápido e oferece liberdade de movimento para trabalhar sobre o paciente. Para consultórios premium, o tecido alfaiataria premium transmite mais elegância e posicionamento.',
+  },
+  {
+    q: 'Como escolher o tamanho certo do jaleco?',
+    a: 'M e G acinturados são os mais vendidos. O erro mais comum: pedir M e precisar trocar por G. O jaleco acinturado parece menor no cabide do que é na prática. Meça a largura dos ombros antes de comprar — essa é a medida que define o tamanho. Na dúvida, escolha o maior: o jaleco não pode apertar ao levantar os braços.',
+  },
 ]
 
 export default function FaqAccordion() {
