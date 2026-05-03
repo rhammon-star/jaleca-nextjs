@@ -143,6 +143,7 @@ export default function LookbookClient({ looks }: Props) {
         .lb-look-img img {
           width: 100%; height: 100%;
           object-fit: cover;
+          object-position: top center;
           transition: transform 8s ease;
         }
 
@@ -231,6 +232,7 @@ export default function LookbookClient({ looks }: Props) {
         .lb-feat-img img {
           width: 100%; height: 100%;
           object-fit: cover;
+          object-position: top center;
           filter: grayscale(20%);
           transition: filter 0.5s, transform 0.8s;
         }

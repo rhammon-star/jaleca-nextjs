@@ -72,10 +72,10 @@ export default async function LookbookPage() {
     scrub1, scrub2, scrub3,
     dolma1, dolma2,
   ] = await Promise.all([
-    fetchProduct('jaleco-slim-tradicional-feminino-jaleca'),
+    fetchProduct('jaleco-slim-dama-feminino-jaleca'),
     fetchProduct('jaleco-slim-duquesa-feminino-jaleca'),
     fetchProduct('jaleco-slim-princesa-feminino-jaleca'),
-    fetchProduct('jaleco-slim-tradicional-masculino-jaleca'),
+    fetchProduct('jaleco-slim-tradicional-masculino-jaleca-azul-marinho'),
     fetchProduct('jaleco-slim-recortes-masculino-jaleca'),
     fetchProduct('jaleco-slim-moratty-masculino-jaleca'),
     fetchProduct('conjunto-scrub-feminino-jaleca'),
@@ -93,7 +93,7 @@ export default async function LookbookPage() {
       description: 'Corte arquitetônico. Tecido inteligente. Performance que desafia convenções. O jaleco reimaginado para a profissional que lidera a transformação.',
       heroImage: LOOK_IMAGES.feminino,
       heroImageAlt: 'Jaleco Feminino Premium Jaleca',
-      featured: feminino1 ?? { slug: 'jaleco-slim-tradicional-feminino-jaleca', name: 'Jaleco Slim Tradicional Feminino', price: '', image: LOOK_IMAGES.feminino },
+      featured: feminino1 ?? { slug: 'jaleco-slim-dama-feminino-jaleca', name: 'Jaleco Slim Dama Feminino', price: '', image: LOOK_IMAGES.feminino },
       others: [feminino2, feminino3].filter(Boolean) as ProductMini[],
     },
     {
@@ -103,7 +103,7 @@ export default async function LookbookPage() {
       description: 'Estrutura. Autoridade. Movimento. Design pensado para quem não aceita compromissos. Performance profissional em cada detalhe.',
       heroImage: LOOK_IMAGES.masculino,
       heroImageAlt: 'Jaleco Masculino Premium Jaleca',
-      featured: masculino1 ?? { slug: 'jaleco-slim-tradicional-masculino-jaleca', name: 'Jaleco Slim Tradicional Masculino', price: '', image: LOOK_IMAGES.masculino },
+      featured: masculino1 ?? { slug: 'jaleco-slim-tradicional-masculino-jaleca-azul-marinho', name: 'Jaleco Slim Tradicional Masculino Azul Marinho', price: '', image: LOOK_IMAGES.masculino },
       others: [masculino2, masculino3].filter(Boolean) as ProductMini[],
     },
     {
