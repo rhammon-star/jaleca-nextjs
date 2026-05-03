@@ -1,3 +1,18 @@
+Data: 2026-05-03 01:30
+Tarefa: Fotos cartão postal reais para todas as 75 páginas /cidade/[slug]
+Arquivos alterados:
+- app/cidade/[slug]/page.tsx (75 heroUrl atualizadas — zero Unsplash restante)
+O que foi feito:
+- Removido getCidadeHeroImage() (Unsplash API), generateStaticParams e force-dynamic
+- 75/75 cidades com foto Wikipedia/Wikimedia hardcoded — verificadas HTTP 200 antes de aplicar
+- Método: Wikipedia REST API page/summary + Wikimedia imageinfo API + MediaSearch
+- Commits: 07e7dc5 (26 cidades), 5cdc112 (49 cidades restantes)
+- Deploy prod READY — jaleca.com.br/cidade/* HTTP 200 confirmado
+Resultado: OK
+Próximo passo: submeter URLs /cidade/* no GSC; continuar plano SEO (#20 /jaleco-bordado, #14/#15 títulos WP)
+
+---
+
 Data: 2026-05-03 00:30
 Tarefa: #26 Link building — 6 novos artigos nos sites satélite
 O que foi feito:
