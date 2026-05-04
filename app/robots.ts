@@ -17,12 +17,8 @@ export default function robots(): MetadataRoute.Robots {
           '/comparar',
           '/checkout',
           '/pagamento',
-          // Next.js build assets - não precisam ser rastreados
-          '/_next/',
-          '/_next/static/chunks/',
-          '/_next/static/media/',
+          // Next.js data API interna — não indexar
           '/_next/data/',
-          '/_next/image/',
           // Querystrings legacy WordPress que ainda aparecem no índice
           '/?wc-ajax=',
           '/?add-to-cart=',
