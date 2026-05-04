@@ -12,6 +12,7 @@ import { graphqlClient, GET_PRODUCTS } from '@/lib/graphql'
 import type { WooProduct } from '@/components/ProductCard'
 import { formatCPF, validateCPF, cleanCPF } from '@/lib/cpf'
 import { trackAddPaymentInfo, trackInitiateCheckout } from '@/components/Analytics'
+import { readClickIds } from '@/lib/click-ids'
 
 type AddressForm = {
   first_name: string
@@ -533,11 +534,14 @@ export default function CheckoutClient() {
         return undefined
       })()
 
+      const clickIds = readClickIds() ?? undefined
+
       const paymentData = {
         paymentMethod,
         cpf: cleanCPF(cpf),
         billing: billingData,
         gaClientId,
+        clickIds,
         items: items.map(item => ({
           product_id: item.databaseId,
           variation_id: item.variationId,
@@ -1297,6 +1301,12 @@ export default function CheckoutClient() {
                 </div>
               )}
 
+              <div className="hidden md:flex items-center justify-center gap-4 text-[11px] text-muted-foreground">
+                <span className="flex items-center gap-1">🔒 Compra segura</span>
+                <span className="flex items-center gap-1">⭐ 4,9 no Google</span>
+                <span className="flex items-center gap-1">🔐 Dados criptografados</span>
+              </div>
+
               <button
                 type="submit"
                 disabled={loading}
@@ -1305,23 +1315,28 @@ export default function CheckoutClient() {
                 {loading ? (
                   <><Loader2 size={16} className="animate-spin" /> Processando...</>
                 ) : (
-                  <>{paymentMethod === 'credit_card' ? 'Ir para Pagamento Seguro' : 'Finalizar Pedido'} <ChevronRight size={16} /></>
+                  <>Finalizar Compra <ChevronRight size={16} /></>
                 )}
               </button>
             </div>
           </div>
 
           {/* Sticky bottom CTA — mobile only (desktop usa botão acima) */}
-          <div className="fixed bottom-0 left-0 right-0 z-[60] md:hidden bg-background border-t border-border px-4 py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] shadow-lg">
+          <div className="fixed bottom-0 left-0 right-0 z-[60] md:hidden bg-background border-t border-border px-4 pt-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] shadow-lg">
+            <div className="flex items-center justify-center gap-3 text-[10px] text-muted-foreground mb-1.5">
+              <span>🔒 Compra segura</span>
+              <span>⭐ 4,9 no Google</span>
+              <span>🔐 Dados criptografados</span>
+            </div>
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-ink text-background min-h-[56px] text-[16px] font-semibold tracking-widest uppercase transition-all hover:bg-ink/90 active:scale-[0.98] disabled:opacity-60 flex items-center justify-center gap-2"
+              className="w-full bg-ink text-background min-h-[52px] text-[16px] font-semibold tracking-widest uppercase transition-all hover:bg-ink/90 active:scale-[0.98] disabled:opacity-60 flex items-center justify-center gap-2"
             >
               {loading ? (
                 <><Loader2 size={16} className="animate-spin" /> Processando...</>
               ) : (
-                <>{paymentMethod === 'credit_card' ? 'Ir para Pagamento Seguro' : 'Finalizar Pedido'} <ChevronRight size={16} /></>
+                <>Finalizar Compra <ChevronRight size={16} /></>
               )}
             </button>
           </div>

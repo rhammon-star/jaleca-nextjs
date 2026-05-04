@@ -11,6 +11,7 @@ import { WishlistProvider } from "@/contexts/WishlistContext"
 import { CompareProvider } from "@/contexts/CompareContext";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import Analytics from "@/components/Analytics";
+import ClickIdCapture from "@/components/ClickIdCapture";
 import Script from "next/script";
 import BottomNavBar from "@/components/BottomNavBar";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -207,6 +208,7 @@ export default function RootLayout({
             <CompareProvider>
               <CartProvider>
                 <Analytics />
+                <ClickIdCapture />
                 {/* Microsoft Advertising UET tag */}
                 <Script id="bing-uet" strategy="lazyOnload" dangerouslySetInnerHTML={{
                   __html: `window.uetq=window.uetq||[];window.uetq.push('consent','default',{'ad_storage':'granted'});(function(w,d,t,u,o){w[u]=w[u]||[],o.ts=(new Date).getTime();var n=d.createElement(t);n.src="https://bat.bing.net/bat.js?ti="+o.ti+("uetq"!=u?"&q="+u:""),n.async=1,n.onload=n.onreadystatechange=function(){var s=this.readyState;s&&"loaded"!==s&&"complete"!==s||(o.q=w[u],w[u]=new UET(o),w[u].push("pageLoad"),n.onload=n.onreadystatechange=null)};var i=d.getElementsByTagName(t)[0];i.parentNode.insertBefore(n,i)})(window,document,"script","uetq",{ti:"187247004",enableAutoSpaTracking:true});`,

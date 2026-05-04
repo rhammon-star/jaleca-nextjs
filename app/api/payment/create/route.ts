@@ -59,6 +59,19 @@ type RequestBody = {
   totalDiscount?: number
   pixDiscount?: number
   gaClientId?: string
+  clickIds?: {
+    gclid?: string
+    gbraid?: string
+    wbraid?: string
+    fbclid?: string
+    utm_source?: string
+    utm_medium?: string
+    utm_campaign?: string
+    utm_term?: string
+    utm_content?: string
+    landingPage?: string
+    referrer?: string
+  }
 }
 
 function phoneNumbers(phone: string): { area_code: string; number: string } {
@@ -106,7 +119,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const body: RequestBody = await request.json()
-    const { paymentMethod, cpf, billing, items, shipping, customer_id, cardData, installments, couponCode, totalDiscount, pixDiscount } = body
+    const { paymentMethod, cpf, billing, items, shipping, customer_id, cardData, installments, couponCode, totalDiscount, pixDiscount, clickIds } = body
     alertContext = { billing, paymentMethod, items, shipping }
     let { gaClientId } = body
 
@@ -266,6 +279,17 @@ export async function POST(request: NextRequest) {
         { key: 'melhorenvio_service_id', value: shipping.method_id },
         { key: 'jaleca_shipping_service', value: shipping.method_title },
         ...(gaClientId ? [{ key: 'jaleca_ga_client_id', value: gaClientId }] : []),
+        ...(clickIds?.gclid       ? [{ key: '_gclid',         value: clickIds.gclid }]       : []),
+        ...(clickIds?.gbraid      ? [{ key: '_gbraid',        value: clickIds.gbraid }]      : []),
+        ...(clickIds?.wbraid      ? [{ key: '_wbraid',        value: clickIds.wbraid }]      : []),
+        ...(clickIds?.fbclid      ? [{ key: '_fbclid',        value: clickIds.fbclid }]      : []),
+        ...(clickIds?.utm_source  ? [{ key: '_utm_source',    value: clickIds.utm_source }]  : []),
+        ...(clickIds?.utm_medium  ? [{ key: '_utm_medium',    value: clickIds.utm_medium }]  : []),
+        ...(clickIds?.utm_campaign? [{ key: '_utm_campaign',  value: clickIds.utm_campaign }]: []),
+        ...(clickIds?.utm_term    ? [{ key: '_utm_term',      value: clickIds.utm_term }]    : []),
+        ...(clickIds?.utm_content ? [{ key: '_utm_content',   value: clickIds.utm_content }] : []),
+        ...(clickIds?.landingPage ? [{ key: '_landing_page',  value: clickIds.landingPage }] : []),
+        ...(clickIds?.referrer    ? [{ key: '_referrer',      value: clickIds.referrer }]    : []),
       ],
     }
 
@@ -402,6 +426,10 @@ export async function POST(request: NextRequest) {
           value: parseFloat(wcOrder.total || '0'),
           email: billing.email,
           items: items.map(i => ({ id: String(i.product_id), name: i.name, price: i.price, quantity: i.quantity })),
+          gclid: clickIds?.gclid,
+          campaignSource: clickIds?.utm_source,
+          campaignMedium: clickIds?.utm_medium,
+          campaignName:   clickIds?.utm_campaign,
         }).catch(err => console.error('[GA4 MP] create error:', err))
 
         // Meta Conversions API — Purchase event

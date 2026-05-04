@@ -29,6 +29,10 @@ export async function sendGA4PurchaseMP(params: {
   value: number
   email?: string | null
   items: Array<{ id: string; name: string; price: number; quantity: number }>
+  gclid?: string | null
+  campaignSource?: string | null
+  campaignMedium?: string | null
+  campaignName?: string | null
 }) {
   if (!MEASUREMENT_ID || !API_SECRET) {
     console.warn('[GA4 MP] Missing MEASUREMENT_ID or API_SECRET — skipping')
@@ -60,6 +64,10 @@ export async function sendGA4PurchaseMP(params: {
             price: i.price,
             quantity: i.quantity,
           })),
+          ...(params.gclid          && { gclid:    params.gclid }),
+          ...(params.campaignSource && { source:   params.campaignSource }),
+          ...(params.campaignMedium && { medium:   params.campaignMedium }),
+          ...(params.campaignName   && { campaign: params.campaignName }),
         },
       },
       {
@@ -68,6 +76,10 @@ export async function sendGA4PurchaseMP(params: {
           transaction_id: params.orderId,
           value: params.value,
           currency: 'BRL',
+          ...(params.gclid          && { gclid:    params.gclid }),
+          ...(params.campaignSource && { source:   params.campaignSource }),
+          ...(params.campaignMedium && { medium:   params.campaignMedium }),
+          ...(params.campaignName   && { campaign: params.campaignName }),
         },
       },
     ],
@@ -88,7 +100,8 @@ export async function sendGA4PurchaseMP(params: {
     } else {
       const cidStatus = hasRealClientId ? '(real client_id ✓)' : '(fallback client_id)'
       const ecStatus  = userData ? '(enhanced conversion ✓)' : '(sem email — sem enhanced conversion)'
-      console.log(`[GA4 MP] Purchase sent — order ${params.orderId}, R$${params.value} ${cidStatus} ${ecStatus}`)
+      const gclidStatus = params.gclid ? `(gclid ✓ ${params.gclid.slice(0, 12)}...)` : '(sem gclid)'
+      console.log(`[GA4 MP] Purchase sent — order ${params.orderId}, R$${params.value} ${cidStatus} ${ecStatus} ${gclidStatus}`)
     }
   } catch (err) {
     console.error('[GA4 MP] Failed to send purchase:', err)
