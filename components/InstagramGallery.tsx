@@ -12,12 +12,18 @@ interface InstagramPost {
 
 async function getPosts(): Promise<InstagramPost[]> {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://jaleca.com.br'
-    const res = await fetch(`${baseUrl}/api/instagram`, {
-      next: { revalidate: 3600 },
-    })
+    const token = process.env.INSTAGRAM_ACCESS_TOKEN
+    const igId = process.env.INSTAGRAM_BUSINESS_ID
+    if (!token || !igId) return []
+
+    const url = `https://graph.instagram.com/v19.0/${igId}/media?fields=id,caption,media_type,media_url,permalink,timestamp&limit=12&access_token=${token}`
+    const res = await fetch(url, { next: { revalidate: 3600 } })
     const data = await res.json()
-    return data.posts ?? []
+    if (data.error) return []
+
+    return (data.data ?? []).filter(
+      (p: InstagramPost) => p.media_type === 'IMAGE' || p.media_type === 'CAROUSEL_ALBUM'
+    )
   } catch {
     return []
   }
