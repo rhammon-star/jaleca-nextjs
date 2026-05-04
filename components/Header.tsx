@@ -105,9 +105,6 @@ const Header = () => {
               style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: '20px' }}
             >
               {/* Nav link styles */}
-              <Link href="/" onClick={handleHomeClick} className="text-muted-foreground hover:text-foreground transition-colors duration-200 text-[12px] font-semibold tracking-widest uppercase whitespace-nowrap">
-                Início
-              </Link>
               <Link href="/nossas-lojas" className="text-muted-foreground hover:text-foreground transition-colors duration-200 text-[12px] font-semibold tracking-widest uppercase whitespace-nowrap">
                 Nossas Lojas
               </Link>
@@ -192,38 +189,9 @@ const Header = () => {
                 </div>
               </div>
 
-              {/* Acessórios dropdown */}
-              <div className="relative group/nav4" style={{ display: 'flex', alignItems: 'center' }}>
-                <Link href="/categoria/acessorios" className="text-muted-foreground hover:text-foreground transition-colors duration-200 text-[12px] font-semibold tracking-widest uppercase whitespace-nowrap flex items-center gap-1 py-5">
-                  Acessórios
-                  <ChevronDown size={11} className="transition-transform duration-200 group-hover/nav4:rotate-180" />
-                </Link>
-                <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover/nav4:opacity-100 group-hover/nav4:visible transition-all duration-200 z-50">
-                  <div className="bg-background border border-border shadow-xl p-5 w-52">
-                    <p className="text-[10px] font-semibold tracking-widest uppercase text-muted-foreground mb-3">Acessórios</p>
-                    <div className="space-y-2.5">
-                      {[
-                        { label: 'Todos os Acessórios', href: '/categoria/acessorios' },
-                        { label: 'Promoções', href: '/produtos?cat=Acessórios&sale=true' },
-                      ].map(item => (
-                        <Link key={item.href} href={item.href} className="block text-sm text-muted-foreground hover:text-foreground hover:translate-x-1 transition-all duration-150">
-                          {item.label}
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
               <Link href="/produtos?sort=mais-vendidos" className="text-muted-foreground hover:text-foreground transition-colors duration-200 text-[12px] font-semibold tracking-widest uppercase whitespace-nowrap relative">
                 Mais Vendidos
                 <span className="absolute -top-2 -right-3 bg-[#c4a97d] text-white text-[8px] font-bold px-1 py-0.5 leading-none tracking-wide">TOP</span>
-              </Link>
-              <Link href="/blog" className="text-muted-foreground hover:text-foreground transition-colors duration-200 text-[12px] font-semibold tracking-widest uppercase whitespace-nowrap">
-                Blog
-              </Link>
-              <Link href="/lookbook" className="text-muted-foreground hover:text-foreground transition-colors duration-200 text-[12px] font-semibold tracking-widest uppercase whitespace-nowrap">
-                Lookbook
               </Link>
               <Link href="/clientes" className="text-muted-foreground hover:text-foreground transition-colors duration-200 text-[12px] font-semibold tracking-widest uppercase whitespace-nowrap">
                 Inspire-se
