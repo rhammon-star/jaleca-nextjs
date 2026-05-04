@@ -177,6 +177,7 @@ const Footer = () => {
               { label: 'Jaleco Professor', href: '/jaleco-professor' },
               { label: 'Blog', href: '/blog' },
               { label: 'Lookbook', href: '/lookbook' },
+              { label: 'Nossas Lojas', href: '/nossas-lojas' },
             ].map(l => (
               <Link key={l.href} href={l.href} className="hover:text-foreground transition-colors">
                 {l.label}

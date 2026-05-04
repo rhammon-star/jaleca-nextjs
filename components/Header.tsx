@@ -105,10 +105,6 @@ const Header = () => {
               style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: '20px' }}
             >
               {/* Nav link styles */}
-              <Link href="/nossas-lojas" className="text-muted-foreground hover:text-foreground transition-colors duration-200 text-[12px] font-semibold tracking-widest uppercase whitespace-nowrap">
-                Nossas Lojas
-              </Link>
-
               {/* Menu Profissões */}
               <ProfessionMenu />
 
@@ -192,6 +188,9 @@ const Header = () => {
               <Link href="/produtos?sort=mais-vendidos" className="text-muted-foreground hover:text-foreground transition-colors duration-200 text-[12px] font-semibold tracking-widest uppercase whitespace-nowrap relative">
                 Mais Vendidos
                 <span className="absolute -top-2 -right-3 bg-[#c4a97d] text-white text-[8px] font-bold px-1 py-0.5 leading-none tracking-wide">TOP</span>
+              </Link>
+              <Link href="/lookbook" className="text-muted-foreground hover:text-foreground transition-colors duration-200 text-[12px] font-semibold tracking-widest uppercase whitespace-nowrap">
+                Lookbook
               </Link>
               <Link href="/clientes" className="text-muted-foreground hover:text-foreground transition-colors duration-200 text-[12px] font-semibold tracking-widest uppercase whitespace-nowrap">
                 Inspire-se
