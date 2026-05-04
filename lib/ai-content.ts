@@ -151,6 +151,14 @@ Tom de escrita: ${style.tone}
 
 ${keywordsStr}
 
+DADOS PROPRIETÁRIOS DA JALECA — use pelo menos 2 destes fatos reais no artigo, de forma natural:
+- Tamanho mais vendido: P feminino e M masculino representam ~50% das vendas
+- Tecido: gabardine com elastano é o tecido de 80% dos jalecos vendidos na Jaleca
+- Cor: branco é a cor mais vendida em jalecos profissionais
+- Trocas: a taxa de troca é baixa — quando acontece, é quase sempre por tamanho
+- Ticket médio: R$280 (jaleco profissional de qualidade)
+- Esses dados são exclusivos da Jaleca e não devem ser apresentados como "dados do mercado" — use como "na Jaleca", "nossos clientes", "quem compra na Jaleca"
+
 Requisitos:
 - Artigo entre 500 e 700 palavras (IMPORTANTE: seja conciso)
 - Máximo 4 seções com H2, sem H3

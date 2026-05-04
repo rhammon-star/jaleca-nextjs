@@ -384,20 +384,7 @@ export default async function ProdutoPage({
   const schemaSku = selectedVariation?.sku || product.sku
   const schemaColor = hasColor && colorName ? colorName : (colorAttr?.options?.length ? colorAttr.options.join(', ') : undefined)
 
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Product',
-    name,
-    description,
-    image: schemaImage,
-    sku: schemaSku,
-    brand: { '@type': 'Brand', name: 'Jaleca' },
-    manufacturer: { '@type': 'Organization', name: 'Jaleca', url: 'https://jaleca.com.br' },
-    condition: 'https://schema.org/NewCondition',
-    category: 'Uniformes Profissionais para Saúde',
-    ...(schemaColor && { color: schemaColor }),
-    ...(sizeAttr?.options?.length && { size: sizeAttr.options.join(', ') }),
-    offers: (() => {
+  const offersValue = (() => {
       // Parse BRL price string "280,00" or "1.280,00" → 280.00 / 1280.00
       // Handles WC returning concatenated values like "280,00330,00"
       const parsePrice = (raw: string | null | undefined): number | undefined => {
@@ -420,13 +407,13 @@ export default async function ProdutoPage({
           .filter((p: number | undefined): p is number => p !== undefined)
         const fallbackPrice = siblingPrices.length ? Math.min(...siblingPrices) : parsePrice(product.regularPrice) ?? parsePrice(product.price)
         const varPrice = parsePrice(selectedVariation.price) ?? parsePrice(selectedVariation.regularPrice) ?? fallbackPrice
-        const pixPrice = varPrice !== undefined ? Math.round(varPrice * 0.95 * 100) / 100 : undefined
-
-        if (varPrice === undefined) return null
+        const finalPrice = varPrice ?? parsePrice(product.regularPrice) ?? parsePrice(product.price)
+        if (finalPrice === undefined) return null
+        const pixPrice = Math.round(finalPrice * 0.95 * 100) / 100
 
         return {
           '@type': 'Offer',
-          price: varPrice.toFixed(2),
+          price: finalPrice.toFixed(2),
           priceCurrency: 'BRL',
           availability:
             selectedVariation.stockStatus === 'OUT_OF_STOCK'
@@ -469,11 +456,11 @@ export default async function ProdutoPage({
               },
             },
           },
-          ...(varPrice !== undefined && pixPrice !== undefined && {
+          ...(pixPrice !== undefined && {
             priceSpecification: [
               {
                 '@type': 'UnitPriceSpecification',
-                price: varPrice.toFixed(2),
+                price: finalPrice.toFixed(2),
                 priceCurrency: 'BRL',
                 name: 'Preço padrão',
               },
@@ -586,7 +573,22 @@ export default async function ProdutoPage({
           ],
         }),
       }
-    })(),
+  })()
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name,
+    description,
+    image: schemaImage,
+    sku: schemaSku,
+    brand: { '@type': 'Brand', name: 'Jaleca' },
+    manufacturer: { '@type': 'Organization', name: 'Jaleca', url: 'https://jaleca.com.br' },
+    condition: 'https://schema.org/NewCondition',
+    category: 'Uniformes Profissionais para Saúde',
+    ...(schemaColor && { color: schemaColor }),
+    ...(sizeAttr?.options?.length && { size: sizeAttr.options.join(', ') }),
+    ...(offersValue !== null && { offers: offersValue }),
     ...(avgRating !== null && {
       aggregateRating: {
         '@type': 'AggregateRating',
