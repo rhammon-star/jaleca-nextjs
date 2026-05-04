@@ -30,12 +30,17 @@ export default function robots(): MetadataRoute.Robots {
           '/*?add-to-cart=',
           '/*?replytocom=',
           '/*?orderby=',
+          '/*?page_id=',
+          '/wp-login.php',
+          '/wp-register.php',
+          '/wp-signup.php',
           // WordPress backend — usado apenas para backlinks, não para indexação
           '/wp-admin/',
           '/wp-login.php',
           '/wp-content/plugins/',
           '/wp-content/cache/',
           '/wp-content/uploads/',
+          '/wp-content/themes/',
           // APIs internas
           '/api/',
         ],

@@ -84,6 +84,7 @@ const nextConfig: NextConfig = {
       { source: '/produto-category/:slug*', destination: '/categoria/:slug*', permanent: true },
       { source: '/product-category/:slug*', destination: '/produtos', permanent: true },
       // Categorias aninhadas do site antigo → categoria simples (ex: /categoria/jalecos/jalecos-masculinos → /categoria/jalecos-masculinos)
+      { source: '/categoria/:parent/:slug/:rest*', destination: '/categoria/:slug', permanent: true },
       { source: '/categoria/:parent/:slug/', destination: '/categoria/:slug', permanent: true },
       { source: '/categoria/:parent/:slug', destination: '/categoria/:slug', permanent: true },
       // Slugs antigos do WooCommerce que não existem no Next.js → /produtos
@@ -324,6 +325,9 @@ const nextConfig: NextConfig = {
     { source: '/produtos/page/2', destination: '/produtos', permanent: true },
     { source: '/produtos/page/2/', destination: '/produtos', permanent: true },
     { source: '/estampas/:path*', destination: '/produtos', permanent: true },
+    { source: '/wp-content/:path*', destination: '/', permanent: true },
+    // ── WordPress page_id legacy ──
+    { source: '/', has: [{ type: 'query', key: 'page_id' }], destination: '/', permanent: true },
     // ── Cidades com prefixo "jaleco-" errado ──
     { source: '/cidade/jaleco-caratinga', destination: '/cidade/caratinga', permanent: true },
     { source: '/cidade/jaleco-:slug', destination: '/cidade/:slug', permanent: true },
