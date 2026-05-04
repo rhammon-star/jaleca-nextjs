@@ -53,8 +53,8 @@ const schemaArticle = {
   headline: 'Jaleco para Biomédica: Tecido Premium, Caimento Perfeito',
   description: 'Guia completo do jaleco para biomédico: normas da ANVISA e CFM, tecido premium com elastano, modelo ideal e custo-benefício.',
   author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
-  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/jaleco-biomedica' } },
-  url: 'https://jaleca.com.br/jaleco-biomedico',
+  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
+  url: 'https://jaleca.com.br/jaleco-biomedica',
   datePublished: '2026-04-18',
   dateModified: '2026-04-21',
 }

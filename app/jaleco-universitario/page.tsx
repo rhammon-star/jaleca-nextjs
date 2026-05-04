@@ -71,27 +71,29 @@ const breadcrumbSchema = {
 
 async function getJalecos(): Promise<WooProduct[]> {
   try {
-    // Busca TODOS os produtos (inclui produtos filhos/cores)
     const allProducts = await getAllProducts()
-
-    // Filtra por profissão universitario
     const slugs = PROFESSION_PRODUCT_SLUGS['universitario'] ?? []
+
+    // Produtos universitários (destaque)
     const professionProducts = allProducts.filter(p => {
-      // Produto mãe está na lista OU produto filho cujo pai está na lista
       if (slugs.includes(p.slug)) return true
-
-      // Verifica se é produto filho (tem cor no slug)
-      const parts = p.slug.split('-')
-      const possibleColor = parts[parts.length - 1]
-      const baseSlug = parts.slice(0, -1).join('-')
-
+      const baseSlug = p.slug.split('-').slice(0, -1).join('-')
       return slugs.includes(baseSlug)
     })
-
-    // Prioriza branco e preto primeiro (mais vendidos)
     const prioritized = prioritizeByColor(professionProducts)
 
-    // Retorna 6 produtos
+    // Se tiver menos de 6, preenche com masculinos brancos
+    if (prioritized.length < 6) {
+      const usedSlugs = new Set(prioritized.map(p => p.slug))
+      const fillers = allProducts.filter(p =>
+        !usedSlugs.has(p.slug) &&
+        p.slug.includes('masculino') &&
+        (p.slug.includes('branco') || p.name.toLowerCase().includes('branco'))
+      )
+      const prioritizedFillers = prioritizeByColor(fillers)
+      prioritized.push(...prioritizedFillers.slice(0, 6 - prioritized.length))
+    }
+
     return prioritized.slice(0, 6)
   } catch (error) {
     console.error('[getJalecos] Error:', error)

@@ -53,8 +53,8 @@ const schemaArticle = {
   headline: 'Jaleco para Farmacêutica: Tecido Premium, Caimento Perfeito',
   description: 'Guia completo do jaleco para farmacêutico: tecido premium, caimento perfeito, modelo Slim vs Profissional e custo-benefício.',
   author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
-  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/jaleco-farmaceutica' } },
-  url: 'https://jaleca.com.br/jaleco-farmaceutico',
+  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
+  url: 'https://jaleca.com.br/jaleco-farmaceutica',
   datePublished: '2026-04-18',
   dateModified: '2026-04-21',
 }

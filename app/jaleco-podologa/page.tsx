@@ -53,8 +53,8 @@ const schemaArticle = {
   headline: 'Jaleco para Podóloga: Tecido Premium, Caimento Perfeito',
   description: 'Guia completo do jaleco para podólogo: tecido premium, caimento perfeito, modelo Slim vs Profissional e custo-benefício.',
   author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
-  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/jaleco-podologa' } },
-  url: 'https://jaleca.com.br/jaleco-podologo',
+  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
+  url: 'https://jaleca.com.br/jaleco-podologa',
   datePublished: '2026-04-18',
   dateModified: '2026-04-21',
 }

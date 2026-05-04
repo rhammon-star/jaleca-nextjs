@@ -51,7 +51,7 @@ const CATEGORY_MAP: Record<string, { label: string; description: string; keyword
   },
   'jalecos-femininos': {
     label: 'Jalecos Femininos',
-    title: 'Jaleco Feminino: Slim, Princesa e Elastex | 12 Cores | Jaleca',
+    title: 'Jaleco Feminino 4.9★ — Slim, Princesa e Elastex | 12 Cores | Jaleca',
     h1: 'Jaleco Feminino',
     filterLabel: 'Jalecos',
     gender: 'Feminino',

@@ -53,8 +53,8 @@ const schemaArticle = {
   headline: 'Jaleco para Cabeleireira: Tecido Premium, Caimento Perfeito',
   description: 'Guia completo do jaleco para cabeleireiro: tecido premium, caimento perfeito, modelo Slim vs Profissional e custo-benefício.',
   author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
-  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/jaleco-cabeleireira' } },
-  url: 'https://jaleca.com.br/jaleco-cabeleireiro',
+  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
+  url: 'https://jaleca.com.br/jaleco-cabeleireira',
   datePublished: '2026-04-18',
   dateModified: '2026-04-21',
 }

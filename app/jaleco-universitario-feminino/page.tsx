@@ -70,15 +70,29 @@ async function getJalecos(): Promise<WooProduct[]> {
   try {
     const allProducts = await getAllProducts()
     const slugs = PROFESSION_PRODUCT_SLUGS['universitario'] ?? []
+
+    // Produtos universitários femininos (destaque)
     const professionProducts = allProducts.filter(p => {
       const isFeminino = p.slug.includes('feminino') || p.slug.includes('aluno-feminino')
       if (!isFeminino) return false
       if (slugs.includes(p.slug)) return true
-      const parts = p.slug.split('-')
-      const baseSlug = parts.slice(0, -1).join('-')
+      const baseSlug = p.slug.split('-').slice(0, -1).join('-')
       return slugs.includes(baseSlug)
     })
     const prioritized = prioritizeByColor(professionProducts)
+
+    // Se tiver menos de 6, preenche com femininos brancos
+    if (prioritized.length < 6) {
+      const usedSlugs = new Set(prioritized.map(p => p.slug))
+      const fillers = allProducts.filter(p =>
+        !usedSlugs.has(p.slug) &&
+        p.slug.includes('feminino') &&
+        (p.slug.includes('branco') || p.name.toLowerCase().includes('branco'))
+      )
+      const prioritizedFillers = prioritizeByColor(fillers)
+      prioritized.push(...prioritizedFillers.slice(0, 6 - prioritized.length))
+    }
+
     return prioritized.slice(0, 6)
   } catch (error) {
     console.error('[getJalecos] Error:', error)
