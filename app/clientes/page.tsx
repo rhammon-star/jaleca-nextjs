@@ -2,19 +2,19 @@ import type { Metadata } from 'next'
 import { InstagramGallery } from '@/components/InstagramGallery'
 
 export const metadata: Metadata = {
-  title: 'Clientes Jaleca — Veja quem usa nossos jalecos',
+  title: 'Inspire-se — Looks e estilos Jaleca no Instagram',
   description:
-    'Médicos, dentistas, enfermeiros, esteticistas e professores que confiam nos jalecos Jaleca. Veja fotos reais de quem usa no dia a dia.',
+    'Descubra looks de médicos, dentistas, esteticistas e professores com jalecos Jaleca. Inspire-se com o feed oficial @jaleca.oficial.',
   alternates: { canonical: 'https://jaleca.com.br/clientes' },
 }
 
 export default function ClientesPage() {
   return (
     <main className="max-w-5xl mx-auto px-4 py-16">
-      <h1 className="text-4xl font-bold text-[#1a1a1a] mb-4">Quem usa Jaleca</h1>
+      <h1 className="text-4xl font-bold text-[#1a1a1a] mb-4">Inspire-se</h1>
       <p className="text-[#6b6b6b] text-lg mb-12 max-w-2xl">
-        Profissionais de saúde, estética e educação de todo o Brasil escolhem a Jaleca pelo
-        conforto, elegância e qualidade no dia a dia.
+        Looks reais de profissionais de saúde, estética e educação que escolhem a Jaleca no dia a
+        dia.
       </p>
 
       <InstagramGallery maxItems={12} title="@jaleca.oficial no Instagram" />
