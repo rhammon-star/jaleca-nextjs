@@ -5,7 +5,7 @@ import { prioritizeByColor } from '@/lib/product-professions'
 import ProductCard from '@/components/ProductCard'
 import ProductDetailSection from '@/components/ProductDetailSection'
 import { getGooglePlaceData } from '@/lib/google-places'
-import { getCachedBlogPosts } from '@/lib/profession-page-data'
+import { getCachedBlogPosts, getCachedHeroImage } from '@/lib/profession-page-data'
 
 export const revalidate = 3600
 
@@ -108,10 +108,11 @@ function HeroStars({ rating }: { rating: number }) {
 }
 
 export default async function JalecoFemininoAcinturadoPage() {
-  const [produtos, posts, placeData] = await Promise.all([
+  const [produtos, posts, placeData, heroImg] = await Promise.all([
     getSlimProducts(),
     getCachedBlogPosts('jaleco'),
     getGooglePlaceData(),
+    getCachedHeroImage('jaleco-slim-tradicional-feminino-jaleca'),
   ])
 
   return (
@@ -163,9 +164,11 @@ export default async function JalecoFemininoAcinturadoPage() {
           </div>
 
           <div className="relative order-1 lg:order-2" style={{ background: '#e5e0d8', minHeight: 400, overflow: 'hidden' }}>
-            <div style={{ width: '100%', height: '100%', background: 'linear-gradient(160deg, #d4cfc6 0%, #bfbab2 100%)', position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <span style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(4rem,10vw,8rem)', fontWeight: 300, color: 'rgba(255,255,255,0.3)', fontStyle: 'italic' }}>Slim</span>
-            </div>
+            {heroImg ? (
+              <img src={heroImg.src} alt={heroImg.alt} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block', position: 'absolute', inset: 0 }} />
+            ) : (
+              <div style={{ width: '100%', height: '100%', background: 'linear-gradient(160deg, #ccc8c0 0%, #bfbab2 100%)', position: 'absolute', inset: 0 }} />
+            )}
           </div>
         </section>
 

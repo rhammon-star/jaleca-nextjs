@@ -4,7 +4,7 @@ import { graphqlClient, GET_PRODUCTS } from '@/lib/graphql'
 import type { WooProduct } from '@/components/ProductCard'
 import ProductCard from '@/components/ProductCard'
 import ProductDetailSection from '@/components/ProductDetailSection'
-import {  } from '@/lib/profession-page-data'
+import { getCachedHeroImage } from '@/lib/profession-page-data'
 
 // ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
 export const revalidate = 3600
@@ -88,7 +88,10 @@ async function getPlusSizeProducts(): Promise<WooProduct[]> {
   }
 }
 export default async function JalecoPlusSizePage() {
-  const produtos = await getPlusSizeProducts()
+  const [produtos, heroImg] = await Promise.all([
+    getPlusSizeProducts(),
+    getCachedHeroImage('jaleco-slim-tradicional-feminino-jaleca'),
+  ])
 
   return (
     <>
@@ -146,11 +149,11 @@ export default async function JalecoPlusSizePage() {
           </div>
 
           <div className="relative order-1 lg:order-2" style={{ background: '#e5e0d8', minHeight: 480, overflow: 'hidden' }}>
-            <img
-              src="/jaleco-plus-size-hero.jpg"
-              alt="Jaleco Plus Size em tecido premium"
-              style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block', position: 'absolute', inset: 0 }}
-            />
+            {heroImg ? (
+              <img src={heroImg.src} alt={heroImg.alt} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block', position: 'absolute', inset: 0 }} />
+            ) : (
+              <div style={{ width: '100%', height: '100%', background: 'linear-gradient(160deg, #ccc8c0 0%, #bfbab2 100%)', position: 'absolute', inset: 0 }} />
+            )}
           </div>
         </section>
 

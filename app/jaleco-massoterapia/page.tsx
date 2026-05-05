@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getGooglePlaceData } from '@/lib/google-places'
+import { getCachedHeroImage } from '@/lib/profession-page-data'
 import ProfessionProductGrid from '@/components/ProfessionProductGrid'
 
 export const revalidate = 3600
@@ -56,7 +57,10 @@ const breadcrumbSchema = {
 }
 
 export default async function Page() {
-  const placeData = await getGooglePlaceData()
+  const [placeData, heroImg] = await Promise.all([
+    getGooglePlaceData(),
+    getCachedHeroImage('jaleco-slim-feminino-lateral-jaleca'),
+  ])
 
   const schemaFaq = {
     '@context': 'https://schema.org',
@@ -92,31 +96,20 @@ export default async function Page() {
         </div>
 
         {/* HERO */}
-        <section style={{ background: '#f9f7f4', padding: 'clamp(3rem,8vw,6rem) clamp(1.5rem,5vw,4rem)' }}>
-          <div style={{ maxWidth: 900, margin: '0 auto', textAlign: 'center' }}>
-            <div className="flex items-center justify-center gap-3 mb-6" style={{ fontSize: '0.72rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#6b6b6b' }}>
+        <section className="grid grid-cols-1 lg:grid-cols-2" style={{ minHeight: '88vh', padding: 0 }}>
+          <div className="flex flex-col justify-center order-2 lg:order-1" style={{ padding: 'clamp(3rem,8vw,5rem) clamp(2rem,5vw,4rem) clamp(3rem,8vw,5rem) clamp(2rem,8vw,7rem)', background: '#f9f7f4' }}>
+            <div className="flex items-center gap-3 mb-6" style={{ fontSize: '0.72rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#6b6b6b' }}>
               <span style={{ display: 'inline-block', width: 32, height: 1, background: '#c8c4bc' }} />
               Para massoterapeuta
-              <span style={{ display: 'inline-block', width: 32, height: 1, background: '#c8c4bc' }} />
             </div>
-            <h1
-              style={{
-                fontFamily: "'Cormorant', Georgia, serif",
-                fontSize: 'clamp(2.4rem,5.5vw,4.8rem)',
-                fontWeight: 400,
-                lineHeight: 1.05,
-                letterSpacing: '-0.01em',
-                color: '#1a1a1a',
-                marginBottom: '1.5rem',
-              }}
-            >
+            <h1 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2.4rem,5.5vw,4.8rem)', fontWeight: 400, lineHeight: 1.05, letterSpacing: '-0.01em', color: '#1a1a1a', marginBottom: '1.5rem' }}>
               Jaleco para massoterapia:<br />
               <em style={{ fontStyle: 'italic', fontWeight: 300 }}>leve, confortável e profissional</em>
             </h1>
-            <p style={{ fontSize: '1rem', fontWeight: 300, color: '#6b6b6b', maxWidth: 620, margin: '0 auto 2.5rem', lineHeight: 1.8 }}>
+            <p style={{ fontSize: '1rem', fontWeight: 300, color: '#6b6b6b', maxWidth: 480, marginBottom: '2.5rem', lineHeight: 1.8 }}>
               Amplitude de movimento para cada técnica de massagem. Tecido com elastano bidirecional que acompanha cada movimento sem restringir. Do PP ao G3.
             </p>
-            <div className="flex gap-4 flex-wrap justify-center">
+            <div className="flex gap-4 flex-wrap">
               <Link href="/categoria/jalecos-femininos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: '#1a1a1a', color: '#fff', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none' }}>
                 Ver jalecos ↗
               </Link>
@@ -125,10 +118,17 @@ export default async function Page() {
               </Link>
             </div>
             {placeData && (
-              <div className="flex items-center justify-center gap-2 mt-10">
+              <div className="flex items-center gap-2 mt-10">
                 <span style={{ color: '#c8a96e', fontSize: '0.85rem', letterSpacing: 2 }}>★★★★★</span>
                 <span style={{ fontSize: '0.78rem', color: '#6b6b6b' }}>{placeData.rating.toFixed(1)} de 5 no Google · {placeData.reviewCount} avaliações</span>
               </div>
+            )}
+          </div>
+          <div className="relative order-1 lg:order-2" style={{ background: '#e5e0d8', minHeight: 480, overflow: 'hidden' }}>
+            {heroImg ? (
+              <img src={heroImg.src} alt={heroImg.alt} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block', position: 'absolute', inset: 0 }} />
+            ) : (
+              <div style={{ width: '100%', height: '100%', background: 'linear-gradient(160deg, #ccc8c0 0%, #bfbab2 100%)', position: 'absolute', inset: 0 }} />
             )}
           </div>
         </section>
