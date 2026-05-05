@@ -15,7 +15,8 @@ type CidadeInfo = {
   profissoes: string
   freteGratis?: boolean
   conteudoLocal?: string
-  heroUrl?: string // URL direta da foto do ponto turístico (Unsplash)
+  heroUrl?: string
+  keywordsExtra?: string
 }
 
 
@@ -46,8 +47,9 @@ const CIDADES: Record<string, CidadeInfo> = {
     tipo: 'fechada',
     profissoes: 'médicos, dentistas, enfermeiros e profissionais de saúde de BH',
     freteGratis: true,
-    conteudoLocal: 'Profissionais de saúde em BH, do Mater Dei ao Santa Casa e as clínicas do Savassi, escolhem a Jaleca pelo tecido que não amassa e pelo corte que valoriza — seja no plantão ou no consultório particular. Frete grátis pra MG acima de R$499.',
+    conteudoLocal: 'Médicas e dentistas de BH — do Mater Dei ao Santa Casa, das clínicas do Savassi ao hospital de Contagem — escolhem a Jaleca como loja de jalecos em BH pelo tecido que não amassa e pelo corte acinturado real. Lojas de jaleco em BH raramente têm grade do PP ao G3 com molde próprio — a Jaleca tem, com entrega rápida e frete grátis pra MG acima de R$499.',
     heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/9/9a/Praca_do_Papa%2C_Belo_Horizonte_%28cropped%292.jpg',
+    keywordsExtra: 'jaleco bh, jalecos belo horizonte, jalecos bh, loja de jaleco em bh, lojas de jaleco em bh, loja de jalecos em bh',
   },
   'jaleco-campo-grande': {
     nome: 'Campo Grande',
@@ -143,8 +145,9 @@ const CIDADES: Record<string, CidadeInfo> = {
     uf: 'PR',
     tipo: 'revenda',
     profissoes: 'médicos, dentistas, enfermeiros e profissionais de saúde de Curitiba',
-    conteudoLocal: 'Profissionais de Curitiba, do Hospital Marcelino Champagnat às clínicas do Batel, escolhem a Jaleca pelo jaleco que não murcha no frio do sul. Tecido encorpado, corte ajustado, entrega via PAC ou SEDEX pra todo o Paraná.',
+    conteudoLocal: 'Procurando loja de jalecos em Curitiba? A Jaleca é fabricante brasileira e entrega direto para você — do Hospital Marcelino Champagnat às clínicas do Batel e do Água Verde. Tecido encorpado que não murcha no frio do sul, corte acinturado real do PP ao G3. Sem loja física em Curitiba, mas com entrega via PAC ou SEDEX em até 5 dias úteis para todo o Paraná.',
     heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/2/2f/Estufa_principal_do_Jardim_Bot%C3%A2nico_de_Curitiba_02.jpg',
+    keywordsExtra: 'loja de jalecos curitiba, jalecos curitiba, jaleco curitiba, jaleco feminino curitiba',
   },
   'jaleco-londrina': {
     nome: 'Londrina',
@@ -322,7 +325,8 @@ const CIDADES: Record<string, CidadeInfo> = {
     tipo: 'fechada',
     profissoes: 'médicos, dentistas, enfermeiros e profissionais de saúde de Salvador',
     freteGratis: false,
-    conteudoLocal: 'Em Salvador, maior cidade do Nordeste, do HUPES (Hospital das Clínicas) às clínicas do Corredor da Vitória e do Itaigara, profissionais de saúde escolhem a Jaleca por jalecos premium que unem estilo e funcionalidade para a rotina baiana.',
+    conteudoLocal: 'Procurando loja de jaleco em Salvador? A Jaleca entrega para toda a Bahia com rastreamento. Do HUPES (Hospital das Clínicas) às clínicas do Corredor da Vitória e do Itaigara, médicas e dentistas de Salvador escolhem a Jaleca pelo jaleco que suporta o calor baiano — tecido leve com elastano, corte acinturado que valoriza, do PP ao G3. Compre online e receba em Salvador em até 7 dias úteis.',
+    keywordsExtra: 'loja de jaleco em salvador, jaleco salvador, jalecos salvador, jaleco feminino salvador, jaleco bahia',
   },
   'jaleco-fortaleza': {
     heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/7/73/Fortaleza%2C_Brazil_%284%29_%28cropped%29.jpg',
@@ -352,7 +356,8 @@ const CIDADES: Record<string, CidadeInfo> = {
     tipo: 'fechada',
     profissoes: 'médicos, dentistas, enfermeiros e profissionais de saúde de Recife',
     freteGratis: false,
-    conteudoLocal: 'Em Recife, do HCFMUPE ao Real Hospital Português, profissionais de saúde escolhem a Jaleca pelo tecido que respira no calor pernambucano e pelo corte que valoriza. Entrega rastreada pra toda Região Metropolitana do Recife.',
+    conteudoLocal: 'Médicas e dentistas de Recife — do HCFMUPE ao Real Hospital Português, das clínicas da Boa Viagem ao Imip — escolhem a Jaleca pelo jaleco que respira no calor pernambucano e mantém o corte acinturado mesmo após horas de uso. Tecido leve com elastano bidirecional, grade completa do PP ao G3. Entrega rastreada pra toda a Região Metropolitana do Recife em até 7 dias úteis.',
+    keywordsExtra: 'jaleco recife, jalecos recife, jaleco feminino recife, jaleco pernambuco',
   },
   'jaleco-belem': {
     heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/L1010748-L1010765_copie_%28cropped%29.jpg/1280px-L1010748-L1010765_copie_%28cropped%29.jpg',
@@ -412,7 +417,8 @@ const CIDADES: Record<string, CidadeInfo> = {
     tipo: 'fechada',
     profissoes: 'médicos, dentistas, enfermeiros e profissionais de saúde de Teresina',
     freteGratis: false,
-    conteudoLocal: 'Em Teresina, capital do Piauí e polo de saúde do Meio-Norte, do Hospital Getúlio Vargas ao HU da UFPI, profissionais de saúde encontram na Jaleca jalecos de alta qualidade com entrega para toda a cidade.',
+    conteudoLocal: 'Profissionais de saúde de Teresina — do Hospital Getúlio Vargas ao HU da UFPI e às clínicas da zona leste — encontram na Jaleca jalecos e scrubs com tecido que suporta o calor piauiense. A Jaleca entrega scrubs e jalecos femininos para Teresina com rastreamento, grade completa do PP ao G3, em até 7 dias úteis.',
+    keywordsExtra: 'scrubs teresina, jaleco teresina, jalecos teresina, scrub feminino teresina, jaleco piauí',
   },
   'jaleco-joao-pessoa': {
     heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Centro_Hist%C3%B3rico_de_Jo%C3%A3o_Pessoa.jpg/1280px-Centro_Hist%C3%B3rico_de_Jo%C3%A3o_Pessoa.jpg',
@@ -829,7 +835,7 @@ export async function generateMetadata({
     title,
     description,
     ...(CIDADES_INDEXADAS.has(slug) ? {} : { robots: { index: false, follow: false } }),
-    keywords: `jaleco ${cidade.nome.toLowerCase()}, jaleca ${cidade.nome.toLowerCase()}, jaleco ${cidade.uf.toLowerCase()}, jaleco feminino ${cidade.nome.toLowerCase()}, jaleco médico ${cidade.nome.toLowerCase()}, comprar jaleco ${cidade.nome.toLowerCase()}, uniforme saúde ${cidade.nome.toLowerCase()}`,
+    keywords: `jaleco ${cidade.nome.toLowerCase()}, jaleca ${cidade.nome.toLowerCase()}, jaleco ${cidade.uf.toLowerCase()}, jaleco feminino ${cidade.nome.toLowerCase()}, jaleco médico ${cidade.nome.toLowerCase()}, comprar jaleco ${cidade.nome.toLowerCase()}, uniforme saúde ${cidade.nome.toLowerCase()}${cidade.keywordsExtra ? ', ' + cidade.keywordsExtra : ''}`,
     alternates: { canonical: `https://jaleca.com.br/cidade/${slug}` },
     openGraph: {
       title,

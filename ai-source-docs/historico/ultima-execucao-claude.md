@@ -1,32 +1,39 @@
-Data: 2026-05-04 00:10
-Tarefa: Fix 2 sites satélite com 404 + verificação completa dos 6 backlinks "jaleco feminino"
-Arquivos alterados: nenhum no Next.js (deploy jaleca.com.br pendente)
+Data: 2026-05-05 (sessão noite)
+Tarefa: SEO content — corrigir post jaleco feminino + 4 novos posts + análise clusters
+Arquivos alterados:
+  - app/blog/como-escolher-jaleco-feminino-guia-completo/page.tsx (corrigido)
+  - app/blog/jaleco-masculino-guia-completo/page.tsx (novo)
+  - app/blog/onde-comprar-jaleco-online/page.tsx (novo)
+  - app/blog/jaleco-estudante-medicina/page.tsx (novo)
+  - app/blog/tecidos-para-jaleco-profissional/page.tsx (novo)
+O que foi feito:
+- Diagnóstico GSC: jaleco feminino pos 23 (48 imp), jaleco odontologia pos 11 (60 imp), quase p.1
+- Corrigido typo "femenino"→"feminino" no post + schema publisher.logo + links internos + chars chineses removidos
+- Hub /jaleco-feminino já existia adequado — mantido
+- 4 novos posts com Article + FAQPage + BreadcrumbList schemas, links internos cruzados
+Comandos rodados: npx tsc --noEmit → 0 erros
+Resultado: OK — pendente deploy
+Riscos identificados: nenhum (novos arquivos ou edições menores)
+Próximo passo: git commit + vercel deploy prod (aguardando aprovação do usuário)
+  - app/uniforme-consultorio/page.tsx (NOVO)
+  - app/uniformes-profissionais-saude/page.tsx (link interno adicionado)
 
 O que foi feito:
-- Diagnosticado problema jobtech.com.br: novo deploy tinha src/src/ double-nesting — arquivo não acessível
-- Criado novo deploy Vercel para jobtech com arquivos na raiz (index.html + jaleco-feminino-profissional.html)
-- Promovido alias jobtech-jaleca.vercel.app para o novo deployment
-- Diagnosticado problema hospitalveterinariopompeia.com.br: CF Pages deploy anterior não serviu o arquivo
-- Re-deploy via wrangler pages deploy com index.html + jaleco-feminino-veterinaria.html
-- Diagnosticado jalecoesaltoalto.com.br: post jaleco-feminino-post.html não estava em nenhum deploy
-- Criado novo deploy Vercel jalecoesaltoalto com index.html + jaleco-feminino-post.html
-- Promovido alias jalecoesaltoalto-jaleca.vercel.app
-- Verificação final: 6/6 posts retornando HTTP 200
+- Criadas 3 páginas novas no padrão das páginas existentes
+- /uniforme-para-clinica: hub B2B para gestores de clínica — NR-32, tecidos por função, 8 FAQs (inclui as 3 perguntas do usuário)
+- /conjunto-para-clinica: foco em conjuntos (jaleco+calça, scrub) por função, 6 FAQs
+- /uniforme-consultorio: guia por especialidade (médico, dentista, psicólogo, estético, veterinário), 6 FAQs
+- Todas com: ISR revalidate=3600, metadata, canonical, FAQPage+Article+BreadcrumbList schema, produtos WooCommerce, links internos, CTA
+- Link interno adicionado em /uniformes-profissionais-saude → 3 novas páginas
+- TypeScript: zero erros
 
-Resultado: OK — todos os 6 backlinks funcionando
+Comandos rodados: npx tsc --noEmit
 
-Status dos 6 sites:
-1. institutocariocadesaude.com.br/jaleco-feminino-normas-saude.html — 200
-2. jalecoesaltoalto.com.br/jaleco-feminino-post.html — 200
-3. maxiodonto.com/jaleco-feminino-odontologia.html — 200
-4. saudetodahora.com.br/jaleco-feminino-saude.html — 200
-5. jobtech.com.br/jaleco-feminino-profissional.html — 200
-6. hospitalveterinariopompeia.com.br/jaleco-feminino-veterinaria.html — 200
+Resultado: OK — aguardando deploy
 
-Todos os posts têm âncora exata "jaleco feminino" → https://jaleca.com.br/categoria/jalecos-femininos (dofollow)
+Riscos identificados: nenhum — só criação de novas páginas
 
-Riscos identificados: nenhum
-Próximo passo: Deploy jaleca.com.br com 3 correções técnicas em app/categoria/[slug]/page.tsx:
-  - title sem estrela
-  - reviewCount como número (317 não '317')
-  - remoção do H1 sr-only duplicado
+Próximo passo:
+1. Deploy para produção
+2. Submeter novas URLs no GSC para indexação prioritária
+3. Adicionar links de /jaleco-medico, /jaleco-dentista → /uniforme-para-clinica
