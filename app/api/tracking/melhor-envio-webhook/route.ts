@@ -17,6 +17,14 @@ async function updateOrderMeta(orderId: number, key: string, value: string) {
   })
 }
 
+async function addOrderNote(orderId: number, note: string) {
+  await fetch(`${WC_API_URL}/orders/${orderId}/notes`, {
+    method: 'POST',
+    headers: { Authorization: wcAuth(), 'Content-Type': 'application/json' },
+    body: JSON.stringify({ note, customer_note: false }),
+  })
+}
+
 async function findWCOrderByMECartId(meCartId: string): Promise<number | null> {
   const res = await fetch(
     `${WC_API_URL}/orders?per_page=100&status=processing,on-hold`,
@@ -94,6 +102,8 @@ export async function POST(req: NextRequest) {
         headers: { Authorization: wcAuth(), 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: 'enviado' }),
       })
+
+      await addOrderNote(resolvedWCOrderId, `Código de rastreio: ${tracking} | Transportadora: ${carrier}`)
 
       await sendOrderShippedWithTracking(
         resolvedWCOrderId,

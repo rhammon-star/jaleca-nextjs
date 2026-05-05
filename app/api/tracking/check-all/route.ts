@@ -65,6 +65,14 @@ async function updateOrderMeta(orderId: number, key: string, value: string) {
   })
 }
 
+async function addOrderNote(orderId: number, note: string) {
+  await fetch(`${WC_API_URL}/orders/${orderId}/notes`, {
+    method: 'POST',
+    headers: { Authorization: wcAuth(), 'Content-Type': 'application/json' },
+    body: JSON.stringify({ note, customer_note: false }),
+  })
+}
+
 async function completeOrder(orderId: number) {
   await fetch(`${WC_API_URL}/orders/${orderId}`, {
     method: 'PUT',
@@ -117,6 +125,7 @@ export async function GET(req: NextRequest) {
         // Send "shipped" email
         const firstName = wcOrder.billing.first_name
         const email = wcOrder.billing.email
+        await addOrderNote(wcOrderId, `Código de rastreio: ${trackingCode} | Transportadora: ${carrier}`)
         await sendOrderShippedWithTracking(wcOrderId, firstName, email, trackingCode, carrier, undefined)
 
         console.log(`[Tracking Check-All] Auto-registrado: pedido WC #${wcOrderId} — ${carrier} ${trackingCode} → status enviado`)
