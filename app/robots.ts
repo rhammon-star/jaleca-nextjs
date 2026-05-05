@@ -19,6 +19,9 @@ export default function robots(): MetadataRoute.Robots {
           '/pagamento',
           // Next.js internos — não indexar (JS, CSS, fontes com ?dpl= estavam sendo rastreados)
           '/_next/',
+          // Variações específicas de produto (?vid=) — duplicatas das páginas de cor
+          '/*?vid=',
+          '/*?vid=*',
           // Querystrings legacy WordPress que ainda aparecem no índice
           '/?wc-ajax=',
           '/?add-to-cart=',
