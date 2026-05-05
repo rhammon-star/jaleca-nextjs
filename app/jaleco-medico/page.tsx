@@ -17,8 +17,8 @@ import { getCachedHeroImage, getCachedBlogPosts } from '@/lib/profession-page-da
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: { absolute: 'Jaleco Médico Feminino e Masculino — Slim com Elastano | Jaleca' },
-  description: 'Jaleco médico com elastano para plantão de 12h. Modelos Slim, Profissional e Plus Size, PP ao G3. Frete grátis Sudeste acima de R$499.',
+  title: { absolute: 'Jaleco de Médico: Feminino e Masculino | Slim com Elastano | Jaleca' },
+  description: 'Compre jaleco de médico com elastano bidirecional. Modelos branco, preto e colorido. Do PP ao G3. Frete grátis SP/MG/RJ/ES acima de R$499.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-medico' },
   openGraph: {
     title: 'Jaleco para Médico: Slim, Branco e Colorido | Jaleca',

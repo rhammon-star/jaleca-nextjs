@@ -438,6 +438,26 @@ export default function CheckoutClient() {
       return
     }
 
+    if (paymentMethod === 'credit_card') {
+      const cleanCard = cardNumber.replace(/\D/g, '')
+      if (cleanCard.length < 13) {
+        setError('Informe o número do cartão')
+        return
+      }
+      if (!cardName.trim()) {
+        setError('Informe o nome impresso no cartão')
+        return
+      }
+      if (cardExpiry.length < 5) {
+        setError('Informe a validade do cartão (MM/AA)')
+        return
+      }
+      if (cardCvv.length < 3) {
+        setError('Informe o CVV do cartão')
+        return
+      }
+    }
+
     setLoading(true)
     let resolvedCustomerId = isLoggedIn && user ? user.id : undefined
 

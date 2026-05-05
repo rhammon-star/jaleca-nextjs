@@ -19,7 +19,7 @@ export const revalidate = 3600
 export const metadata: Metadata = {
   title: { absolute: 'Jaleco de Enfermagem: Elastex para Plantão de 12h | Jaleca' },
   description: 'Jaleco de enfermagem Elastex com elastano para plantão de 12 horas. Não amassa, seca rápido, bolsos funcionais. PP ao G3. O que o COFEN exige. Frete grátis SE acima de R$499.',
-  alternates: { canonical: 'https://jaleca.com.br/jaleco-enfermeiro' },
+  alternates: { canonical: 'https://jaleca.com.br/jaleco-enfermagem' },
   openGraph: {
     title: 'Jaleco de Enfermagem: Elastex para Plantão de 12h | Jaleca',
     description: 'Jaleco de enfermagem Elastex para plantão. Não amassa, seca rápido, PP ao G3. O que o COFEN exige.',

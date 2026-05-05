@@ -94,7 +94,7 @@ const nextConfig: NextConfig = {
       { source: '/categoria/scrubs', destination: '/categoria/conjuntos', permanent: true },
       // Blog posts com slug errado → slug correto (404 detectado no Screaming Frog)
       { source: '/blog/como-escolher-o-jaleco-ideal-para-sua-especialidade-medica', destination: '/blog/como-escolher-jaleco-ideal-especialidade-medica-2', permanent: true },
-      { source: '/blog/jaleco-branco-ou-colorido-o-que-usar-na-clinica-2', destination: '/jaleco-branco-ou-colorido-qual-o-melhor-para-sua-area/', permanent: true },
+      { source: '/blog/jaleco-branco-ou-colorido-o-que-usar-na-clinica-2', destination: '/blog/jaleco-colorido-clinica', permanent: true },
       // Redirects artigos deletados (duplicados removidos 17/04/2026) → versão canônica
       { source: '/blog/como-lavar-jaleco-branco-na-maquina', destination: '/blog/como-lavar-jaleco-profissional-guia-completo', permanent: true },
       { source: '/blog/como-lavar-jaleco-branco', destination: '/blog/como-lavar-jaleco-profissional-guia-completo', permanent: true },
@@ -111,8 +111,8 @@ const nextConfig: NextConfig = {
       { source: '/blog/como-escolher-jaleco-ideal-especialidade-medica-2', destination: '/blog/como-escolher-jaleco-feminino-guia-profissionais', permanent: true },
       // jaleco-slim-padrao-clinicas existe como post próprio — redirect removido (item 4 fix canonical)
       { source: '/blog/guia-jaleco-dentista-modelos-cores-como-escolher', destination: '/blog/guia-jaleco-para-dentista-modelos-cores-como-escolher', permanent: true },
-      { source: '/blog/jaleco-branco-ou-colorido-o-que-usar-na-clinica', destination: '/jaleco-branco-ou-colorido-qual-o-melhor-para-sua-area/', permanent: true },
-      { source: '/blog/jaleco-branco-ou-colorido', destination: '/jaleco-branco-ou-colorido-qual-o-melhor-para-sua-area/', permanent: true },
+      { source: '/blog/jaleco-branco-ou-colorido-o-que-usar-na-clinica', destination: '/blog/jaleco-colorido-clinica', permanent: true },
+      { source: '/blog/jaleco-branco-ou-colorido', destination: '/blog/jaleco-colorido-clinica', permanent: true },
       // Páginas 404 detectadas na análise (19/04/2026)
       { source: '/dolma', destination: '/categoria/domas', permanent: true },
       { source: '/conjunto', destination: '/categoria/conjuntos', permanent: true },
