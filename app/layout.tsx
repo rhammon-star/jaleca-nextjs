@@ -15,6 +15,7 @@ import ClickIdCapture from "@/components/ClickIdCapture";
 import Script from "next/script";
 import BottomNavBar from "@/components/BottomNavBar";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics as VercelAnalytics } from "@vercel/analytics/next";
 import dynamic from "next/dynamic";
 
 // Componentes não-críticos: lazy-loaded fora do bundle inicial.
@@ -227,6 +228,7 @@ export default function RootLayout({
                 <GoogleMerchantBadge />
                 <BottomNavBar />
                 <SpeedInsights />
+                <VercelAnalytics />
                 <Script
                   src="https://t.contentsquare.net/uxa/d63ab31369d59.js"
                   strategy="lazyOnload"
