@@ -113,6 +113,33 @@ const nextConfig: NextConfig = {
       { source: '/blog/guia-jaleco-dentista-modelos-cores-como-escolher', destination: '/blog/guia-jaleco-para-dentista-modelos-cores-como-escolher', permanent: true },
       { source: '/blog/jaleco-branco-ou-colorido-o-que-usar-na-clinica', destination: '/blog/jaleco-colorido-clinica', permanent: true },
       { source: '/blog/jaleco-branco-ou-colorido', destination: '/blog/jaleco-colorido-clinica', permanent: true },
+      // 404s detectados no GSC (05/05/2026) — pasta 14
+      // .html URLs do WooCommerce antigo
+      { source: '/:slug.html', destination: '/produto/:slug', permanent: true },
+      // Blog slugs antigos sem equivalente exato
+      { source: '/blog/jaleco-feminino-tendencias-funcionalidade-saude-2', destination: '/blog/jaleco-slim-feminino', permanent: true },
+      { source: '/blog/jaleco-feminino-tendencias-funcionalidade-saude', destination: '/blog/jaleco-slim-feminino', permanent: true },
+      { source: '/blog/jaleco-fisioterapeuta-conforto-longas-jornadas-2', destination: '/blog/jaleco-para-fisioterapeuta-guia', permanent: true },
+      { source: '/blog/jaleco-massagista-mobilidade-higiene-drenagem', destination: '/blog/jaleco-para-esteticista-guia', permanent: true },
+      { source: '/blog/jaleco-dentista-modelos-cores-como-escolher', destination: '/blog/guia-jaleco-para-dentista-modelos-cores-como-escolher', permanent: true },
+      { source: '/blog/jaleco-enfermagem-o-que-considerar-comprar', destination: '/blog/jaleco-para-enfermeira-regras-cofen', permanent: true },
+      { source: '/blog/como-lavar-e-conservar-seu-jaleco-profissional', destination: '/blog/como-lavar-jaleco-branco', permanent: true },
+      { source: '/blog/jaleco-para-dentistas-2', destination: '/blog/guia-jaleco-para-dentista-modelos-cores-como-escolher', permanent: true },
+      { source: '/blog/jaleco-para-dentistas', destination: '/blog/guia-jaleco-para-dentista-modelos-cores-como-escolher', permanent: true },
+      { source: '/blog/jaleco-para-dentista-estilo-praticidade-consultorio', destination: '/blog/guia-jaleco-para-dentista-modelos-cores-como-escolher', permanent: true },
+      { source: '/blog/guia-completo-tamanhos-jaleco-como-medir-corretamente', destination: '/blog/jaleco-feminino-tamanho-certo-como-medir', permanent: true },
+      { source: '/blog/como-escolher-jaleco-ideal-especialidade-medica', destination: '/blog/jaleco-feminino-como-escolher-modelo-certo-especialidade', permanent: true },
+      // Páginas removidas → destino mais próximo
+      { source: '/loja-matriz', destination: '/nossas-lojas', permanent: true },
+      { source: '/dia-das-maes/:slug*', destination: '/jaleco-feminino', permanent: true },
+      { source: '/cidade/:slug*', destination: '/jaleco-feminino', permanent: true },
+      { source: '/estampas/:slug*', destination: '/produtos', permanent: true },
+      { source: '/produtos/page/:num*', destination: '/produtos', permanent: true },
+      { source: '/frete', destination: '/', permanent: true },
+      { source: '/produto/produto-de-teste-bling', destination: '/produtos', permanent: true },
+      { source: '/produto/jaleco-laise-jeane-andrade-feminino-varias-cores-jaleca', destination: '/produtos', permanent: true },
+      { source: '/produto-:id-:cor', destination: '/produtos', permanent: true },
+      { source: '/wp-:path*', destination: '/', permanent: true },
       // Páginas 404 detectadas na análise (19/04/2026)
       { source: '/dolma', destination: '/categoria/domas', permanent: true },
       { source: '/conjunto', destination: '/categoria/conjuntos', permanent: true },
