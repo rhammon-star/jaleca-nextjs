@@ -16,8 +16,8 @@ import { isBestSeller } from "@/lib/best-sellers";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "Jalecos Femininos e Masculinos — Mais de 200 Mil Peças Vendidas",
-  description: "Compre jalecos femininos, masculinos, slim, princesa e universitários. PP ao G3, frete grátis Sudeste acima de R$499. Jalecos para médicos, dentistas, enfermeiros. Mais de 200 mil peças vendidas.",
+  title: "Compre Jalecos Femininos e Masculinos Online | Jaleca",
+  description: "Jaleca é referência em jalecos femininos e masculinos premium. Modelos slim, princesa e universitários do PP ao G3. Frete grátis no Sudeste. Mais de 200 mil peças vendidas.",
   alternates: { canonical: "https://jaleca.com.br" },
   openGraph: {
     title: "Jalecos Femininos e Masculinos — Jaleca",
@@ -129,6 +129,8 @@ export default async function Home() {
       { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday'], opens: '09:00', closes: '18:00' },
       { '@type': 'OpeningHoursSpecification', dayOfWeek: 'Saturday', opens: '09:00', closes: '12:00' },
     ],
+    legalName: 'Jaleca Uniformes Profissionais',
+    taxID: '30.379.063/0001-61',
     priceRange: '$$',
     hasMap: 'https://maps.google.com/?q=Jaleca+Ipatinga+MG',
     parentOrganization: { '@id': 'https://jaleca.com.br/#organization' },
@@ -337,7 +339,7 @@ export default async function Home() {
       <ScrollReveal>
         <section className="py-20 md:py-28">
           <div className="container">
-            <h2 className="font-display text-3xl md:text-4xl font-semibold text-center mb-16">Por Que Jaleca?</h2>
+            <h2 className="font-display text-3xl md:text-4xl font-semibold text-center mb-16">Jalecos Profissionais com Qualidade Premium</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
               {[
                 { icon: Ruler, title: "Tamanhos para Todos", desc: "Do PP ao G3, com tabela de medidas por modelo para garantir o tamanho certo.", showMobile: true },
@@ -459,8 +461,104 @@ export default async function Home() {
         </section>
       </ScrollReveal>
 
+      {/* Blog em destaque — SEO internal link */}
+      <ScrollReveal>
+        <section className="py-12 border-t border-border bg-card">
+          <div className="container">
+            <div className="flex items-end justify-between mb-6">
+              <div>
+                <h2 className="font-display text-2xl md:text-3xl font-semibold">Dicas e Guias para Profissionais</h2>
+                <p className="text-muted-foreground text-sm mt-1">Saiba como escolher, lavar e usar seu jaleco com segurança</p>
+              </div>
+              <Link href="/blog" className="hidden sm:inline-flex items-center gap-1 text-sm font-medium text-primary-text hover:underline underline-offset-4">
+                Ver todos os artigos <ArrowRight size={14} />
+              </Link>
+            </div>
+            <div className="flex flex-wrap gap-3">
+              {[
+                { label: 'Como escolher o jaleco feminino ideal', href: '/blog/como-escolher-jaleco-feminino-guia-completo' },
+                { label: 'Jaleco slim vs jaleco reto', href: '/blog/jaleco-slim-vs-jaleco-reto-diferencas' },
+                { label: 'Como lavar jaleco branco', href: '/blog/como-lavar-jaleco-branco' },
+                { label: 'Jaleco para médica — guia completo', href: '/blog/jaleco-para-medica-guia-completo' },
+                { label: 'Jaleco para dentista', href: '/blog/guia-jaleco-para-dentista-modelos-cores-como-escolher' },
+                { label: 'Jaleco para enfermeira — regras COFEN', href: '/blog/jaleco-para-enfermeira-regras-cofen' },
+              ].map(item => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="px-4 py-2 border border-border rounded-full text-sm font-medium text-foreground hover:bg-secondary/20 hover:border-foreground/40 transition-all"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+            <div className="sm:hidden mt-6">
+              <Link href="/blog" className="inline-flex items-center gap-1 text-sm font-medium text-primary-text hover:underline underline-offset-4">
+                Ver todos os artigos <ArrowRight size={14} />
+              </Link>
+            </div>
+          </div>
+        </section>
+      </ScrollReveal>
+
+      {/* Cidades — SEO internal links para páginas de cidade */}
+      <section className="py-10 border-t border-border bg-muted/10">
+        <div className="container">
+          <h2 className="font-display text-xl md:text-2xl font-semibold text-center mb-6">Entregamos para todo o Brasil</h2>
+          <div className="flex flex-wrap justify-center gap-3">
+            {[
+              { label: 'Jaleco em São Paulo', href: '/cidade/jaleco-sao-paulo' },
+              { label: 'Jaleco no Rio de Janeiro', href: '/cidade/jaleco-rio-de-janeiro' },
+              { label: 'Jaleco em Belo Horizonte', href: '/cidade/jaleco-belo-horizonte' },
+              { label: 'Jaleco em Brasília', href: '/cidade/jaleco-brasilia' },
+              { label: 'Jaleco em Curitiba', href: '/cidade/jaleco-curitiba' },
+              { label: 'Jaleco em Salvador', href: '/cidade/jaleco-salvador' },
+              { label: 'Jaleco em Fortaleza', href: '/cidade/jaleco-fortaleza' },
+              { label: 'Jaleco em Recife', href: '/cidade/jaleco-recife' },
+              { label: 'Jaleco em Porto Alegre', href: '/cidade/jaleco-porto-alegre' },
+              { label: 'Jaleco em Goiânia', href: '/cidade/jaleco-goiania' },
+            ].map(item => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="px-4 py-2 border border-border rounded-full text-sm text-muted-foreground hover:text-foreground hover:border-foreground/40 transition-all"
+              >
+                {item.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* SEO internal links — clusters de profissão e produto */}
+      <section className="py-12 border-t border-border bg-muted/10">
+        <div className="container">
+          <h2 className="font-display text-xl md:text-2xl font-semibold text-center mb-8">Jalecos por Perfil Profissional</h2>
+          <div className="flex flex-wrap justify-center gap-3">
+            {[
+              { label: 'Jaleco Feminino Branco', href: '/jaleco-feminino-branco' },
+              { label: 'Jaleco Universitário Feminino', href: '/jaleco-universitario-feminino' },
+              { label: 'Jaleco Médico', href: '/jaleco-medico' },
+              { label: 'Jaleco para Dentista', href: '/jaleco-dentista' },
+              { label: 'Jaleco para Enfermeira', href: '/jaleco-enfermeira' },
+              { label: 'Jaleco para Nutricionista', href: '/jaleco-nutricionista' },
+              { label: 'Jaleco para Fisioterapeuta', href: '/jaleco-fisioterapia' },
+              { label: 'Jaleco para Cabeleireiro', href: '/jaleco-cabeleireiro' },
+            ].map(item => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="px-4 py-2 border border-border rounded-full text-sm font-medium text-foreground hover:bg-secondary/20 hover:border-foreground/40 transition-all"
+              >
+                {item.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section style={{ padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)', maxWidth: '1200px', margin: '0 auto' }}>
-        <InstagramGallery maxItems={6} title="Inspire-se — @jaleca.oficial" />
+        <InstagramGallery maxItems={6} title="Inspiração — Jalecos no Instagram" />
       </section>
 
     </main>
