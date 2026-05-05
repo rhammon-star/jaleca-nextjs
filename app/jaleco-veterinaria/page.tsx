@@ -44,6 +44,8 @@ const schemaFaq = {
     { '@type': 'Question', name: 'Jaleco com elastano é bom para veterinário?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. O elastano adiciona memória ao tecido, retornando à forma após o movimento — essencial para quem passa horas em atendimento.' } },
     { '@type': 'Question', name: 'Jaleco de veterinário precisa ser branco?', acceptedAnswer: { '@type': 'Answer', text: 'Não é obrigação. O branco é o clássico, mas tons pastel e cores discretas são aceitos. O CRMV não restringe a cor.' } },
     { '@type': 'Question', name: 'Qual a diferença entre jaleco Slim e Profissional?', acceptedAnswer: { '@type': 'Answer', text: 'O Slim tem corte ajustado ao corpo, ideal para quem quer visual mais moderno. O Profissional tem corte mais amplo e estruturado, com mais espaço para movimento.' } },
+    { '@type': 'Question', name: 'Qual jaleco leve e fresco para veterinária que trabalha o dia todo?', acceptedAnswer: { '@type': 'Answer', text: 'A Microfibra é o tecido mais leve da linha Jaleca — respirável e confortável para longas jornadas em clínica veterinária, sem pesar no corpo.' } },
+    { '@type': 'Question', name: 'Onde comprar jaleco feminino para veterinária com entrega rápida?', acceptedAnswer: { '@type': 'Answer', text: 'Na Jaleca enviamos em até 2 dias úteis para todo o Brasil. Frete grátis para SP, RJ, MG e ES em compras acima de R$499.' } },
   ],
 }
 

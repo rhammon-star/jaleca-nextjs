@@ -47,6 +47,21 @@ const faqSchema = {
       name: 'Qual modelo Slim é mais indicado para médicas e dentistas?',
       acceptedAnswer: { '@type': 'Answer', text: 'O Slim Elastex para quem precisa de muito movimento (procedimentos, plantão). O Slim Tradicional branco para consultório e atendimento. O Slim Princesa para profissionais que preferem evasê na parte inferior — nutricionistas e esteticistas adoram.' },
     },
+    {
+      '@type': 'Question',
+      name: 'Jaleco feminino acinturado estilo blazer existe para clínica médica?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Sim. O modelo Alfaiataria Premium da Jaleca tem acabamento de blazer — estruturado, elegante e profissional. Ideal para recepção de clínica, coordenação de saúde ou qualquer profissional que queira transmitir autoridade com sofisticação.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'Jaleco acinturado que não amassa durante o dia inteiro — existe?',
+      acceptedAnswer: { '@type': 'Answer', text: 'O Gabardine com elastano é o tecido mais resistente ao amassado da nossa linha — você passa 8, 10, 12 horas de expediente e o jaleco mantém o caimento sem precisar passar.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'Onde comprar jaleco feminino acinturado com entrega rápida?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Na Jaleca enviamos em até 2 dias úteis para todo o Brasil. Frete grátis para SP, RJ, MG e ES em compras acima de R$499.' },
+    },
   ],
 }
 

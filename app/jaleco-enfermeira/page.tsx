@@ -44,6 +44,8 @@ const schemaFaq = {
     { '@type': 'Question', name: 'Jaleco com elastano é bom para enfermeiro?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. O elastano adiciona memória ao tecido, retornando à forma após o movimento — essencial para quem passa horas em atendimento.' } },
     { '@type': 'Question', name: 'Jaleco de enfermeiro precisa ser branco?', acceptedAnswer: { '@type': 'Answer', text: 'Não é obrigação. O branco é o clássico, mas tons pastel e cores discretas são aceitos. O COREN não restringe a cor.' } },
     { '@type': 'Question', name: 'Qual a diferença entre jaleco Slim e Profissional?', acceptedAnswer: { '@type': 'Answer', text: 'O Slim tem corte ajustado ao corpo, ideal para quem quer visual mais moderno. O Profissional tem corte mais amplo e estruturado, com mais espaço para movimento.' } },
+    { '@type': 'Question', name: 'Qual jaleco feminino não amassa no plantão longo?', acceptedAnswer: { '@type': 'Answer', text: 'Os tecidos Microfibra e Gabardine com elastano são os mais indicados para plantão — resistem ao amassado mesmo após horas de uso, sem precisar passar.' } },
+    { '@type': 'Question', name: 'Onde comprar jaleco feminino com entrega rápida para enfermeira?', acceptedAnswer: { '@type': 'Answer', text: 'Na Jaleca enviamos em até 2 dias úteis para todo o Brasil. Frete grátis para SP, RJ, MG e ES em compras acima de R$499.' } },
   ],
 }
 

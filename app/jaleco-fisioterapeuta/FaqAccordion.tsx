@@ -7,6 +7,9 @@ const faqItems = [
   { q: 'O jaleco protege contra contaminação?', a: 'O jaleco funciona como barreira contra respingos de álcool, gels e outros produtos usados na fisioterapia. Deve ser usado exclusivamente durante o trabalho.' },
   { q: 'Como funciona a troca?', a: 'Arrependimento: até 7 dias após o recebimento, produto sem uso e com etiqueta. Garantia Jaleca: 30 dias, sem marca de uso e com etiqueta. WhatsApp ou e-mail com número do pedido.' },
   { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Prazo de 3 a 8 dias úteis conforme região — calculado no checkout.' },
+  { q: 'Qual jaleco feminino para fisioterapeuta não limita movimento?', a: 'O Gabardine com elastano e a Microfibra são os melhores — o elastano acompanha cada movimento sem restringir, ideal para quem trabalha com reabilitação e mobilidade.' },
+  { q: 'Tem jaleco leve para fisioterapeuta que fica de pé o dia todo?', a: 'Sim. A Microfibra é o tecido mais leve da nossa linha, com excelente respirabilidade — perfeito para jornadas longas em clínica.' },
+  { q: 'Onde comprar jaleco feminino para fisioterapeuta com entrega rápida?', a: 'Na Jaleca enviamos em até 2 dias úteis para todo o Brasil. Frete grátis para SP, RJ, MG e ES em compras acima de R$499.' },
 ]
 export default function FaqAccordion() {
   const [openIndex, setOpenIndex] = useState<number | null>(0)

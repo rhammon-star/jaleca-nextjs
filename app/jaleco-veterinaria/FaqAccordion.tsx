@@ -7,6 +7,9 @@ const faqItems = [
   { q: 'Veterinário precisa de jaleco com proteção?', a: 'Sim. O jaleco funciona como barreira contra pelos, fluidos animais e produtos químicos. Deve ser usado exclusivamente durante o trabalho.' },
   { q: 'Como funciona a troca?', a: 'Arrependimento: até 7 dias após o recebimento, produto sem uso e com etiqueta. Garantia Jaleca: 30 dias, sem marca de uso e com etiqueta. WhatsApp ou e-mail com número do pedido.' },
   { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Prazo de 3 a 8 dias úteis conforme região — calculado no checkout.' },
+  { q: 'Qual jaleco leve e fresco para veterinária que trabalha o dia todo?', a: 'A Microfibra é o tecido mais leve da linha Jaleca — respirável e confortável para longas jornadas em clínica veterinária, sem pesar no corpo.' },
+  { q: 'Qual tecido de jaleco para veterinária aguenta lavagem frequente?', a: 'O Gabardine com elastano e a Microfibra são os mais resistentes a lavagens constantes — mantêm o caimento e a cor mesmo com uso intenso.' },
+  { q: 'Onde comprar jaleco feminino para veterinária com entrega rápida?', a: 'Na Jaleca enviamos em até 2 dias úteis para todo o Brasil. Frete grátis para SP, RJ, MG e ES em compras acima de R$499.' },
 ]
 export default function FaqAccordion() {
   const [openIndex, setOpenIndex] = useState<number | null>(0)

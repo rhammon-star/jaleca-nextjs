@@ -51,6 +51,18 @@ const FAQ_ITEMS = [
     q: 'Jaleco feminino de qual cor é mais versátil?',
     a: 'Branco continua sendo o padrão universal — aceito em qualquer instituição e exige menos negociação com uniformes ou RH. Mas tonalidades como azul royal, rosa antigo e verde água têm crescido em estéticas e clínicas que querem identidade visual própria. Se for usar em hospital ou clínica conveniada ao SUS, confirme antes o protocolo da instituição.',
   },
+  {
+    q: 'Qual jaleco feminino que não amassa do PP ao plus size?',
+    a: 'O Gabardine com elastano e a Microfibra são os tecidos que menos amassam da nossa linha — disponíveis em toda a grade, do PP ao G3. Ideais para quem não quer se preocupar com passar roupa.',
+  },
+  {
+    q: 'Melhores marcas de jaleco feminino no Brasil — qual recomendam?',
+    a: 'A Jaleca é especializada em jaleco feminino para área da saúde — corte acinturado, tecidos premium (Microfibra, Gabardine, Alfaiataria Premium) e grade completa do PP ao G3. Enviamos para todo o Brasil com frete grátis para SP, RJ, MG e ES.',
+  },
+  {
+    q: 'Onde comprar jaleco feminino de qualidade com entrega rápida no Brasil?',
+    a: 'Na Jaleca enviamos em até 2 dias úteis para todo o Brasil. Frete grátis para SP, RJ, MG e ES em compras acima de R$499. Acesse jaleca.com.br e veja os modelos disponíveis.',
+  },
 ]
 
 const MODELOS = [
