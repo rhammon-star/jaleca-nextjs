@@ -19,6 +19,46 @@ import UrgencyToast from '@/components/UrgencyToast'
 import { isBestSeller } from '@/lib/best-sellers'
 import type { PlaceData } from '@/lib/google-places'
 
+// #1 — Alt text descritivo: nome + cor selecionada (sem mencionar profissão)
+function buildImageAlt(name: string, color: string | null | undefined): string {
+  const base = name.replace(/ - Jaleca$/i, '')
+  return color ? `${base} — ${color}` : base
+}
+
+// #2 — Links internos: mapa de categoria WooCommerce → páginas hub
+const CATEGORY_HUB_MAP: Record<string, { label: string; href: string }> = {
+  'jalecos-femininos':        { label: 'Guia de Jalecos Femininos',        href: '/jaleco-feminino' },
+  'jaleco-feminino':          { label: 'Guia de Jalecos Femininos',        href: '/jaleco-feminino' },
+  'jalecos-masculinos':       { label: 'Guia de Jalecos Masculinos',       href: '/jaleco-masculino' },
+  'jaleco-masculino':         { label: 'Guia de Jalecos Masculinos',       href: '/jaleco-masculino' },
+  'jalecos-brancos':          { label: 'Jalecos Brancos',                  href: '/jaleco-branco' },
+  'jaleco-branco':            { label: 'Jalecos Brancos',                  href: '/jaleco-branco' },
+  'jalecos-coloridos':        { label: 'Jalecos Coloridos',                href: '/jaleco-colorido' },
+  'jaleco-colorido':          { label: 'Jalecos Coloridos',                href: '/jaleco-colorido' },
+  'scrubs-femininos':         { label: 'Guia de Scrub Feminino',           href: '/scrub-feminino' },
+  'scrub-feminino':           { label: 'Guia de Scrub Feminino',           href: '/scrub-feminino' },
+  'scrubs-medicos':           { label: 'Guia de Scrub Médico',             href: '/scrub-medico' },
+  'scrub-medico':             { label: 'Guia de Scrub Médico',             href: '/scrub-medico' },
+  'scrub-enfermagem':         { label: 'Scrub para Enfermagem',            href: '/scrub-enfermagem' },
+  'pijamas-cirurgicos':       { label: 'Pijama Cirúrgico Feminino',        href: '/pijama-cirurgico-feminino' },
+  'pijama-cirurgico-feminino':{ label: 'Pijama Cirúrgico Feminino',        href: '/pijama-cirurgico-feminino' },
+  'dolmas':                   { label: 'Dolma para Cozinheiro',            href: '/dolma-cozinheiro' },
+  'dolma':                    { label: 'Dolma para Cozinheiro',            href: '/dolma-cozinheiro' },
+  'conjuntos':                { label: 'Conjuntos Profissionais',          href: '/jaleco-feminino' },
+  'jalecos-plus-size':        { label: 'Jaleco Plus Size',                 href: '/jaleco-plus-size' },
+  'jaleco-plus-size':         { label: 'Jaleco Plus Size',                 href: '/jaleco-plus-size' },
+  'uniformes-beleza':         { label: 'Uniformes para Beleza',            href: '/uniformes-beleza' },
+  'uniformes-gastronomia':    { label: 'Uniformes de Gastronomia',         href: '/uniformes-gastronomia' },
+}
+
+function getHubLinks(categories: Array<{ slug: string; name: string }>): { label: string; href: string }[] {
+  const seen = new Set<string>()
+  return categories
+    .flatMap(c => [CATEGORY_HUB_MAP[c.slug], CATEGORY_HUB_MAP[c.slug.toLowerCase()]])
+    .filter((l): l is { label: string; href: string } => !!l && !seen.has(l.href) && !!seen.add(l.href))
+    .slice(0, 3)
+}
+
 type AttributeTerm = { slug: string; name: string }
 
 type VariationImage = {
@@ -663,16 +703,12 @@ export default function ProductDetailClient({
         ]} />
 
         <div className="grid grid-cols-1 md:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] gap-8 md:gap-16 lg:gap-20 items-start">
-          {/* H1 único — visível apenas para SEO/screen readers, posicionado antes do grid visual */}
-          <h1 className="sr-only">
-            {seoH1 || product.name.replace(/ - Jaleca$/i, '')}
-          </h1>
           {/* Mobile header — nome + badges + trust acima da foto (só mobile) */}
           <div className="md:hidden order-1 col-span-full pb-2">
             <p className="text-[13px] text-primary-text tracking-[0.2em] uppercase mb-1">Jaleca</p>
-            <p className="font-display text-3xl font-semibold leading-[1.1] tracking-[-0.03em] mb-2 text-balance">
+            <h1 className="font-display text-3xl font-semibold leading-[1.1] tracking-[-0.03em] mb-2 text-balance">
               {seoH1 || product.name.replace(/ - Jaleca$/i, '')}
-            </p>
+            </h1>
             {seoH2 && (
               <h2 className="text-base md:text-lg text-muted-foreground mb-2 font-normal">
                 {seoH2}
@@ -724,7 +760,7 @@ export default function ProductDetailClient({
                 <ImageZoom
                   key={displayImage.sourceUrl}
                   src={displayImage.sourceUrl}
-                  alt={displayImage.altText || product.name}
+                  alt={displayImage.altText || buildImageAlt(productName, selectedColor ? (colorNames[selectedColor] ?? selectedColor) : null)}
                   priority
                 />
               ) : (
@@ -770,7 +806,7 @@ export default function ProductDetailClient({
                   >
                     <Image
                       src={img.sourceUrl}
-                      alt={img.altText || `${product.name} ${idx + 1}`}
+                      alt={img.altText || `${buildImageAlt(productName, selectedColor ? (colorNames[selectedColor] ?? selectedColor) : null)} — foto ${idx + 1}`}
                       width={64}
                       height={80}
                       className="object-cover"
@@ -786,9 +822,9 @@ export default function ProductDetailClient({
             {/* Desktop only: nome + badge + trust + rating (no mobile ficam acima da foto) */}
             <div className="hidden md:block">
               <p className="text-[11px] text-primary-text tracking-[0.28em] uppercase mb-1">Jaleca</p>
-              <p className="font-display text-4xl lg:text-5xl font-semibold leading-[1.1] tracking-[-0.03em] mb-2 text-balance">
+              <h1 className="font-display text-4xl lg:text-5xl font-semibold leading-[1.1] tracking-[-0.03em] mb-2 text-balance">
                 {seoH1 || product.name.replace(/ - Jaleca$/i, '')}
-              </p>
+              </h1>
               {seoH2 && (
                 <h2 className="text-lg text-muted-foreground mb-3 font-normal">
                   {seoH2}
@@ -858,12 +894,37 @@ export default function ProductDetailClient({
             </div>
 
             {/* Short description */}
-            {product.shortDescription && (
+            {product.shortDescription ? (
               <div
-                className="max-w-[52ch] text-sm md:text-[15px] text-muted-foreground leading-relaxed mb-8 text-pretty prose prose-sm"
+                className="max-w-[52ch] text-sm md:text-[15px] text-muted-foreground leading-relaxed mb-4 text-pretty prose prose-sm"
                 dangerouslySetInnerHTML={{ __html: cleanHtml(product.shortDescription) }}
               />
+            ) : !seoColorPsychology && (
+              // #3 — fallback: 1 linha visível com keyword nos primeiros 100 words
+              <p className="max-w-[52ch] text-sm text-muted-foreground leading-relaxed mb-4">
+                {productName} da Jaleca — uniforme profissional premium com qualidade aprovada por quem usa no dia a dia.
+              </p>
             )}
+
+            {/* #2 — Links internos: guias hub relacionados à categoria do produto */}
+            {(() => {
+              const cats = (product as any).productCategories?.nodes ?? []
+              const hubLinks = getHubLinks(cats)
+              if (!hubLinks.length) return null
+              return (
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {hubLinks.map(link => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className="text-[11px] text-muted-foreground underline underline-offset-2 hover:text-foreground transition-colors"
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
+                </div>
+              )
+            })()}
 
             {/* Available colors - botões nas páginas de cor, oculto no produto pai */}
             {initialColor && colorSlugs.length > 0 && (

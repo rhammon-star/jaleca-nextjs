@@ -51,7 +51,7 @@ const CATEGORY_MAP: Record<string, { label: string; description: string; keyword
   },
   'jalecos-femininos': {
     label: 'Jalecos Femininos',
-    title: 'Jaleco Feminino 4.9★ — Slim, Princesa e Elastex | 12 Cores | Jaleca',
+    title: 'Jaleco Feminino — Slim, Princesa e Elastex | 12 Cores | Jaleca',
     h1: 'Jaleco Feminino',
     filterLabel: 'Jalecos',
     gender: 'Feminino',
@@ -262,7 +262,7 @@ export default async function CategoriaPage({
     aggregateRating: {
       '@type': 'AggregateRating',
       ratingValue: '4.9',
-      reviewCount: '317',
+      reviewCount: 317,
       bestRating: '5',
       worstRating: '1',
     },
@@ -325,7 +325,6 @@ export default async function CategoriaPage({
         }}
       />
 
-      <h1 className="sr-only">{cat.h1 ?? `${cat.label} — Jaleca`}</h1>
       <ProductsClient
         products={products}
         initialCat={NAME_FILTER[slug] ? 'Todos' : (cat.filterLabel ?? cat.label)}
