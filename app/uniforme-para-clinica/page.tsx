@@ -1,9 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { graphqlClient, GET_PRODUCTS } from '@/lib/graphql'
-import type { WooProduct } from '@/components/ProductCard'
-import ProductCard from '@/components/ProductCard'
 import { getGooglePlaceData } from '@/lib/google-places'
+import ProfessionProductGrid from '@/components/ProfessionProductGrid'
 
 export const revalidate = 3600
 
@@ -149,20 +147,8 @@ const SUB_PILAR_LINKS = [
   { href: '/jaleco-nutricionista',          label: 'Jaleco para Nutricionista' },
 ]
 
-async function getProdutos(): Promise<WooProduct[]> {
-  try {
-    const data = await graphqlClient.request<{ products: { nodes: WooProduct[] } }>(GET_PRODUCTS, { first: 50 })
-    const products = data?.products?.nodes ?? []
-    return products
-      .filter(p => p.slug.includes('conjunto') || p.slug.includes('jaleco') || p.slug.includes('scrub'))
-      .slice(0, 6)
-  } catch {
-    return []
-  }
-}
-
 export default async function UniformeParaClinicaPage() {
-  const [produtos, placeData] = await Promise.all([getProdutos(), getGooglePlaceData()])
+  const placeData = await getGooglePlaceData()
 
   return (
     <>
@@ -264,28 +250,13 @@ export default async function UniformeParaClinicaPage() {
         </section>
 
         {/* ── PRODUTOS ── */}
-        {produtos.length > 0 && (
-          <section style={{ background: '#f9f7f4', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
-            <div style={{ maxWidth: 1200, width: '100%', margin: '0 auto' }}>
-              <div className="flex justify-between items-end flex-wrap gap-4 mb-10">
-                <div>
-                  <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>Coleção clínica</div>
-                  <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2rem,3.5vw,3rem)', fontWeight: 400, lineHeight: 1.15, color: '#1a1a1a' }}>
-                    Jalecos e conjuntos<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>para sua equipe</em>
-                  </h2>
-                </div>
-                <Link href="/produtos?categoria=conjuntos" style={{ display: 'inline-flex', padding: '0.9rem 2rem', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a', color: '#1a1a1a' }}>
-                  Ver todos →
-                </Link>
-              </div>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {produtos.map(product => (
-                  <ProductCard key={product.id} product={product} />
-                ))}
-              </div>
-            </div>
-          </section>
-        )}
+        <ProfessionProductGrid
+          professionKey="secretaria"
+          professionLabel="Clínica"
+          collectionLabel="Conjuntos para Clínica"
+          productLabel="Conjuntos"
+          allHref="/categoria/conjuntos-femininos"
+        />
 
         {/* ── HUBS POR PROFISSÃO ── */}
         <section style={{ background: '#fff', padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)' }}>
