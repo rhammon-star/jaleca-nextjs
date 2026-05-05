@@ -152,6 +152,8 @@ const nextConfig: NextConfig = {
       { source: '/produto/jaleco-laise-jeane-andrade-feminino-varias-cores-jaleca', destination: '/produtos', permanent: true },
       { source: '/produto-:id', destination: '/produtos', permanent: true },
       { source: '/wp-content/:path*', destination: '/', permanent: true },
+      // Blog 404 (pasta 18 GSC 05/05/2026)
+      { source: '/blog/jaleco-professor-diferenca-sala-aula', destination: '/blog/jaleco-colorido-clinica', permanent: true },
       // Categorias vazias (soft 404 GSC 05/05/2026)
       { source: '/categoria/mimos', destination: '/produtos', permanent: true },
       { source: '/categoria/acessorios', destination: '/produtos', permanent: true },
