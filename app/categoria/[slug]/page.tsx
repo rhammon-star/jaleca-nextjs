@@ -132,12 +132,20 @@ const CATEGORY_MAP: Record<string, { label: string; description: string; keyword
 
 export async function generateMetadata({
   params,
+  searchParams,
 }: {
   params: Promise<{ slug: string }>
+  searchParams?: Promise<Record<string, string | string[] | undefined>>
 }): Promise<Metadata> {
   const { slug } = await params
+  const sp = searchParams ? await searchParams : {}
   const cat = CATEGORY_MAP[slug]
   if (!cat) return { title: 'Categoria não encontrada' }
+
+  // URLs com filtros/parâmetros de navegação: noindex + canonical para evitar duplicatas no GSC
+  const hasFilterParams = Object.keys(sp).some(k =>
+    ['filter_tamanho', 'per_row', 'per_page', 'shop_view', 'add-to-cart'].includes(k)
+  )
 
   const pageTitle = cat.title ?? `${cat.label} Premium | Jaleca — Moda Profissional para Saúde`
 
@@ -145,6 +153,7 @@ export async function generateMetadata({
     title: pageTitle,
     description: cat.description,
     keywords: cat.keywords,
+    robots: hasFilterParams ? { index: false, follow: true } : undefined,
     alternates: { canonical: `https://jaleca.com.br/categoria/${slug}` },
     openGraph: {
       title: pageTitle,

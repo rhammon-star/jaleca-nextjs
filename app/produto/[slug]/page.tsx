@@ -122,10 +122,17 @@ function stripHtml(html: string): string {
 
 export async function generateMetadata({
   params,
+  searchParams,
 }: {
   params: Promise<{ slug: string }>
+  searchParams?: Promise<Record<string, string | string[] | undefined>>
 }): Promise<Metadata> {
   const { slug } = await params
+  const sp = searchParams ? await searchParams : {}
+  // URLs com ?vid= são variações específicas — noindex para evitar duplicatas no GSC
+  if (sp['vid']) {
+    return { robots: { index: false, follow: true } }
+  }
 
   if (isNoindexProduct(slug)) {
     const p = await getProduct(slug)
