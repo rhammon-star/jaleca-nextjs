@@ -114,8 +114,20 @@ const nextConfig: NextConfig = {
       { source: '/blog/jaleco-branco-ou-colorido-o-que-usar-na-clinica', destination: '/blog/jaleco-colorido-clinica', permanent: true },
       { source: '/blog/jaleco-branco-ou-colorido', destination: '/blog/jaleco-colorido-clinica', permanent: true },
       // 404s detectados no GSC (05/05/2026) — pasta 14
-      // .html URLs do WooCommerce antigo
-      { source: '/:slug.html', destination: '/produto/:slug', permanent: true },
+      // .html URLs do WooCommerce antigo (slugs individuais detectados no GSC)
+      { source: '/conjunto-jeane-andrade-feminino-varias-cores-jaleca.html', destination: '/produto/conjunto-jeane-andrade-feminino-varias-cores-jaleca', permanent: true },
+      { source: '/jaleco-padrao-aluno-feminino-de-botao-varias-cores-jaleca.html', destination: '/produto/jaleco-padrao-aluno-feminino-de-botao-varias-cores-jaleca', permanent: true },
+      { source: '/jaleco-padrao-aluno-masculino-de-botao-varias-cores-jaleca.html', destination: '/produto/jaleco-padrao-aluno-masculino-de-botao-varias-cores-jaleca', permanent: true },
+      { source: '/jaleco-slim-duquesa-feminino-varias-cores-jaleca.html', destination: '/produto/jaleco-slim-duquesa-feminino-varias-cores-jaleca', permanent: true },
+      { source: '/jaleco-slim-moratty-feminino-ziper-central-jaleca.html', destination: '/produto/jaleco-slim-moratty-feminino-ziper-central-jaleca', permanent: true },
+      { source: '/jaleco-slim-masculino-de-ziper-central-varias-cores-jaleca.html', destination: '/produto/jaleco-slim-masculino-de-ziper-central-varias-cores-jaleca', permanent: true },
+      { source: '/jaleco-slim-recortes-masculino-varias-cores-jaleca.html', destination: '/produto/jaleco-slim-recortes-masculino-varias-cores-jaleca', permanent: true },
+      { source: '/jaleco-laise-jeane-andrade-feminino-varias-cores-jaleca.html', destination: '/produtos', permanent: true },
+      { source: '/conjunto-pijama-cirurgico-scrub-feminino-varias-cores-jaleca.html', destination: '/produto/conjunto-pijama-cirurgico-scrub-feminino-varias-cores-jaleca', permanent: true },
+      { source: '/conjunto-pijama-cirurgico-princesa-scrub-feminino-varias-cores-jaleca.html', destination: '/produto/conjunto-pijama-cirurgico-princesa-scrub-feminino-varias-cores-jaleca', permanent: true },
+      { source: '/conjunto-pijama-cirurgico-scrub-masculino-varias-cores-jaleca.html', destination: '/produto/conjunto-pijama-cirurgico-scrub-masculino-varias-cores-jaleca', permanent: true },
+      { source: '/conjunto-dolma-cozinheiro-de-ziper-e-avental-saia-slim-jaleca.html', destination: '/produto/conjunto-dolma-cozinheiro-de-ziper-e-avental-saia-slim-jaleca', permanent: true },
+      { source: '/conjunto-dolma-cozinheiro-masculino-de-ziper-e-avental-saia-slim-jaleca.html', destination: '/produto/conjunto-dolma-cozinheiro-masculino-de-ziper-e-avental-saia-slim-jaleca', permanent: true },
       // Blog slugs antigos sem equivalente exato
       { source: '/blog/jaleco-feminino-tendencias-funcionalidade-saude-2', destination: '/blog/jaleco-slim-feminino', permanent: true },
       { source: '/blog/jaleco-feminino-tendencias-funcionalidade-saude', destination: '/blog/jaleco-slim-feminino', permanent: true },
@@ -138,8 +150,8 @@ const nextConfig: NextConfig = {
       { source: '/frete', destination: '/', permanent: true },
       { source: '/produto/produto-de-teste-bling', destination: '/produtos', permanent: true },
       { source: '/produto/jaleco-laise-jeane-andrade-feminino-varias-cores-jaleca', destination: '/produtos', permanent: true },
-      { source: '/produto-:id-:cor', destination: '/produtos', permanent: true },
-      { source: '/wp-:path*', destination: '/', permanent: true },
+      { source: '/produto-:id', destination: '/produtos', permanent: true },
+      { source: '/wp-content/:path*', destination: '/', permanent: true },
       // Páginas 404 detectadas na análise (19/04/2026)
       { source: '/dolma', destination: '/categoria/domas', permanent: true },
       { source: '/conjunto', destination: '/categoria/conjuntos', permanent: true },
