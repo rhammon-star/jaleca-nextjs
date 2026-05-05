@@ -139,7 +139,7 @@ export default async function Page() {
             <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2rem,3.5vw,3rem)', fontWeight: 400, color: '#1a1a1a', marginBottom: '2rem' }}>
               O que o jaleco de massoterapia<br />precisa ter
             </h2>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(260px, 100%), 1fr))', gap: '1px', background: '#e5e0d8', marginBottom: '3rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1px', background: '#e5e0d8', marginBottom: '3rem' }}>
               {[
                 { titulo: 'Elastano bidirecional', texto: 'O tecido precisa ceder nos dois eixos — para frente, para os lados e acima da cabeça. Sem elastano, o jaleco puxa nos ombros durante os movimentos de massagem e cansa mais rápido.' },
                 { titulo: 'Leveza', texto: 'A massoterapeuta fica em movimento constante durante horas. Tecidos pesados cansam mais. O Jaleco Elastex da Jaleca tem 140 g/m² — leve o suficiente para jornadas longas sem sobreaquecer.' },

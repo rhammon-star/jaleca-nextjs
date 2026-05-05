@@ -375,7 +375,7 @@ export default async function UniformeParaClinicaPage() {
             <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2rem,3.5vw,3rem)', fontWeight: 400, color: '#fff', marginBottom: '2rem' }}>
               O que a NR-32 exige<br />para clínicas
             </h2>
-            <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(min(280px, 100%), 1fr))', gap: '1px', background: 'rgba(255,255,255,0.08)' }}>
+            <div className="grid" style={{ gridTemplateColumns: 'repeat(2, 1fr)', gap: '1px', background: 'rgba(255,255,255,0.08)' }}>
               {[
                 { titulo: 'Fornecimento pelo empregador', detalhe: 'A clínica deve fornecer e custear os uniformes — o profissional não pode ser cobrado pela peça.' },
                 { titulo: 'Proibição de sair do trabalho', detalhe: 'O uniforme não pode circular fora do ambiente de trabalho. O risco de contaminação ambiental é documentado.' },

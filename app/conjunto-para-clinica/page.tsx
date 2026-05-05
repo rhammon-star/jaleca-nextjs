@@ -162,7 +162,7 @@ export default async function ConjuntoParaClinicaPage() {
         </div>
 
         {/* ── HERO ── */}
-        <section className="grid" style={{ minHeight: '88vh', padding: 0 }}>
+        <section className="grid md:grid-cols-2" style={{ minHeight: '88vh', padding: 0 }}>
           <div
             className="flex flex-col justify-center"
             style={{ padding: 'clamp(3rem,8vw,5rem) clamp(2rem,5vw,4rem) clamp(3rem,8vw,5rem) clamp(2rem,8vw,7rem)', background: '#f9f7f4' }}
@@ -218,14 +218,14 @@ export default async function ConjuntoParaClinicaPage() {
         </section>
 
         {/* ── TRUST BAR ── */}
-        <div className="grid" style={{ gridTemplateColumns: 'repeat(4,1fr)', background: '#1a1a1a', padding: '1.5rem clamp(1.5rem,5vw,4rem)' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', background: '#1a1a1a', padding: '1.5rem clamp(1rem,4vw,3rem)' }}>
           {[
             { title: 'Fabricante direto', sub: 'Sem intermediários' },
             { title: 'PP ao G3', sub: 'Grade completa' },
             { title: 'Frete grátis', sub: 'SP · RJ · MG · ES acima R$499' },
             { title: 'Troca em 7 dias', sub: 'Direito do consumidor' },
           ].map((item, i) => (
-            <div key={i} style={{ padding: '0.75rem 1.5rem', borderRight: i < 3 ? '1px solid rgba(255,255,255,0.12)' : 'none' }}>
+            <div key={i} style={{ padding: '1rem 1.25rem', textAlign: 'center', borderRight: i % 2 === 0 ? '1px solid rgba(255,255,255,0.12)' : 'none', borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.08)' : 'none' }}>
               <strong style={{ display: 'block', fontSize: '0.82rem', fontWeight: 400, color: '#fff', marginBottom: '0.15rem' }}>{item.title}</strong>
               <span style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.45)' }}>{item.sub}</span>
             </div>
@@ -265,7 +265,7 @@ export default async function ConjuntoParaClinicaPage() {
             <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2rem,3.5vw,3rem)', fontWeight: 400, color: '#1a1a1a', marginBottom: '2rem' }}>
               Qual conjunto escolher<br />para cada profissional
             </h2>
-            <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(min(300px, 100%), 1fr))', gap: '1px', background: '#e5e0d8' }}>
+            <div className="grid" style={{ gridTemplateColumns: 'repeat(2, 1fr)', gap: '1px', background: '#e5e0d8' }}>
               {[
                 {
                   funcao: 'Médico / Dentista',

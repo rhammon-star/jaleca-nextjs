@@ -138,14 +138,14 @@ export default async function Page() {
         </section>
 
         {/* TRUST BAR */}
-        <div className="grid" style={{ background: '#1a3a5c', padding: '1.5rem clamp(1.5rem,5vw,4rem)' }}>
+        <div style={{ background: '#1a3a5c', padding: '1.5rem clamp(1rem,4vw,3rem)', display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)' }}>
           {[
             { title: 'Azul marinho e azul claro', sub: 'Jalecos e scrubs nas duas tonalidades' },
             { title: 'PP ao G3', sub: 'Molde feminino por tamanho' },
             { title: 'Tingimento durável', sub: 'Azul que não desbota' },
             { title: 'Entrega rápida', sub: 'Para todo o Brasil' },
           ].map((item, i) => (
-            <div key={i} style={{ padding: '0.75rem 1.5rem', borderRight: (i % 2 === 0) ? '1px solid rgba(255,255,255,0.12)' : 'none', borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.08)' : 'none' }}>
+            <div key={i} style={{ padding: '1rem 1.25rem', textAlign: 'center', borderRight: i % 2 === 0 ? '1px solid rgba(255,255,255,0.12)' : 'none', borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.08)' : 'none' }}>
               <strong style={{ display: 'block', fontSize: '0.82rem', fontWeight: 400, color: '#fff', marginBottom: '0.15rem' }}>{item.title}</strong>
               <span style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.45)' }}>{item.sub}</span>
             </div>

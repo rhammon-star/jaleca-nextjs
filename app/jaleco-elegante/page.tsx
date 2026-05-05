@@ -142,14 +142,14 @@ export default async function Page() {
         </section>
 
         {/* TRUST BAR */}
-        <div className="grid" style={{ background: '#1a1a1a', padding: '1.5rem clamp(1.5rem,5vw,4rem)' }}>
+        <div style={{ background: '#1a1a1a', padding: '1.5rem clamp(1rem,4vw,3rem)', display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)' }}>
           {[
             { title: 'Alfaiataria premium', sub: 'Tecidos de alto padrão' },
             { title: 'Corte acinturado', sub: 'Elegância sem perder conforto' },
             { title: 'PP ao G3', sub: 'Molde próprio por tamanho' },
             { title: 'Frete grátis SE', sub: 'Acima de R$499' },
           ].map((item, i) => (
-            <div key={i} style={{ padding: '0.75rem 1.5rem', borderRight: (i % 2 === 0) ? '1px solid rgba(255,255,255,0.12)' : 'none', borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.08)' : 'none' }}>
+            <div key={i} style={{ padding: '1rem 1.25rem', textAlign: 'center', borderRight: i % 2 === 0 ? '1px solid rgba(255,255,255,0.12)' : 'none', borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.08)' : 'none' }}>
               <strong style={{ display: 'block', fontSize: '0.82rem', fontWeight: 400, color: '#fff', marginBottom: '0.15rem' }}>{item.title}</strong>
               <span style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.45)' }}>{item.sub}</span>
             </div>
@@ -165,7 +165,7 @@ export default async function Page() {
             <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2rem,3.5vw,3rem)', fontWeight: 400, color: '#1a1a1a', marginBottom: '2rem' }}>
               O que define um jaleco<br />feminino realmente elegante
             </h2>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(280px, 100%), 1fr))', gap: '1px', background: '#e5e0d8', marginBottom: '3rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1px', background: '#e5e0d8', marginBottom: '3rem' }}>
               {[
                 { titulo: 'Tecido de alfaiataria', texto: 'Gabardine pesado (200-240 g/m²) ou Oxford premium — cai melhor, não amassa, mantém a estrutura após lavagens frequentes. A gramatura densa é o que diferencia o jaleco elegante do jaleco básico.' },
                 { titulo: 'Corte acinturado real', texto: 'Recortes laterais que seguem a silhueta sem apertar. O corte acinturado bem executado define a cintura sem comprometer o movimento — essencial para jornadas longas em consultório.' },
