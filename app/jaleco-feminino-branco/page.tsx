@@ -1,7 +1,18 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { graphqlClient, GET_PRODUCT_BY_SLUG } from '@/lib/graphql'
+import type { WooProduct } from '@/components/ProductCard'
 
 export const revalidate = 3600
+
+async function fetchImg(slug: string): Promise<string | null> {
+  try {
+    const data = await graphqlClient.request<{ product: WooProduct & { image?: { sourceUrl: string } } }>(
+      GET_PRODUCT_BY_SLUG, { slug }
+    )
+    return data?.product?.image?.sourceUrl ?? null
+  } catch { return null }
+}
 
 export const metadata: Metadata = {
   title: 'Jaleco Feminino Branco | Acinturado, Premium, PP ao G3 — Jaleca',
@@ -24,7 +35,7 @@ export const metadata: Metadata = {
   },
 }
 
-const PRODUTOS = [
+const PRODUTOS_BASE = [
   {
     id: 1,
     nome: 'Slim Elastex Branco',
@@ -34,10 +45,9 @@ const PRODUTOS = [
     parcelamento: '3× de R$ 100 sem juros',
     badge: 'Mais vendido',
     badgeGold: true,
-    imagem: 'https://wp.jaleca.com.br/wp-content/uploads/2026/03/JALECO-SLIM-ELASTEX-FEMININO-BRANCO-JALECA.webp',
     imageAlt: 'Jaleco Slim Elastex Feminino Branco acinturado Jaleca',
-    slug: '/produto/jaleco-slim-elastex-feminino-jaleca-branco',
-    url: 'https://jaleca.com.br/produto/jaleco-slim-elastex-feminino-jaleca-branco',
+    slug: '/produto/jaleco-slim-elastex-feminino-jaleca',
+    wooSlug: 'jaleco-slim-elastex-feminino-jaleca',
   },
   {
     id: 2,
@@ -48,10 +58,9 @@ const PRODUTOS = [
     parcelamento: '3× de R$ 100 sem juros',
     badge: 'Premium',
     badgeGold: false,
-    imagem: 'https://wp.jaleca.com.br/wp-content/uploads/2026/03/JALECO-SLIM-GOLD-FEMININO-BRANCO-JALECA.webp',
     imageAlt: 'Jaleco Slim Gold Feminino Branco Jaleca',
-    slug: '/produto/jaleco-slim-gold-feminino-jaleca-branco',
-    url: 'https://jaleca.com.br/produto/jaleco-slim-gold-feminino-jaleca-branco',
+    slug: '/produto/jaleco-slim-gold-feminino-jaleca',
+    wooSlug: 'jaleco-slim-gold-feminino-jaleca',
   },
   {
     id: 3,
@@ -62,10 +71,9 @@ const PRODUTOS = [
     parcelamento: '3× de R$ 106,67 sem juros',
     badge: 'Exclusivo',
     badgeGold: false,
-    imagem: 'https://wp.jaleca.com.br/wp-content/uploads/2026/03/JALECO-SLIM-GOLD-PALA-FEMININO-BRANCO-JALECA.webp',
     imageAlt: 'Jaleco Slim Gold Pala Feminino Branco Jaleca',
-    slug: '/produto/jaleco-slim-gold-pala-feminino-jaleca-branco',
-    url: 'https://jaleca.com.br/produto/jaleco-slim-gold-pala-feminino-jaleca-branco',
+    slug: '/produto/jaleco-slim-gold-pala-feminino-jaleca',
+    wooSlug: 'jaleco-slim-gold-pala-feminino-jaleca',
   },
   {
     id: 4,
@@ -76,10 +84,9 @@ const PRODUTOS = [
     parcelamento: '3× de R$ 93,33 sem juros',
     badge: null,
     badgeGold: false,
-    imagem: 'https://wp.jaleca.com.br/wp-content/uploads/2026/04/JALECO-SLIM-TRADICIONAL-FEMININO-BRANCO-ACINTURADO-JALECA-91.webp',
     imageAlt: 'Jaleco Slim Tradicional Feminino Branco acinturado Jaleca',
-    slug: '/produto/jaleco-slim-tradicional-feminino-jaleca-branco',
-    url: 'https://jaleca.com.br/produto/jaleco-slim-tradicional-feminino-jaleca-branco',
+    slug: '/produto/jaleco-slim-tradicional-feminino-jaleca',
+    wooSlug: 'jaleco-slim-tradicional-feminino-jaleca',
   },
   {
     id: 5,
@@ -90,10 +97,9 @@ const PRODUTOS = [
     parcelamento: '3× de R$ 93,33 sem juros',
     badge: null,
     badgeGold: false,
-    imagem: 'https://wp.jaleca.com.br/wp-content/uploads/2026/03/JALECO-SLIM-MORATTY-FEMININO-BRANCO-JALECA.webp',
     imageAlt: 'Jaleco Slim Moratty Feminino Branco Jaleca',
-    slug: '/produto/jaleco-slim-moratty-feminino-jaleca-branco',
-    url: 'https://jaleca.com.br/produto/jaleco-slim-moratty-feminino-jaleca-branco',
+    slug: '/produto/jaleco-slim-moratty-feminino-jaleca',
+    wooSlug: 'jaleco-slim-moratty-feminino-jaleca',
   },
   {
     id: 6,
@@ -104,12 +110,13 @@ const PRODUTOS = [
     parcelamento: '3× de R$ 93,33 sem juros',
     badge: 'Novo',
     badgeGold: false,
-    imagem: 'https://wp.jaleca.com.br/wp-content/uploads/2026/03/JALECO-SLIM-FEMININO-LATERAL-BRANCO-JALECA.webp',
     imageAlt: 'Jaleco Slim Feminino Lateral Branco Jaleca',
-    slug: '/produto/jaleco-slim-feminino-lateral-jaleca-branco',
-    url: 'https://jaleca.com.br/produto/jaleco-slim-feminino-lateral-jaleca-branco',
+    slug: '/produto/jaleco-slim-feminino-lateral-jaleca',
+    wooSlug: 'jaleco-slim-feminino-lateral-jaleca',
   },
 ]
+
+const FALLBACK_IMG = 'https://wp.jaleca.com.br/wp-content/uploads/2026/04/JALECO-SLIM-TRADICIONAL-FEMININO-BRANCO-ACINTURADO-JALECA-91.webp'
 
 const DEPOIMENTOS = [
   {
@@ -129,32 +136,6 @@ const DEPOIMENTOS = [
   },
 ]
 
-const schemaItemList = {
-  '@context': 'https://schema.org',
-  '@type': 'ItemList',
-  name: 'Jalecos Femininos Brancos — Coleção Jaleca',
-  description: 'Seleção de jalecos femininos brancos com corte acinturado, tecido premium e elastano. Do PP ao G3.',
-  url: 'https://jaleca.com.br/jaleco-feminino-branco',
-  numberOfItems: PRODUTOS.length,
-  itemListElement: PRODUTOS.map((p, i) => ({
-    '@type': 'ListItem',
-    position: i + 1,
-    item: {
-      '@type': 'Product',
-      name: p.nome,
-      image: p.imagem,
-      url: p.url,
-      description: p.descricao,
-      offers: {
-        '@type': 'Offer',
-        priceCurrency: 'BRL',
-        price: p.preco.replace('R$ ', '').replace(',00', ''),
-        availability: 'https://schema.org/InStock',
-        seller: { '@type': 'Organization', name: 'Jaleca' },
-      },
-    },
-  })),
-}
 
 const schemaFaq = {
   '@context': 'https://schema.org',
@@ -198,7 +179,29 @@ const breadcrumbSchema = {
   ],
 }
 
-export default function JalecoFemininoBrancoPage() {
+export default async function JalecoFemininoBrancoPage() {
+  const imgs = await Promise.all(PRODUTOS_BASE.map(p => fetchImg(p.wooSlug)))
+  const PRODUTOS = PRODUTOS_BASE.map((p, i) => ({ ...p, imagem: imgs[i] ?? FALLBACK_IMG }))
+
+  const schemaItemList = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Jalecos Femininos Brancos — Coleção Jaleca',
+    url: 'https://jaleca.com.br/jaleco-feminino-branco',
+    numberOfItems: PRODUTOS.length,
+    itemListElement: PRODUTOS.map((p, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      item: {
+        '@type': 'Product',
+        name: p.nome,
+        image: p.imagem,
+        url: `https://jaleca.com.br${p.slug}`,
+        description: p.descricao,
+        offers: { '@type': 'Offer', priceCurrency: 'BRL', price: p.preco.replace('R$ ', '').replace(',00', ''), availability: 'https://schema.org/InStock', seller: { '@type': 'Organization', name: 'Jaleca' } },
+      },
+    })),
+  }
   return (
     <>
       {/* eslint-disable-next-line @next/next/no-page-custom-font */}
