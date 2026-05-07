@@ -118,19 +118,6 @@ const PRODUTOS_BASE = [
     slug: '/produto/jaleco-slim-moratty-feminino-jaleca?cor=branco',
     wooSlug: 'jaleco-slim-moratty-feminino-jaleca',
   },
-  {
-    id: 6,
-    nome: 'Slim Lateral Branco',
-    descricao: 'Abertura lateral · Mobilidade total',
-    preco: 'R$ 280,00',
-    precoPix: 'R$ 266 no PIX',
-    parcelamento: '3× de R$ 93,33 sem juros',
-    badge: 'Novo',
-    badgeGold: false,
-    imageAlt: 'Jaleco Slim Feminino Lateral Branco Jaleca',
-    slug: '/produto/jaleco-slim-feminino-lateral-jaleca?cor=branco',
-    wooSlug: 'jaleco-slim-feminino-lateral-jaleca',
-  },
 ]
 
 const FALLBACK_IMG = 'https://wp.jaleca.com.br/wp-content/uploads/2026/04/JALECO-SLIM-TRADICIONAL-FEMININO-BRANCO-ACINTURADO-JALECA-91.webp'
