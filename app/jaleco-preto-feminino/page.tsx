@@ -8,7 +8,7 @@ export const revalidate = 3600
 
 export const metadata: Metadata = {
   title: 'Jaleco Preto Feminino: Slim, Elegante e Profissional | Jaleca',
-  description: 'Jaleco preto feminino com elastano — modelos Slim e Profissional para médicas, esteticistas e cabeleireiras. Tecido que não desbota. PP ao G3. Frete grátis SE acima de R$499.',
+  description: 'Jaleco preto feminino com elastano — modelos Slim e Profissional para médicas, esteticistas e cabeleireiras. Tecido que não desbota. PP ao G3. Frete grátis Sudeste acima de R$499.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-preto-feminino' },
   openGraph: {
     title: 'Jaleco Preto Feminino: Esteticista, Barbeiro e Tatuador',
@@ -181,7 +181,7 @@ export default async function Page() {
           {[
             { title: 'Não retém pelos', sub: 'Superfície calendrada' },
             { title: 'Repele produtos', sub: 'Tratamento DWR disponível' },
-            { title: 'Frete grátis SE', sub: 'SP · RJ · MG · ES acima R$499' },
+            { title: 'Frete grátis Sudeste', sub: 'SP · RJ · MG · ES acima R$499' },
             { title: 'PP ao G3', sub: 'Molde feminino próprio' },
           ].map((item, i) => (
             <div key={i} style={{ padding: '0.75rem 1.5rem', borderRight: (i % 2 === 0) ? '1px solid rgba(255,255,255,0.08)' : 'none', borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.06)' : 'none' }}>

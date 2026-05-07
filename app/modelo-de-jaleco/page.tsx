@@ -202,7 +202,7 @@ export default async function Page() {
             { title: '5 modelos disponíveis', sub: 'Slim, Princesa, Duquesa, Elastex e Plus Size' },
             { title: 'PP ao G3', sub: 'Molde próprio por tamanho' },
             { title: '12 cores', sub: 'Branco, preto e coloridos' },
-            { title: 'Frete grátis SE', sub: 'Acima de R$499 no Sudeste' },
+            { title: 'Frete grátis Sudeste', sub: 'Acima de R$499 no Sudeste' },
           ].map((item, i) => (
             <div key={i} style={{ padding: '1rem 1.25rem', textAlign: 'center', borderRight: i % 2 === 0 ? '1px solid rgba(255,255,255,0.12)' : 'none', borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.08)' : 'none' }}>
               <strong style={{ display: 'block', fontSize: '0.82rem', fontWeight: 400, color: '#fff', marginBottom: '0.15rem' }}>{item.title}</strong>

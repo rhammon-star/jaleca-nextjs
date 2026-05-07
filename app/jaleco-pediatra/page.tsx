@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://jaleca.com.br/jaleco-pediatra' },
   openGraph: {
     title: 'Jaleco para Pediatra: Colorido, Acolhedor e Profissional | Jaleca',
-    description: 'Jaleco para pediatra em cores que acalmam crianças. Feminino e masculino, PP ao G3. Frete grátis SE.',
+    description: 'Jaleco para pediatra em cores que acalmam crianças. Feminino e masculino, PP ao G3. Frete grátis Sudeste.',
     url: 'https://jaleca.com.br/jaleco-pediatra',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Jaleco para Pediatra | Jaleca',
-    description: 'Jaleco para pediatra colorido e profissional. PP ao G3. Frete grátis SE.',
+    description: 'Jaleco para pediatra colorido e profissional. PP ao G3. Frete grátis Sudeste.',
     images: ['https://jaleca.com.br/og-home.jpg'],
   },
 }
@@ -169,7 +169,7 @@ export default async function Page() {
             { title: '12 cores disponíveis', sub: 'Incluindo azul, verde e lilás' },
             { title: 'Tecido com elastano', sub: 'Mobilidade em consultas' },
             { title: 'PP ao G3', sub: 'Molde feminino e masculino' },
-            { title: 'Frete grátis SE', sub: 'SP · RJ · MG · ES acima R$499' },
+            { title: 'Frete grátis Sudeste', sub: 'SP · RJ · MG · ES acima R$499' },
           ].map((item, i) => (
             <div key={i} style={{ padding: '1.25rem 1.5rem', borderRight: i < 3 ? '1px solid rgba(255,255,255,0.08)' : 'none' }}>
               <strong style={{ display: 'block', fontSize: '0.82rem', fontWeight: 400, color: '#fff', marginBottom: '0.15rem' }}>{item.title}</strong>

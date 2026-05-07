@@ -8,7 +8,7 @@ export const revalidate = 3600
 
 export const metadata: Metadata = {
   title: 'Scrub Médico: Pijama Cirúrgico para Saúde do PP ao G3',
-  description: 'Scrub médico com elastano para UTI, CC e emergência. Conjunto calça + blusa antimicrobiano, lavagem a 60°C. Feminino e masculino do PP ao G3. Frete grátis SE acima de R$499.',
+  description: 'Scrub médico com elastano para UTI, CC e emergência. Conjunto calça + blusa antimicrobiano, lavagem a 60°C. Feminino e masculino do PP ao G3. Frete grátis Sudeste acima de R$499.',
   alternates: { canonical: 'https://jaleca.com.br/scrub-medico' },
   openGraph: {
     title: 'Scrub Médico: Pijama Cirúrgico para Saúde do PP ao G3',

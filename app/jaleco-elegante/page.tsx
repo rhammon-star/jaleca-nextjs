@@ -147,7 +147,7 @@ export default async function Page() {
             { title: 'Alfaiataria premium', sub: 'Tecidos de alto padrão' },
             { title: 'Corte acinturado', sub: 'Elegância sem perder conforto' },
             { title: 'PP ao G3', sub: 'Molde próprio por tamanho' },
-            { title: 'Frete grátis SE', sub: 'Acima de R$499' },
+            { title: 'Frete grátis Sudeste', sub: 'Acima de R$499' },
           ].map((item, i) => (
             <div key={i} style={{ padding: '1rem 1.25rem', textAlign: 'center', borderRight: i % 2 === 0 ? '1px solid rgba(255,255,255,0.12)' : 'none', borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.08)' : 'none' }}>
               <strong style={{ display: 'block', fontSize: '0.82rem', fontWeight: 400, color: '#fff', marginBottom: '0.15rem' }}>{item.title}</strong>

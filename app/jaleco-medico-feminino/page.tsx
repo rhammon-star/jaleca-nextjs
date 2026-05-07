@@ -8,7 +8,7 @@ export const revalidate = 3600
 
 export const metadata: Metadata = {
   title: 'Jaleco Médico Feminino: Consultório, Plantão e Telemedicina',
-  description: 'Jaleco médico feminino com molde próprio — do PP ao G3. Elastano para plantão, gabardine para consultório. Branco ou colorido. Frete grátis SE acima de R$499.',
+  description: 'Jaleco médico feminino com molde próprio — do PP ao G3. Elastano para plantão, gabardine para consultório. Branco ou colorido. Frete grátis Sudeste acima de R$499.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-medico-feminino' },
   openGraph: {
     title: 'Jaleco Médico Feminino: Consultório, Plantão e Telemedicina',
@@ -191,7 +191,7 @@ export default async function Page() {
           {[
             { title: 'Molde feminino real', sub: 'Não é o masculino adaptado' },
             { title: 'PP ao G3', sub: 'Grade completa, corpo real' },
-            { title: 'Frete grátis SE', sub: 'SP · RJ · MG · ES acima R$499' },
+            { title: 'Frete grátis Sudeste', sub: 'SP · RJ · MG · ES acima R$499' },
             { title: 'Troca em 7 dias', sub: 'Direito do consumidor' },
           ].map((item, i) => (
             <div key={i} style={{ padding: '0.75rem 1.5rem', borderRight: (i % 2 === 0) ? '1px solid rgba(255,255,255,0.12)' : 'none', borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.08)' : 'none' }}>

@@ -8,7 +8,7 @@ export const revalidate = 3600
 
 export const metadata: Metadata = {
   title: 'Jaleco para Dentista Feminino: NR-32, Cores e Modelos 2026',
-  description: 'Jaleco dentista feminino com manga longa NR-32. Branco clássico ou pastéis para harmonização facial. Elastano, antimicrobiano e molde próprio do PP ao G3. Frete grátis SE.',
+  description: 'Jaleco dentista feminino com manga longa NR-32. Branco clássico ou pastéis para harmonização facial. Elastano, antimicrobiano e molde próprio do PP ao G3. Frete grátis Sudeste.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-dentista-feminino' },
   openGraph: {
     title: 'Jaleco para Dentista Feminino: NR-32, Cores e Modelos 2026',
@@ -199,7 +199,7 @@ export default async function Page() {
           {[
             { title: 'Manga longa NR-32', sub: 'Barreira biológica obrigatória' },
             { title: 'PP ao G3', sub: 'Grade completa, corpo real' },
-            { title: 'Frete grátis SE', sub: 'SP · RJ · MG · ES acima R$499' },
+            { title: 'Frete grátis Sudeste', sub: 'SP · RJ · MG · ES acima R$499' },
             { title: 'Troca em 7 dias', sub: 'Direito do consumidor' },
           ].map((item, i) => (
             <div key={i} style={{ padding: '0.75rem 1.5rem', borderRight: (i % 2 === 0) ? '1px solid rgba(255,255,255,0.12)' : 'none', borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.08)' : 'none' }}>

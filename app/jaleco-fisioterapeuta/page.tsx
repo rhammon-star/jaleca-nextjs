@@ -17,7 +17,7 @@ export const revalidate = 3600
 
 export const metadata: Metadata = {
   title: { absolute: 'Jaleco para Fisioterapeuta: Elastex com Amplitude de Movimento | Jaleca' },
-  description: 'Jaleco para fisioterapeuta com elastano máximo — amplitude de movimento para técnicas manuais, RPG e pilates clínico. Curto ou longo, PP ao G3. O COFFITO não define cor. Frete grátis SE.',
+  description: 'Jaleco para fisioterapeuta com elastano máximo — amplitude de movimento para técnicas manuais, RPG e pilates clínico. Curto ou longo, PP ao G3. O COFFITO não define cor. Frete grátis Sudeste.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-fisioterapeuta' },
   openGraph: {
     title: 'Jaleco para Fisioterapeuta: Elastex com Amplitude de Movimento | Jaleca',
