@@ -102,7 +102,7 @@ export default async function ComprarJalecoOnlinePage() {
         </div>
 
         {/* ── HERO ── */}
-        <section className="grid grid-cols-1 lg:grid-cols-2" style={{ minHeight: '88vh', padding: 0 }}>
+        <section className="grid grid-cols-1 lg:grid-cols-2" style={{ minHeight: '70vh', padding: 0 }}>
           <div className="flex flex-col justify-center order-2 lg:order-1" style={{ padding: 'clamp(3rem,8vw,5rem) clamp(2rem,5vw,4rem) clamp(3rem,8vw,5rem) clamp(2rem,8vw,7rem)', background: '#f9f7f4' }}>
             <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>
               Frete grátis · Devolução em 7 dias · Tecido premium
@@ -139,6 +139,7 @@ export default async function ComprarJalecoOnlinePage() {
             <img
               src="https://wp.jaleca.com.br/wp-content/uploads/2026/04/JALECO-SLIM-TRADICIONAL-FEMININO-BRANCO-ACINTURADO-JALECA-91.webp"
               alt="Jaleco feminino branco acinturado Jaleca"
+              fetchPriority="high"
               style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block', position: 'absolute', inset: 0 }}
             />
           </div>

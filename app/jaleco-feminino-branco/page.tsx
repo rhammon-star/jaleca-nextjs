@@ -216,11 +216,6 @@ export default async function JalecoFemininoBrancoPage() {
   }
   return (
     <>
-      {/* eslint-disable-next-line @next/next/no-page-custom-font */}
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-      {/* eslint-disable-next-line @next/next/no-page-custom-font */}
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" />
 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaItemList).replace(/</g, '\\u003c') }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaFaq).replace(/</g, '\\u003c') }} />
@@ -271,7 +266,7 @@ export default async function JalecoFemininoBrancoPage() {
         .jfb2-comprar-btn:hover { background: #1a1a1a; color: #fff; }
       `}</style>
 
-      <main style={{ fontFamily: "'DM Sans', system-ui, sans-serif", fontWeight: 300 }}>
+      <main style={{ fontFamily: "var(--font-body), system-ui, sans-serif", fontWeight: 300 }}>
 
         {/* BREADCRUMB */}
         <div style={{ background: '#f9f7f4', borderBottom: '1px solid #e5e0d8', padding: '0.85rem clamp(1.5rem,5vw,4rem)' }}>
@@ -297,6 +292,7 @@ export default async function JalecoFemininoBrancoPage() {
             <img
               src="https://wp.jaleca.com.br/wp-content/uploads/2026/04/JALECO-SLIM-TRADICIONAL-FEMININO-BRANCO-ACINTURADO-JALECA-91.webp"
               alt="Jaleco feminino branco acinturado modelo Slim Tradicional Jaleca"
+              fetchPriority="high"
               style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block', position: 'absolute', inset: 0 }}
             />
             {/* Badge flutuante */}
@@ -311,7 +307,7 @@ export default async function JalecoFemininoBrancoPage() {
             <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#b8936a', marginBottom: '1rem' }}>
               Coleção Exclusiva — Jaleca
             </div>
-            <h1 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 'clamp(3rem,5.5vw,5.2rem)', fontWeight: 300, lineHeight: 1.05, color: '#1a1a1a', marginBottom: '1.5rem' }}>
+            <h1 style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: 'clamp(3rem,5.5vw,5.2rem)', fontWeight: 300, lineHeight: 1.05, color: '#1a1a1a', marginBottom: '1.5rem' }}>
               Jaleco Feminino<br /><em style={{ fontStyle: 'italic' }}>Branco</em>
             </h1>
             <blockquote style={{ borderLeft: '3px solid #b8936a', paddingLeft: '1rem', margin: '0 0 2rem', fontStyle: 'italic', fontSize: '1rem', color: '#555', lineHeight: 1.7 }}>
@@ -322,7 +318,7 @@ export default async function JalecoFemininoBrancoPage() {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '0.75rem', marginBottom: '2.5rem', borderTop: '1px solid #e5e0d8', borderBottom: '1px solid #e5e0d8', padding: '1.25rem 0' }}>
               {[['200k+', 'Peças vendidas'], ['4.9★', 'Avaliação'], ['PP–G3', 'Grade completa']].map(([v, l]) => (
                 <div key={l} style={{ textAlign: 'center' }}>
-                  <div style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: '1.3rem', fontWeight: 600, color: '#1a1a1a' }}>{v}</div>
+                  <div style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: '1.3rem', fontWeight: 600, color: '#1a1a1a' }}>{v}</div>
                   <div style={{ fontSize: '0.65rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#888', marginTop: '0.2rem' }}>{l}</div>
                 </div>
               ))}
@@ -357,7 +353,7 @@ export default async function JalecoFemininoBrancoPage() {
             <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: '2rem', flexWrap: 'wrap', gap: '0.5rem' }}>
               <div>
                 <div style={{ fontSize: '0.65rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#b8936a', marginBottom: '0.4rem' }}>Coleção Branca</div>
-                <h2 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 'clamp(2rem,4vw,3rem)', fontWeight: 400, color: '#1a1a1a', margin: 0 }}>
+                <h2 style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: 'clamp(2rem,4vw,3rem)', fontWeight: 400, color: '#1a1a1a', margin: 0 }}>
                   Modelos Exclusivos
                 </h2>
               </div>
@@ -377,7 +373,7 @@ export default async function JalecoFemininoBrancoPage() {
                     {p.badge && (
                       <span className={p.badgeGold ? 'jfb2-badge-gold' : 'jfb2-badge-dark'}>{p.badge}</span>
                     )}
-                    <div style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: '1.15rem', fontWeight: 400, color: '#1a1a1a', lineHeight: 1.2 }}>{p.nome}</div>
+                    <div style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: '1.15rem', fontWeight: 400, color: '#1a1a1a', lineHeight: 1.2 }}>{p.nome}</div>
                     <div style={{ fontSize: '0.75rem', color: '#777' }}>{p.descricao}</div>
                     <div>
                       <div style={{ fontSize: '1rem', fontWeight: 500, color: '#1a1a1a' }}>{p.preco}</div>
@@ -413,7 +409,7 @@ export default async function JalecoFemininoBrancoPage() {
             {/* Texto */}
             <div style={{ padding: 'clamp(3rem,6vw,5rem) clamp(2rem,5vw,4rem)' }}>
               <div style={{ fontSize: '0.65rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#b8936a', marginBottom: '1rem' }}>Por que Jaleca</div>
-              <h2 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 'clamp(1.8rem,3.5vw,3rem)', fontWeight: 300, lineHeight: 1.2, marginBottom: '2rem' }}>
+              <h2 style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: 'clamp(1.8rem,3.5vw,3rem)', fontWeight: 300, lineHeight: 1.2, marginBottom: '2rem' }}>
                 Feito para quem <em style={{ fontStyle: 'italic' }}>cuida de vidas</em> com estilo
               </h2>
               <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '0.85rem', marginBottom: '2.5rem' }}>
@@ -442,7 +438,7 @@ export default async function JalecoFemininoBrancoPage() {
           <div style={{ maxWidth: 1200, margin: '0 auto' }}>
             <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
               <div style={{ fontSize: '0.65rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#b8936a', marginBottom: '0.75rem' }}>Avaliações</div>
-              <div style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 'clamp(1.6rem,3vw,2.5rem)', fontWeight: 400, color: '#1a1a1a', marginBottom: '0.5rem' }}>
+              <div style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: 'clamp(1.6rem,3vw,2.5rem)', fontWeight: 400, color: '#1a1a1a', marginBottom: '0.5rem' }}>
                 O que dizem nossas clientes
               </div>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
@@ -467,7 +463,7 @@ export default async function JalecoFemininoBrancoPage() {
         <section style={{ background: '#faf8f5', padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)' }}>
           <div style={{ maxWidth: 800, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
             <div>
-              <h2 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 'clamp(1.4rem,2.5vw,2rem)', fontWeight: 400, color: '#1a1a1a', marginBottom: '0.75rem' }}>
+              <h2 style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: 'clamp(1.4rem,2.5vw,2rem)', fontWeight: 400, color: '#1a1a1a', marginBottom: '0.75rem' }}>
                 Jaleco branco feminino para médica e hospital
               </h2>
               <p style={{ fontSize: '0.95rem', lineHeight: 1.85, color: '#555' }}>
@@ -475,7 +471,7 @@ export default async function JalecoFemininoBrancoPage() {
               </p>
             </div>
             <div>
-              <h2 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 'clamp(1.4rem,2.5vw,2rem)', fontWeight: 400, color: '#1a1a1a', marginBottom: '0.75rem' }}>
+              <h2 style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: 'clamp(1.4rem,2.5vw,2rem)', fontWeight: 400, color: '#1a1a1a', marginBottom: '0.75rem' }}>
                 Jaleco branco para dentista — NR-32 e estética clínica
               </h2>
               <p style={{ fontSize: '0.95rem', lineHeight: 1.85, color: '#555' }}>
@@ -483,7 +479,7 @@ export default async function JalecoFemininoBrancoPage() {
               </p>
             </div>
             <div>
-              <h2 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 'clamp(1.4rem,2.5vw,2rem)', fontWeight: 400, color: '#1a1a1a', marginBottom: '0.75rem' }}>
+              <h2 style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: 'clamp(1.4rem,2.5vw,2rem)', fontWeight: 400, color: '#1a1a1a', marginBottom: '0.75rem' }}>
                 Jaleco branco para faculdade — PP ao G3
               </h2>
               <p style={{ fontSize: '0.95rem', lineHeight: 1.85, color: '#555' }}>
@@ -491,7 +487,7 @@ export default async function JalecoFemininoBrancoPage() {
               </p>
             </div>
             <div>
-              <h2 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 'clamp(1.4rem,2.5vw,2rem)', fontWeight: 400, color: '#1a1a1a', marginBottom: '0.75rem' }}>
+              <h2 style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: 'clamp(1.4rem,2.5vw,2rem)', fontWeight: 400, color: '#1a1a1a', marginBottom: '0.75rem' }}>
                 Tecido e durabilidade: Elastex vs Gabardine
               </h2>
               <p style={{ fontSize: '0.95rem', lineHeight: 1.85, color: '#555' }}>
@@ -506,7 +502,7 @@ export default async function JalecoFemininoBrancoPage() {
           <div style={{ maxWidth: 800, margin: '0 auto' }}>
             <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
               <div style={{ fontSize: '0.65rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#b8936a', marginBottom: '0.5rem' }}>Dúvidas frequentes</div>
-              <h2 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 'clamp(1.8rem,3vw,2.5rem)', fontWeight: 400, color: '#1a1a1a' }}>
+              <h2 style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: 'clamp(1.8rem,3vw,2.5rem)', fontWeight: 400, color: '#1a1a1a' }}>
                 FAQ — Jaleco Branco Feminino
               </h2>
             </div>
@@ -547,7 +543,7 @@ export default async function JalecoFemininoBrancoPage() {
         {/* BOTTOM CTA */}
         <section style={{ background: '#1a1a1a', color: '#fff', padding: 'clamp(3.5rem,7vw,6rem) clamp(1.5rem,5vw,4rem)', textAlign: 'center' }}>
           <div style={{ maxWidth: 600, margin: '0 auto' }}>
-            <h2 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 'clamp(2rem,4vw,3.2rem)', fontWeight: 300, lineHeight: 1.2, marginBottom: '1rem' }}>
+            <h2 style={{ fontFamily: "var(--font-display), Georgia, serif", fontSize: 'clamp(2rem,4vw,3.2rem)', fontWeight: 300, lineHeight: 1.2, marginBottom: '1rem' }}>
               Sua imagem começa pelo jaleco certo
             </h2>
             <p style={{ fontSize: '1rem', color: '#b8936a', fontWeight: 500, marginBottom: '0.4rem' }}>
