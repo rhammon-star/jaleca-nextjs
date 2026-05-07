@@ -16,7 +16,7 @@ import { getCachedHeroImage, getCachedBlogPosts } from '@/lib/profession-page-da
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: { absolute: 'Jaleco para Enfermeira: Slim, Confortável, Plus Size | Jaleca' },
+  title: { absolute: 'Jaleco para Enfermeira: Slim, Plus Size | Jaleca' },
   description: 'Jaleco feminino para enfermeira com elastano e bolsos funcionais. Modelos Slim e Profissional do PP ao G3. Frete grátis Sudeste acima de R$499.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-enfermeira' },
   openGraph: {

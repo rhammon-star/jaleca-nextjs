@@ -8,7 +8,7 @@ export const revalidate = 3600
 export const dynamic = 'force-dynamic'
 
 const BASE_METADATA: Metadata = {
-  title: 'Produtos Jaleca — Catálogo Completo de Uniformes Profissionais | 2026',
+  title: 'Catálogo Jaleca — Jalecos e Uniformes Profissionais',
   description: 'Mais de 30 modelos: jalecos femininos e masculinos, dólmãs e conjuntos scrub para médicos, dentistas e enfermeiros. Slim, Princesa, Duquesa, Elastex — PP ao G3. Frete grátis SP/MG/RJ/ES acima de R$499.',
   alternates: { canonical: 'https://jaleca.com.br/produtos' },
   keywords: 'jalecos, jaleco feminino, jaleco masculino, jalecos para médicos, jalecos slim, dólmã, conjunto scrub, uniforme médico, comprar jaleco',

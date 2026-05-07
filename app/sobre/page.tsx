@@ -5,11 +5,11 @@ import Link from 'next/link'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Sobre a Jaleca — Nossa História e Compromisso com Profissionais',
+  title: 'Sobre a Jaleca — História e Compromisso com Profissionais',
   description: 'Conheça a Jaleca: marca brasileira especializada em jalecos e uniformes profissionais para a área da saúde. Nossa história, missão e valores. +200mil peças desde 2010.',
   alternates: { canonical: 'https://jaleca.com.br/sobre' },
   openGraph: {
-    title: 'Sobre a Jaleca — Nossa História e Compromisso com Profissionais',
+    title: 'Sobre a Jaleca — História e Compromisso com Profissionais',
     description: 'Conheça a Jaleca: marca brasileira especializada em jalecos e uniformes profissionais para a área da saúde. +200mil peças vendidas.',
     url: 'https://jaleca.com.br/sobre',
     siteName: 'Jaleca',
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Sobre a Jaleca — Nossa História e Compromisso com Profissionais',
+    title: 'Sobre a Jaleca — História e Compromisso com Profissionais',
     description: 'Conheça a Jaleca: marca brasileira especializada em jalecos e uniformes profissionais. +200mil peças.',
     images: ['https://jaleca.com.br/loja-fachada-noite.jpg'],
   },

@@ -72,7 +72,7 @@ const CATEGORY_MAP: Record<string, { label: string; description: string; keyword
   },
   domas: {
     label: 'Dólmãs',
-    title: 'Dólmãs para Profissionais da Saúde | Jaleca — Femininas e Masculinas',
+    title: 'Dólmãs Profissionais — Femininas e Masculinas | Jaleca',
     description: 'Dólmãs profissionais femininas e masculinas para médicos, enfermeiros e cirurgiões. Modelagem ergonômica, tecido de alta performance. Do PP ao G3.',
     keywords: 'dólmã médica, dólmã feminina, dólmã masculina, dólmã cozinheiro, uniforme cirúrgico, roupa hospitalar, doma colorida, dólmã profissional',
   },

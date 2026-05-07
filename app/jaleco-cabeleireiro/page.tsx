@@ -16,7 +16,7 @@ import { getCachedHeroImage, getCachedBlogPosts } from '@/lib/profession-page-da
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: { absolute: 'Jaleco para Cabeleireiro: Tecido Premium, Caimento Perfeito | Jaleca' },
+  title: { absolute: 'Jaleco para Cabeleireiro: Tecido Premium | Jaleca' },
   description: 'Jaleco para Cabeleireiro em tecido premium com caimento perfeito. Modelos Slim e Profissional do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-cabeleireiro' },
   openGraph: {
