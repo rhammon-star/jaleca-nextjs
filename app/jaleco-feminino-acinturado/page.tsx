@@ -6,6 +6,7 @@ import ProductCard from '@/components/ProductCard'
 import ProductDetailSection from '@/components/ProductDetailSection'
 import { getGooglePlaceData } from '@/lib/google-places'
 import { getCachedBlogPosts, getCachedHeroImage } from '@/lib/profession-page-data'
+import TrustBadgeBar from '@/components/TrustBadgeBar'
 
 export const revalidate = 3600
 
@@ -120,6 +121,7 @@ export default async function JalecoFemininoAcinturadoPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema).replace(/</g, '\\u003c') }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }} />
 
+      <TrustBadgeBar />
       <main style={{ fontWeight: 300 }}>
 
         {/* ── BREADCRUMB ── */}
@@ -175,10 +177,10 @@ export default async function JalecoFemininoAcinturadoPage() {
         {/* ── TRUST BAR ── */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-y-4 lg:gap-y-0" style={{ background: '#1a1a1a', padding: '2rem clamp(1.5rem,5vw,4rem)' }}>
           {[
-            { title: 'Corte Slim exclusivo', sub: 'Define cintura sem apertar' },
-            { title: 'Elastano no tecido', sub: 'Movimento sem restrição' },
-            { title: 'PP ao G3', sub: 'Grade completa, corpo real' },
-            { title: 'Frete grátis Sudeste', sub: 'Acima de R$499' },
+            { title: '5% de desconto no PIX', sub: 'Aprovação imediata' },
+            { title: '3x sem juros no cartão', sub: 'Todas as bandeiras' },
+            { title: 'Frete grátis para o Sudeste', sub: 'SP · RJ · MG · ES acima R$499' },
+            { title: 'Compra 100% segura', sub: 'Seus dados protegidos' },
           ].map((item, i) => (
             <div key={i} className="flex items-center gap-4" style={{ padding: '0.5rem 1.5rem', borderRight: i < 3 ? '1px solid rgba(255,255,255,0.12)' : 'none' }}>
               <div>
@@ -188,6 +190,28 @@ export default async function JalecoFemininoAcinturadoPage() {
             </div>
           ))}
         </div>
+
+        {/* ── AUTORIDADE ── */}
+        <section style={{ background: '#faf8f3', padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)' }}>
+          <div style={{ maxWidth: 780, margin: '0 auto' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.6rem', background: '#1a1a1a', color: '#c4a97d', padding: '0.55rem 1rem', marginBottom: '1.75rem' }}>
+              <span style={{ fontSize: '0.85rem' }}>🏆</span>
+              <span style={{ fontSize: '0.68rem', fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase' }}>Uma das marcas que mais vende jalecos no Brasil</span>
+            </div>
+            <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(1.9rem,3.5vw,3.2rem)', fontWeight: 400, lineHeight: 1.18, color: '#1a1a1a', marginBottom: '1rem' }}>
+              Mais de 200 mil peças vendidas para médicas, dentistas e profissionais da saúde.
+            </h2>
+            <p style={{ fontSize: '1rem', color: '#666', lineHeight: 1.8, marginBottom: '1.5rem', fontWeight: 300 }}>
+              Antes de você falar, sua imagem já foi avaliada. Conforto, caimento impecável e a presença que eleva sua autoridade profissional.
+            </p>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <span style={{ color: '#c4a97d', fontSize: '1.15rem', letterSpacing: 2 }}>★★★★★</span>
+              <p style={{ fontSize: '0.95rem', color: '#555', margin: 0 }}>
+                <strong style={{ color: '#1a1a1a' }}>{placeData?.rating ?? '4.9'}/5 no Google</strong> — clientes satisfeitos em todo o Brasil
+              </p>
+            </div>
+          </div>
+        </section>
 
         {/* ── GRID DE PRODUTOS ── */}
         {produtos.length > 0 && (

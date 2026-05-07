@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { graphqlClient, GET_PRODUCT_BY_SLUG } from '@/lib/graphql'
 import type { WooProduct } from '@/components/ProductCard'
+import TrustBadgeBar from '@/components/TrustBadgeBar'
 
 export const revalidate = 3600
 
@@ -82,17 +83,26 @@ const breadcrumbSchema = {
 
 const HERO_IMAGE = 'https://wp.jaleca.com.br/wp-content/uploads/2026/04/JALECO-SLIM-TRADICIONAL-FEMININO-BRANCO-ACINTURADO-JALECA-91.webp'
 
-type ProductMini = { slug: string; name: string; price: string; image?: string }
+type ProductMini = { slug: string; name: string; price: string; image?: string; galleryImage?: string }
 
 async function fetchProduct(slug: string): Promise<ProductMini | null> {
   try {
-    const data = await graphqlClient.request<{ product: WooProduct & { image?: { sourceUrl: string } } }>(
-      GET_PRODUCT_BY_SLUG,
-      { slug }
-    )
+    const data = await graphqlClient.request<{
+      product: WooProduct & {
+        image?: { sourceUrl: string }
+        galleryImages?: { nodes: { sourceUrl: string }[] }
+      }
+    }>(GET_PRODUCT_BY_SLUG, { slug })
     if (!data?.product) return null
     const p = data.product
-    return { slug: p.slug, name: p.name, price: p.price ?? '', image: p.image?.sourceUrl }
+    const gallery = p.galleryImages?.nodes ?? []
+    return {
+      slug: p.slug,
+      name: p.name,
+      price: p.price ?? '',
+      image: p.image?.sourceUrl,
+      galleryImage: gallery[0]?.sourceUrl,
+    }
   } catch {
     return null
   }
@@ -150,7 +160,7 @@ export default async function JalecoFemininoBrancoPage() {
         .jfb-hero-img img {
           width: 100%; height: 100%;
           object-fit: cover;
-          object-position: top center;
+          object-position: center 25%;
           opacity: 0.85;
           transition: transform 8s ease;
         }
@@ -288,7 +298,7 @@ export default async function JalecoFemininoBrancoPage() {
         .jfb-feat-img img {
           width: 100%; height: 100%;
           object-fit: cover;
-          object-position: top center;
+          object-position: center 40%;
           filter: grayscale(15%);
           transition: filter 0.5s, transform 0.8s;
         }
@@ -470,16 +480,17 @@ export default async function JalecoFemininoBrancoPage() {
             min-height: unset;
           }
 
-          .jfb-hero-img { height: 70vw; }
+          .jfb-hero-img { height: 90vw; }
 
           .jfb-featured {
             grid-template-columns: 1fr;
           }
 
-          .jfb-feat-img { aspect-ratio: 16/9; }
+          .jfb-feat-img { aspect-ratio: 3/4; }
         }
       `}</style>
 
+      <TrustBadgeBar />
       <div className="jfb-wrap">
         {/* Breadcrumb */}
         <div style={{ padding: '1rem 1.5rem', fontSize: '0.75rem', color: '#888', display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
@@ -518,6 +529,48 @@ export default async function JalecoFemininoBrancoPage() {
           </div>
         </section>
 
+        {/* Barra Comercial */}
+        <div style={{ background: '#1a1a1a', padding: '1.5rem clamp(1.5rem,5vw,4rem)' }}>
+          <div style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1rem' }}>
+            {[
+              { icon: '◆', title: '5% de desconto no PIX', sub: 'Aprovação imediata' },
+              { icon: '◆', title: '3x sem juros no cartão', sub: 'Todas as bandeiras' },
+              { icon: '◆', title: 'Frete grátis para o Sudeste', sub: 'SP · RJ · MG · ES acima R$499' },
+              { icon: '◆', title: 'Compra 100% segura', sub: 'Seus dados protegidos' },
+            ].map((item) => (
+              <div key={item.title} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.25rem 0' }}>
+                <span style={{ color: 'var(--gold)', fontSize: '0.5rem', flexShrink: 0 }}>{item.icon}</span>
+                <div>
+                  <strong style={{ display: 'block', fontSize: '0.78rem', fontWeight: 500, color: '#fff', letterSpacing: '0.04em' }}>{item.title}</strong>
+                  <span style={{ fontSize: '0.68rem', color: 'rgba(255,255,255,0.45)' }}>{item.sub}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Autoridade */}
+        <section style={{ background: '#faf8f3', padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)' }}>
+          <div style={{ maxWidth: 780, margin: '0 auto' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.6rem', background: '#1a1a1a', color: '#c4a97d', padding: '0.55rem 1rem', marginBottom: '1.75rem' }}>
+              <span style={{ fontSize: '0.85rem' }}>🏆</span>
+              <span style={{ fontSize: '0.68rem', fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase' }}>Uma das marcas que mais vende jalecos no Brasil</span>
+            </div>
+            <h2 style={{ fontFamily: 'Georgia, serif', fontSize: 'clamp(1.9rem,3.5vw,3.2rem)', fontWeight: 400, lineHeight: 1.18, color: '#1a1a1a', marginBottom: '1rem' }}>
+              Mais de 200 mil peças vendidas para médicas, dentistas e profissionais da saúde.
+            </h2>
+            <p style={{ fontSize: '1rem', color: '#666', lineHeight: 1.8, marginBottom: '1.5rem', fontWeight: 300 }}>
+              Antes de você falar, sua imagem já foi avaliada. Conforto, caimento impecável e a presença que eleva sua autoridade profissional.
+            </p>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <span style={{ color: '#c4a97d', fontSize: '1.15rem', letterSpacing: 2 }}>★★★★★</span>
+              <p style={{ fontSize: '0.95rem', color: '#555', margin: 0 }}>
+                <strong style={{ color: '#1a1a1a' }}>4.9/5 no Google</strong> — clientes satisfeitos em todo o Brasil
+              </p>
+            </div>
+          </div>
+        </section>
+
         {/* Produtos */}
         <section className="jfb-produtos">
           <div className="jfb-section-label">/// Seleção Curada</div>
@@ -526,7 +579,7 @@ export default async function JalecoFemininoBrancoPage() {
           <Link href={`/produto/${featured.slug}`} className="jfb-featured">
             <div className="jfb-feat-img">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={featured.image || HERO_IMAGE} alt={featured.name} />
+              <img src={featured.galleryImage || featured.image || HERO_IMAGE} alt={featured.name} />
             </div>
             <div className="jfb-feat-body">
               <div className="jfb-feat-name">{featured.name}</div>
