@@ -5,12 +5,29 @@ import type { WooProduct } from '@/components/ProductCard'
 
 export const revalidate = 3600
 
+type VariationNode = {
+  image?: { sourceUrl: string }
+  attributes?: { nodes: { name: string; value: string }[] }
+}
+
 async function fetchImg(slug: string): Promise<string | null> {
   try {
-    const data = await graphqlClient.request<{ product: WooProduct & { image?: { sourceUrl: string } } }>(
-      GET_PRODUCT_BY_SLUG, { slug }
+    const data = await graphqlClient.request<{
+      product: WooProduct & {
+        image?: { sourceUrl: string }
+        variations?: { nodes: VariationNode[] }
+      }
+    }>(GET_PRODUCT_BY_SLUG, { slug })
+    const p = data?.product
+    if (!p) return null
+    // Tenta achar a variação branca
+    const variations = (p.variations?.nodes ?? []) as VariationNode[]
+    const brancaVariation = variations.find(v =>
+      v.attributes?.nodes?.some(a =>
+        a.value?.toLowerCase().includes('branco') || a.value?.toLowerCase().includes('white')
+      )
     )
-    return data?.product?.image?.sourceUrl ?? null
+    return brancaVariation?.image?.sourceUrl ?? p.image?.sourceUrl ?? null
   } catch { return null }
 }
 
