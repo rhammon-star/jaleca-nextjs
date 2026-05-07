@@ -46,7 +46,7 @@ const PRODUTOS_BASE = [
     badge: 'Mais vendido',
     badgeGold: true,
     imageAlt: 'Jaleco Slim Elastex Feminino Branco acinturado Jaleca',
-    slug: '/produto/jaleco-slim-elastex-feminino-jaleca',
+    slug: '/produto/jaleco-slim-elastex-feminino-jaleca?cor=branco',
     wooSlug: 'jaleco-slim-elastex-feminino-jaleca',
   },
   {
@@ -59,7 +59,7 @@ const PRODUTOS_BASE = [
     badge: 'Premium',
     badgeGold: false,
     imageAlt: 'Jaleco Slim Gold Feminino Branco Jaleca',
-    slug: '/produto/jaleco-slim-gold-feminino-jaleca',
+    slug: '/produto/jaleco-slim-gold-feminino-jaleca?cor=branco',
     wooSlug: 'jaleco-slim-gold-feminino-jaleca',
   },
   {
@@ -72,7 +72,7 @@ const PRODUTOS_BASE = [
     badge: 'Exclusivo',
     badgeGold: false,
     imageAlt: 'Jaleco Slim Gold Pala Feminino Branco Jaleca',
-    slug: '/produto/jaleco-slim-gold-pala-feminino-jaleca',
+    slug: '/produto/jaleco-slim-gold-pala-feminino-jaleca?cor=branco',
     wooSlug: 'jaleco-slim-gold-pala-feminino-jaleca',
   },
   {
@@ -85,7 +85,7 @@ const PRODUTOS_BASE = [
     badge: null,
     badgeGold: false,
     imageAlt: 'Jaleco Slim Tradicional Feminino Branco acinturado Jaleca',
-    slug: '/produto/jaleco-slim-tradicional-feminino-jaleca',
+    slug: '/produto/jaleco-slim-tradicional-feminino-jaleca?cor=branco',
     wooSlug: 'jaleco-slim-tradicional-feminino-jaleca',
   },
   {
@@ -98,7 +98,7 @@ const PRODUTOS_BASE = [
     badge: null,
     badgeGold: false,
     imageAlt: 'Jaleco Slim Moratty Feminino Branco Jaleca',
-    slug: '/produto/jaleco-slim-moratty-feminino-jaleca',
+    slug: '/produto/jaleco-slim-moratty-feminino-jaleca?cor=branco',
     wooSlug: 'jaleco-slim-moratty-feminino-jaleca',
   },
   {
@@ -111,7 +111,7 @@ const PRODUTOS_BASE = [
     badge: 'Novo',
     badgeGold: false,
     imageAlt: 'Jaleco Slim Feminino Lateral Branco Jaleca',
-    slug: '/produto/jaleco-slim-feminino-lateral-jaleca',
+    slug: '/produto/jaleco-slim-feminino-lateral-jaleca?cor=branco',
     wooSlug: 'jaleco-slim-feminino-lateral-jaleca',
   },
 ]
@@ -392,7 +392,7 @@ export default async function JalecoFemininoBrancoPage() {
             <div style={{ position: 'relative', minHeight: 280, overflow: 'hidden' }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="https://wp.jaleca.com.br/wp-content/uploads/2026/03/JALECO-SLIM-GOLD-FEMININO-BRANCO-JALECA.webp"
+                src={PRODUTOS[1]?.imagem ?? FALLBACK_IMG}
                 alt="Jaleco Slim Gold Feminino Branco — diferenciais de qualidade Jaleca"
                 loading="lazy"
                 style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block', position: 'absolute', inset: 0, opacity: 0.65 }}
