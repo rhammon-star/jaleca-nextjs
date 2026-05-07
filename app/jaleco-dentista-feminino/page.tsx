@@ -183,6 +183,9 @@ export default async function Page() {
                 <span style={{ fontSize: '0.78rem', color: '#6b6b6b' }}>{placeData.rating.toFixed(1)} de 5 no Google · {placeData.reviewCount} avaliações</span>
               </div>
             )}
+            <p style={{ marginTop: '1rem', fontSize: '0.7rem', letterSpacing: '0.1em', color: '#9b9690' }}>
+              Sudeste grátis · PIX 5% OFF · Troca em 7 dias
+            </p>
           </div>
         </section>
 
@@ -193,21 +196,6 @@ export default async function Page() {
           productLabel="Jalecos"
           allHref="/categoria/jalecos-femininos"
         />
-
-        {/* ── TRUST BAR ── */}
-        <div className="grid" style={{ background: '#1a1a1a', padding: '1.5rem clamp(1.5rem,5vw,4rem)' }}>
-          {[
-            { title: 'Manga longa NR-32', sub: 'Barreira biológica obrigatória' },
-            { title: 'PP ao G3', sub: 'Grade completa, corpo real' },
-            { title: 'Frete grátis Sudeste', sub: 'SP · RJ · MG · ES acima R$499' },
-            { title: 'Troca em 7 dias', sub: 'Direito do consumidor' },
-          ].map((item, i) => (
-            <div key={i} style={{ padding: '0.75rem 1.5rem', borderRight: (i % 2 === 0) ? '1px solid rgba(255,255,255,0.12)' : 'none', borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.08)' : 'none' }}>
-              <strong style={{ display: 'block', fontSize: '0.82rem', fontWeight: 400, color: '#fff', marginBottom: '0.15rem' }}>{item.title}</strong>
-              <span style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.45)' }}>{item.sub}</span>
-            </div>
-          ))}
-        </div>
 
         {/* ── INTRO ── */}
         <section style={{ background: '#fff', padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)' }}>

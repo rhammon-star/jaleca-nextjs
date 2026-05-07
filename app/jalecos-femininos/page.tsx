@@ -198,40 +198,8 @@ export default async function Page() {
                 <span style={{ fontSize: '0.78rem', color: '#6b6b6b' }}>{placeData.rating.toFixed(1)} de 5 no Google · {placeData.reviewCount} avaliações</span>
               </div>
             )}
-          </div>
-        </section>
-
-        {/* ── TRUST BAR ── */}
-        <div className="grid" style={{ gridTemplateColumns: 'repeat(2,1fr)', background: '#1a1a1a', padding: '1.5rem clamp(1.5rem,5vw,4rem)' }}>
-          {[
-            { title: 'Molde feminino real', sub: 'Não é o masculino adaptado' },
-            { title: 'PP ao G3', sub: 'Grade completa, corpo real' },
-            { title: 'Frete grátis Sudeste', sub: 'SP · RJ · MG · ES acima R$499' },
-            { title: 'Troca em 7 dias', sub: 'Direito do consumidor' },
-          ].map((item, i) => (
-            <div key={i} style={{ padding: '0.75rem 1.5rem', borderRight: (i % 2 === 0) ? '1px solid rgba(255,255,255,0.12)' : 'none', borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.08)' : 'none' }}>
-              <strong style={{ display: 'block', fontSize: '0.82rem', fontWeight: 400, color: '#fff', marginBottom: '0.15rem' }}>{item.title}</strong>
-              <span style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.45)' }}>{item.sub}</span>
-            </div>
-          ))}
-        </div>
-
-        {/* ── INTRO — texto antes do grid para SEO e conversão mobile ── */}
-        <section style={{ background: '#fff', padding: 'clamp(2rem,4vw,3rem) clamp(1.5rem,5vw,4rem)' }}>
-          <div style={{ maxWidth: 800, margin: '0 auto' }}>
-            <p style={{ fontSize: '0.97rem', lineHeight: 1.9, color: '#4a4a4a', marginBottom: '1rem' }}>
-              <strong>Jaleco feminino branco</strong> é o mais pedido — funciona em hospital, consultório e clínica sem precisar negociar protocolo. Mas se você trabalha em estética ou clínica com identidade visual própria, temos <strong>jaleco slim colorido</strong> em 12 cores, incluindo rosê, marsala e verde água.
-            </p>
-            <p style={{ fontSize: '0.97rem', lineHeight: 1.9, color: '#4a4a4a', marginBottom: '1rem' }}>
-              O <strong>jaleco slim feminino</strong> é o modelo mais vendido: corte acinturado, elastano bidirecional, sem apertar. O Elastex veste e tira rápido — ideal para plantões com troca frequente. O Princesa tem cava americana e mais liberdade de movimento. Todos do <strong>PP ao G3 com molde próprio</strong> — não é o masculino com mais tecido.
-            </p>
-            <p style={{ fontSize: '0.97rem', lineHeight: 1.9, color: '#4a4a4a' }}>
-              Escolha por profissão:{' '}
-              <Link href="/jaleco-medico" style={{ color: '#c8a96e', textDecoration: 'none' }}>médica</Link>,{' '}
-              <Link href="/jaleco-dentista" style={{ color: '#c8a96e', textDecoration: 'none' }}>dentista</Link>,{' '}
-              <Link href="/jaleco-enfermeiro" style={{ color: '#c8a96e', textDecoration: 'none' }}>enfermeira</Link>,{' '}
-              <Link href="/jaleco-fisioterapeuta" style={{ color: '#c8a96e', textDecoration: 'none' }}>fisioterapeuta</Link> ou{' '}
-              <Link href="/jaleco-plus-size" style={{ color: '#c8a96e', textDecoration: 'none' }}>jaleco plus size até G3</Link>.
+            <p style={{ marginTop: '1rem', fontSize: '0.7rem', letterSpacing: '0.1em', color: '#9b9690' }}>
+              Sudeste grátis · PIX 5% OFF · Troca em 7 dias
             </p>
           </div>
         </section>

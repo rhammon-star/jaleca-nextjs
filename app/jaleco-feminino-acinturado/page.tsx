@@ -163,6 +163,9 @@ export default async function JalecoFemininoAcinturadoPage() {
               </Link>
             </div>
             {placeData && <HeroStars rating={placeData.rating} />}
+            <p style={{ marginTop: '1rem', fontSize: '0.7rem', letterSpacing: '0.1em', color: '#9b9690' }}>
+              Sudeste grátis · PIX 5% OFF · Troca em 7 dias
+            </p>
           </div>
 
           <div className="relative order-1 lg:order-2" style={{ background: '#e5e0d8', minHeight: 400, overflow: 'hidden' }}>
@@ -173,23 +176,6 @@ export default async function JalecoFemininoAcinturadoPage() {
             )}
           </div>
         </section>
-
-        {/* ── TRUST BAR ── */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-y-4 lg:gap-y-0" style={{ background: '#1a1a1a', padding: '2rem clamp(1.5rem,5vw,4rem)' }}>
-          {[
-            { title: '5% de desconto no PIX', sub: 'Aprovação imediata' },
-            { title: '3x sem juros no cartão', sub: 'Todas as bandeiras' },
-            { title: 'Frete grátis para o Sudeste', sub: 'SP · RJ · MG · ES acima R$499' },
-            { title: 'Compra 100% segura', sub: 'Seus dados protegidos' },
-          ].map((item, i) => (
-            <div key={i} className="flex items-center gap-4" style={{ padding: '0.5rem 1.5rem', borderRight: i < 3 ? '1px solid rgba(255,255,255,0.12)' : 'none' }}>
-              <div>
-                <strong style={{ display: 'block', fontSize: '0.82rem', fontWeight: 400, letterSpacing: '0.06em', color: '#fff', marginBottom: '0.15rem' }}>{item.title}</strong>
-                <span style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.45)' }}>{item.sub}</span>
-              </div>
-            </div>
-          ))}
-        </div>
 
         {/* ── AUTORIDADE ── */}
         <section style={{ background: '#faf8f3', padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)' }}>

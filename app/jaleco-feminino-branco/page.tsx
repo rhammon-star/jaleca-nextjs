@@ -526,28 +526,11 @@ export default async function JalecoFemininoBrancoPage() {
             <Link href="/categoria/jalecos-femininos" className="jfb-hero-cta">
               Ver todos os modelos →
             </Link>
+            <p style={{ marginTop: '1rem', fontSize: '0.7rem', letterSpacing: '0.1em', color: '#9b9690' }}>
+              Sudeste grátis · PIX 5% OFF · Troca em 7 dias
+            </p>
           </div>
         </section>
-
-        {/* Barra Comercial */}
-        <div style={{ background: '#1a1a1a', padding: '1.5rem clamp(1.5rem,5vw,4rem)' }}>
-          <div style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1rem' }}>
-            {[
-              { icon: '◆', title: '5% de desconto no PIX', sub: 'Aprovação imediata' },
-              { icon: '◆', title: '3x sem juros no cartão', sub: 'Todas as bandeiras' },
-              { icon: '◆', title: 'Frete grátis para o Sudeste', sub: 'SP · RJ · MG · ES acima R$499' },
-              { icon: '◆', title: 'Compra 100% segura', sub: 'Seus dados protegidos' },
-            ].map((item) => (
-              <div key={item.title} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.25rem 0' }}>
-                <span style={{ color: 'var(--gold)', fontSize: '0.5rem', flexShrink: 0 }}>{item.icon}</span>
-                <div>
-                  <strong style={{ display: 'block', fontSize: '0.78rem', fontWeight: 500, color: '#fff', letterSpacing: '0.04em' }}>{item.title}</strong>
-                  <span style={{ fontSize: '0.68rem', color: 'rgba(255,255,255,0.45)' }}>{item.sub}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
 
         {/* Autoridade */}
         <section style={{ background: '#faf8f3', padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)' }}>
