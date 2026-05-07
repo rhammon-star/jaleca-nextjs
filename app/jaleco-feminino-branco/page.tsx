@@ -198,7 +198,15 @@ const breadcrumbSchema = {
 
 export default async function JalecoFemininoBrancoPage() {
   const imgs = await Promise.all(PRODUTOS_BASE.map(p => fetchImg(p.wooSlug)))
-  const PRODUTOS = PRODUTOS_BASE.map((p, i) => ({ ...p, imagem: imgs[i] ?? FALLBACK_IMG }))
+  // Filtra produtos sem imagem real para evitar repetição com fallback genérico
+  const PRODUTOS = PRODUTOS_BASE
+    .map((p, i) => ({ ...p, imagem: imgs[i] }))
+    .filter((p, i, arr) => {
+      if (!p.imagem) return false
+      // Remove duplicatas de imagem
+      return arr.findIndex(a => a.imagem === p.imagem) === i
+    })
+    .map(p => ({ ...p, imagem: p.imagem! }))
 
   const schemaItemList = {
     '@context': 'https://schema.org',
