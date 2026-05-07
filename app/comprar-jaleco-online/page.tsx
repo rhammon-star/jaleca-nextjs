@@ -102,36 +102,45 @@ export default async function ComprarJalecoOnlinePage() {
         </div>
 
         {/* ── HERO ── */}
-        <section style={{ background: '#f9f7f4', padding: 'clamp(2.5rem,5vw,4rem) clamp(1.5rem,5vw,4rem)', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
-          <span aria-hidden="true" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(6rem,18vw,18rem)', fontWeight: 300, color: 'rgba(26,26,26,0.04)', whiteSpace: 'nowrap', pointerEvents: 'none', userSelect: 'none' }}>
-            JALECA
-          </span>
-          <div style={{ position: 'relative', zIndex: 1, maxWidth: 800, margin: '0 auto' }}>
+        <section className="grid grid-cols-1 lg:grid-cols-2" style={{ minHeight: '88vh', padding: 0 }}>
+          <div className="flex flex-col justify-center order-2 lg:order-1" style={{ padding: 'clamp(3rem,8vw,5rem) clamp(2rem,5vw,4rem) clamp(3rem,8vw,5rem) clamp(2rem,8vw,7rem)', background: '#f9f7f4' }}>
             <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>
               Frete grátis · Devolução em 7 dias · Tecido premium
             </div>
             <h1 style={{
               fontFamily: "'Cormorant', Georgia, serif",
-              fontSize: 'clamp(2.8rem,5.5vw,5.2rem)',
+              fontSize: 'clamp(3rem,5.5vw,5.2rem)',
               fontWeight: 400,
               lineHeight: 1.05,
               letterSpacing: '-0.01em',
               color: '#1a1a1a',
               marginBottom: '1.5rem',
             }}>
-              Comprar Jaleco Online<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>na Jaleca</em>
+              Comprar Jaleco<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>Online na Jaleca</em>
             </h1>
-            <p style={{ fontSize: '1.05rem', fontWeight: 300, color: '#6b6b6b', maxWidth: 560, margin: '0 auto 2.5rem', lineHeight: 1.8 }}>
-              Jalecos femininos e masculinos com tecido premium antimicrobiano, do PP ao G3 e 12 cores exclusivas. Entrega rápida para todo o Brasil — frete grátis no Sudeste acima de R$499.
+            <p style={{ fontSize: '1rem', fontWeight: 300, color: '#6b6b6b', maxWidth: 420, marginBottom: '2.5rem', lineHeight: 1.8 }}>
+              Femininos e masculinos. Tecido premium antimicrobiano, do PP ao G3, 12 cores. Frete grátis no Sudeste.
             </p>
-            <div className="flex gap-4 flex-wrap justify-center">
-              <Link href="/produtos?categoria=jalecos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: '#1a1a1a', color: '#fff', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
-                Ver Coleção Completa ↘
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Link href="/jalecos-femininos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: '#1a1a1a', color: '#fff', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
+                Feminino ↗
+              </Link>
+              <Link href="/jaleco-medico" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: 'transparent', color: '#1a1a1a', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
+                Masculino →
               </Link>
             </div>
-            <p style={{ marginTop: '1rem', fontSize: '0.7rem', letterSpacing: '0.1em', color: '#9b9690' }}>
+            <p style={{ marginTop: '1.5rem', fontSize: '0.7rem', letterSpacing: '0.1em', color: '#9b9690' }}>
               Sudeste grátis · PIX 5% OFF · Troca em 7 dias
             </p>
+          </div>
+
+          <div className="relative order-1 lg:order-2" style={{ background: '#e5e0d8', minHeight: 480, overflow: 'hidden' }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="https://wp.jaleca.com.br/wp-content/uploads/2026/04/JALECO-SLIM-TRADICIONAL-FEMININO-BRANCO-ACINTURADO-JALECA-91.webp"
+              alt="Jaleco feminino branco acinturado Jaleca"
+              style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block', position: 'absolute', inset: 0 }}
+            />
           </div>
         </section>
 
