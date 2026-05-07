@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import ProfessionProductGrid from '@/components/ProfessionProductGrid'
 
 // ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
 export const revalidate = 3600
@@ -76,7 +77,7 @@ const jsonLd = {
   ],
 }
 
-export default function ComprarJalecoOnlinePage() {
+export default async function ComprarJalecoOnlinePage() {
   return (
     <>
       <script
@@ -133,6 +134,24 @@ export default function ComprarJalecoOnlinePage() {
             </div>
           </div>
         </section>
+
+        {/* ── MAIS VENDIDOS FEMININOS ── */}
+        <ProfessionProductGrid
+          professionKey="medica"
+          professionLabel="Profissionais de Saúde"
+          collectionLabel="Mais vendidos — Femininos"
+          productLabel="Jalecos"
+          allHref="/produtos?categoria=jalecos-femininos"
+        />
+
+        {/* ── MAIS VENDIDOS MASCULINOS ── */}
+        <ProfessionProductGrid
+          professionKey="medico"
+          professionLabel="Profissionais de Saúde"
+          collectionLabel="Mais vendidos — Masculinos"
+          productLabel="Jalecos"
+          allHref="/produtos?categoria=jalecos-masculinos"
+        />
 
         {/* ── DIFERENCIAIS ── */}
         <section style={{ background: '#fff', borderTop: '1px solid #e5e0d8', borderBottom: '1px solid #e5e0d8', padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)' }}>

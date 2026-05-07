@@ -186,6 +186,14 @@ export default async function Page() {
           </div>
         </section>
 
+        <ProfessionProductGrid
+          professionKey="dentista"
+          professionLabel="Dentistas"
+          collectionLabel="Coleção Odontologia"
+          productLabel="Jalecos"
+          allHref="/categoria/jalecos-femininos"
+        />
+
         {/* ── TRUST BAR ── */}
         <div className="grid" style={{ background: '#1a1a1a', padding: '1.5rem clamp(1.5rem,5vw,4rem)' }}>
           {[
@@ -200,14 +208,6 @@ export default async function Page() {
             </div>
           ))}
         </div>
-
-        <ProfessionProductGrid
-          professionKey="dentista"
-          professionLabel="Dentistas"
-          collectionLabel="Coleção Odontologia"
-          productLabel="Jalecos"
-          allHref="/categoria/jalecos-femininos"
-        />
 
         {/* ── INTRO ── */}
         <section style={{ background: '#fff', padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)' }}>
