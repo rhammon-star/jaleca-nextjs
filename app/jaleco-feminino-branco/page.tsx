@@ -562,7 +562,7 @@ export default async function JalecoFemininoBrancoPage() {
           <Link href={`/produto/${featured.slug}`} className="jfb-featured">
             <div className="jfb-feat-img">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={featured.galleryImage || featured.image || HERO_IMAGE} alt={featured.name} />
+              <img src={featured.image || HERO_IMAGE} alt={featured.name} />
             </div>
             <div className="jfb-feat-body">
               <div className="jfb-feat-name">{featured.name}</div>

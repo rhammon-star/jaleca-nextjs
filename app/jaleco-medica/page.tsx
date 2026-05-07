@@ -204,6 +204,15 @@ export default async function JalecoDentistaPage() {
         {/* ── AUTORIDADE ── */}
         <section style={{ background: '#faf8f3', padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)' }}>
           <div style={{ maxWidth: 780, margin: '0 auto' }}>
+            <p style={{ fontSize: '1rem', color: '#666', lineHeight: 1.8, marginBottom: '1.5rem', fontWeight: 300 }}>
+              Antes de você falar, sua imagem já foi avaliada. Conforto, caimento impecável e a presença que eleva sua autoridade profissional.
+            </p>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '2rem' }}>
+              <span style={{ color: '#c4a97d', fontSize: '1.15rem', letterSpacing: 2 }}>★★★★★</span>
+              <p style={{ fontSize: '0.95rem', color: '#555', margin: 0 }}>
+                <strong style={{ color: '#1a1a1a' }}>{placeData?.rating ?? '4.9'}/5 no Google</strong> — clientes satisfeitos em todo o Brasil
+              </p>
+            </div>
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.6rem', background: '#1a1a1a', color: '#c4a97d', padding: '0.55rem 1rem', marginBottom: '1.75rem' }}>
               <span style={{ fontSize: '0.85rem' }}>🏆</span>
               <span style={{ fontSize: '0.68rem', fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase' }}>Uma das marcas que mais vende jalecos no Brasil</span>
@@ -211,15 +220,6 @@ export default async function JalecoDentistaPage() {
             <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(1.9rem,3.5vw,3.2rem)', fontWeight: 400, lineHeight: 1.18, color: '#1a1a1a', marginBottom: '1rem' }}>
               Mais de 200 mil peças vendidas para médicas, dentistas e profissionais da saúde.
             </h2>
-            <p style={{ fontSize: '1rem', color: '#666', lineHeight: 1.8, marginBottom: '1.5rem', fontWeight: 300 }}>
-              Antes de você falar, sua imagem já foi avaliada. Conforto, caimento impecável e a presença que eleva sua autoridade profissional.
-            </p>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-              <span style={{ color: '#c4a97d', fontSize: '1.15rem', letterSpacing: 2 }}>★★★★★</span>
-              <p style={{ fontSize: '0.95rem', color: '#555', margin: 0 }}>
-                <strong style={{ color: '#1a1a1a' }}>{placeData?.rating ?? '4.9'}/5 no Google</strong> — clientes satisfeitos em todo o Brasil
-              </p>
-            </div>
           </div>
         </section>
 
