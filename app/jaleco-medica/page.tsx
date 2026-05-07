@@ -3,15 +3,14 @@ import Link from 'next/link'
 import { Suspense } from 'react'
 import { graphqlClient, GET_PRODUCT_BY_SLUG } from '@/lib/graphql'
 import type { WooProduct } from '@/components/ProductCard'
-import ProductCard from '@/components/ProductCard'
 import ProductDetailSection from '@/components/ProductDetailSection'
 import { getGooglePlaceData } from '@/lib/google-places'
 import FaqAccordion from './FaqAccordion'
-import { PROFESSION_PRODUCT_SLUGS, prioritizeByColor, getVerMaisUrl } from '@/lib/product-professions'
-import { getAllProducts } from '@/lib/all-products'
+import { getVerMaisUrl } from '@/lib/product-professions'
 import { getHeroImageSlug } from '@/lib/profession-hero-images'
 import { getCachedHeroImage, getCachedBlogPosts } from '@/lib/profession-page-data'
 import TrustBadgeBar from '@/components/TrustBadgeBar'
+import ProfessionProductGrid from '@/components/ProfessionProductGrid'
 
 // ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
 export const revalidate = 3600
@@ -70,35 +69,7 @@ const breadcrumbSchema = {
   ],
 }
 
-async function getJalecos(): Promise<WooProduct[]> {
-  try {
-    // Busca TODOS os produtos (inclui produtos filhos/cores)
-    const allProducts = await getAllProducts()
-
-    // Filtra por profissão medica
-    const slugs = PROFESSION_PRODUCT_SLUGS['medica'] ?? []
-    const professionProducts = allProducts.filter(p => {
-      // Produto mãe está na lista OU produto filho cujo pai está na lista
-      if (slugs.includes(p.slug)) return true
-
-      // Verifica se é produto filho (tem cor no slug)
-      const parts = p.slug.split('-')
-      const possibleColor = parts[parts.length - 1]
-      const baseSlug = parts.slice(0, -1).join('-')
-
-      return slugs.includes(baseSlug)
-    })
-
-    // Prioriza branco e preto primeiro (mais vendidos)
-    const prioritized = prioritizeByColor(professionProducts)
-
-    // Retorna 6 produtos
-    return prioritized.slice(0, 6)
-  } catch (error) {
-    console.error('[getJalecos] Error:', error)
-    return []
-  }
-}// Stars sem contagem — apenas nota
+// Stars sem contagem — apenas nota
 function HeroStars({ rating }: { rating: number }) {
   const full = Math.floor(rating)
   const half = rating - full >= 0.5
@@ -115,8 +86,7 @@ function HeroStars({ rating }: { rating: number }) {
 }
 
 export default async function JalecoDentistaPage() {
-  const [produtos, posts, placeData, heroImg] = await Promise.all([
-    getJalecos(),
+  const [posts, placeData, heroImg] = await Promise.all([
     getCachedBlogPosts('jaleco'),
     getGooglePlaceData(),
     getCachedHeroImage(getHeroImageSlug('medica') ?? ''),
@@ -148,7 +118,7 @@ export default async function JalecoDentistaPage() {
         </div>
 
         {/* ── HERO ── */}
-        <section className="grid grid-cols-1 lg:grid-cols-2" style={{ minHeight: '88vh', padding: 0 }}
+        <section className="grid grid-cols-1 lg:grid-cols-2" style={{ minHeight: '70vh', padding: 0 }}
         >
           <div className="flex flex-col justify-center order-2 lg:order-1 px-4 py-8 lg:px-16 lg:py-20" style={{ padding: 'clamp(3rem,8vw,5rem) clamp(2rem,5vw,4rem) clamp(3rem,8vw,5rem) clamp(2rem,8vw,7rem)', background: '#f9f7f4' }}
           >
@@ -193,6 +163,7 @@ export default async function JalecoDentistaPage() {
               <img
                 src={heroImg.src}
                 alt={heroImg.alt}
+                fetchPriority="high"
                 style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block', position: 'absolute', inset: 0 }}
               />
             ) : (
@@ -224,31 +195,13 @@ export default async function JalecoDentistaPage() {
         </section>
 
         {/* ── PRODUTOS — Above the Fold ── */}
-        {/* Produtos aparecem logo após Trust Bar, antes do guia editorial longo */}
-        {produtos.length > 0 && (
-          <section className="px-4 py-12 lg:px-16 lg:py-20" style={{ background: '#f9f7f4', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
-            <div style={{ maxWidth: 1200, width: '100%', margin: '0 auto' }}>
-              <div className="mb-10">
-                <div>
-                  <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>Coleção médica</div>
-                  <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2rem,3.5vw,3rem)', fontWeight: 400, lineHeight: 1.15, color: '#1a1a1a' }}>
-                    Jalecos para<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>Médicas</em>
-                  </h2>
-                </div>
-                </div>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {produtos.slice(0, 6).map(product => (
-                  <ProductCard key={product.id} product={product} />
-                ))}
-              </div>
-              <div className="flex justify-center mt-8">
-                <Link href={getVerMaisUrl('medica')} style={{ display: 'inline-flex', padding: '0.9rem 2rem', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a', color: '#1a1a1a' }}>
-                  Ver mais →
-                </Link>
-              </div>
-            </div>
-          </section>
-        )}
+        <ProfessionProductGrid
+          professionKey="medica"
+          professionLabel="Médicas"
+          collectionLabel="Coleção Médica"
+          productLabel="Jalecos"
+          allHref={getVerMaisUrl('medica')}
+        />
 
         {/* ── GUIA ── */}
         <section className="px-4 py-12 lg:px-16 lg:py-20" style={{ background: '#f9f7f4', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
