@@ -1,42 +1,159 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { graphqlClient, GET_PRODUCT_BY_SLUG } from '@/lib/graphql'
-import type { WooProduct } from '@/components/ProductCard'
-import TrustBadgeBar from '@/components/TrustBadgeBar'
 
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Jaleco Branco Feminino | Médica, Dentista e Faculdade | Jaleca',
-  description: 'Jaleco branco feminino com corte acinturado, tecido Elastex e modelagem exclusiva. Para médicas, dentistas, enfermeiras e estudantes. Do PP ao G3. Frete grátis SP/RJ/MG/ES.',
+  title: 'Jaleco Feminino Branco | Acinturado, Premium, PP ao G3 — Jaleca',
+  description: 'Jaleco feminino branco com corte acinturado, tecido Elastex premium e elastano bidirecional. Modelos Slim Elastex, Gold, Tradicional e mais. Do PP ao G3. Frete grátis Sudeste.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-feminino-branco' },
   openGraph: {
-    title: 'Jaleco Branco Feminino — Modelagem Exclusiva | Jaleca',
-    description: 'Jaleco branco feminino para médicas, dentistas e faculdade. Corte acinturado, tecido premium, do PP ao G3. Frete grátis no Sudeste.',
+    title: 'Jaleco Feminino Branco Acinturado — Coleção Exclusiva | Jaleca',
+    description: 'Jaleco feminino branco com corte acinturado, tecido premium e elastano. Para médicas, dentistas e estudantes. Do PP ao G3.',
     url: 'https://jaleca.com.br/jaleco-feminino-branco',
     siteName: 'Jaleca',
     locale: 'pt_BR',
-    type: 'article',
-    images: [{ url: 'https://jaleca.com.br/og-home.jpg', width: 1200, height: 630, alt: 'Jaleco Branco Feminino Jaleca' }],
+    type: 'website',
+    images: [{ url: 'https://wp.jaleca.com.br/wp-content/uploads/2026/04/JALECO-SLIM-TRADICIONAL-FEMININO-BRANCO-ACINTURADO-JALECA-91.webp', width: 1200, height: 630, alt: 'Jaleco Feminino Branco Acinturado Jaleca' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Jaleco Branco Feminino | Jaleca',
-    description: 'Jaleco branco feminino com corte acinturado e tecido premium. Para médicas, dentistas e estudantes.',
-    images: ['https://jaleca.com.br/og-home.jpg'],
+    title: 'Jaleco Feminino Branco | Jaleca',
+    description: 'Jaleco feminino branco acinturado com tecido premium. Para médicas, dentistas e estudantes.',
+    images: ['https://wp.jaleca.com.br/wp-content/uploads/2026/04/JALECO-SLIM-TRADICIONAL-FEMININO-BRANCO-ACINTURADO-JALECA-91.webp'],
   },
 }
 
-const schemaArticle = {
+const PRODUTOS = [
+  {
+    id: 1,
+    nome: 'Slim Elastex Branco',
+    descricao: 'Elastano · Acinturado · Não amassa',
+    preco: 'R$ 300,00',
+    precoPix: 'R$ 285 no PIX',
+    parcelamento: '3× de R$ 100 sem juros',
+    badge: 'Mais vendido',
+    badgeGold: true,
+    imagem: 'https://wp.jaleca.com.br/wp-content/uploads/2026/03/JALECO-SLIM-ELASTEX-FEMININO-BRANCO-JALECA.webp',
+    imageAlt: 'Jaleco Slim Elastex Feminino Branco acinturado Jaleca',
+    slug: '/produto/jaleco-slim-elastex-feminino-jaleca-branco',
+    url: 'https://jaleca.com.br/produto/jaleco-slim-elastex-feminino-jaleca-branco',
+  },
+  {
+    id: 2,
+    nome: 'Slim Gold Branco',
+    descricao: 'Acabamento premium · Corte exclusivo',
+    preco: 'R$ 300,00',
+    precoPix: 'R$ 285 no PIX',
+    parcelamento: '3× de R$ 100 sem juros',
+    badge: 'Premium',
+    badgeGold: false,
+    imagem: 'https://wp.jaleca.com.br/wp-content/uploads/2026/03/JALECO-SLIM-GOLD-FEMININO-BRANCO-JALECA.webp',
+    imageAlt: 'Jaleco Slim Gold Feminino Branco Jaleca',
+    slug: '/produto/jaleco-slim-gold-feminino-jaleca-branco',
+    url: 'https://jaleca.com.br/produto/jaleco-slim-gold-feminino-jaleca-branco',
+  },
+  {
+    id: 3,
+    nome: 'Slim Gold Pala Branco',
+    descricao: 'Pala frontal · Elegância máxima',
+    preco: 'R$ 320,00',
+    precoPix: 'R$ 304 no PIX',
+    parcelamento: '3× de R$ 106,67 sem juros',
+    badge: 'Exclusivo',
+    badgeGold: false,
+    imagem: 'https://wp.jaleca.com.br/wp-content/uploads/2026/03/JALECO-SLIM-GOLD-PALA-FEMININO-BRANCO-JALECA.webp',
+    imageAlt: 'Jaleco Slim Gold Pala Feminino Branco Jaleca',
+    slug: '/produto/jaleco-slim-gold-pala-feminino-jaleca-branco',
+    url: 'https://jaleca.com.br/produto/jaleco-slim-gold-pala-feminino-jaleca-branco',
+  },
+  {
+    id: 4,
+    nome: 'Slim Tradicional Branco',
+    descricao: 'Clássico atemporal · Poly + elastano',
+    preco: 'R$ 280,00',
+    precoPix: 'R$ 266 no PIX',
+    parcelamento: '3× de R$ 93,33 sem juros',
+    badge: null,
+    badgeGold: false,
+    imagem: 'https://wp.jaleca.com.br/wp-content/uploads/2026/04/JALECO-SLIM-TRADICIONAL-FEMININO-BRANCO-ACINTURADO-JALECA-91.webp',
+    imageAlt: 'Jaleco Slim Tradicional Feminino Branco acinturado Jaleca',
+    slug: '/produto/jaleco-slim-tradicional-feminino-jaleca-branco',
+    url: 'https://jaleca.com.br/produto/jaleco-slim-tradicional-feminino-jaleca-branco',
+  },
+  {
+    id: 5,
+    nome: 'Slim Moratty Branco',
+    descricao: 'Design moderno · Bolsos funcionais',
+    preco: 'R$ 280,00',
+    precoPix: 'R$ 266 no PIX',
+    parcelamento: '3× de R$ 93,33 sem juros',
+    badge: null,
+    badgeGold: false,
+    imagem: 'https://wp.jaleca.com.br/wp-content/uploads/2026/03/JALECO-SLIM-MORATTY-FEMININO-BRANCO-JALECA.webp',
+    imageAlt: 'Jaleco Slim Moratty Feminino Branco Jaleca',
+    slug: '/produto/jaleco-slim-moratty-feminino-jaleca-branco',
+    url: 'https://jaleca.com.br/produto/jaleco-slim-moratty-feminino-jaleca-branco',
+  },
+  {
+    id: 6,
+    nome: 'Slim Lateral Branco',
+    descricao: 'Abertura lateral · Mobilidade total',
+    preco: 'R$ 280,00',
+    precoPix: 'R$ 266 no PIX',
+    parcelamento: '3× de R$ 93,33 sem juros',
+    badge: 'Novo',
+    badgeGold: false,
+    imagem: 'https://wp.jaleca.com.br/wp-content/uploads/2026/03/JALECO-SLIM-FEMININO-LATERAL-BRANCO-JALECA.webp',
+    imageAlt: 'Jaleco Slim Feminino Lateral Branco Jaleca',
+    slug: '/produto/jaleco-slim-feminino-lateral-jaleca-branco',
+    url: 'https://jaleca.com.br/produto/jaleco-slim-feminino-lateral-jaleca-branco',
+  },
+]
+
+const DEPOIMENTOS = [
+  {
+    texto: 'O caimento é perfeito. Valoriza a silhueta sem perder o aspecto profissional. Minha segunda compra.',
+    nome: 'Dra. Camila Souza',
+    role: 'Clínica Geral · Belo Horizonte',
+  },
+  {
+    texto: 'Mesmo após várias lavagens, o branco continua impecável. Qualidade muito superior às lojas comuns.',
+    nome: 'Dra. Fernanda Lima',
+    role: 'Dermatologista · São Paulo',
+  },
+  {
+    texto: 'Comprei o Slim Elastex e não troco por nada. Recomendo para todas as colegas de profissão.',
+    nome: 'Dra. Mariana Costa',
+    role: 'Pediatra · Rio de Janeiro',
+  },
+]
+
+const schemaItemList = {
   '@context': 'https://schema.org',
-  '@type': 'Article',
-  headline: 'Jaleco Branco Feminino: Guia Completo de Modelos e Tecidos',
-  description: 'Guia completo do jaleco branco feminino: modelos Slim, Duquesa e Princesa, tecidos Elastex e gabardine, tamanhos do PP ao G3 para médicas, dentistas e estudantes.',
-  author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
-  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
+  '@type': 'ItemList',
+  name: 'Jalecos Femininos Brancos — Coleção Jaleca',
+  description: 'Seleção de jalecos femininos brancos com corte acinturado, tecido premium e elastano. Do PP ao G3.',
   url: 'https://jaleca.com.br/jaleco-feminino-branco',
-  datePublished: '2026-05-06',
-  dateModified: '2026-05-06',
+  numberOfItems: PRODUTOS.length,
+  itemListElement: PRODUTOS.map((p, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    item: {
+      '@type': 'Product',
+      name: p.nome,
+      image: p.imagem,
+      url: p.url,
+      description: p.descricao,
+      offers: {
+        '@type': 'Offer',
+        priceCurrency: 'BRL',
+        price: p.preco.replace('R$ ', '').replace(',00', ''),
+        availability: 'https://schema.org/InStock',
+        seller: { '@type': 'Organization', name: 'Jaleca' },
+      },
+    },
+  })),
 }
 
 const schemaFaq = {
@@ -51,22 +168,22 @@ const schemaFaq = {
     {
       '@type': 'Question',
       name: 'Como lavar jaleco branco feminino sem amarelecer?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Lave com água fria ou morna, use sabão neutro. Para alvejamento, use água oxigenada (10 volumes) diluída — evite hipoclorito direto, que pode enfraquecer o tecido. O Elastex da Jaleca mantém o branco imaculado após dezenas de lavagens quando seguidas as instruções.' },
+      acceptedAnswer: { '@type': 'Answer', text: 'Lave com água fria ou morna, use sabão neutro. Para alvejamento, use água oxigenada (10 volumes) diluída — evite hipoclorito direto. O Elastex da Jaleca mantém o branco imaculado após dezenas de lavagens.' },
     },
     {
       '@type': 'Question',
       name: 'Qual tamanho de jaleco branco feminino devo comprar?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Meça o busto e consulte a tabela de medidas da Jaleca. No modelo Slim, em caso de dúvida entre dois tamanhos, opte pelo maior — o corte acinturado tem menos folga. Os tamanhos vão do PP ao G3, com molde redesenhado para plus size (G1-G3).' },
+      acceptedAnswer: { '@type': 'Answer', text: 'Meça o busto e consulte a tabela de medidas. No modelo Slim, em caso de dúvida entre dois tamanhos, opte pelo maior — o corte acinturado tem menos folga. Do PP ao G3 com molde redesenhado para plus size.' },
     },
     {
       '@type': 'Question',
-      name: 'Qual a diferença entre jaleco Slim Tradicional e Slim Princesa?',
-      acceptedAnswer: { '@type': 'Answer', text: 'O Slim Tradicional tem corte reto acinturado, ideal para uso hospitalar e clínico. O Slim Princesa tem recortes em detalhe que valorizam ainda mais a silhueta — indicado para consultórios e ambientes que permitem um visual mais sofisticado.' },
+      name: 'Qual a diferença entre jaleco Slim Tradicional e Slim Gold?',
+      acceptedAnswer: { '@type': 'Answer', text: 'O Slim Tradicional tem corte reto acinturado clássico — ideal para hospitais e consultórios. O Slim Gold tem acabamento premium com detalhes exclusivos — indicado para clínicas e profissionais que valorizam mais sofisticação visual.' },
     },
     {
       '@type': 'Question',
       name: 'Jaleco branco feminino serve para faculdade?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Sim. O Jaleco Slim Tradicional branco é o mais pedido por estudantes de medicina, enfermagem, odontologia e farmácia: tecido gabardine resistente, corte acinturado e preço acessível. O Jaleco Universitário Unissex é uma alternativa econômica para quem está no início do curso.' },
+      acceptedAnswer: { '@type': 'Answer', text: 'Sim. O Slim Tradicional branco é o mais pedido por estudantes de medicina, enfermagem, odontologia e farmácia: tecido resistente, corte acinturado e preço acessível. Disponível do PP ao G3.' },
     },
   ],
 }
@@ -75,567 +192,375 @@ const breadcrumbSchema = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://jaleca.com.br' },
-    { '@type': 'ListItem', position: 2, name: 'Jalecos Femininos', item: 'https://jaleca.com.br/jaleco-feminino' },
+    { '@type': 'ListItem', position: 1, name: 'Início', item: 'https://jaleca.com.br' },
+    { '@type': 'ListItem', position: 2, name: 'Jalecos Femininos', item: 'https://jaleca.com.br/jalecos-femininos' },
     { '@type': 'ListItem', position: 3, name: 'Jaleco Branco Feminino', item: 'https://jaleca.com.br/jaleco-feminino-branco' },
   ],
 }
 
-const HERO_IMAGE = 'https://wp.jaleca.com.br/wp-content/uploads/2026/04/JALECO-SLIM-TRADICIONAL-FEMININO-BRANCO-ACINTURADO-JALECA-91.webp'
-
-type ProductMini = { slug: string; name: string; price: string; image?: string; galleryImage?: string }
-
-async function fetchProduct(slug: string): Promise<ProductMini | null> {
-  try {
-    const data = await graphqlClient.request<{
-      product: WooProduct & {
-        image?: { sourceUrl: string }
-        galleryImages?: { nodes: { sourceUrl: string }[] }
-      }
-    }>(GET_PRODUCT_BY_SLUG, { slug })
-    if (!data?.product) return null
-    const p = data.product
-    const gallery = p.galleryImages?.nodes ?? []
-    return {
-      slug: p.slug,
-      name: p.name,
-      price: p.price ?? '',
-      image: p.image?.sourceUrl,
-      galleryImage: gallery[0]?.sourceUrl,
-    }
-  } catch {
-    return null
-  }
-}
-
-export default async function JalecoFemininoBrancoPage() {
-  const [p1, p2, p3, p4, p5] = await Promise.all([
-    fetchProduct('jaleco-slim-tradicional-feminino-jaleca'),
-    fetchProduct('jaleco-slim-princesa-feminino-jaleca'),
-    fetchProduct('jaleco-slim-duquesa-feminino-jaleca'),
-    fetchProduct('jaleco-slim-elastex-feminino-jaleca'),
-    fetchProduct('jaleco-slim-princesa-manga-curta-feminino-jaleca'),
-  ])
-
-  const featured = p1 ?? { slug: 'jaleco-slim-tradicional-feminino-jaleca', name: 'Jaleco Slim Tradicional Feminino Branco', price: '', image: HERO_IMAGE }
-  const others = [p2, p3, p4, p5].filter(Boolean) as ProductMini[]
-
+export default function JalecoFemininoBrancoPage() {
   return (
     <>
       {/* eslint-disable-next-line @next/next/no-page-custom-font */}
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       {/* eslint-disable-next-line @next/next/no-page-custom-font */}
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=Space+Grotesk:wght@400;500;600&display=swap" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" />
 
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaArticle).replace(/</g, '\\u003c') }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaItemList).replace(/</g, '\\u003c') }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaFaq).replace(/</g, '\\u003c') }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }} />
 
       <style>{`
-        :root {
-          --gold: #d4af37;
-          --gold-light: #f4d58d;
-          --cream: #faf8f3;
-          --black: #0D0D0D;
-          --accent: #c9a961;
+        .jfb2-cream { background: #faf8f5; }
+        .jfb2-gold { color: #b8936a; }
+        .jfb2-btn-primary {
+          display: inline-flex; align-items: center; justify-content: center;
+          padding: 1rem 2rem; background: #1a1a1a; color: #fff;
+          font-size: 0.78rem; font-weight: 500; letter-spacing: 0.14em;
+          text-transform: uppercase; text-decoration: none; border: 1px solid #1a1a1a;
+          width: 100%;
         }
-
-        .jfb-wrap { font-family: 'Space Grotesk', sans-serif; background: #fff; }
-
-        /* Hero */
-        .jfb-hero {
-          background: var(--black);
-          min-height: 70svh;
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          overflow: hidden;
+        .jfb2-btn-secondary {
+          display: inline-flex; align-items: center; justify-content: center;
+          padding: 1rem 2rem; background: transparent; color: #1a1a1a;
+          font-size: 0.78rem; font-weight: 500; letter-spacing: 0.14em;
+          text-transform: uppercase; text-decoration: none; border: 1px solid #1a1a1a;
+          width: 100%;
         }
-
-        .jfb-hero-img {
-          position: relative;
-          overflow: hidden;
+        @media (min-width: 640px) {
+          .jfb2-btn-primary, .jfb2-btn-secondary { width: auto; }
         }
-
-        .jfb-hero-img img {
-          width: 100%; height: 100%;
-          object-fit: cover;
-          object-position: center 25%;
-          opacity: 0.85;
-          transition: transform 8s ease;
+        .jfb2-card-h {
+          display: flex; gap: 0; background: #fff; border: 1px solid #e8e3db;
+          text-decoration: none; color: inherit; overflow: hidden;
         }
-
-        .jfb-hero:hover .jfb-hero-img img { transform: scale(1.04); }
-
-        .jfb-hero-body {
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          padding: clamp(2.5rem, 6vw, 6rem) clamp(2rem, 5vw, 5rem);
+        .jfb2-card-h-img { width: 140px; min-width: 140px; position: relative; }
+        .jfb2-card-h-img img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+        .jfb2-card-h-body { flex: 1; padding: 1rem; display: flex; flex-direction: column; gap: 0.35rem; }
+        @media (min-width: 768px) {
+          .jfb2-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+          .jfb2-card-h { flex-direction: column; }
+          .jfb2-card-h-img { width: 100%; min-width: unset; aspect-ratio: 3/4; }
+          .jfb2-card-h-body { padding: 1.25rem; }
         }
-
-        .jfb-hero-tag {
-          font-family: 'IBM Plex Mono', monospace;
-          font-size: 0.65rem;
-          letter-spacing: 0.35em;
-          color: var(--gold);
-          text-transform: uppercase;
-          margin-bottom: 1.5rem;
+        .jfb2-badge-gold { background: #b8936a; color: #fff; font-size: 0.6rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.2rem 0.5rem; display: inline-block; }
+        .jfb2-badge-dark { background: #1a1a1a; color: #fff; font-size: 0.6rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.2rem 0.5rem; display: inline-block; }
+        .jfb2-sizes { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.5rem; }
+        .jfb2-size-pill { font-size: 0.65rem; font-weight: 500; padding: 0.2rem 0.45rem; border: 1px solid #d5cfc6; color: #555; }
+        .jfb2-comprar-btn {
+          margin-top: auto; padding: 0.65rem 1rem; background: transparent; color: #1a1a1a;
+          font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+          text-decoration: none; border: 1px solid #1a1a1a; text-align: center; display: block;
         }
-
-        .jfb-hero-title {
-          font-family: 'Bebas Neue', sans-serif;
-          font-size: clamp(3.5rem, 8vw, 7rem);
-          line-height: 0.88;
-          color: #fff;
-          margin-bottom: 1.5rem;
-        }
-
-        .jfb-hero-desc {
-          font-size: clamp(0.9rem, 1.5vw, 1.05rem);
-          color: rgba(255,255,255,0.7);
-          line-height: 1.7;
-          max-width: 420px;
-          margin-bottom: 2rem;
-        }
-
-        .jfb-hero-cta {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.5rem;
-          background: linear-gradient(135deg, var(--gold), var(--gold-light));
-          color: var(--black);
-          padding: 1rem 2rem;
-          font-family: 'IBM Plex Mono', monospace;
-          font-size: 0.72rem;
-          letter-spacing: 0.18em;
-          text-transform: uppercase;
-          font-weight: 600;
-          text-decoration: none;
-          transition: box-shadow 0.3s, transform 0.3s;
-          width: fit-content;
-        }
-
-        .jfb-hero-cta:hover {
-          box-shadow: 0 6px 24px rgba(212,175,55,0.5);
-          transform: translateY(-2px);
-        }
-
-        /* Badges */
-        .jfb-badges {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 0.5rem;
-          margin-bottom: 2rem;
-        }
-
-        .jfb-badge {
-          font-size: 0.7rem;
-          letter-spacing: 0.1em;
-          padding: 0.3rem 0.8rem;
-          border: 1px solid rgba(255,255,255,0.2);
-          color: rgba(255,255,255,0.6);
-          text-transform: uppercase;
-        }
-
-        /* Produtos */
-        .jfb-produtos {
-          padding: clamp(3rem, 6vw, 6rem) clamp(1.5rem, 5vw, 5rem);
-          background: var(--cream);
-        }
-
-        .jfb-section-label {
-          font-family: 'IBM Plex Mono', monospace;
-          font-size: 0.65rem;
-          letter-spacing: 0.3em;
-          color: var(--accent);
-          text-transform: uppercase;
-          margin-bottom: 0.75rem;
-        }
-
-        .jfb-section-title {
-          font-family: 'Bebas Neue', sans-serif;
-          font-size: clamp(2.5rem, 5vw, 4.5rem);
-          line-height: 0.9;
-          color: var(--black);
-          margin-bottom: 2.5rem;
-        }
-
-        .jfb-featured {
-          background: var(--black);
-          color: #fff;
-          border: 2px solid var(--gold);
-          box-shadow: 0 0 24px rgba(212,175,55,0.2);
-          text-decoration: none;
-          display: grid;
-          grid-template-columns: 1fr 1.6fr;
-          position: relative;
-          transition: box-shadow 0.4s;
-          overflow: hidden;
-          margin-bottom: 1rem;
-        }
-
-        .jfb-featured:hover { box-shadow: 0 0 40px rgba(212,175,55,0.45); }
-
-        .jfb-featured::before {
-          content: '★ MAIS VENDIDO';
-          position: absolute;
-          top: -0.7rem; right: 1.5rem;
-          background: var(--black);
-          padding: 0 0.75rem;
-          font-family: 'IBM Plex Mono', monospace;
-          font-size: 0.6rem;
-          letter-spacing: 0.2em;
-          color: var(--gold);
-          z-index: 2;
-        }
-
-        .jfb-feat-img {
-          aspect-ratio: 3/4;
-          overflow: hidden;
-        }
-
-        .jfb-feat-img img {
-          width: 100%; height: 100%;
-          object-fit: cover;
-          object-position: center 40%;
-          filter: grayscale(15%);
-          transition: filter 0.5s, transform 0.8s;
-        }
-
-        .jfb-featured:hover .jfb-feat-img img {
-          filter: grayscale(0%);
-          transform: scale(1.04);
-        }
-
-        .jfb-feat-body {
-          padding: 2rem 1.5rem;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          gap: 1rem;
-        }
-
-        .jfb-feat-name {
-          font-family: 'Bebas Neue', sans-serif;
-          font-size: clamp(1.6rem, 3vw, 2.5rem);
-          line-height: 0.95;
-          color: #fff;
-        }
-
-        .jfb-feat-price {
-          font-family: 'IBM Plex Mono', monospace;
-          font-size: clamp(1.2rem, 2.5vw, 1.8rem);
-          color: var(--gold);
-          font-weight: 600;
-        }
-
-        .jfb-feat-btn {
-          background: linear-gradient(135deg, var(--gold), var(--gold-light));
-          color: var(--black);
-          padding: 0.9rem 1.5rem;
-          font-family: 'IBM Plex Mono', monospace;
-          font-size: 0.72rem;
-          letter-spacing: 0.18em;
-          text-transform: uppercase;
-          font-weight: 600;
-          display: block;
-          text-align: center;
-          transition: box-shadow 0.3s, transform 0.3s;
-        }
-
-        .jfb-featured:hover .jfb-feat-btn {
-          box-shadow: 0 4px 16px rgba(212,175,55,0.5);
-          transform: translateY(-1px);
-        }
-
-        .jfb-card {
-          background: #fff;
-          border: 1px solid rgba(212,175,55,0.25);
-          padding: 1rem 1.25rem;
-          text-decoration: none;
-          color: inherit;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          transition: background 0.3s, border-color 0.3s, transform 0.3s;
-          margin-bottom: 0.5rem;
-        }
-
-        .jfb-card:hover {
-          background: rgba(212,175,55,0.06);
-          border-color: var(--gold);
-          transform: translateX(4px);
-        }
-
-        .jfb-card-name {
-          font-size: 0.9rem;
-          font-weight: 600;
-          flex: 1;
-          color: var(--black);
-        }
-
-        .jfb-card-price {
-          font-family: 'IBM Plex Mono', monospace;
-          font-size: 0.95rem;
-          font-weight: 600;
-          color: var(--accent);
-          margin-left: 1rem;
-          white-space: nowrap;
-        }
-
-        /* Conteúdo SEO */
-        .jfb-content {
-          padding: clamp(3rem, 6vw, 6rem) clamp(1.5rem, 5vw, 5rem);
-          max-width: 900px;
-          margin: 0 auto;
-        }
-
-        .jfb-content h2 {
-          font-family: 'Bebas Neue', sans-serif;
-          font-size: clamp(1.8rem, 3.5vw, 2.8rem);
-          line-height: 0.95;
-          color: var(--black);
-          margin: 2.5rem 0 1rem;
-        }
-
-        .jfb-content p {
-          font-size: 1rem;
-          line-height: 1.75;
-          color: #444;
-          margin-bottom: 1rem;
-        }
-
-        /* FAQ */
-        .jfb-faq {
-          background: var(--cream);
-          padding: clamp(3rem, 6vw, 6rem) clamp(1.5rem, 5vw, 5rem);
-        }
-
-        .jfb-faq-inner { max-width: 800px; margin: 0 auto; }
-
-        .jfb-faq-item {
-          border-bottom: 1px solid rgba(0,0,0,0.1);
-          padding: 1.5rem 0;
-        }
-
-        .jfb-faq-q {
-          font-size: 0.95rem;
-          font-weight: 600;
-          color: var(--black);
-          margin-bottom: 0.75rem;
-        }
-
-        .jfb-faq-a {
-          font-size: 0.9rem;
-          line-height: 1.7;
-          color: #555;
-        }
-
-        /* Final CTA */
-        .jfb-final {
-          background: var(--black);
-          padding: 5rem 2rem;
-          text-align: center;
-        }
-
-        .jfb-final-title {
-          font-family: 'Bebas Neue', sans-serif;
-          font-size: clamp(3rem, 8vw, 7rem);
-          line-height: 0.88;
-          color: var(--gold);
-          margin-bottom: 1.5rem;
-        }
-
-        .jfb-final-sub {
-          font-size: 1rem;
-          color: rgba(255,255,255,0.7);
-          max-width: 500px;
-          margin: 0 auto 2.5rem;
-          line-height: 1.7;
-        }
-
-        .jfb-final-cta {
-          background: linear-gradient(135deg, var(--gold), var(--gold-light));
-          color: var(--black);
-          padding: 1.2rem 3.5rem;
-          font-family: 'Bebas Neue', sans-serif;
-          font-size: 1.3rem;
-          letter-spacing: 0.1em;
-          text-decoration: none;
-          display: inline-block;
-          transition: all 0.4s;
-          box-shadow: 0 6px 24px rgba(212,175,55,0.35);
-        }
-
-        .jfb-final-cta:hover {
-          box-shadow: 0 10px 36px rgba(212,175,55,0.55);
-          transform: translateY(-2px);
-        }
-
-        /* Mobile */
-        @media (max-width: 767px) {
-          .jfb-hero {
-            grid-template-columns: 1fr;
-            min-height: unset;
-          }
-
-          .jfb-hero-img { height: 90vw; }
-
-          .jfb-featured {
-            grid-template-columns: 1fr;
-          }
-
-          .jfb-feat-img { aspect-ratio: 3/4; }
-        }
+        .jfb2-comprar-btn:hover { background: #1a1a1a; color: #fff; }
       `}</style>
 
-      <TrustBadgeBar />
-      <div className="jfb-wrap">
-        {/* Breadcrumb */}
-        <div style={{ padding: '1rem 1.5rem', fontSize: '0.75rem', color: '#888', display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
-          <Link href="/" style={{ color: '#888', textDecoration: 'none' }} className="hover:underline">Início</Link>
-          <span>/</span>
-          <Link href="/jaleco-feminino" style={{ color: '#888', textDecoration: 'none' }} className="hover:underline">Jalecos Femininos</Link>
-          <span>/</span>
-          <span style={{ color: '#333' }}>Jaleco Branco Feminino</span>
+      <main style={{ fontFamily: "'DM Sans', system-ui, sans-serif", fontWeight: 300 }}>
+
+        {/* BREADCRUMB */}
+        <div style={{ background: '#f9f7f4', borderBottom: '1px solid #e5e0d8', padding: '0.85rem clamp(1.5rem,5vw,4rem)' }}>
+          <ol className="flex items-center gap-2 max-w-[1200px] mx-auto" style={{ listStyle: 'none' }}>
+            {[
+              { label: 'Início', href: '/' },
+              { label: 'Jalecos Femininos', href: '/jalecos-femininos' },
+              { label: 'Jaleco Branco Feminino', href: null },
+            ].map((crumb, i, arr) => (
+              <li key={crumb.label} className="flex items-center gap-2 text-xs" style={{ color: crumb.href ? '#6b6b6b' : '#1a1a1a' }}>
+                {crumb.href ? <Link href={crumb.href} style={{ color: '#6b6b6b', textDecoration: 'none' }}>{crumb.label}</Link> : crumb.label}
+                {i < arr.length - 1 && <span style={{ color: '#c8c4bc' }}>/</span>}
+              </li>
+            ))}
+          </ol>
         </div>
 
-        {/* Hero */}
-        <section className="jfb-hero">
-          <div className="jfb-hero-img">
+        {/* HERO */}
+        <section style={{ display: 'grid', gridTemplateColumns: '1fr', minHeight: '90vh' }} className="md:grid-cols-2">
+          {/* Imagem — aparece primeiro no mobile */}
+          <div style={{ position: 'relative', minHeight: 380, background: '#e5e0d8', overflow: 'hidden' }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={HERO_IMAGE}
-              alt="Jaleco branco feminino com corte acinturado — Jaleca"
-              loading="eager"
+              src="https://wp.jaleca.com.br/wp-content/uploads/2026/04/JALECO-SLIM-TRADICIONAL-FEMININO-BRANCO-ACINTURADO-JALECA-91.webp"
+              alt="Jaleco feminino branco acinturado modelo Slim Tradicional Jaleca"
+              style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block', position: 'absolute', inset: 0 }}
             />
-          </div>
-          <div className="jfb-hero-body">
-            <div className="jfb-hero-tag">/// Uniformes Profissionais Femininos</div>
-            <h1 className="jfb-hero-title">JALECO<br />BRANCO<br />FEMININO</h1>
-            <div className="jfb-badges">
-              <span className="jfb-badge">PP ao G3</span>
-              <span className="jfb-badge">Elastex Premium</span>
-              <span className="jfb-badge">Frete Grátis Sudeste</span>
-              <span className="jfb-badge">Modelagem Exclusiva</span>
+            {/* Badge flutuante */}
+            <div style={{ position: 'absolute', bottom: '1.5rem', right: '1.5rem', background: 'rgba(26,26,26,0.85)', color: '#fff', padding: '0.5rem 0.85rem', backdropFilter: 'blur(4px)' }}>
+              <span style={{ color: '#b8936a', fontSize: '0.75rem' }}>★★★★★</span>
+              <span style={{ fontSize: '0.72rem', marginLeft: '0.4rem', letterSpacing: '0.05em' }}>4.9 · Google</span>
             </div>
-            <p className="jfb-hero-desc">
-              O jaleco branco feminino mais bem avaliado do Brasil. Corte acinturado, tecido de alta durabilidade e branco que não amarelece. Para médicas, dentistas, enfermeiras e estudantes de saúde.
-            </p>
-            <Link href="/categoria/jalecos-femininos" className="jfb-hero-cta">
-              Ver todos os modelos →
-            </Link>
-            <p style={{ marginTop: '1rem', fontSize: '0.7rem', letterSpacing: '0.1em', color: '#9b9690' }}>
+          </div>
+
+          {/* Texto */}
+          <div className="flex flex-col justify-center" style={{ padding: 'clamp(3rem,8vw,5rem) clamp(2rem,5vw,4rem) clamp(3rem,8vw,5rem) clamp(2rem,8vw,7rem)', background: '#faf8f5' }}>
+            <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#b8936a', marginBottom: '1rem' }}>
+              Coleção Exclusiva — Jaleca
+            </div>
+            <h1 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 'clamp(3rem,5.5vw,5.2rem)', fontWeight: 300, lineHeight: 1.05, color: '#1a1a1a', marginBottom: '1.5rem' }}>
+              Jaleco Feminino<br /><em style={{ fontStyle: 'italic' }}>Branco</em>
+            </h1>
+            <blockquote style={{ borderLeft: '3px solid #b8936a', paddingLeft: '1rem', margin: '0 0 2rem', fontStyle: 'italic', fontSize: '1rem', color: '#555', lineHeight: 1.7 }}>
+              "Antes de você falar, sua imagem já foi avaliada."
+            </blockquote>
+
+            {/* Trust bar 3 colunas */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '0.75rem', marginBottom: '2.5rem', borderTop: '1px solid #e5e0d8', borderBottom: '1px solid #e5e0d8', padding: '1.25rem 0' }}>
+              {[['200k+', 'Peças vendidas'], ['4.9★', 'Avaliação'], ['PP–G3', 'Grade completa']].map(([v, l]) => (
+                <div key={l} style={{ textAlign: 'center' }}>
+                  <div style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: '1.3rem', fontWeight: 600, color: '#1a1a1a' }}>{v}</div>
+                  <div style={{ fontSize: '0.65rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#888', marginTop: '0.2rem' }}>{l}</div>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Link href="/produtos?cat=Jalecos&cor=branco" className="jfb2-btn-primary">
+                Ver coleção completa ↗
+              </Link>
+              <Link href="#produtos" className="jfb2-btn-secondary">
+                Explorar modelos ↓
+              </Link>
+            </div>
+            <p style={{ marginTop: '1rem', fontSize: '0.68rem', letterSpacing: '0.1em', color: '#9b9690' }}>
               Sudeste grátis · PIX 5% OFF · Troca em 7 dias
             </p>
           </div>
         </section>
 
-        {/* Autoridade */}
-        <section style={{ background: '#faf8f3', padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)' }}>
-          <div style={{ maxWidth: 780, margin: '0 auto' }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.6rem', background: '#1a1a1a', color: '#c4a97d', padding: '0.55rem 1rem', marginBottom: '1.75rem' }}>
-              <span style={{ fontSize: '0.85rem' }}>🏆</span>
-              <span style={{ fontSize: '0.68rem', fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase' }}>Uma das marcas que mais vende jalecos no Brasil</span>
+        {/* URGENCY BAR */}
+        <div style={{ background: '#b8936a', color: '#fff', padding: '0.85rem clamp(1.5rem,5vw,4rem)' }}>
+          <div style={{ maxWidth: 900, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '0.4rem' }} className="md:flex-row md:justify-center md:gap-8">
+            {['● Estoque limitado P e M', '● Entrega em até 2 dias úteis', '● Frete grátis acima de R$499'].map(t => (
+              <span key={t} style={{ fontSize: '0.78rem', fontWeight: 500, letterSpacing: '0.08em' }}>{t}</span>
+            ))}
+          </div>
+        </div>
+
+        {/* PRODUTOS */}
+        <section id="produtos" style={{ background: '#faf8f5', padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)' }}>
+          <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+            <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: '2rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+              <div>
+                <div style={{ fontSize: '0.65rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#b8936a', marginBottom: '0.4rem' }}>Coleção Branca</div>
+                <h2 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 'clamp(2rem,4vw,3rem)', fontWeight: 400, color: '#1a1a1a', margin: 0 }}>
+                  Modelos Exclusivos
+                </h2>
+              </div>
+              <Link href="/produtos?cat=Jalecos&cor=branco" style={{ fontSize: '0.78rem', color: '#1a1a1a', textDecoration: 'none', letterSpacing: '0.08em', borderBottom: '1px solid currentColor' }}>
+                Ver todos →
+              </Link>
             </div>
-            <h2 style={{ fontFamily: 'Georgia, serif', fontSize: 'clamp(1.9rem,3.5vw,3.2rem)', fontWeight: 400, lineHeight: 1.18, color: '#1a1a1a', marginBottom: '1rem' }}>
-              Mais de 200 mil peças vendidas para médicas, dentistas e profissionais da saúde.
-            </h2>
-            <p style={{ fontSize: '1rem', color: '#666', lineHeight: 1.8, marginBottom: '1.5rem', fontWeight: 300 }}>
-              Antes de você falar, sua imagem já foi avaliada. Conforto, caimento impecável e a presença que eleva sua autoridade profissional.
-            </p>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-              <span style={{ color: '#c4a97d', fontSize: '1.15rem', letterSpacing: 2 }}>★★★★★</span>
-              <p style={{ fontSize: '0.95rem', color: '#555', margin: 0 }}>
-                <strong style={{ color: '#1a1a1a' }}>4.9/5 no Google</strong> — clientes satisfeitos em todo o Brasil
+
+            <div className="jfb2-grid" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              {PRODUTOS.map(p => (
+                <Link key={p.id} href={p.slug} className="jfb2-card-h">
+                  <div className="jfb2-card-h-img">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={p.imagem} alt={p.imageAlt} loading="lazy" />
+                  </div>
+                  <div className="jfb2-card-h-body">
+                    {p.badge && (
+                      <span className={p.badgeGold ? 'jfb2-badge-gold' : 'jfb2-badge-dark'}>{p.badge}</span>
+                    )}
+                    <div style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: '1.15rem', fontWeight: 400, color: '#1a1a1a', lineHeight: 1.2 }}>{p.nome}</div>
+                    <div style={{ fontSize: '0.75rem', color: '#777' }}>{p.descricao}</div>
+                    <div>
+                      <div style={{ fontSize: '1rem', fontWeight: 500, color: '#1a1a1a' }}>{p.preco}</div>
+                      <div style={{ fontSize: '0.72rem', color: '#b8936a', fontWeight: 500 }}>{p.precoPix}</div>
+                      <div style={{ fontSize: '0.68rem', color: '#888' }}>{p.parcelamento}</div>
+                    </div>
+                    <div className="jfb2-sizes">
+                      {['PP', 'P', 'M', 'G', 'G2', 'G3'].map(t => (
+                        <span key={t} className="jfb2-size-pill">{t}</span>
+                      ))}
+                    </div>
+                    <span className="jfb2-comprar-btn">Comprar agora</span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* FEATURE BANNER */}
+        <section style={{ background: '#1a1a1a', color: '#fff', overflow: 'hidden' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr' }} className="md:grid-cols-2">
+            {/* Imagem */}
+            <div style={{ position: 'relative', minHeight: 280, overflow: 'hidden' }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="https://wp.jaleca.com.br/wp-content/uploads/2026/03/JALECO-SLIM-GOLD-FEMININO-BRANCO-JALECA.webp"
+                alt="Jaleco Slim Gold Feminino Branco — diferenciais de qualidade Jaleca"
+                loading="lazy"
+                style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block', position: 'absolute', inset: 0, opacity: 0.65 }}
+              />
+            </div>
+            {/* Texto */}
+            <div style={{ padding: 'clamp(3rem,6vw,5rem) clamp(2rem,5vw,4rem)' }}>
+              <div style={{ fontSize: '0.65rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#b8936a', marginBottom: '1rem' }}>Por que Jaleca</div>
+              <h2 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 'clamp(1.8rem,3.5vw,3rem)', fontWeight: 300, lineHeight: 1.2, marginBottom: '2rem' }}>
+                Feito para quem <em style={{ fontStyle: 'italic' }}>cuida de vidas</em> com estilo
+              </h2>
+              <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '0.85rem', marginBottom: '2.5rem' }}>
+                {[
+                  'Polyester 65% + Viscose 30% + Elastano 5%',
+                  'Antimicrobiano · lavagem até 60°C',
+                  'Não amassa durante o expediente',
+                  'Grade PP ao G3 · todos os tipos de corpo',
+                  'Fabricação própria · entrega imediata',
+                ].map(item => (
+                  <li key={item} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', fontSize: '0.9rem', color: '#d5cfc6' }}>
+                    <span style={{ color: '#b8936a', fontSize: '0.7rem' }}>✦</span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <Link href="/produtos?cat=Jalecos&cor=branco" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: '#fff', color: '#1a1a1a', fontSize: '0.78rem', fontWeight: 500, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none' }}>
+                Ver coleção branca ↗
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* DEPOIMENTOS */}
+        <section style={{ background: '#fff', padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)' }}>
+          <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+            <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+              <div style={{ fontSize: '0.65rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#b8936a', marginBottom: '0.75rem' }}>Avaliações</div>
+              <div style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 'clamp(1.6rem,3vw,2.5rem)', fontWeight: 400, color: '#1a1a1a', marginBottom: '0.5rem' }}>
+                O que dizem nossas clientes
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
+                <span style={{ color: '#b8936a', fontSize: '1rem', letterSpacing: 2 }}>★★★★★</span>
+                <span style={{ fontSize: '0.85rem', color: '#555' }}>4.9 · Google Reviews</span>
+              </div>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1.5rem' }} className="md:grid-cols-3">
+              {DEPOIMENTOS.map(d => (
+                <div key={d.nome} style={{ background: '#faf8f5', padding: '2rem', borderTop: '3px solid #b8936a' }}>
+                  <div style={{ color: '#b8936a', fontSize: '0.85rem', letterSpacing: 2, marginBottom: '1rem' }}>★★★★★</div>
+                  <p style={{ fontStyle: 'italic', fontSize: '0.95rem', color: '#444', lineHeight: 1.75, marginBottom: '1.5rem' }}>"{d.texto}"</p>
+                  <div style={{ fontSize: '0.85rem', fontWeight: 500, color: '#1a1a1a' }}>{d.nome}</div>
+                  <div style={{ fontSize: '0.72rem', color: '#888', marginTop: '0.2rem' }}>{d.role}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* SEO — H2 com palavras-chave relevantes */}
+        <section style={{ background: '#faf8f5', padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)' }}>
+          <div style={{ maxWidth: 800, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+            <div>
+              <h2 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 'clamp(1.4rem,2.5vw,2rem)', fontWeight: 400, color: '#1a1a1a', marginBottom: '0.75rem' }}>
+                Jaleco branco feminino para médica e hospital
+              </h2>
+              <p style={{ fontSize: '0.95rem', lineHeight: 1.85, color: '#555' }}>
+                Em ambientes hospitalares, o jaleco branco feminino é o padrão mais aceito. O modelo <Link href="/produto/jaleco-slim-tradicional-feminino-jaleca-branco" style={{ color: '#1a1a1a', fontWeight: 500 }}>Slim Tradicional branco</Link> atende exigências de biossegurança com tecido de fácil higienização, enquanto o corte acinturado mantém o visual elegante durante longos plantões. Veja também o <Link href="/jaleco-medica" style={{ color: '#1a1a1a', fontWeight: 500 }}>jaleco para médica</Link> com guia completo de modelos.
+              </p>
+            </div>
+            <div>
+              <h2 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 'clamp(1.4rem,2.5vw,2rem)', fontWeight: 400, color: '#1a1a1a', marginBottom: '0.75rem' }}>
+                Jaleco branco para dentista — NR-32 e estética clínica
+              </h2>
+              <p style={{ fontSize: '0.95rem', lineHeight: 1.85, color: '#555' }}>
+                Para dentistas, o jaleco branco feminino precisa unir praticidade a um visual profissional. O <Link href="/produto/jaleco-slim-elastex-feminino-jaleca-branco" style={{ color: '#1a1a1a', fontWeight: 500 }}>Slim Elastex branco</Link> é ideal para odontologia: elastano bidirecional para liberdade de movimentos e tecido antimicrobiano que resiste à NR-32. Confira o guia de <Link href="/jaleco-dentista-feminino" style={{ color: '#1a1a1a', fontWeight: 500 }}>jaleco para dentista feminino</Link>.
+              </p>
+            </div>
+            <div>
+              <h2 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 'clamp(1.4rem,2.5vw,2rem)', fontWeight: 400, color: '#1a1a1a', marginBottom: '0.75rem' }}>
+                Jaleco branco para faculdade — PP ao G3
+              </h2>
+              <p style={{ fontSize: '0.95rem', lineHeight: 1.85, color: '#555' }}>
+                Para estudantes de medicina, enfermagem, odontologia e farmácia, o <Link href="/produto/jaleco-slim-tradicional-feminino-jaleca-branco" style={{ color: '#1a1a1a', fontWeight: 500 }}>Slim Tradicional branco</Link> equilibra custo-benefício e durabilidade. Grade completa do PP ao G3, com molde redesenhado para plus size (G1–G3). Veja todos os <Link href="/jalecos-femininos" style={{ color: '#1a1a1a', fontWeight: 500 }}>jalecos femininos</Link>.
+              </p>
+            </div>
+            <div>
+              <h2 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 'clamp(1.4rem,2.5vw,2rem)', fontWeight: 400, color: '#1a1a1a', marginBottom: '0.75rem' }}>
+                Tecido e durabilidade: Elastex vs Gabardine
+              </h2>
+              <p style={{ fontSize: '0.95rem', lineHeight: 1.85, color: '#555' }}>
+                Os jalecos brancos da Jaleca são produzidos em <strong>Elastex</strong> (poliéster com elastano bidirecional) ou <strong>gabardine premium</strong>. O tingimento de alta fixação garante que o branco não amarelece com o uso frequente — todos resistem a múltiplas lavagens sem encolher. Compare com nossos <Link href="/jaleco-feminino-acinturado" style={{ color: '#1a1a1a', fontWeight: 500 }}>jalecos acinturados coloridos</Link>.
               </p>
             </div>
           </div>
         </section>
 
-        {/* Produtos */}
-        <section className="jfb-produtos">
-          <div className="jfb-section-label">/// Seleção Curada</div>
-          <h2 className="jfb-section-title">MODELOS EM<br />BRANCO FEMININO</h2>
-
-          <Link href={`/produto/${featured.slug}`} className="jfb-featured">
-            <div className="jfb-feat-img">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={featured.image || HERO_IMAGE} alt={featured.name} />
-            </div>
-            <div className="jfb-feat-body">
-              <div className="jfb-feat-name">{featured.name}</div>
-              {featured.price && (
-                <div className="jfb-feat-price" dangerouslySetInnerHTML={{ __html: featured.price }} />
-              )}
-              <span className="jfb-feat-btn">Ver Produto →</span>
-            </div>
-          </Link>
-
-          {others.map(p => (
-            <Link key={p.slug} href={`/produto/${p.slug}`} className="jfb-card">
-              <span className="jfb-card-name">{p.name}</span>
-              {p.price && <span className="jfb-card-price" dangerouslySetInnerHTML={{ __html: p.price }} />}
-            </Link>
-          ))}
-        </section>
-
-        {/* Conteúdo SEO */}
-        <section className="jfb-content">
-          <h2>Jaleco branco feminino para médica e hospital</h2>
-          <p>
-            Em ambientes hospitalares e consultórios médicos, o jaleco branco feminino é o padrão mais aceito. O modelo Slim Tradicional branco da Jaleca atende exigências de biossegurança com tecido de fácil higienização, enquanto o corte acinturado mantém o visual elegante durante longos plantões. Disponível também com manga longa no modelo Duquesa — ideal para climas frios e UTIs.
-          </p>
-
-          <h2>Jaleco branco para dentista e odontologia</h2>
-          <p>
-            Para dentistas, o jaleco branco feminino precisa unir praticidade a um visual profissional e moderno. O <strong>Slim Princesa</strong> da Jaleca é o modelo mais pedido na odontologia: recortes que valorizam a silhueta, manga calibrada para liberdade de movimentos e tecido Elastex bidirecional que não amassa mesmo em longas jornadas de atendimento.
-          </p>
-
-          <h2>Jaleco branco para faculdade e estudantes de saúde</h2>
-          <p>
-            Para a faculdade, o jaleco branco feminino precisa equilibrar custo-benefício e durabilidade. O <strong>Slim Tradicional</strong> branco é o mais pedido por estudantes de medicina, enfermagem, odontologia e farmácia: tecido gabardine resistente, corte acinturado e preço acessível. Do PP ao G3 com tabela de medidas detalhada para acertar o tamanho na primeira compra.
-          </p>
-
-          <h2>Tecido e durabilidade: Elastex vs Gabardine</h2>
-          <p>
-            Os jalecos brancos da Jaleca são produzidos em <strong>Elastex</strong> (poliéster com elastano bidirecional) — que acompanha o movimento sem perder a forma — ou <strong>gabardine premium</strong>, mais estruturado e encorpado. O tingimento de alta fixação garante que o branco não amarelece com o uso frequente. Todos passam por controle de qualidade e são testados para resistir a múltiplas lavagens sem encolher ou deformar.
-          </p>
-
-          <h2>Tamanhos do PP ao G3 — incluindo plus size</h2>
-          <p>
-            O jaleco branco feminino Jaleca está disponível do <strong>PP ao G3</strong>. Os tamanhos plus size (G1 ao G3) têm molde redesenhado — não é o tamanho base ampliado, mas um molde com maior amplitude no quadril e ombro proporcional, mantendo o caimento acinturado em todos os tamanhos.
-          </p>
-        </section>
-
         {/* FAQ */}
-        <section className="jfb-faq">
-          <div className="jfb-faq-inner">
-            <div className="jfb-section-label">/// Dúvidas Frequentes</div>
-            <div style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: 'clamp(2rem, 4vw, 3.5rem)', lineHeight: '0.9', color: 'var(--black)', marginBottom: '2rem' }}>
-              FAQ — JALECO<br />BRANCO FEMININO
+        <section style={{ background: '#fff', padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)' }}>
+          <div style={{ maxWidth: 800, margin: '0 auto' }}>
+            <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
+              <div style={{ fontSize: '0.65rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#b8936a', marginBottom: '0.5rem' }}>Dúvidas frequentes</div>
+              <h2 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 'clamp(1.8rem,3vw,2.5rem)', fontWeight: 400, color: '#1a1a1a' }}>
+                FAQ — Jaleco Branco Feminino
+              </h2>
             </div>
-            {schemaFaq.mainEntity.map((item) => (
-              <div key={item.name} className="jfb-faq-item">
-                <p className="jfb-faq-q">{item.name}</p>
-                <p className="jfb-faq-a">{item.acceptedAnswer.text}</p>
-              </div>
-            ))}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+              {schemaFaq.mainEntity.map(item => (
+                <details key={item.name} style={{ borderBottom: '1px solid #e5e0d8', paddingBottom: '1.25rem' }}>
+                  <summary style={{ cursor: 'pointer', fontSize: '0.95rem', fontWeight: 500, color: '#1a1a1a', listStyle: 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '1rem' }}>
+                    {item.name}
+                    <span style={{ color: '#b8936a', fontSize: '1.2rem', flexShrink: 0 }}>+</span>
+                  </summary>
+                  <p style={{ marginTop: '0.75rem', fontSize: '0.9rem', lineHeight: 1.8, color: '#555' }}>
+                    {item.acceptedAnswer.text}
+                  </p>
+                </details>
+              ))}
+            </div>
           </div>
         </section>
 
-        {/* Final CTA */}
-        <section className="jfb-final">
-          <h2 className="jfb-final-title">VER TODOS OS<br />JALECOS FEMININOS</h2>
-          <p className="jfb-final-sub">
-            Mais de 20 modelos femininos em branco, preto e colorido. Encontre o jaleco certo para a sua profissão.
-          </p>
-          <Link href="/categoria/jalecos-femininos" className="jfb-final-cta">
-            VER COLEÇÃO COMPLETA
-          </Link>
+        {/* TRUST STRIP */}
+        <div style={{ background: '#f0e8dc', padding: 'clamp(2rem,4vw,3rem) clamp(1.5rem,5vw,4rem)' }}>
+          <div style={{ maxWidth: 900, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }} className="md:grid-cols-4">
+            {[
+              ['🚚', 'Frete grátis', 'Sudeste acima de R$499'],
+              ['🔄', 'Troca em 7 dias', 'Sem burocracia'],
+              ['🔒', 'Compra segura', 'Site protegido'],
+              ['✂️', 'Fab. própria', 'Qualidade garantida'],
+            ].map(([icon, title, sub]) => (
+              <div key={title} style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: '1.5rem', marginBottom: '0.4rem' }}>{icon}</div>
+                <div style={{ fontSize: '0.82rem', fontWeight: 500, color: '#1a1a1a' }}>{title}</div>
+                <div style={{ fontSize: '0.7rem', color: '#777', marginTop: '0.2rem' }}>{sub}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* BOTTOM CTA */}
+        <section style={{ background: '#1a1a1a', color: '#fff', padding: 'clamp(3.5rem,7vw,6rem) clamp(1.5rem,5vw,4rem)', textAlign: 'center' }}>
+          <div style={{ maxWidth: 600, margin: '0 auto' }}>
+            <h2 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: 'clamp(2rem,4vw,3.2rem)', fontWeight: 300, lineHeight: 1.2, marginBottom: '1rem' }}>
+              Sua imagem começa pelo jaleco certo
+            </h2>
+            <p style={{ fontSize: '1rem', color: '#b8936a', fontWeight: 500, marginBottom: '0.4rem' }}>
+              A partir de R$ 280 &nbsp;|&nbsp; R$ 266 no PIX · 3× sem juros
+            </p>
+            <p style={{ fontSize: '0.8rem', color: '#888', marginBottom: '2.5rem' }}>Frete grátis Sudeste · PP ao G3 · Entrega imediata</p>
+            <Link
+              href="/produtos?cat=Jalecos&cor=branco"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '1rem 2.5rem', background: '#b8936a', color: '#fff', fontSize: '0.82rem', fontWeight: 500, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none' }}
+            >
+              Comprar agora →
+            </Link>
+            <div style={{ marginTop: '2.5rem', paddingTop: '2rem', borderTop: '1px solid #2e2e2e', display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '1.5rem' }}>
+              {[
+                { href: '/jaleco-medica', label: 'Jaleco para Médica' },
+                { href: '/jaleco-dentista-feminino', label: 'Jaleco para Dentista' },
+                { href: '/jaleco-feminino-acinturado', label: 'Jaleco Acinturado' },
+                { href: '/jalecos-femininos', label: 'Todos os Femininos' },
+              ].map(l => (
+                <Link key={l.href} href={l.href} style={{ fontSize: '0.72rem', color: '#888', textDecoration: 'none', letterSpacing: '0.08em', borderBottom: '1px solid #444' }}>
+                  {l.label}
+                </Link>
+              ))}
+            </div>
+          </div>
         </section>
-      </div>
+
+      </main>
     </>
   )
 }
