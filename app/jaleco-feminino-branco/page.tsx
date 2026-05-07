@@ -293,7 +293,7 @@ export default async function JalecoFemininoBrancoPage() {
               src="https://wp.jaleca.com.br/wp-content/uploads/2026/04/JALECO-SLIM-TRADICIONAL-FEMININO-BRANCO-ACINTURADO-JALECA-91.webp"
               alt="Jaleco feminino branco acinturado modelo Slim Tradicional Jaleca"
               fetchPriority="high"
-              style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block', position: 'absolute', inset: 0 }}
+              style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 20%', display: 'block', position: 'absolute', inset: 0 }}
             />
             {/* Badge flutuante */}
             <div style={{ position: 'absolute', bottom: '1.5rem', right: '1.5rem', background: 'rgba(26,26,26,0.85)', color: '#fff', padding: '0.5rem 0.85rem', backdropFilter: 'blur(4px)' }}>
