@@ -10,7 +10,7 @@ export async function GET() {
     return NextResponse.json({ error: 'Missing Instagram credentials' }, { status: 500 })
   }
 
-  const url = `https://graph.instagram.com/v19.0/${igId}/media?fields=id,caption,media_type,media_url,thumbnail_url,permalink,timestamp&limit=12&access_token=${token}`
+  const url = `https://graph.facebook.com/v25.0/${igId}/media?fields=id,caption,media_type,media_url,thumbnail_url,permalink,timestamp&limit=12&access_token=${token}`
 
   const res = await fetch(url, { next: { revalidate: 3600 } })
   const data = await res.json()

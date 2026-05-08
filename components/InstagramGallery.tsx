@@ -17,7 +17,7 @@ async function getPosts(): Promise<InstagramPost[]> {
     const igId = process.env.INSTAGRAM_BUSINESS_ID
     if (!token || !igId) return []
 
-    const url = `https://graph.instagram.com/v19.0/${igId}/media?fields=id,caption,media_type,media_url,permalink,timestamp&limit=30&access_token=${token}`
+    const url = `https://graph.facebook.com/v25.0/${igId}/media?fields=id,caption,media_type,media_url,thumbnail_url,permalink,timestamp&limit=30&access_token=${token}`
     const res = await fetch(url, { next: { revalidate: 3600 } })
     const data = await res.json()
     if (data.error) return []
