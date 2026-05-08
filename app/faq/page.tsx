@@ -68,7 +68,7 @@ const faqData = {
       "name": "Como funciona a troca ou devolução?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Você tem até 7 dias após o recebimento para solicitar a troca ou devolução. O produto deve estar sem uso e com a etiqueta original. Para iniciar, envie um e-mail para contato@jaleca.com.br com o número do pedido. O frete de troca é por conta do cliente; em caso de defeito, arcamos com o custo."
+        "text": "Você tem até 7 dias após o recebimento para solicitar a troca ou devolução. O produto deve estar sem uso e com a etiqueta original. A Jaleca oferece 1 (uma) troca gratuita por pedido (frete de devolução e reenvio por nossa conta). Após essa troca, não aceitamos novas solicitações de troca ou devolução por insatisfação com tamanho, cor ou modelo no mesmo pedido. Casos de defeito de fabricação seguem os prazos do Código de Defesa do Consumidor (30 ou 90 dias) e continuam cobertos pela Jaleca."
       }
     },
     {
@@ -244,7 +244,11 @@ export default function FAQPage() {
                           <p>Após a postagem, você recebe um código de rastreamento por e-mail. Pode acompanhar diretamente nos sites dos Correios ou da transportadora. Também pode acompanhar o status na página "Minha Conta".</p>
                         )}
                         {item.q.includes('troca ou devolução') && (
-                          <p>Você tem até <strong>7 dias após o recebimento</strong> para solicitar a troca ou devolução. O produto deve estar sem uso e com a etiqueta original. Para iniciar, envie um e-mail para <a href="mailto:contato@jaleca.com.br" className="text-primary underline">contato@jaleca.com.br</a> com o número do pedido.</p>
+                          <>
+                            <p>Você tem até <strong>7 dias após o recebimento</strong> para solicitar a troca ou devolução. O produto deve estar sem uso e com a etiqueta original. Para iniciar, envie um e-mail para <a href="mailto:contato@jaleca.com.br" className="text-primary underline">contato@jaleca.com.br</a> com o número do pedido.</p>
+                            <p className="mt-2">A Jaleca oferece <strong>1 (uma) troca gratuita por pedido</strong> — o frete de devolução e o reenvio do novo produto são por nossa conta. Após a conclusão dessa troca, não aceitamos novas solicitações de troca ou devolução por insatisfação com tamanho, cor ou modelo no mesmo pedido.</p>
+                            <p className="mt-2">Casos de <strong>defeito de fabricação</strong> seguem os prazos do Código de Defesa do Consumidor (30 ou 90 dias) e continuam cobertos pela Jaleca, com frete por nossa conta — independentemente de já ter ocorrido troca anterior.</p>
+                          </>
                         )}
                         {item.q.includes('garantia') && (
                           <p>Todos os nossos produtos têm garantia contra defeito de fabricação de <strong>90 dias</strong>, conforme o Código de Defesa do Consumidor. A garantia não cobre defeitos por mau uso, produtos que tenham sido <strong>modificados</strong> ou que não possuam a <strong>etiqueta original</strong>.</p>

@@ -49,7 +49,7 @@ const faqSchema = {
       name: 'Quem paga o frete de devolução?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Na primeira troca, o frete de devolução e o reenvio do novo produto são por nossa conta (modalidade JADLOG ou PAC). A partir da segunda troca do mesmo pedido, o frete de reenvio é por conta do cliente. Em casos de defeito de fabricação ou arrependimento dentro do prazo de 7 dias (CDC), o frete é sempre por nossa conta.',
+        text: 'A Jaleca oferece 1 (uma) troca gratuita por pedido — o frete de devolução e o reenvio do novo produto são por nossa conta (modalidade JADLOG ou PAC). Após a conclusão dessa troca, não serão aceitas novas solicitações de troca ou devolução por insatisfação com tamanho, cor ou modelo. Casos de defeito de fabricação seguem os prazos do Código de Defesa do Consumidor (30 ou 90 dias) e continuam cobertos pela Jaleca, com frete por nossa conta.',
       },
     },
     {
@@ -196,10 +196,11 @@ export default function TrocasEDevolucoesPage() {
             <ul className="list-disc pl-5 space-y-2">
               <li><strong className="text-foreground font-medium">Defeito de fabricação:</strong> o frete de devolução é por nossa conta. Enviaremos uma etiqueta pré-paga após a solicitação.</li>
               <li>
-                <strong className="text-foreground font-medium">Troca por tamanho ou cor (sem defeito):</strong>
+                <strong className="text-foreground font-medium">Troca por tamanho, cor ou modelo (sem defeito):</strong>
                 <ul className="list-disc pl-5 mt-2 space-y-1">
-                  <li><strong className="text-foreground font-medium">1ª troca gratuita:</strong> o frete de devolução e o reenvio do novo produto são por nossa conta.</li>
-                  <li><strong className="text-foreground font-medium">A partir da 2ª troca do mesmo pedido:</strong> o frete de reenvio é por conta do cliente.</li>
+                  <li><strong className="text-foreground font-medium">1 (uma) troca gratuita por pedido:</strong> o frete de devolução e o reenvio do novo produto são por nossa conta.</li>
+                  <li><strong className="text-foreground font-medium">Após a conclusão dessa troca:</strong> não serão aceitas novas solicitações de troca ou devolução por insatisfação com tamanho, cor ou modelo no mesmo pedido.</li>
+                  <li><strong className="text-foreground font-medium">Defeito de fabricação:</strong> seguem os prazos do Código de Defesa do Consumidor (30 ou 90 dias) e continuam sempre cobertos pela Jaleca, com frete por nossa conta — independentemente de já ter ocorrido troca anterior.</li>
                 </ul>
               </li>
               <li><strong className="text-foreground font-medium">Arrependimento (CDC Art. 49):</strong> o frete de devolução é por nossa conta. O reembolso do frete original também será realizado.</li>
