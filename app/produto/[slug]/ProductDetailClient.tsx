@@ -17,6 +17,7 @@ import ProductCard, { type WooProduct } from '@/components/ProductCard'
 import RecentlyViewed from '@/components/RecentlyViewed'
 import UrgencyToast from '@/components/UrgencyToast'
 import { isBestSeller } from '@/lib/best-sellers'
+import UGCSection from './UGCSection'
 import type { PlaceData } from '@/lib/google-places'
 
 // #1 — Alt text descritivo: nome + cor selecionada (sem mencionar profissão)
@@ -1413,6 +1414,9 @@ export default function ProductDetailClient({
             )}
           </div>
         </div>
+
+        {/* UGC — Clientes usando Jaleca */}
+        <UGCSection />
 
         {/* Related products */}
         {related.length > 0 && (
