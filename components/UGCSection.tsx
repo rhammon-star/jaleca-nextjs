@@ -20,21 +20,19 @@ const ITEMS = [
   { type: 'foto', src: '/ugc/cliente-11.jpg', alt: 'Profissional usando jaleco Jaleca' },
 ]
 
-function VideoThumb({ src, thumb, alt }: { src: string; thumb: string; alt: string }) {
+function VideoThumb({ src, thumb, alt, onPause }: { src: string; thumb: string; alt: string; onPause: () => void }) {
   const [playing, setPlaying] = useState(false)
   const ref = useRef<HTMLVideoElement>(null)
 
-  function handlePlay(e: React.MouseEvent) {
+  function handlePlay(e: React.MouseEvent | React.TouchEvent) {
     e.stopPropagation()
+    onPause()
     setPlaying(true)
     ref.current?.play()
   }
 
   return (
-    <div
-      className="relative h-full w-full cursor-pointer"
-      onClick={handlePlay}
-    >
+    <div className="relative h-full w-full cursor-pointer" onClick={handlePlay} onTouchStart={handlePlay}>
       <video
         ref={ref}
         src={src}
@@ -47,9 +45,9 @@ function VideoThumb({ src, thumb, alt }: { src: string; thumb: string; alt: stri
         className="h-full w-full object-cover"
       />
       {!playing && (
-        <div className="absolute inset-0 flex items-center justify-center bg-black/10">
-          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white/90 shadow">
-            <svg className="ml-0.5 h-4 w-4 text-gray-900" fill="currentColor" viewBox="0 0 24 24">
+        <div className="absolute inset-0 flex items-center justify-center bg-black/15">
+          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/95 shadow-lg">
+            <svg className="ml-1 h-5 w-5 text-gray-900" fill="currentColor" viewBox="0 0 24 24">
               <path d="M8 5v14l11-7z" />
             </svg>
           </div>
@@ -59,36 +57,45 @@ function VideoThumb({ src, thumb, alt }: { src: string; thumb: string; alt: stri
   )
 }
 
-// Duplica os itens para o loop infinito
 const TRACK = [...ITEMS, ...ITEMS]
 
 export default function UGCSection() {
+  const [paused, setPaused] = useState(false)
+
   return (
     <div className="mt-8 md:mt-16 overflow-hidden">
       <p className="mb-4 text-center text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
         Profissionais de todo o Brasil
       </p>
 
-      {/* Marquee — CSS puro, sem JS de animação */}
       <div className="relative">
-        {/* fade nas bordas */}
-        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-8 bg-gradient-to-r from-background to-transparent md:w-16" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-8 bg-gradient-to-l from-background to-transparent md:w-16" />
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-6 bg-gradient-to-r from-background to-transparent md:w-12" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-6 bg-gradient-to-l from-background to-transparent md:w-12" />
 
         <div
-          className="flex gap-2.5"
+          className="flex gap-3"
           style={{
-            animation: 'ugc-scroll 28s linear infinite',
+            animation: 'ugc-scroll 36s linear infinite',
+            animationPlayState: paused ? 'paused' : 'running',
             width: 'max-content',
           }}
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          onTouchStart={() => setPaused(true)}
+          onTouchEnd={() => setTimeout(() => setPaused(false), 2500)}
         >
           {TRACK.map((item, i) => (
             <div
               key={i}
-              className="relative h-48 w-40 flex-shrink-0 overflow-hidden rounded-lg bg-muted md:h-52 md:w-44"
+              className="relative h-56 w-44 flex-shrink-0 overflow-hidden rounded-xl bg-muted shadow-sm md:h-64 md:w-52"
             >
               {item.type === 'video' ? (
-                <VideoThumb src={item.src!} thumb={item.thumb!} alt={item.alt} />
+                <VideoThumb
+                  src={item.src!}
+                  thumb={item.thumb!}
+                  alt={item.alt}
+                  onPause={() => setPaused(true)}
+                />
               ) : (
                 <img
                   src={item.src}
@@ -107,7 +114,6 @@ export default function UGCSection() {
           0%   { transform: translateX(0); }
           100% { transform: translateX(-50%); }
         }
-        .ugc-track:hover { animation-play-state: paused; }
       `}</style>
     </div>
   )
