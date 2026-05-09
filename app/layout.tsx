@@ -18,6 +18,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics as VercelAnalytics } from "@vercel/analytics/next";
 import dynamic from "next/dynamic";
 import CookieConsent from "@/components/CookieConsent";
+import FirstPurchasePopup from "@/components/FirstPurchasePopup";
 
 // Componentes não-críticos: lazy-loaded fora do bundle inicial.
 // Mantém tracking/funcionalidade intactos mas tira ~50-80KB do JS crítico.
@@ -219,6 +220,7 @@ export default function RootLayout({
                 <div id="main-content" className="flex-1 pb-14 md:pb-0">{children}</div>
                 <Footer />
                 <WhatsAppButton />
+                <FirstPurchasePopup />
                 <CartRecoveryCapture />
                 <CompareBar />
                 <TawkToChat />

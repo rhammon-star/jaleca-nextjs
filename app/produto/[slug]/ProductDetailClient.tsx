@@ -15,6 +15,7 @@ import SizeAdvisorModal from '@/components/SizeAdvisorModal'
 import BackInStockButton from '@/components/BackInStockButton'
 import ProductCard, { type WooProduct } from '@/components/ProductCard'
 import RecentlyViewed from '@/components/RecentlyViewed'
+import WhatsAppAbandonPopup from '@/components/WhatsAppAbandonPopup'
 import UrgencyToast from '@/components/UrgencyToast'
 import { isBestSeller } from '@/lib/best-sellers'
 import UGCSection from '@/components/UGCSection'
@@ -1462,6 +1463,7 @@ export default function ProductDetailClient({
       </div>
     )}
 
+    <WhatsAppAbandonPopup />
     </>
   )
 }

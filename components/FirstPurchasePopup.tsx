@@ -23,12 +23,29 @@ export default function FirstPurchasePopup() {
 
   useEffect(() => {
     if (getCookie(COOKIE_NAME)) return
-    const timer = setTimeout(() => setVisible(true), 18000)
-    return () => clearTimeout(timer)
+
+    // Desktop: exit intent (mouse sai do topo da janela)
+    const handleMouseLeave = (e: MouseEvent) => {
+      if (e.clientY <= 0) {
+        setVisible(true)
+        document.removeEventListener('mouseleave', handleMouseLeave)
+      }
+    }
+    document.addEventListener('mouseleave', handleMouseLeave)
+
+    // Mobile: delay de 20s
+    const timer = setTimeout(() => {
+      if (!getCookie(COOKIE_NAME)) setVisible(true)
+    }, 20000)
+
+    return () => {
+      clearTimeout(timer)
+      document.removeEventListener('mouseleave', handleMouseLeave)
+    }
   }, [])
 
   function handleClose() {
-    setCookie(COOKIE_NAME, '1', 365)
+    setCookie(COOKIE_NAME, '1', 30)
     setVisible(false)
   }
 
@@ -40,14 +57,14 @@ export default function FirstPurchasePopup() {
       await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, source: 'first-purchase-popup' }),
+        body: JSON.stringify({ email, source: 'exit-intent-popup' }),
       })
     } catch {
-      // fail silently — UX should not break
+      // fail silently
     } finally {
       setLoading(false)
       setSubmitted(true)
-      setCookie(COOKIE_NAME, '1', 365)
+      setCookie(COOKIE_NAME, '1', 30)
     }
   }
 
@@ -55,14 +72,12 @@ export default function FirstPurchasePopup() {
 
   return (
     <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
-      {/* Overlay */}
       <div
         className="absolute inset-0 bg-foreground/60 backdrop-blur-sm"
         onClick={handleClose}
         aria-hidden="true"
       />
 
-      {/* Modal */}
       <div
         role="dialog"
         aria-modal="true"
@@ -80,10 +95,10 @@ export default function FirstPurchasePopup() {
         {!submitted ? (
           <>
             <p id="popup-title" className="font-display text-3xl font-semibold mb-1 text-center">
-              Bem-vindo à Jaleca!
+              Espera! Antes de ir…
             </p>
             <p className="text-center text-muted-foreground text-sm mb-6">
-              Ganhe um desconto exclusivo na sua primeira compra
+              Ganhe <strong>5% OFF no PIX</strong> na sua primeira compra
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -124,10 +139,10 @@ export default function FirstPurchasePopup() {
           <div className="text-center py-4">
             <p className="font-display text-2xl font-semibold mb-3">Seu cupom é:</p>
             <p className="text-xl font-mono font-bold tracking-widest bg-secondary/30 px-4 py-3 mb-4 border border-border">
-              PRIMEIRACOMPRA5JALECA
+              PIX5
             </p>
             <p className="text-sm text-muted-foreground mb-6">
-              Use no checkout e ganhe seu desconto exclusivo na primeira compra!
+              Use no checkout e ganhe 5% OFF pagando com PIX!
             </p>
             <button
               onClick={handleClose}
