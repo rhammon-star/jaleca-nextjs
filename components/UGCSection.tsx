@@ -64,7 +64,7 @@ const TRACK = [...ITEMS, ...ITEMS]
 
 export default function UGCSection() {
   return (
-    <div className="mt-10 md:mt-16 overflow-hidden">
+    <div className="mt-8 md:mt-16 overflow-hidden">
       <p className="mb-4 text-center text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
         Profissionais de todo o Brasil
       </p>
@@ -72,20 +72,20 @@ export default function UGCSection() {
       {/* Marquee — CSS puro, sem JS de animação */}
       <div className="relative">
         {/* fade nas bordas */}
-        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 bg-gradient-to-r from-background to-transparent" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-background to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-8 bg-gradient-to-r from-background to-transparent md:w-16" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-8 bg-gradient-to-l from-background to-transparent md:w-16" />
 
         <div
-          className="flex gap-2"
+          className="flex gap-2.5"
           style={{
-            animation: 'ugc-scroll 32s linear infinite',
+            animation: 'ugc-scroll 28s linear infinite',
             width: 'max-content',
           }}
         >
           {TRACK.map((item, i) => (
             <div
               key={i}
-              className="relative h-36 w-36 flex-shrink-0 overflow-hidden rounded-md bg-muted md:h-44 md:w-44"
+              className="relative h-48 w-40 flex-shrink-0 overflow-hidden rounded-lg bg-muted md:h-52 md:w-44"
             >
               {item.type === 'video' ? (
                 <VideoThumb src={item.src!} thumb={item.thumb!} alt={item.alt} />
