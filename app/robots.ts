@@ -44,6 +44,26 @@ export default function robots(): MetadataRoute.Robots {
           '/api/',
         ],
       },
+      // Bots de IA — explicitamente liberados para indexação e treino/citação
+      // (GPTBot=OpenAI, ClaudeBot/anthropic-ai=Anthropic, PerplexityBot=Perplexity,
+      //  Google-Extended=Bard/Gemini, CCBot=Common Crawl, Applebot-Extended=Apple Intelligence,
+      //  Bytespider=ByteDance/TikTok, Amazonbot=Alexa, DuckAssistBot=DuckDuckGo)
+      { userAgent: 'GPTBot', allow: '/' },
+      { userAgent: 'OAI-SearchBot', allow: '/' },
+      { userAgent: 'ChatGPT-User', allow: '/' },
+      { userAgent: 'ClaudeBot', allow: '/' },
+      { userAgent: 'Claude-Web', allow: '/' },
+      { userAgent: 'anthropic-ai', allow: '/' },
+      { userAgent: 'PerplexityBot', allow: '/' },
+      { userAgent: 'Perplexity-User', allow: '/' },
+      { userAgent: 'Google-Extended', allow: '/' },
+      { userAgent: 'CCBot', allow: '/' },
+      { userAgent: 'Applebot-Extended', allow: '/' },
+      { userAgent: 'Bytespider', allow: '/' },
+      { userAgent: 'Amazonbot', allow: '/' },
+      { userAgent: 'DuckAssistBot', allow: '/' },
+      { userAgent: 'Meta-ExternalAgent', allow: '/' },
+      { userAgent: 'cohere-ai', allow: '/' },
       {
         // Bloqueia Googlebot de rastrear páginas de busca com parâmetros
         userAgent: 'Googlebot',
