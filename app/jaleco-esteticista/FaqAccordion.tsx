@@ -7,6 +7,8 @@ const faqItems = [
   { q: 'Esteticista precisa de jaleco com proteção?', a: 'O jaleco funciona como barreira contra respingos de ácidos e produtos químicos usados em procedimentos estéticos. Use sempre durante o trabalho.' },
   { q: 'Como funciona a troca de tamanho?', a: 'Arrependimento: até 7 dias após o recebimento, produto sem uso e com etiqueta. Garantia Jaleca: 30 dias, sem marca de uso e com etiqueta. Manda mensagem pelo WhatsApp ou e-mail.' },
   { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. O prazo varia de 3 a 8 dias úteis conforme sua região — calculado no checkout com o CEP.' },
+  { q: 'Qual o melhor tecido para jaleco de esteticista?', a: 'O gabardine com elastano é o mais escolhido por esteticistas na Jaleca: combina elegância, fácil lavagem e liberdade de movimento durante procedimentos. Resiste a respingos de produtos estéticos e mantém o caimento impecável ao longo do dia.' },
+  { q: 'Como escolher o tamanho certo do jaleco?', a: 'M e G acinturados são os mais vendidos. O erro mais comum: pedir M e precisar trocar por G. O jaleco acinturado parece menor no cabide — meça a largura dos ombros antes de comprar. Na dúvida, escolha o maior: precisa ter folga para trabalhar sobre o cliente sem apertar.' },
 ]
 export default function FaqAccordion() {
   const [openIndex, setOpenIndex] = useState<number | null>(0)

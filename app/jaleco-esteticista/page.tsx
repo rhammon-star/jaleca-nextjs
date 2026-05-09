@@ -1,3 +1,4 @@
+import { InstagramGallery } from '@/components/InstagramGallery'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Suspense } from 'react'
@@ -44,6 +45,8 @@ const schemaFaq = {
     { '@type': 'Question', name: 'Jaleco com elastano é bom para esteticista?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. O elastano adiciona memória ao tecido, retornando à forma após o movimento — essencial para quem passa horas em atendimento.' } },
     { '@type': 'Question', name: 'Jaleco de esteticista precisa ser branco?', acceptedAnswer: { '@type': 'Answer', text: 'Não é obrigação. O branco é o clássico, mas tons pastel e cores discretas são aceitos. O CFERES não restringe a cor.' } },
     { '@type': 'Question', name: 'Qual a diferença entre jaleco Slim e Profissional?', acceptedAnswer: { '@type': 'Answer', text: 'O Slim tem corte ajustado ao corpo, ideal para quem quer visual mais moderno. O Profissional tem corte mais amplo e estruturado, com mais espaço para movimento.' } },
+    { '@type': 'Question', name: 'Qual o melhor tecido para jaleco de esteticista?', acceptedAnswer: { '@type': 'Answer', text: 'O gabardine com elastano é o tecido mais escolhido por esteticistas na Jaleca: combina elegância, facilidade de lavagem e liberdade de movimento durante os procedimentos. É resistente a respingos de produtos estéticos e mantém o caimento impecável ao longo do dia.' } },
+    { '@type': 'Question', name: 'Qual tamanho de jaleco escolher para esteticista?', acceptedAnswer: { '@type': 'Answer', text: 'M e G acinturados são os tamanhos mais pedidos por esteticistas na Jaleca. O erro mais frequente é pedir M e precisar trocar por G. O jaleco acinturado parece menor no cabide — antes de comprar, meça a largura dos ombros. Na dúvida, escolha o maior: o jaleco precisa ter folga para trabalhar sobre o cliente sem apertar.' } },
   ],
 }
 
@@ -493,6 +496,10 @@ export default async function JalecoEsteticistaPage() {
               </Link>
             </div>
           </div>
+        </section>
+
+        <section style={{ padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)', maxWidth: '1200px', margin: '0 auto' }}>
+          <InstagramGallery maxItems={6} title="Inspire-se — @jaleca.oficial" />
         </section>
 
       </main>

@@ -4,7 +4,7 @@ import { graphqlClient, GET_PRODUCTS } from '@/lib/graphql'
 import type { WooProduct } from '@/components/ProductCard'
 import ProductCard from '@/components/ProductCard'
 import ProductDetailSection from '@/components/ProductDetailSection'
-import {  } from '@/lib/profession-page-data'
+import { getCachedHeroImage } from '@/lib/profession-page-data'
 
 // ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
 export const revalidate = 3600
@@ -17,6 +17,9 @@ const faqSchema = {
     { '@type': 'Question', name: 'Como saber se devo pedir GG ou G1?', acceptedAnswer: { '@type': 'Answer', text: 'Meça seu busto (a parte mais larga), cintura e quadril com fita métrica e compare com a tabela de medidas. Em caso de dúvida entre dois tamanhos, prefira o maior.' } },
     { '@type': 'Question', name: 'Jaleco plus size com elastano encolhe na lavagem?', acceptedAnswer: { '@type': 'Answer', text: 'Não, se lavado corretamente. Use temperatura entre 30°C e 40°C, sem alvejante clorado e sem secadora em temperatura alta. O elastano se preserva bem nessas condições.' } },
     { '@type': 'Question', name: 'Qual o prazo de entrega para plus size?', acceptedAnswer: { '@type': 'Answer', text: '3 a 5 dias úteis para o Sudeste com frete grátis em compras acima de R$499. Todos os tamanhos da grade plus size estão em estoque próprio.' } },
+    { '@type': 'Question', name: 'Jaleco plus size feminino em Microfibra existe?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. Trabalhamos Microfibra, Gabardine com elastano e Alfaiataria Premium em toda a grade plus size — do GG ao G3. Tecidos leves, que não apertam e não amassam.' } },
+    { '@type': 'Question', name: 'Qual jaleco plus size valoriza o corpo sem apertar?', acceptedAnswer: { '@type': 'Answer', text: 'O Gabardine com elastano é o favorito entre clientes plus size — o elastano bidirecional acompanha o corpo sem criar pontos de pressão, mantendo o caimento elegante durante todo o plantão ou expediente.' } },
+    { '@type': 'Question', name: 'Onde comprar jaleco plus size feminino com entrega rápida no Brasil?', acceptedAnswer: { '@type': 'Answer', text: 'Na Jaleca enviamos em até 2 dias úteis para todo o Brasil. Frete grátis para SP, RJ, MG e ES em compras acima de R$499. Toda a grade plus size fica em estoque próprio.' } },
   ],
 }
 
@@ -85,7 +88,10 @@ async function getPlusSizeProducts(): Promise<WooProduct[]> {
   }
 }
 export default async function JalecoPlusSizePage() {
-  const produtos = await getPlusSizeProducts()
+  const [produtos, heroImg] = await Promise.all([
+    getPlusSizeProducts(),
+    getCachedHeroImage('jaleco-slim-tradicional-feminino-jaleca'),
+  ])
 
   return (
     <>
@@ -143,11 +149,11 @@ export default async function JalecoPlusSizePage() {
           </div>
 
           <div className="relative order-1 lg:order-2" style={{ background: '#e5e0d8', minHeight: 480, overflow: 'hidden' }}>
-            <img
-              src="/jaleco-plus-size-hero.jpg"
-              alt="Jaleco Plus Size em tecido premium"
-              style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block', position: 'absolute', inset: 0 }}
-            />
+            {heroImg ? (
+              <img src={heroImg.src} alt={heroImg.alt} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block', position: 'absolute', inset: 0 }} />
+            ) : (
+              <div style={{ width: '100%', height: '100%', background: 'linear-gradient(160deg, #ccc8c0 0%, #bfbab2 100%)', position: 'absolute', inset: 0 }} />
+            )}
           </div>
         </section>
 

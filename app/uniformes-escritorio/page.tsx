@@ -10,7 +10,7 @@ import FaqAccordion from './FaqAccordion'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: { absolute: 'Uniformes para Escritório — Profissionalismo com Conforto | Jaleca' },
+  title: { absolute: 'Uniformes para Escritório — Conforto Profissional | Jaleca' },
   description: 'Uniformes e conjuntos profissionais para escritório e consultório: advogado, psicólogo, farmacéutico e pastor. Elegância e identidade visual no ambiente corporativo.',
   alternates: { canonical: 'https://jaleca.com.br/uniformes-escritorio' },
   openGraph: {

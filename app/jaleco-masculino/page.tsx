@@ -8,7 +8,7 @@ export const revalidate = 3600
 
 export const metadata: Metadata = {
   title: 'Jaleco Masculino: Modelos Slim e Profissional do PP ao G3',
-  description: 'Jaleco masculino com elastano do PP ao G3 — molde com ombros amplos e caimento profissional. Para médico, dentista, enfermeiro e barbeiro. Frete grátis SE acima de R$499.',
+  description: 'Jaleco masculino com elastano do PP ao G3 — molde com ombros amplos e caimento profissional. Para médico, dentista, enfermeiro e barbeiro. Frete grátis Sudeste acima de R$499.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-masculino' },
   openGraph: {
     title: 'Jaleco Masculino: Modelos Slim e Profissional do PP ao G3',
@@ -191,7 +191,7 @@ export default async function Page() {
           {[
             { title: 'Molde masculino real', sub: 'Ombros e cava calibrados' },
             { title: 'PP ao G3', sub: 'Grade completa, corpo real' },
-            { title: 'Frete grátis SE', sub: 'SP · RJ · MG · ES acima R$499' },
+            { title: 'Frete grátis Sudeste', sub: 'SP · RJ · MG · ES acima R$499' },
             { title: 'Troca em 7 dias', sub: 'Direito do consumidor' },
           ].map((item, i) => (
             <div key={i} style={{ padding: '0.75rem 1.5rem', borderRight: (i % 2 === 0) ? '1px solid rgba(255,255,255,0.12)' : 'none', borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.08)' : 'none' }}>

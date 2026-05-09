@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Script Noturno Completo v2 — Jaleca SEO
+Script Noturno Completo v3 — Jaleca SEO
 =========================================
 1.  Sitemap da Jaleca
 2.  Raspa páginas da Jaleca (scraper local — sem Firecrawl)
@@ -81,6 +81,17 @@ TOP_KEYWORDS = [
     "jaleco estudante medicina", "jaleco farmácia",
     "jaleco odontologia", "jaleco veterinária", "jaleco nutrição",
     "jaleco enfermagem feminino", "jaleco personalizado bordado",
+    # profissão
+    "jaleco para medica", "jaleco para enfermeira", "jaleco para nutricionista",
+    "jaleco para fisioterapeuta", "jaleco para esteticista", "jaleco para psicologa",
+    "jaleco slim feminino", "jaleco gestante", "jaleco plus size feminino",
+    # cidade × jaleco feminino
+    "jaleco feminino são paulo", "jaleco feminino rio de janeiro",
+    "jaleco feminino belo horizonte", "jaleco feminino curitiba",
+    "jaleco feminino porto alegre", "jaleco feminino campinas",
+    "jaleco feminino salvador", "jaleco feminino recife",
+    # cidade × médica
+    "jaleco medica são paulo", "jaleco medica belo horizonte",
 ]
 
 KEYWORDS_SEMENTE = TOP_KEYWORDS[:12]
@@ -524,9 +535,7 @@ def buscar_cwv(urls):
 def _gsc_service():
     """Retorna cliente autenticado da GSC API usando token do mcp-gsc."""
     token_file = os.path.join(user_config_dir("mcp-gsc"), "token.json")
-    client_secrets = "/Users/rhammon/mcp-gsc/client_secrets.json"
-    scopes = ["https://www.googleapis.com/auth/webmasters.readonly"]
-
+    scopes = ["https://www.googleapis.com/auth/webmasters"]
     creds = Credentials.from_authorized_user_file(token_file, scopes)
     if creds.expired and creds.refresh_token:
         creds.refresh(GoogleAuthRequest())
@@ -649,26 +658,28 @@ def analisar_conteudo_editorial():
 # ══════════════════════════════════════════
 
 def buscar_volume_cpc():
-    log("💰 Search volume + CPC por keyword...")
+    """Usa dataforseo_labs (sem custo extra) para obter volume + CPC das top keywords."""
+    log("💰 Search volume + CPC por keyword (labs)...")
 
-    keywords_check = TOP_KEYWORDS[:20]
     result = dfs_post(
-        "keywords_data/google_ads/search_volume/live",
+        "dataforseo_labs/google/keyword_suggestions/live",
         [{
-            "keywords":      keywords_check,
+            "keywords":      TOP_KEYWORDS[:10],
             "location_code": BRASIL,
-            "language_code": "pt"
+            "language_code": "pt",
+            "limit":         50,
+            "include_seed_keyword": True,
         }]
     )
 
     dados = []
     for item in result.get("items", []):
+        kw_info = item.get("keyword_info", {})
         dados.append({
             "keyword":     item.get("keyword", ""),
-            "volume":      item.get("search_volume", 0),
-            "cpc":         item.get("cpc", 0),
-            "competition": item.get("competition", ""),
-            "trend":       item.get("monthly_searches", [])[-3:] if item.get("monthly_searches") else []
+            "volume":      kw_info.get("search_volume", 0),
+            "cpc":         kw_info.get("cpc", 0),
+            "competition": kw_info.get("competition", ""),
         })
 
     dados.sort(key=lambda x: x["volume"] or 0, reverse=True)
@@ -681,36 +692,46 @@ def buscar_volume_cpc():
 # ══════════════════════════════════════════
 
 def monitorar_google_shopping():
-    log("🛒 Google Shopping — visibilidade dos produtos Jaleca...")
+    """
+    Usa SERP orgânico avançado e extrai itens do tipo 'shopping' e 'paid'
+    que aparecem junto aos resultados — sem custo extra de endpoint merchant.
+    """
+    log("🛒 Google Shopping — visibilidade dos produtos Jaleca (via SERP)...")
 
     keywords_shop = ["jaleco feminino", "jaleco médico feminino", "scrub feminino", "jaleco bordado"]
     resultados = []
 
     for kw in keywords_shop:
         result = dfs_post(
-            "merchant/google/products/live/advanced",
+            "serp/google/organic/live/advanced",
             [{
                 "keyword":       kw,
                 "location_code": BRASIL,
                 "language_code": "pt",
+                "device":        "desktop",
                 "depth":         20
             }]
         )
         jaleca_items = []
         todos_items  = []
         for item in result.get("items", []):
-            loja  = item.get("shop_name", "")
-            title = item.get("title", "")
-            price = item.get("price", "")
-            pos   = item.get("rank_absolute", 0)
-            todos_items.append({"loja": loja, "titulo": title, "preco": price, "posicao": pos})
-            if "jaleca" in loja.lower() or "jaleca.com" in item.get("url", "").lower():
-                jaleca_items.append({"titulo": title, "preco": price, "posicao": pos})
+            tipo = item.get("type", "")
+            # Captura blocos de shopping que aparecem no SERP orgânico
+            if tipo in ("shopping", "paid", "top_stories"):
+                for sub in item.get("items", [item]):
+                    url   = sub.get("url", item.get("url", ""))
+                    title = sub.get("title", item.get("title", ""))
+                    price = sub.get("price", "")
+                    pos   = sub.get("rank_absolute", item.get("rank_absolute", 0))
+                    loja  = sub.get("domain", item.get("domain", ""))
+                    todos_items.append({"loja": loja, "titulo": title, "preco": price, "posicao": pos})
+                    if "jaleca" in url.lower() or "jaleca" in loja.lower():
+                        jaleca_items.append({"titulo": title, "preco": price, "posicao": pos})
 
         resultados.append({
-            "keyword":        kw,
-            "jaleca_aparece": len(jaleca_items) > 0,
-            "jaleca_produtos": jaleca_items,
+            "keyword":           kw,
+            "jaleca_aparece":    len(jaleca_items) > 0,
+            "jaleca_produtos":   jaleca_items,
             "top5_concorrentes": todos_items[:5]
         })
         time.sleep(0.5)
@@ -847,6 +868,125 @@ def verificar_saude_tecnica(jaleca_pages, erros_scrape):
 
 
 # ══════════════════════════════════════════
+# 12f. GSC POR PÁGINA — impressões e posição por URL
+# ══════════════════════════════════════════
+
+def buscar_gsc_por_pagina():
+    log("📊 GSC — dados por página (impressões, posição, CTR)...")
+    hoje         = datetime.now().strftime("%Y-%m-%d")
+    semana_atras = (datetime.now() - timedelta(days=28)).strftime("%Y-%m-%d")
+
+    try:
+        svc = _gsc_service()
+        site_url = f"sc-domain:{JALECA_DOMAIN}"
+        body = {
+            "startDate":  semana_atras,
+            "endDate":    hoje,
+            "dimensions": ["page"],
+            "rowLimit":   500,
+            "searchType": "web",
+        }
+        resp = svc.searchanalytics().query(siteUrl=site_url, body=body).execute()
+        rows = resp.get("rows", [])
+    except Exception as e:
+        log(f"   ⚠️  GSC por página erro: {e}")
+        return []
+
+    paginas = sorted([
+        {
+            "url":        r["keys"][0],
+            "cliques":    int(r.get("clicks", 0)),
+            "impressoes": int(r.get("impressions", 0)),
+            "ctr":        round(r.get("ctr", 0) * 100, 2),
+            "posicao":    round(r.get("position", 0), 1),
+        }
+        for r in rows
+    ], key=lambda x: x["impressoes"], reverse=True)
+
+    log(f"   ✅ {len(paginas)} páginas com dados GSC")
+    return paginas
+
+
+# ══════════════════════════════════════════
+# 12g. GSC POSIÇÃO 4-20 — oportunidades fáceis
+# ══════════════════════════════════════════
+
+def buscar_gsc_posicao_4_20():
+    log("📊 GSC — queries posição 4-20 (baixo fruto fácil)...")
+    hoje         = datetime.now().strftime("%Y-%m-%d")
+    semana_atras = (datetime.now() - timedelta(days=28)).strftime("%Y-%m-%d")
+
+    try:
+        svc = _gsc_service()
+        site_url = f"sc-domain:{JALECA_DOMAIN}"
+        body = {
+            "startDate":  semana_atras,
+            "endDate":    hoje,
+            "dimensions": ["query", "page"],
+            "rowLimit":   1000,
+            "searchType": "web",
+        }
+        resp = svc.searchanalytics().query(siteUrl=site_url, body=body).execute()
+        rows = resp.get("rows", [])
+    except Exception as e:
+        log(f"   ⚠️  GSC pos 4-20 erro: {e}")
+        return []
+
+    oportunidades = [
+        {
+            "keyword":    r["keys"][0],
+            "url":        r["keys"][1],
+            "posicao":    round(r.get("position", 0), 1),
+            "impressoes": int(r.get("impressions", 0)),
+            "cliques":    int(r.get("clicks", 0)),
+            "ctr":        round(r.get("ctr", 0) * 100, 2),
+        }
+        for r in rows
+        if 4 <= r.get("position", 0) <= 20 and r.get("impressions", 0) >= 50
+    ]
+    oportunidades.sort(key=lambda x: x["impressoes"], reverse=True)
+
+    log(f"   ✅ {len(oportunidades)} queries em posição 4-20 com 50+ impressões")
+    return oportunidades[:50]
+
+
+# ══════════════════════════════════════════
+# 12h. GAP DE KEYWORDS — Jaleca vs concorrentes
+# ══════════════════════════════════════════
+
+def buscar_gap_keywords():
+    log("🔍 Gap de keywords — o que concorrentes ranqueiam e Jaleca não...")
+
+    # Keywords da Jaleca (posições atuais)
+    jaleca_kws = buscar_ranked(JALECA_DOMAIN, limit=200)
+    jaleca_set = {k["keyword"] for k in jaleca_kws}
+
+    gaps = []
+    for c in CONCORRENTES[:5]:
+        kws_conc = buscar_ranked(c["dominio"], limit=100)
+        for k in kws_conc:
+            if k["keyword"] not in jaleca_set and k.get("volume", 0) and k["volume"] >= 100:
+                gaps.append({
+                    "keyword":      k["keyword"],
+                    "volume":       k["volume"],
+                    "concorrente":  c["nome"],
+                    "pos_conc":     k["position"],
+                })
+        time.sleep(1)
+
+    # Remove duplicatas (mesma keyword de vários concorrentes — mantém maior volume)
+    seen = {}
+    for g in gaps:
+        kw = g["keyword"]
+        if kw not in seen or g["volume"] > seen[kw]["volume"]:
+            seen[kw] = g
+    gaps_uniq = sorted(seen.values(), key=lambda x: x["volume"], reverse=True)
+
+    log(f"   ✅ {len(gaps_uniq)} keywords gap identificadas")
+    return gaps_uniq[:60]
+
+
+# ══════════════════════════════════════════
 # 13. OPORTUNIDADES — posição 11-20 + PAA
 # ══════════════════════════════════════════
 
@@ -941,6 +1081,15 @@ PROBLEMA CENTRAL: O site tem 100% tráfego branded e zero tráfego orgânico gen
 === GSC — PÁGINAS QUE PERDERAM POSIÇÃO ===
 {json.dumps(dados['perdas_posicao'], ensure_ascii=False)}
 
+=== GSC — DADOS POR PÁGINA (impressões, posição, CTR por URL) ===
+{json.dumps(dados['gsc_por_pagina'][:50], ensure_ascii=False)}
+
+=== GSC — QUERIES POSIÇÃO 4-20 COM 50+ IMPRESSÕES (baixo fruto fácil) ===
+{json.dumps(dados['gsc_pos_4_20'], ensure_ascii=False)}
+
+=== GAP DE KEYWORDS — concorrentes ranqueiam, Jaleca NÃO ===
+{json.dumps(dados['gap_keywords'], ensure_ascii=False)}
+
 === SAÚDE TÉCNICA ===
 {json.dumps(dados['saude_tecnica'], ensure_ascii=False)}
 
@@ -983,17 +1132,24 @@ GERE RELATÓRIO COMPLETO:
 - Páginas sem title, H1, meta description
 - Liste URLs específicas para cada problema
 
-## 3. OPORTUNIDADES RÁPIDAS — PÁGINA 2
-- Keywords em posição 11-20 que podem subir para página 1
-- Para cada: o que fazer para empurrar (melhorar title? mais conteúdo? backlink?)
+## 3. OPORTUNIDADES RÁPIDAS — POSIÇÃO 4-20
+- Use os dados de GSC posição 4-20: keywords com 50+ impressões que estão quase na página 1
+- Para cada: URL atual, o que fazer para empurrar (melhorar title? mais conteúdo? backlink?)
+- Destaque keywords cidade×profissão que aparecem aqui (oportunidade de página dedicada)
 
 ## 4. GSC — AÇÕES URGENTES
 - Queries com CTR baixo: reescreva o title e meta description (dê exemplos)
 - Páginas que perderam posição: diagnóstico e solução
 
 ## 5. GAP DE KEYWORDS
-- Top 30 keywords que concorrentes rankeiam e Jaleca não
-- Para cada: volume, dificuldade, página para criar ou otimizar
+- Use a seção "GAP DE KEYWORDS" dos dados: palavras que concorrentes ranqueiam e Jaleca não tem página
+- Top 30 por volume — para cada: qual concorrente rankeia, qual URL criar ou otimizar
+- Destaque gaps de cidade×profissão (ex: "jaleco feminino São Paulo") — oportunidade de páginas locais
+- Destaque gaps de profissão (ex: "jaleco para biomédica") — oportunidade de post PAA
+
+## 5b. GSC — PÁGINAS COM IMPRESSÕES ALTAS MAS CTR BAIXO
+- Use os dados GSC por página: páginas com 500+ impressões e CTR abaixo de 3%
+- Para cada: reescreva o title e meta description com exemplos concretos
 
 ## 6. PEOPLE ALSO ASK — IDEIAS DE CONTEÚDO
 - Perguntas frequentes para criar FAQs ou posts de blog
@@ -1115,6 +1271,9 @@ def main():
     backlinks                    = buscar_backlinks()
     cwv                          = buscar_cwv(urls)
     queries_ctr_baixo, perdas    = buscar_dados_gsc()
+    gsc_por_pagina               = buscar_gsc_por_pagina()
+    gsc_pos_4_20                 = buscar_gsc_posicao_4_20()
+    gap_keywords                 = buscar_gap_keywords()
     conteudo_editorial           = analisar_conteudo_editorial()
     volume_cpc                   = buscar_volume_cpc()
     google_shopping              = monitorar_google_shopping()
@@ -1139,6 +1298,9 @@ def main():
         "cwv":                  cwv,
         "queries_ctr_baixo":    queries_ctr_baixo,
         "perdas_posicao":       perdas,
+        "gsc_por_pagina":       gsc_por_pagina,
+        "gsc_pos_4_20":         gsc_pos_4_20,
+        "gap_keywords":         gap_keywords,
         "conteudo_editorial":   conteudo_editorial,
         "volume_cpc":           volume_cpc,
         "google_shopping":      google_shopping,

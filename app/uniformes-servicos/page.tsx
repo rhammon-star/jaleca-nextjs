@@ -10,7 +10,7 @@ import FaqAccordion from './FaqAccordion'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: { absolute: 'Uniformes Profissionais para Serviços — Elegância e Conforto | Jaleca' },
+  title: { absolute: 'Uniformes para Serviços — Elegância e Conforto | Jaleca' },
   description: 'Uniformes profissionais para serviços: jaleco professor, vendedor, conjunt professor, vendedor e secretary. Conforto e profissionalismo para o dia a dia.',
   alternates: { canonical: 'https://jaleca.com.br/uniformes-servicos' },
   openGraph: {

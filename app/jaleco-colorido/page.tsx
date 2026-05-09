@@ -8,7 +8,7 @@ export const revalidate = 3600
 
 export const metadata: Metadata = {
   title: 'Jaleco Colorido: 12 Cores para Saúde e Estética',
-  description: 'Jaleco colorido para nutricionista, fisioterapeuta, esteticista e pediatra. 12 cores: rosa, lilás, verde, azul, areia e mais. Do PP ao G3 com elastano. Frete grátis SE.',
+  description: 'Jaleco colorido para nutricionista, fisioterapeuta, esteticista e pediatra. 12 cores: rosa, lilás, verde, azul, areia e mais. Do PP ao G3 com elastano. Frete grátis Sudeste.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-colorido' },
   openGraph: {
     title: 'Jaleco Colorido: 12 Cores para Saúde e Estética',
@@ -172,7 +172,7 @@ export default async function Page() {
           {[
             { title: '12 cores', sub: 'Rosa, lilás, verde, azul e mais' },
             { title: 'PP ao G3', sub: 'Molde feminino próprio' },
-            { title: 'Frete grátis SE', sub: 'SP · RJ · MG · ES acima R$499' },
+            { title: 'Frete grátis Sudeste', sub: 'SP · RJ · MG · ES acima R$499' },
             { title: 'Troca em 7 dias', sub: 'Direito do consumidor' },
           ].map((item, i) => (
             <div key={i} style={{ padding: '0.75rem 1.5rem', borderRight: (i % 2 === 0) ? '1px solid rgba(255,255,255,0.12)' : 'none', borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.08)' : 'none' }}>

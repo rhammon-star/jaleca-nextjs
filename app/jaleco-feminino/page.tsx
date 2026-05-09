@@ -7,12 +7,13 @@ import ProfessionProductGrid from '@/components/ProfessionProductGrid'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Guia de Jaleco Feminino por Especialidade: Médica, Dentista, Enfermeira | Jaleca',
-  description: 'Guia completo de jaleco feminino por profissão: médica, dentista, enfermeira, fisioterapeuta e mais. Qual modelo, tecido e cor escolher para cada especialidade.',
+  title: 'Jaleco Feminino: Modelos Elegantes para Médica, Dentista e Enfermeira | Jaleca',
+  description: 'Jaleco feminino com corte real para o corpo: Slim, Princesa, Elegante e Elastex. Do PP ao G3, 12 cores, entrega rápida. Onde comprar jaleco feminino de qualidade.',
+  keywords: 'jaleco feminino, jaleco feminino elegante, modelo de jaleco feminino, modelos de jalecos femininos, jaleco de médica, jaleco feminino onde comprar, jalecos femininos elegantes, modelo jaleco feminino',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-feminino' },
   openGraph: {
-    title: 'Guia de Jaleco Feminino por Especialidade | Jaleca',
-    description: 'Qual jaleco feminino escolher para cada profissão? Guia completo por especialidade com modelos Slim, Princesa e Elastex.',
+    title: 'Jaleco Feminino: Modelos Elegantes para Médica, Dentista e Enfermeira | Jaleca',
+    description: 'Jaleco feminino Slim, Princesa e Elastex. Do PP ao G3, 12 cores. Onde comprar jaleco feminino de qualidade com entrega rápida para todo o Brasil.',
     url: 'https://jaleca.com.br/jaleco-feminino',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -20,8 +21,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Guia de Jaleco Feminino por Especialidade | Jaleca',
-    description: 'Qual jaleco feminino para cada profissão? Médica, dentista, enfermeira, fisioterapeuta e mais.',
+    title: 'Jaleco Feminino: Modelos Elegantes | Jaleca',
+    description: 'Jaleco feminino Slim, Princesa e Elastex. Do PP ao G3, 12 cores. Onde comprar com entrega rápida.',
     images: ['https://jaleca.com.br/og-home.jpg'],
   },
 }
@@ -50,6 +51,18 @@ const FAQ_ITEMS = [
   {
     q: 'Jaleco feminino de qual cor é mais versátil?',
     a: 'Branco continua sendo o padrão universal — aceito em qualquer instituição e exige menos negociação com uniformes ou RH. Mas tonalidades como azul royal, rosa antigo e verde água têm crescido em estéticas e clínicas que querem identidade visual própria. Se for usar em hospital ou clínica conveniada ao SUS, confirme antes o protocolo da instituição.',
+  },
+  {
+    q: 'Qual jaleco feminino que não amassa do PP ao plus size?',
+    a: 'O Gabardine com elastano e a Microfibra são os tecidos que menos amassam da nossa linha — disponíveis em toda a grade, do PP ao G3. Ideais para quem não quer se preocupar com passar roupa.',
+  },
+  {
+    q: 'Melhores marcas de jaleco feminino no Brasil — qual recomendam?',
+    a: 'A Jaleca é especializada em jaleco feminino para área da saúde — corte acinturado, tecidos premium (Microfibra, Gabardine, Alfaiataria Premium) e grade completa do PP ao G3. Enviamos para todo o Brasil com frete grátis para SP, RJ, MG e ES.',
+  },
+  {
+    q: 'Onde comprar jaleco feminino de qualidade com entrega rápida no Brasil?',
+    a: 'Na Jaleca enviamos em até 2 dias úteis para todo o Brasil. Frete grátis para SP, RJ, MG e ES em compras acima de R$499. Acesse jaleca.com.br e veja os modelos disponíveis.',
   },
 ]
 
@@ -216,7 +229,7 @@ export default async function Page() {
           {[
             { title: 'Molde feminino real', sub: 'Não é o masculino adaptado' },
             { title: 'PP ao G3', sub: 'Grade completa, corpo real' },
-            { title: 'Frete grátis SE', sub: 'SP · RJ · MG · ES acima R$499' },
+            { title: 'Frete grátis Sudeste', sub: 'SP · RJ · MG · ES acima R$499' },
             { title: 'Troca em 7 dias', sub: 'Direito do consumidor' },
           ].map((item, i) => (
             <div key={i} style={{ padding: '0.75rem 1.5rem', borderRight: (i % 2 === 0) ? '1px solid rgba(255,255,255,0.12)' : 'none', borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.08)' : 'none' }}>
@@ -361,6 +374,32 @@ export default async function Page() {
                   {link.label}
                 </Link>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── JALECO ELEGANTE + MODELOS ── */}
+        <section style={{ background: '#fff', padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)' }}>
+          <div style={{ maxWidth: 900, margin: '0 auto' }}>
+            <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>
+              Estilo e profissionalismo
+            </div>
+            <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2rem,3.5vw,3rem)', fontWeight: 400, color: '#1a1a1a', marginBottom: '1.5rem' }}>
+              Jaleco feminino elegante
+            </h2>
+            <p style={{ fontSize: '0.95rem', lineHeight: 1.85, color: '#4a4a4a', marginBottom: '1.5rem' }}>
+              O jaleco feminino elegante não é só questão de estética — é sobre transmitir autoridade e confiança ao paciente desde a entrada no consultório. Modelos com acabamento em alfaiataria, tecido premium e corte acinturado são os preferidos por médicas e dentistas que querem unir formalidade com conforto em jornadas longas.
+            </p>
+            <div className="flex flex-wrap gap-3" style={{ marginBottom: '2rem' }}>
+              <Link href="/jaleco-elegante" style={{ fontSize: '0.82rem', padding: '0.6rem 1.25rem', border: '1px solid #1a1a1a', color: '#1a1a1a', textDecoration: 'none' }}>
+                → Ver jalecos elegantes e de alfaiataria
+              </Link>
+              <Link href="/modelo-de-jaleco" style={{ fontSize: '0.82rem', padding: '0.6rem 1.25rem', border: '1px solid #e5e0d8', color: '#4a4a4a', textDecoration: 'none' }}>
+                → Ver todos os modelos de jaleco feminino
+              </Link>
+              <Link href="/jaleco-azul-marinho" style={{ fontSize: '0.82rem', padding: '0.6rem 1.25rem', border: '1px solid #e5e0d8', color: '#4a4a4a', textDecoration: 'none' }}>
+                → Jaleco azul marinho feminino
+              </Link>
             </div>
           </div>
         </section>

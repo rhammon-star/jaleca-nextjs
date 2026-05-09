@@ -1,3 +1,4 @@
+import { InstagramGallery } from '@/components/InstagramGallery'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Suspense } from 'react'
@@ -16,8 +17,8 @@ import { getCachedHeroImage, getCachedBlogPosts } from '@/lib/profession-page-da
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: { absolute: 'Jaleco Médico Feminino e Masculino — Slim com Elastano | Jaleca' },
-  description: 'Jaleco médico com elastano para plantão de 12h. Modelos Slim, Profissional e Plus Size, PP ao G3. Frete grátis Sudeste acima de R$499.',
+  title: { absolute: 'Jaleco de Médico: Feminino e Masculino | Slim | Jaleca' },
+  description: 'Compre jaleco de médico com elastano bidirecional. Modelos branco, preto e colorido. Do PP ao G3. Frete grátis SP/MG/RJ/ES acima de R$499.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-medico' },
   openGraph: {
     title: 'Jaleco para Médico: Slim, Branco e Colorido | Jaleca',
@@ -44,6 +45,8 @@ const schemaFaq = {
     { '@type': 'Question', name: 'Jaleco médico pode ser manga curta?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. Manga curta é comum em clínicas e consultórios de especialidades ambulatoriais. Em ambiente cirúrgico ou procedimentos invasivos, manga longa é mais indicada por biossegurança.' } },
     { '@type': 'Question', name: 'Como lavar jaleco de médico sem perder o branco?', acceptedAnswer: { '@type': 'Answer', text: 'Lave em água até 60°C com sabão neutro. Alvejante sem cloro pode ser usado pontualmente. Seque à sombra — o sol direto amarela o gabardine. Para manchas de sangue ou iodo, aplique removedor antes da lavagem.' } },
     { '@type': 'Question', name: 'Jaleco slim é adequado para médico?', acceptedAnswer: { '@type': 'Answer', text: 'Sim — o Slim é o modelo mais pedido por médicos em consultório. Corte acinturado que valoriza sem apertar, elastano que acompanha o movimento. Para médicos que fazem procedimentos com muito alcance, o Elastex dá ainda mais liberdade.' } },
+    { '@type': 'Question', name: 'Qual o melhor tecido para jaleco de médico?', acceptedAnswer: { '@type': 'Answer', text: 'O tecido mais pedido por médicos na Jaleca é o gabardine com elastano: combina durabilidade, liberdade de movimento e caimento elegante por toda a jornada. Para gestores e diretores clínicos, o tecido alfaiataria premium transmite mais autoridade. Estudantes de medicina geralmente optam pelo gabardine 100% poliéster pelo melhor custo-benefício.' } },
+    { '@type': 'Question', name: 'Qual tamanho de jaleco escolher?', acceptedAnswer: { '@type': 'Answer', text: 'M e G acinturados são os tamanhos mais pedidos na Jaleca. O erro mais comum: o cliente pede M e precisa trocar por G. O jaleco acinturado parece menor no cabide do que realmente é. Antes de comprar, meça a largura dos ombros — essa é a medida que define o tamanho correto, não a cintura.' } },
   ],
 }
 
@@ -478,6 +481,10 @@ export default async function JalecoDentistaPage() {
               </Link>
             </div>
           </div>
+        </section>
+
+        <section style={{ padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)', maxWidth: '1200px', margin: '0 auto' }}>
+          <InstagramGallery maxItems={6} title="Inspire-se — @jaleca.oficial" />
         </section>
 
       </main>

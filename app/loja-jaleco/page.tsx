@@ -159,7 +159,7 @@ export default async function Page() {
           {[
             { title: 'Molde próprio por tamanho', sub: 'Não é o padrão aumentado' },
             { title: 'PP ao G3', sub: 'Grade completa, todos os corpos' },
-            { title: 'Frete grátis SE', sub: 'SP · RJ · MG · ES acima R$499' },
+            { title: 'Frete grátis Sudeste', sub: 'SP · RJ · MG · ES acima R$499' },
             { title: 'Troca em 7 dias', sub: 'Direito do consumidor' },
           ].map((item, i) => (
             <div key={i} style={{ padding: '0.75rem 1.5rem', borderRight: (i % 2 === 0) ? '1px solid rgba(255,255,255,0.12)' : 'none', borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.08)' : 'none' }}>

@@ -5,7 +5,8 @@ import { prioritizeByColor } from '@/lib/product-professions'
 import ProductCard from '@/components/ProductCard'
 import ProductDetailSection from '@/components/ProductDetailSection'
 import { getGooglePlaceData } from '@/lib/google-places'
-import { getCachedBlogPosts } from '@/lib/profession-page-data'
+import { getCachedBlogPosts, getCachedHeroImage } from '@/lib/profession-page-data'
+import TrustBadgeBar from '@/components/TrustBadgeBar'
 
 export const revalidate = 3600
 
@@ -46,6 +47,21 @@ const faqSchema = {
       '@type': 'Question',
       name: 'Qual modelo Slim é mais indicado para médicas e dentistas?',
       acceptedAnswer: { '@type': 'Answer', text: 'O Slim Elastex para quem precisa de muito movimento (procedimentos, plantão). O Slim Tradicional branco para consultório e atendimento. O Slim Princesa para profissionais que preferem evasê na parte inferior — nutricionistas e esteticistas adoram.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'Jaleco feminino acinturado estilo blazer existe para clínica médica?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Sim. O modelo Alfaiataria Premium da Jaleca tem acabamento de blazer — estruturado, elegante e profissional. Ideal para recepção de clínica, coordenação de saúde ou qualquer profissional que queira transmitir autoridade com sofisticação.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'Jaleco acinturado que não amassa durante o dia inteiro — existe?',
+      acceptedAnswer: { '@type': 'Answer', text: 'O Gabardine com elastano é o tecido mais resistente ao amassado da nossa linha — você passa 8, 10, 12 horas de expediente e o jaleco mantém o caimento sem precisar passar.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'Onde comprar jaleco feminino acinturado com entrega rápida?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Na Jaleca enviamos em até 2 dias úteis para todo o Brasil. Frete grátis para SP, RJ, MG e ES em compras acima de R$499.' },
     },
   ],
 }
@@ -93,10 +109,11 @@ function HeroStars({ rating }: { rating: number }) {
 }
 
 export default async function JalecoFemininoAcinturadoPage() {
-  const [produtos, posts, placeData] = await Promise.all([
+  const [produtos, posts, placeData, heroImg] = await Promise.all([
     getSlimProducts(),
     getCachedBlogPosts('jaleco'),
     getGooglePlaceData(),
+    getCachedHeroImage('jaleco-slim-tradicional-feminino-jaleca'),
   ])
 
   return (
@@ -104,6 +121,7 @@ export default async function JalecoFemininoAcinturadoPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema).replace(/</g, '\\u003c') }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }} />
 
+      <TrustBadgeBar />
       <main style={{ fontWeight: 300 }}>
 
         {/* ── BREADCRUMB ── */}
@@ -145,31 +163,41 @@ export default async function JalecoFemininoAcinturadoPage() {
               </Link>
             </div>
             {placeData && <HeroStars rating={placeData.rating} />}
+            <p style={{ marginTop: '1rem', fontSize: '0.7rem', letterSpacing: '0.1em', color: '#9b9690' }}>
+              Sudeste grátis · PIX 5% OFF · Troca em 7 dias
+            </p>
           </div>
 
           <div className="relative order-1 lg:order-2" style={{ background: '#e5e0d8', minHeight: 400, overflow: 'hidden' }}>
-            <div style={{ width: '100%', height: '100%', background: 'linear-gradient(160deg, #d4cfc6 0%, #bfbab2 100%)', position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <span style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(4rem,10vw,8rem)', fontWeight: 300, color: 'rgba(255,255,255,0.3)', fontStyle: 'italic' }}>Slim</span>
-            </div>
+            {heroImg ? (
+              <img src={heroImg.src} alt={heroImg.alt} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block', position: 'absolute', inset: 0 }} />
+            ) : (
+              <div style={{ width: '100%', height: '100%', background: 'linear-gradient(160deg, #ccc8c0 0%, #bfbab2 100%)', position: 'absolute', inset: 0 }} />
+            )}
           </div>
         </section>
 
-        {/* ── TRUST BAR ── */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-y-4 lg:gap-y-0" style={{ background: '#1a1a1a', padding: '2rem clamp(1.5rem,5vw,4rem)' }}>
-          {[
-            { title: 'Corte Slim exclusivo', sub: 'Define cintura sem apertar' },
-            { title: 'Elastano no tecido', sub: 'Movimento sem restrição' },
-            { title: 'PP ao G3', sub: 'Grade completa, corpo real' },
-            { title: 'Frete grátis Sudeste', sub: 'Acima de R$499' },
-          ].map((item, i) => (
-            <div key={i} className="flex items-center gap-4" style={{ padding: '0.5rem 1.5rem', borderRight: i < 3 ? '1px solid rgba(255,255,255,0.12)' : 'none' }}>
-              <div>
-                <strong style={{ display: 'block', fontSize: '0.82rem', fontWeight: 400, letterSpacing: '0.06em', color: '#fff', marginBottom: '0.15rem' }}>{item.title}</strong>
-                <span style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.45)' }}>{item.sub}</span>
-              </div>
+        {/* ── AUTORIDADE ── */}
+        <section style={{ background: '#faf8f3', padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)' }}>
+          <div style={{ maxWidth: 780, margin: '0 auto' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.6rem', background: '#1a1a1a', color: '#c4a97d', padding: '0.55rem 1rem', marginBottom: '1.75rem' }}>
+              <span style={{ fontSize: '0.85rem' }}>🏆</span>
+              <span style={{ fontSize: '0.68rem', fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase' }}>Uma das marcas que mais vende jalecos no Brasil</span>
             </div>
-          ))}
-        </div>
+            <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(1.9rem,3.5vw,3.2rem)', fontWeight: 400, lineHeight: 1.18, color: '#1a1a1a', marginBottom: '1rem' }}>
+              Mais de 200 mil peças vendidas para médicas, dentistas e profissionais da saúde.
+            </h2>
+            <p style={{ fontSize: '1rem', color: '#666', lineHeight: 1.8, marginBottom: '1.5rem', fontWeight: 300 }}>
+              Antes de você falar, sua imagem já foi avaliada. Conforto, caimento impecável e a presença que eleva sua autoridade profissional.
+            </p>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <span style={{ color: '#c4a97d', fontSize: '1.15rem', letterSpacing: 2 }}>★★★★★</span>
+              <p style={{ fontSize: '0.95rem', color: '#555', margin: 0 }}>
+                <strong style={{ color: '#1a1a1a' }}>{placeData?.rating ?? '4.9'}/5 no Google</strong> — clientes satisfeitos em todo o Brasil
+              </p>
+            </div>
+          </div>
+        </section>
 
         {/* ── GRID DE PRODUTOS ── */}
         {produtos.length > 0 && (

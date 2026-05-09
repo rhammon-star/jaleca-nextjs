@@ -105,13 +105,6 @@ const Header = () => {
               style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: '20px' }}
             >
               {/* Nav link styles */}
-              <Link href="/" onClick={handleHomeClick} className="text-muted-foreground hover:text-foreground transition-colors duration-200 text-[12px] font-semibold tracking-widest uppercase whitespace-nowrap">
-                Início
-              </Link>
-              <Link href="/nossas-lojas" className="text-muted-foreground hover:text-foreground transition-colors duration-200 text-[12px] font-semibold tracking-widest uppercase whitespace-nowrap">
-                Nossas Lojas
-              </Link>
-
               {/* Menu Profissões */}
               <ProfessionMenu />
 
@@ -196,11 +189,11 @@ const Header = () => {
                 Mais Vendidos
                 <span className="absolute -top-2 -right-3 bg-[#c4a97d] text-white text-[8px] font-bold px-1 py-0.5 leading-none tracking-wide">TOP</span>
               </Link>
-              <Link href="/blog" className="text-muted-foreground hover:text-foreground transition-colors duration-200 text-[12px] font-semibold tracking-widest uppercase whitespace-nowrap">
-                Blog
-              </Link>
               <Link href="/lookbook" className="text-muted-foreground hover:text-foreground transition-colors duration-200 text-[12px] font-semibold tracking-widest uppercase whitespace-nowrap">
                 Lookbook
+              </Link>
+              <Link href="/clientes" className="text-muted-foreground hover:text-foreground transition-colors duration-200 text-[12px] font-semibold tracking-widest uppercase whitespace-nowrap">
+                Inspire-se
               </Link>
             </nav>
 
@@ -307,9 +300,11 @@ const Header = () => {
                 { label: 'Jalecos', href: '/produtos?cat=Jalecos' },
                 { label: 'Dólmãs', href: '/produtos?cat=Dólmãs' },
                 { label: 'Conjuntos', href: '/produtos?cat=Conjuntos' },
+                { label: 'Acessórios', href: '/categoria/acessorios' },
                 { label: 'Mais Vendidos', href: '/produtos?sort=mais-vendidos' },
                 { label: 'Blog', href: '/blog' },
                 { label: 'Lookbook', href: '/lookbook' },
+                { label: 'Inspire-se', href: '/clientes' },
                 { label: 'Nossas Lojas', href: '/nossas-lojas' },
                 { label: 'Favoritos', href: '/wishlist' },
               ].map(item => (

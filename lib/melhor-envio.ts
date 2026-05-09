@@ -351,6 +351,7 @@ export async function addShipmentToMECart(payload: MEShipmentPayload): Promise<{
       reverse:         false,
       non_commercial:  false,
     },
+    tags: payload.wcOrderId ? [{ tag: `wc-order-${payload.wcOrderId}` }] : undefined,
   }
 
   try {

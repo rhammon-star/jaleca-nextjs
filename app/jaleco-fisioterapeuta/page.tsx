@@ -17,7 +17,7 @@ export const revalidate = 3600
 
 export const metadata: Metadata = {
   title: { absolute: 'Jaleco para Fisioterapeuta: Elastex com Amplitude de Movimento | Jaleca' },
-  description: 'Jaleco para fisioterapeuta com elastano máximo — amplitude de movimento para técnicas manuais, RPG e pilates clínico. Curto ou longo, PP ao G3. O COFFITO não define cor. Frete grátis SE.',
+  description: 'Jaleco para fisioterapeuta com elastano máximo — amplitude de movimento para técnicas manuais, RPG e pilates clínico. Curto ou longo, PP ao G3. O COFFITO não define cor. Frete grátis Sudeste.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-fisioterapeuta' },
   openGraph: {
     title: 'Jaleco para Fisioterapeuta: Elastex com Amplitude de Movimento | Jaleca',
@@ -44,6 +44,8 @@ const schemaFaq = {
     { '@type': 'Question', name: 'Jaleco curto ou longo para fisioterapia?', acceptedAnswer: { '@type': 'Answer', text: 'Depende da especialidade. Para fisio respiratória e neurológica (mais estática): longo. Para esportiva, ortopédica e pilates clínico (muito movimento): curto ou médio. O curto não embaraça agachamentos e inclinações frequentes.' } },
     { '@type': 'Question', name: 'Jaleco de fisioterapeuta pode ser colorido?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. O COFFITO não restringe cor. Em fisioterapia pediátrica, cores vibrantes (verde, azul) são usadas para reduzir a tensão da criança. Em neuroreabilitação, combinações de cor ajudam na identificação do profissional por pacientes com déficit visual.' } },
     { '@type': 'Question', name: 'Qual tecido de jaleco não incomoda na fisioterapia?', acceptedAnswer: { '@type': 'Answer', text: 'Gabardine com elastano (150-165 g/m²) é o padrão: leve, sem gerar calor, com stretch suficiente para qualquer posição. Evite tecido sem elastano — amarra o movimento de braços elevados e se desgasta nas costuras com o uso intenso.' } },
+    { '@type': 'Question', name: 'Qual jaleco feminino para fisioterapeuta não limita movimento?', acceptedAnswer: { '@type': 'Answer', text: 'O Gabardine com elastano e a Microfibra são os melhores — o elastano acompanha cada movimento sem restringir, ideal para reabilitação e mobilidade.' } },
+    { '@type': 'Question', name: 'Onde comprar jaleco feminino para fisioterapeuta com entrega rápida?', acceptedAnswer: { '@type': 'Answer', text: 'Na Jaleca enviamos em até 2 dias úteis para todo o Brasil. Frete grátis para SP, RJ, MG e ES em compras acima de R$499.' } },
   ],
 }
 

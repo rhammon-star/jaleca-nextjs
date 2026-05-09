@@ -120,7 +120,7 @@ export async function getAbandonedContacts(): Promise<
   const listId = await getOrCreateList()
 
   const res = await fetch(
-    `${BREVO_API}/contacts/lists/${listId}/contacts?limit=100&modifiedSince=&sort=asc`,
+    `${BREVO_API}/contacts/lists/${listId}/contacts?limit=100&sort=asc`,
     { headers: headers() }
   )
   if (!res.ok) return []

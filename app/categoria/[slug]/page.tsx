@@ -16,6 +16,10 @@ const CAT_FAQ: Record<string, { q: string; a: string }[]> = {
     { q: 'Qual tecido é melhor para jaleco profissional?', a: 'O gabardine e a microfibra são os melhores tecidos para jaleco profissional: resistentes a manchas, de fácil lavagem, não amassam e mantêm o caimento após várias lavagens.' },
     { q: 'Onde comprar jaleco feminino de qualidade?', a: 'A Jaleca é especialista em jalecos femininos para profissionais da saúde, com modelos Slim, Princesa, Duquesa e Elastex. Loja online em jaleca.com.br com entrega para todo o Brasil.' },
     { q: 'Jaleco feminino ou masculino: qual a diferença?', a: 'O jaleco feminino tem corte acinturado, manga mais curta e botões laterais. O masculino tem corte reto e manga mais longa. Ambos disponíveis na Jaleca em tamanhos PP ao G3.' },
+    { q: 'Quais jalecos são indicados para medicina?', a: 'Para medicina, os jalecos mais indicados são o Slim (corte acinturado para médicas) e o Profissional (corte reto para médicos). Ambos em gabardine poliéster com elastano, resistentes a lavagens frequentes e aprovados para uso hospitalar. A Jaleca oferece a linha completa para medicina em branco, preto e 12 cores.' },
+    { q: 'Existe jaleco antiestático?', a: 'Sim. Jalecos antiestáticos são produzidos com tecido especial que dissipa a carga eletrostática — usados em laboratórios de eletrônica, ambientes hospitalares com equipamentos sensíveis e indústria farmacêutica. A Jaleca oferece modelos com tecido antiestático sob consulta para pedidos corporativos.' },
+    { q: 'A Jaleca é fabricante de jalecos no Brasil?', a: 'Sim. A Jaleca é fabricante de jalecos brasileira, com produção própria em Londrina/PR. Todo o processo — do corte à costura e controle de qualidade — é feito internamente, o que garante consistência no caimento e durabilidade das peças. Atendemos pessoa física e empresas (hospitais, clínicas, uniformes corporativos).' },
+    { q: 'A Jaleca entrega jalecos para todo o Brasil?', a: 'Sim. A Jaleca entrega jalecos para todos os estados do Brasil. O frete grátis vale para compras acima de R$499 destinadas ao Sudeste (SP, RJ, MG e ES). Para demais regiões, o frete é calculado no checkout.' },
   ],
   'jalecos-femininos': [
     { q: 'Qual a diferença entre jaleco feminino e masculino?', a: 'O jaleco feminino tem modelagem própria desenvolvida para o corpo feminino: corte acinturado, manga calibrada para o biótipo feminino e comprimento proporcional. O jaleco masculino tem corte reto e estrutura mais larga. A Jaleca não adapta molde masculino — cada jaleco feminino é projetado do zero para vestir melhor.' },
@@ -44,14 +48,14 @@ const CAT_FAQ: Record<string, { q: string; a: string }[]> = {
 const CATEGORY_MAP: Record<string, { label: string; description: string; keywords: string; filterLabel?: string; title?: string; h1?: string; gender?: string }> = {
   jalecos: {
     label: 'Jalecos',
-    title: 'Jalecos Profissionais: Feminino, Masculino e Plus Size | Jaleca',
+    title: 'Jalecos para Medicina, Dentista e Enfermagem — Feminino e Masculino | Jaleca',
     h1: 'Jalecos Profissionais: Slim, Princesa, Duquesa e Elastex',
-    description: 'Jalecos Slim, Princesa, Duquesa e Elastex para médicos e enfermeiros. Tecido Elastex e gabardine, do PP ao G3. Frete grátis no Sudeste.',
-    keywords: 'jalecos, jaleco feminino, jaleco masculino, jaleco branco, jaleco médico, jaleco enfermagem, jaleco dentista, jaleco slim, jaleco profissional, comprar jaleco, jalecos profissionais',
+    description: 'Jalecos profissionais para medicina, odontologia e enfermagem. Modelos Slim, Princesa, Duquesa e Elastex. Gabardine premium, do PP ao G3. Fabricante brasileiro.',
+    keywords: 'jalecos, jalecos medicina, jaleco profissional, jaleco feminino, jaleco masculino, jalecos brasil, fabricante de jalecos, jalecos antiestaticos, jaleco branco, jaleco médico, jaleco dentista',
   },
   'jalecos-femininos': {
     label: 'Jalecos Femininos',
-    title: 'Jaleco Feminino: Slim, Princesa e Elastex | 12 Cores | Jaleca',
+    title: 'Jaleco Feminino — Slim, Princesa e Elastex | 12 Cores | Jaleca',
     h1: 'Jaleco Feminino',
     filterLabel: 'Jalecos',
     gender: 'Feminino',
@@ -68,7 +72,7 @@ const CATEGORY_MAP: Record<string, { label: string; description: string; keyword
   },
   domas: {
     label: 'Dólmãs',
-    title: 'Dólmãs para Profissionais da Saúde | Jaleca — Femininas e Masculinas',
+    title: 'Dólmãs Profissionais — Femininas e Masculinas | Jaleca',
     description: 'Dólmãs profissionais femininas e masculinas para médicos, enfermeiros e cirurgiões. Modelagem ergonômica, tecido de alta performance. Do PP ao G3.',
     keywords: 'dólmã médica, dólmã feminina, dólmã masculina, dólmã cozinheiro, uniforme cirúrgico, roupa hospitalar, doma colorida, dólmã profissional',
   },
@@ -128,12 +132,20 @@ const CATEGORY_MAP: Record<string, { label: string; description: string; keyword
 
 export async function generateMetadata({
   params,
+  searchParams,
 }: {
   params: Promise<{ slug: string }>
+  searchParams?: Promise<Record<string, string | string[] | undefined>>
 }): Promise<Metadata> {
   const { slug } = await params
+  const sp = searchParams ? await searchParams : {}
   const cat = CATEGORY_MAP[slug]
   if (!cat) return { title: 'Categoria não encontrada' }
+
+  // URLs com filtros/parâmetros de navegação: noindex + canonical para evitar duplicatas no GSC
+  const hasFilterParams = Object.keys(sp).some(k =>
+    ['filter_tamanho', 'per_row', 'per_page', 'shop_view', 'add-to-cart'].includes(k)
+  )
 
   const pageTitle = cat.title ?? `${cat.label} Premium | Jaleca — Moda Profissional para Saúde`
 
@@ -141,6 +153,7 @@ export async function generateMetadata({
     title: pageTitle,
     description: cat.description,
     keywords: cat.keywords,
+    robots: hasFilterParams ? { index: false, follow: true } : undefined,
     alternates: { canonical: `https://jaleca.com.br/categoria/${slug}` },
     openGraph: {
       title: pageTitle,
@@ -262,7 +275,7 @@ export default async function CategoriaPage({
     aggregateRating: {
       '@type': 'AggregateRating',
       ratingValue: '4.9',
-      reviewCount: '317',
+      reviewCount: 317,
       bestRating: '5',
       worstRating: '1',
     },
@@ -325,7 +338,6 @@ export default async function CategoriaPage({
         }}
       />
 
-      <h1 className="sr-only">{cat.h1 ?? `${cat.label} — Jaleca`}</h1>
       <ProductsClient
         products={products}
         initialCat={NAME_FILTER[slug] ? 'Todos' : (cat.filterLabel ?? cat.label)}
@@ -477,6 +489,13 @@ export default async function CategoriaPage({
               <p className="text-sm text-muted-foreground leading-relaxed mb-4">
                 Os jalecos da Jaleca são produzidos em <strong>Elastex</strong> (poliéster + elastano), <strong>gabardine</strong> e <strong>Oxford premium</strong>. Todos resistem a lavagens frequentes sem encolher ou perder o caimento. O tingimento de alta durabilidade garante que o branco permanece branco mesmo após dezenas de lavagens com alvejante.
               </p>
+              <h3 className="text-sm font-semibold mb-2">Jalecos por estilo e especificação</h3>
+              <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside mb-4">
+                <li><Link href="/jaleco-elegante" className="underline underline-offset-2 hover:text-foreground transition-colors">Jaleco elegante e de alfaiataria</Link> — modelos premium para consultórios sofisticados</li>
+                <li><Link href="/jaleco-azul-marinho" className="underline underline-offset-2 hover:text-foreground transition-colors">Jaleco azul marinho feminino</Link> — scrub e jaleco em azul marinho e azul claro</li>
+                <li><Link href="/modelo-de-jaleco" className="underline underline-offset-2 hover:text-foreground transition-colors">Modelos de jaleco feminino</Link> — guia completo de todos os modelos disponíveis</li>
+                <li><Link href="/fabricante-de-jalecos" className="underline underline-offset-2 hover:text-foreground transition-colors">Fabricante de jalecos</Link> — produção própria em Londrina/PR, atacado e varejo</li>
+              </ul>
             </>
           )}
 

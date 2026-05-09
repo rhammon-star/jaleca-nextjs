@@ -8,7 +8,7 @@ export const revalidate = 3600
 
 export const metadata: Metadata = {
   title: 'Pijama Cirúrgico Feminino: Scrub para Saúde do PP ao G3',
-  description: 'Pijama cirúrgico feminino com elastano — scrub para médicas, enfermeiras e centro cirúrgico. Tecido antimicrobiano, lavagem a 60°C, do PP ao G3. Frete grátis SE acima de R$499.',
+  description: 'Pijama cirúrgico feminino com elastano — scrub para médicas, enfermeiras e centro cirúrgico. Tecido antimicrobiano, lavagem a 60°C, do PP ao G3. Frete grátis Sudeste acima de R$499.',
   alternates: { canonical: 'https://jaleca.com.br/pijama-cirurgico-feminino' },
   openGraph: {
     title: 'Pijama Cirúrgico Feminino: Scrub para Saúde do PP ao G3',
@@ -178,7 +178,7 @@ export default async function Page() {
           {[
             { title: 'Antimicrobiano', sub: 'Prata iônica entre lavagens' },
             { title: 'Lavagem a 60°C', sub: 'Biossegurança hospitalar' },
-            { title: 'Frete grátis SE', sub: 'SP · RJ · MG · ES acima R$499' },
+            { title: 'Frete grátis Sudeste', sub: 'SP · RJ · MG · ES acima R$499' },
             { title: 'PP ao G3', sub: 'Molde feminino próprio' },
           ].map((item, i) => (
             <div key={i} style={{ padding: '0.75rem 1.5rem', borderRight: (i % 2 === 0) ? '1px solid rgba(255,255,255,0.12)' : 'none', borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.08)' : 'none' }}>

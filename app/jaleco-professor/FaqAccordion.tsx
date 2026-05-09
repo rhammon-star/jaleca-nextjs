@@ -7,6 +7,8 @@ const faqItems = [
   { q: 'O jaleco de professor pode ter bordado com o nome?', a: 'A Jaleca não oferece serviço de bordado. O jaleco é vendido sem bordado. Você pode levar a peça em uma bordadeira local após receber. Importante: após o bordado, o jaleco não pode ser trocado.' },
   { q: 'Como funciona a troca?', a: 'Arrependimento: até 7 dias após o recebimento, produto sem uso e com etiqueta. Garantia Jaleca: 30 dias, sem marca de uso e com etiqueta. WhatsApp ou e-mail com número do pedido.' },
   { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Prazo de 3 a 8 dias úteis conforme região — calculado no checkout.' },
+  { q: 'Qual o melhor tecido para jaleco de professor?', a: 'Para uso diário em sala de aula, o gabardine 100% poliéster é o mais escolhido: ótimo custo-benefício e fácil de lavar. Professores universitários e coordenadores geralmente escolhem o tecido alfaiataria premium para transmitir mais autoridade. O gabardine com elastano é ideal para quem passa longas horas em pé.' },
+  { q: 'Como escolher o tamanho certo do jaleco?', a: 'M e G acinturados são os mais vendidos. O erro mais comum: pedir M e precisar trocar por G. O jaleco deve ter folga para escrever no quadro com os braços levantados sem apertar. Meça a largura dos ombros antes de comprar. Na dúvida, escolha o maior.' },
 ]
 export default function FaqAccordion() {
   const [openIndex, setOpenIndex] = useState<number | null>(0)

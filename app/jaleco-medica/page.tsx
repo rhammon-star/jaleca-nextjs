@@ -3,14 +3,14 @@ import Link from 'next/link'
 import { Suspense } from 'react'
 import { graphqlClient, GET_PRODUCT_BY_SLUG } from '@/lib/graphql'
 import type { WooProduct } from '@/components/ProductCard'
-import ProductCard from '@/components/ProductCard'
 import ProductDetailSection from '@/components/ProductDetailSection'
 import { getGooglePlaceData } from '@/lib/google-places'
 import FaqAccordion from './FaqAccordion'
-import { PROFESSION_PRODUCT_SLUGS, prioritizeByColor, getVerMaisUrl } from '@/lib/product-professions'
-import { getAllProducts } from '@/lib/all-products'
+import { getVerMaisUrl } from '@/lib/product-professions'
 import { getHeroImageSlug } from '@/lib/profession-hero-images'
 import { getCachedHeroImage, getCachedBlogPosts } from '@/lib/profession-page-data'
+import TrustBadgeBar from '@/components/TrustBadgeBar'
+import ProfessionProductGrid from '@/components/ProfessionProductGrid'
 
 // ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
 export const revalidate = 3600
@@ -69,35 +69,7 @@ const breadcrumbSchema = {
   ],
 }
 
-async function getJalecos(): Promise<WooProduct[]> {
-  try {
-    // Busca TODOS os produtos (inclui produtos filhos/cores)
-    const allProducts = await getAllProducts()
-
-    // Filtra por profissão medica
-    const slugs = PROFESSION_PRODUCT_SLUGS['medica'] ?? []
-    const professionProducts = allProducts.filter(p => {
-      // Produto mãe está na lista OU produto filho cujo pai está na lista
-      if (slugs.includes(p.slug)) return true
-
-      // Verifica se é produto filho (tem cor no slug)
-      const parts = p.slug.split('-')
-      const possibleColor = parts[parts.length - 1]
-      const baseSlug = parts.slice(0, -1).join('-')
-
-      return slugs.includes(baseSlug)
-    })
-
-    // Prioriza branco e preto primeiro (mais vendidos)
-    const prioritized = prioritizeByColor(professionProducts)
-
-    // Retorna 6 produtos
-    return prioritized.slice(0, 6)
-  } catch (error) {
-    console.error('[getJalecos] Error:', error)
-    return []
-  }
-}// Stars sem contagem — apenas nota
+// Stars sem contagem — apenas nota
 function HeroStars({ rating }: { rating: number }) {
   const full = Math.floor(rating)
   const half = rating - full >= 0.5
@@ -114,8 +86,7 @@ function HeroStars({ rating }: { rating: number }) {
 }
 
 export default async function JalecoDentistaPage() {
-  const [produtos, posts, placeData, heroImg] = await Promise.all([
-    getJalecos(),
+  const [posts, placeData, heroImg] = await Promise.all([
     getCachedBlogPosts('jaleco'),
     getGooglePlaceData(),
     getCachedHeroImage(getHeroImageSlug('medica') ?? ''),
@@ -127,6 +98,7 @@ export default async function JalecoDentistaPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaArticle).replace(/</g, '\\u003c') }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }} />
 
+      <TrustBadgeBar />
       <main style={{ fontWeight: 300 }}>
 
         {/* ── BREADCRUMB ── */}
@@ -146,7 +118,7 @@ export default async function JalecoDentistaPage() {
         </div>
 
         {/* ── HERO ── */}
-        <section className="grid grid-cols-1 lg:grid-cols-2" style={{ minHeight: '88vh', padding: 0 }}
+        <section className="grid grid-cols-1 lg:grid-cols-2" style={{ minHeight: '70vh', padding: 0 }}
         >
           <div className="flex flex-col justify-center order-2 lg:order-1 px-4 py-8 lg:px-16 lg:py-20" style={{ padding: 'clamp(3rem,8vw,5rem) clamp(2rem,5vw,4rem) clamp(3rem,8vw,5rem) clamp(2rem,8vw,7rem)', background: '#f9f7f4' }}
           >
@@ -181,6 +153,9 @@ export default async function JalecoDentistaPage() {
             </div>
             {/* Estrelas Google reais — sem contagem */}
             {placeData && <HeroStars rating={placeData.rating} />}
+            <p style={{ marginTop: '1rem', fontSize: '0.7rem', letterSpacing: '0.1em', color: '#9b9690' }}>
+              Sudeste grátis · PIX 5% OFF · Troca em 7 dias
+            </p>
           </div>
 
           <div className="relative order-1 lg:order-2" style={{ background: '#e5e0d8', minHeight: 480, overflow: 'hidden' }}>
@@ -188,6 +163,7 @@ export default async function JalecoDentistaPage() {
               <img
                 src={heroImg.src}
                 alt={heroImg.alt}
+                fetchPriority="high"
                 style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block', position: 'absolute', inset: 0 }}
               />
             ) : (
@@ -196,52 +172,36 @@ export default async function JalecoDentistaPage() {
           </div>
         </section>
 
-        {/* ── TRUST BAR ── */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-y-4 lg:gap-y-0" style={{ background: '#1a1a1a', padding: '2rem clamp(1.5rem,5vw,4rem)' }}>
-          {[
-            { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><path d="M3 6h18M3 12h18M3 18h18" /></svg>, title: 'Tamanhos PP ao G3', sub: 'Grade completa, corpo real' },
-            { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><ellipse cx="12" cy="12" rx="9" ry="6" /><path d="M12 3v18M3 12h18" opacity=".5" /></svg>, title: 'Com elastano', sub: 'Movimento sem restrição' },
-            { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><path d="M5 12h14M12 5l7 7-7 7" /></svg>, title: 'Frete grátis', sub: 'SP · RJ · MG · ES acima R$499' },
-            { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0" /><path d="m9 12 2 2 4-4" /></svg>, title: 'Troca em 7 dias', sub: 'Direito do consumidor' },
-          ].map((item, i) => (
-            <div key={i} className="flex items-center gap-4" style={{ padding: '0.5rem 1.5rem', borderRight: i < 3 ? '1px solid rgba(255,255,255,0.12)' : 'none' }}>
-              <div className="shrink-0 flex items-center justify-center" style={{ width: 40, height: 40, border: '1px solid rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.8)' }}>
-                {item.icon}
-              </div>
-              <div>
-                <strong style={{ display: 'block', fontSize: '0.82rem', fontWeight: 400, letterSpacing: '0.06em', color: '#fff', marginBottom: '0.15rem' }}>{item.title}</strong>
-                <span style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.45)' }}>{item.sub}</span>
-              </div>
+        {/* ── AUTORIDADE ── */}
+        <section style={{ background: '#faf8f3', padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)' }}>
+          <div style={{ maxWidth: 780, margin: '0 auto' }}>
+            <p style={{ fontSize: '1rem', color: '#666', lineHeight: 1.8, marginBottom: '1.5rem', fontWeight: 300 }}>
+              Antes de você falar, sua imagem já foi avaliada. Conforto, caimento impecável e a presença que eleva sua autoridade profissional.
+            </p>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '2rem' }}>
+              <span style={{ color: '#c4a97d', fontSize: '1.15rem', letterSpacing: 2 }}>★★★★★</span>
+              <p style={{ fontSize: '0.95rem', color: '#555', margin: 0 }}>
+                <strong style={{ color: '#1a1a1a' }}>{placeData?.rating ?? '4.9'}/5 no Google</strong> — clientes satisfeitos em todo o Brasil
+              </p>
             </div>
-          ))}
-        </div>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.6rem', background: '#1a1a1a', color: '#c4a97d', padding: '0.55rem 1rem', marginBottom: '1.75rem' }}>
+              <span style={{ fontSize: '0.85rem' }}>🏆</span>
+              <span style={{ fontSize: '0.68rem', fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase' }}>Uma das marcas que mais vende jalecos no Brasil</span>
+            </div>
+            <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(1.9rem,3.5vw,3.2rem)', fontWeight: 400, lineHeight: 1.18, color: '#1a1a1a', marginBottom: '1rem' }}>
+              Mais de 200 mil peças vendidas para médicas, dentistas e profissionais da saúde.
+            </h2>
+          </div>
+        </section>
 
         {/* ── PRODUTOS — Above the Fold ── */}
-        {/* Produtos aparecem logo após Trust Bar, antes do guia editorial longo */}
-        {produtos.length > 0 && (
-          <section className="px-4 py-12 lg:px-16 lg:py-20" style={{ background: '#f9f7f4', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
-            <div style={{ maxWidth: 1200, width: '100%', margin: '0 auto' }}>
-              <div className="mb-10">
-                <div>
-                  <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>Coleção médica</div>
-                  <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2rem,3.5vw,3rem)', fontWeight: 400, lineHeight: 1.15, color: '#1a1a1a' }}>
-                    Jalecos para<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>Médicas</em>
-                  </h2>
-                </div>
-                </div>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {produtos.slice(0, 6).map(product => (
-                  <ProductCard key={product.id} product={product} />
-                ))}
-              </div>
-              <div className="flex justify-center mt-8">
-                <Link href={getVerMaisUrl('medico')} style={{ display: 'inline-flex', padding: '0.9rem 2rem', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a', color: '#1a1a1a' }}>
-                  Ver mais →
-                </Link>
-              </div>
-            </div>
-          </section>
-        )}
+        <ProfessionProductGrid
+          professionKey="medica"
+          professionLabel="Médicas"
+          collectionLabel="Coleção Médica"
+          productLabel="Jalecos"
+          allHref={getVerMaisUrl('medica')}
+        />
 
         {/* ── GUIA ── */}
         <section className="px-4 py-12 lg:px-16 lg:py-20" style={{ background: '#f9f7f4', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>

@@ -1,3 +1,4 @@
+import { InstagramGallery } from '@/components/InstagramGallery'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Suspense } from 'react'
@@ -17,8 +18,8 @@ export const revalidate = 3600
 
 export const metadata: Metadata = {
   title: { absolute: 'Jaleco de Enfermagem: Elastex para Plantão de 12h | Jaleca' },
-  description: 'Jaleco de enfermagem Elastex com elastano para plantão de 12 horas. Não amassa, seca rápido, bolsos funcionais. PP ao G3. O que o COFEN exige. Frete grátis SE acima de R$499.',
-  alternates: { canonical: 'https://jaleca.com.br/jaleco-enfermeiro' },
+  description: 'Jaleco de enfermagem Elastex com elastano para plantão de 12 horas. Não amassa, seca rápido, bolsos funcionais. PP ao G3. O que o COFEN exige. Frete grátis Sudeste acima de R$499.',
+  alternates: { canonical: 'https://jaleca.com.br/jaleco-enfermagem' },
   openGraph: {
     title: 'Jaleco de Enfermagem: Elastex para Plantão de 12h | Jaleca',
     description: 'Jaleco de enfermagem Elastex para plantão. Não amassa, seca rápido, PP ao G3. O que o COFEN exige.',
@@ -44,6 +45,8 @@ const schemaFaq = {
     { '@type': 'Question', name: 'Jaleco de enfermagem pode ir na lavanderia hospitalar?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. O gabardine com elastano da Jaleca suporta lavagem a 60°C e ciclos industriais. Alvejante sem cloro preserva o tecido. Para manter a durabilidade, secar em temperatura baixa ou à sombra — calor excessivo degrada o elastano.' } },
     { '@type': 'Question', name: 'Quantos bolsos precisa ter jaleco de enfermagem?', acceptedAnswer: { '@type': 'Answer', text: 'O mínimo funcional são dois bolsos laterais (para estetoscópio, caneta, luvas). Enfermeiros que carregam oxímetro, termômetro e outros instrumentos preferem modelos com 3 a 4 bolsos, incluindo um no peito.' } },
     { '@type': 'Question', name: 'Jaleco de enfermeiro é diferente do jaleco de médico?', acceptedAnswer: { '@type': 'Answer', text: 'O modelo pode ser o mesmo, mas o uso difere. Enfermeiros geralmente optam por modelos com mais bolsos e tecido de maior durabilidade para lavagens frequentes. Médicos tendem a preferir modelos mais estruturados para consultório. A Jaleca oferece os mesmos modelos para ambos.' } },
+    { '@type': 'Question', name: 'Qual o melhor tecido para jaleco de enfermagem?', acceptedAnswer: { '@type': 'Answer', text: 'O gabardine com elastano é o mais pedido por enfermeiros e técnicos de enfermagem na Jaleca: suporta lavagens diárias, seca rápido entre plantões e oferece liberdade de movimento para procedimentos. O gabardine 100% poliéster é escolhido por quem precisa de maior facilidade de higienização em ambientes de alta exposição.' } },
+    { '@type': 'Question', name: 'Como escolher o tamanho do jaleco de enfermagem?', acceptedAnswer: { '@type': 'Answer', text: 'M e G acinturados são os tamanhos mais vendidos para enfermagem na Jaleca. O erro mais frequente é pedir M e precisar trocar por G. Antes de comprar, meça a largura dos seus ombros — não confie no tamanho da sua roupa comum. Na dúvida, escolha o maior: o jaleco precisa ter folga para movimentos amplos em procedimentos.' } },
   ],
 }
 
@@ -478,6 +481,10 @@ export default async function JalecoEnfermeiroPage() {
               </Link>
             </div>
           </div>
+        </section>
+
+        <section style={{ padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)', maxWidth: '1200px', margin: '0 auto' }}>
+          <InstagramGallery maxItems={6} title="Inspire-se — @jaleca.oficial" />
         </section>
 
       </main>

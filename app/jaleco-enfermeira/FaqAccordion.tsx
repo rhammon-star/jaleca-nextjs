@@ -27,6 +27,18 @@ const faqItems = [
     q: 'Qual o prazo de entrega?',
     a: 'Enviamos em até 2 dias úteis após a confirmação do pagamento. O prazo varia de 3 a 8 dias úteis conforme sua região — calculado no checkout com o CEP.',
   },
+  {
+    q: 'Qual jaleco feminino não amassa no plantão longo?',
+    a: 'Os tecidos Microfibra e Gabardine com elastano são os mais indicados para plantão — resistem ao amassado mesmo após horas de uso, sem precisar passar.',
+  },
+  {
+    q: 'Tem jaleco leve e confortável para enfermeira de plantão?',
+    a: 'Sim. A Microfibra é o tecido mais leve e fresco da nossa linha — ideal para plantões longos onde o conforto térmico faz diferença.',
+  },
+  {
+    q: 'Onde comprar jaleco feminino com entrega rápida para enfermeira?',
+    a: 'Na Jaleca enviamos em até 2 dias úteis para todo o Brasil. Frete grátis para SP, RJ, MG e ES em compras acima de R$499.',
+  },
 ]
 
 export default function FaqAccordion() {

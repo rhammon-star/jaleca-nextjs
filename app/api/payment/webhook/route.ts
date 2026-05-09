@@ -89,9 +89,10 @@ export async function POST(request: NextRequest) {
             sendOrderConfirmation(order, email).catch(err => console.error('[Webhook] sendOrderConfirmation failed:', err))
             import('@/lib/brevo-cart').then(m => m.removeFromRecoveryList(email)).catch(() => {})
 
-            // GA4 Measurement Protocol — usa client_id real salvo no pedido
-            const gaClientId = (order.meta_data as Array<{key:string;value:string}>|undefined)
-              ?.find(m => m.key === 'jaleca_ga_client_id')?.value
+            // GA4 Measurement Protocol — usa client_id real e gclid/UTMs salvos no pedido
+            const meta = (order.meta_data as Array<{key:string;value:string}>|undefined) ?? []
+            const metaVal = (k: string) => meta.find(m => m.key === k)?.value
+            const gaClientId = metaVal('jaleca_ga_client_id')
             sendGA4PurchaseMP({
               clientId: gaClientId,
               orderId: String(order.id),
@@ -103,6 +104,10 @@ export async function POST(request: NextRequest) {
                 price: parseFloat(i.total || '0') / (i.quantity || 1),
                 quantity: i.quantity,
               })),
+              gclid:          metaVal('_gclid'),
+              campaignSource: metaVal('_utm_source'),
+              campaignMedium: metaVal('_utm_medium'),
+              campaignName:   metaVal('_utm_campaign'),
             }).catch(err => console.error('[GA4 MP] webhook error:', err))
 
             await sendMetaPurchase(

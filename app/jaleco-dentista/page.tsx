@@ -1,3 +1,4 @@
+import { InstagramGallery } from '@/components/InstagramGallery'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Suspense } from 'react'
@@ -17,7 +18,7 @@ export const revalidate = 3600
 
 export const metadata: Metadata = {
   title: { absolute: 'Jaleco Dentista: Curto ou Longo? Elastano para a Cadeira — 4.9★' },
-  description: 'Jaleco dentista curto ou longo com elastano para movimento ao redor da cadeira. Nota 4.9★ no Google · 61 avaliações. PP ao G3, branco e colorido. O que o CRO permite. Frete grátis SE.',
+  description: 'Jaleco dentista curto ou longo com elastano para movimento ao redor da cadeira. Nota 4.9★ no Google · 61 avaliações. PP ao G3, branco e colorido. O que o CRO permite. Frete grátis Sudeste.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-dentista' },
   openGraph: {
     title: 'Jaleco para Dentista: Curto, Slim e com Elastano | Jaleca',
@@ -44,6 +45,8 @@ const schemaFaq = {
     { '@type': 'Question', name: 'Qual jaleco tem mais liberdade de movimento para dentista?', acceptedAnswer: { '@type': 'Answer', text: 'O Jaleco Elastex é o que oferece maior amplitude — o tecido com elastano bidirecional acompanha a elevação de braços e a rotação do tronco. O Slim também funciona bem, mas o Elastex é o preferido de quem faz muitos procedimentos.' } },
     { '@type': 'Question', name: 'Jaleco de dentista pode ter bolso?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. Dois bolsos laterais são o padrão. Evite bolsos no peito para procedimentos que exigem inclinação sobre o paciente — objetos caem. O bolso lateral na altura do quadril é mais funcional e seguro.' } },
     { '@type': 'Question', name: 'Como tirar mancha de amálgama ou resina do jaleco?', acceptedAnswer: { '@type': 'Answer', text: 'Amálgama: não esfregue — remova o excesso seco antes de molhar. Resina composta: álcool isopropílico antes da lavagem. Anestésico ou hemostático: água fria imediata. Em todos os casos, lave a 40°C com sabão neutro.' } },
+    { '@type': 'Question', name: 'Qual o melhor tecido para jaleco de dentista?', acceptedAnswer: { '@type': 'Answer', text: 'O gabardine com elastano é o tecido mais pedido por dentistas na Jaleca: suporta lavagens frequentes, seca rápido e oferece liberdade de movimento para trabalhar sobre o paciente. Para consultórios premium, o tecido alfaiataria premium transmite mais elegância e posicionamento.' } },
+    { '@type': 'Question', name: 'Qual tamanho de jaleco escolher para dentista?', acceptedAnswer: { '@type': 'Answer', text: 'M e G acinturados são os mais vendidos para dentistas na Jaleca. O erro mais comum é pedir M e precisar trocar por G — o corte acinturado parece menor no cabide. Meça a largura dos seus ombros antes de comprar. Na dúvida, escolha o tamanho maior: o jaleco não pode apertar ao levantar os braços durante os procedimentos.' } },
   ],
 }
 
@@ -516,6 +519,10 @@ export default async function JalecoDentistaPage() {
               </Link>
             </div>
           </div>
+        </section>
+
+        <section style={{ padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)', maxWidth: '1200px', margin: '0 auto' }}>
+          <InstagramGallery maxItems={6} title="Inspire-se — @jaleca.oficial" />
         </section>
 
       </main>

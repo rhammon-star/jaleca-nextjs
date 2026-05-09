@@ -8,11 +8,11 @@ import type { WooProduct } from '@/components/ProductCard'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Uniformes para Beleza: Jaleco Cabeleireiro, Esteticista e Mais',
+  title: 'Uniformes para Beleza: Cabeleireiro e Esteticista | Jaleca',
   description: 'Uniformes profissionais para área de beleza: jaleco para cabeleireiro, esteticista, massagista, tatuador e barbeiro. Tecido certo, modelos e cores para cada profissão.',
   alternates: { canonical: 'https://jaleca.com.br/uniformes-beleza' },
   openGraph: {
-    title: 'Uniformes para Beleza: Jaleco Cabeleireiro, Esteticista e Mais',
+    title: 'Uniformes para Beleza: Cabeleireiro e Esteticista | Jaleca',
     description: 'Guia completo de uniformes para profissionais de beleza — jaleco cabeleireiro, esteticista, massagista, tatuador e barbeiro.',
     url: 'https://jaleca.com.br/uniformes-beleza',
     siteName: 'Jaleca',
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Uniformes para Beleza: Jaleco Cabeleireiro, Esteticista e Mais',
+    title: 'Uniformes para Beleza: Cabeleireiro e Esteticista | Jaleca',
     description: 'Guia completo de uniformes para profissionais de beleza — jaleco cabeleireiro, esteticista, massagista, tatuador e barbeiro.',
     images: ['https://jaleca.com.br/og-home.jpg'],
   },

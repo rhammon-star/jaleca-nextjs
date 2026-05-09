@@ -4,11 +4,11 @@ import type { WooProduct } from '@/components/ProductCard'
 import LookbookClient from './LookbookClient'
 
 export const metadata: Metadata = {
-  title: 'Lookbook Jaleca 2026 — Uniformes Profissionais Premium',
+  title: 'Lookbook Jaleca 2026 — Uniformes Premium',
   description: 'Experiência editorial de moda profissional. Jalecos femininos, masculinos, scrub e dólmã — descubra o uniforme que reflete sua excelência.',
   alternates: { canonical: 'https://jaleca.com.br/lookbook' },
   openGraph: {
-    title: 'Lookbook Jaleca 2026 — Uniformes Profissionais Premium',
+    title: 'Lookbook Jaleca 2026 — Uniformes Premium',
     description: 'Experiência editorial de moda profissional. Jalecos femininos, masculinos, scrub e dólmã.',
     url: 'https://jaleca.com.br/lookbook',
     siteName: 'Jaleca',

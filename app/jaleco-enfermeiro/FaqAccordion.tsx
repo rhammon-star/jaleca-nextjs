@@ -27,6 +27,14 @@ const faqItems = [
     q: 'Qual o prazo de entrega?',
     a: 'Enviamos em até 2 dias úteis após a confirmação do pagamento. O prazo varia de 3 a 8 dias úteis conforme sua região — calculado no checkout com o CEP.',
   },
+  {
+    q: 'Qual o melhor tecido para jaleco de enfermagem?',
+    a: 'O gabardine com elastano é o mais pedido por enfermeiros na Jaleca: suporta lavagens diárias, seca rápido entre plantões e oferece liberdade de movimento para procedimentos. Para ambientes de alta exposição, o gabardine 100% poliéster é ainda mais fácil de higienizar.',
+  },
+  {
+    q: 'Como escolher o tamanho certo do jaleco?',
+    a: 'M e G acinturados são os mais vendidos. O erro mais comum: pedir M e precisar trocar por G. Meça a largura dos ombros antes de comprar — não confie no tamanho da sua roupa comum. Na dúvida entre dois tamanhos, escolha o maior: o jaleco precisa ter folga para movimentos amplos em procedimentos.',
+  },
 ]
 
 export default function FaqAccordion() {

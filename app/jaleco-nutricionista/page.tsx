@@ -17,7 +17,7 @@ export const revalidate = 3600
 
 export const metadata: Metadata = {
   title: { absolute: 'Jaleco para Nutricionista: Slim Colorido ou Branco | Jaleca' },
-  description: 'Jaleco para nutricionista Slim colorido ou branco — transmite acolhimento e autoridade no consultório. PP ao G3, com elastano. O CFN não define cor. Frete grátis SE acima de R$499.',
+  description: 'Jaleco para nutricionista Slim colorido ou branco — transmite acolhimento e autoridade no consultório. PP ao G3, com elastano. O CFN não define cor. Frete grátis Sudeste acima de R$499.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-nutricionista' },
   openGraph: {
     title: 'Jaleco para Nutricionista: Slim Colorido ou Branco | Jaleca',

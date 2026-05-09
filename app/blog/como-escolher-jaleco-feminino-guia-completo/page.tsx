@@ -8,11 +8,11 @@ import type { WPPost } from '@/lib/wordpress'
 export const metadata: Metadata = {
   title: 'Como Escolher o Jaleco Feminino Ideal para Sua Profissão',
   description: 'Guia completo para escolher o jaleco feminino perfeito: modelos Slim, Princesa, Duquesa e Elastex. Descubra qual tecido, tamanho e caimento mais adequado para médicas, dentistas e enfermeiras.',
-  keywords: 'como escolher jaleco femenino, jaleco femenino ideal, jaleco para médica, jaleco para dentista, jaleco para enfermeira, jaleco slim femenino, jaleco princess, escolher tamanho jaleco',
+  keywords: 'como escolher jaleco feminino, jaleco feminino ideal, jaleco para médica, jaleco para dentista, jaleco para enfermeira, jaleco slim feminino, jaleco princesa, escolher tamanho jaleco',
   alternates: { canonical: 'https://jaleca.com.br/blog/como-escolher-jaleco-feminino-guia-completo' },
   openGraph: {
     title: 'Como Escolher o Jaleco Feminino Ideal para Sua Profissão',
-    description: 'Guia completo para escolher o jaleco femenino perfeito. Modelos, tecidos e tamanhos para profissionais da saúde.',
+    description: 'Guia completo para escolher o jaleco feminino perfeito. Modelos, tecidos e tamanhos para profissionais da saúde.',
     url: 'https://jaleca.com.br/blog/como-escolher-jaleco-feminino-guia-completo',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -25,9 +25,9 @@ const blogPostSchema = {
   '@context': 'https://schema.org',
   '@type': 'Article',
   headline: 'Como Escolher o Jaleco Feminino Ideal para Sua Profissão',
-  description: 'Guia completo para escolher o jaleco femenino perfeito: modelos, tecidos e tamanhos.',
+  description: 'Guia completo para escolher o jaleco feminino perfeito: modelos, tecidos e tamanhos.',
   author: { '@type': 'Organization', name: 'Jaleca' },
-  publisher: { '@type': 'Organization', name: 'Jaleca', url: 'https://jaleca.com.br' },
+  publisher: { '@type': 'Organization', name: 'Jaleca', url: 'https://jaleca.com.br', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/og-home.jpg' } },
   datePublished: '2026-04-23',
   dateModified: '2026-04-23',
   image: 'https://jaleca.com.br/og-home.jpg',
@@ -40,10 +40,10 @@ const faqSchema = {
   mainEntity: [
     {
       '@type': 'Question',
-      name: 'Qual o melhor jaleco femenino para médica?',
+      name: 'Qual o melhor jaleco feminino para médica?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Para médicas, o Jaleco Slim é o mais indicado: corte acinturado que valoriza o corpo, tecido premium com elasticity para conforto em longas jornadas e visual elegante que transmite autoridade no consultório.'
+        text: 'Para médicas, o Jaleco Slim é o mais indicado: corte acinturado que valoriza o corpo, tecido premium com elastano para conforto em longas jornadas e visual elegante que transmite autoridade no consultório.'
       }
     },
     {
@@ -51,12 +51,12 @@ const faqSchema = {
       name: 'Jaleco Slim ou clássico: qual é melhor para enfermeira?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Para enfermeiras que fazem plantões de 12 horas, o Jaleco Elastex é a melhor escolha: tecido com elastano que permite movimento livre, não amassa e seca rápido. O modelo Slim também funciona bem para日常工作.'
+        text: 'Para enfermeiras que fazem plantões de 12 horas, o Jaleco Elastex é a melhor escolha: tecido com elastano que permite movimento livre, não amassa e seca rápido. O modelo Slim também funciona bem para o dia a dia.'
       }
     },
     {
       '@type': 'Question',
-      name: 'Como saber o tamanho certo do jaleco femenino?',
+      name: 'Como saber o tamanho certo do jaleco feminino?',
       acceptedAnswer: {
         '@type': 'Answer',
         text: 'Meça busto e cintura com uma fita métrica. Na dúvida entre dois tamanhos, opte pelo maior — jalecos largos são mais fáceis de ajustar do que jalecos apertados. A Jaleca oferece tabela de medidas detalhada e tamanhos de PP ao G3.'
@@ -149,11 +149,11 @@ export default async function BlogPost() {
             Na Jaleca, já vendemos mais de 200 mil peças e sabemos exatamente o que profissionais da saúde buscam: <strong>corte que valoriza</strong>, <strong>tecido que não amassa</strong> e <strong>durabilidade que justifica o investimento</strong>.
           </p>
 
-          <h2>Modelos de jaleco femenino: qual é o seu?</h2>
+          <h2>Modelos de jaleco feminino: qual é o seu?</h2>
 
           <h3>Jaleco Slim — O mais vendido</h3>
           <p>
-            O Jaleco Slim é o favorito das médicas e dentistas que trabalham em consultório. Com corte acinturado que define a silhueta sem apertar, é elegante o suficiente para reuniões e confortável o bastante para procedimentos longos.
+            O Jaleco Slim é o favorito das médicas e dentistas que trabalham em consultório. Com corte acinturado que define a silhueta sem apertar, é elegante o suficiente para reuniões e confortável o bastante para procedimentos longos. <Link href="/blog/jaleco-slim-feminino" className="text-[#1a6fa8] hover:underline">Saiba mais sobre o Jaleco Slim feminino →</Link>
           </p>
           <p><strong>Indicado para:</strong> médicas, dentistas, nutricionistas, fisioterapeutas</p>
 
@@ -167,7 +167,7 @@ export default async function BlogPost() {
           <p>
             O Jaleco Duquesa tem manga longa com punho, abertura frontal com botões e corte levemente estruturado. Funciona tanto em consultório quanto em ambiente hospitalar.
           </p>
-          <p><strong>Indicado para:</strong> médicas, enfermeiras, biomédicas</p>
+          <p><strong>Indicado para:</strong> médicas, enfermeiras, biomédicas. <Link href="/jaleco-medica" className="text-[#1a6fa8] hover:underline">Ver todos os jalecos para médica →</Link></p>
 
           <h3>Jaleco Elastex — Conforto máximo</h3>
           <p>
@@ -186,7 +186,7 @@ export default async function BlogPost() {
             <li><strong>Na dúvida, escolha maior</strong> — jaleco largo é melhor que apertado</li>
           </ol>
           <p>
-            A Jaleca oferece todos os tamanhos de PP ao G3 — únicos no mercado brasileiro para diferentes biótipos.
+            A Jaleca oferece todos os tamanhos de PP ao G3 — únicos no mercado brasileiro para diferentes biótipos. Veja o <Link href="/blog/jaleco-feminino-tamanho-certo-como-medir" className="text-[#1a6fa8] hover:underline">guia completo de medidas</Link> para não errar.
           </p>
 
           <h2>Cor do jaleco: branca ou colorida?</h2>
@@ -224,7 +224,7 @@ export default async function BlogPost() {
             Se você ainda não conhece os scrubs da Jaleca, vale conferir nosso guia sobre <Link href="/blog/melhores-tecidos-scrub-feminino">melhores tecidos para scrub feminino</Link> e entender qual combina mais com sua rotina.
           </p>
 
-          <h2>Onde comprar jaleco femenino de qualidade</h2>
+          <h2>Onde comprar jaleco feminino de qualidade</h2>
           <p>
             A Jaleca é especialista em jalecos profissionais para mulheres há mais de uma década. Oferecemos:
           </p>
@@ -258,7 +258,7 @@ export default async function BlogPost() {
         <div className="mt-12 p-8 bg-[#faf9f7] border border-[#e8e0d5]">
           <h3 className="font-display text-xl font-semibold mb-2">Pronto para escolher seu jaleco?</h3>
           <p className="text-muted-foreground mb-4">
-            Conheça a coleção completa de jalecos femenino — do Slim ao Elastex, em várias cores e tamanhos.
+            Conheça a coleção completa de jalecos femininos — do Slim ao Elastex, em várias cores e tamanhos.
           </p>
           <Link
             href="/categoria/jalecos-femininos"

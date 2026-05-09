@@ -1,53 +1,56 @@
 # Última Auditoria Noturna
-Data: 01/05/2026 21:39
-Relatório: /Users/rhammon/sitejaleca/jaleca-nextjs/ai-source-docs/relatorios/noite_relatorio_20260501_2114.md
+Data: 02/05/2026 19:53
+Relatório: /Users/rhammon/sitejaleca/jaleca-nextjs/ai-source-docs/relatorios/noite_relatorio_20260502_1932.md
 
 ## Resumo executivo
-**RELATÓRIO SEO TÉCNICO — JALECA.COM.BR**
-*Data base: hoje | Analista: Especialista Sênior SEO E-commerce*
+Aqui está o diagnóstico completo e o plano de guerra para a Jaleca:
 
 ---
 
 ## 🚨 ALERTAS DO DIA
 
-| Alerta | Severidade | Detalhe |
-|--------|------------|---------|
-| **Jaleca perdeu P1 em "jaleco odontologia"** | 🔴 Alto | Caiu da posição 9 para 11 (fora da primeira página). |
-| **JalecoChic dispara em "jaleco feminino"** | 🟡 Médio | Subiu da posição 4 para 2. Jussara Nunes também subiu (11→7). Jaleca permanece na posição 20 (P2). |
-| **Dr. Jaleco e Dra. Charm dominam termos de cauda** | 🟡 Médio | Concorrentes consolidam posições para "jaleco estampado", "jaleco preto" e "scrub feminino" enquanto Jaleca tem zero visibilidade. |
-| **Nenhuma página nova detectada nos concorrentes** | 🟢 Baixo | Nenhum lançamento de conteúdo imediato para reagir. |
+**1. Queda livre em keywords de cauda alta**
+- `jaleco slim feminino`: caiu **14 posições** (2º → 16º)
+- `como lavar um jaleco branco`: caiu **10 posições** (1º → 11º)
+- `jaleco slim`: caiu **3.8 posições** (2.5 → 6.3)
+- `jalecos femininos`: caiu **3.8 posições** (30.6 → 34.4)
+
+**2. Páginas de produto quebradas indexáveis**
+- 27 URLs de produtos (toucas, faixas, amarradores) retornam **status 200** com título **"Produto não encontrado"**, sem tag canonical e com H1 genérico. São páginas fantasmas que sugam crawl budget e transmitem sinal de baixa qualidade.
+
+**3. Performance mobile zerada**
+- Todas as URLs testadas (home, produtos, categorias) apresentam score **0 em Performance, SEO, Accessibility e Best Practices** no mobile. Isso indica bloqueio de renderização, erro no Lighthouse ou carregamento extremamente lento.
 
 ---
 
 ## 1. RESUMO EXECUTIVO
 
-**Score SEO Geral da Jaleca: 42/100**
+**Score SEO geral: 38/100**
 
 **Por que a Jaleca não aparece para buscas genéricas:**
-O site está preso no que chamamos de *"Silo de Marca"*: a arquitetura tecnica é sólida (CWV excelentes, Schema implementado), mas a **autoridade de domínio está defasada** (Rank 149 vs Rank 17 da Dra. Charm) e existe uma **poluição massiva de thin content** nas URLs `/produto/` (produtos fora de linha sem H1, canonical vazio e title genérico "Produto não encontrado"). O Google está indexando centenas de páginas vazias que sugam o crawl budget e diluem a autoridade das páginas comerciais que realmente importam.
+O site tem uma arquitetura excessivamente pulverizada em "landing pages de intenção genérica" (ex: `/jaleco-medico`, `/jaleco-dentista`) que competem entre si e com as páginas de categoria, além de não ter autoridade de domínio (0 backlinks detectados). Além disso, há um grave problema de **conteúdo duplicado/doorway** nas 65+ páginas de cidade (`/cidade/jaleco-sao-paulo` etc.), todas com a mesma estrutura de texto, trocando apenas o nome da cidade.
 
-**Top 5 Problemas Críticos Hoje:**
-1. **Epidemia de thin content:** 140+ URLs `/produto/` retornam status 200 com title genérico, sem H1, sem canonical e apenas 195 palavras (praticamente vazias).
-2. **Ausência total no Google Shopping:** Jaleca não aparece em nenhuma keyword testada (`jaleco feminino`, `scrub feminino`, etc.).
-3. **Páginas de cidade (/cidade/) como doorways:** ~50 páginas com conteúdo quase idêntico (apenas nome da cidade muda), competindo entre si sem valor agregado real.
-4. **Autoridade de domínio baixíssima:** 84 backlinks em 51 domínios vs. 75/59 do Dr. Jaleco (rank 37) e 45/38 da Dra. Charm (rank 17).
-5. **Cannibalização de keyword:** Várias URLs competem por "jaleco feminino" (categoria, blog, home) sem uma âncora clara.
+**Top 5 problemas críticos hoje:**
+1. **Produtos fantasmas**: 27 páginas 200 com "Produto não encontrado" e sem canonical.
+2. **Doorway pages cities**: Páginas de cidade são templates sem variação real de conteúdo (risco de penalização).
+3. **Canonicals quebrados**: 25+ páginas sem canonical (praticamente todas de produtos de acessórios).
+4. **Core Web Vitals zerados**: Indica experiência de página inaceitável em mobile.
+5. **CTR zero em keywords de transação**: `jaleco de medico/de médico` têm 220+ impressões e 0 cliques por títulos genéricos.
 
-**Top 5 Oportunidades Imediatas:**
-1. **Empurrar "jaleco odontologia" (posição 11) de volta à página 1** — é a oportunidade mais rápida de tráfego.
-2. **Ativar Google Shopping** — o canal de maior intenção de compra para esse nicho está 100% inativo.
-3. **Consolidar/noindexar produtos sem estoque** — liberar autoridade para as categorias.
-4. **Otimizar categoria `jaleco feminino` (posição 20)** para quebrar na P1.
-5. **Capturar gap de "scrub feminino"** (volume 33.100) — concorrente ranqueia, Jaleca não tem página focada.
+**Top 5 oportunidades imediatas:**
+1. Corrigir canonicals e devolver 404/410 nos produtos descontinuados.
+2. Reescrever titles de páginas com posição 8–11 para furar para a primeira página.
+3. Unificar ou enriquecer drasticamente as city pages com conteúdo local real.
+4. Criar feed otimizado para Google Shopping (hoje a marca não aparece).
+5. Explorar o gap de "scrub feminino" e "pijama cirúrgico feminino" com conteúdo comparativo e transacional.
 
 ---
 
 ## 2. SAÚDE TÉCNICA
 
-### ❌ 404s Ativos
-- `https://jaleca.com.br/blog/jaleco-medico-telemedicina-por-que-branco-importa-camera`  
-  *(erro de conexão, mas listado como 404 na saúde técnica)*
-- `https://jaleca.com.br/blog/jaleco-branco-ou-colorido-o-que-usar-na-clinica`  
-  *St
+| Problema | Quantidade | URLs de exemplo |
+|---|---|---|
+| **Páginas sem canonical** | 25 | `/produto/touca-de-elastico-jaleca`, `/produto/faixa-de-cabelo-jaleca-areia`, `/produto/touca-de-amarrar-jaleca` |
+| **Redirect chains** | 5 | `/blog/como-lavar-jaleco-branco` → `/blog/como-lavar-jaleco-profissional-guia-completo`<br>`/blog/jaleco-branco-ou-colorido-o-que-usar-na-clinica` → `/jaleco-branco-ou-colorido-qual-o-melhor-para-sua-area`<br>`/blog/guia-jaleco-dentista-m
 
 _[ver relatório completo acima]_

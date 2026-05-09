@@ -189,6 +189,7 @@ export default function Page() {
           <div className="mt-8 p-6 bg-[#faf9f7] border border-[#e8e0d5]">
             <p className="text-sm text-muted-foreground mb-1">Leia também no guia de jaleco feminino:</p>
             <div className="flex flex-col gap-2 mt-2">
+              <Link href="/blog/jaleco-slim-padrao-clinicas" className="text-[#c4a97d] hover:underline text-sm">→ Jaleco slim ou padrão: qual é o certo para cada clínica?</Link>
               <Link href="/blog/jaleco-feminino-tamanho-certo" className="text-[#c4a97d] hover:underline text-sm">→ Como escolher o tamanho certo de jaleco feminino</Link>
               <Link href="/blog/jaleco-branco-profissional" className="text-[#c4a97d] hover:underline text-sm">→ Jaleco branco: como manter sempre imaculado</Link>
               <Link href="/blog/jaleco-colorido-clinica" className="text-[#c4a97d] hover:underline text-sm">→ Jaleco colorido na clínica: o que cada conselho permite</Link>

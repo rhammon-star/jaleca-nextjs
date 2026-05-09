@@ -7,8 +7,8 @@ export const revalidate = 3600
 
 export const dynamic = 'force-dynamic'
 
-export const metadata: Metadata = {
-  title: 'Produtos Jaleca — Catálogo Completo de Uniformes Profissionais | 2026',
+const BASE_METADATA: Metadata = {
+  title: 'Catálogo Jaleca — Jalecos e Uniformes Profissionais',
   description: 'Mais de 30 modelos: jalecos femininos e masculinos, dólmãs e conjuntos scrub para médicos, dentistas e enfermeiros. Slim, Princesa, Duquesa, Elastex — PP ao G3. Frete grátis SP/MG/RJ/ES acima de R$499.',
   alternates: { canonical: 'https://jaleca.com.br/produtos' },
   keywords: 'jalecos, jaleco feminino, jaleco masculino, jalecos para médicos, jalecos slim, dólmã, conjunto scrub, uniforme médico, comprar jaleco',
@@ -27,6 +27,21 @@ export const metadata: Metadata = {
     description: 'Jalecos femininos e masculinos, dólmãs e conjuntos scrub para profissionais da saúde.',
     images: ['https://jaleca.com.br/og-home.jpg'],
   },
+}
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams?: Promise<Record<string, string | string[] | undefined>>
+}): Promise<Metadata> {
+  const sp = searchParams ? await searchParams : {}
+  const hasFilterParams = Object.keys(sp).some(k =>
+    ['filter_tamanho', 'per_row', 'per_page', 'shop_view', 'add-to-cart'].includes(k)
+  )
+  if (hasFilterParams) {
+    return { ...BASE_METADATA, robots: { index: false, follow: true } }
+  }
+  return BASE_METADATA
 }
 
 const collectionPageSchema = {

@@ -49,6 +49,9 @@ const SUB_PILAR_LINKS = [
   { href: '/jaleco-veterinario',    label: 'Jaleco para Veterinário' },
   { href: '/jaleco-podologo',       label: 'Jaleco para Podólogo' },
   { href: '/jaleco-psicologa',      label: 'Jaleco para Psicólogo' },
+  { href: '/uniforme-para-clinica', label: 'Uniforme para Clínica' },
+  { href: '/conjunto-para-clinica', label: 'Conjunto para Clínica' },
+  { href: '/uniforme-consultorio',  label: 'Uniforme para Consultório' },
 ]
 
 const FAQ_ITEMS = [

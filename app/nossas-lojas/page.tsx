@@ -8,11 +8,11 @@ import StoreMapClient from '@/components/StoreMapClient'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Lojas Jaleca — Jalecos em Ipatinga, BH, Colatina, Contagem e Mais',
+  title: 'Lojas Jaleca — Ipatinga, BH, Colatina e Contagem',
   description: '6 lojas físicas Jaleca em MG e ES: experimente jalecos, dólmãs e conjuntos antes de comprar. Ipatinga, Caratinga, Contagem, Colatina, Teófilo Otoni e Guarapuava. Atendimento personalizado e estoque completo.',
   alternates: { canonical: 'https://jaleca.com.br/nossas-lojas' },
   openGraph: {
-    title: 'Lojas Jaleca — Jalecos em Ipatinga, BH, Colatina, Contagem e Mais',
+    title: 'Lojas Jaleca — Ipatinga, BH, Colatina e Contagem',
     description: '6 lojas físicas Jaleca em MG e ES: experimente jalecos, dólmãs e conjuntos antes de comprar. Ipatinga, Caratinga, Contagem, Colatina, Teófilo Otoni e Guarapuava.',
     url: 'https://jaleca.com.br/nossas-lojas',
     siteName: 'Jaleca',

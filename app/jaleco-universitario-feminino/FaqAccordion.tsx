@@ -35,6 +35,18 @@ const faqItems = [
     q: 'Tem jaleco feminino plus size?',
     a: 'Sim. A grade Jaleca vai do PP ao G3 no corte feminino — maior que a maioria das marcas no mercado.',
   },
+  {
+    q: 'Qual jaleco para estudante de medicina que valorize o corpo e seja elegante?',
+    a: 'O modelo Slim feminino com Gabardine ou Alfaiataria Premium é o mais elogiado por estudantes — corte acinturado, caimento elegante, sem parecer masculinizado.',
+  },
+  {
+    q: 'Qual jaleco feminino não amassa na faculdade?',
+    a: 'A Microfibra e o Gabardine com elastano são os tecidos que menos amassam — você passa o dia inteiro na faculdade e o jaleco continua com boa aparência.',
+  },
+  {
+    q: 'Onde comprar jaleco feminino para faculdade de medicina com entrega rápida?',
+    a: 'Na Jaleca enviamos em até 2 dias úteis para todo o Brasil. Frete grátis para SP, RJ, MG e ES em compras acima de R$499.',
+  },
 ]
 
 export default function FaqAccordion() {

@@ -17,12 +17,11 @@ export default function robots(): MetadataRoute.Robots {
           '/comparar',
           '/checkout',
           '/pagamento',
-          // Next.js build assets - não precisam ser rastreados
+          // Next.js internos — não indexar (JS, CSS, fontes com ?dpl= estavam sendo rastreados)
           '/_next/',
-          '/_next/static/chunks/',
-          '/_next/static/media/',
-          '/_next/data/',
-          '/_next/image/',
+          // Variações específicas de produto (?vid=) — duplicatas das páginas de cor
+          '/*?vid=',
+          '/*?vid=*',
           // Querystrings legacy WordPress que ainda aparecem no índice
           '/?wc-ajax=',
           '/?add-to-cart=',
@@ -30,16 +29,41 @@ export default function robots(): MetadataRoute.Robots {
           '/*?add-to-cart=',
           '/*?replytocom=',
           '/*?orderby=',
+          '/*?page_id=',
+          '/wp-login.php',
+          '/wp-register.php',
+          '/wp-signup.php',
           // WordPress backend — usado apenas para backlinks, não para indexação
           '/wp-admin/',
           '/wp-login.php',
           '/wp-content/plugins/',
           '/wp-content/cache/',
           '/wp-content/uploads/',
+          '/wp-content/themes/',
           // APIs internas
           '/api/',
         ],
       },
+      // Bots de IA — explicitamente liberados para indexação e treino/citação
+      // (GPTBot=OpenAI, ClaudeBot/anthropic-ai=Anthropic, PerplexityBot=Perplexity,
+      //  Google-Extended=Bard/Gemini, CCBot=Common Crawl, Applebot-Extended=Apple Intelligence,
+      //  Bytespider=ByteDance/TikTok, Amazonbot=Alexa, DuckAssistBot=DuckDuckGo)
+      { userAgent: 'GPTBot', allow: '/' },
+      { userAgent: 'OAI-SearchBot', allow: '/' },
+      { userAgent: 'ChatGPT-User', allow: '/' },
+      { userAgent: 'ClaudeBot', allow: '/' },
+      { userAgent: 'Claude-Web', allow: '/' },
+      { userAgent: 'anthropic-ai', allow: '/' },
+      { userAgent: 'PerplexityBot', allow: '/' },
+      { userAgent: 'Perplexity-User', allow: '/' },
+      { userAgent: 'Google-Extended', allow: '/' },
+      { userAgent: 'CCBot', allow: '/' },
+      { userAgent: 'Applebot-Extended', allow: '/' },
+      { userAgent: 'Bytespider', allow: '/' },
+      { userAgent: 'Amazonbot', allow: '/' },
+      { userAgent: 'DuckAssistBot', allow: '/' },
+      { userAgent: 'Meta-ExternalAgent', allow: '/' },
+      { userAgent: 'cohere-ai', allow: '/' },
       {
         // Bloqueia Googlebot de rastrear páginas de busca com parâmetros
         userAgent: 'Googlebot',

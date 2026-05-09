@@ -84,6 +84,7 @@ const nextConfig: NextConfig = {
       { source: '/produto-category/:slug*', destination: '/categoria/:slug*', permanent: true },
       { source: '/product-category/:slug*', destination: '/produtos', permanent: true },
       // Categorias aninhadas do site antigo → categoria simples (ex: /categoria/jalecos/jalecos-masculinos → /categoria/jalecos-masculinos)
+      { source: '/categoria/:parent/:slug/:rest*', destination: '/categoria/:slug', permanent: true },
       { source: '/categoria/:parent/:slug/', destination: '/categoria/:slug', permanent: true },
       { source: '/categoria/:parent/:slug', destination: '/categoria/:slug', permanent: true },
       // Slugs antigos do WooCommerce que não existem no Next.js → /produtos
@@ -93,7 +94,7 @@ const nextConfig: NextConfig = {
       { source: '/categoria/scrubs', destination: '/categoria/conjuntos', permanent: true },
       // Blog posts com slug errado → slug correto (404 detectado no Screaming Frog)
       { source: '/blog/como-escolher-o-jaleco-ideal-para-sua-especialidade-medica', destination: '/blog/como-escolher-jaleco-ideal-especialidade-medica-2', permanent: true },
-      { source: '/blog/jaleco-branco-ou-colorido-o-que-usar-na-clinica-2', destination: '/jaleco-branco-ou-colorido-qual-o-melhor-para-sua-area/', permanent: true },
+      { source: '/blog/jaleco-branco-ou-colorido-o-que-usar-na-clinica-2', destination: '/blog/jaleco-colorido-clinica', permanent: true },
       // Redirects artigos deletados (duplicados removidos 17/04/2026) → versão canônica
       { source: '/blog/como-lavar-jaleco-branco-na-maquina', destination: '/blog/como-lavar-jaleco-profissional-guia-completo', permanent: true },
       { source: '/blog/como-lavar-jaleco-branco', destination: '/blog/como-lavar-jaleco-profissional-guia-completo', permanent: true },
@@ -110,8 +111,52 @@ const nextConfig: NextConfig = {
       { source: '/blog/como-escolher-jaleco-ideal-especialidade-medica-2', destination: '/blog/como-escolher-jaleco-feminino-guia-profissionais', permanent: true },
       // jaleco-slim-padrao-clinicas existe como post próprio — redirect removido (item 4 fix canonical)
       { source: '/blog/guia-jaleco-dentista-modelos-cores-como-escolher', destination: '/blog/guia-jaleco-para-dentista-modelos-cores-como-escolher', permanent: true },
-      { source: '/blog/jaleco-branco-ou-colorido-o-que-usar-na-clinica', destination: '/jaleco-branco-ou-colorido-qual-o-melhor-para-sua-area/', permanent: true },
-      { source: '/blog/jaleco-branco-ou-colorido', destination: '/jaleco-branco-ou-colorido-qual-o-melhor-para-sua-area/', permanent: true },
+      { source: '/blog/jaleco-branco-ou-colorido-o-que-usar-na-clinica', destination: '/blog/jaleco-colorido-clinica', permanent: true },
+      { source: '/blog/jaleco-branco-ou-colorido', destination: '/blog/jaleco-colorido-clinica', permanent: true },
+      // 404s detectados no GSC (05/05/2026) — pasta 14
+      // .html URLs do WooCommerce antigo (slugs individuais detectados no GSC)
+      { source: '/conjunto-jeane-andrade-feminino-varias-cores-jaleca.html', destination: '/produto/conjunto-jeane-andrade-feminino-varias-cores-jaleca', permanent: true },
+      { source: '/jaleco-padrao-aluno-feminino-de-botao-varias-cores-jaleca.html', destination: '/produto/jaleco-padrao-aluno-feminino-de-botao-varias-cores-jaleca', permanent: true },
+      { source: '/jaleco-padrao-aluno-masculino-de-botao-varias-cores-jaleca.html', destination: '/produto/jaleco-padrao-aluno-masculino-de-botao-varias-cores-jaleca', permanent: true },
+      { source: '/jaleco-slim-duquesa-feminino-varias-cores-jaleca.html', destination: '/produto/jaleco-slim-duquesa-feminino-varias-cores-jaleca', permanent: true },
+      { source: '/jaleco-slim-moratty-feminino-ziper-central-jaleca.html', destination: '/produto/jaleco-slim-moratty-feminino-ziper-central-jaleca', permanent: true },
+      { source: '/jaleco-slim-masculino-de-ziper-central-varias-cores-jaleca.html', destination: '/produto/jaleco-slim-masculino-de-ziper-central-varias-cores-jaleca', permanent: true },
+      { source: '/jaleco-slim-recortes-masculino-varias-cores-jaleca.html', destination: '/produto/jaleco-slim-recortes-masculino-varias-cores-jaleca', permanent: true },
+      { source: '/jaleco-laise-jeane-andrade-feminino-varias-cores-jaleca.html', destination: '/produtos', permanent: true },
+      { source: '/conjunto-pijama-cirurgico-scrub-feminino-varias-cores-jaleca.html', destination: '/produto/conjunto-pijama-cirurgico-scrub-feminino-varias-cores-jaleca', permanent: true },
+      { source: '/conjunto-pijama-cirurgico-princesa-scrub-feminino-varias-cores-jaleca.html', destination: '/produto/conjunto-pijama-cirurgico-princesa-scrub-feminino-varias-cores-jaleca', permanent: true },
+      { source: '/conjunto-pijama-cirurgico-scrub-masculino-varias-cores-jaleca.html', destination: '/produto/conjunto-pijama-cirurgico-scrub-masculino-varias-cores-jaleca', permanent: true },
+      { source: '/conjunto-dolma-cozinheiro-de-ziper-e-avental-saia-slim-jaleca.html', destination: '/produto/conjunto-dolma-cozinheiro-de-ziper-e-avental-saia-slim-jaleca', permanent: true },
+      { source: '/conjunto-dolma-cozinheiro-masculino-de-ziper-e-avental-saia-slim-jaleca.html', destination: '/produto/conjunto-dolma-cozinheiro-masculino-de-ziper-e-avental-saia-slim-jaleca', permanent: true },
+      // Blog slugs antigos sem equivalente exato
+      { source: '/blog/jaleco-feminino-tendencias-funcionalidade-saude-2', destination: '/blog/jaleco-slim-feminino', permanent: true },
+      { source: '/blog/jaleco-feminino-tendencias-funcionalidade-saude', destination: '/blog/jaleco-slim-feminino', permanent: true },
+      { source: '/blog/jaleco-fisioterapeuta-conforto-longas-jornadas-2', destination: '/blog/jaleco-para-fisioterapeuta-guia', permanent: true },
+      { source: '/blog/jaleco-massagista-mobilidade-higiene-drenagem', destination: '/blog/jaleco-para-esteticista-guia', permanent: true },
+      { source: '/blog/jaleco-dentista-modelos-cores-como-escolher', destination: '/blog/guia-jaleco-para-dentista-modelos-cores-como-escolher', permanent: true },
+      { source: '/blog/jaleco-enfermagem-o-que-considerar-comprar', destination: '/blog/jaleco-para-enfermeira-regras-cofen', permanent: true },
+      { source: '/blog/como-lavar-e-conservar-seu-jaleco-profissional', destination: '/blog/como-lavar-jaleco-branco', permanent: true },
+      { source: '/blog/jaleco-para-dentistas-2', destination: '/blog/guia-jaleco-para-dentista-modelos-cores-como-escolher', permanent: true },
+      { source: '/blog/jaleco-para-dentistas', destination: '/blog/guia-jaleco-para-dentista-modelos-cores-como-escolher', permanent: true },
+      { source: '/blog/jaleco-para-dentista-estilo-praticidade-consultorio', destination: '/blog/guia-jaleco-para-dentista-modelos-cores-como-escolher', permanent: true },
+      { source: '/blog/guia-completo-tamanhos-jaleco-como-medir-corretamente', destination: '/blog/jaleco-feminino-tamanho-certo-como-medir', permanent: true },
+      { source: '/blog/como-escolher-jaleco-ideal-especialidade-medica', destination: '/blog/jaleco-feminino-como-escolher-modelo-certo-especialidade', permanent: true },
+      // Páginas removidas → destino mais próximo
+      { source: '/loja-matriz', destination: '/nossas-lojas', permanent: true },
+      { source: '/dia-das-maes/:slug*', destination: '/jaleco-feminino', permanent: true },
+      { source: '/cidade/:slug*', destination: '/jaleco-feminino', permanent: true },
+      { source: '/estampas/:slug*', destination: '/produtos', permanent: true },
+      { source: '/produtos/page/:num*', destination: '/produtos', permanent: true },
+      { source: '/frete', destination: '/', permanent: true },
+      { source: '/produto/produto-de-teste-bling', destination: '/produtos', permanent: true },
+      { source: '/produto/jaleco-laise-jeane-andrade-feminino-varias-cores-jaleca', destination: '/produtos', permanent: true },
+      { source: '/produto-:id', destination: '/produtos', permanent: true },
+      { source: '/wp-content/:path*', destination: '/', permanent: true },
+      // Blog 404 (pasta 18 GSC 05/05/2026)
+      { source: '/blog/jaleco-professor-diferenca-sala-aula', destination: '/blog/jaleco-colorido-clinica', permanent: true },
+      // Categorias vazias (soft 404 GSC 05/05/2026)
+      { source: '/categoria/mimos', destination: '/produtos', permanent: true },
+      { source: '/categoria/acessorios', destination: '/produtos', permanent: true },
       // Páginas 404 detectadas na análise (19/04/2026)
       { source: '/dolma', destination: '/categoria/domas', permanent: true },
       { source: '/conjunto', destination: '/categoria/conjuntos', permanent: true },
@@ -324,6 +369,9 @@ const nextConfig: NextConfig = {
     { source: '/produtos/page/2', destination: '/produtos', permanent: true },
     { source: '/produtos/page/2/', destination: '/produtos', permanent: true },
     { source: '/estampas/:path*', destination: '/produtos', permanent: true },
+    { source: '/wp-content/:path*', destination: '/', permanent: true },
+    // ── WordPress page_id legacy ──
+    { source: '/', has: [{ type: 'query', key: 'page_id' }], destination: '/', permanent: true },
     // ── Cidades com prefixo "jaleco-" errado ──
     { source: '/cidade/jaleco-caratinga', destination: '/cidade/caratinga', permanent: true },
     { source: '/cidade/jaleco-:slug', destination: '/cidade/:slug', permanent: true },
