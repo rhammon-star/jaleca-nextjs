@@ -122,8 +122,10 @@ export default async function Home() {
     telephone: '+55-31-3367-2467',
     address: {
       '@type': 'PostalAddress',
+      streetAddress: 'Av. Castelo Branco, 391 - Loja B',
       addressLocality: 'Ipatinga',
       addressRegion: 'MG',
+      postalCode: '35160-264',
       addressCountry: 'BR',
     },
     openingHoursSpecification: [
