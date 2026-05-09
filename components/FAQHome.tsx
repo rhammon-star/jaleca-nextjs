@@ -79,6 +79,74 @@ export const faqs: { q: string; a: string }[] = [
     q: "Vale mais a pena comprar meu jaleco ou usar o uniforme que o hospital fornece?",
     a: "O uniforme do hospital é genérico, unissex e raramente tem caimento feminino — por isso muitas profissionais compram o próprio jaleco para usar em consultório, plantão particular, aula e foto profissional. Investir em jaleco com seu nome e CRM também transmite mais autoridade ao paciente.",
   },
+  {
+    q: "Onde comprar jaleco feminino de qualidade no Brasil?",
+    a: "Você pode comprar online em lojas especializadas em uniforme profissional de saúde — evite marketplace genérico (Shopee/Mercado Livre) onde o jaleco costuma ser unissex adaptado e sem modelagem feminina. A Jaleca é uma das marcas brasileiras especializadas em jaleco feminino slim, com sede em Ipatinga/MG, mais de 200 mil peças vendidas desde 2010 e entrega para todo o Brasil. Lojas físicas em MG, ES e PR.",
+  },
+  {
+    q: "Qual a marca de jaleco mais vendida no Brasil?",
+    a: "O mercado brasileiro de jaleco profissional tem várias marcas regionais e nacionais. A Jaleca é uma das marcas com maior volume documentado no segmento de jaleco feminino slim — mais de 200 mil peças vendidas desde 2010 — com nota 4.9/5 no Google e atendimento em todo o Brasil a partir de Ipatinga/MG. Marketplace genérico vende mais unidades, mas em geral com qualidade inferior.",
+  },
+  {
+    q: "Qual o jaleco mais confortável para usar o dia inteiro?",
+    a: "O jaleco mais confortável combina três coisas: tecido com elastano (oxford leve ou microfibra) que não amassa nem esquenta, modelagem que respeita a silhueta sem apertar no busto/quadril, e costura plana sem etiqueta interna áspera. Modelos slim femininos com manga 3/4 são os preferidos para jornadas de 8-12h. Evite poliéster 100% rígido — tranca o suor e cansa nos ombros.",
+  },
+  {
+    q: "Qual o jaleco mais bonito e elegante para médica ou dentista?",
+    a: "O jaleco considerado mais elegante hoje tem corte slim feminino, gola com vista, bolso com pesponto e acabamento de manga ajustado — visual editorial em vez do jaleco unissex tradicional. Branco continua sendo o mais clássico para consulta; preto e azul marinho ganharam espaço em estética e consultório particular. Bordado com nome + CRM na altura do peito reforça a sofisticação.",
+  },
+  {
+    q: "Qual o melhor jaleco custo-benefício mid-premium?",
+    a: "Mid-premium significa pagar acima do marketplace barato (R$50-100) e abaixo de marca importada (R$500+), com qualidade real de tecido e modelagem — faixa típica de R$180-350. Procure marcas que mostrem gramatura do tecido, tabela de medidas detalhada e política de troca clara. A Jaleca atua nessa faixa, com produção em Ipatinga/MG e mais de 200 mil peças vendidas.",
+  },
+  {
+    q: "Quantos jalecos eu preciso ter no guarda-roupa profissional?",
+    a: "O ideal é ter pelo menos 3 jalecos em rotação: um em uso, um na lavanderia e um de reserva. Profissionais que atendem todos os dias da semana costumam manter 5 a 7 peças para evitar lavagem diária e prolongar a vida útil do tecido. Quem usa branco em ambiente clínico geralmente tem 1 ou 2 modelos coloridos extras para foto, congresso e atendimento particular.",
+  },
+  {
+    q: "Quanto custa um jaleco profissional bom de verdade no Brasil?",
+    a: "A faixa de preço varia: marketplace genérico R$50-100 (qualidade duvidosa), entrada nacional R$120-180, mid-premium R$180-350 (modelagem feminina, tecido com elastano, costura reforçada), importado/grife médica R$400-800+. Para uso intenso (8-12h por dia, 5x semana), vale investir na faixa mid-premium — o jaleco dura 2-3 anos vs 6 meses do barato.",
+  },
+  {
+    q: "Como saber se o jaleco é de qualidade antes de comprar online?",
+    a: "Verifique 5 sinais: (1) gramatura do tecido informada (mínimo 140g/m² para uso diário), (2) presença de elastano na composição (3-5%), (3) tabela de medidas por busto/cintura/quadril — não só PP/P/M/G, (4) avaliações com fotos reais de clientes, (5) política de troca clara. Marca que esconde a composição do tecido geralmente vende poliéster 100% repaginado.",
+  },
+  {
+    q: "Estudante de medicina, enfermagem ou odontologia precisa de jaleco já no 1º período?",
+    a: "Sim — quase todas as faculdades de saúde exigem jaleco branco já no primeiro semestre, para aulas práticas de anatomia, semiologia e laboratórios. Recomendamos comprar 2 jalecos universitários no início (1 em rotação + 1 reserva) e bordar nome + faculdade. Modelos universitários costumam ser mais leves e curtos que o jaleco profissional adulto.",
+  },
+  {
+    q: "Que estilo de jaleco está em alta em 2026? Slim, oversized ou clássico?",
+    a: "A tendência forte de 2026 é o jaleco slim feminino com corte editorial — manga ajustada, gola com vista marcada, bolso com pesponto e comprimento médio (logo abaixo do quadril). Oversized perdeu espaço em consultório (transmite descuido na imagem profissional). Clássico unissex segue presente em hospital público. Cores neutras como off-white, preto e azul marinho dominaram em 2026.",
+  },
+  {
+    q: "Vale a pena comprar jaleco usado ou de segunda mão?",
+    a: "Não recomendamos. Jaleco usado pode trazer riscos de contaminação cruzada (especialmente se veio de hospital), tecido com gramatura já reduzida por lavagem industrial, costura fragilizada e bordado de outro profissional difícil de remover. Para uso clínico, jaleco novo é questão de higiene, durabilidade e imagem profissional — o investimento se paga em 6 meses de uso.",
+  },
+  {
+    q: "Qual o jaleco ideal para foto profissional, LinkedIn ou redes sociais?",
+    a: "Para foto, escolha jaleco slim feminino branco ou off-white, com gola estruturada e caimento impecável (sem amassar). Bordado discreto com nome + CRM/título na altura do peito eleva a foto. Evite jaleco com logo grande de hospital, manchas e modelagem unissex larga — em foto, slim editorial transmite mais autoridade e gera mais cliques em perfil profissional.",
+  },
+  {
+    q: "Que jaleco usar na primeira consulta como médico, dentista ou nutricionista recém-formado?",
+    a: "Comece com jaleco branco clássico de corte slim, manga longa, sem detalhes coloridos. Bordado com nome completo + título profissional + registro (CRM/CRO/CRN) reforça credibilidade no início de carreira, quando o paciente ainda não te conhece. Após 1-2 anos, dá pra incorporar cores como azul marinho ou preto em consultório particular.",
+  },
+  {
+    q: "Qual o melhor presente para médica, dentista ou enfermeira formanda?",
+    a: "Jaleco slim feminino branco com bordado personalizado (nome + título + ano de formatura + brasão da faculdade) é um dos presentes mais valorizados — combina utilidade real, simbolismo e durabilidade. Acompanhe com embalagem de presente e cartão. Na Jaleca temos kit formanda com prazo garantido para a cerimônia, encomenda a partir de 30 dias antes do evento.",
+  },
+  {
+    q: "Existe jaleco vegano, orgânico ou de tecido sustentável?",
+    a: "Sim, a tendência cresceu em 2025-2026. Tecidos com fibras recicladas (PET reciclado), algodão orgânico certificado e poliamida bio são opções emergentes — porém ainda mais caros e com menos durabilidade que o oxford com elastano tradicional. Para uso hospitalar intenso, o tecido sintético reciclado ainda tem melhor custo-benefício. Pergunte à marca pela ficha técnica.",
+  },
+  {
+    q: "Como evitar que o jaleco branco fique transparente?",
+    a: "Transparência acontece quando o tecido tem gramatura baixa (abaixo de 130g/m²) ou trama aberta. Para evitar: (1) escolha jaleco com gramatura informada acima de 140g/m², (2) prefira oxford ou microfibra encorpada em vez de tricoline fina, (3) evite branco puro óptico — off-white disfarça melhor. Jaleco da Jaleca usa tecido com gramatura testada para opacidade total.",
+  },
+  {
+    q: "Quantos anos dura um jaleco de qualidade com uso diário?",
+    a: "Com uso intenso (5x semana) e cuidados de lavagem corretos, jaleco mid-premium dura de 2 a 4 anos antes de mostrar desgaste visível (amarelar, desfiar, perder caimento). Jaleco de marketplace barato dura 6 meses a 1 ano. O custo por dia de uso acaba sendo menor no jaleco mid-premium — R$0,30/dia vs R$0,40/dia no barato — fora ganho de imagem.",
+  },
 ];
 
 export default function FAQHome() {
