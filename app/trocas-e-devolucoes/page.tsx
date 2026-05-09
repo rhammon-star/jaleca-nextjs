@@ -33,7 +33,7 @@ const faqSchema = {
       name: 'Qual é o prazo para solicitar troca ou devolução?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Você tem até 7 dias corridos após o recebimento para desistência (CDC Art. 49). Para defeito de fabricação, o prazo é de 30 dias (não duráveis) ou 90 dias (duráveis). Para troca por tamanho ou cor, até 7 dias após o recebimento.',
+        text: 'Você tem até 7 dias corridos após o recebimento para desistência (CDC Art. 49). Para defeito de fabricação: defeitos aparentes ou de fácil constatação têm prazo de até 90 dias para produtos duráveis, conforme o CDC. Para troca por tamanho ou cor, até 7 dias após o recebimento.',
       },
     },
     {
@@ -41,7 +41,7 @@ const faqSchema = {
       name: 'Como solicitar uma troca ou devolução na Jaleca?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Entre em contato pelo WhatsApp (31) 3367-2467 ou pelo e-mail contato@jaleca.com.br com o número do seu pedido. Não envie nenhuma peça sem antes confirmar com nossa equipe.',
+        text: 'Entre em contato pelo WhatsApp (31) 99290-1940 ou pelo e-mail contato@jaleca.com.br com o número do seu pedido. Não envie nenhuma peça sem antes confirmar com nossa equipe.',
       },
     },
     {
@@ -49,7 +49,7 @@ const faqSchema = {
       name: 'Quem paga o frete de devolução?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'A Jaleca oferece 1 (uma) troca gratuita por pedido — o frete de devolução e o reenvio do novo produto são por nossa conta (modalidade JADLOG ou PAC). Após a conclusão dessa troca, não serão aceitas novas solicitações de troca ou devolução por insatisfação com tamanho, cor ou modelo. Casos de defeito de fabricação seguem os prazos do Código de Defesa do Consumidor (30 ou 90 dias) e continuam cobertos pela Jaleca, com frete por nossa conta.',
+        text: 'A Jaleca oferece, por liberalidade, 1 (uma) troca gratuita por pedido — o frete de devolução e o reenvio do novo produto são por nossa conta. Após a conclusão dessa troca, não serão aceitas novas solicitações de troca ou devolução por insatisfação com tamanho, cor ou modelo. Casos de defeito de fabricação continuam cobertos pela Jaleca, com frete por nossa conta.',
       },
     },
     {
@@ -89,7 +89,7 @@ export default function TrocasEDevolucoesPage() {
             Trocas e Devoluções
           </h1>
           <p className="text-muted-foreground leading-relaxed">
-            A sua satisfação é nossa prioridade. Confira abaixo tudo o que você precisa saber sobre como solicitar uma troca ou devolução.
+            Na Jaleca, queremos que sua experiência seja incrível do início ao fim. Por isso, nossa política de trocas e devoluções foi criada com transparência, respeito ao consumidor e alinhamento ao Código de Defesa do Consumidor.
           </p>
         </div>
 
@@ -108,71 +108,129 @@ export default function TrocasEDevolucoesPage() {
 
         <div className="space-y-10 text-sm leading-relaxed text-muted-foreground">
 
+          {/* 1. Direito de Arrependimento */}
           <section>
-            <h2 className="font-display text-xl font-semibold text-foreground mb-3">1. Prazo para Solicitação</h2>
-            <ul className="list-disc pl-5 space-y-2">
-              <li><strong className="text-foreground font-medium">Arrependimento (CDC Art. 49):</strong> até 7 dias corridos após o recebimento do produto. O reembolso é integral, incluindo o frete pago.</li>
-              <li><strong className="text-foreground font-medium">Troca por defeito de fabricação:</strong> até 30 dias após o recebimento (produtos não duráveis) ou 90 dias (produtos duráveis, como peças de vestuário).</li>
-              <li><strong className="text-foreground font-medium">Troca por tamanho ou cor:</strong> até 7 dias corridos após o recebimento, sujeita às condições do produto descritas abaixo.</li>
-            </ul>
-          </section>
-
-          <div className="border-t border-border" />
-
-          <section>
-            <h2 className="font-display text-xl font-semibold text-foreground mb-3">2. Como Solicitar</h2>
-            <p className="mb-4">
-              Para iniciar uma troca ou devolução, entre em contato com nossa equipe por um dos canais abaixo. Tenha em mãos o número do seu pedido.
-            </p>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <a
-                href="https://wa.me/5531992901940?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Jaleca%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es."
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block border border-border rounded-lg px-5 py-4 hover:border-foreground hover:bg-[hsl(var(--muted))] transition-all duration-200 group"
-              >
-                <p className="font-semibold text-foreground text-sm mb-1 group-hover:underline">WhatsApp</p>
-                <p className="text-xs text-muted-foreground">(31) 3367-2467</p>
-                <p className="text-xs text-muted-foreground mt-1">Seg–Sex: 8h às 18h | Sáb: 8h às 12h</p>
-              </a>
-              <a
-                href="mailto:contato@jaleca.com.br"
-                className="block border border-border rounded-lg px-5 py-4 hover:border-foreground hover:bg-[hsl(var(--muted))] transition-all duration-200 group"
-              >
-                <p className="font-semibold text-foreground text-sm mb-1 group-hover:underline">E-mail</p>
-                <p className="text-xs text-muted-foreground">contato@jaleca.com.br</p>
-                <p className="text-xs text-muted-foreground mt-1">Respondemos em até 1 dia útil</p>
-              </a>
-            </div>
-
-            <p className="mt-4">
-              Nossa equipe irá orientar você sobre o envio do produto e os próximos passos. Não envie nenhuma peça sem antes confirmar com a gente.
-            </p>
-          </section>
-
-          <div className="border-t border-border" />
-
-          <section>
-            <h2 className="font-display text-xl font-semibold text-foreground mb-3">3. Condições do Produto</h2>
+            <h2 className="font-display text-xl font-semibold text-foreground mb-3">1. Direito de Arrependimento (Compras Online)</h2>
             <p className="mb-3">
-              Para que a troca ou devolução seja aceita, o produto deve ser devolvido nas seguintes condições:
+              Conforme o <strong className="text-foreground font-medium">Art. 49 do Código de Defesa do Consumidor</strong>, o cliente pode solicitar a devolução do produto adquirido em nosso site no prazo de até <strong className="text-foreground font-medium">7 (sete) dias corridos</strong> após o recebimento do pedido.
             </p>
-            <ul className="list-disc pl-5 space-y-2">
-              <li>Sem sinais de uso, lavagem ou alteração;</li>
-              <li>Com todas as etiquetas originais intactas;</li>
-              <li>Na embalagem original ou em embalagem adequada para envio;</li>
-              <li>Acompanhado do comprovante de compra (nota fiscal ou número do pedido).</li>
+            <p className="mb-3">Para que a devolução seja aprovada, é necessário que:</p>
+            <ul className="list-disc pl-5 space-y-2 mb-4">
+              <li>o produto esteja sem sinais de uso;</li>
+              <li>esteja com etiquetas e acessórios originais;</li>
+              <li>seja enviado na embalagem original ou similar que preserve o produto;</li>
+              <li>acompanhe nota fiscal ou comprovante da compra.</li>
             </ul>
-            <p className="mt-3">
-              Produtos com sinais de uso, sem etiqueta ou em condições diferentes das originais não serão aceitos para troca ou devolução, exceto em casos de defeito de fabricação comprovado.
+            <p className="mb-2">
+              Após o recebimento e análise do produto em nosso centro de distribuição, o reembolso será realizado conforme a forma de pagamento utilizada na compra.
+            </p>
+            <p>
+              O valor do frete original também será reembolsado, conforme previsto em lei.
             </p>
           </section>
 
           <div className="border-t border-border" />
 
+          {/* 2. Troca por Tamanho, Cor ou Modelo */}
           <section>
-            <h2 className="font-display text-xl font-semibold text-foreground mb-3">4. Reembolso</h2>
+            <h2 className="font-display text-xl font-semibold text-foreground mb-3">2. Troca por Tamanho, Cor ou Modelo</h2>
+            <p className="mb-3">
+              A Jaleca oferece, <strong className="text-foreground font-medium">por liberalidade</strong>, 1 (uma) troca gratuita por pedido para produtos sem uso.
+            </p>
+            <p className="mb-3">
+              O prazo para solicitar a troca é de até <strong className="text-foreground font-medium">7 (sete) dias corridos</strong> após o recebimento do pedido.
+            </p>
+            <p className="mb-3">Para aprovação da troca, o produto deverá:</p>
+            <ul className="list-disc pl-5 space-y-2 mb-4">
+              <li>estar sem uso;</li>
+              <li>possuir etiquetas originais afixadas;</li>
+              <li>não apresentar odores, manchas, lavagens ou alterações;</li>
+              <li>ser enviado adequadamente embalado.</li>
+            </ul>
+            <p className="mb-2">
+              Após a aprovação da solicitação, a Jaleca disponibilizará uma etiqueta de logística reversa para devolução do produto original.
+            </p>
+            <p className="mb-4">
+              Recebido e aprovado o item devolvido, será realizado o envio do novo produto.
+            </p>
+
+            <div className="bg-[hsl(var(--muted))] border border-border rounded-lg px-5 py-4">
+              <p className="font-semibold text-foreground text-sm mb-2">Importante</p>
+              <p className="mb-2">
+                Após a realização da troca por tamanho, cor ou modelo, considera-se concluída a escolha do produto pelo cliente, não sendo mais aplicável o direito de arrependimento previsto no Art. 49 do Código de Defesa do Consumidor em relação ao item originalmente adquirido.
+              </p>
+              <p>
+                Após a conclusão da troca, não serão aceitas novas solicitações de troca ou devolução por motivo de gosto, tamanho, cor, modelagem ou insatisfação pessoal.
+              </p>
+            </div>
+          </section>
+
+          <div className="border-t border-border" />
+
+          {/* 3. Produtos Personalizados */}
+          <section>
+            <h2 className="font-display text-xl font-semibold text-foreground mb-3">3. Produtos Personalizados</h2>
+            <p className="mb-3">
+              Produtos personalizados, bordados ou confeccionados sob medida não poderão ser devolvidos ou trocados por arrependimento, gosto pessoal, tamanho ou preferência estética.
+            </p>
+            <p className="mb-3">Trocas ou devoluções destes produtos serão aceitas apenas em casos de:</p>
+            <ul className="list-disc pl-5 space-y-2">
+              <li>defeito de fabricação;</li>
+              <li>erro de personalização realizado pela Jaleca;</li>
+              <li>divergência em relação ao pedido aprovado.</li>
+            </ul>
+          </section>
+
+          <div className="border-t border-border" />
+
+          {/* 4. Produto com Defeito */}
+          <section>
+            <h2 className="font-display text-xl font-semibold text-foreground mb-3">4. Produto com Defeito</h2>
+            <p className="mb-3">
+              Caso o produto apresente defeito de fabricação, o cliente poderá solicitar análise no prazo legal de até <strong className="text-foreground font-medium">90 (noventa) dias</strong>, conforme previsto no Código de Defesa do Consumidor.
+            </p>
+            <p className="mb-3">Para análise, poderão ser solicitadas:</p>
+            <ul className="list-disc pl-5 space-y-2 mb-4">
+              <li>fotos;</li>
+              <li>vídeos;</li>
+              <li>envio do produto para avaliação técnica.</li>
+            </ul>
+            <p className="mb-3">Constatado o defeito de fabricação, a Jaleca poderá, conforme o caso:</p>
+            <ul className="list-disc pl-5 space-y-2 mb-4">
+              <li>realizar o reparo;</li>
+              <li>efetuar a troca do produto;</li>
+              <li>disponibilizar crédito;</li>
+              <li>realizar o reembolso integral.</li>
+            </ul>
+            <p className="mb-2">
+              <strong className="text-foreground font-medium">Não serão considerados defeitos de fabricação</strong> problemas decorrentes de mau uso, lavagem inadequada, desgaste natural ou uso indevido.
+            </p>
+          </section>
+
+          <div className="border-t border-border" />
+
+          {/* 5. Condições Gerais */}
+          <section>
+            <h2 className="font-display text-xl font-semibold text-foreground mb-3">5. Condições Gerais</h2>
+            <p className="mb-3">
+              A Jaleca se reserva o direito de recusar solicitações de troca ou devolução caso o produto:
+            </p>
+            <ul className="list-disc pl-5 space-y-2 mb-4">
+              <li>apresente sinais de uso;</li>
+              <li>esteja sem etiqueta;</li>
+              <li>tenha sido lavado ou alterado;</li>
+              <li>não esteja de acordo com as condições descritas nesta política.</li>
+            </ul>
+            <p>
+              O prazo para análise dos produtos devolvidos é de até <strong className="text-foreground font-medium">7 (sete) dias úteis</strong> após o recebimento em nosso centro de distribuição.
+            </p>
+          </section>
+
+          <div className="border-t border-border" />
+
+          {/* 6. Reembolso */}
+          <section>
+            <h2 className="font-display text-xl font-semibold text-foreground mb-3">6. Reembolso</h2>
             <p className="mb-3">
               Após o recebimento e conferência do produto em nosso estoque, o reembolso será processado da seguinte forma:
             </p>
@@ -180,42 +238,6 @@ export default function TrocasEDevolucoesPage() {
               <li><strong className="text-foreground font-medium">Cartão de crédito:</strong> estorno na fatura em até 2 ciclos de cobrança, conforme a operadora.</li>
               <li><strong className="text-foreground font-medium">PIX ou boleto:</strong> transferência bancária em até 5 dias úteis após a confirmação da devolução.</li>
               <li><strong className="text-foreground font-medium">Crédito na loja:</strong> disponível imediatamente após a confirmação, podendo ser usado em novos pedidos.</li>
-            </ul>
-            <p className="mt-3">
-              Em casos de desistência dentro do prazo de 7 dias (CDC Art. 49), o reembolso inclui o valor do frete pago na compra.
-            </p>
-          </section>
-
-          <div className="border-t border-border" />
-
-          <section>
-            <h2 className="font-display text-xl font-semibold text-foreground mb-3">5. Frete de Devolução</h2>
-            <p className="mb-3">
-              A devolução do produto deve ser realizada pelas modalidades <strong className="text-foreground font-medium">JADLOG</strong> ou <strong className="text-foreground font-medium">PAC</strong>.
-            </p>
-            <ul className="list-disc pl-5 space-y-2">
-              <li><strong className="text-foreground font-medium">Defeito de fabricação:</strong> o frete de devolução é por nossa conta. Enviaremos uma etiqueta pré-paga após a solicitação.</li>
-              <li>
-                <strong className="text-foreground font-medium">Troca por tamanho, cor ou modelo (sem defeito):</strong>
-                <ul className="list-disc pl-5 mt-2 space-y-1">
-                  <li><strong className="text-foreground font-medium">1 (uma) troca gratuita por pedido:</strong> o frete de devolução e o reenvio do novo produto são por nossa conta.</li>
-                  <li><strong className="text-foreground font-medium">Após a conclusão dessa troca:</strong> não serão aceitas novas solicitações de troca ou devolução por insatisfação com tamanho, cor ou modelo no mesmo pedido.</li>
-                  <li><strong className="text-foreground font-medium">Defeito de fabricação:</strong> seguem os prazos do Código de Defesa do Consumidor (30 ou 90 dias) e continuam sempre cobertos pela Jaleca, com frete por nossa conta — independentemente de já ter ocorrido troca anterior.</li>
-                </ul>
-              </li>
-              <li><strong className="text-foreground font-medium">Arrependimento (CDC Art. 49):</strong> o frete de devolução é por nossa conta. O reembolso do frete original também será realizado.</li>
-            </ul>
-          </section>
-
-          <div className="border-t border-border" />
-
-          <section>
-            <h2 className="font-display text-xl font-semibold text-foreground mb-3">6. Exceções</h2>
-            <p className="mb-3">Não aceitamos trocas ou devoluções nos seguintes casos:</p>
-            <ul className="list-disc pl-5 space-y-2">
-              <li>Produtos personalizados ou feitos sob medida a pedido do cliente;</li>
-              <li>Produtos com sinais de uso, lavagem, perfume ou alteração;</li>
-              <li>Solicitações fora dos prazos estabelecidos acima.</li>
             </ul>
           </section>
 

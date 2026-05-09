@@ -333,6 +333,37 @@ function jaleca_register_product_route() {
     ));
 }
 
+// ── Endpoint: POST /jaleca/v1/variation-gallery/{id} ─────────────────────────
+add_action('rest_api_init', function() {
+    register_rest_route('jaleca/v1', '/variation-gallery/(?P<id>\d+)', array(
+        'methods'             => 'POST',
+        'permission_callback' => '__return_true',
+        'callback'            => function(WP_REST_Request $req) {
+            $secret_expected = defined('JALECA_REGISTER_SECRET') ? JALECA_REGISTER_SECRET : 'jaleca-register-secret-2026';
+            if ($req->get_header('X-Jaleca-Secret') !== $secret_expected) {
+                return new WP_Error('unauthorized', 'Unauthorized', array('status' => 401));
+            }
+            $id          = absint($req['id']);
+            $image_id    = absint($req->get_param('image_id'));
+            $gallery_ids = array_map('absint', (array) $req->get_param('gallery_ids'));
+
+            if ($image_id) {
+                update_post_meta($id, '_thumbnail_id', $image_id);
+            }
+            if (!empty($gallery_ids)) {
+                update_post_meta($id, 'woo_variation_gallery_images', $gallery_ids);
+            }
+
+            return rest_ensure_response(array(
+                'ok'          => true,
+                'variation_id'=> $id,
+                'image_id'    => $image_id,
+                'gallery_ids' => $gallery_ids,
+            ));
+        },
+    ));
+});
+
 function jaleca_get_variation(WP_REST_Request $request) {
     $secret_expected = defined('JALECA_REGISTER_SECRET') ? JALECA_REGISTER_SECRET : 'jaleca-register-secret-2026';
     if ($request->get_header('X-Jaleca-Secret') !== $secret_expected) {
