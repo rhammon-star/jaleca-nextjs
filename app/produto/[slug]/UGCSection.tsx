@@ -13,10 +13,10 @@ const FOTOS = [
 ]
 
 const VIDEOS = [
-  { src: '/ugc/cliente-v1.mp4', thumb: '/ugc/cliente-v1-thumb.jpg', alt: 'Casal usando jaleco Jaleca' },
-  { src: '/ugc/cliente-v2.mp4', thumb: '/ugc/cliente-v2-thumb.jpg', alt: 'Médica usando jaleco bege Jaleca' },
-  { src: '/ugc/cliente-v3.mp4', thumb: '/ugc/cliente-v3-thumb.jpg', alt: 'Dentista usando jaleco masculino Jaleca' },
-  { src: '/ugc/cliente-v4.mp4', thumb: '/ugc/cliente-v4-thumb.jpg', alt: 'Nutricionista usando jaleco Jaleca' },
+  { src: '/ugc/cliente-v1.mp4', thumb: '/ugc/cliente-v1-thumb.webp', alt: 'Casal usando jaleco Jaleca' },
+  { src: '/ugc/cliente-v2.mp4', thumb: '/ugc/cliente-v2-thumb.webp', alt: 'Médica usando jaleco bege Jaleca' },
+  { src: '/ugc/cliente-v3.mp4', thumb: '/ugc/cliente-v3-thumb.webp', alt: 'Dentista usando jaleco masculino Jaleca' },
+  { src: '/ugc/cliente-v4.mp4', thumb: '/ugc/cliente-v4-thumb.webp', alt: 'Nutricionista usando jaleco Jaleca' },
 ]
 
 function VideoItem({ src, thumb, alt }: { src: string; thumb: string; alt: string }) {
