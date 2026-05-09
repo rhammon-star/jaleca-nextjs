@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { graphqlClient, GET_PRODUCT_BY_SLUG } from '@/lib/graphql'
 import type { WooProduct } from '@/components/ProductCard'
+import UGCSection from '@/components/UGCSection'
 
 export const revalidate = 3600
 
@@ -571,7 +572,9 @@ export default async function JalecoFemininoBrancoPage() {
           </div>
         </section>
 
-      </main>
+            <UGCSection />
+
+    </main>
     </>
   )
 }

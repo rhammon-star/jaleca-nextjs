@@ -5,6 +5,7 @@ import type { WooProduct } from '@/components/ProductCard'
 import ProductCard from '@/components/ProductCard'
 import ProductDetailSection from '@/components/ProductDetailSection'
 import { getCachedHeroImage } from '@/lib/profession-page-data'
+import UGCSection from '@/components/UGCSection'
 
 // ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
 export const revalidate = 3600
@@ -329,7 +330,9 @@ export default async function JalecoPlusSizePage() {
           </div>
         </section>
 
-      </main>
+            <UGCSection />
+
+    </main>
     </>
   )
 }

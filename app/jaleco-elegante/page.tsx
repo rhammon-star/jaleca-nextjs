@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { getGooglePlaceData } from '@/lib/google-places'
 import { getCachedHeroImage } from '@/lib/profession-page-data'
 import ProfessionProductGrid from '@/components/ProfessionProductGrid'
+import UGCSection from '@/components/UGCSection'
 
 export const revalidate = 3600
 
@@ -270,7 +271,9 @@ export default async function Page() {
           </div>
         </section>
 
-      </main>
+            <UGCSection />
+
+    </main>
     </>
   )
 }

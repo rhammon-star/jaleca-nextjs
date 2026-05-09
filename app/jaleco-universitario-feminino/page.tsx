@@ -9,6 +9,7 @@ import { PROFESSION_PRODUCT_SLUGS, prioritizeByColor, getVerMaisUrl } from '@/li
 import { getAllProducts } from '@/lib/all-products'
 import { getHeroImageSlug } from '@/lib/profession-hero-images'
 import { getCachedHeroImage, getCachedBlogPosts } from '@/lib/profession-page-data'
+import UGCSection from '@/components/UGCSection'
 
 export const revalidate = 3600
 
@@ -512,7 +513,9 @@ export default async function JalecoUniversitarioFemininoPage() {
           </div>
         </section>
 
-      </main>
+            <UGCSection />
+
+    </main>
     </>
   )
 }

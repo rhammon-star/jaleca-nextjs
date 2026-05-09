@@ -3,6 +3,7 @@ import Link from 'next/link'
 import ProductsClient from '@/app/produtos/ProductsClient'
 import { getAllProducts } from '@/lib/all-products'
 import type { Metadata } from 'next'
+import UGCSection from '@/components/UGCSection'
 
 // FAQPage schema para GEO — responde perguntas que ChatGPT/Gemini usam para recomendar
 const CAT_FAQ: Record<string, { q: string; a: string }[]> = {
@@ -627,6 +628,8 @@ export default async function CategoriaPage({
           </Link>
         </div>
       </nav>
+      <UGCSection />
+
     </>
   )
 }

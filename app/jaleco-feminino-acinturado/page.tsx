@@ -7,6 +7,7 @@ import ProductDetailSection from '@/components/ProductDetailSection'
 import { getGooglePlaceData } from '@/lib/google-places'
 import { getCachedBlogPosts, getCachedHeroImage } from '@/lib/profession-page-data'
 import TrustBadgeBar from '@/components/TrustBadgeBar'
+import UGCSection from '@/components/UGCSection'
 
 export const revalidate = 3600
 
@@ -441,7 +442,9 @@ export default async function JalecoFemininoAcinturadoPage() {
           </div>
         </section>
 
-      </main>
+            <UGCSection />
+
+    </main>
     </>
   )
 }

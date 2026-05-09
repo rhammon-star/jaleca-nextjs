@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getGooglePlaceData } from '@/lib/google-places'
 import PretoProductGrid from '@/components/PretoProductGrid'
+import UGCSection from '@/components/UGCSection'
 
 // ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
 export const revalidate = 3600
@@ -235,7 +236,9 @@ export default async function Page() {
           </div>
         </section>
 
-      </main>
+            <UGCSection />
+
+    </main>
     </>
   )
 }

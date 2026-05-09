@@ -11,6 +11,7 @@ import { getHeroImageSlug } from '@/lib/profession-hero-images'
 import { getCachedHeroImage, getCachedBlogPosts } from '@/lib/profession-page-data'
 import TrustBadgeBar from '@/components/TrustBadgeBar'
 import ProfessionProductGrid from '@/components/ProfessionProductGrid'
+import UGCSection from '@/components/UGCSection'
 
 // ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
 export const revalidate = 3600
@@ -455,7 +456,9 @@ export default async function JalecoDentistaPage() {
           </div>
         </section>
 
-      </main>
+            <UGCSection />
+
+    </main>
     </>
   )
 }
