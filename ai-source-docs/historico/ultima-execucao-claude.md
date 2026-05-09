@@ -1,37 +1,17 @@
-Data: 2026-05-08 14:11
-Tarefa: EMERGÊNCIA — site quebrado em todas páginas /produto/* (clientes não conseguiam comprar)
+Data: 2026-05-09 14:30
+Tarefa: Adicionar FAQ com 20 perguntas no final da home (jaleca.com.br) com FAQPage Schema JSON-LD para GEO/SEO
 
-Causa raiz identificada via Vercel logs:
-- Upstash Redis (KV) plano Free atingiu limite de 500.000 comandos/mês
-- generateMetadata em /produto/[slug] chamava `smembers color-slugs` → UpstashError → 500 em toda navegação
-- Não era DNS/Hostinger (wp.jaleca.com.br já estava OK no IP novo 76.13.90.209)
-
-Ação imediata (usuário no console Vercel):
-- Upgrade Upstash Free → Fixed 250 MB ($10/mês) via Vercel Marketplace > Integrations > Upstash > jaleca-kv > Settings
-- Database: jaleca-kv (ID 76941c3b-d6fc-431c-afd8-66b00b8f5314, endpoint poetic-leopard-66713)
-- Páginas voltaram (HTTP 200 confirmado em 3 produtos), zero erros UpstashError em logs
-
-Patch defensivo (aplicado local, NÃO deployado ainda — vai no próximo deploy):
 Arquivos alterados:
-- lib/kv-colors.ts
+- components/FAQHome.tsx (novo)
+- app/page.tsx (import + render antes do </main>)
 
 O que foi feito:
-- try/catch em kv.smembers — falha agora retorna Set vazio em vez de derrubar página
-- TTL cache em memória: 5min → 30min em sucesso (redução >90% das chamadas Redis)
-- Em falha: cache de 1min para retry rápido sem martelar Redis
-- registerColorSlug também envolto em try/catch
-- Type-check (tsc --noEmit) passou clean
+- 20 perguntas/respostas curadas (Claude + GPT + Gemini): tecido, tamanho, bordado, prazo, marketplace, troca, lavagem, atacado, gestante/plus, cores, pagamento, masculino, scrub vs jaleco, NF-e, pós-venda, urgente, formatura, veterinária/estética/nutrição, normas hospitalares, vs uniforme do hospital
+- Componente FAQHome com <details>/<summary> nativo (acordeão leve, sem JS) + ícone +/× via group-open
+- FAQPage Schema JSON-LD com 20 Question/Answer para citação por LLMs (ChatGPT/Claude/Perplexity) e rich result Google
+- Inserido após InstagramGallery, antes do </main>
 
-Comandos rodados:
-- vercel logs jaleca.com.br (diagnóstico)
-- npx tsc --noEmit (validação)
-
-Resultado: OK — site operacional, vendas liberadas, patch pronto para próximo deploy.
-
-Riscos identificados:
-- Custo Fixed $10/mês pode ser overkill (Pay-as-You-Go ~$1-3/mês com tráfego atual)
-- Backlog salvo em memory/backlog_upstash_revisao.md — revisar consumo em 2026-06-08
-
-Próximo passo:
-- Próximo deploy levará patch defensivo automaticamente
-- 2026-06-08: verificar consumo real Upstash e avaliar troca para Pay-as-You-Go
+Comandos rodados: npx tsc --noEmit (passou)
+Resultado: OK — pronto para deploy (não deployado ainda, conforme regra de pedir antes)
+Riscos identificados: nenhum — área aditiva, não tocou em hero/checkout/pixel/schema principal/canonical
+Próximo passo: aprovar deploy para prod

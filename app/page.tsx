@@ -1,4 +1,5 @@
 import { InstagramGallery } from '@/components/InstagramGallery'
+import FAQHome, { faqs } from '@/components/FAQHome'
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Shield, Sparkles, Ruler, Truck, CreditCard, RotateCcw, ShieldCheck, Lock, Percent } from "lucide-react";
@@ -155,6 +156,20 @@ export default async function Home() {
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd).replace(/</g, '\\u003c') }}
+    />
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: faqs.map(f => ({
+            '@type': 'Question',
+            name: f.q,
+            acceptedAnswer: { '@type': 'Answer', text: f.a },
+          })),
+        }).replace(/</g, '\\u003c'),
+      }}
     />
     <main className="bg-background">
       <TrustBadgeBar />
@@ -560,6 +575,8 @@ export default async function Home() {
       <section style={{ padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)', maxWidth: '1200px', margin: '0 auto' }}>
         <InstagramGallery maxItems={6} title="Inspiração — Jalecos no Instagram" />
       </section>
+
+      <FAQHome />
 
     </main>
     </>
