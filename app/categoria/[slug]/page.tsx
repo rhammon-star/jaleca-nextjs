@@ -5,6 +5,8 @@ import { getAllProducts } from '@/lib/all-products'
 import type { Metadata } from 'next'
 import UGCSection from '@/components/UGCSection'
 
+export const revalidate = 600
+
 // FAQPage schema para GEO — responde perguntas que ChatGPT/Gemini usam para recomendar
 const CAT_FAQ: Record<string, { q: string; a: string }[]> = {
   'jalecos-manga-curta': [
