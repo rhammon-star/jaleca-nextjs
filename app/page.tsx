@@ -111,6 +111,39 @@ export default async function Home() {
     getGooglePlaceData(),
   ]);
 
+  const homeTestimonials = [
+    {
+      name: 'Dra. Ana Carolina',
+      role: 'Médica — São Paulo, SP',
+      text: 'O caimento é impecável e o tecido é extremamente confortável para longas jornadas. Meu jaleco Jaleca é o mais elogiado da clínica!',
+      stars: 5,
+    },
+    {
+      name: 'Enf. Patricia Mendes',
+      role: 'Enfermeira — Belo Horizonte, MG',
+      text: 'Finalmente um uniforme que une elegância e praticidade. As cores são lindas e o material não amassa durante o plantão.',
+      stars: 5,
+    },
+    {
+      name: 'Dr. Felipe Souza',
+      role: 'Cirurgião — Rio de Janeiro, RJ',
+      text: 'Comprei o scrub e fiquei impressionado com a qualidade. Entrega rápida, produto exatamente como descrito. Já estou na terceira compra!',
+      stars: 5,
+    },
+  ]
+
+  const testimonialsJsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': homeTestimonials.map((t, i) => ({
+      '@type': 'Review',
+      '@id': `https://jaleca.com.br/#review-${i + 1}`,
+      author: { '@type': 'Person', name: t.name, jobTitle: t.role },
+      reviewRating: { '@type': 'Rating', ratingValue: t.stars, bestRating: 5, worstRating: 1 },
+      reviewBody: t.text,
+      itemReviewed: { '@type': 'Organization', name: 'Jaleca', url: 'https://jaleca.com.br' },
+    })),
+  }
+
   const localBusinessJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'ClothingStore',
@@ -158,6 +191,10 @@ export default async function Home() {
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd).replace(/</g, '\\u003c') }}
+    />
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(testimonialsJsonLd).replace(/</g, '\\u003c') }}
     />
     <script
       type="application/ld+json"
@@ -412,26 +449,7 @@ export default async function Home() {
               <h2 className="font-display text-3xl md:text-4xl font-semibold">O que dizem nossos clientes</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {[
-                {
-                  name: 'Dra. Ana Carolina',
-                  role: 'Médica — São Paulo, SP',
-                  text: 'O caimento é impecável e o tecido é extremamente confortável para longas jornadas. Meu jaleco Jaleca é o mais elogiado da clínica!',
-                  stars: 5,
-                },
-                {
-                  name: 'Enf. Patricia Mendes',
-                  role: 'Enfermeira — Belo Horizonte, MG',
-                  text: 'Finalmente um uniforme que une elegância e praticidade. As cores são lindas e o material não amassa durante o plantão.',
-                  stars: 5,
-                },
-                {
-                  name: 'Dr. Felipe Souza',
-                  role: 'Cirurgião — Rio de Janeiro, RJ',
-                  text: 'Comprei o scrub e fiquei impressionado com a qualidade. Entrega rápida, produto exatamente como descrito. Já estou na terceira compra!',
-                  stars: 5,
-                },
-              ].map((t, i) => (
+              {homeTestimonials.map((t, i) => (
                 <ScrollReveal key={t.name} delay={i * 100}>
                   <div className="bg-background border border-border p-7 flex flex-col gap-4">
                     <div className="flex gap-0.5">

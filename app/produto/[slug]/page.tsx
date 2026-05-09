@@ -600,7 +600,6 @@ export default async function ProdutoPage({
       aggregateRating: {
         '@type': 'AggregateRating',
         ratingValue: avgRating.toFixed(1),
-        reviewCount: resolvedReviews.length > 0 ? resolvedReviews.length : (googlePlace?.reviewCount ?? 0),
         bestRating: '5',
         worstRating: '1',
       },
