@@ -17,13 +17,13 @@ import BottomNavBar from "@/components/BottomNavBar";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics as VercelAnalytics } from "@vercel/analytics/next";
 import dynamic from "next/dynamic";
+import CookieConsent from "@/components/CookieConsent";
 
 // Componentes não-críticos: lazy-loaded fora do bundle inicial.
 // Mantém tracking/funcionalidade intactos mas tira ~50-80KB do JS crítico.
 const CartRecoveryCapture = dynamic(() => import("@/components/CartRecoveryCapture"));
 const CompareBar = dynamic(() => import("@/components/CompareBar"));
 const TawkToChat = dynamic(() => import("@/components/TawkToChat"));
-const CookieConsent = dynamic(() => import("@/components/CookieConsent"));
 const FranqueadoBanner = dynamic(() => import("@/components/FranqueadoBanner"));
 const GoogleMerchantBadge = dynamic(() => import("@/components/GoogleMerchantBadge"));
 
@@ -196,7 +196,6 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://wp.jaleca.com.br" />
         <link rel="dns-prefetch" href="https://lh3.googleusercontent.com" />
         <link rel="dns-prefetch" href="https://embed.tawk.to" />
-        <link rel="dns-prefetch" href="https://t.contentsquare.net" />
         <link rel="dns-prefetch" href="https://bat.bing.net" />
         <link rel="dns-prefetch" href="https://www.clarity.ms" />
       </head>
@@ -211,7 +210,7 @@ export default function RootLayout({
                 <Analytics />
                 <ClickIdCapture />
                 {/* Microsoft Advertising UET tag */}
-                <Script id="bing-uet" strategy="lazyOnload" dangerouslySetInnerHTML={{
+                <Script id="bing-uet" strategy="afterInteractive" dangerouslySetInnerHTML={{
                   __html: `window.uetq=window.uetq||[];window.uetq.push('consent','default',{'ad_storage':'granted'});(function(w,d,t,u,o){w[u]=w[u]||[],o.ts=(new Date).getTime();var n=d.createElement(t);n.src="https://bat.bing.net/bat.js?ti="+o.ti+("uetq"!=u?"&q="+u:""),n.async=1,n.onload=n.onreadystatechange=function(){var s=this.readyState;s&&"loaded"!==s&&"complete"!==s||(o.q=w[u],w[u]=new UET(o),w[u].push("pageLoad"),n.onload=n.onreadystatechange=null)};var i=d.getElementsByTagName(t)[0];i.parentNode.insertBefore(n,i)})(window,document,"script","uetq",{ti:"187247004",enableAutoSpaTracking:true});`,
                 }} />
                 <Header />
@@ -229,10 +228,6 @@ export default function RootLayout({
                 <BottomNavBar />
                 <SpeedInsights />
                 <VercelAnalytics />
-                <Script
-                  src="https://t.contentsquare.net/uxa/d63ab31369d59.js"
-                  strategy="lazyOnload"
-                />
                 {/* Microsoft Clarity */}
                 <Script id="ms-clarity" strategy="lazyOnload" dangerouslySetInnerHTML={{
                   __html: `(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","wgdsoti2de");`,

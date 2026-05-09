@@ -159,7 +159,7 @@ export default async function Page() {
             {placeData && (
               <div className="flex items-center justify-center gap-2 mt-10">
                 <span style={{ color: '#c8a96e', fontSize: '0.85rem', letterSpacing: 2 }}>★★★★★</span>
-                <span style={{ fontSize: '0.78rem', color: '#6b6b6b' }}>{placeData.rating.toFixed(1)} de 5 no Google · {placeData.reviewCount} avaliações</span>
+                <span style={{ fontSize: '0.78rem', color: '#6b6b6b' }}>⭐ {placeData.rating.toFixed(1)} no Google</span>
               </div>
             )}
           </div>

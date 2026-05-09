@@ -5,7 +5,6 @@ import Link from "next/link";
 import { ArrowRight, Shield, Sparkles, Ruler, Truck, CreditCard, RotateCcw, ShieldCheck, Lock, Percent } from "lucide-react";
 import TrustBadgeBar from "@/components/TrustBadgeBar";
 import GoogleReviewsServer from "@/components/GoogleReviewsServer";
-import { getGooglePlaceData } from "@/lib/google-places";
 import { GET_PRODUCTS } from "@/lib/graphql";
 import { Suspense } from "react";
 import ProductCard, { type WooProduct } from "@/components/ProductCard";
@@ -103,13 +102,7 @@ async function getFeaturedProducts(): Promise<WooProduct[]> {
 }
 
 export default async function Home() {
-  // googlePlace é buscado apenas para o schema JSON-LD (rating/reviewCount)
-  // O componente de reviews é carregado via Suspense streaming para não bloquear o HTML inicial
-  // Force rebuild 2026-04-24
-  const [products, googlePlace] = await Promise.all([
-    getFeaturedProducts(),
-    getGooglePlaceData(),
-  ]);
+  const products = await getFeaturedProducts();
 
   const homeTestimonials = [
     {
@@ -176,8 +169,8 @@ export default async function Home() {
     ],
     aggregateRating: {
       '@type': 'AggregateRating',
-      ratingValue: String(googlePlace?.rating ?? '4.9'),
-      reviewCount: googlePlace?.reviewCount ?? 58,
+      ratingValue: '4.9',
+      reviewCount: 58,
       bestRating: '5',
       worstRating: '1',
     },
@@ -233,7 +226,7 @@ export default async function Home() {
             <div className="flex items-center gap-3 mb-8 pb-8 border-b border-[#e8e0d5]">
               <div className="flex text-[#c4a97d] text-lg leading-none">★★★★★</div>
               <p className="text-[15px] md:text-[13px] text-[#555]">
-                <span className="font-semibold text-[#1a1a1a]">{googlePlace?.rating ?? '4.9'}/5 no Google</span> — clientes satisfeitos em todo o Brasil
+                <span className="font-semibold text-[#1a1a1a]">⭐ 4.9 no Google</span> — clientes satisfeitos em todo o Brasil
               </p>
             </div>
             <div className="flex flex-wrap gap-3">
