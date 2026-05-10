@@ -784,15 +784,15 @@ export default function ProductDetailClient({
               )}
             </div>
 
-            {/* Thumbnails */}
+            {/* Thumbnails — desktop only (mobile usa swipe + dots) */}
             {galleryLoading ? (
-              <div className="flex gap-2 overflow-x-auto pb-1">
+              <div className="hidden md:flex gap-2 overflow-x-auto pb-1">
                 {[...Array(4)].map((_, i) => (
                   <div key={i} className="flex-shrink-0 w-16 h-20 rounded-md bg-secondary/40 animate-pulse" />
                 ))}
               </div>
             ) : allImages.length > 1 && (
-              <div className="flex gap-2 overflow-x-auto pb-1">
+              <div className="hidden md:flex gap-2 overflow-x-auto pb-1">
                 {allImages.map((img, idx) => (
                   <button
                     key={img.sourceUrl}
