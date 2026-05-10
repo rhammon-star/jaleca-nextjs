@@ -7,6 +7,8 @@ import type { Metadata } from 'next'
 import { Truck, RotateCcw, ShieldCheck, Star } from 'lucide-react'
 import { getAllProducts } from '@/lib/all-products'
 import UGCSection from '@/components/UGCSection'
+import { getPosts } from '@/lib/wordpress'
+import type { WPPost } from '@/lib/wordpress'
 
 type CidadeInfo = {
   nome: string
@@ -865,8 +867,9 @@ export default async function CidadePage({
   const cidade = CIDADES[slug]
   if (!cidade) notFound()
 
-  const [products] = await Promise.all([
+  const [products, posts] = await Promise.all([
     getAllProducts(),
+    getPosts({ per_page: 3, search: 'jaleco' }).catch(() => [] as WPPost[]),
   ])
   const heroImage = cidade.heroUrl ?? null
 
@@ -1025,6 +1028,79 @@ export default async function CidadePage({
         </div>
       </section>
 
+      {/* ── CTA 200k ── */}
+      <section className="bg-secondary/30 py-16 px-4 text-center relative overflow-hidden">
+        <span aria-hidden="true" className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-display text-[clamp(5rem,18vw,16rem)] font-light text-foreground/[0.03] whitespace-nowrap pointer-events-none select-none">
+          JALECA
+        </span>
+        <div className="relative z-10 max-w-2xl mx-auto">
+          <p className="text-[11px] tracking-[0.22em] uppercase text-muted-foreground mb-3">200.000+ peças vendidas</p>
+          <h2 className="font-display text-4xl md:text-5xl font-normal leading-tight mb-4">
+            O jaleco certo<br /><em className="italic font-light">faz a diferença</em>
+          </h2>
+          <p className="text-sm text-muted-foreground font-light leading-relaxed mb-8 max-w-md mx-auto">
+            Enviamos para {cidade.nome} com rastreamento completo. Troca grátis em 30 dias.
+          </p>
+          <div className="flex gap-3 justify-center flex-wrap">
+            <Link href="/categoria/jalecos-femininos" className="inline-flex items-center gap-2 bg-ink text-background px-7 py-3 text-xs font-semibold tracking-widest uppercase hover:bg-ink/90 transition-all">
+              Ver Coleção Feminina
+            </Link>
+            <Link href="/categoria/jalecos-masculinos" className="inline-flex items-center gap-2 border border-ink text-ink px-7 py-3 text-xs font-semibold tracking-widest uppercase hover:bg-ink hover:text-background transition-all">
+              Ver Coleção Masculina
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ── CLIENTES USANDO (UGC) ── */}
+      <UGCSection />
+
+      {/* ── BLOG ── */}
+      <section className="py-14 px-4" style={{ background: '#f9f7f4' }}>
+        <div className="container max-w-5xl">
+          <p className="text-[11px] tracking-[0.22em] uppercase text-muted-foreground mb-2">Blog Jaleca</p>
+          <h2 className="font-display text-3xl font-normal mb-10">
+            Leitura para<br /><em className="italic font-light">profissionais</em>
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-border">
+            {(posts.length > 0 ? posts : [
+              { id: 1, slug: 'como-lavar-jaleco', title: { rendered: 'Como lavar e conservar seu jaleco' }, excerpt: { rendered: 'Erros simples de lavagem aceleram o amarelamento. Veja o guia completo.' }, _embedded: undefined },
+              { id: 2, slug: '', title: { rendered: 'Jaleco branco: tradição profissional' }, excerpt: { rendered: 'Por que o branco domina as profissões de saúde.' }, _embedded: undefined },
+              { id: 3, slug: 'medidas', title: { rendered: 'Como escolher o tamanho certo' }, excerpt: { rendered: 'Passo a passo para encontrar o tamanho ideal.' }, _embedded: undefined },
+            ] as WPPost[]).map(post => {
+              const img = post._embedded?.['wp:featuredmedia']?.[0]?.source_url
+              const excerpt = post.excerpt.rendered.replace(/<[^>]+>/g, '').slice(0, 110) + '…'
+              const title = post.title.rendered.replace(/<[^>]+>/g, '')
+              const href = post.slug ? `/blog/${post.slug}` : '/blog'
+              return (
+                <Link key={post.id} href={href} className="block bg-background text-foreground no-underline hover:bg-secondary/20 transition-colors">
+                  {img ? (
+                    <div className="aspect-[16/9] overflow-hidden">
+                      <img src={img} alt={title} className="w-full h-full object-cover" />
+                    </div>
+                  ) : (
+                    <div className="aspect-[16/9] bg-secondary/40 flex items-center justify-center">
+                      <span className="font-display italic text-muted-foreground text-sm">Jaleca</span>
+                    </div>
+                  )}
+                  <div className="p-5">
+                    <span className="text-[10px] tracking-widest uppercase text-muted-foreground block mb-2">Blog</span>
+                    <h3 className="font-display text-lg font-normal leading-snug mb-2">{title}</h3>
+                    <p className="text-sm text-muted-foreground font-light leading-relaxed mb-3">{excerpt}</p>
+                    <span className="text-xs tracking-wider uppercase">Ler artigo →</span>
+                  </div>
+                </Link>
+              )
+            })}
+          </div>
+          <div className="text-center mt-6">
+            <Link href="/blog" className="text-xs tracking-widest uppercase text-muted-foreground hover:text-foreground transition-colors">
+              Ver todos os artigos →
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Conteúdo local */}
       {cidade.conteudoLocal && (
         <section className="py-10 px-4">
@@ -1089,7 +1165,6 @@ export default async function CidadePage({
           </div>
         </div>
       </section>
-          <UGCSection />
 
     </main>
   )
