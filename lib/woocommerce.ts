@@ -226,3 +226,27 @@ export async function createProductReview(data: {
     body: JSON.stringify(data),
   })
 }
+
+export async function getProductRatingBySlug(slug: string): Promise<{ ratingValue: number; reviewCount: number } | null> {
+  try {
+    const products = await wcFetch<Array<{ average_rating: string; rating_count: number }>>(
+      `/products?slug=${encodeURIComponent(slug)}&_fields=average_rating,rating_count&per_page=1`
+    )
+    const p = products[0]
+    if (!p || !p.rating_count) return null
+    return { ratingValue: parseFloat(p.average_rating), reviewCount: p.rating_count }
+  } catch {
+    return null
+  }
+}
+
+export async function getProductImageBySlug(slug: string): Promise<string | null> {
+  try {
+    const products = await wcFetch<Array<{ images: Array<{ src: string }> }>>(
+      `/products?slug=${encodeURIComponent(slug)}&_fields=images&per_page=1`
+    )
+    return products[0]?.images?.[0]?.src ?? null
+  } catch {
+    return null
+  }
+}

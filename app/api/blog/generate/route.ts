@@ -5,6 +5,8 @@ import { verifyBlogToken, getUserById } from '@/lib/blog-auth'
 import { generateContent, humanizeContent, analyzeSEO, generateImageQuery, improveSEOContent } from '@/lib/ai-content'
 import { searchImage } from '@/lib/pexels'
 import { publishPost, uploadMedia } from '@/lib/wordpress'
+import { getProductImageBySlug, getProductRatingBySlug } from '@/lib/woocommerce'
+import { pickAuthor, authorSchema } from '@/lib/authors'
 import { cookies } from 'next/headers'
 
 function getToken(request: NextRequest): string | null {
@@ -86,6 +88,59 @@ export async function POST(request: NextRequest) {
             : optimizedContent
         }
 
+        // AggregateRating schema when product is linked (G)
+        let aggregateRatingTag = ''
+        if (linkedProduct) {
+          const rating = await getProductRatingBySlug(linkedProduct)
+          if (rating && rating.reviewCount > 0) {
+            const ratingSchema = {
+              '@context': 'https://schema.org',
+              '@type': 'Product',
+              name: generated.title,
+              aggregateRating: {
+                '@type': 'AggregateRating',
+                ratingValue: rating.ratingValue,
+                reviewCount: rating.reviewCount,
+              },
+            }
+            aggregateRatingTag = `<script type="application/ld+json">${JSON.stringify(ratingSchema)}</script>\n`
+          }
+        }
+
+        // Author (B) + about/mentions + HowTo schemas (AEO)
+        const author = pickAuthor(topic)
+        const aboutSchema = JSON.stringify([
+          { '@type': 'Thing', name: 'Jaleco', sameAs: 'https://pt.wikipedia.org/wiki/Jaleco' },
+          { '@type': 'Thing', name: topic },
+        ])
+        const mentionsSchema = JSON.stringify([
+          { '@type': 'Organization', name: 'Anvisa', sameAs: 'https://pt.wikipedia.org/wiki/Ag%C3%AAncia_Nacional_de_Vigil%C3%A2ncia_Sanit%C3%A1ria' },
+          { '@type': 'Organization', name: 'CFM', sameAs: 'https://pt.wikipedia.org/wiki/Conselho_Federal_de_Medicina' },
+        ])
+        const dateIso = new Date().toISOString().split('T')[0]
+
+        const articleSchemaTag = `<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":${JSON.stringify(generated.title)},"author":${JSON.stringify(authorSchema(author))},"about":${aboutSchema},"mentions":${mentionsSchema},"dateModified":"${dateIso}","publisher":{"@type":"Organization","name":"Jaleca","url":"https://jaleca.com.br","logo":{"@type":"ImageObject","url":"https://jaleca.com.br/logo-email.png"}}}</script>\n`
+
+        // Author bio block injected at end of content (B)
+        const authorBioBlock = `\n<div style="border-top:1px solid #e8e0d5;margin-top:2rem;padding-top:1rem;display:flex;align-items:flex-start;gap:0.75rem"><div><p style="font-size:0.82rem;font-weight:600;color:#1a1a1a;margin:0">${author.name}</p><p style="font-size:0.78rem;color:#888;margin:0">${author.jobTitle} · <a href="https://jaleca.com.br/autor/${author.slug}" style="color:#c4a97d">Ver perfil completo</a></p><p style="font-size:0.8rem;color:#555;margin-top:0.25rem">${author.bio.slice(0, 120)}...</p></div></div>`
+
+        let howToSchemaTag = ''
+        if (generated.isTutorial && generated.faqItems?.length) {
+          const steps = generated.faqItems.map((f, i) => ({
+            '@type': 'HowToStep',
+            position: i + 1,
+            name: f.question,
+            text: f.answer,
+          }))
+          howToSchemaTag = `<script type="application/ld+json">{"@context":"https://schema.org","@type":"HowTo","name":${JSON.stringify(generated.title)},"step":${JSON.stringify(steps)}}</script>\n`
+        }
+
+        // Visible dateModified block (I + F)
+        const today = new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' })
+        const dateBlock = `<p style="font-size:0.8rem;color:#888;margin-bottom:1.5rem">📅 Atualizado em ${today} · Equipe Jaleca</p>\n`
+
+        finalContent = aggregateRatingTag + articleSchemaTag + howToSchemaTag + dateBlock + finalContent + authorBioBlock
+
         // Re-analyze after improvements
         const finalSEO = await analyzeSEO({
           title: generated.title,
@@ -94,10 +149,32 @@ export async function POST(request: NextRequest) {
           slug: generated.suggestedSlug,
         })
 
-        // Step 4: Find image
+        // Step 4: Find image — alternates between WooCommerce product (A) and Pexels contextual (B)
         send('progress', { step: 4, message: 'Buscando imagem...' })
         const imageQuery = await generateImageQuery(topic)
-        const imageResult = await searchImage(imageQuery)
+
+        let imageResult: Awaited<ReturnType<typeof searchImage>> = null
+        let imageSource: 'product' | 'pexels' = 'pexels'
+
+        if (linkedProduct) {
+          const productImageUrl = await getProductImageBySlug(linkedProduct)
+          if (productImageUrl) {
+            imageResult = {
+              url: productImageUrl,
+              authorName: 'Jaleca',
+              authorLink: 'https://jaleca.com.br',
+              caption: `${generated.title} — Jaleca`,
+            }
+            imageSource = 'product'
+          }
+        }
+
+        if (!imageResult) {
+          imageResult = await searchImage(imageQuery)
+          imageSource = 'pexels'
+        }
+
+        void imageSource
 
         let wpPostId: number | undefined
         let wpPostLink: string | undefined
@@ -148,6 +225,9 @@ export async function POST(request: NextRequest) {
           metaDescription: generated.metaDescription,
           slug: generated.suggestedSlug,
           suggestedKeywords: generated.suggestedKeywords,
+          faqItems: generated.faqItems ?? [],
+          isTutorial: generated.isTutorial ?? false,
+          externalLinks: generated.externalLinks ?? [],
           seoScore: finalSEO.score,
           seoAnalysis: finalSEO,
           imageUrl: imageResult?.url ?? null,

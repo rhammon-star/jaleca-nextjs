@@ -24,6 +24,9 @@ type GeneratedResult = {
   metaDescription: string
   slug: string
   suggestedKeywords: string[]
+  faqItems: Array<{ question: string; answer: string }>
+  isTutorial: boolean
+  externalLinks: string[]
   seoScore: number
   seoAnalysis: SEOAnalysis
   imageUrl: string | null

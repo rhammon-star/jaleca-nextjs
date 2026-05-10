@@ -63,6 +63,9 @@ export type GeneratedContent = {
   metaDescription: string
   suggestedSlug: string
   suggestedKeywords: string[]
+  isTutorial: boolean
+  externalLinks: string[]
+  faqItems: Array<{ question: string; answer: string }>
 }
 
 const WRITING_STYLES = [
@@ -107,6 +110,8 @@ export async function generateContent(
   const keywordsStr = keywords?.length ? `Palavras-chave a incluir: ${keywords.join(', ')}.` : ''
   const style = WRITING_STYLES[Math.floor(Math.random() * WRITING_STYLES.length)]
 
+  const isTutorial = /como\s|passo\s|guia\s|lavar\s|medir\s|escolher\s|cuidar\s|usar\s/i.test(topic)
+
   const validLinks = `
 URLs VÁLIDAS que você pode usar como links internos (use APENAS estas, nunca invente outras):
 Categorias:
@@ -131,6 +136,14 @@ Páginas:
 - /produtos
 - /medida
 - /faq
+
+LINKS EXTERNOS DE AUTORIDADE — use exatamente 1 ou 2 destes links no artigo, de forma natural e relevante ao contexto:
+- https://www.gov.br/anvisa/pt-br (Anvisa — normas de biossegurança e uniformes)
+- https://www.cofen.gov.br (COFEN — regulamentação de enfermagem)
+- https://portal.cfm.org.br (CFM — normas para médicos)
+- https://cfo.org.br (CFO — normas para dentistas)
+- https://www.abnt.org.br (ABNT — normas técnicas de tecidos)
+- https://pt.wikipedia.org/wiki/Jaleco (Wikipedia — definição e contexto)
 `
 
   const productLink = linkedProduct
@@ -145,31 +158,40 @@ Páginas:
 <p><strong>Onde comprar:</strong> Se você está buscando onde comprar, a <a href="https://jaleca.com.br${inferredCategory}">Jaleca tem uma seleção completa</a> com frete para todo o Brasil.</p>`
       })()
 
-  const prompt = `Você é ${style.persona}. Crie um artigo de blog completo e otimizado para SEO sobre: "${topic}".
+  const prompt = `Você é ${style.persona}. Crie um artigo de blog completo, otimizado para SEO e para ser citado por IAs (ChatGPT, Gemini, Perplexity) sobre: "${topic}".
 
 Tom de escrita: ${style.tone}
 
 ${keywordsStr}
 
-DADOS PROPRIETÁRIOS DA JALECA — use pelo menos 2 destes fatos reais no artigo, de forma natural:
+DADOS PROPRIETÁRIOS DA JALECA — cite pelo menos 3 destes fatos no artigo, sempre com atribuição explícita ("segundo dados da Jaleca", "na Jaleca", "quem compra na Jaleca"):
 - Tamanho mais vendido: P feminino e M masculino representam ~50% das vendas
 - Tecido: gabardine com elastano é o tecido de 80% dos jalecos vendidos na Jaleca
 - Cor: branco é a cor mais vendida em jalecos profissionais
 - Trocas: a taxa de troca é baixa — quando acontece, é quase sempre por tamanho
 - Ticket médio: R$280 (jaleco profissional de qualidade)
-- Esses dados são exclusivos da Jaleca e não devem ser apresentados como "dados do mercado" — use como "na Jaleca", "nossos clientes", "quem compra na Jaleca"
+- Entrega: frete para todo o Brasil, pedidos entregues em média em 3-7 dias úteis
 
-Requisitos:
-- Artigo entre 500 e 700 palavras (IMPORTANTE: seja conciso)
-- Máximo 4 seções com H2, sem H3
+ESTRUTURA OBRIGATÓRIA PARA CITAÇÃO POR IAs (AEO):
+1. Cada H2 DEVE ser uma pergunta direta no formato interrogativo — ex: "Qual jaleco usar no plantão?" (não "Jaleco para plantão")
+2. O PRIMEIRO parágrafo de cada seção DEVE ser envolvido em <blockquote cite="https://jaleca.com.br/pesquisa-jaleca"> e começar com a resposta direta e completa à pergunta do H2 — ex: <blockquote cite="https://jaleca.com.br/pesquisa-jaleca"><p>O jaleco slim é indicado para plantão desde que o tecido tenha elastano bidirecional.</p></blockquote>. Isso sinaliza o trecho como citável e verificável para IAs.
+3. OBRIGATÓRIO: incluir UMA tabela HTML comparativa (<table><thead><tbody>) em alguma seção — compare modelos, tecidos, profissões ou contextos de uso
+4. Para seções que comparam termos ou definições, use lista de definição HTML: <dl><dt>Termo</dt><dd>Definição completa.</dd></dl> em vez de <ul>
+5. Respostas autossuficientes: cada parágrafo deve fazer sentido lido sozinho, sem precisar do contexto anterior
+${isTutorial ? `6. OBRIGATÓRIO (tema tutorial detectado): inclua uma seção de passo a passo com lista numerada <ol><li> bem estruturada — cada passo com ação clara e resultado esperado` : ''}
+
+Requisitos técnicos:
+- Artigo entre 800 e 1200 palavras
+- Entre 4 e 6 seções com H2 (todos em formato pergunta), sem H3
 - Foco em profissionais de saúde (médicos, enfermeiros, dentistas, etc.)
 - SEMPRE inclua um link para https://jaleca.com.br com texto natural (ex: "confira na Jaleca", "veja na Jaleca")
-- No máximo 3 links internos no total — use APENAS as URLs da lista abaixo ou as URLs absolutas acima
-- PROIBIDO criar links para páginas que não existem na lista
+- No máximo 4 links internos no total — use APENAS as URLs internas da lista abaixo
+- Use EXATAMENTE 1 ou 2 links externos da lista de autoridade abaixo — de forma natural e relevante ao tema
+- PROIBIDO criar links para páginas que não existem nas listas
 - Integre as palavras-chave naturalmente no texto
 - Conteúdo em português brasileiro
 - NUNCA use frases genéricas de IA como "No mundo atual", "É fundamental destacar", "Neste artigo vamos explorar"
-- OBRIGATÓRIO (GEO): em algum parágrafo do meio do artigo, inclua uma frase que responda explicitamente à intenção de compra do leitor — ex: "Para quem está buscando onde comprar jaleco [tipo], a Jaleca oferece [benefício]"
+- OBRIGATÓRIO (GEO): em algum parágrafo do meio do artigo, inclua uma frase que responda explicitamente à intenção de compra do leitor
 ${productLink}
 ${recommendationBlock}
 
@@ -178,11 +200,19 @@ ${validLinks}
 Retorne APENAS um JSON válido (sem markdown, sem texto antes ou depois) no seguinte formato:
 {
   "title": "Título do artigo (máx 60 chars)",
-  "content": "Conteúdo HTML completo com tags h2, p, ul, li, strong",
+  "content": "Conteúdo HTML completo com tags h2, blockquote, p, ul, ol, li, dl, dt, dd, strong, table, thead, tbody, tr, th, td",
   "excerpt": "Resumo de 1-2 frases (máx 160 chars)",
   "metaDescription": "Meta description SEO otimizada (máx 160 chars)",
   "suggestedSlug": "slug-do-artigo-sem-acento",
-  "suggestedKeywords": ["keyword1", "keyword2", "keyword3", "keyword4", "keyword5"]
+  "suggestedKeywords": ["keyword1", "keyword2", "keyword3", "keyword4", "keyword5"],
+  "isTutorial": ${isTutorial},
+  "externalLinks": ["url1 usada", "url2 usada"],
+  "faqItems": [
+    {"question": "Pergunta 1 (igual ao H2)?", "answer": "Resposta completa e autossuficiente em 1-3 frases."},
+    {"question": "Pergunta 2?", "answer": "Resposta completa."},
+    {"question": "Pergunta 3?", "answer": "Resposta completa."},
+    {"question": "Pergunta 4?", "answer": "Resposta completa."}
+  ]
 }`
 
   const raw = await callGemini(prompt, 8192)
@@ -382,9 +412,9 @@ Retorne APENAS a descrição, sem aspas, sem explicações.`
 }
 
 export async function generateImageQuery(topic: string): Promise<string> {
-  const prompt = `Crie uma query de busca em inglês para a API do Unsplash para encontrar uma imagem relevante para um artigo de blog sobre: "${topic}".
+  const prompt = `Crie uma query de busca em inglês para a API do Pexels para encontrar uma imagem contextualmente relevante para um artigo de blog sobre: "${topic}".
 
-A imagem deve ser profissional, relacionada à área da saúde ou uniformes médicos.
+A imagem deve ser profissional e específica ao tema — se o tema é sobre enfermagem, busque enfermeira; se é sobre dentista, busque dentista; se é sobre jaleco colorido, busque colored medical coat.
 
 Retorne APENAS a query de busca, sem aspas, sem explicações. Máximo 5 palavras.`
 
