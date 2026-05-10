@@ -1,18 +1,29 @@
-Data: 2026-05-09 23:55
-Tarefa: 10 mudanças de UX (popups, checkout, PDP, sticky bar)
+Data: 2026-05-10
+Tarefa: Schema AEO/IA (FAQPage + speakable + Article enriquecido) em 6 alvos: /jaleco-medica, /jaleco-medico, /jaleco-dentista, /categoria/[slug], /cidade/[slug]. Constraint: política de devolução intocada + deixar claro que Jaleca NÃO faz bordado.
+
 Arquivos alterados:
-- app/layout.tsx — removido FirstPurchasePopup (popup exit-intent email)
-- components/UrgencyToast.tsx — toast movido bottom→top, duração 6s→4s
-- app/produto/[slug]/ProductDetailClient.tsx — removido WhatsAppAbandonPopup; invertida ordem botões (Comprar Agora primeiro, Adicionar à Sacola depois); removida frase "Dúvidas sobre este produto?"; nova aba "Clientes" com UGCSection (UGC standalone removido); sticky bar enxuto (só com canAdd, mostra preço + botão Comprar pequeno + ícone sacola, sem "ESCOLHA COR/TAM")
-- app/checkout/CheckoutClient.tsx — campos Nome+Sobrenome unificados em "Nome completo" (split no espaço internamente); telefone opcional (label sem `*`, validação removida, fallback "0000000000000" no billing e auto-register); pré-preenche CEP+endereço a partir de localStorage `jaleca-shipping-prefill` (TTL 24h)
-- components/ShippingCalculator.tsx — salva CEP+endereço ViaCEP em localStorage após cálculo
+- app/jaleco-medica/FaqAccordion.tsx
+- app/jaleco-medica/page.tsx
+- app/jaleco-medico/FaqAccordion.tsx
+- app/jaleco-medico/page.tsx
+- app/jaleco-dentista/page.tsx
+- app/cidade/[slug]/page.tsx
+- app/categoria/[slug]/page.tsx
+
 O que foi feito:
-- 10 itens de UX confirmados pelo usuário, todos aplicados em uma passada
-- Áreas críticas (checkout — itens 2, 3, 6) executadas com aprovação explícita
-Comandos rodados: npx tsc --noEmit (passou); npx eslint nos 5 arquivos (apenas warnings pré-existentes + 1 erro `any` em L912 pré-existente)
-Resultado: OK — TypeScript limpo, mudanças isoladas
-Riscos identificados:
-- Item 6 (telefone vazio→"0000000000000"): se Asaas/gateway de pagamento validar formato, pode dar erro. Não testado em produção.
-- Item 2 (split no primeiro espaço): se cliente digitar só primeiro nome, last_name fica vazio — Woo aceita
-- Item 3 (localStorage prefill): só funciona se cliente calcular frete antes de ir ao checkout
-Próximo passo: testar fluxo completo de checkout em staging (pedido com telefone vazio, pedido sem cálculo prévio, pedido com nome único). Se aprovado, deploy.
+- Reescrita FAQ visível "bordado" em /jaleco-medica e /jaleco-medico (antes diziam "oferecemos bordado corporativo" — agora dizem "Jaleca não oferece serviço de bordado").
+- /jaleco-dentista já estava correto sobre bordado (apenas adicionada Q&A no schema).
+- Adicionada pergunta "A Jaleca borda?" ao schemaFaq das 3 profissões.
+- schemaArticle das 3 profissões enriquecido: inLanguage pt-BR, audience, author.sameAs (instagram/facebook), publisher.sameAs, mainEntityOfPage, speakable.
+- schemaFaq das 3 profissões: inLanguage + speakable.
+- cidade/[slug]: FAQ_TEMPLATE recebeu 5ª pergunta sobre bordado (afeta 60+ cidades).
+- categoria/[slug]: SHARED_FAQ com bordado é mesclado ao CAT_FAQ[slug] (afeta todas categorias) + inLanguage no schema.
+- Política de devolução não foi alterada (nem copy nem schema).
+
+Comandos rodados: npx tsc --noEmit (passou)
+
+Resultado: OK
+
+Riscos identificados: nenhum (apenas adição de JSON-LD + correção de copy alinhada à regra de negócio do usuário). Não toca em checkout/preço/canonical/sitemap.
+
+Próximo passo: deploy quando o usuário autorizar; validar em Rich Results Test as 6 URLs após deploy.
