@@ -208,6 +208,31 @@ export default function CheckoutClient() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  // Pré-preenche CEP/endereço a partir do cálculo de frete feito no produto/carrinho
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem('jaleca-shipping-prefill')
+      if (!raw) return
+      const data = JSON.parse(raw) as {
+        postcode?: string
+        address?: { city?: string; state?: string; neighborhood?: string; street?: string } | null
+        ts?: number
+      }
+      if (!data?.postcode) return
+      // expira em 24h
+      if (data.ts && Date.now() - data.ts > 24 * 3600 * 1000) return
+      setAddress(prev => ({
+        ...prev,
+        postcode:     prev.postcode || formatCEP(data.postcode!),
+        address_1:    prev.address_1 || data.address?.street || '',
+        neighborhood: prev.neighborhood || data.address?.neighborhood || '',
+        city:         prev.city || data.address?.city || '',
+        state:        prev.state || data.address?.state || '',
+      }))
+      setCalculatedCep(prev => prev || data.postcode!)
+    } catch { /* ignore */ }
+  }, [])
+
   useEffect(() => {
     if (!isLoggedIn || !user) return
     const [first, ...rest] = user.name.split(' ')
@@ -429,7 +454,7 @@ export default function CheckoutClient() {
     }
 
     const email = isLoggedIn ? user!.email : guestEmail
-    if (!address.first_name || !address.last_name || !email || !address.phone || !address.postcode || !address.address_1 || !address.address_2 || !address.neighborhood || !address.city || !address.state) {
+    if (!address.first_name || !email || !address.postcode || !address.address_1 || !address.address_2 || !address.neighborhood || !address.city || !address.state) {
       setError('Preencha os campos destacados em vermelho')
       return
     }
@@ -491,7 +516,7 @@ export default function CheckoutClient() {
               email,
               password: tempPwd,
               cpf: cleanCPF(cpf),
-              phone: address.phone,
+              phone: address.phone?.replace(/\D/g, '') ? address.phone : '0000000000000',
             }),
           })
           if (regRes.ok) {
@@ -516,7 +541,7 @@ export default function CheckoutClient() {
         postcode: address.postcode.replace(/\D/g, ''),
         country: 'BR',
         email,
-        phone: address.phone,
+        phone: address.phone?.replace(/\D/g, '') ? address.phone : '0000000000000',
       }
 
       // GA4 client_id — 3 camadas de fallback para máxima cobertura de clientes PIX que fecham a página
@@ -992,32 +1017,28 @@ export default function CheckoutClient() {
                   Endereço de Entrega
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label htmlFor="addr-first-name" className="block text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">Nome *</label>
+                  <div className="sm:col-span-2">
+                    <label htmlFor="addr-full-name" className="block text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">Nome completo *</label>
                     <input
-                      id="addr-first-name"
+                      id="addr-full-name"
                       type="text"
-                      value={address.first_name}
-                      onChange={e => setAddress(p => ({ ...p, first_name: e.target.value }))}
+                      value={`${address.first_name}${address.last_name ? ' ' + address.last_name : ''}`}
+                      onChange={e => {
+                        const full = e.target.value
+                        const trimmed = full.trimStart()
+                        const idx = trimmed.indexOf(' ')
+                        const first = idx === -1 ? trimmed : trimmed.slice(0, idx)
+                        const last = idx === -1 ? '' : trimmed.slice(idx + 1)
+                        setAddress(p => ({ ...p, first_name: first, last_name: last }))
+                      }}
                       required
-                      autoComplete="given-name"
+                      autoComplete="name"
+                      placeholder="Nome e sobrenome"
                       className={fieldClass(address.first_name)}
                     />
                   </div>
                   <div>
-                    <label htmlFor="addr-last-name" className="block text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">Sobrenome *</label>
-                    <input
-                      id="addr-last-name"
-                      type="text"
-                      value={address.last_name}
-                      onChange={e => setAddress(p => ({ ...p, last_name: e.target.value }))}
-                      required
-                      autoComplete="family-name"
-                      className={fieldClass(address.last_name)}
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="addr-phone" className="block text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">Telefone *</label>
+                    <label htmlFor="addr-phone" className="block text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">Telefone</label>
                     <input
                       id="addr-phone"
                       type="tel"

@@ -68,7 +68,7 @@ export default function UrgencyToast() {
   const show = useCallback(() => {
     setMessage(getRandomMessage())
     setVisible(true)
-    setTimeout(() => setVisible(false), 6000)
+    setTimeout(() => setVisible(false), 4000)
   }, [])
 
   useEffect(() => {
@@ -95,7 +95,7 @@ export default function UrgencyToast() {
 
   return (
     <div
-      className="fixed bottom-20 left-4 z-[200] max-w-[280px] bg-white border border-border shadow-xl rounded-sm animate-fade-up md:bottom-6"
+      className="fixed top-20 left-4 z-[200] max-w-[280px] bg-white border border-border shadow-xl rounded-sm animate-fade-up md:top-6"
       role="status"
       aria-live="polite"
     >

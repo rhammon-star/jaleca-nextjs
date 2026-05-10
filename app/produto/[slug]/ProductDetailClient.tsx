@@ -15,7 +15,6 @@ import SizeAdvisorModal from '@/components/SizeAdvisorModal'
 import BackInStockButton from '@/components/BackInStockButton'
 import ProductCard, { type WooProduct } from '@/components/ProductCard'
 import RecentlyViewed from '@/components/RecentlyViewed'
-import WhatsAppAbandonPopup from '@/components/WhatsAppAbandonPopup'
 import UrgencyToast from '@/components/UrgencyToast'
 import { isBestSeller } from '@/lib/best-sellers'
 import UGCSection from '@/components/UGCSection'
@@ -131,7 +130,7 @@ type Review = {
   verified: boolean
 }
 
-type ActiveTab = 'dados-tecnicos' | 'informacoes' | 'avaliacoes'
+type ActiveTab = 'dados-tecnicos' | 'informacoes' | 'clientes' | 'avaliacoes'
 
 // Build a slug → display name map from attribute terms
 function buildSlugMap(attr: Attribute | undefined): Record<string, string> {
@@ -1101,10 +1100,19 @@ export default function ProductDetailClient({
 
             {/* Actions */}
             <div ref={addToCartBtnRef} className="flex flex-col gap-3 mt-auto">
+              {!isOutOfStock && (
+                <button
+                  onClick={handleBuyNow}
+                  className={`w-full inline-flex min-h-14 items-center justify-center gap-2 bg-ink px-6 py-4 text-xs font-semibold tracking-widest uppercase text-background transition-all duration-300 hover:bg-ink/90 active:scale-[0.98] ${!canAdd ? 'cursor-not-allowed opacity-40' : ''}`}
+                >
+                  <CreditCard size={18} />
+                  Comprar Agora
+                </button>
+              )}
               <div className="flex flex-row gap-3">
                 <button
                   onClick={handleAddToCart}
-                  className={`flex-1 inline-flex min-h-14 items-center justify-center gap-2 bg-ink px-6 py-4 text-xs font-semibold tracking-widest uppercase text-background transition-transform duration-300 hover:bg-ink active:scale-[0.98] ${!canAdd ? 'cursor-not-allowed opacity-40' : ''}`}
+                  className={`flex-1 inline-flex min-h-14 items-center justify-center gap-2 border-2 border-ink bg-background px-6 py-4 text-xs font-semibold tracking-widest uppercase text-ink transition-all duration-300 hover:bg-ink hover:text-background active:scale-[0.98] ${!canAdd ? 'cursor-not-allowed opacity-40' : ''}`}
                 >
                   <ShoppingBag size={18} />
                   {isOutOfStock ? 'Esgotado nessa variação' : 'Adicionar à Sacola'}
@@ -1145,32 +1153,12 @@ export default function ProductDetailClient({
                 </button>
                 </div>
               </div>
-              {!isOutOfStock && (
-                <button
-                  onClick={handleBuyNow}
-                  className={`w-full inline-flex min-h-14 items-center justify-center gap-2 border-2 border-ink px-6 py-4 text-xs font-semibold tracking-widest uppercase text-ink bg-background transition-all duration-300 hover:bg-ink hover:text-background active:scale-[0.98] ${!canAdd ? 'cursor-not-allowed opacity-40' : ''}`}
-                >
-                  <CreditCard size={18} />
-                  Comprar Agora
-                </button>
-              )}
             </div>
             {!canAdd && !isOutOfStock && (colorSlugs.length > 0 || sizeSlugs.length > 0) && (
               <p className="text-xs text-muted-foreground mt-2">
                 Escolha {colorSlugs.length > 0 && sizeSlugs.length > 0 ? 'cor e tamanho' : colorSlugs.length > 0 ? 'a cor' : 'o tamanho'} para adicionar à sacola
               </p>
             )}
-            {/* WhatsApp — ask about this product */}
-            <a
-              href={`https://wa.me/5531992901940?text=${whatsappText}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground transition-colors mt-2"
-            >
-              <MessageCircle size={14} />
-              Dúvidas sobre este produto? Fale conosco pelo WhatsApp
-            </a>
-
 
             {isOutOfStock && (
               <div className="mt-3">
@@ -1187,6 +1175,7 @@ export default function ProductDetailClient({
             {([
               { id: 'dados-tecnicos', label: 'Dados Técnicos' },
               { id: 'informacoes', label: 'Informações Adicionais' },
+              { id: 'clientes', label: 'Clientes' },
               { id: 'avaliacoes', label: `Avaliações${reviews.length > 0 ? ` (${reviews.length})` : ''}` },
             ] as { id: ActiveTab; label: string }[]).map(tab => (
               <button
@@ -1210,7 +1199,7 @@ export default function ProductDetailClient({
           <div
             role="tabpanel"
             id={`tab-panel-${activeTab}`}
-            aria-label={activeTab === 'dados-tecnicos' ? 'Dados Técnicos' : activeTab === 'informacoes' ? 'Informações Adicionais' : 'Avaliações'}
+            aria-label={activeTab === 'dados-tecnicos' ? 'Dados Técnicos' : activeTab === 'informacoes' ? 'Informações Adicionais' : activeTab === 'clientes' ? 'Clientes' : 'Avaliações'}
             className="py-8"
           >
             {/* Dados Técnicos */}
@@ -1252,6 +1241,11 @@ export default function ProductDetailClient({
                   <p className="text-sm text-muted-foreground">Informações adicionais não disponíveis.</p>
                 )}
               </div>
+            )}
+
+            {/* Clientes (UGC) */}
+            {activeTab === 'clientes' && (
+              <UGCSection />
             )}
 
             {/* Avaliações */}
@@ -1416,9 +1410,6 @@ export default function ProductDetailClient({
           </div>
         </div>
 
-        {/* UGC — Clientes usando Jaleca */}
-        <UGCSection />
-
         {/* Related products */}
         {related.length > 0 && (
           <div className="mt-8 md:mt-16">
@@ -1445,25 +1436,27 @@ export default function ProductDetailClient({
 
     {isBestSeller(product.slug) && <UrgencyToast />}
 
-    {/* Sticky Add-to-Cart — mobile only, aparece quando botão original sai da viewport */}
-    {showStickyBar && !isOutOfStock && (
-      <div className="fixed left-0 right-0 z-[80] md:hidden bg-background border-t border-border px-4 py-3 flex items-center gap-3 shadow-lg animate-fade-up" style={{ bottom: 'calc(3.5rem + env(safe-area-inset-bottom))' }}>
-        <div className="flex-1 min-w-0">
-          <p className="text-sm font-semibold truncate">{product.name.replace(/ - Jaleca$/i, '')}</p>
-          <p className="text-base font-bold text-foreground">{displayPrice}</p>
-        </div>
+    {/* Sticky Add-to-Cart — mobile only, aparece quando botão original sai da viewport e cor/tam já escolhidos */}
+    {showStickyBar && !isOutOfStock && canAdd && (
+      <div className="fixed left-0 right-0 z-[80] md:hidden bg-background/95 backdrop-blur border-t border-border px-3 py-2 flex items-center gap-2 shadow-md animate-fade-up" style={{ bottom: 'calc(3.5rem + env(safe-area-inset-bottom))' }}>
+        <p className="flex-1 text-sm font-semibold truncate">{displayPrice}</p>
+        <button
+          onClick={handleBuyNow}
+          className="flex-shrink-0 bg-ink text-background px-4 h-10 text-[11px] font-semibold tracking-widest uppercase transition-all active:scale-[0.98] flex items-center gap-1.5"
+        >
+          <CreditCard size={14} />
+          Comprar
+        </button>
         <button
           onClick={handleAddToCart}
-          disabled={!canAdd}
-          className="flex-shrink-0 bg-ink text-background px-6 min-h-[56px] text-xs font-semibold tracking-widest uppercase transition-all active:scale-[0.98] disabled:opacity-50 flex items-center gap-2"
+          aria-label="Adicionar à sacola"
+          className="flex-shrink-0 border border-ink text-ink h-10 w-10 flex items-center justify-center transition-all active:scale-[0.98]"
         >
           <ShoppingBag size={16} />
-          {canAdd ? 'COMPRAR' : 'ESCOLHA COR/TAM'}
         </button>
       </div>
     )}
 
-    <WhatsAppAbandonPopup />
     </>
   )
 }

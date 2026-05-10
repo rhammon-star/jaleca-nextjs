@@ -72,6 +72,13 @@ export default function ShippingCalculator({ onShippingSelected, selectedId, ini
       setOptions(data.options)
       setCalculated(true)
       onCepCalculated?.(clean, data.address?.state)
+      try {
+        localStorage.setItem('jaleca-shipping-prefill', JSON.stringify({
+          postcode: clean,
+          address: data.address || null,
+          ts: Date.now(),
+        }))
+      } catch { /* ignore */ }
     } catch {
       setError('Erro ao calcular frete. Tente novamente.')
     } finally {
