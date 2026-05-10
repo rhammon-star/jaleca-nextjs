@@ -39,25 +39,42 @@ export const metadata: Metadata = {
 const schemaFaq = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
+  inLanguage: 'pt-BR',
   mainEntity: [
     { '@type': 'Question', name: 'Qual comprimento de jaleco é mais indicado para médicas?', acceptedAnswer: { '@type': 'Answer', text: 'Para medicina, o jaleco médio a longo — hospitais e consultórios preferem modelos mais longos para maior cobertura.' } },
     { '@type': 'Question', name: 'O jaleco pode ser lavado com água quente?', acceptedAnswer: { '@type': 'Answer', text: 'Os jalecos Jaleca suportam lavagem até 60°C, temperatura suficiente para higienização clínica. Use alvejante sem cloro para preservar o tecido.' } },
     { '@type': 'Question', name: 'Jaleco com elastano é bom para médica?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. O elastano adiciona memória ao tecido, retornando à forma após o movimento — essencial para quem passa horas em atendimento.' } },
     { '@type': 'Question', name: 'Jaleco de médica precisa ser branco?', acceptedAnswer: { '@type': 'Answer', text: 'Não é obrigação. O branco é o clássico, mas tons pastel e cores discretas são bem aceitos. O CRM não restringe a cor.' } },
     { '@type': 'Question', name: 'Qual a diferença entre jaleco Slim e Profissional?', acceptedAnswer: { '@type': 'Answer', text: 'O Slim tem corte ajustado ao corpo, ideal para quem quer visual mais moderno. O Profissional tem corte mais amplo e estruturado, com mais espaço para movimento.' } },
+    { '@type': 'Question', name: 'A Jaleca borda o nome e CRM no jaleco?', acceptedAnswer: { '@type': 'Answer', text: 'Não. A Jaleca não oferece serviço de bordado. O jaleco é vendido sem bordado. Você pode levar a peça a uma bordadeira local após o recebimento. Importante: após o bordado, o jaleco não pode mais ser trocado.' } },
   ],
+  speakable: { '@type': 'SpeakableSpecification', cssSelector: ['[itemprop="name"]', '[itemprop="acceptedAnswer"]'] },
 }
 
 const schemaArticle = {
   '@context': 'https://schema.org',
   '@type': 'Article',
   headline: 'Jaleco para Médica: Tecido Premium, Caimento Perfeito',
-  description: 'Guia completo do jaleco para médico: tecido premium, caimento perfeito, modelo Slim vs Profissional e custo-benefício.',
-  author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
-  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
+  description: 'Guia completo do jaleco para médica: tecido premium, caimento perfeito, modelo Slim vs Profissional e custo-benefício.',
+  inLanguage: 'pt-BR',
+  audience: { '@type': 'Audience', audienceType: 'Médicas e profissionais da saúde' },
+  author: {
+    '@type': 'Organization',
+    name: 'Jaleca Uniformes Profissionais',
+    url: 'https://jaleca.com.br',
+    sameAs: ['https://www.instagram.com/jalecaa/', 'https://www.facebook.com/jalecaa/'],
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Jaleca',
+    logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' },
+    sameAs: ['https://www.instagram.com/jalecaa/', 'https://www.facebook.com/jalecaa/'],
+  },
   url: 'https://jaleca.com.br/jaleco-medica',
+  mainEntityOfPage: 'https://jaleca.com.br/jaleco-medica',
   datePublished: '2026-04-18',
   dateModified: '2026-04-21',
+  speakable: { '@type': 'SpeakableSpecification', cssSelector: ['h1', 'h2', '[data-speakable]'] },
 }
 
 const breadcrumbSchema = {

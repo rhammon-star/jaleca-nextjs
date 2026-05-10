@@ -40,7 +40,10 @@ export const metadata: Metadata = {
 const schemaFaq = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
+  inLanguage: 'pt-BR',
+  speakable: { '@type': 'SpeakableSpecification', cssSelector: ['[itemprop="name"]', '[itemprop="acceptedAnswer"]'] },
   mainEntity: [
+    { '@type': 'Question', name: 'A Jaleca borda o nome e CRM no jaleco?', acceptedAnswer: { '@type': 'Answer', text: 'Não. A Jaleca não oferece serviço de bordado. O jaleco é vendido sem bordado. Você pode levar a peça a uma bordadeira local após o recebimento. Importante: após o bordado, o jaleco não pode mais ser trocado.' } },
     { '@type': 'Question', name: 'O CFM obriga médico a usar jaleco branco?', acceptedAnswer: { '@type': 'Answer', text: 'O CFM não define cor obrigatória de jaleco. O branco é o padrão aceito em hospitais e convenios ao SUS, mas em consultórios e clínicas privadas cores discretas (azul royal, verde água, cinza) são totalmente aceitas.' } },
     { '@type': 'Question', name: 'Qual jaleco é melhor para médico de plantão?', acceptedAnswer: { '@type': 'Answer', text: 'Para plantões de 12 horas: jaleco Elastex (elastano bidirecional) — não amassa, seca rápido, permite total liberdade de movimento. Para consultório: jaleco Slim ou Duquesa, que mantém caimento elegante por mais tempo.' } },
     { '@type': 'Question', name: 'Jaleco médico pode ser manga curta?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. Manga curta é comum em clínicas e consultórios de especialidades ambulatoriais. Em ambiente cirúrgico ou procedimentos invasivos, manga longa é mais indicada por biossegurança.' } },
@@ -56,11 +59,25 @@ const schemaArticle = {
   '@type': 'Article',
   headline: 'Jaleco para Médico: Slim, Branco e Colorido — Guia Completo',
   description: 'Jaleco médico Slim para consultório e plantão. Branco ou colorido, manga longa ou curta, PP ao G3. O que o CFM permite e como escolher.',
-  author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
-  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
+  inLanguage: 'pt-BR',
+  audience: { '@type': 'Audience', audienceType: 'Médicos e profissionais da saúde' },
+  author: {
+    '@type': 'Organization',
+    name: 'Jaleca Uniformes Profissionais',
+    url: 'https://jaleca.com.br',
+    sameAs: ['https://www.instagram.com/jalecaa/', 'https://www.facebook.com/jalecaa/'],
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Jaleca',
+    logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' },
+    sameAs: ['https://www.instagram.com/jalecaa/', 'https://www.facebook.com/jalecaa/'],
+  },
   url: 'https://jaleca.com.br/jaleco-medico',
+  mainEntityOfPage: 'https://jaleca.com.br/jaleco-medico',
   datePublished: '2026-04-18',
   dateModified: '2026-04-21',
+  speakable: { '@type': 'SpeakableSpecification', cssSelector: ['h1', 'h2', '[data-speakable]'] },
 }
 
 const breadcrumbSchema = {

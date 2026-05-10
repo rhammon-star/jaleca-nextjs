@@ -40,7 +40,10 @@ export const metadata: Metadata = {
 const schemaFaq = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
+  inLanguage: 'pt-BR',
+  speakable: { '@type': 'SpeakableSpecification', cssSelector: ['[itemprop="name"]', '[itemprop="acceptedAnswer"]'] },
   mainEntity: [
+    { '@type': 'Question', name: 'A Jaleca borda o nome e CRO no jaleco?', acceptedAnswer: { '@type': 'Answer', text: 'Não. A Jaleca não oferece serviço de bordado. O jaleco é vendido sem bordado. Você pode levar a peça a uma bordadeira local após o recebimento. Importante: após o bordado, o jaleco não pode mais ser trocado.' } },
     { '@type': 'Question', name: 'Jaleco curto ou longo para dentista?', acceptedAnswer: { '@type': 'Answer', text: 'O jaleco curto (até o quadril) é o mais usado por dentistas clínicos — facilita o movimento ao redor da cadeira e levantamento de braços. O longo fica mais restrito a cirurgiões bucomaxilofaciais e procedimentos com maior risco de contaminação.' } },
     { '@type': 'Question', name: 'O CRO obriga dentista a usar jaleco branco?', acceptedAnswer: { '@type': 'Answer', text: 'O CRO não determina cor obrigatória. O branco é o padrão em hospitais e clínicas integradas ao SUS. Em consultórios privados, azul, verde e cores neutras são aceitas. O importante é que o jaleco esteja limpo e identificado com nome e CRO.' } },
     { '@type': 'Question', name: 'Qual jaleco tem mais liberdade de movimento para dentista?', acceptedAnswer: { '@type': 'Answer', text: 'O Jaleco Elastex é o que oferece maior amplitude — o tecido com elastano bidirecional acompanha a elevação de braços e a rotação do tronco. O Slim também funciona bem, mas o Elastex é o preferido de quem faz muitos procedimentos.' } },
@@ -78,11 +81,25 @@ const schemaArticle = {
   '@type': 'Article',
   headline: 'Jaleco para Dentista: Curto, Slim e com Elastano — Guia Completo',
   description: 'Jaleco para dentista curto ou longo, com elastano para movimento ao redor da cadeira. O que o CRO permite, PP ao G3.',
-  author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
-  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
+  inLanguage: 'pt-BR',
+  audience: { '@type': 'Audience', audienceType: 'Dentistas e profissionais da odontologia' },
+  author: {
+    '@type': 'Organization',
+    name: 'Jaleca Uniformes Profissionais',
+    url: 'https://jaleca.com.br',
+    sameAs: ['https://www.instagram.com/jalecaa/', 'https://www.facebook.com/jalecaa/'],
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Jaleca',
+    logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' },
+    sameAs: ['https://www.instagram.com/jalecaa/', 'https://www.facebook.com/jalecaa/'],
+  },
   url: 'https://jaleca.com.br/jaleco-dentista',
+  mainEntityOfPage: 'https://jaleca.com.br/jaleco-dentista',
   datePublished: '2026-04-18',
   dateModified: '2026-04-21',
+  speakable: { '@type': 'SpeakableSpecification', cssSelector: ['h1', 'h2', '[data-speakable]'] },
 }
 
 const breadcrumbSchema = {

@@ -253,10 +253,15 @@ export default async function CategoriaPage({
 
   // FAQPage schema — GEO (Generative Engine Optimization)
   // Responde perguntas que IAs (ChatGPT, Gemini) usam para recomendar produtos
-  const faqSchema = CAT_FAQ[slug] ? {
+  const SHARED_FAQ = [
+    { q: 'A Jaleca borda o nome e registro profissional (CRM, CRO, COREN) no jaleco?', a: 'Não. A Jaleca não oferece serviço de bordado. Todos os jalecos são vendidos sem bordado. Você pode levar a peça a uma bordadeira local após o recebimento — é simples e acessível. Importante: após o bordado, o jaleco não pode mais ser trocado.' },
+  ]
+  const faqList = [...(CAT_FAQ[slug] ?? []), ...SHARED_FAQ]
+  const faqSchema = faqList.length ? {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: CAT_FAQ[slug].map(({ q, a }) => ({
+    inLanguage: 'pt-BR',
+    mainEntity: faqList.map(({ q, a }) => ({
       '@type': 'Question',
       name: q,
       acceptedAnswer: { '@type': 'Answer', text: a },

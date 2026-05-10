@@ -40,6 +40,10 @@ const FAQ_TEMPLATE = (nome: string, estado: string) => [
     pergunta: `Como rastrear meu pedido para ${nome}?`,
     resposta: `Assim que o pedido for despachado, você recebe o código de rastreamento por e-mail. O acompanhamento é feito diretamente no site dos Correios ou da transportadora escolhida.`,
   },
+  {
+    pergunta: `A Jaleca faz bordado de nome e registro profissional no jaleco enviado para ${nome}?`,
+    resposta: `Não. A Jaleca não oferece serviço de bordado. Os jalecos são enviados para ${nome} sem bordado. Após receber, você pode levar a peça a uma bordadeira local — é simples e acessível. Importante: depois de bordado, o jaleco não pode mais ser trocado.`,
+  },
 ]
 
 const CIDADES: Record<string, CidadeInfo> = {
