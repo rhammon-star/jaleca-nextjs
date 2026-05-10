@@ -21,7 +21,6 @@ import CookieConsent from "@/components/CookieConsent";
 
 // Componentes não-críticos: lazy-loaded fora do bundle inicial.
 // Mantém tracking/funcionalidade intactos mas tira ~50-80KB do JS crítico.
-const CartRecoveryCapture = dynamic(() => import("@/components/CartRecoveryCapture"));
 const CompareBar = dynamic(() => import("@/components/CompareBar"));
 const TawkToChat = dynamic(() => import("@/components/TawkToChat"));
 const FranqueadoBanner = dynamic(() => import("@/components/FranqueadoBanner"));
@@ -219,7 +218,6 @@ export default function RootLayout({
                 <div id="main-content" className="flex-1 pb-14 md:pb-0">{children}</div>
                 <Footer />
                 <WhatsAppButton />
-                <CartRecoveryCapture />
                 <CompareBar />
                 <TawkToChat />
                 <CookieConsent />
