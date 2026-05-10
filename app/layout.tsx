@@ -25,6 +25,7 @@ const CompareBar = dynamic(() => import("@/components/CompareBar"));
 const TawkToChat = dynamic(() => import("@/components/TawkToChat"));
 const FranqueadoBanner = dynamic(() => import("@/components/FranqueadoBanner"));
 const GoogleMerchantBadge = dynamic(() => import("@/components/GoogleMerchantBadge"));
+const CartRecoveryCapture = dynamic(() => import("@/components/CartRecoveryCapture"));
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
@@ -218,6 +219,7 @@ export default function RootLayout({
                 <div id="main-content" className="flex-1 pb-14 md:pb-0">{children}</div>
                 <Footer />
                 <WhatsAppButton />
+                <CartRecoveryCapture />
                 <CompareBar />
                 <TawkToChat />
                 <CookieConsent />
