@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Calendar, Clock, User } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Jaleco Feminino Branco ou Colorido: Qual Usar no Trabalho | Jaleca',
+  title: 'Jaleco Feminino Branco ou Colorido: Qual Usar no Trabalho',
   description: 'Branco é obrigatório ou o colorido já é aceito? Regras por conselho de saúde, quando cada cor faz sentido e como escolher com confiança.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-feminino-branco-ou-colorido-qual-usar' },
   openGraph: {

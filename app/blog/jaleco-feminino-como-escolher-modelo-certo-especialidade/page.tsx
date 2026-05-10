@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Calendar, Clock, User } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Jaleco Feminino: Como Escolher o Modelo Certo para Cada Especialidade | Jaleca',
+  title: 'Jaleco Feminino: Como Escolher o Modelo Certo para Cada Especialidade',
   description: 'Médica, fisioterapeuta, nutricionista ou dentista? Cada especialidade pede um jaleco diferente. Guia prático para escolher o modelo certo sem errar.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-feminino-como-escolher-modelo-certo-especialidade' },
   openGraph: {

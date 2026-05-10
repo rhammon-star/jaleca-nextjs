@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Calendar, Clock, User } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Como Manter Jaleco Branco Sempre Imaculado — Guia Profissional | Jaleca',
+  title: 'Como Manter Jaleco Branco Sempre Imaculado — Guia Profissional',
   description: 'Jaleco branco amarela, descora e mancha? Guia completo: como lavar, remover manchas de sangue, iodo, café e caneta. Temperatura certa, alvejante seguro e como secar sem perder o branco.',
   alternates: { canonical: 'https://jaleca.com.br/blog/jaleco-branco-profissional' },
   openGraph: {

@@ -8,7 +8,7 @@ import UGCSection from '@/components/UGCSection'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Jaleco Azul Marinho Feminino e Scrub Azul Marinho | Jaleca',
+  title: 'Jaleco Azul Marinho Feminino e Scrub Azul Marinho',
   description: 'Jaleco azul marinho feminino e scrub feminino azul marinho para profissionais da saúde. Também em azul claro e azul royal. Do PP ao G3, entrega rápida para todo o Brasil.',
   keywords: 'jaleco azul marinho feminino, scrub feminino azul marinho, scrub azul marinho, jaleco azul marinho, jaleco azul claro, jalecos azul claro, scrub azul, jaleco azul feminino',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-azul-marinho' },

@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Calendar, Clock, User } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Jaleco Feminino: Como Descobrir o Tamanho Certo Sem Errar | Jaleca',
+  title: 'Jaleco Feminino: Como Descobrir o Tamanho Certo Sem Errar',
   description: 'Como medir busto, cintura e quadril para jaleco feminino Slim. Tabela de tamanhos, o que fazer entre dois tamanhos e por que o ombro é o ponto crítico.',
   alternates: { canonical: 'https://jaleca.com.br/blog/jaleco-feminino-tamanho-certo-como-medir' },
   openGraph: {

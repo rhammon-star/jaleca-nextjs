@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Calendar, Clock, User } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Jaleco Colorido é Permitido no Hospital? O Que Cada Conselho Diz | Jaleca',
+  title: 'Jaleco Colorido é Permitido no Hospital? O Que Cada Conselho Diz',
   description: 'CFM, COFEN, CFO, CFN e COFFITO — o que cada conselho de saúde regulamenta sobre cor de jaleco. Quando o branco é obrigatório e onde o colorido já é padrão.',
   alternates: { canonical: 'https://jaleca.com.br/blog/jaleco-colorido-permitido-hospital-regras' },
   openGraph: {

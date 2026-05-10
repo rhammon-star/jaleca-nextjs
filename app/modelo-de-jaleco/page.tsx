@@ -7,7 +7,7 @@ import ProfessionProductGrid from '@/components/ProfessionProductGrid'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Modelos de Jaleco Feminino: Slim, Princesa, Duquesa e Elastex | Jaleca',
+  title: 'Modelos de Jaleco Feminino: Slim, Princesa, Duquesa e Elastex',
   description: 'Conheça todos os modelos de jaleco feminino: Slim acinturado, Princesa evasê, Duquesa manga longa e Elastex. Guia completo para escolher o modelo certo para sua profissão.',
   keywords: 'modelo de jaleco, modelo de jaleco feminino, modelos de jaleco feminino, modelos de jalecos femininos, modelos de jalecos feminino, modelo jaleco feminino, modelo de jalecos femininos, tipos de jaleco feminino',
   alternates: { canonical: 'https://jaleca.com.br/modelo-de-jaleco' },

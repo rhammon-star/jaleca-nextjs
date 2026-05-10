@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Calendar, Clock, User } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Como Lavar Jaleco Branco Sem Amarelado: Guia Completo | Jaleca',
+  title: 'Como Lavar Jaleco Branco Sem Amarelado: Guia Completo',
   description: 'Como lavar jaleco branco sem amarelado: temperatura certa, sabão ideal, como tirar manchas de sangue, caneta e iodo. Guia completo para durar mais.',
   alternates: { canonical: 'https://jaleca.com.br/blog/como-lavar-jaleco-branco' },
   openGraph: {

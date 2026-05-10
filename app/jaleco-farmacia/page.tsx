@@ -17,7 +17,7 @@ import UGCSection from '@/components/UGCSection'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Jaleco para Farmácia: Feminino e Masculino | Jaleca',
+  title: 'Jaleco para Farmácia: Feminino e Masculino',
   description: 'Jaleco para farmacêutico e atendente de farmácia. Modelos femininos e masculinos, branco e colorido, PP ao G3. Transmite confiança e profissionalismo. Frete grátis SP/RJ/MG/ES.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-farmacia' },
   openGraph: {

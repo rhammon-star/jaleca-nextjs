@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Calendar, Clock, User } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Jaleco com Elastano Vale a Pena? Diferença Real para Quem Usa o Dia Todo | Jaleca',
+  title: 'Jaleco com Elastano Vale a Pena? Diferença Real para Quem Usa o Dia Todo',
   description: 'Jaleco com elastano vale a pena pagar mais? Compare tecido com e sem elastano: conforto, durabilidade, caimento e para quem cada opção faz sentido.',
   alternates: { canonical: 'https://jaleca.com.br/blog/jaleco-elastano-vale-a-pena' },
   openGraph: {

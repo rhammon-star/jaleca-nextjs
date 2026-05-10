@@ -8,7 +8,7 @@ import UGCSection from '@/components/UGCSection'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Jaleco Feminino: Modelos Elegantes para Médica, Dentista e Enfermeira | Jaleca',
+  title: 'Jaleco Feminino: Modelos Elegantes para Médica, Dentista e Enfermeira',
   description: 'Jaleco feminino com corte real para o corpo: Slim, Princesa, Elegante e Elastex. Do PP ao G3, 12 cores, entrega rápida. Onde comprar jaleco feminino de qualidade.',
   keywords: 'jaleco feminino, jaleco feminino elegante, modelo de jaleco feminino, modelos de jalecos femininos, jaleco de médica, jaleco feminino onde comprar, jalecos femininos elegantes, modelo jaleco feminino',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-feminino' },

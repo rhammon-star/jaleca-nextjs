@@ -5,7 +5,7 @@ import PurchaseTracker from './PurchaseTracker'
 import { getOrder as fetchOrder } from '@/lib/woocommerce'
 
 export const metadata: Metadata = {
-  title: 'Pedido Confirmado — Jaleca',
+  title: 'Pedido Confirmado',
   description: 'Seu pedido foi realizado com sucesso.',
   robots: { index: false, follow: false },
 }

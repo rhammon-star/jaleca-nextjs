@@ -7,7 +7,7 @@ import UGCSection from '@/components/UGCSection'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Jaleco para Pediatra: Colorido, Acolhedor e Profissional | Jaleca',
+  title: 'Jaleco para Pediatra: Colorido, Acolhedor e Profissional',
   description: 'Jaleco para pediatra em cores alegres que acalmam crianças. Modelos femininos e masculinos, Slim e Profissional, PP ao G3. Tecido macio e lavável. Frete grátis SP/RJ/MG/ES.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-pediatra' },
   openGraph: {

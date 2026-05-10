@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Calendar, Clock, User } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Jaleco para Psicóloga: Discreção, Conforto e Identidade Profissional | Jaleca',
+  title: 'Jaleco para Psicóloga: Discreção, Conforto e Identidade Profissional',
   description: 'Psicóloga deve usar jaleco? O que o CFP diz, quando faz sentido usar e qual modelo escolher para não desviar a atenção do paciente.',
   alternates: { canonical: 'https://jaleca.com.br/blog/jaleco-para-psicologa-guia' },
   openGraph: {

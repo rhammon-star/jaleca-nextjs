@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Calendar, Clock, User } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Jaleco Feminino Plus Size: Como Escolher do G1 ao G3 | Jaleca',
+  title: 'Jaleco Feminino Plus Size: Como Escolher do G1 ao G3',
   description: 'Jaleco feminino plus size: como medir, qual modelo valoriza mais, diferença entre G1, G2 e G3. Slim plus size existe? Guia completo para tamanhos maiores.',
   alternates: { canonical: 'https://jaleca.com.br/blog/jaleco-plus-size-feminino-guia' },
   openGraph: {

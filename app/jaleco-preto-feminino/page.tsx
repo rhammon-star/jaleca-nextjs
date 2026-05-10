@@ -8,7 +8,7 @@ import UGCSection from '@/components/UGCSection'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Jaleco Preto Feminino: Slim, Elegante e Profissional | Jaleca',
+  title: 'Jaleco Preto Feminino: Slim, Elegante e Profissional',
   description: 'Jaleco preto feminino com elastano — modelos Slim e Profissional para médicas, esteticistas e cabeleireiras. Tecido que não desbota. PP ao G3. Frete grátis Sudeste acima de R$499.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-preto-feminino' },
   openGraph: {

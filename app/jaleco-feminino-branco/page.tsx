@@ -33,7 +33,7 @@ async function fetchImg(slug: string): Promise<string | null> {
 }
 
 export const metadata: Metadata = {
-  title: 'Jaleco Feminino Branco | Acinturado, Premium, PP ao G3 — Jaleca',
+  title: 'Jaleco Feminino Branco | Acinturado, Premium, PP ao G3',
   description: 'Jaleco feminino branco com corte acinturado, tecido Elastex premium e elastano bidirecional. Modelos Slim Elastex, Gold, Tradicional e mais. Do PP ao G3. Frete grátis Sudeste.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-feminino-branco' },
   openGraph: {

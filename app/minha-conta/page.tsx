@@ -3,7 +3,7 @@ import { Suspense } from 'react'
 import MinhaContaClient from './MinhaContaClient'
 
 export const metadata: Metadata = {
-  title: 'Minha Conta — Jaleca',
+  title: 'Minha Conta',
   description: 'Gerencie seus pedidos, endereços e pontos de fidelidade.',
   robots: { index: false, follow: false },
 }

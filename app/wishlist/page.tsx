@@ -5,7 +5,7 @@ import WishlistClient from './WishlistClient'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Favoritos — Jaleca',
+  title: 'Favoritos',
   description: 'Seus produtos favoritos salvos na Jaleca. Jalecos e uniformes profissionais premium.',
   robots: { index: false, follow: false },
   openGraph: {

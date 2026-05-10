@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Calendar, Clock, User } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Jaleco Masculino: Modelos, Tamanhos e Como Escolher | Jaleca',
+  title: 'Jaleco Masculino: Modelos, Tamanhos e Como Escolher',
   description: 'Guia completo de jaleco masculino para médicos, dentistas e estudantes de medicina. Modelos clássico, slim e manga curta — do PP ao G2, entrega rápida para todo o Brasil.',
   keywords: 'jaleco masculino, jaleco masculino médico, jaleco masculino slim, jaleco para médico, jaleco dentista masculino, jaleco estudante medicina masculino',
   alternates: { canonical: 'https://jaleca.com.br/blog/jaleco-masculino-guia-completo' },

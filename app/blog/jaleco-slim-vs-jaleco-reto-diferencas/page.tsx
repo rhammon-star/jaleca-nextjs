@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Calendar, Clock, User } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Jaleco Slim vs Jaleco Reto: Qual a Diferença e Quando Usar Cada Um | Jaleca',
+  title: 'Jaleco Slim vs Jaleco Reto: Qual a Diferença e Quando Usar Cada Um',
   description: 'Jaleco slim ou reto? Diferenças de corte, quando cada um faz sentido e como escolher para seu ambiente de trabalho.',
   alternates: { canonical: 'https://jaleca.com.br/blog/jaleco-slim-vs-jaleco-reto-diferencas' },
   openGraph: {

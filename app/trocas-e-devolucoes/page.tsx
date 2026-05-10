@@ -5,7 +5,7 @@ import Link from 'next/link'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Trocas e Devoluções — Jaleca',
+  title: 'Trocas e Devoluções',
   description: 'Saiba como solicitar trocas e devoluções na Jaleca. Prazo de 7 dias para compras online, conforme o Código de Defesa do Consumidor.',
   alternates: { canonical: 'https://jaleca.com.br/trocas-e-devolucoes' },
   robots: { index: true, follow: true },

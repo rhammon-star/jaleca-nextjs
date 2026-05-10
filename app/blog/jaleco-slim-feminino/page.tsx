@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Calendar, Clock, User } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Jaleco Slim Feminino: Por que é o Favorito das Médicas | Jaleca',
+  title: 'Jaleco Slim Feminino: Por que é o Favorito das Médicas',
   description: 'Jaleco slim feminino: corte acinturado, elastano bidirecional e caimento que não amassa. Por que médicas, dentistas e nutricionistas escolhem o slim. Guia completo com modelos e tamanhos.',
   alternates: { canonical: 'https://jaleca.com.br/blog/jaleco-slim-feminino' },
   openGraph: {

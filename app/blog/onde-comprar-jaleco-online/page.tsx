@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Calendar, Clock, User } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Onde Comprar Jaleco Online com Segurança e Frete Grátis | Jaleca',
+  title: 'Onde Comprar Jaleco Online com Segurança e Frete Grátis',
   description: 'Saiba onde comprar jaleco online com qualidade, segurança e frete grátis. Guia com critérios para escolher a melhor loja de jaleco do Brasil — e não errar no tamanho nem no tecido.',
   keywords: 'onde comprar jaleco online, melhor loja jaleco online, comprar jaleco online, loja jaleco confiável, jaleco com frete grátis, onde comprar jaleco feminino online',
   alternates: { canonical: 'https://jaleca.com.br/blog/onde-comprar-jaleco-online' },

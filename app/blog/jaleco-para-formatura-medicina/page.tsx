@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Calendar, Clock, User } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Jaleco para Formatura de Medicina: Bordado, Slim e Protocolo | Jaleca',
+  title: 'Jaleco para Formatura de Medicina: Bordado, Slim e Protocolo',
   description: 'Jaleco para formatura de medicina e enfermagem: bordado com nome e CRM, corte slim ou clássico, cores permitidas. O que a turma precisa saber antes de encomendar.',
   alternates: { canonical: 'https://jaleca.com.br/blog/jaleco-para-formatura-medicina' },
   openGraph: {

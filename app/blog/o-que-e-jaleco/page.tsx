@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Calendar, Clock } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'O que é Jaleco? Origem, Tipos e Para que Serve | Jaleca',
+  title: 'O que é Jaleco? Origem, Tipos e Para que Serve',
   description: 'O que é jaleco, para que serve e quais são os tipos: tradicional, slim, manga curta, scrub e dólmã. Guia completo sobre o jaleco profissional e suas diferenças.',
   keywords: 'o que e jaleco, o que é jaleco, o que é um jaleco, para que serve o jaleco, tipos de jaleco, jaleco profissional, significado jaleco',
   alternates: { canonical: 'https://jaleca.com.br/blog/o-que-e-jaleco' },

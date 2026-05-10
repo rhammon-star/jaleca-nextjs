@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Calendar, Clock, User } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Jaleco Feminino para Gestante: O Que Muda e Como Escolher | Jaleca',
+  title: 'Jaleco Feminino para Gestante: O Que Muda e Como Escolher',
   description: 'Quando trocar o jaleco na gravidez, qual modelo usar em cada trimestre e como manter o visual profissional durante a gestação.',
   alternates: { canonical: 'https://jaleca.com.br/blog/jaleco-feminino-gestante-como-escolher' },
   openGraph: {

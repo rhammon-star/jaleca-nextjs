@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Calendar, Clock, User } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Jaleco ou Scrub: Qual Escolher para o Consultório? | Jaleca',
+  title: 'Jaleco ou Scrub: Qual Escolher para o Consultório?',
   description: 'Jaleco ou scrub para o consultório? Compare os dois por profissão: médica, dentista, enfermeira, fisioterapeuta e nutricionista. Quando cada um funciona melhor.',
   alternates: { canonical: 'https://jaleca.com.br/blog/jaleco-ou-scrub-consultorio' },
   openGraph: {

@@ -422,6 +422,7 @@ export default async function ProdutoPage({
           '@type': 'Offer',
           price: finalPrice.toFixed(2),
           priceCurrency: 'BRL',
+          priceValidUntil: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
           availability:
             selectedVariation.stockStatus === 'OUT_OF_STOCK'
               ? 'https://schema.org/OutOfStock'
@@ -501,18 +502,55 @@ export default async function ProdutoPage({
       // Produtos variáveis usam AggregateOffer com lowPrice/highPrice
       if (hasVariations) {
         const highPrice = Math.max(...variationPrices)
+        const priceValidUntil = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
         return {
           '@type': 'AggregateOffer',
           lowPrice: (basePrice as number).toFixed(2),
           highPrice: highPrice.toFixed(2),
           priceCurrency: 'BRL',
           offerCount: variationPrices.length,
+          priceValidUntil,
           availability:
             product.stockStatus === 'OUT_OF_STOCK'
               ? 'https://schema.org/OutOfStock'
               : 'https://schema.org/InStock',
           url: `https://jaleca.com.br/produto/${slug}`,
           seller: { '@type': 'Organization', name: 'Jaleca' },
+          hasMerchantReturnPolicy: {
+            '@type': 'MerchantReturnPolicy',
+            applicableCountry: 'BR',
+            returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+            merchantReturnDays: 7,
+            returnMethod: 'https://schema.org/ReturnByMail',
+            returnFees: 'https://schema.org/FreeReturn',
+          },
+          shippingDetails: {
+            '@type': 'OfferShippingDetails',
+            shippingRate: {
+              '@type': 'MonetaryAmount',
+              value: 0,
+              currency: 'BRL',
+            },
+            shippingDestination: {
+              '@type': 'DefinedRegion',
+              addressCountry: 'BR',
+            },
+            deliveryTime: {
+              '@type': 'ShippingDeliveryTime',
+              handlingTime: {
+                '@type': 'QuantitativeValue',
+                minValue: 1,
+                maxValue: 2,
+                unitCode: 'DAY',
+              },
+              transitTime: {
+                '@type': 'QuantitativeValue',
+                minValue: 3,
+                maxValue: 10,
+                unitCode: 'DAY',
+              },
+            },
+          },
         }
       }
 
@@ -522,6 +560,7 @@ export default async function ProdutoPage({
         '@type': 'Offer',
         price: basePrice.toFixed(2),
         priceCurrency: 'BRL',
+        priceValidUntil: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
         availability:
           product.stockStatus === 'OUT_OF_STOCK'
             ? 'https://schema.org/OutOfStock'

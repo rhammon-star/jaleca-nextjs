@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { ArrowRight, Search } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Página não encontrada — Jaleca',
+  title: 'Página não encontrada',
   robots: { index: false, follow: false },
 }
 

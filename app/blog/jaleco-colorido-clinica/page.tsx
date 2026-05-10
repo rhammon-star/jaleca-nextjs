@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Calendar, Clock, User } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Jaleco Colorido na Clínica: CFM, CRO, COFEN e CFN Permitem? | Jaleca',
+  title: 'Jaleco Colorido na Clínica: CFM, CRO, COFEN e CFN Permitem?',
   description: 'Jaleco colorido é permitido? Descubra o que cada conselho de saúde determina: CFM para médicos, CRO para dentistas, COFEN para enfermeiros e CFN para nutricionistas. Guia atualizado 2026.',
   alternates: { canonical: 'https://jaleca.com.br/blog/jaleco-colorido-clinica' },
   openGraph: {

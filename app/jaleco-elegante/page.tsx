@@ -8,7 +8,7 @@ import UGCSection from '@/components/UGCSection'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Jaleco Elegante e de Alfaiataria para Médica e Dentista | Jaleca',
+  title: 'Jaleco Elegante e de Alfaiataria para Médica e Dentista',
   description: 'Jalecos elegantes femininos em alfaiataria premium: Slim acinturado, Duquesa manga longa e acabamentos sofisticados. Para médicas, dentistas e profissionais que querem beleza e autoridade.',
   keywords: 'jaleco elegante, jaleco feminino elegante, jalecos femininos elegantes, jalecos alfaiataria, jalecos luxo, jaleco premium, jaleco sofisticado, jaleco médica elegante',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-elegante' },

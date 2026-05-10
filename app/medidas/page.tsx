@@ -5,7 +5,7 @@ import Link from 'next/link'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Guia de Medidas e Tabela de Tamanhos — Jaleca',
+  title: 'Guia de Medidas e Tabela de Tamanhos',
   description: 'Encontre o seu tamanho ideal com o guia de medidas Jaleca. Tabela completa com busto, cintura e quadril para jalecos femininos, masculinos e scrubs.',
   alternates: { canonical: 'https://jaleca.com.br/medidas' },
   robots: { index: true, follow: true },

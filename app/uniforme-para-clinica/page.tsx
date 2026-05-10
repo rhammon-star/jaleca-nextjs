@@ -6,7 +6,7 @@ import ProfessionProductGrid from '@/components/ProfessionProductGrid'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Uniforme para Clínica: Conjuntos e Jalecos para Equipe Completa | Jaleca',
+  title: 'Uniforme para Clínica: Conjuntos e Jalecos para Equipe Completa',
   description: 'Uniformes para clínica médica, odontológica e estética. Conjuntos e jalecos para toda a equipe — do PP ao G3. Tecido premium com elastano, frete grátis SP/RJ/MG/ES. Fabricante com estoque próprio.',
   alternates: { canonical: 'https://jaleca.com.br/uniforme-para-clinica' },
   openGraph: {

@@ -51,14 +51,14 @@ const CAT_FAQ: Record<string, { q: string; a: string }[]> = {
 const CATEGORY_MAP: Record<string, { label: string; description: string; keywords: string; filterLabel?: string; title?: string; h1?: string; gender?: string }> = {
   jalecos: {
     label: 'Jalecos',
-    title: 'Jalecos para Medicina, Dentista e Enfermagem — Feminino e Masculino | Jaleca',
+    title: 'Jalecos para Medicina, Dentista e Enfermagem — Feminino e Masculino',
     h1: 'Jalecos Profissionais: Slim, Princesa, Duquesa e Elastex',
     description: 'Jalecos profissionais para medicina, odontologia e enfermagem. Modelos Slim, Princesa, Duquesa e Elastex. Gabardine premium, do PP ao G3. Fabricante brasileiro.',
     keywords: 'jalecos, jalecos medicina, jaleco profissional, jaleco feminino, jaleco masculino, jalecos brasil, fabricante de jalecos, jalecos antiestaticos, jaleco branco, jaleco médico, jaleco dentista',
   },
   'jalecos-femininos': {
     label: 'Jalecos Femininos',
-    title: 'Jaleco Feminino — Slim, Princesa e Elastex | 12 Cores | Jaleca',
+    title: 'Jaleco Feminino — Slim, Princesa e Elastex | 12 Cores',
     h1: 'Jaleco Feminino',
     filterLabel: 'Jalecos',
     gender: 'Feminino',
@@ -75,7 +75,7 @@ const CATEGORY_MAP: Record<string, { label: string; description: string; keyword
   },
   domas: {
     label: 'Dólmãs',
-    title: 'Dólmãs Profissionais — Femininas e Masculinas | Jaleca',
+    title: 'Dólmãs Profissionais — Femininas e Masculinas',
     description: 'Dólmãs profissionais femininas e masculinas para médicos, enfermeiros e cirurgiões. Modelagem ergonômica, tecido de alta performance. Do PP ao G3.',
     keywords: 'dólmã médica, dólmã feminina, dólmã masculina, dólmã cozinheiro, uniforme cirúrgico, roupa hospitalar, doma colorida, dólmã profissional',
   },
@@ -119,7 +119,7 @@ const CATEGORY_MAP: Record<string, { label: string; description: string; keyword
   },
   'jalecos-manga-curta': {
     label: 'Jalecos Manga Curta',
-    title: 'Jaleco Manga Curta: Leve, Confortável e Profissional | Jaleca',
+    title: 'Jaleco Manga Curta: Leve, Confortável e Profissional',
     h1: 'Jalecos Manga Curta para Profissionais da Saúde',
     description: 'Jaleco manga curta para médicos, dentistas e profissionais da saúde. Leve, com elastano, ideal para clínicas quentes. Feminino e masculino, PP ao G3.',
     keywords: 'jaleco manga curta, jaleco manga curta feminino, jaleco manga curta médico, jaleco manga curta dentista, jaleco leve, jaleco verão, jaleco curto profissional',

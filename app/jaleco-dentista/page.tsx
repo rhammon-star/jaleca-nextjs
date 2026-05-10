@@ -60,6 +60,8 @@ const schemaProduct = {
   name: 'Jaleco para Dentista',
   brand: { '@type': 'Brand', name: 'Jaleca' },
   description: 'Jaleco para dentista curto ou longo com elastano para movimento ao redor da cadeira. PP ao G3, branco e colorido.',
+  image: 'https://jaleca.com.br/og-home.jpg',
+  category: 'Uniformes Profissionais para Saúde',
   aggregateRating: {
     '@type': 'AggregateRating',
     ratingValue: '4.9',
@@ -69,10 +71,32 @@ const schemaProduct = {
   },
   offers: {
     '@type': 'AggregateOffer',
+    lowPrice: '149.00',
+    highPrice: '289.00',
     priceCurrency: 'BRL',
+    offerCount: 6,
+    priceValidUntil: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
     availability: 'https://schema.org/InStock',
     url: 'https://jaleca.com.br/jaleco-dentista',
     seller: { '@type': 'Organization', name: 'Jaleca' },
+    hasMerchantReturnPolicy: {
+      '@type': 'MerchantReturnPolicy',
+      applicableCountry: 'BR',
+      returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+      merchantReturnDays: 7,
+      returnMethod: 'https://schema.org/ReturnByMail',
+      returnFees: 'https://schema.org/FreeReturn',
+    },
+    shippingDetails: {
+      '@type': 'OfferShippingDetails',
+      shippingRate: { '@type': 'MonetaryAmount', value: 0, currency: 'BRL' },
+      shippingDestination: { '@type': 'DefinedRegion', addressCountry: 'BR' },
+      deliveryTime: {
+        '@type': 'ShippingDeliveryTime',
+        handlingTime: { '@type': 'QuantitativeValue', minValue: 1, maxValue: 2, unitCode: 'DAY' },
+        transitTime: { '@type': 'QuantitativeValue', minValue: 3, maxValue: 10, unitCode: 'DAY' },
+      },
+    },
   },
 }
 

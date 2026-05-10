@@ -7,7 +7,7 @@ import ProfessionProductGrid from '@/components/ProfessionProductGrid'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Fabricante de Jalecos Brasileira — Produção Própria em Londrina | Jaleca',
+  title: 'Fabricante de Jalecos Brasileira — Produção Própria em Londrina',
   description: 'Jaleca é fabricante de jalecos com produção própria em Londrina/PR. Atacado e varejo, do PP ao G3. Jalecos Brasil com controle de qualidade interno e entrega para todo o país.',
   keywords: 'fabricante de jalecos, jalecos brasil, jaleco brasil, fabricante jaleco, jalecos fabricante, jalecos atacado brasil, fornecedor jalecos',
   alternates: { canonical: 'https://jaleca.com.br/fabricante-de-jalecos' },

@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Calendar, Clock, User } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Jaleco para Enfermeira: Regras, Modelos e o Que o COFEN Permite | Jaleca',
+  title: 'Jaleco para Enfermeira: Regras, Modelos e o Que o COFEN Permite',
   description: 'O que a resolução COFEN 358/2009 diz sobre jaleco de enfermagem. Modelos para hospital, clínica e consultório.',
   alternates: { canonical: 'https://jaleca.com.br/blog/jaleco-para-enfermeira-regras-cofen' },
   openGraph: {

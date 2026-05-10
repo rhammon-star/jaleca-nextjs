@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Calendar, Clock, User } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Jaleco para Fisioterapeuta: O Que Considerar Antes de Comprar | Jaleca',
+  title: 'Jaleco para Fisioterapeuta: O Que Considerar Antes de Comprar',
   description: 'Fisioterapeuta precisa de jaleco com elastano para movimento livre. Guia com modelos, cores e o que o COFFITO permite.',
   alternates: { canonical: 'https://jaleca.com.br/blog/jaleco-para-fisioterapeuta-guia' },
   openGraph: {

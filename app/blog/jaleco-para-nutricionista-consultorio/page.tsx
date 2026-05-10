@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Calendar, Clock, User } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Jaleco para Nutricionista: Qual Modelo e Cor Usar no Consultório | Jaleca',
+  title: 'Jaleco para Nutricionista: Qual Modelo e Cor Usar no Consultório',
   description: 'Guia de jaleco para nutricionista: modelos, cores e o que o CFN permite. Slim Tradicional, Princesa Laise e opções para consultório.',
   alternates: { canonical: 'https://jaleca.com.br/blog/jaleco-para-nutricionista-consultorio' },
   openGraph: {

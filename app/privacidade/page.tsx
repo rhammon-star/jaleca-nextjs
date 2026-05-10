@@ -5,7 +5,7 @@ import Link from 'next/link'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Política de Privacidade — Jaleca',
+  title: 'Política de Privacidade',
   description: 'Saiba como a Jaleca coleta, usa e protege seus dados pessoais, em conformidade com a LGPD — Lei Geral de Proteção de Dados.',
   alternates: { canonical: 'https://jaleca.com.br/privacidade' },
   robots: { index: true, follow: true },

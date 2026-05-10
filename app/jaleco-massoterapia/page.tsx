@@ -8,7 +8,7 @@ import UGCSection from '@/components/UGCSection'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Jaleco para Massoterapia: Leve, Confortável e Profissional | Jaleca',
+  title: 'Jaleco para Massoterapia: Leve, Confortável e Profissional',
   description: 'Jaleco para massoterapia com amplitude de movimento, tecido leve e corte acinturado. Modelos Slim e Elastex para massoterapeuta. Do PP ao G3, entrega rápida.',
   keywords: 'jaleco massoterapia, jaleco massoterapeuta, jaleco para massoterapia, uniforme massoterapeuta, jaleco estetica massoterapia',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-massoterapia' },

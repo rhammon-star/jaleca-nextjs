@@ -7,7 +7,7 @@ import { getCachedHeroImage } from '@/lib/profession-page-data'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Conjunto para Clínica: Jaleco + Calça para Equipe de Saúde | Jaleca',
+  title: 'Conjunto para Clínica: Jaleco + Calça para Equipe de Saúde',
   description: 'Conjunto profissional para clínica — jaleco + calça ou scrub completo para médicos, enfermeiros, dentistas e equipe. Tecido premium com elastano, PP ao G3. Fabricante direto.',
   alternates: { canonical: 'https://jaleca.com.br/conjunto-para-clinica' },
   openGraph: {

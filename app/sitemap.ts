@@ -1,7 +1,9 @@
 import type { MetadataRoute } from 'next'
 import { graphqlClient } from '@/lib/graphql'
-import { getAllSeoSlugs } from '@/lib/variation-seo'
+import { getAllSeoSlugs, getVariationSEO } from '@/lib/variation-seo'
 import { kv, seoKey, type SeoEntry } from '@/lib/kv'
+import { parseColorSlug } from '@/lib/product-colors'
+import { getKnownColorSlugs } from '@/lib/kv-colors'
 
 const GET_PRODUCTS_FOR_SITEMAP = `
   query GetProductsForSitemap($first: Int) {
@@ -299,12 +301,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/jaleco-dona-casa`, lastModified: new Date('2026-04-21'), changeFrequency: 'monthly', priority: 0.8 },
   ]
 
-  const productPages: MetadataRoute.Sitemap = productNodes.map(product => ({
-    url: `${SITE_URL}/produto/${product.slug}`,
-    lastModified: product.modified ? new Date(product.modified) : new Date(),
-    changeFrequency: 'weekly' as const,
-    priority: 0.8,
-  }))
+  // Filtrar produtos-filho (cor) cuja canonical aponta para o pai —
+  // mantém só self-canonical no sitemap (cores com SEO próprio entram via kvColorPages).
+  const knownColors = await getKnownColorSlugs().catch(() => new Set<string>())
+  const productPagesRaw = await Promise.all(
+    productNodes.map(async (product) => {
+      const parsed = parseColorSlug(product.slug, knownColors)
+      if (parsed.hasColor) {
+        const kvSeo = await getVariationSEO(`produto/${product.slug}`).catch(() => null)
+        if (!kvSeo) return null
+      }
+      return {
+        url: `${SITE_URL}/produto/${product.slug}`,
+        lastModified: product.modified ? new Date(product.modified) : new Date(),
+        changeFrequency: 'weekly' as const,
+        priority: 0.8,
+      }
+    })
+  )
+  const productPages: MetadataRoute.Sitemap = productPagesRaw.filter((p): p is NonNullable<typeof p> => p !== null)
 
   const postPages: MetadataRoute.Sitemap = postNodes.map(post => ({
     url: `${SITE_URL}/blog/${post.slug}`,

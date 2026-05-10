@@ -12,7 +12,7 @@ import UGCSection from '@/components/UGCSection'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Jaleco Feminino Acinturado | Corte Slim para Consultório | Jaleca',
+  title: 'Jaleco Feminino Acinturado | Corte Slim para Consultório',
   description: 'Jaleco feminino acinturado com corte Slim que define a cintura sem apertar. Elastex, Tradicional e Princesa do PP ao G3. 12 cores. Frete grátis Sudeste.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-feminino-acinturado' },
   openGraph: {

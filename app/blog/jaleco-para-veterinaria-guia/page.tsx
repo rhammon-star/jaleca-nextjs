@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Calendar, Clock, User } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Jaleco para Veterinária: O Que Funciona no Consultório e na Cirurgia | Jaleca',
+  title: 'Jaleco para Veterinária: O Que Funciona no Consultório e na Cirurgia',
   description: 'Jaleco para veterinária: liberdade de movimento, resistência química e modelos para consultório e cirurgia.',
   alternates: { canonical: 'https://jaleca.com.br/blog/jaleco-para-veterinaria-guia' },
   openGraph: {

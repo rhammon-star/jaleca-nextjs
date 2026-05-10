@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Calendar, Clock, User } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Jaleco para Esteticista: Visual Profissional que Transmite Confiança | Jaleca',
+  title: 'Jaleco para Esteticista: Visual Profissional que Transmite Confiança',
   description: 'Jaleco para esteticista: modelos com acabamento premium, cores para identidade visual da clínica e resistência a produtos cosméticos.',
   alternates: { canonical: 'https://jaleca.com.br/blog/jaleco-para-esteticista-guia' },
   openGraph: {

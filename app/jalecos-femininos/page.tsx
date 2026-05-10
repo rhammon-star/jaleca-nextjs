@@ -8,7 +8,7 @@ import UGCSection from '@/components/UGCSection'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Jaleco Feminino Branco, Slim e Plus Size | Jaleca',
+  title: 'Jaleco Feminino Branco, Slim e Plus Size',
   description: 'Jaleco feminino branco, jaleco slim, plus size do PP ao G3. Modelos Slim, Princesa e Elastex para médica, dentista e enfermeira. Frete grátis SP, RJ, MG e ES acima de R$499.',
   alternates: { canonical: 'https://jaleca.com.br/jalecos-femininos' },
   openGraph: {

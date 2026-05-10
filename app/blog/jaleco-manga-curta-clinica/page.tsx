@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Calendar, Clock, User } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Jaleco Manga Curta Pode Usar na Clínica? CFM, CRO e COFEN Respondem | Jaleca',
+  title: 'Jaleco Manga Curta Pode Usar na Clínica? CFM, CRO e COFEN Respondem',
   description: 'Jaleco manga curta é permitido na clínica? O que CFM, CRO e COFEN determinam. Quando o manga curta é indicado e quando o longo é obrigatório. Guia por profissão.',
   alternates: { canonical: 'https://jaleca.com.br/blog/jaleco-manga-curta-clinica' },
   openGraph: {

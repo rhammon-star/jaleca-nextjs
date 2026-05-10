@@ -6,7 +6,7 @@ import ProfessionProductGrid from '@/components/ProfessionProductGrid'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Uniforme para Consultório: Jaleco Médico, Odontológico e Estético | Jaleca',
+  title: 'Uniforme para Consultório: Jaleco Médico, Odontológico e Estético',
   description: 'Uniformes para consultório médico, odontológico, psicológico e estético. Jalecos e conjuntos com elastano, tecido premium, PP ao G3. Fabricante direto — frete grátis SP/RJ/MG/ES.',
   alternates: { canonical: 'https://jaleca.com.br/uniforme-consultorio' },
   openGraph: {

@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Calendar, Clock, User } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Tecidos para Jaleco: Qual é o Melhor para Cada Profissional? | Jaleca',
+  title: 'Tecidos para Jaleco: Qual é o Melhor para Cada Profissional?',
   description: 'Guia completo dos tecidos de jaleco profissional: gabardine, elastex com elastano, Oxford premium e antimicrobiano. Qual escolher para plantão, consultório ou faculdade.',
   keywords: 'tecido para jaleco, jaleco tecido antimicrobiano, jaleco com elastano, jaleco que não amassa, qual tecido jaleco médico, tecido jaleco profissional, jaleco stretch',
   alternates: { canonical: 'https://jaleca.com.br/blog/tecidos-para-jaleco-profissional' },

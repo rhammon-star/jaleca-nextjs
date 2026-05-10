@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Calendar, Clock, User } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Jaleco Manga Curta: Quando Usar e Quem Pode na Área da Saúde | Jaleca',
+  title: 'Jaleco Manga Curta: Quando Usar e Quem Pode na Área da Saúde',
   description: 'Manga curta é permitida? Quando faz sentido, quando manga longa é melhor e modelos disponíveis para profissionais de saúde.',
   alternates: { canonical: 'https://jaleca.com.br/blog/jaleco-manga-curta-quando-usar-profissionais' },
   openGraph: {

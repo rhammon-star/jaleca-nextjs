@@ -5,7 +5,7 @@ import CompararClient from './CompararClient'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Comparar Produtos — Jaleca',
+  title: 'Comparar Produtos',
   description: 'Compare jalecos e uniformes profissionais lado a lado para encontrar o modelo ideal.',
   robots: { index: false, follow: false },
 }

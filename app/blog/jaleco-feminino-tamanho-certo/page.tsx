@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Calendar, Clock, User } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Como Escolher o Tamanho Certo de Jaleco Feminino — Guia de Medidas | Jaleca',
+  title: 'Como Escolher o Tamanho Certo de Jaleco Feminino — Guia de Medidas',
   description: 'Tabela de medidas jaleco feminino: como medir busto, cintura e comprimento. Jaleco slim vs clássico — tamanho que fica certo sem apertar. PP ao G3.',
   alternates: { canonical: 'https://jaleca.com.br/blog/jaleco-feminino-tamanho-certo' },
   openGraph: {

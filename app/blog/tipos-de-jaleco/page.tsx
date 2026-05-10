@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Calendar, Clock } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Tipos de Jaleco: Guia Completo para Escolher o Modelo Certo | Jaleca',
+  title: 'Tipos de Jaleco: Guia Completo para Escolher o Modelo Certo',
   description: 'Todos os tipos de jaleco explicados: Slim, Princesa, Duquesa, Elastex, manga curta, scrub e dólmã. Qual tipo de jaleco usar em cada profissão e ambiente.',
   keywords: 'tipos de jaleco, tipo de jaleco, tipos de jalecos, tipos de jaleco feminino, quais os tipos de jaleco, tipos de jaleco médico, jaleco slim, jaleco princesa, jaleco elastex',
   alternates: { canonical: 'https://jaleca.com.br/blog/tipos-de-jaleco' },

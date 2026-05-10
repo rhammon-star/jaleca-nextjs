@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Calendar, Clock, User } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Jaleco para Estudante de Medicina: Qual Comprar e Como Cuidar | Jaleca',
+  title: 'Jaleco para Estudante de Medicina: Qual Comprar e Como Cuidar',
   description: 'Guia completo do jaleco para estudante de medicina: modelo ideal, tamanho certo, bordado com nome, quanto investir e como conservar o primeiro jaleco da faculdade.',
   keywords: 'jaleco estudante medicina, jaleco para faculdade medicina, jaleco acadêmico, primeiro jaleco medicina, jaleco para estudante de enfermagem, jaleco academia medicina',
   alternates: { canonical: 'https://jaleca.com.br/blog/jaleco-estudante-medicina' },

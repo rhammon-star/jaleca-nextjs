@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Calendar, Clock, User } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Jaleco para Médica: Como Escolher o Modelo Certo | Jaleca',
+  title: 'Jaleco para Médica: Como Escolher o Modelo Certo',
   description: 'Consultório, plantão ou residência médica — cada contexto pede um jaleco diferente. Guia completo para médicas escolherem o modelo certo.',
   alternates: { canonical: 'https://jaleca.com.br/blog/jaleco-para-medica-guia-completo' },
   openGraph: {
