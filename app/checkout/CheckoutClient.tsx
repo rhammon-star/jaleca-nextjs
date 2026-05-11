@@ -91,7 +91,7 @@ export default function CheckoutClient() {
   // CPF flow
   const [cpf, setCpf] = useState('')
   const [cpfStatus, setCpfStatus] = useState<'idle' | 'checking' | 'found' | 'not_found'>('idle')
-  const [cpfCustomer, setCpfCustomer] = useState<{ id: number } | null>(null)
+  const [cpfCustomer, setCpfCustomer] = useState<{ id: number; email?: string } | null>(null)
   const [checkoutEmail, setCheckoutEmail] = useState('')
   const [checkoutPassword, setCheckoutPassword] = useState('')
   const [showCheckoutPassword, setShowCheckoutPassword] = useState(false)
@@ -407,7 +407,8 @@ export default function CheckoutClient() {
         const res = await fetch(`/api/auth/cpf-lookup?cpf=${clean}`, { signal: controller.signal })
         const data = await res.json()
         if (data.found) {
-          setCpfCustomer({ id: data.id })
+          setCpfCustomer({ id: data.id, email: data.email })
+          if (data.email) setCheckoutEmail(data.email)
           setCpfStatus('found')
         } else {
           setCpfStatus('not_found')
@@ -877,15 +878,26 @@ export default function CheckoutClient() {
                             <label htmlFor="checkout-email" className="block text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">
                               E-mail *
                             </label>
-                            <input
-                              id="checkout-email"
-                              type="email"
-                              value={checkoutEmail}
-                              onChange={e => setCheckoutEmail(e.target.value)}
-                              placeholder="seu@email.com"
-                              autoComplete="email"
-                              className="w-full border border-border bg-background px-3 py-2.5 text-sm focus:outline-none focus:border-foreground transition-colors"
-                            />
+                            {cpfCustomer?.email ? (
+                              <div className="w-full border border-border bg-muted/30 px-3 py-2.5 text-sm text-foreground/80 select-none" aria-label="E-mail da conta">
+                                {(() => {
+                                  const [local, domain] = cpfCustomer.email.split('@')
+                                  if (!domain) return cpfCustomer.email
+                                  const visible = local.slice(0, 2)
+                                  return `${visible}${'*'.repeat(Math.max(local.length - 2, 3))}@${domain}`
+                                })()}
+                              </div>
+                            ) : (
+                              <input
+                                id="checkout-email"
+                                type="email"
+                                value={checkoutEmail}
+                                onChange={e => setCheckoutEmail(e.target.value)}
+                                placeholder="seu@email.com"
+                                autoComplete="email"
+                                className="w-full border border-border bg-background px-3 py-2.5 text-sm focus:outline-none focus:border-foreground transition-colors"
+                              />
+                            )}
                           </div>
                           <div>
                             <label htmlFor="checkout-password" className="block text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">

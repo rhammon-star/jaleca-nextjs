@@ -29,8 +29,20 @@ function checkRateLimit(ip: string): boolean {
 
 type WCCustomer = {
   id: number
+  email?: string
   billing?: { cpf?: string }
   meta_data?: Array<{ key: string; value: string }>
+}
+
+async function fetchCustomerEmail(id: number): Promise<string | undefined> {
+  try {
+    const res = await fetch(`${WC_API}/customers/${id}`, { headers: wcHeaders(), cache: 'no-store' })
+    if (!res.ok) return undefined
+    const data = await res.json() as WCCustomer
+    return data.email
+  } catch {
+    return undefined
+  }
 }
 
 function matchesCpf(c: WCCustomer, cpf: string): boolean {
@@ -87,7 +99,8 @@ export async function GET(request: NextRequest) {
         const data = await pluginRes.json()
         if (data.found && data.id) {
           console.log(`[cpf-lookup] Found via plugin: customer ${data.id}`)
-          return NextResponse.json({ found: true, id: data.id })
+          const email = await fetchCustomerEmail(data.id)
+          return NextResponse.json({ found: true, id: data.id, email })
         }
       }
     } catch {
@@ -105,7 +118,7 @@ export async function GET(request: NextRequest) {
         const match = results.find(c => matchesCpf(c, cpf))
         if (match) {
           console.log(`[cpf-lookup] Found via WC search: customer ${match.id}`)
-          return NextResponse.json({ found: true, id: match.id })
+          return NextResponse.json({ found: true, id: match.id, email: match.email })
         }
       }
     }
@@ -115,7 +128,7 @@ export async function GET(request: NextRequest) {
     const match = all.find(c => matchesCpf(c, cpf))
     if (match) {
       console.log(`[cpf-lookup] Found via WC full scan: customer ${match.id}`)
-      return NextResponse.json({ found: true, id: match.id })
+      return NextResponse.json({ found: true, id: match.id, email: match.email })
     }
 
     return NextResponse.json({ found: false })
