@@ -161,7 +161,7 @@ export default async function Page() {
         {/* ── ③ PRODUTOS ── */}
         <div id="colecao">
           <ProfessionProductGrid
-            professionKey="acinturado"
+            professionKey="medica"
             professionLabel="Profissionais"
             collectionLabel="Coleção Slim Acinturado"
             productLabel="Jalecos"
