@@ -301,6 +301,7 @@ export default function Page() {
           <Link href="/modelo-de-jaleco" className="inline-flex items-center gap-2 px-6 py-3 bg-[#1a1a1a] text-white text-xs uppercase tracking-widest hover:bg-[#333] transition-colors">
             Ver todos os modelos ↗
           </Link>
+              <Link href="/jaleco-feminino" className="text-[#c4a97d] hover:underline text-sm">→ Coleção completa de jaleco feminino</Link>
         </div>
 
       </main>

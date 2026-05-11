@@ -13,6 +13,7 @@ import { getAllProducts } from '@/lib/all-products'
 import { getHeroImageSlug } from '@/lib/profession-hero-images'
 import { getCachedHeroImage, getCachedBlogPosts } from '@/lib/profession-page-data'
 import UGCSection from '@/components/UGCSection'
+import EATBlock from '@/components/EATBlock'
 
 // ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
 export const revalidate = 3600
@@ -488,6 +489,7 @@ export default async function JalecoEnfermeiroPage() {
           <InstagramGallery maxItems={6} title="Inspire-se — @jaleca.oficial" />
         </section>
 
+            <EATBlock profession="enfermeiro" />
             <UGCSection />
 
     </main>

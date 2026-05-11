@@ -13,13 +13,14 @@ import { getAllProducts } from '@/lib/all-products'
 import { getHeroImageSlug } from '@/lib/profession-hero-images'
 import { getCachedHeroImage, getCachedBlogPosts } from '@/lib/profession-page-data'
 import UGCSection from '@/components/UGCSection'
+import EATBlock from '@/components/EATBlock'
 
 // ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
 export const revalidate = 3600
 
 export const metadata: Metadata = {
   title: { absolute: 'Jaleco de Médico: Feminino e Masculino | Slim | Jaleca' },
-  description: 'Compre jaleco de médico com elastano bidirecional. Modelos branco, preto e colorido. Do PP ao G3. Frete grátis SP/MG/RJ/ES acima de R$499.',
+  description: '⭐ 4.9 no Google · +1.000 médicos atendidos. Jaleco com elastano bidirecional para plantão e consultório — branco, preto e colorido, PP ao G3. Frete grátis Sudeste em compras acima de R$499. Troca em 7 dias.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-medico' },
   openGraph: {
     title: 'Jaleco para Médico: Slim, Branco e Colorido | Jaleca',
@@ -505,6 +506,7 @@ export default async function JalecoDentistaPage() {
           <InstagramGallery maxItems={6} title="Inspire-se — @jaleca.oficial" />
         </section>
 
+            <EATBlock profession="medico" />
             <UGCSection />
 
     </main>

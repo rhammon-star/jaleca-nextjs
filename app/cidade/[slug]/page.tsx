@@ -1060,6 +1060,18 @@ export default async function CidadePage({
         </div>
       </section>
 
+      {/* ── EXPLORE A COLEÇÃO ── */}
+      <section className="py-10 px-4 border-t border-border" style={{ background: '#fff' }}>
+        <div className="container max-w-3xl text-center">
+          <p className="text-[11px] tracking-[0.22em] uppercase text-muted-foreground mb-3">Explore a coleção</p>
+          <div className="flex flex-wrap gap-3 justify-center">
+            <Link href="/jaleco-feminino" className="text-sm px-4 py-2 border border-foreground text-foreground hover:bg-foreground hover:text-white transition">→ Jaleco feminino</Link>
+            <Link href="/jaleco-masculino" className="text-sm px-4 py-2 border border-foreground text-foreground hover:bg-foreground hover:text-white transition">→ Jaleco masculino</Link>
+            <Link href="/jaleco" className="text-sm px-4 py-2 border border-border text-muted-foreground hover:text-foreground transition">→ Visão geral</Link>
+          </div>
+        </div>
+      </section>
+
       {/* ── CLIENTES USANDO (UGC) ── */}
       <UGCSection />
 

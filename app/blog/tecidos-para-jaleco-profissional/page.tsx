@@ -199,7 +199,11 @@ export default function BlogPost() {
             ← Voltar para o blog
           </Link>
         </div>
-      </article>
+      
+          <div className="mt-6 pt-6 border-t border-border">
+            <Link href="/jaleco-feminino" className="text-[#c4a97d] hover:underline text-sm block">→ Coleção completa de jaleco feminino</Link>
+          </div>
+        </article>
     </>
   )
 }

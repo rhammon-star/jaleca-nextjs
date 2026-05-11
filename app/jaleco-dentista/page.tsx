@@ -13,13 +13,14 @@ import { getAllProducts } from '@/lib/all-products'
 import { getHeroImageSlug } from '@/lib/profession-hero-images'
 import { getCachedHeroImage, getCachedBlogPosts } from '@/lib/profession-page-data'
 import UGCSection from '@/components/UGCSection'
+import EATBlock from '@/components/EATBlock'
 
 // ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
 export const revalidate = 3600
 
 export const metadata: Metadata = {
   title: { absolute: 'Jaleco Dentista: Curto ou Longo? Elastano para a Cadeira — 4.9★' },
-  description: 'Jaleco dentista curto ou longo com elastano para movimento ao redor da cadeira. Nota 4.9★ no Google · 61 avaliações. PP ao G3, branco e colorido. O que o CRO permite. Frete grátis Sudeste.',
+  description: '⭐ 4.9★ · 61 avaliações reais · usado por +500 dentistas. Curto ou longo, com elastano para liberdade ao redor da cadeira. Branco e colorido, PP ao G3. O que o CRO permite. Frete grátis Sudeste · troca em 7 dias.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-dentista' },
   openGraph: {
     title: 'Jaleco para Dentista: Curto, Slim e com Elastano | Jaleca',
@@ -567,6 +568,7 @@ export default async function JalecoDentistaPage() {
           <InstagramGallery maxItems={6} title="Inspire-se — @jaleca.oficial" />
         </section>
 
+            <EATBlock profession="dentista" />
             <UGCSection />
 
     </main>
