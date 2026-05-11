@@ -97,7 +97,6 @@ const nextConfig: NextConfig = {
       { source: '/blog/jaleco-branco-ou-colorido-o-que-usar-na-clinica-2', destination: '/blog/jaleco-colorido-clinica', permanent: true },
       // Redirects artigos deletados (duplicados removidos 17/04/2026) → versão canônica
       { source: '/blog/como-lavar-jaleco-branco-na-maquina', destination: '/blog/como-lavar-jaleco-profissional-guia-completo', permanent: true },
-      { source: '/blog/como-lavar-jaleco-branco', destination: '/blog/como-lavar-jaleco-profissional-guia-completo', permanent: true },
       { source: '/blog/como-lavar-e-conservar-seu-jaleco-profissional-2', destination: '/blog/como-lavar-jaleco-profissional-guia-completo', permanent: true },
       { source: '/blog/jaleco-slim-ou-classico-qual-escolher', destination: '/blog/jaleco-slim-vs-jaleco-classico-qual-escolher', permanent: true },
       { source: '/blog/jaleco-slim-vs-tradicional-qual-escolher', destination: '/blog/jaleco-slim-vs-jaleco-classico-qual-escolher', permanent: true },
@@ -144,7 +143,6 @@ const nextConfig: NextConfig = {
       // Páginas removidas → destino mais próximo
       { source: '/loja-matriz', destination: '/nossas-lojas', permanent: true },
       { source: '/dia-das-maes/:slug*', destination: '/jaleco-feminino', permanent: true },
-      { source: '/cidade/:slug*', destination: '/jaleco-feminino', permanent: true },
       { source: '/estampas/:slug*', destination: '/produtos', permanent: true },
       { source: '/produtos/page/:num*', destination: '/produtos', permanent: true },
       { source: '/frete', destination: '/', permanent: true },
