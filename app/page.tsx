@@ -1,4 +1,5 @@
 import { InstagramGallery } from '@/components/InstagramGallery'
+import UGCSection from '@/components/UGCSection'
 import FAQHome, { faqs } from '@/components/FAQHome'
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -104,39 +105,6 @@ async function getFeaturedProducts(): Promise<WooProduct[]> {
 export default async function Home() {
   const products = await getFeaturedProducts();
 
-  const homeTestimonials = [
-    {
-      name: 'Dra. Ana Carolina',
-      role: 'Médica — São Paulo, SP',
-      text: 'O caimento é impecável e o tecido é extremamente confortável para longas jornadas. Meu jaleco Jaleca é o mais elogiado da clínica!',
-      stars: 5,
-    },
-    {
-      name: 'Enf. Patricia Mendes',
-      role: 'Enfermeira — Belo Horizonte, MG',
-      text: 'Finalmente um uniforme que une elegância e praticidade. As cores são lindas e o material não amassa durante o plantão.',
-      stars: 5,
-    },
-    {
-      name: 'Dr. Felipe Souza',
-      role: 'Cirurgião — Rio de Janeiro, RJ',
-      text: 'Comprei o scrub e fiquei impressionado com a qualidade. Entrega rápida, produto exatamente como descrito. Já estou na terceira compra!',
-      stars: 5,
-    },
-  ]
-
-  const testimonialsJsonLd = {
-    '@context': 'https://schema.org',
-    '@graph': homeTestimonials.map((t, i) => ({
-      '@type': 'Review',
-      '@id': `https://jaleca.com.br/#review-${i + 1}`,
-      author: { '@type': 'Person', name: t.name, jobTitle: t.role },
-      reviewRating: { '@type': 'Rating', ratingValue: t.stars, bestRating: 5, worstRating: 1 },
-      reviewBody: t.text,
-      itemReviewed: { '@type': 'Organization', name: 'Jaleca', url: 'https://jaleca.com.br' },
-    })),
-  }
-
   const localBusinessJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'ClothingStore',
@@ -184,10 +152,6 @@ export default async function Home() {
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd).replace(/</g, '\\u003c') }}
-    />
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(testimonialsJsonLd).replace(/</g, '\\u003c') }}
     />
     <script
       type="application/ld+json"
@@ -433,40 +397,60 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Testimonials */}
+      {/* Google Reviews — Avaliações Verificadas */}
+      <Suspense fallback={<div className="py-16 bg-[#faf9f7] border-t border-border" aria-hidden="true" />}>
+        <GoogleReviewsServer />
+      </Suspense>
+
+      {/* Clientes usando Jaleca — carrossel UGC real */}
       <ScrollReveal>
-        <section className="py-20 md:py-28 bg-card">
+        <UGCSection />
+      </ScrollReveal>
+
+      {/* Últimas postagens — Blog */}
+      <ScrollReveal>
+        <section className="py-12 border-t border-border bg-card">
           <div className="container">
-            <div className="text-center mb-12">
-              <p className="text-[13px] md:text-[11px] font-semibold tracking-[0.2em] md:tracking-[0.3em] uppercase text-muted-foreground mb-3">Depoimentos</p>
-              <h2 className="font-display text-3xl md:text-4xl font-semibold">O que dizem nossos clientes</h2>
+            <div className="flex items-end justify-between mb-6">
+              <div>
+                <h2 className="font-display text-2xl md:text-3xl font-semibold">Últimas postagens</h2>
+                <p className="text-muted-foreground text-sm mt-1">Saiba como escolher, lavar e usar seu jaleco com segurança</p>
+              </div>
+              <Link href="/blog" className="hidden sm:inline-flex items-center gap-1 text-sm font-medium text-primary-text hover:underline underline-offset-4">
+                Ver todos os artigos <ArrowRight size={14} />
+              </Link>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {homeTestimonials.map((t, i) => (
-                <ScrollReveal key={t.name} delay={i * 100}>
-                  <div className="bg-background border border-border p-7 flex flex-col gap-4">
-                    <div className="flex gap-0.5">
-                      {Array.from({ length: t.stars }).map((_, j) => (
-                        <span key={j} className="text-amber-400 text-sm">★</span>
-                      ))}
-                    </div>
-                    <p className="text-sm text-muted-foreground leading-relaxed italic">"{t.text}"</p>
-                    <div className="mt-auto pt-4 border-t border-border">
-                      <p className="text-sm font-semibold text-foreground">{t.name}</p>
-                      <p className="text-[13px] md:text-[11px] text-muted-foreground">{t.role}</p>
-                    </div>
-                  </div>
-                </ScrollReveal>
+            <div className="flex flex-wrap gap-3">
+              {[
+                { label: 'Como escolher o jaleco feminino ideal', href: '/blog/como-escolher-jaleco-feminino-guia-completo' },
+                { label: 'Jaleco slim vs jaleco reto', href: '/blog/jaleco-slim-vs-jaleco-reto-diferencas' },
+                { label: 'Como lavar jaleco branco', href: '/blog/como-lavar-jaleco-branco' },
+                { label: 'Jaleco para médica — guia completo', href: '/blog/jaleco-para-medica-guia-completo' },
+                { label: 'Jaleco para dentista', href: '/blog/guia-jaleco-para-dentista-modelos-cores-como-escolher' },
+                { label: 'Jaleco para enfermeira — regras COFEN', href: '/blog/jaleco-para-enfermeira-regras-cofen' },
+              ].map(item => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="px-4 py-2 border border-border rounded-full text-sm font-medium text-foreground hover:bg-secondary/20 hover:border-foreground/40 transition-all"
+                >
+                  {item.label}
+                </Link>
               ))}
+            </div>
+            <div className="sm:hidden mt-6">
+              <Link href="/blog" className="inline-flex items-center gap-1 text-sm font-medium text-primary-text hover:underline underline-offset-4">
+                Ver todos os artigos <ArrowRight size={14} />
+              </Link>
             </div>
           </div>
         </section>
       </ScrollReveal>
 
-      {/* Google Reviews — carregado via Suspense streaming para não inflar o HTML inicial */}
-      <Suspense fallback={<div className="py-16 bg-[#faf9f7] border-t border-border" aria-hidden="true" />}>
-        <GoogleReviewsServer />
-      </Suspense>
+      {/* Carrossel de clientes — Instagram */}
+      <section style={{ padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)', maxWidth: '1200px', margin: '0 auto' }}>
+        <InstagramGallery maxItems={6} title="Inspiração — Jalecos no Instagram" />
+      </section>
 
       {/* CTA */}
       <ScrollReveal>
@@ -583,10 +567,6 @@ export default async function Home() {
             ))}
           </div>
         </div>
-      </section>
-
-      <section style={{ padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)', maxWidth: '1200px', margin: '0 auto' }}>
-        <InstagramGallery maxItems={6} title="Inspiração — Jalecos no Instagram" />
       </section>
 
       <FAQHome />
