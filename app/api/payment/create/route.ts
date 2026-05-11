@@ -203,7 +203,9 @@ export async function POST(request: NextRequest) {
 
     // ── SECURITY: Calcular desconto PIX corretamente no servidor ──────────────
     const PIX_DISCOUNT_PERCENT = 0.05
-    const calculatedPixDiscount = parseFloat((items.reduce((sum, i) => sum + i.price * i.quantity, 0) * PIX_DISCOUNT_PERCENT).toFixed(2))
+    const itemsSubtotalForPix = items.reduce((sum, i) => sum + i.price * i.quantity, 0)
+    const couponDiscountForPix = Math.min(Math.max(totalDiscount || 0, 0), itemsSubtotalForPix)
+    const calculatedPixDiscount = parseFloat(((itemsSubtotalForPix - couponDiscountForPix) * PIX_DISCOUNT_PERCENT).toFixed(2))
     // Accept only if within R$0.50 tolerance (for rounding)
     if (pixDiscount !== undefined && pixDiscount > 0) {
       if (Math.abs(pixDiscount - calculatedPixDiscount) > 0.50) {
