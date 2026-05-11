@@ -775,10 +775,12 @@ export default function ProductDetailClient({
                     🔍 Zoom
                   </div>
                   {/* Dots — indicador de swipe no mobile */}
-                  <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-1.5 md:hidden pointer-events-none">
-                    {allImages.map((_, idx) => (
-                      <span key={idx} className={`w-1.5 h-1.5 rounded-full transition-all duration-200 ${idx === activeImageIdx ? 'bg-white w-4' : 'bg-white/50'}`} />
-                    ))}
+                  <div className="absolute bottom-3 left-0 right-0 flex justify-center md:hidden pointer-events-none">
+                    <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-black/40 backdrop-blur-sm">
+                      {allImages.map((_, idx) => (
+                        <span key={idx} className={`h-1.5 rounded-full transition-all duration-200 ${idx === activeImageIdx ? 'bg-white w-4' : 'bg-white/60 w-1.5'}`} />
+                      ))}
+                    </div>
                   </div>
                 </>
               )}
