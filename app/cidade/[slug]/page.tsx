@@ -20,6 +20,8 @@ type CidadeInfo = {
   conteudoLocal?: string
   heroUrl?: string
   keywordsExtra?: string
+  metaTitle?: string
+  metaDescription?: string
 }
 
 
@@ -334,6 +336,8 @@ const CIDADES: Record<string, CidadeInfo> = {
     freteGratis: false,
     conteudoLocal: 'Jaleco em Salvador entregue com rastreamento para toda a Bahia: do HUPES (Hospital das Clínicas) às clínicas do Corredor da Vitória e do Itaigara, médicas e dentistas escolhem a Jaleca pelo jaleco que suporta o calor baiano — tecido leve com elastano, corte acinturado do PP ao G3. Compre online e receba em Salvador em até 7 dias úteis.',
     keywordsExtra: 'loja de jaleco em salvador, jaleco salvador, jalecos salvador, jaleco feminino salvador, jaleco bahia',
+    metaTitle: 'Jaleco em Salvador BA: Tecido Leve pro Calor | 4.9★ | Jaleca',
+    metaDescription: 'Jaleco em Salvador com tecido leve e elastano que aguenta o calor baiano. Modelos Slim, Princesa e Scrub do PP ao G3. Entrega rastreada em até 7 dias úteis. 4.9★ por mais de 2.000 clientes.',
   },
   'jaleco-fortaleza': {
     heroUrl: 'https://upload.wikimedia.org/wikipedia/commons/7/73/Fortaleza%2C_Brazil_%284%29_%28cropped%29.jpg',
@@ -835,8 +839,8 @@ export async function generateMetadata({
   const cidade = CIDADES[slug]
   if (!cidade) return { title: 'Página não encontrada' }
 
-  const title = `Jaleco em ${cidade.nome}: Feminino, Masculino e Scrub — Jaleca`
-  const description = `Compre jalecos femininos e masculinos em ${cidade.nome}, ${cidade.estado}. Modelos Slim, Princesa e Scrub para médicas, dentistas e enfermeiras. Frete rápido para ${cidade.nome} — Jaleca.`
+  const title = cidade.metaTitle ?? `Jaleco em ${cidade.nome}: Feminino, Masculino e Scrub — Jaleca`
+  const description = cidade.metaDescription ?? `Compre jalecos femininos e masculinos em ${cidade.nome}, ${cidade.estado}. Modelos Slim, Princesa e Scrub para médicas, dentistas e enfermeiras. Frete rápido para ${cidade.nome} — Jaleca.`
 
   return {
     title,

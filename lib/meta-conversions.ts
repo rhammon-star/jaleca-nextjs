@@ -72,9 +72,12 @@ async function sendEvent(events: object[]) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
     })
+    const text = await res.text()
     if (!res.ok) {
-      const text = await res.text()
       console.error('[Meta CAPI] Error:', res.status, text)
+    } else {
+      const eventName = (events[0] as { event_name?: string })?.event_name ?? 'unknown'
+      console.log(`[Meta CAPI] ${eventName} sent ✓`, text.slice(0, 200))
     }
   } catch (err) {
     console.error('[Meta CAPI] Failed to send event:', err)
