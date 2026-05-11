@@ -95,13 +95,14 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     setIsOpen(true)
     // Analytics browser (GA4 + Meta Pixel)
     trackAddToCart({ id: newItem.id, name: newItem.name, price: newItem.price, quantity: 1 })
-    // CAPI server-side (Meta)
+    // CAPI server-side (Meta) — reusa eventID gerado pelo browser pra dedup
     const price = parsePrice(newItem.price)
     if (price > 0) {
+      const eventId = typeof window !== 'undefined' ? (window as any).__lastAtcEventId : undefined
       fetch('/api/events/add-to-cart', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: newItem.databaseId ?? newItem.id, name: newItem.name, value: price, quantity: 1 }),
+        body: JSON.stringify({ id: newItem.databaseId ?? newItem.id, name: newItem.name, value: price, quantity: 1, eventId }),
       }).catch(() => {})
     }
   }, [])

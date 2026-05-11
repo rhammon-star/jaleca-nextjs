@@ -126,9 +126,10 @@ export function trackViewItem(product: {
     items: [{ item_id: product.id, item_name: product.name, price, item_category: product.category }],
   })
 
-  // Meta Pixel
+  // Meta Pixel — eventID estável por sessão+produto pra evitar dedup falha com CAPI
   const viewFbc = getFbc()
   const viewFbp = getFbp()
+  const viewEventId = `view_${product.id}_${Math.floor(Date.now() / (5 * 60 * 1000))}`
   window.fbq?.('track', 'ViewContent', {
     value: price,
     currency: 'BRL',
@@ -139,7 +140,7 @@ export function trackViewItem(product: {
     ...(viewFbc && { fbc: viewFbc }),
     ...(viewFbp && { fbp: viewFbp }),
     ...(product.email && { em: product.email }),
-  })
+  }, { eventID: viewEventId })
 }
 
 export function trackInitiateCheckout(value: number, numItems: number) {
@@ -204,9 +205,13 @@ export function trackAddToCart(product: {
     items: [{ item_id: product.id, item_name: product.name, price, quantity: qty }],
   })
 
-  // Meta Pixel
+  // Meta Pixel — eventID compartilhado com CAPI server (passa no fetch /api/events/add-to-cart)
   const cartFbc = getFbc()
   const cartFbp = getFbp()
+  const atcEventId = `atc_${product.id}_${Math.floor(Date.now() / 1000)}`
+  if (typeof window !== 'undefined') {
+    try { (window as any).__lastAtcEventId = atcEventId } catch {}
+  }
   window.fbq?.('track', 'AddToCart', {
     value: price * qty,
     currency: 'BRL',
@@ -214,7 +219,7 @@ export function trackAddToCart(product: {
     content_type: 'product',
     ...(cartFbc && { fbc: cartFbc }),
     ...(cartFbp && { fbp: cartFbp }),
-  })
+  }, { eventID: atcEventId })
 }
 
 // ── Pageview tracker (inner — needs Suspense) ─────────────────────────────────

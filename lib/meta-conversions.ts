@@ -145,13 +145,14 @@ export async function sendMetaViewContent(
 export async function sendMetaAddToCart(
   userData: MetaUserData,
   content: { id: string; name: string; value: number; quantity: number },
-  sourceUrl: string
+  sourceUrl: string,
+  eventId?: string
 ) {
   await sendEvent([
     {
       event_name: 'AddToCart',
       event_time: Math.floor(Date.now() / 1000),
-      event_id: `atc_${content.id}_${Date.now()}`,
+      event_id: eventId || `atc_${content.id}_${Math.floor(Date.now() / 1000)}`,
       event_source_url: sourceUrl,
       action_source: 'website',
       user_data: buildUserData(userData),

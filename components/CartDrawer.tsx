@@ -6,7 +6,6 @@ import { X, ShoppingBag, Trash2, Plus, Minus, Tag, Loader2, Clock, Truck, Percen
 import { useCart } from '@/contexts/CartContext'
 import ShippingCalculator, { type ShippingOption } from '@/components/ShippingCalculator'
 import Link from 'next/link'
-import { trackInitiateCheckout } from '@/components/Analytics'
 
 function parsePrice(price: string): number {
   return parseFloat(price.replace(/[^0-9,]/g, '').replace(',', '.')) || 0
@@ -424,7 +423,6 @@ export default function CartDrawer() {
             <Link
               href="/finalizar-compra"
               onClick={() => {
-                trackInitiateCheckout(total, items.length)
                 closeCart()
               }}
               className="w-full inline-flex items-center justify-center gap-2 bg-ink text-background py-4 text-xs font-semibold tracking-widest uppercase transition-all hover:bg-ink/90 active:scale-[0.98]"

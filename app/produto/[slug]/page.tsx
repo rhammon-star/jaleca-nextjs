@@ -1,5 +1,4 @@
 import { notFound, redirect, permanentRedirect } from 'next/navigation'
-import { headers } from 'next/headers'
 import { cache } from 'react'
 import { readFile } from 'fs/promises'
 import { join } from 'path'
@@ -9,7 +8,6 @@ import { getProductReviews, type WCReview } from '@/lib/woocommerce'
 import { getGooglePlaceData, type PlaceData } from '@/lib/google-places'
 import type { WooProduct } from '@/components/ProductCard'
 import type { Metadata } from 'next'
-import { sendMetaViewContent } from '@/lib/meta-conversions'
 import { parseColorSlug, findVariationByColor } from '@/lib/product-colors'
 import { getKnownColorSlugs } from '@/lib/kv-colors'
 import { generateColorMetaDescription } from '@/lib/product-seo-generator'
@@ -333,19 +331,8 @@ export default async function ProdutoPage({
 
   const databaseId = Number(product.databaseId)
 
-  // CAPI ViewContent — server-side, sem bloquear o render
-  const reqHeaders = await headers()
-  const clientIp = reqHeaders.get('x-forwarded-for')?.split(',')[0]?.trim() ?? reqHeaders.get('x-real-ip') ?? undefined
-  const clientUserAgent = reqHeaders.get('user-agent') ?? undefined
-  sendMetaViewContent(
-    { clientIp, clientUserAgent },
-    {
-      id: String(databaseId),
-      name,
-      value: parseFloat(String(product.price ?? '').replace(/[^0-9,]/g, '').replace(',', '.')) || undefined,
-    },
-    `https://jaleca.com.br/produto/${slug}`
-  ).catch(() => {})
+  // VC server-side removido — browser fbq dispara com eventID; CAPI server inflava
+  // métricas em bots/recrawls/ISR rebuilds sem deduplicação válida.
 
   // Fetch reviews and related products in parallel — all cached persistently
   const categorySlugs: string[] = ((product as any).productCategories?.nodes ?? []).map((n: { slug: string }) => n.slug).filter(Boolean)

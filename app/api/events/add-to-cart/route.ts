@@ -4,7 +4,7 @@ import { sendMetaAddToCart } from '@/lib/meta-conversions'
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
-    const { id, name, value, quantity } = body
+    const { id, name, value, quantity, eventId } = body
 
     if (!id || !name || !value) {
       return NextResponse.json({ ok: false }, { status: 400 })
@@ -20,7 +20,8 @@ export async function POST(req: NextRequest) {
     await sendMetaAddToCart(
       { clientIp, clientUserAgent, fbc, fbp },
       { id: String(id), name, value: parseFloat(value), quantity: quantity ?? 1 },
-      req.headers.get('referer') ?? 'https://jaleca.com.br'
+      req.headers.get('referer') ?? 'https://jaleca.com.br',
+      eventId
     )
 
     return NextResponse.json({ ok: true })
