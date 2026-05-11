@@ -1,19 +1,15 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { Suspense } from 'react'
-import { graphqlClient, GET_PRODUCT_BY_SLUG } from '@/lib/graphql'
-import type { WooProduct } from '@/components/ProductCard'
-import ProductDetailSection from '@/components/ProductDetailSection'
 import { getGooglePlaceData } from '@/lib/google-places'
-import FaqAccordion from './FaqAccordion'
-import { getVerMaisUrl } from '@/lib/product-professions'
-import { getHeroImageSlug } from '@/lib/profession-hero-images'
-import { getCachedHeroImage, getCachedBlogPosts } from '@/lib/profession-page-data'
-import TrustBadgeBar from '@/components/TrustBadgeBar'
 import ProfessionProductGrid from '@/components/ProfessionProductGrid'
-import UGCSection from '@/components/UGCSection'
+import { getVerMaisUrl } from '@/lib/product-professions'
+import HeroCommercial from '@/components/profession-lp/HeroCommercial'
+import CompactTrustBar from '@/components/profession-lp/CompactTrustBar'
+import GoogleRatingCarousel from '@/components/profession-lp/GoogleRatingCarousel'
+import InstagramLazy from '@/components/profession-lp/InstagramLazy'
+import FabricGuideCards from '@/components/profession-lp/FabricGuideCards'
+import ProfessionLinksNeutral from '@/components/profession-lp/ProfessionLinksNeutral'
 
-// ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
 export const revalidate = 3600
 
 export const metadata: Metadata = {
@@ -29,10 +25,10 @@ export const metadata: Metadata = {
     type: 'article',
   },
   twitter: {
-    card: "summary_large_image",
+    card: 'summary_large_image',
     title: 'Jaleco para Médico | Tecido Premium, Caimento Perfeito — Jaleca',
     description: 'Jaleco premium para médico. Tecido de qualidade, caimento perfeito, preço justo. Do PP ao G3.',
-    images: ["https://jaleca.com.br/og-home.jpg"],
+    images: ['https://jaleca.com.br/og-home.jpg'],
   },
 }
 
@@ -48,7 +44,6 @@ const schemaFaq = {
     { '@type': 'Question', name: 'Qual a diferença entre jaleco Slim e Profissional?', acceptedAnswer: { '@type': 'Answer', text: 'O Slim tem corte ajustado ao corpo, ideal para quem quer visual mais moderno. O Profissional tem corte mais amplo e estruturado, com mais espaço para movimento.' } },
     { '@type': 'Question', name: 'A Jaleca borda o nome e CRM no jaleco?', acceptedAnswer: { '@type': 'Answer', text: 'Não. A Jaleca não oferece serviço de bordado. O jaleco é vendido sem bordado. Você pode levar a peça a uma bordadeira local após o recebimento. Importante: após o bordado, o jaleco não pode mais ser trocado.' } },
   ],
-  speakable: { '@type': 'SpeakableSpecification', cssSelector: ['[itemprop="name"]', '[itemprop="acceptedAnswer"]'] },
 }
 
 const schemaArticle = {
@@ -57,24 +52,19 @@ const schemaArticle = {
   headline: 'Jaleco para Médica: Tecido Premium, Caimento Perfeito',
   description: 'Guia completo do jaleco para médica: tecido premium, caimento perfeito, modelo Slim vs Profissional e custo-benefício.',
   inLanguage: 'pt-BR',
-  audience: { '@type': 'Audience', audienceType: 'Médicas e profissionais da saúde' },
   author: {
     '@type': 'Organization',
     name: 'Jaleca Uniformes Profissionais',
     url: 'https://jaleca.com.br',
-    sameAs: ['https://www.instagram.com/jalecaa/', 'https://www.facebook.com/jalecaa/'],
   },
   publisher: {
     '@type': 'Organization',
     name: 'Jaleca',
     logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' },
-    sameAs: ['https://www.instagram.com/jalecaa/', 'https://www.facebook.com/jalecaa/'],
   },
   url: 'https://jaleca.com.br/jaleco-medica',
-  mainEntityOfPage: 'https://jaleca.com.br/jaleco-medica',
   datePublished: '2026-04-18',
   dateModified: '2026-04-21',
-  speakable: { '@type': 'SpeakableSpecification', cssSelector: ['h1', 'h2', '[data-speakable]'] },
 }
 
 const breadcrumbSchema = {
@@ -87,28 +77,42 @@ const breadcrumbSchema = {
   ],
 }
 
-// Stars sem contagem — apenas nota
-function HeroStars({ rating }: { rating: number }) {
-  const full = Math.floor(rating)
-  const half = rating - full >= 0.5
-  return (
-    <div className="flex items-center gap-2 mt-10">
-      <span style={{ color: '#c8a96e', fontSize: '0.85rem', letterSpacing: 2 }}>
-        {'★'.repeat(full)}{half ? '½' : ''}
-      </span>
-      <span style={{ fontSize: '0.78rem', color: '#6b6b6b' }}>
-        {rating.toFixed(1)}★
-      </span>
-    </div>
-  )
-}
+const MODELOS = [
+  {
+    nome: 'Jaleco Slim',
+    perfil: 'Para quem quer corte valorizado',
+    desc: 'Recortes laterais que seguem a silhueta. Visual elegante sem perder mobilidade em 12h de plantão.',
+  },
+  {
+    nome: 'Jaleco Profissional',
+    perfil: 'Para quem prefere mais amplitude',
+    desc: 'Corte mais amplo e estruturado. Maior liberdade de movimento. Escolha clássica para qualquer rotina clínica.',
+  },
+  {
+    nome: 'Jaleco Elastex',
+    perfil: 'Para quem precisa de praticidade',
+    desc: 'Fechamento em elástico — veste e tira rápido. Popular em clínicas com trocas frequentes no plantão.',
+  },
+  {
+    nome: 'Plus Size (até G3)',
+    perfil: 'Para todos os corpos',
+    desc: 'Molde próprio para grades maiores. Ombros e manga recalculados para manter o caimento do PP ao G3.',
+  },
+]
 
-export default async function JalecoDentistaPage() {
-  const [posts, placeData, heroImg] = await Promise.all([
-    getCachedBlogPosts('jaleco'),
-    getGooglePlaceData(),
-    getCachedHeroImage(getHeroImageSlug('medica') ?? ''),
-  ])
+const INTERNAL_LINKS = [
+  { href: '/jaleco-feminino', label: 'Jaleco Feminino' },
+  { href: '/jaleco-dentista-feminino', label: 'Jaleco para Dentista' },
+  { href: '/jaleco-feminino-branco', label: 'Jaleco Branco' },
+  { href: '/jaleco-feminino-acinturado', label: 'Jaleco Acinturado' },
+  { href: '/blog/jaleco-para-medica-guia-completo', label: 'Guia Jaleco Médica' },
+  { href: '/blog/jaleco-para-enfermeira-regras-cofen', label: 'Jaleco para Enfermeira' },
+  { href: '/jaleco-plus-size', label: 'Jaleco Plus Size' },
+  { href: '/jaleco-masculino', label: 'Jaleco Masculino' },
+]
+
+export default async function Page() {
+  const placeData = await getGooglePlaceData()
 
   return (
     <>
@@ -116,7 +120,6 @@ export default async function JalecoDentistaPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaArticle).replace(/</g, '\\u003c') }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }} />
 
-      <TrustBadgeBar />
       <main style={{ fontWeight: 300 }}>
 
         {/* ── BREADCRUMB ── */}
@@ -135,347 +138,105 @@ export default async function JalecoDentistaPage() {
           </ol>
         </div>
 
-        {/* ── HERO ── */}
-        <section className="grid grid-cols-1 lg:grid-cols-2" style={{ minHeight: '70vh', padding: 0 }}
-        >
-          <div className="flex flex-col justify-center order-2 lg:order-1 px-4 py-8 lg:px-16 lg:py-20" style={{ padding: 'clamp(3rem,8vw,5rem) clamp(2rem,5vw,4rem) clamp(3rem,8vw,5rem) clamp(2rem,8vw,7rem)', background: '#f9f7f4' }}
-          >
-            <div className="flex items-center gap-3 mb-6" style={{ fontSize: '0.72rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#6b6b6b' }}>
-              <span style={{ display: 'inline-block', width: 32, height: 1, background: '#c8c4bc' }} />
-              Uniforme profissional
-            </div>
-            <h1
-              style={{
-                fontFamily: "'Cormorant', Georgia, serif",
-                fontSize: 'clamp(3rem,5.5vw,5.2rem)',
-                fontWeight: 400,
-                lineHeight: 1.05,
-                letterSpacing: '-0.01em',
-                color: '#1a1a1a',
-                marginBottom: '1.5rem',
-              }}
-            >
-              Jaleco para<br />
-              <em style={{ fontStyle: 'italic', fontWeight: 300 }}>Médica</em>
-            </h1>
-            <p style={{ fontSize: '1rem', fontWeight: 300, color: '#6b6b6b', maxWidth: 420, marginBottom: '2.5rem', lineHeight: 1.8 }}>
-              Tecido premium, caimento perfeito, preço justo.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3 lg:gap-4">
-              <Link href="/produtos?categoria=jalecos-femininos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: '#1a1a1a', color: '#fff', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
-                Feminino ↗
-              </Link>
-              <Link href="/produtos?categoria=jalecos-masculinos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: 'transparent', color: '#1a1a1a', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
-                Masculino →
-              </Link>
-            </div>
-            {/* Estrelas Google reais — sem contagem */}
-            {placeData && <HeroStars rating={placeData.rating} />}
-            <p style={{ marginTop: '1rem', fontSize: '0.7rem', letterSpacing: '0.1em', color: '#9b9690' }}>
-              Sudeste grátis · PIX 5% OFF · Troca em 7 dias
-            </p>
-          </div>
-
-          <div className="relative order-1 lg:order-2" style={{ background: '#e5e0d8', minHeight: 480, overflow: 'hidden' }}>
-            {heroImg ? (
-              <img
-                src={heroImg.src}
-                alt={heroImg.alt}
-                fetchPriority="high"
-                style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block', position: 'absolute', inset: 0 }}
-              />
-            ) : (
-              <div style={{ width: '100%', height: '100%', background: 'linear-gradient(160deg, #ccc8c0 0%, #bfbab2 100%)', position: 'absolute', inset: 0 }} />
-            )}
-          </div>
-        </section>
-
-        {/* ── AUTORIDADE ── */}
-        <section style={{ background: '#faf8f3', padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)' }}>
-          <div style={{ maxWidth: 780, margin: '0 auto' }}>
-            <p style={{ fontSize: '1rem', color: '#666', lineHeight: 1.8, marginBottom: '1.5rem', fontWeight: 300 }}>
-              Antes de você falar, sua imagem já foi avaliada. Conforto, caimento impecável e a presença que eleva sua autoridade profissional.
-            </p>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '2rem' }}>
-              <span style={{ color: '#c4a97d', fontSize: '1.15rem', letterSpacing: 2 }}>★★★★★</span>
-              <p style={{ fontSize: '0.95rem', color: '#555', margin: 0 }}>
-                <strong style={{ color: '#1a1a1a' }}>{placeData?.rating ?? '4.9'}/5 no Google</strong> — clientes satisfeitos em todo o Brasil
-              </p>
-            </div>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.6rem', background: '#1a1a1a', color: '#c4a97d', padding: '0.55rem 1rem', marginBottom: '1.75rem' }}>
-              <span style={{ fontSize: '0.85rem' }}>🏆</span>
-              <span style={{ fontSize: '0.68rem', fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase' }}>Uma das marcas que mais vende jalecos no Brasil</span>
-            </div>
-            <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(1.9rem,3.5vw,3.2rem)', fontWeight: 400, lineHeight: 1.18, color: '#1a1a1a', marginBottom: '1rem' }}>
-              Mais de 200 mil peças vendidas para médicas, dentistas e profissionais da saúde.
-            </h2>
-          </div>
-        </section>
-
-        {/* ── PRODUTOS — Above the Fold ── */}
-        <ProfessionProductGrid
-          professionKey="medica"
-          professionLabel="Médicas"
-          collectionLabel="Coleção Médica"
-          productLabel="Jalecos"
+        {/* ── ① HERO COMMERCIAL ── */}
+        <HeroCommercial
+          eyebrow="Jaleca · Para médicas"
+          h1Line1="Jaleco para Médica"
+          h1Line2="Presença que inspira confiança"
+          description="Modelagem slim com elastano para jornadas de 12h. Conforto e autoridade desde o primeiro olhar. Do PP ao G3."
+          startingPrice="R$189"
+          collectionHref="#colecao"
           allHref={getVerMaisUrl('medica')}
+          googleRating={placeData?.rating}
         />
 
-        {/* ── GUIA ── */}
-        <section className="px-4 py-12 lg:px-16 lg:py-20" style={{ background: '#f9f7f4', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
-          <div style={{ maxWidth: 1200, width: '100%', margin: '0 auto' }}>
-            <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-8 lg:gap-24" style={{ gap: 'clamp(3rem,6vw,6rem)', alignItems: 'start' }}>
-              <aside style={{ position: 'sticky', top: 80 }}>
-                <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>Guia completo</div>
-                <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '1.8rem', fontWeight: 400, lineHeight: 1.15, color: '#1a1a1a', marginBottom: '1.5rem' }}>
-                  Como escolher o jaleco ideal para medicina
-                </h2>
-                <nav className="hidden lg:block">
-                  <ul style={{ listStyle: 'none' }}>
-                    {[
-                      { label: 'Tecido e composição', anchor: '#tecido' },
-                      { label: 'Modelagem Slim ou Profissional', anchor: '#modelagem' },
-                      { label: 'Jaleco branco ou colorido', anchor: '#cores' },
-                      { label: 'Bolsos e funcionalidade', anchor: '#bolsos' },
-                      { label: 'Normas do CRM', anchor: '#crm' },
-                    ].map(item => (
-                      <li key={item.anchor} style={{ marginBottom: '0.5rem' }}>
-                        <a href={item.anchor} style={{ fontSize: '0.82rem', color: '#6b6b6b', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                          <span style={{ display: 'inline-block', width: 16, height: 1, background: '#c8c4bc', flexShrink: 0 }} />
-                          {item.label}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </nav>
-              </aside>
+        {/* ── ② COMPACT TRUST BAR ── */}
+        <CompactTrustBar />
 
-              <article>
-                {[
-                  {
-                    id: 'tecido',
-                    title: 'Tecido e composição: o que realmente importa',
-                    body: (
-                      <>
-                        <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          Jaleco de médica aguenta muita lavagem e mancha. Precisa ser confortável por horas.
-                        </p>
-                        <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          Na Jaleca, todos têm elastano. Faz a diferença para quem fica com os braços levantados.
-                        </p>
-                        <div style={{ background: '#1a1a1a', color: '#fff', padding: '1.5rem 2rem', margin: '2rem 0', borderLeft: '3px solid #c8c4bc' }}>
-                          <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.95rem', fontStyle: 'italic', fontWeight: 300, margin: 0 }}>
-                            "O jaleco ideal? Aquele que você nem sente que está vestindo. O tecido te acompanha, sem atrapalhar."
-                          </p>
-                        </div>
-                      </>
-                    ),
-                  },
-                  {
-                    id: 'modelagem',
-                    title: 'Modelagem Slim ou Profissional: qual escolher?',
-                    body: (
-                      <>
-                        <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          A Jaleca tem duas modelagens principais. A escolha certa depende do ambiente da clínica e do seu estilo profissional.
-                        </p>
-                        <ul style={{ listStyle: 'none', margin: '1.2rem 0 1.5rem' }}>
-                          {[
-                            'Slim — Corte ajustado ao corpo, valoriza a silhueta, ideal para quem quer visual moderno e elegante em consultórios premium',
-                            'Profissional — Corte mais amplo e estruturado, maior liberdade de movimento, escolha clássica para qualquer rotina clínica',
-                          ].map(item => (
-                            <li key={item} style={{ fontSize: '0.95rem', color: '#444', padding: '0.6rem 0 0.6rem 1.5rem', position: 'relative', borderBottom: '1px solid #e5e0d8', fontWeight: 300 }}>
-                              <span style={{ position: 'absolute', left: 0, color: '#c8c4bc' }}>→</span>
-                              {item}
-                            </li>
-                          ))}
-                        </ul>
-                      </>
-                    ),
-                  },
-                  {
-                    id: 'cores',
-                    title: 'Jaleco branco ou colorido: o que o CRM diz',
-                    body: (
-                      <>
-                        <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          O branco é o clássico, claro. Mas o CRM não restringe cores.
-                        </p>
-                        <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          Tons pastel e discretos são aceitos. Em clínicas pediátricas, cores amigáveis acalmam as crianças. Temos 12 cores disponíveis, em todos os modelos.
-                        </p>
-                      </>
-                    ),
-                  },
-                  {
-                    id: 'bolsos',
-                    title: 'Bolsos e funcionalidade clínica',
-                    body: (
-                      <>
-                        <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          O bolso no peito precisa guardar a caneta sem ela cair quando você se inclina.
-                        </p>
-                        <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          Bolsos laterais reforçados duram mais e são ótimos para os instrumentos do dia a dia.
-                        </p>
-                      </>
-                    ),
-                  },
-                  {
-                    id: 'cro',
-                    title: 'Normas do CRM sobre vestimenta profissional',
-                    body: (
-                      <>
-                        <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          O CRM, junto com a ANVISA, exige: use o jaleco só no trabalho. Nunca em transporte ou fora da clínica. A peça precisa estar sempre limpa e em bom estado.
-                        </p>
-                        <p style={{ fontSize: '0.97rem', color: '#444', lineHeight: 1.85, marginBottom: '1.2rem', fontWeight: 300 }}>
-                          EPIs são obrigatórios: jaleco, luvas, máscara, óculos e touca. O jaleco protege sua roupa e forma uma barreira contra sangue, saliva e químicos.
-                        </p>
-                      </>
-                    ),
-                  },
-                ].map((sec) => (
-                  <div key={sec.id} id={sec.id} style={{ borderTop: '1px solid #e5e0d8', paddingTop: '2rem', marginTop: '2.5rem' }}>
-                    <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(1.5rem,2.5vw,2rem)', fontWeight: 400, marginBottom: '1rem', color: '#1a1a1a' }}>
-                      {sec.title}
-                    </h2>
-                    {sec.body}
-                  </div>
-                ))}
-              </article>
-            </div>
-          </div>
-        </section>
+        {/* ── ③ PRODUTOS ── */}
+        <div id="colecao">
+          <ProfessionProductGrid
+            professionKey="medica"
+            professionLabel="Médicas"
+            collectionLabel="Coleção Médica"
+            productLabel="Jalecos"
+            allHref={getVerMaisUrl('medica')}
+          />
+        </div>
 
-        {/* ── PRODUTO — Detalhamento ── */}
-        <ProductDetailSection productType="jaleco" />
-        <section style={{ background: '#fff', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
-          <div style={{ maxWidth: 1200, width: '100%', margin: '0 auto' }}>
-            <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>Dúvidas frequentes</div>
-            <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2rem,3.5vw,3rem)', fontWeight: 400, lineHeight: 1.15, color: '#1a1a1a' }}>
-              Perguntas sobre jaleco<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>para médico</em>
-            </h2>
-            <FaqAccordion />
-          </div>
-        </section>
+        {/* ── ④ GOOGLE 4.9★ + DEPOIMENTOS ── */}
+        <GoogleRatingCarousel rating={placeData?.rating ?? 4.9} />
 
-        {/* ── ARTIGOS DO BLOG (reais do WordPress) ── */}
-        <section style={{ background: '#f9f7f4', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
-          <div style={{ maxWidth: 1200, width: '100%', margin: '0 auto' }}>
-            <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>Blog Jaleca</div>
-            <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2rem,3.5vw,3rem)', fontWeight: 400, lineHeight: 1.15, color: '#1a1a1a', marginBottom: 0 }}>
-              Leitura para<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>profissionais</em>
-            </h2>
+        {/* ── ⑤ INSTAGRAM ── */}
+        <InstagramLazy />
 
-            <div className="grid grid-cols-1 md:grid-cols-3" style={{ gap: '2px', background: '#e5e0d8', marginTop: '3rem' }}>
-              {posts.length > 0 ? posts.map(post => {
-                const img = post._embedded?.['wp:featuredmedia']?.[0]?.source_url
-                const excerpt = post.excerpt.rendered.replace(/<[^>]+>/g, '').slice(0, 120) + '…'
-                const title = post.title.rendered.replace(/<[^>]+>/g, '')
-                return (
-                  <Link key={post.id} href={`/blog/${post.slug}`} style={{ background: '#fff', textDecoration: 'none', color: 'inherit', display: 'block' }}>
-                    <div style={{ aspectRatio: '16/10', background: '#e5e0d8', overflow: 'hidden', position: 'relative' }}>
-                      {img ? (
-                        <img src={img} alt={title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-                      ) : (
-                        <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, #f9f7f4 0%, #e5e0d8 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                          <span style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '0.85rem', fontStyle: 'italic', color: '#c8c4bc' }}>Jaleca</span>
-                        </div>
-                      )}
-                    </div>
-                    <div style={{ padding: '1.5rem', background: '#fff' }}>
-                      <span style={{ fontSize: '0.65rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#6b6b6b', display: 'block', marginBottom: '0.6rem' }}>Blog</span>
-                      <h3 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '1.15rem', fontWeight: 400, lineHeight: 1.35, color: '#1a1a1a', marginBottom: '0.75rem' }}>{title}</h3>
-                      <p style={{ fontSize: '0.85rem', color: '#6b6b6b', lineHeight: 1.7, fontWeight: 300, marginBottom: '1rem' }}>{excerpt}</p>
-                      <span style={{ fontSize: '0.75rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1a1a1a' }}>Ler artigo →</span>
-                    </div>
-                  </Link>
-                )
-              }) : (
-                // Fallback: artigos fixos relevantes para o cluster
-                [
-                  { title: 'Como lavar e conservar seu jaleco profissional', href: '/blog/como-lavar-jaleco', tag: 'Cuidados', excerpt: 'Erros simples de lavagem aceleram o amarelamento e encurtam a vida do jaleco. Veja o guia completo.' },
-                  { title: 'Jaleco branco: tradição e protocolos em medicina', href: '/blog', tag: 'Medicina', excerpt: 'Por que o branco é tão usado em medicina e o que recomendam sobre cores e vestimenta.' },
-                  { title: 'Como escolher o tamanho certo do jaleco', href: '/medidas', tag: 'Guia de Tamanhos', excerpt: 'Passo a passo para medir busto, cintura e quadril e encontrar o tamanho ideal na grade Jaleca.' },
-                ].map(post => (
-                  <Link key={post.href} href={post.href} style={{ background: '#fff', textDecoration: 'none', color: 'inherit', display: 'block' }}>
-                    <div style={{ aspectRatio: '16/10', background: 'linear-gradient(135deg, #f9f7f4 0%, #e5e0d8 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <span style={{ fontFamily: "'Cormorant', Georgia, serif", fontStyle: 'italic', color: '#c8c4bc' }}>Jaleca</span>
-                    </div>
-                    <div style={{ padding: '1.5rem', background: '#fff' }}>
-                      <span style={{ fontSize: '0.65rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#6b6b6b', display: 'block', marginBottom: '0.6rem' }}>{post.tag}</span>
-                      <h3 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '1.15rem', fontWeight: 400, lineHeight: 1.35, color: '#1a1a1a', marginBottom: '0.75rem' }}>{post.title}</h3>
-                      <p style={{ fontSize: '0.85rem', color: '#6b6b6b', lineHeight: 1.7, fontWeight: 300, marginBottom: '1rem' }}>{post.excerpt}</p>
-                      <span style={{ fontSize: '0.75rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1a1a1a' }}>Ler artigo →</span>
-                    </div>
-                  </Link>
-                ))
-              )}
-            </div>
-
-            <div style={{ textAlign: 'center', marginTop: '2rem' }}>
-              <Link href="/blog" style={{ fontSize: '0.78rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: '#6b6b6b', textDecoration: 'none' }}>
-                Ver todos os artigos →
-              </Link>
-            </div>
-          </div>
-        </section>
-
-        {/* ── TOPICAL AUTHORITY — Outros profissionais de saúde ── */}
-        <section style={{ background: '#1a1a1a', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
-          <div style={{ maxWidth: 1200, width: '100%', margin: '0 auto' }}>
-            <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)', marginBottom: '0.75rem' }}>Outros uniformes profissionais</div>
-            <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(1.8rem,3vw,2.5rem)', fontWeight: 400, lineHeight: 1.15, color: '#fff', marginBottom: '2.5rem' }}>
-              Jaleco para outras<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>profissões de saúde</em>
-            </h2>
-            <div className="grid grid-cols-2 md:grid-cols-4" style={{ gap: '1px', background: 'rgba(255,255,255,0.08)' }}>
-              {[
-                { label: 'Podólogo', href: '/jaleco-podologo', desc: 'Guia completo' },
-                { label: 'Biomédico', href: '/jaleco-biomedico', desc: 'Guia completo' },
-                { label: 'Enfermeiro', href: '/jaleco-enfermeiro', desc: 'Guia completo' },
-                { label: 'Fisioterapeuta', href: '/jaleco-fisioterapeuta', desc: 'Guia completo' },
-                { label: 'Nutricionista', href: '/jaleco-nutricionista', desc: 'Guia completo' },
-                { label: 'Veterinário', href: '/jaleco-veterinario', desc: 'Guia completo' },
-                { label: 'Médico', href: '/jaleco-medico', desc: 'Guia completo' },
-                { label: 'Ver todos', href: '/produtos?categoria=jalecos', desc: 'Loja completa' },
-              ].map(item => (
-                <Link key={item.href} href={item.href} className="block hover:bg-white/5 transition-colors duration-200" style={{ padding: '1.5rem', textDecoration: 'none' }}>
-                  <div style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '1.15rem', fontWeight: 400, color: '#fff', marginBottom: '0.25rem' }}>{item.label}</div>
-                  <div style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.35)', letterSpacing: '0.08em' }}>{item.desc} →</div>
-                </Link>
+        {/* ── ⑥ MODELOS ── */}
+        <section style={{ background: '#f9f7f4', padding: 'clamp(2.5rem,5vw,4rem) clamp(1.5rem,5vw,4rem)' }}>
+          <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+            <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.5rem' }}>Qual modelo é o seu?</div>
+            <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(1.8rem,3vw,2.6rem)', fontWeight: 400, color: '#1a1a1a', marginBottom: '1.5rem' }}>Conheça cada modelo</h2>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(260px,100%), 1fr))', gap: '0.75rem' }}>
+              {MODELOS.map((m, i) => (
+                <div key={i} style={{ background: '#fff', border: '1px solid #e5e0d8', padding: '1.25rem' }}>
+                  <strong style={{ display: 'block', fontSize: '0.9rem', color: '#1a1a1a', fontWeight: 600, marginBottom: '0.2rem' }}>{m.nome}</strong>
+                  <span style={{ display: 'block', fontSize: '0.75rem', color: '#c8a96e', marginBottom: '0.35rem' }}>{m.perfil}</span>
+                  <p style={{ fontSize: '0.78rem', color: '#555', lineHeight: 1.5, margin: 0 }}>{m.desc}</p>
+                </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* ── CTA FINAL ── */}
-        <section style={{ background: '#f9f7f4', padding: 'clamp(5rem,10vw,9rem) clamp(1.5rem,5vw,4rem)', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
-          <span aria-hidden="true" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(6rem,18vw,18rem)', fontWeight: 300, color: 'rgba(26,26,26,0.04)', whiteSpace: 'nowrap', pointerEvents: 'none', userSelect: 'none' }}>
-            JALECA
-          </span>
-          <div style={{ position: 'relative', zIndex: 1 }}>
-            <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>200.000+ peças vendidas</div>
-            <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2.5rem,5vw,4.5rem)', fontWeight: 400, lineHeight: 1.1, maxWidth: 700, margin: '0 auto 1rem', color: '#1a1a1a' }}>
-              O jaleco certo<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>faz a diferença</em>
+        {/* ── ⑦ FAQ ACCORDION + GUIA DE TECIDOS ── */}
+        <section style={{ background: '#fff', padding: 'clamp(2.5rem,5vw,4rem) clamp(1.5rem,5vw,4rem)' }}>
+          <div style={{ maxWidth: 900, margin: '0 auto' }}>
+            <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.5rem' }}>Perguntas frequentes</div>
+            <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(1.8rem,3vw,2.6rem)', fontWeight: 400, color: '#1a1a1a', marginBottom: '1.25rem' }}>
+              Tudo sobre jaleco para médica
             </h2>
-            <p style={{ fontSize: '0.97rem', color: '#6b6b6b', maxWidth: 480, margin: '0 auto 2.5rem', fontWeight: 300, lineHeight: 1.8 }}>
-              Do PP ao G3. Elastano para total conforto. 12 cores. Frete grátis no Sudeste para compras acima de R$499.
-            </p>
-            <div className="flex gap-4 justify-center flex-wrap">
-              <Link href="/produtos?categoria=jalecos-femininos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2.5rem', background: '#1a1a1a', color: '#fff', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
-                Ver Coleção Feminina
-              </Link>
-              <Link href="/produtos?categoria=jalecos-masculinos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2.5rem', background: 'transparent', color: '#1a1a1a', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
-                Ver Coleção Masculina
-              </Link>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', background: '#e5e0d8', marginBottom: '2.5rem' }}>
+              {schemaFaq.mainEntity.map((item, i) => (
+                <details key={i} style={{ background: '#fff', padding: '1.25rem 1.5rem' }}>
+                  <summary style={{ cursor: 'pointer', fontSize: '0.9rem', fontWeight: 500, color: '#1a1a1a', lineHeight: 1.5, listStyle: 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '1rem' }}>
+                    {item.name}
+                    <span style={{ flexShrink: 0, fontSize: '1.1rem', color: '#c8a96e', fontWeight: 300 }}>+</span>
+                  </summary>
+                  <p style={{ fontSize: '0.85rem', color: '#4a4a4a', lineHeight: 1.8, marginTop: '0.75rem', paddingTop: '0.75rem', borderTop: '1px solid #f0ece5', marginBottom: 0 }}>
+                    {item.acceptedAnswer.text}
+                  </p>
+                </details>
+              ))}
             </div>
+            <FabricGuideCards />
           </div>
         </section>
 
-            <UGCSection />
+        {/* ── ⑧ LINKS DE PROFISSÃO ── */}
+        <ProfessionLinksNeutral
+          title="Jaleco para sua profissão"
+          links={INTERNAL_LINKS}
+        />
 
-    </main>
+        {/* ── ⑨ CTA FINAL ── */}
+        <section style={{ background: '#1a1a1a', padding: 'clamp(2.5rem,5vw,4rem) clamp(1.5rem,5vw,4rem)', textAlign: 'center' }}>
+          <div style={{ maxWidth: 560, margin: '0 auto' }}>
+            <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(1.8rem,3.5vw,2.8rem)', fontWeight: 400, color: '#fff', marginBottom: '0.75rem', lineHeight: 1.2 }}>
+              12h de plantão sem desconforto
+            </h2>
+            <p style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.55)', marginBottom: '1.75rem', lineHeight: 1.7 }}>
+              PP ao G3 · Elastano · Frete grátis SP, RJ, MG, ES acima de R$499 · Troca em 7 dias
+            </p>
+            <Link
+              href={getVerMaisUrl('medica')}
+              style={{ display: 'inline-block', background: '#c8a96e', color: '#1a1a1a', padding: '1rem 2.25rem', fontSize: '0.85rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', textDecoration: 'none', marginBottom: '0.75rem' }}
+            >
+              Ver todos os modelos →
+            </Link>
+            <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.35)' }}>★ 4.9 Google · 200 mil peças vendidas</div>
+          </div>
+        </section>
+
+      </main>
     </>
   )
 }

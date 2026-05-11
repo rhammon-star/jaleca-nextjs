@@ -2,9 +2,13 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getGooglePlaceData } from '@/lib/google-places'
 import ProfessionProductGrid from '@/components/ProfessionProductGrid'
-import UGCSection from '@/components/UGCSection'
+import HeroCommercial from '@/components/profession-lp/HeroCommercial'
+import CompactTrustBar from '@/components/profession-lp/CompactTrustBar'
+import GoogleRatingCarousel from '@/components/profession-lp/GoogleRatingCarousel'
+import InstagramLazy from '@/components/profession-lp/InstagramLazy'
+import FabricGuideCards from '@/components/profession-lp/FabricGuideCards'
+import ProfessionLinksNeutral from '@/components/profession-lp/ProfessionLinksNeutral'
 
-// ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
 export const revalidate = 3600
 
 export const metadata: Metadata = {
@@ -65,6 +69,18 @@ const FAQ_ITEMS = [
     q: 'Onde comprar jaleco feminino de qualidade com entrega rápida no Brasil?',
     a: 'Na Jaleca enviamos em até 2 dias úteis para todo o Brasil. Frete grátis para SP, RJ, MG e ES em compras acima de R$499. Acesse jaleca.com.br e veja os modelos disponíveis.',
   },
+  {
+    q: 'Qual jaleco feminino slim mais valoriza a silhueta?',
+    a: 'O jaleco feminino slim da linha Jaleca usa recortes laterais e pences nas costas que ajustam o caimento sem apertar — diferente do "slim fit" masculino, que é só uma redução de medidas. O modelo Princesa e o Duquesa são os mais procurados por médicas e dentistas que querem visual elegante sem perder mobilidade. Disponível do PP ao G3.',
+  },
+  {
+    q: 'Jaleco feminino para residência médica — o que considerar?',
+    a: 'Residência exige peça resistente: lavagem 3-4x por semana, 12-24h de uso contínuo, contato com fluidos. Recomendamos gabardine 165 g/m² com elastano e DWR (repele líquidos). Manga longa com elástico, dois bolsos amplos (para celular, caneta, estetoscópio) e gola esporte. Branco continua sendo o padrão exigido pela maioria dos hospitais-escola.',
+  },
+  {
+    q: 'Jaleco feminino plus size cabe bem ou fica largo nos ombros?',
+    a: 'Na Jaleca o jaleco plus size (G1, G2, G3) é modelado de zero — não é adaptação do G. O ombro é recalculado, a manga ganha 2cm de comprimento progressivo, o busto tem alargamento sem perder cintura, e o quadril mantém proporção. Quem usa 48-54 normalmente acerta no primeiro pedido.',
+  },
 ]
 
 const MODELOS = [
@@ -103,6 +119,8 @@ const INTERNAL_LINKS = [
   { href: '/blog/jaleco-feminino-gestante-como-escolher', label: 'Jaleco Gestante' },
   { href: '/jaleco-plus-size', label: 'Jaleco Plus Size' },
   { href: '/jaleco-universitario-feminino', label: 'Jaleco Universitária' },
+  { href: '/jaleco', label: 'Jaleco (visão geral)' },
+  { href: '/jaleco-masculino', label: 'Jaleco Masculino' },
 ]
 
 export default async function Page() {
@@ -183,251 +201,108 @@ export default async function Page() {
           </ol>
         </div>
 
-        {/* ── HERO ── */}
-        <section style={{ background: '#f9f7f4', padding: 'clamp(3rem,8vw,6rem) clamp(1.5rem,5vw,4rem)' }}>
-          <div style={{ maxWidth: 900, margin: '0 auto', textAlign: 'center' }}>
-            <div className="flex items-center justify-center gap-3 mb-6" style={{ fontSize: '0.72rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#6b6b6b' }}>
-              <span style={{ display: 'inline-block', width: 32, height: 1, background: '#c8c4bc' }} />
-              Para profissionais
-              <span style={{ display: 'inline-block', width: 32, height: 1, background: '#c8c4bc' }} />
-            </div>
-            <h1
-              style={{
-                fontFamily: "'Cormorant', Georgia, serif",
-                fontSize: 'clamp(2.4rem,5.5vw,4.8rem)',
-                fontWeight: 400,
-                lineHeight: 1.05,
-                letterSpacing: '-0.01em',
-                color: '#1a1a1a',
-                marginBottom: '1.5rem',
-              }}
-            >
-              Jaleco feminino:<br />
-              <em style={{ fontStyle: 'italic', fontWeight: 300 }}>modelos modernos e confortáveis</em>
-            </h1>
-            <p style={{ fontSize: '1rem', fontWeight: 300, color: '#6b6b6b', maxWidth: 620, margin: '0 auto 2.5rem', lineHeight: 1.8 }}>
-              Com corte pensado para o corpo feminino real. Elastano que acompanha o movimento. Grade do PP ao G3 com molde próprio por tamanho.
-            </p>
-            <div className="flex gap-4 flex-wrap justify-center">
-              <a href="#colecao" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: '#1a1a1a', color: '#fff', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none' }}>
-                Ver a coleção ↓
-              </a>
-              <Link href="/categoria/jalecos-femininos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: 'transparent', color: '#1a1a1a', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
-                Ver todos os modelos →
-              </Link>
-            </div>
-            {placeData && (
-              <div className="flex items-center justify-center gap-2 mt-10">
-                <span style={{ color: '#c8a96e', fontSize: '0.85rem', letterSpacing: 2 }}>★★★★★</span>
-                <span style={{ fontSize: '0.78rem', color: '#6b6b6b' }}>⭐ {placeData.rating.toFixed(1)} no Google</span>
-              </div>
-            )}
-          </div>
-        </section>
+        {/* ── ① HERO COMMERCIAL ── */}
+        <HeroCommercial
+          eyebrow="Jaleca · Uniformes femininos profissionais"
+          h1Line1="Jaleco Feminino"
+          h1Line2="Slim, Princesa e Elastex"
+          description="Com corte pensado para o corpo feminino real. Elastano que acompanha o movimento. Grade do PP ao G3 com molde próprio por tamanho."
+          startingPrice="R$189"
+          comparePrice="R$219"
+          collectionHref="#colecao"
+          allHref="/categoria/jalecos-femininos"
+          googleRating={placeData?.rating}
+        />
 
-        {/* ── TRUST BAR ── */}
-        <div className="grid" style={{ background: '#1a1a1a', padding: '1.5rem clamp(1.5rem,5vw,4rem)' }}>
-          {[
-            { title: 'Molde feminino real', sub: 'Não é o masculino adaptado' },
-            { title: 'PP ao G3', sub: 'Grade completa, corpo real' },
-            { title: 'Frete grátis Sudeste', sub: 'SP · RJ · MG · ES acima R$499' },
-            { title: 'Troca em 7 dias', sub: 'Direito do consumidor' },
-          ].map((item, i) => (
-            <div key={i} style={{ padding: '0.75rem 1.5rem', borderRight: (i % 2 === 0) ? '1px solid rgba(255,255,255,0.12)' : 'none', borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.08)' : 'none' }}>
-              <strong style={{ display: 'block', fontSize: '0.82rem', fontWeight: 400, color: '#fff', marginBottom: '0.15rem' }}>{item.title}</strong>
-              <span style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.45)' }}>{item.sub}</span>
-            </div>
-          ))}
-        </div>
+        {/* ── ② COMPACT TRUST BAR ── */}
+        <CompactTrustBar />
 
+        {/* ── ③ PRODUTOS ── */}
         <div id="colecao">
           <ProfessionProductGrid
             professionKey="medica"
             professionLabel="Profissionais"
             collectionLabel="Coleção Feminina"
             productLabel="Jalecos"
-            allHref="/produtos?categoria=jalecos-femininos"
+            allHref="/categoria/jalecos-femininos"
           />
         </div>
 
-        {/* ── INTRO ── */}
-        <section style={{ background: '#fff', padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)' }}>
-          <div style={{ maxWidth: 800, margin: '0 auto' }}>
-            <p style={{ fontSize: '1rem', lineHeight: 1.9, color: '#4a4a4a', marginBottom: '1.5rem' }}>
-              Jaleco feminino que é só o masculino com tamanho diferente não funciona. O ombro fica largo, a manga fica longa, o comprimento fica desproporcional. E o problema piora nos tamanhos maiores — o G3 de jaleco básico é literalmente mais tecido num molde que não foi pensado para aquele corpo.
-            </p>
-            <p style={{ fontSize: '1rem', lineHeight: 1.9, color: '#4a4a4a', marginBottom: '1.5rem' }}>
-              Um jaleco feminino bem feito começa no molde: ombro ajustado ao ombro feminino, cava com amplitude certa, comprimento proporcional à altura real das profissionais que vão usar. O elastano no tecido resolve o resto — movimento de braço, agachamento, postura longa em atendimento.
-            </p>
-            <p style={{ fontSize: '1rem', lineHeight: 1.9, color: '#4a4a4a' }}>
-              Abaixo, os modelos, o que diferencia cada um e como escolher pelo tipo de trabalho.
-            </p>
-          </div>
-        </section>
+        {/* ── ④ GOOGLE 4.9★ + DEPOIMENTOS ── */}
+        <GoogleRatingCarousel rating={placeData?.rating ?? 4.9} />
 
-        {/* ── MODELOS ── */}
-        <section style={{ background: '#f9f7f4', padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)' }}>
-          <div style={{ maxWidth: 1200, width: '100%', margin: '0 auto' }}>
-            <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>
-              Modelos
-            </div>
-            <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2rem,3.5vw,3rem)', fontWeight: 400, color: '#1a1a1a', marginBottom: '2.5rem' }}>
-              Os principais modelos<br />de jaleco feminino
-            </h2>
-            <div
-              className="grid"
-              style={{
-                gridTemplateColumns: 'repeat(auto-fill, minmax(min(280px, 100%), 1fr))',
-                gap: '1.5rem',
-              }}
-            >
-              {MODELOS.map((modelo, i) => (
-                <div key={i} style={{ background: '#fff', border: '1px solid #e5e0d8', padding: '2rem' }}>
-                  <span style={{ display: 'block', fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#c8a96e', marginBottom: '0.5rem' }}>
-                    {modelo.perfil}
-                  </span>
-                  <strong style={{ display: 'block', fontFamily: "'Cormorant', Georgia, serif", fontSize: '1.5rem', fontWeight: 400, color: '#1a1a1a', marginBottom: '0.75rem' }}>
-                    {modelo.nome}
-                  </strong>
-                  <p style={{ fontSize: '0.85rem', color: '#4a4a4a', lineHeight: 1.75, margin: '0 0 1.25rem' }}>{modelo.desc}</p>
-                  <Link href="/produtos?categoria=jalecos-femininos" style={{ fontSize: '0.72rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: '#c8a96e', textDecoration: 'none' }}>
-                    Ver modelos →
-                  </Link>
+        {/* ── ⑤ INSTAGRAM ── */}
+        <InstagramLazy />
+
+        {/* ── ⑥ MODELOS ── */}
+        <section style={{ background: '#f9f7f4', padding: 'clamp(2.5rem,5vw,4rem) clamp(1.5rem,5vw,4rem)' }}>
+          <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+            <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.5rem' }}>Qual modelo é o seu?</div>
+            <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(1.8rem,3vw,2.6rem)', fontWeight: 400, color: '#1a1a1a', marginBottom: '1.5rem' }}>Conheça cada modelo</h2>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(260px,100%), 1fr))', gap: '0.75rem' }}>
+              {MODELOS.map((m, i) => (
+                <div key={i} style={{ background: '#fff', border: '1px solid #e5e0d8', padding: '1.25rem', display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
+                  <div>
+                    <strong style={{ display: 'block', fontSize: '0.9rem', color: '#1a1a1a', fontWeight: 600, marginBottom: '0.2rem' }}>{m.nome}</strong>
+                    <span style={{ display: 'block', fontSize: '0.75rem', color: '#c8a96e', marginBottom: '0.35rem' }}>{m.perfil}</span>
+                    <p style={{ fontSize: '0.78rem', color: '#555', lineHeight: 1.5, margin: 0 }}>{m.desc}</p>
+                  </div>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* ── TECIDOS ── */}
-        <section style={{ background: '#fff', padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)' }}>
+        {/* ── ⑦ FAQ ACCORDION + GUIA DE TECIDOS ── */}
+        <section style={{ background: '#fff', padding: 'clamp(2.5rem,5vw,4rem) clamp(1.5rem,5vw,4rem)' }}>
           <div style={{ maxWidth: 900, margin: '0 auto' }}>
-            <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>
-              Guia de tecidos
-            </div>
-            <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2rem,3.5vw,3rem)', fontWeight: 400, color: '#1a1a1a', marginBottom: '2rem' }}>
-              Qual tecido escolher<br />para jaleco feminino
+            <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.5rem' }}>Perguntas frequentes</div>
+            <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(1.8rem,3vw,2.6rem)', fontWeight: 400, color: '#1a1a1a', marginBottom: '1.25rem' }}>
+              Tudo sobre jaleco feminino
             </h2>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', background: '#e5e0d8' }}>
-              {[
-                { uso: 'Consultório médico / odontológico', tecido: 'Gabardine poliéster/viscose + elastano 4-6%, 150-165 g/m²', porque: 'Leveza e mobilidade para jornadas longas. Sem amasso, lavagem a 40°C.' },
-                { uso: 'Estética / procedimentos com produtos', tecido: 'Gabardine DWR (Durable Water Repellency)', porque: 'Repele líquidos e produtos químicos leves. A superfície resiste a respingos.' },
-                { uso: 'Farmácia / laboratório', tecido: 'Gabardine pesado 200-240 g/m² ou antimicrobiano', porque: 'Barreira mecânica mais densa. Suporta lavagem a 60°C sem encolher.' },
-                { uso: 'Fisioterapia / nutrição', tecido: 'Microfibra com elastano 120-140 g/m²', porque: 'A opção mais leve. Ideal para quem fica em movimento constante ou em cadeira durante atendimentos longos.' },
-              ].map((item, i) => (
-                <div key={i} style={{ background: '#fff', padding: '1.5rem 2rem', display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1.5rem', alignItems: 'start' }}>
-                  <div>
-                    <span style={{ display: 'block', fontSize: '0.7rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.35rem' }}>Uso</span>
-                    <strong style={{ fontSize: '0.88rem', fontWeight: 500, color: '#1a1a1a' }}>{item.uso}</strong>
-                  </div>
-                  <div>
-                    <span style={{ display: 'block', fontSize: '0.7rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.35rem' }}>Tecido</span>
-                    <span style={{ fontSize: '0.85rem', color: '#c8a96e' }}>{item.tecido}</span>
-                  </div>
-                  <div>
-                    <span style={{ display: 'block', fontSize: '0.7rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.35rem' }}>Por quê</span>
-                    <span style={{ fontSize: '0.82rem', color: '#4a4a4a', lineHeight: 1.65 }}>{item.porque}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ── FAQ ── */}
-        <section style={{ background: '#f9f7f4', padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)' }}>
-          <div style={{ maxWidth: 800, margin: '0 auto' }}>
-            <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>
-              Perguntas frequentes
-            </div>
-            <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2rem,3.5vw,3rem)', fontWeight: 400, color: '#1a1a1a', marginBottom: '2rem' }}>
-              Dúvidas sobre<br />jaleco feminino
-            </h2>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', background: '#e5e0d8' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', background: '#e5e0d8', marginBottom: '2.5rem' }}>
               {FAQ_ITEMS.map((item, i) => (
-                <details key={i} style={{ background: '#fff', padding: '1.5rem' }}>
-                  <summary style={{ cursor: 'pointer', fontSize: '0.95rem', fontWeight: 400, color: '#1a1a1a', lineHeight: 1.5, listStyle: 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '1rem' }}>
+                <details key={i} style={{ background: '#fff', padding: '1.25rem 1.5rem' }}>
+                  <summary style={{ cursor: 'pointer', fontSize: '0.9rem', fontWeight: 500, color: '#1a1a1a', lineHeight: 1.5, listStyle: 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '1rem' }}>
                     {item.q}
-                    <span style={{ flexShrink: 0, fontSize: '1.2rem', color: '#c8c4bc', fontWeight: 300 }}>+</span>
+                    <span style={{ flexShrink: 0, fontSize: '1.1rem', color: '#c8a96e', fontWeight: 300 }}>+</span>
                   </summary>
-                  <p style={{ fontSize: '0.88rem', color: '#4a4a4a', lineHeight: 1.85, marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid #f0ece5', marginBottom: 0 }}>
+                  <p style={{ fontSize: '0.85rem', color: '#4a4a4a', lineHeight: 1.8, marginTop: '0.75rem', paddingTop: '0.75rem', borderTop: '1px solid #f0ece5', marginBottom: 0 }}>
                     {item.a}
                   </p>
                 </details>
               ))}
             </div>
+            <FabricGuideCards />
           </div>
         </section>
 
-        {/* ── LINKS INTERNOS ── */}
-        <section style={{ background: '#fff', padding: 'clamp(2rem,4vw,3.5rem) clamp(1.5rem,5vw,4rem)' }}>
-          <div style={{ maxWidth: 800, margin: '0 auto' }}>
-            <p style={{ fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '1rem' }}>
-              Guias por profissão
-            </p>
-            <div className="flex flex-wrap gap-3">
-              {INTERNAL_LINKS.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  style={{ fontSize: '0.82rem', color: '#4a4a4a', textDecoration: 'none', padding: '0.4rem 1rem', border: '1px solid #e5e0d8', whiteSpace: 'nowrap' }}
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
+        {/* ── ⑧ LINKS DE PROFISSÃO ── */}
+        <ProfessionLinksNeutral
+          title="Jaleco para sua profissão"
+          links={INTERNAL_LINKS.map(l => ({ href: l.href, label: l.label }))}
+        />
 
-        {/* ── JALECO ELEGANTE + MODELOS ── */}
-        <section style={{ background: '#fff', padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)' }}>
-          <div style={{ maxWidth: 900, margin: '0 auto' }}>
-            <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>
-              Estilo e profissionalismo
-            </div>
-            <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2rem,3.5vw,3rem)', fontWeight: 400, color: '#1a1a1a', marginBottom: '1.5rem' }}>
-              Jaleco feminino elegante
+        {/* ── ⑨ CTA FINAL ── */}
+        <section style={{ background: '#1a1a1a', padding: 'clamp(2.5rem,5vw,4rem) clamp(1.5rem,5vw,4rem)', textAlign: 'center' }}>
+          <div style={{ maxWidth: 560, margin: '0 auto' }}>
+            <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(1.8rem,3.5vw,2.8rem)', fontWeight: 400, color: '#fff', marginBottom: '0.75rem', lineHeight: 1.2 }}>
+              Encontre seu jaleco ideal
             </h2>
-            <p style={{ fontSize: '0.95rem', lineHeight: 1.85, color: '#4a4a4a', marginBottom: '1.5rem' }}>
-              O jaleco feminino elegante não é só questão de estética — é sobre transmitir autoridade e confiança ao paciente desde a entrada no consultório. Modelos com acabamento em alfaiataria, tecido premium e corte acinturado são os preferidos por médicas e dentistas que querem unir formalidade com conforto em jornadas longas.
+            <p style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.55)', marginBottom: '1.75rem', lineHeight: 1.7 }}>
+              PP ao G3 · 12 cores · Frete grátis SP, RJ, MG, ES acima de R$499 · Troca em 7 dias
             </p>
-            <div className="flex flex-wrap gap-3" style={{ marginBottom: '2rem' }}>
-              <Link href="/jaleco-elegante" style={{ fontSize: '0.82rem', padding: '0.6rem 1.25rem', border: '1px solid #1a1a1a', color: '#1a1a1a', textDecoration: 'none' }}>
-                → Ver jalecos elegantes e de alfaiataria
-              </Link>
-              <Link href="/modelo-de-jaleco" style={{ fontSize: '0.82rem', padding: '0.6rem 1.25rem', border: '1px solid #e5e0d8', color: '#4a4a4a', textDecoration: 'none' }}>
-                → Ver todos os modelos de jaleco feminino
-              </Link>
-              <Link href="/jaleco-azul-marinho" style={{ fontSize: '0.82rem', padding: '0.6rem 1.25rem', border: '1px solid #e5e0d8', color: '#4a4a4a', textDecoration: 'none' }}>
-                → Jaleco azul marinho feminino
-              </Link>
-            </div>
+            <Link
+              href="/categoria/jalecos-femininos"
+              style={{ display: 'inline-block', background: '#c8a96e', color: '#1a1a1a', padding: '1rem 2.25rem', fontSize: '0.85rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', textDecoration: 'none', marginBottom: '0.75rem' }}
+            >
+              Ver todos os modelos →
+            </Link>
+            <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.35)' }}>★ 4.9 Google · 200 mil peças vendidas</div>
           </div>
         </section>
 
-        {/* ── CTA FINAL ── */}
-        <section style={{ background: '#f9f7f4', borderTop: '1px solid #e5e0d8', padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)' }}>
-          <div style={{ maxWidth: 600, margin: '0 auto', textAlign: 'center' }}>
-            <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(1.8rem,3.5vw,2.8rem)', fontWeight: 400, color: '#1a1a1a', marginBottom: '1rem', lineHeight: 1.2 }}>
-              Jaleco que acompanha<br />a sua jornada.
-            </h2>
-            <p style={{ fontSize: '0.9rem', color: '#6b6b6b', marginBottom: '2rem', lineHeight: 1.8 }}>
-              Molde feminino. Do PP ao G3. Gabardine com elastano. Frete grátis para SP, RJ, MG e ES acima de R$499.
-            </p>
-            <div className="flex gap-4 flex-wrap justify-center">
-              <Link href="/produtos?categoria=jalecos-femininos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: '#1a1a1a', color: '#fff', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none' }}>
-                Ver jalecos femininos ↗
-              </Link>
-              <Link href="/categoria/jalecos-femininos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: 'transparent', color: '#1a1a1a', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
-                Ver todos os modelos →
-              </Link>
-            </div>
-          </div>
-        </section>
-
-            <UGCSection />
-
-    </main>
+      </main>
     </>
   )
 }

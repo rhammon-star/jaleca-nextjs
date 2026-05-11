@@ -1,5 +1,5 @@
 import { Suspense } from 'react'
-import InstagramGallery from '@/components/InstagramGallery'
+import { InstagramGallery } from '@/components/InstagramGallery'
 
 export default function InstagramLazy() {
   return (
