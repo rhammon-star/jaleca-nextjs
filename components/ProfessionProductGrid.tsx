@@ -109,8 +109,8 @@ export default async function ProfessionProductGrid({
 
         {/* Grid */}
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          {produtos.map(product => (
-            <ProductCard key={product.id} product={product} />
+          {produtos.map((product, i) => (
+            <ProductCard key={product.id} product={product} priority={i < 2} />
           ))}
         </div>
 
