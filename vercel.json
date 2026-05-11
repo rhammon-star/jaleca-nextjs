@@ -41,7 +41,7 @@
     },
     {
       "path": "/api/melhor-envio/refresh",
-      "schedule": "0 8 1 * *"
+      "schedule": "0 8 1,21 * *"
     },
     {
       "path": "/api/orders/review-request",

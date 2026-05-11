@@ -278,6 +278,10 @@ export async function POST(request: NextRequest) {
         : undefined,
       meta_data: [
         { key: 'billing_cpf', value: cpf.replace(/\D/g, '') },
+        { key: '_billing_neighborhood',  value: billing.neighborhood || '' },
+        { key: '_billing_number',        value: billing.address_2 || '' },
+        { key: '_shipping_neighborhood', value: billing.neighborhood || '' },
+        { key: '_shipping_number',       value: billing.address_2 || '' },
         { key: 'melhorenvio_service_id', value: shipping.method_id },
         { key: 'jaleca_shipping_service', value: shipping.method_title },
         ...(gaClientId ? [{ key: 'jaleca_ga_client_id', value: gaClientId }] : []),
@@ -555,7 +559,7 @@ export async function POST(request: NextRequest) {
         document:   cpf,
         address:    billing.address_1,
         complement: '',
-        district:   billing.address_2 || '', // billing.address_2 = bairro (neighborhood)
+        district:   billing.neighborhood || '',
         city:       billing.city,
         state:      billing.state,
         postalCode: billing.postcode,
@@ -580,7 +584,9 @@ export async function POST(request: NextRequest) {
         (meResult?.id
           ? `\n✅ Etiqueta no carrinho ME — buscar por: "${recipientName}" (CEP ${recipientCep})` +
             `\n   Link: https://app.melhorenvio.com.br/app/shipment/cart`
-          : '') +
+          : `\n⚠️ NÃO ENVIADO AO MELHOR ENVIO — adicionar manualmente no portal ME.` +
+            `\n   Cliente: "${recipientName}" (CEP ${recipientCep})` +
+            `\n   Verifique token ME e logs Vercel da rota /api/payment/create.`) +
         `\n\n⛔ NÃO use o plugin WP Melhor Envio — usa serviço e dimensões errados.`
       fetch(`${WC_API}/orders/${wcOrder.id}`, {
         method: 'PUT',

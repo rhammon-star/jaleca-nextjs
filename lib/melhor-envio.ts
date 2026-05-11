@@ -51,18 +51,20 @@ function getFallbackOptions(uf?: string, subtotal = 0): ShippingOption[] {
   const isSulSudeste = uf ? SUL_SUDESTE.includes(uf.toUpperCase()) : false
   const isFreeShipping = uf ? FREE_SHIPPING_STATES.includes(uf.toUpperCase()) && subtotal >= 499 : false
 
+  console.warn(`[ME FALLBACK USADO] uf=${uf ?? 'desconhecido'} subtotal=${subtotal} — API ME indisponível, usando preços de contingência`)
+
   if (isSulSudeste) {
     return [
-      { id: 'pac',    label: 'PAC (Correios)',   cost: isFreeShipping ? 0 : 18.90, delivery_time: 'Entrega rápida'   },
-      { id: 'sedex',  label: 'SEDEX (Correios)', cost: 35.90,                      delivery_time: 'Entrega expressa' },
-      { id: 'jadlog', label: 'Jadlog',           cost: 22.90,                      delivery_time: 'Entrega rápida'   },
+      { id: 'pac',    label: 'PAC (Correios)',   cost: isFreeShipping ? 0 : 32.90, delivery_time: 'Entrega rápida'   },
+      { id: 'sedex',  label: 'SEDEX (Correios)', cost: 45.90,                      delivery_time: 'Entrega expressa' },
+      { id: 'jadlog', label: 'Jadlog',           cost: 32.90,                      delivery_time: 'Entrega rápida'   },
     ]
   }
 
   return [
-    { id: 'pac',    label: 'PAC (Correios)',   cost: 18.90, delivery_time: 'Entrega rápida'   },
-    { id: 'sedex',  label: 'SEDEX (Correios)', cost: 39.90, delivery_time: 'Entrega expressa' },
-    { id: 'jadlog', label: 'Jadlog',           cost: 26.90, delivery_time: 'Entrega rápida'   },
+    { id: 'pac',    label: 'PAC (Correios)',   cost: 49.90, delivery_time: 'Entrega rápida'   },
+    { id: 'sedex',  label: 'SEDEX (Correios)', cost: 69.90, delivery_time: 'Entrega expressa' },
+    { id: 'jadlog', label: 'Jadlog',           cost: 44.90, delivery_time: 'Entrega rápida'   },
   ]
 }
 
