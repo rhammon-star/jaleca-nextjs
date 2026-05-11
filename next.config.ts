@@ -370,9 +370,6 @@ const nextConfig: NextConfig = {
     { source: '/wp-content/:path*', destination: '/', permanent: true },
     // ── WordPress page_id legacy ──
     { source: '/', has: [{ type: 'query', key: 'page_id' }], destination: '/', permanent: true },
-    // ── Cidades com prefixo "jaleco-" errado ──
-    { source: '/cidade/jaleco-caratinga', destination: '/cidade/caratinga', permanent: true },
-    { source: '/cidade/jaleco-:slug', destination: '/cidade/:slug', permanent: true },
     // ── Cores renomeadas/descontinuadas no WC — 301 para cor mais próxima disponível (03/05/2026) ──
     // jaleco-slim-princesa-laise: "marinho" → não existe mais → redireciona para produto mãe
     { source: '/produto/jaleco-slim-princesa-laise-feminino-jaleca-marinho', destination: '/produto/jaleco-slim-princesa-laise-feminino-jaleca', permanent: true },
