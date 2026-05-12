@@ -1,4 +1,3 @@
-import { InstagramGallery } from '@/components/InstagramGallery'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Suspense } from 'react'
@@ -443,7 +442,6 @@ export default async function JalecoDentistaPage() {
                 { label: 'Fisioterapeuta', href: '/jaleco-fisioterapeuta', desc: 'Guia completo' },
                 { label: 'Nutricionista', href: '/jaleco-nutricionista', desc: 'Guia completo' },
                 { label: 'Veterinário', href: '/jaleco-veterinario', desc: 'Guia completo' },
-                { label: 'Médica', href: '/jaleco-medica', desc: 'Guia completo' },
                 { label: 'Ver todos', href: '/produtos?categoria=jalecos', desc: 'Loja completa' },
               ].map(item => (
                 <Link key={item.href} href={item.href} className="block hover:bg-white/5 transition-colors duration-200" style={{ padding: '1.5rem', textDecoration: 'none' }}>
@@ -477,10 +475,6 @@ export default async function JalecoDentistaPage() {
               </Link>
             </div>
           </div>
-        </section>
-
-        <section style={{ padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)', maxWidth: '1200px', margin: '0 auto' }}>
-          <InstagramGallery maxItems={6} title="Inspire-se — @jaleca.oficial" />
         </section>
 
             <EATBlock profession="medico" />
