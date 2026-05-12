@@ -235,14 +235,12 @@ export async function generateMetadata({
       url: `https://jaleca.com.br/produto/${actualSlug}`,
       siteName: 'Jaleca',
       locale: 'pt_BR',
-      images: [{ url: imageUrl || 'https://jaleca.com.br/og-home.jpg', width: 1200, height: 1200, alt: name }],
       type: 'website',
     },
     twitter: {
       card: 'summary_large_image',
       title: name,
       description,
-      images: [imageUrl || 'https://jaleca.com.br/og-home.jpg'],
     },
   }
 }
