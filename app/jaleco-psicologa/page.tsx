@@ -17,7 +17,7 @@ import GoogleRatingCarousel from '@/components/profession-lp/GoogleRatingCarouse
 import InstagramLazy from '@/components/profession-lp/InstagramLazy'
 import CompactTrustBar from '@/components/profession-lp/CompactTrustBar'
 import StickyMobileCTA from '@/components/profession-lp/StickyMobileCTA'
-import { buildHowToSchema, buildOccupationSchema } from '@/lib/profession-schemas'
+import { buildHowToSchema, buildOccupationSchema, buildItemListSchema} from '@/lib/profession-schemas'
 
 // ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
 export const revalidate = 3600
@@ -46,11 +46,26 @@ const schemaFaq = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   mainEntity: [
-    { '@type': 'Question', name: 'Qual comprimento de jaleco é mais indicado para psicólogas?', acceptedAnswer: { '@type': 'Answer', text: 'Para psicologia, o jaleco médio — transmite profissionalismo e conforto no ambiente clínico.' } },
-    { '@type': 'Question', name: 'O jaleco pode ser lavado com água quente?', acceptedAnswer: { '@type': 'Answer', text: 'Os jalecos Jaleca suportam lavagem até 60°C, temperatura suficiente para higienização clínica. Use alvejante sem cloro para preservar o tecido.' } },
-    { '@type': 'Question', name: 'Jaleco com elastano é bom para psicóloga?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. O elastano adiciona memória ao tecido, retornando à forma após o movimento — essencial para quem passa horas em atendimento.' } },
-    { '@type': 'Question', name: 'Jaleco de psicóloga precisa ser branco?', acceptedAnswer: { '@type': 'Answer', text: 'Não é obrigação. O branco é o clássico, mas tons pastel e cores discretas são bem aceitos. O CFP não restringe a cor.' } },
-    { '@type': 'Question', name: 'Qual a diferença entre jaleco Slim e Profissional?', acceptedAnswer: { '@type': 'Answer', text: 'O Slim tem corte ajustado ao corpo, ideal para quem quer visual mais moderno. O Profissional tem corte mais amplo e estruturado, com mais espaço para movimento.' } },
+    { '@type': 'Question', name: "Psicóloga precisa usar jaleco no consultório?", acceptedAnswer: { '@type': 'Answer', text: "Não é obrigatório pelo CRP, mas muitas profissionais escolhem usar para reforçar identidade profissional, especialmente em clínicas multidisciplinares." } },
+    { '@type': 'Question', name: "Qual cor de jaleco é mais usada por psicólogas?", acceptedAnswer: { '@type': 'Answer', text: "Branco e rosé são os mais procurados; preto e azul-marinho também aparecem em consultórios mais sóbrios." } },
+    { '@type': 'Question', name: "Qual tecido é mais agradável para atendimento sentado?", acceptedAnswer: { '@type': 'Answer', text: "Microfibra com elastano é leve, não amassa fácil e mantém o caimento durante sessões longas sentadas." } },
+    { '@type': 'Question', name: "Posso bordar CRP e nome?", acceptedAnswer: { '@type': 'Answer', text: "Sim. Bordamos nome completo + CRP no peito esquerdo, sem custo adicional." } },
+    { '@type': 'Question', name: "Qual o melhor corte para psicóloga?", acceptedAnswer: { '@type': 'Answer', text: "Acinturado com pences — transmite cuidado e profissionalismo sem o ar excessivamente clínico do jaleco médico." } },
+    { '@type': 'Question', name: "Manga longa ou 3/4 para consultório?", acceptedAnswer: { '@type': 'Answer', text: "Manga longa transmite mais formalidade; 3/4 é mais leve no verão. As duas funcionam no consultório de psicologia." } },
+    { '@type': 'Question', name: "Qual comprimento favorece?", acceptedAnswer: { '@type': 'Answer', text: "Comprimento no meio da coxa harmoniza com calça social, jeans ou vestido — o mais versátil." } },
+    { '@type': 'Question', name: "Tem jaleco preto para psicóloga?", acceptedAnswer: { '@type': 'Answer', text: "Sim. O preto é especialmente procurado por psicólogas que querem um ar mais sóbrio e moderno." } },
+    { '@type': 'Question', name: "Atende plus size?", acceptedAnswer: { '@type': 'Answer', text: "Sim. Modelagem feminina vai do PP ao GG3, com ajuste real para corpos curvilíneos." } },
+    { '@type': 'Question', name: "Quanto custa o jaleco para psicóloga?", acceptedAnswer: { '@type': 'Answer', text: "A partir de R$ 119,90 com bordado de nome + CRP grátis." } },
+    { '@type': 'Question', name: "Qual o prazo de entrega?", acceptedAnswer: { '@type': 'Answer', text: "Sem bordado: 1 a 5 dias úteis. Com bordado: 5 a 10 dias úteis." } },
+    { '@type': 'Question', name: "Posso trocar se a numeração não servir?", acceptedAnswer: { '@type': 'Answer', text: "Sim, em até 7 dias após o recebimento, sem uso e sem bordado personalizado." } },
+    { '@type': 'Question', name: "Frete grátis para todo Brasil?", acceptedAnswer: { '@type': 'Answer', text: "Frete grátis acima do valor mínimo da loja. Confira no checkout." } },
+    { '@type': 'Question', name: "O jaleco amarrota muito?", acceptedAnswer: { '@type': 'Answer', text: "Microfibra praticamente não amarrota — sai da máquina pronta para vestir." } },
+    { '@type': 'Question', name: "Posso passar a ferro?", acceptedAnswer: { '@type': 'Answer', text: "Pode, em temperatura média. Mas o tecido geralmente dispensa ferro." } },
+    { '@type': 'Question', name: "Tem modelo curto, tipo blazer?", acceptedAnswer: { '@type': 'Answer', text: "Sim. Temos modelo de comprimento curto que se parece com blazer profissional — muito usado por psicólogas em consultórios modernos." } },
+    { '@type': 'Question', name: "Combina com calça social e tênis?", acceptedAnswer: { '@type': 'Answer', text: "Combina perfeitamente. O caimento moderno permite looks formais ou casuais." } },
+    { '@type': 'Question', name: "Faz personalização para clínicas de psicologia?", acceptedAnswer: { '@type': 'Answer', text: "Sim. Personalizamos com logo da clínica + nome de cada profissional, com desconto a partir de 5 peças." } },
+    { '@type': 'Question', name: "Qual a diferença entre jaleco psicóloga e médica?", acceptedAnswer: { '@type': 'Answer', text: "Visualmente o corte é semelhante; psicólogas costumam preferir cores e cortes mais modernos e menos hospitalares." } },
+    { '@type': 'Question', name: "Posso usar em atendimento online?", acceptedAnswer: { '@type': 'Answer', text: "Sim. Muitas psicólogas usam jaleco em sessões online para reforçar identidade profissional na câmera." } },
   ],
 }
 
@@ -145,6 +160,7 @@ export default async function JalecoDentistaPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }} />
       {(() => { const s = buildHowToSchema('jaleco-psicologa', 'https://jaleca.com.br/jaleco-psicologa'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
       {(() => { const s = buildOccupationSchema('jaleco-psicologa', 'https://jaleca.com.br/jaleco-psicologa'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
+      {(() => { const s = buildItemListSchema(produtos, 'https://jaleca.com.br/jaleco-psicologa', "Jalecos para psicologa"); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
       <meta name="ai-content-declaration" content="human-authored-with-ai-assistance" />
 
       <main style={{ fontWeight: 300 }}>

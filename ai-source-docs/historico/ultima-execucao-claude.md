@@ -1,52 +1,42 @@
-Data: 2026-05-11 (sessão noite)
-Tarefa: Inteligência competitiva SEO + otimização on-page jaleco feminino + deploy prod
+Data: 2026-05-12 (sessão tarde-noite)
+Tarefa: Fase 4 Layout Redesign — FAQ +20 por slug + ItemList schema + cidade FAQ expandido
+
 Arquivos alterados:
-- app/blog/guia-completo-jaleco-feminino/page.tsx
-- lib/topic-clusters.ts
+- lib/profession-faq-data.json (NOVO — 40 slugs × 20 Q/A = 800 FAQs)
+- lib/profession-schemas.ts (adicionado buildItemListSchema)
+- 40× app/jaleco-*/FaqAccordion.tsx (faqItems reescrito com 20 entradas)
+- 40× app/jaleco-*/page.tsx (schemaFaq.mainEntity expandido para 20 + ItemList schema injetado)
+- app/cidade/[slug]/page.tsx (FAQ_TEMPLATE de 5 → 20 Q/A, assinatura recebe uf agora)
 
 O que foi feito:
-- Relatório competitivo completo: 6 concorrentes analisados (Risco Finno, Dra. Charm, Jaleco Chic, Jalecos Conforto, Jussara Nunes, Jaleco Online)
-- Dados SimilarWeb: visitas, bounce, canais de tráfego, keywords orgânicas
-- Dados GSC: top 20 queries jaleca.com.br últimos 90 dias
-- Gap analysis: jaleca 5.6k visitas vs líder 76.8k (Risco Finno); orgânico 29% vs 90% (Jaleco Chic)
-- Validação dos 8 pontos do plano — 5 já existiam no site
-- Otimização on-page /blog/guia-completo-jaleco-feminino:
-  - Meta description reescrita com keywords e CTA
-  - dateModified atualizado para 2026-05-11
-  - FAQ schema expandido de 3 para 6 perguntas
-  - 4 novas seções: tipos de jaleco, por profissão, tecidos, tabela de tamanhos
-  - 8 links internos para páginas de profissão e produto
-- Guia cadastro Shopee + Americanas com textos prontos (pendente — ação manual)
-- Email outreach + artigo guest post prontos para 5 sites-alvo (pendente — ação manual)
-- Deploy produção: commit 87172f4, 256 páginas, todos warm-ups 200 OK
+- Gemini gerou 800 Q/A únicos por profissão em 4 batches paralelos (10 slugs cada)
+- Gemini gerou 15 Q/A novas para template cidade (totalizando 20)
+- Merge batches → lib/profession-faq-data.json
+- Patch script reescreveu faqItems em 40 FaqAccordion.tsx
+- Patch script reescreveu schemaFaq.mainEntity em 39 page.tsx (jaleco-branco usa FAQ_ITEMS.map() — patch direto)
+- Adicionado buildItemListSchema em lib/profession-schemas.ts
+- Patch script injetou <script ItemList> em 40 LPs após schema Occupation
+- Cidade FAQ_TEMPLATE expandido com 15 entradas usando ${nome}/${estado}/${uf}
 
 Comandos rodados:
-- git add + git commit (2 arquivos)
-- vercel --prod
+- node /tmp/patch-faq.mjs (40 patched)
+- node /tmp/patch-faq-schema.mjs (39 patched + jaleco-branco manual)
+- node /tmp/patch-itemlist.mjs (40 patched)
+- npx tsc --noEmit (verde)
 
-Resultado: OK
+Bug encontrado e corrigido:
+- replace() interpretou "R$159" como backreference $1 → string mangle nos arquivos.
+  Fix: usar callback function em .replace() para escapar $ corretamente.
+- jaleco-branco e jaleco-medica não têm variável `produtos` no escopo da page →
+  passado [] em buildItemListSchema (retorna null, safe).
+
+Resultado: OK — typecheck verde, 40 LPs com 20 FAQs + ItemList, cidade template com 20 Q/A.
 
 Riscos identificados:
-- WP posts cache >2MB (aviso recorrente, não bloqueante)
-- 72 arquivos de sessões anteriores ainda não commitados (pendente)
+- Deploy ainda não feito (aguardando OK usuário).
+- Validação visual mobile pendente.
+- Re-scrape Facebook Sharing Debugger é ação manual do usuário.
 
 Próximo passo:
-- Executar cadastro Shopee + Americanas (textos prontos na sessão)
-- Enviar emails de outreach para os 5 sites de guest post
-- Monitorar GSC em 7-14 dias: verificar "jaleco feminino" saindo da posição 23
-
----
-Data: 2026-05-12 (sessão noite)
-Tarefa: Schemas IEO/AEO (HowTo + Occupation + ai-content-declaration) em 60 LPs profissão
-Arquivos alterados:
-  - NOVO: lib/profession-howto-data.json (60 entradas, HowTo único via Gemini)
-  - NOVO: lib/profession-schemas.ts (builders buildHowToSchema, buildOccupationSchema)
-  - 60× app/jaleco-*/page.tsx (import + 2 scripts JSON-LD + meta ai-content-declaration)
-O que foi feito:
-  - Gemini gerou 60 HowTos profissional-específicos (5 passos cada) com termos CFM/CRO/COFEN/etc
-  - Script Node patchou 60 páginas (idempotente, checa buildHowToSchema antes de injetar)
-  - tsc --noEmit passou sem erros
-Comandos rodados: node /tmp/patch-profession-schemas.mjs; npx tsc --noEmit
-Resultado: OK
-Riscos identificados: nenhum — adição apenas, sem remoção de conteúdo/URL
-Próximo passo: deploy preview, validar 2-3 páginas no Rich Results Test (HowTo + Occupation), monitorar GSC para ganhos AEO
+- Aguardar OK do usuário para commit + deploy.
+- Schemas pendentes (Product+Offer, Review 5★) — escopo maior, deixar para próxima sessão.

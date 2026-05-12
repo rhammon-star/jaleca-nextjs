@@ -3,30 +3,26 @@
 import { useState } from 'react'
 
 const faqItems = [
-  {
-    q: 'Advogado precisa usar jaleco no tribunal?',
-    a: 'Não é obrigatório. O traje forense exige toga e vestes talares, não jaleco. O jaleco é usado em audiências de custódia, DEFENSORIAS e atendimentos de jurídica popular onde há contato com clientes em contexto de assistência.',
-  },
-  {
-    q: 'Qual o melhor modelo de jaleco para advogado?',
-    a: 'O modelo Profissional com corte mais estruturado é o mais adequado — passa autoridade e seriedade. A cor preta ou marinho são as mais aceitas no meio jurídico. O modelo Slim também é aceito em escritórios mais modernos.',
-  },
-  {
-    q: 'Jaleco para advogado pode ter bordado com nome e OAB?',
-    a: 'A Jaleca não oferece serviço de bordado. O jaleco é vendido sem bordado. Você pode levar a peça em uma bordadeira local após receber. Importante: após o bordado, o jaleco não pode ser trocado.',
-  },
-  {
-    q: 'Jaleco de advogado pode ser preto?',
-    a: 'Pode, sim. Não há norma da OAB que proíba jaleco colorido. O preto transmite seriedade e é widely aceito em escritórios de advocacia, especialmente em áreas como direito penal e família.',
-  },
-  {
-    q: 'Qual o prazo de entrega?',
-    a: 'Enviamos em até 2 dias úteis após a confirmação do pagamento. O prazo varia de 3 a 8 dias úteis conforme sua região — calculado no checkout com o CEP. Capitais do Sudeste geralmente recebem em 3 a 5 dias.',
-  },
-  {
-    q: 'Como funciona a troca de tamanho?',
-    a: 'Arrependimento em até 7 dias após o recebimento, produto sem uso e com etiqueta. Garantia Jaleca: 30 dias, sem marca de uso e com etiqueta. Manda uma mensagem pelo WhatsApp com o número do pedido.',
-  },
+  { q: "Advogado usa jaleco?", a: "É raro, mas advogados de empresas de saúde, perícia médica e direito veterinário às vezes usam jaleco em visitas técnicas a clínicas e hospitais." },
+  { q: "OAB exige jaleco em algum momento?", a: "Não. A OAB exige terno e gravata em audiências, mas jaleco pode ser usado em contextos técnicos específicos (perícia, ambiente hospitalar)." },
+  { q: "Qual a melhor cor de jaleco para advogado?", a: "Branco para ambiente hospitalar; preto ou azul-marinho para escritórios de perícia que querem ar mais formal." },
+  { q: "Qual tecido escolher?", a: "Microfibra com elastano é leve, formal e não amassa entre reuniões e diligências." },
+  { q: "Posso bordar OAB e nome?", a: "Sim. Bordamos nome + número da OAB e seccional gratuitamente." },
+  { q: "Qual corte transmite mais formalidade?", a: "Corte reto masculino tradicional, comprimento meio da coxa, gola padre — equivalente ao blazer." },
+  { q: "Manga longa ou curta?", a: "Manga longa é praticamente regra para advogado — transmite formalidade." },
+  { q: "Tem tamanho plus size?", a: "Sim. Modelos masculinos vão do P ao GG3." },
+  { q: "Quanto custa?", a: "A partir de R$ 119,90, com bordado de nome + OAB grátis." },
+  { q: "Qual o prazo de entrega?", a: "Sem bordado: 1 a 5 dias úteis. Com bordado: 5 a 10 dias úteis." },
+  { q: "Posso trocar tamanho?", a: "Sim, em até 7 dias após o recebimento, sem uso e sem bordado." },
+  { q: "Envia para todo o Brasil?", a: "Sim, Correios e transportadoras cobrem todo o território nacional." },
+  { q: "Tem desconto para escritório de advocacia?", a: "Sim, a partir de 5 peças com personalização padronizada." },
+  { q: "Posso usar em audiência?", a: "Não recomendado. Audiência exige terno e gravata. O jaleco serve para perícia, diligência hospitalar e contextos técnicos." },
+  { q: "Tem bolsos para celular e caneta?", a: "Sim, bolso superior + dois inferiores amplos." },
+  { q: "O jaleco amassa em viagem?", a: "Microfibra praticamente não amassa — ideal para advogados que viajam para diligências." },
+  { q: "Faz personalização com logo do escritório?", a: "Sim. Bordamos logo do escritório + nome de cada advogado." },
+  { q: "Combina com terno por baixo?", a: "Combina. Muitos advogados usam o jaleco por cima da camisa social, retirando o paletó." },
+  { q: "Como lavar?", a: "Máquina, água até 40 °C, sem cloro. Microfibra dispensa ferro." },
+  { q: "O jaleco encolhe?", a: "Não, tecidos são pré-encolhidos." }
 ]
 
 export default function FaqAccordion() {

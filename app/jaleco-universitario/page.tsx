@@ -17,7 +17,7 @@ import GoogleRatingCarousel from '@/components/profession-lp/GoogleRatingCarouse
 import InstagramLazy from '@/components/profession-lp/InstagramLazy'
 import CompactTrustBar from '@/components/profession-lp/CompactTrustBar'
 import StickyMobileCTA from '@/components/profession-lp/StickyMobileCTA'
-import { buildHowToSchema, buildOccupationSchema } from '@/lib/profession-schemas'
+import { buildHowToSchema, buildOccupationSchema, buildItemListSchema} from '@/lib/profession-schemas'
 
 // ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
 export const revalidate = 3600
@@ -46,11 +46,26 @@ const schemaFaq = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   mainEntity: [
-    { '@type': 'Question', name: 'Qual jaleco comprar para a faculdade?', acceptedAnswer: { '@type': 'Answer', text: 'O Jaleco Padrao Aluno e o mais indicado — cor branca, corte neutro, aceito pela maioria das IES. Verifique o modelo especifico exigido pelo seu curso antes de comprar.' } },
-    { '@type': 'Question', name: 'O jaleco universitario pode ter bordado?', acceptedAnswer: { '@type': 'Answer', text: 'Depende da instituicao. A maioria das faculdades de saude permite bordado com nome a partir de determinado semestre. Confirme com a coordenacao.' } },
-    { '@type': 'Question', name: 'Jaleco unissex ou masculino/feminino?', acceptedAnswer: { '@type': 'Answer', text: 'A Jaleca tem jaleco universitario unissex, feminino e masculino. O unissex tem caimento mais neutro. Feminino tem corte mais ajustado; masculino tem ombros mais amplos.' } },
-    { '@type': 'Question', name: 'Precisa de manga longa ou curta?', acceptedAnswer: { '@type': 'Answer', text: 'Para laboratorios de risco biologico ou quimico: manga longa e obrigatoria pela NR-6. Para clinica e estagio hospitalar: manga longa e o padrao. Verifique a exigencia do curso.' } },
-    { '@type': 'Question', name: 'Quantos jalecos comprar?', acceptedAnswer: { '@type': 'Answer', text: 'O minimo e 2: um para usar e um para lavar. Cursos com aulas praticas diarias pedem 3 ou mais — principalmente para nao faltar jaleco limpo em provas praticas.' } },
+    { '@type': 'Question', name: "Qual tecido é mais indicado para o primeiro jaleco universitário?", acceptedAnswer: { '@type': 'Answer', text: "Para o primeiro jaleco universitário, indicamos tecidos de gabardine ou microfibra, que são resistentes, fáceis de cuidar e têm excelente caimento." } },
+    { '@type': 'Question', name: "Este jaleco é adequado para estudantes de medicina e odontologia?", acceptedAnswer: { '@type': 'Answer', text: "Sim, nossos jalecos são ideais para futuros médicos e dentistas, cumprindo as exigências de higiene e apresentando um visual profissional para a faculdade." } },
+    { '@type': 'Question', name: "Como o corte do jaleco universitário se adapta à rotina de estudos e estágios?", acceptedAnswer: { '@type': 'Answer', text: "Nosso corte é pensado para oferecer conforto e mobilidade, essencial para as longas horas de estudo e os estágios práticos na universidade." } },
+    { '@type': 'Question', name: "Posso bordar meu nome e a identificação do curso no jaleco?", acceptedAnswer: { '@type': 'Answer', text: "Com certeza! Oferecemos bordado personalizado com seu nome e o símbolo ou nome do seu curso (Medicina, Odonto, Enfermagem, Farmácia), um toque essencial para o seu primeiro jaleco." } },
+    { '@type': 'Question', name: "O jaleco Jaleca é uma boa escolha para meu primeiro contato com o ambiente clínico?", acceptedAnswer: { '@type': 'Answer', text: "É a escolha perfeita! Nossos jalecos garantem uma imagem profissional e asseio desde o seu primeiro dia no ambiente clínico, elevando sua confiança." } },
+    { '@type': 'Question', name: "Qual a durabilidade de um jaleco universitário, considerando o uso frequente?", acceptedAnswer: { '@type': 'Answer', text: "Nossos jalecos são projetados para alta durabilidade, resistindo ao uso diário e às frequentes lavagens necessárias na vida universitária." } },
+    { '@type': 'Question', name: "Como devo lavar o jaleco para mantê-lo branco e sem manchas?", acceptedAnswer: { '@type': 'Answer', text: "Recomendamos lavagem com água fria e sabão neutro, separadamente de outras roupas. Para manter o branco, use alvejante sem cloro e seque à sombra." } },
+    { '@type': 'Question', name: "Este jaleco cumpre as regulamentações de uso em hospitais e clínicas?", acceptedAnswer: { '@type': 'Answer', text: "Sim, nossos jalecos são desenvolvidos seguindo as normas e padrões de higiene e vestuário exigidos para o uso em ambientes de saúde, como hospitais e clínicas." } },
+    { '@type': 'Question', name: "Os tamanhos de jaleco universitário abrangem do PP ao G3?", acceptedAnswer: { '@type': 'Answer', text: "Nossa grade de tamanhos, do PP ao G3, garante que todo estudante encontre um jaleco com o ajuste ideal, proporcionando conforto e uma aparência alinhada." } },
+    { '@type': 'Question', name: "Os bolsos do jaleco são funcionais para guardar canetas e outros itens de estudo?", acceptedAnswer: { '@type': 'Answer', text: "Sim, os bolsos são projetados para serem práticos e espaçosos, ideais para guardar canetas, cadernetas e outros pequenos acessórios essenciais para os estudos." } },
+    { '@type': 'Question', name: "O comprimento do jaleco é adequado para futuros profissionais da saúde?", acceptedAnswer: { '@type': 'Answer', text: "O comprimento é cuidadosamente balanceado para conferir autoridade e proteção, sem atrapalhar a mobilidade necessária para procedimentos e exames." } },
+    { '@type': 'Question', name: "O jaleco universitário está disponível em manga longa ou curta?", acceptedAnswer: { '@type': 'Answer', text: "Oferecemos opções de manga longa, padrão para a maioria das áreas da saúde, garantindo proteção e conformidade com as exigências acadêmicas e profissionais." } },
+    { '@type': 'Question', name: "O estilo slim do jaleco universitário transmite profissionalismo?", acceptedAnswer: { '@type': 'Answer', text: "Nosso estilo slim confere uma imagem moderna e profissional, preparando você para a transição do ambiente acadêmico para o mercado de trabalho." } },
+    { '@type': 'Question', name: "Os jalecos Jaleca são mais duráveis e representativos do que os de outras marcas para estudantes?", acceptedAnswer: { '@type': 'Answer', text: "Sim, a qualidade superior de nossos tecidos e acabamento garante um jaleco mais resistente e com melhor apresentação, destacando você da concorrência universitária." } },
+    { '@type': 'Question', name: "A partir de qual preço consigo adquirir um jaleco universitário de qualidade?", acceptedAnswer: { '@type': 'Answer', text: "Nossos jalecos universitários de alta qualidade começam a partir de R$159, um investimento essencial para sua jornada acadêmica e profissional." } },
+    { '@type': 'Question', name: "Qual o prazo de entrega para jalecos universitários?", acceptedAnswer: { '@type': 'Answer', text: "Seu jaleco será entregue em 3 a 8 dias úteis, para que você possa começar seus estudos e estágios com o equipamento certo e no tempo adequado." } },
+    { '@type': 'Question', name: "Posso trocar o jaleco se o tamanho não estiver correto para minhas aulas?", acceptedAnswer: { '@type': 'Answer', text: "Sim, você tem 7 dias após o recebimento para solicitar a troca do seu jaleco, caso o tamanho ou ajuste não sejam os ideais para seu conforto nos estudos." } },
+    { '@type': 'Question', name: "Há frete grátis para compras de jalecos universitários acima de R$499 em SP/RJ/MG/ES?", acceptedAnswer: { '@type': 'Answer', text: "Sim, para pedidos de jalecos universitários acima de R$499, o frete é grátis para os estados de São Paulo, Rio de Janeiro, Minas Gerais e Espírito Santo." } },
+    { '@type': 'Question', name: "Os jalecos universitários possuem garantia?", acceptedAnswer: { '@type': 'Answer', text: "Todos os nossos jalecos são cobertos por garantia contra defeitos de fabricação, assegurando a qualidade e sua total confiança na sua compra acadêmica." } },
+    { '@type': 'Question', name: "O jaleco é adequado para a cerimônia de formatura?", acceptedAnswer: { '@type': 'Answer', text: "Absolutamente! Nossos jalecos são elegantes e de alta qualidade, ideais para serem usados na sua cerimônia de formatura, marcando sua transição para a vida profissional." } },
   ],
 }
 
@@ -147,6 +162,7 @@ export default async function JalecoUniversitarioPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }} />
       {(() => { const s = buildHowToSchema('jaleco-universitario', 'https://jaleca.com.br/jaleco-universitario'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
       {(() => { const s = buildOccupationSchema('jaleco-universitario', 'https://jaleca.com.br/jaleco-universitario'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
+      {(() => { const s = buildItemListSchema(produtos, 'https://jaleca.com.br/jaleco-universitario', "Jalecos para universitario"); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
       <meta name="ai-content-declaration" content="human-authored-with-ai-assistance" />
 
       <main style={{ fontWeight: 300 }}>

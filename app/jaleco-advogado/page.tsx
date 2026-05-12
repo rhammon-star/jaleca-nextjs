@@ -17,7 +17,7 @@ import UGCSection from '@/components/UGCSection'
 import InstagramLazy from '@/components/profession-lp/InstagramLazy'
 import CompactTrustBar from '@/components/profession-lp/CompactTrustBar'
 import StickyMobileCTA from '@/components/profession-lp/StickyMobileCTA'
-import { buildHowToSchema, buildOccupationSchema } from '@/lib/profession-schemas'
+import { buildHowToSchema, buildOccupationSchema, buildItemListSchema} from '@/lib/profession-schemas'
 
 // ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
 export const revalidate = 3600
@@ -46,11 +46,26 @@ const schemaFaq = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   mainEntity: [
-    { '@type': 'Question', name: 'Advogado precisa usar jaleco no tribunal?', acceptedAnswer: { '@type': 'Answer', text: 'Não é obrigatório. O traje forense exige toga e vestes talares, não jaleco. O jaleco é usado em audiências de custódia, defensorias e atendimentos de jurídica popular.' } },
-    { '@type': 'Question', name: 'Qual o melhor modelo de jaleco para advogado?', acceptedAnswer: { '@type': 'Answer', text: 'O modelo Profissional com corte mais estruturado é o mais adequado — passa autoridade e seriedade. A cor preta ou marinho são as mais aceitas no meio jurídico.' } },
-    { '@type': 'Question', name: 'Jaleco para advogado pode ter bordado?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. É muito comum bordar o nome do advogado e o número da OAB. Para pedidos acima de 5 peças, oferecemos condições especiais de bordado corporativo.' } },
-    { '@type': 'Question', name: 'Jaleco de advogado pode ser preto?', acceptedAnswer: { '@type': 'Answer', text: 'Pode, sim. Não há norma da OAB que proíba jaleco colorido. O preto transmite seriedade e é aceito em escritórios de advocacia.' } },
-    { '@type': 'Question', name: 'Qual a diferença entre jaleco Slim e Profissional?', acceptedAnswer: { '@type': 'Answer', text: 'O Slim tem corte ajustado ao corpo, ideal para quem quer visual mais moderno. O Profissional tem corte mais amplo e estruturado, transmitindo mais formalidade.' } },
+    { '@type': 'Question', name: "Advogado usa jaleco?", acceptedAnswer: { '@type': 'Answer', text: "É raro, mas advogados de empresas de saúde, perícia médica e direito veterinário às vezes usam jaleco em visitas técnicas a clínicas e hospitais." } },
+    { '@type': 'Question', name: "OAB exige jaleco em algum momento?", acceptedAnswer: { '@type': 'Answer', text: "Não. A OAB exige terno e gravata em audiências, mas jaleco pode ser usado em contextos técnicos específicos (perícia, ambiente hospitalar)." } },
+    { '@type': 'Question', name: "Qual a melhor cor de jaleco para advogado?", acceptedAnswer: { '@type': 'Answer', text: "Branco para ambiente hospitalar; preto ou azul-marinho para escritórios de perícia que querem ar mais formal." } },
+    { '@type': 'Question', name: "Qual tecido escolher?", acceptedAnswer: { '@type': 'Answer', text: "Microfibra com elastano é leve, formal e não amassa entre reuniões e diligências." } },
+    { '@type': 'Question', name: "Posso bordar OAB e nome?", acceptedAnswer: { '@type': 'Answer', text: "Sim. Bordamos nome + número da OAB e seccional gratuitamente." } },
+    { '@type': 'Question', name: "Qual corte transmite mais formalidade?", acceptedAnswer: { '@type': 'Answer', text: "Corte reto masculino tradicional, comprimento meio da coxa, gola padre — equivalente ao blazer." } },
+    { '@type': 'Question', name: "Manga longa ou curta?", acceptedAnswer: { '@type': 'Answer', text: "Manga longa é praticamente regra para advogado — transmite formalidade." } },
+    { '@type': 'Question', name: "Tem tamanho plus size?", acceptedAnswer: { '@type': 'Answer', text: "Sim. Modelos masculinos vão do P ao GG3." } },
+    { '@type': 'Question', name: "Quanto custa?", acceptedAnswer: { '@type': 'Answer', text: "A partir de R$ 119,90, com bordado de nome + OAB grátis." } },
+    { '@type': 'Question', name: "Qual o prazo de entrega?", acceptedAnswer: { '@type': 'Answer', text: "Sem bordado: 1 a 5 dias úteis. Com bordado: 5 a 10 dias úteis." } },
+    { '@type': 'Question', name: "Posso trocar tamanho?", acceptedAnswer: { '@type': 'Answer', text: "Sim, em até 7 dias após o recebimento, sem uso e sem bordado." } },
+    { '@type': 'Question', name: "Envia para todo o Brasil?", acceptedAnswer: { '@type': 'Answer', text: "Sim, Correios e transportadoras cobrem todo o território nacional." } },
+    { '@type': 'Question', name: "Tem desconto para escritório de advocacia?", acceptedAnswer: { '@type': 'Answer', text: "Sim, a partir de 5 peças com personalização padronizada." } },
+    { '@type': 'Question', name: "Posso usar em audiência?", acceptedAnswer: { '@type': 'Answer', text: "Não recomendado. Audiência exige terno e gravata. O jaleco serve para perícia, diligência hospitalar e contextos técnicos." } },
+    { '@type': 'Question', name: "Tem bolsos para celular e caneta?", acceptedAnswer: { '@type': 'Answer', text: "Sim, bolso superior + dois inferiores amplos." } },
+    { '@type': 'Question', name: "O jaleco amassa em viagem?", acceptedAnswer: { '@type': 'Answer', text: "Microfibra praticamente não amassa — ideal para advogados que viajam para diligências." } },
+    { '@type': 'Question', name: "Faz personalização com logo do escritório?", acceptedAnswer: { '@type': 'Answer', text: "Sim. Bordamos logo do escritório + nome de cada advogado." } },
+    { '@type': 'Question', name: "Combina com terno por baixo?", acceptedAnswer: { '@type': 'Answer', text: "Combina. Muitos advogados usam o jaleco por cima da camisa social, retirando o paletó." } },
+    { '@type': 'Question', name: "Como lavar?", acceptedAnswer: { '@type': 'Answer', text: "Máquina, água até 40 °C, sem cloro. Microfibra dispensa ferro." } },
+    { '@type': 'Question', name: "O jaleco encolhe?", acceptedAnswer: { '@type': 'Answer', text: "Não, tecidos são pré-encolhidos." } },
   ],
 }
 
@@ -144,6 +159,7 @@ export default async function JalecoAdvogadoPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }} />
       {(() => { const s = buildHowToSchema('jaleco-advogado', 'https://jaleca.com.br/jaleco-advogado'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
       {(() => { const s = buildOccupationSchema('jaleco-advogado', 'https://jaleca.com.br/jaleco-advogado'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
+      {(() => { const s = buildItemListSchema(produtos, 'https://jaleca.com.br/jaleco-advogado', "Jalecos para advogado"); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
       <meta name="ai-content-declaration" content="human-authored-with-ai-assistance" />
 
       <main style={{ fontWeight: 300 }}>

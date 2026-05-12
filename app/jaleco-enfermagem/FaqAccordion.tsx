@@ -3,38 +3,26 @@
 import { useState } from 'react'
 
 const faqItems = [
-  {
-    q: 'Qual o melhor tecido para jaleco de enfermagem?',
-    a: 'O melhor tecido é gabardine com elastano — resistente, respirável e que não amassa. Na Jaleca, jalecos para enfermagem têm 67% poliéster, 33% algodão e 3-8% elastano. Suporta lavagens constantes e mantém a forma.',
-  },
-  {
-    q: 'Jaleco com elastano é bom para quem trabalha em hospital?',
-    a: 'Sim. O elastano adiciona memória ao tecido — ele volta ao formato após cada movimento. Isso é essencial para enfermeiros que passam horas em pé, correndo entre quartos e fazendo procedimentos.',
-  },
-  {
-    q: 'Qual o prazo de entrega do jaleco para enfermagem?',
-    a: 'Enviamos em até 2 dias úteis após confirmação do pagamento. O prazo de entrega varia de 3 a 8 dias úteis conforme sua região. Capitais do Sudeste geralmente recebem em 3 a 5 dias. Frete grátis para compras acima de R$499.',
-  },
-  {
-    q: 'Como funciona a troca de tamanho?',
-    a: 'Arrependimento em até 7 dias após o recebimento, produto sem uso e com etiqueta. Garantia Jaleca: 30 dias, sem marca de uso e com etiqueta. Manda uma mensagem pelo WhatsApp com o número do pedido.',
-  },
-  {
-    q: 'Jaleco de enfermagem precisa ter bolsos?',
-    a: 'Bolsos são essenciais para enfermeiros — guardam canetas, tesouras, luvas e outros itens de trabalho. Na Jaleca, jalecos para enfermagem têm bolso no peito e bolsos laterais reforçados.',
-  },
-  {
-    q: 'Posso usar jaleco de enfermagem no plantão noturno?',
-    a: 'Sim. Jalecos Jaleca são desenvolvidos para longas jornadas — elastano permite movimento sem restrição, tecido respira bem e não amassa. Confortável para plantões de 12 horas.',
-  },
-  {
-    q: 'Jaleco de enfermagem pode ser lavado na máquina?',
-    a: 'Sim. Jalecos Jaleca suportam lavagem a 60°C na máquina. Use sabão neutro e evite alvejante com cloro. Seque ao ar para preservar o elastano e a forma do jaleco.',
-  },
-  {
-    q: 'Qual a diferença entre jaleco de enfermagem e jaleco médico?',
-    a: 'Ambos usam tecido e composição similares. A diferença está no corte — jaleco de enfermagem tende a ter mais Bolsos e mais funcional. Jaleco médico pode ser mais estruturado dependendo da especialidade.',
-  },
+  { q: "Qual a importância do jaleco para os estudantes de enfermagem em laboratórios e estágios?", a: "O jaleco é essencial para a biossegurança, protegendo o estudante contra contaminação e garantindo a identificação profissional nos ambientes de prática." },
+  { q: "Os jalecos para cursos de enfermagem são unissex ou há modelos específicos para homens e mulheres?", a: "Oferecemos modelos unissex que atendem bem a todos, e também cortes femininos e masculinos para quem busca um caimento mais personalizado e confortável." },
+  { q: "É obrigatório o uso do jaleco branco para estudantes de enfermagem em todas as disciplinas e estágios?", a: "Sim, o jaleco branco é um padrão universal na enfermagem. Recomenda-se usá-lo em todas as aulas práticas, laboratórios e, obrigatoriamente, em estágios." },
+  { q: "Como garantir que o jaleco de estudante de enfermagem dure todos os anos da graduação?", a: "Invista em um jaleco de tecido de qualidade superior e siga as instruções de lavagem para assegurar sua durabilidade e manter a boa aparência ao longo dos anos." },
+  { q: "Qual o melhor tecido para um jaleco de enfermagem que precisa ser lavado e desinfetado frequentemente?", a: "Tecidos como Gabardine ou Brim são excelentes escolhas, pois são robustos, resistem a lavagens frequentes e mantêm a integridade mesmo após desinfecção." },
+  { q: "É permitido bordar o nome da faculdade de enfermagem e o nome do aluno no jaleco?", a: "Sim, é uma prática comum e permitida. Oferecemos o serviço de bordado para personalizar seu jaleco com o logo da instituição e seu nome." },
+  { q: "Os jalecos de enfermagem são desenhados para ter bolsos funcionais para materiais de estudo e trabalho?", a: "Sim, nossos jalecos possuem bolsos bem dimensionados para acomodar estetoscópio, esfigmomanômetro, canetas e outros itens que o estudante de enfermagem precisa ter à mão." },
+  { q: "Qual a importância da manga longa no jaleco de enfermagem para a proteção e biossegurança?", a: "A manga longa é fundamental para a biossegurança, protegendo os braços do contato com agentes infecciosos e superfícies contaminadas, sendo item obrigatório." },
+  { q: "O que devo considerar ao escolher o tamanho do jaleco para o curso de enfermagem?", a: "Priorize o conforto e a mobilidade. Consulte nossa tabela de medidas e, se estiver em dúvida, opte por um tamanho que ofereça um pouco mais de folga." },
+  { q: "Os jalecos para estudantes de enfermagem possuem botões resistentes para a rotina diária?", a: "Nossos jalecos são equipados com botões de alta resistência, costurados de forma segura para suportar o uso e a movimentação constante durante as atividades práticas." },
+  { q: "É possível adquirir um jaleco de enfermagem com desconto para compras em grande volume para turmas?", a: "Sim, oferecemos condições especiais e descontos progressivos para compras em quantidade, ideais para turmas de enfermagem. Entre em contato para mais detalhes." },
+  { q: "Qual o prazo de garantia para os jalecos adquiridos para o curso de enfermagem?", a: "Nossos jalecos possuem garantia contra defeitos de fabricação. Caso identifique qualquer problema, entre em contato com nosso atendimento para avaliação e solução." },
+  { q: "Há opções de jalecos de enfermagem com detalhes em cores para diferenciar especialidades?", a: "Para estudantes, o branco liso é o mais recomendado. Detalhes coloridos são mais comuns para profissionais em clínicas específicas, mas verifique sempre as regras da sua instituição." },
+  { q: "Como lavar o jaleco de enfermagem para remover manchas de medicamentos ou fluidos?", a: "Trate a mancha o mais rápido possível. Utilize um sabão neutro e, se necessário, um removedor de manchas específico para tecidos brancos, sempre seguindo as instruções da etiqueta." },
+  { q: "Os jalecos para enfermagem são projetados para evitar o encolhimento após a lavagem?", a: "Nossos tecidos são pré-encolhidos para minimizar qualquer alteração de tamanho após as lavagens, garantindo que o jaleco mantenha o caimento original." },
+  { q: "Qual a diferença entre um jaleco com gola tradicional e um com gola padre para estudantes de enfermagem?", a: "A gola tradicional é clássica e formal. A gola padre oferece um visual mais moderno e limpo, sendo uma escolha de estilo pessoal, desde que atenda às normas da instituição." },
+  { q: "Para estudantes de enfermagem que suam muito, há tecidos mais frescos e respiráveis?", a: "Sim, temos jalecos confeccionados com tecidos leves e respiráveis, que ajudam a regular a temperatura corporal e proporcionam maior conforto em ambientes quentes." },
+  { q: "Qual o tempo de entrega para um jaleco de enfermagem com bordado?", a: "O tempo de entrega para jalecos com bordado pode ser ligeiramente maior que o padrão devido ao processo de personalização. Consulte as estimativas de prazo no carrinho de compras." },
+  { q: "Os jalecos de enfermagem oferecem proteção UV para atividades ao ar livre (saúde da família)?", a: "Embora não sejam o foco principal, alguns tecidos densos oferecem uma proteção UV básica. Para exposições prolongadas, recomendamos buscar produtos específicos com FPU." },
+  { q: "A loja oferece serviço de ajuste ou customização de jalecos para medidas especiais de estudantes de enfermagem?", a: "No momento, não oferecemos ajustes personalizados, mas nossa ampla tabela de tamanhos (do PP ao G3) e modelos diversos visam atender a uma vasta gama de medidas e biotipos." }
 ]
 
 export default function FaqAccordion() {

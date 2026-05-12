@@ -17,7 +17,7 @@ import GoogleRatingCarousel from '@/components/profession-lp/GoogleRatingCarouse
 import InstagramLazy from '@/components/profession-lp/InstagramLazy'
 import CompactTrustBar from '@/components/profession-lp/CompactTrustBar'
 import StickyMobileCTA from '@/components/profession-lp/StickyMobileCTA'
-import { buildHowToSchema, buildOccupationSchema } from '@/lib/profession-schemas'
+import { buildHowToSchema, buildOccupationSchema, buildItemListSchema} from '@/lib/profession-schemas'
 
 // ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
 export const revalidate = 3600
@@ -46,13 +46,26 @@ const schemaFaq = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   mainEntity: [
-    { '@type': 'Question', name: 'Qual comprimento de jaleco é mais indicado para veterinários?', acceptedAnswer: { '@type': 'Answer', text: 'Para veterinária, o jaleco curto (até o quadril) é mais popular por facilitar o movimento. O longo é mais usado em procedimentos cirúrgicos.' } },
-    { '@type': 'Question', name: 'O jaleco pode ser lavado com água quente?', acceptedAnswer: { '@type': 'Answer', text: 'Os jalecos Jaleca suportam lavagem até 60°C, temperatura suficiente para higienização clínica. Use alvejante sem cloro para preservar o tecido.' } },
-    { '@type': 'Question', name: 'Jaleco com elastano é bom para veterinário?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. O elastano adiciona memória ao tecido, retornando à forma após o movimento — essencial para quem passa horas em atendimento.' } },
-    { '@type': 'Question', name: 'Jaleco de veterinário precisa ser branco?', acceptedAnswer: { '@type': 'Answer', text: 'Não é obrigação. O branco é o clássico, mas tons pastel e cores discretas são aceitos. O CRMV não restringe a cor.' } },
-    { '@type': 'Question', name: 'Qual a diferença entre jaleco Slim e Profissional?', acceptedAnswer: { '@type': 'Answer', text: 'O Slim tem corte ajustado ao corpo, ideal para quem quer visual mais moderno. O Profissional tem corte mais amplo e estruturado, com mais espaço para movimento.' } },
-    { '@type': 'Question', name: 'Qual jaleco leve e fresco para veterinária que trabalha o dia todo?', acceptedAnswer: { '@type': 'Answer', text: 'A Microfibra é o tecido mais leve da linha Jaleca — respirável e confortável para longas jornadas em clínica veterinária, sem pesar no corpo.' } },
-    { '@type': 'Question', name: 'Onde comprar jaleco feminino para veterinária com entrega rápida?', acceptedAnswer: { '@type': 'Answer', text: 'Na Jaleca enviamos em até 2 dias úteis para todo o Brasil. Frete grátis para SP, RJ, MG e ES em compras acima de R$499.' } },
+    { '@type': 'Question', name: "Médica veterinária pode usar jaleco feminino acinturado?", acceptedAnswer: { '@type': 'Answer', text: "Sim. O modelo acinturado é totalmente profissional e oferece caimento mais elegante, sem perder funcionalidade clínica." } },
+    { '@type': 'Question', name: "Qual a cor preferida das veterinárias?", acceptedAnswer: { '@type': 'Answer', text: "Branco lidera, seguido de rosé e azul-marinho — cores que combinam com a rotina entre consultório e clínica." } },
+    { '@type': 'Question', name: "Qual tecido é mais confortável para veterinária?", acceptedAnswer: { '@type': 'Answer', text: "Microfibra com 5% de elastano oferece elasticidade para se abaixar, agachar e atender pets sem repuxar." } },
+    { '@type': 'Question', name: "É possível bordar CRMV e nome?", acceptedAnswer: { '@type': 'Answer', text: "Sim. Bordamos nome, profissão e CRMV no peito esquerdo sem custo extra." } },
+    { '@type': 'Question', name: "O modelo feminino tem pences?", acceptedAnswer: { '@type': 'Answer', text: "Sim. Pences na frente e costas dão caimento ajustado à silhueta, sem apertar." } },
+    { '@type': 'Question', name: "Qual o comprimento ideal?", acceptedAnswer: { '@type': 'Answer', text: "Comprimento até o meio da coxa é o mais escolhido — protege e mantém elegância." } },
+    { '@type': 'Question', name: "Tem manga 3/4 para veterinária?", acceptedAnswer: { '@type': 'Answer', text: "Sim, manga 3/4 e manga longa estão disponíveis. A 3/4 facilita lavagem das mãos entre atendimentos." } },
+    { '@type': 'Question', name: "Atende tamanhos plus size?", acceptedAnswer: { '@type': 'Answer', text: "Sim. Linha feminina vai do PP ao GG3, com modelagem que respeita o corpo plus." } },
+    { '@type': 'Question', name: "O jaleco resiste a pelos de animais?", acceptedAnswer: { '@type': 'Answer', text: "Microfibra solta menos pelo do que algodão puro — basta passar rolinho ou lavar normalmente." } },
+    { '@type': 'Question', name: "Como lavar para preservar a cor branca?", acceptedAnswer: { '@type': 'Answer', text: "Lave separado, água até 40 °C, sem cloro. Use alvejante sem cloro ocasionalmente para manter o branco." } },
+    { '@type': 'Question', name: "Quanto custa um jaleco feminino veterinário?", acceptedAnswer: { '@type': 'Answer', text: "A partir de R$ 119,90, com bordado de nome + CRMV gratuito." } },
+    { '@type': 'Question', name: "Qual o prazo de entrega com bordado?", acceptedAnswer: { '@type': 'Answer', text: "Entre 5 e 10 dias úteis após confirmação do pagamento." } },
+    { '@type': 'Question', name: "Posso devolver se não servir?", acceptedAnswer: { '@type': 'Answer', text: "Sim, dentro de 7 dias após o recebimento, desde que o jaleco esteja sem uso e sem bordado." } },
+    { '@type': 'Question', name: "Tem frete grátis?", acceptedAnswer: { '@type': 'Answer', text: "Sim, em compras acima do valor mínimo. Confira na página do produto." } },
+    { '@type': 'Question', name: "Vocês fazem uniforme para clínicas inteiras?", acceptedAnswer: { '@type': 'Answer', text: "Sim. Atendemos clínicas com personalização padronizada — logo, cor e bordado uniforme para toda a equipe." } },
+    { '@type': 'Question', name: "Modelagem repuxa quando me abaixo para atender o pet?", acceptedAnswer: { '@type': 'Answer', text: "Não. O elastano dá elasticidade e as pences acomodam o movimento de agachar." } },
+    { '@type': 'Question', name: "Existe versão com decote V?", acceptedAnswer: { '@type': 'Answer', text: "Sim, alguns modelos femininos têm gola V; outros têm gola de padre tradicional." } },
+    { '@type': 'Question', name: "O jaleco serve para consulta domiciliar?", acceptedAnswer: { '@type': 'Answer', text: "Sim, é leve, dobra fácil e cabe em bolsa para visitas domiciliares." } },
+    { '@type': 'Question', name: "Qual diferença entre jaleco veterinária e enfermeira?", acceptedAnswer: { '@type': 'Answer', text: "O corte é semelhante; a diferença está no tipo de bordado (CRMV vs COREN) e no perfil de tecido escolhido." } },
+    { '@type': 'Question', name: "Como tirar manchas de iodo do jaleco?", acceptedAnswer: { '@type': 'Answer', text: "Aplique água oxigenada 10 volumes na mancha fresca antes da lavagem; evite cloro, que amarela o tecido." } },
   ],
 }
 
@@ -147,6 +160,7 @@ export default async function JalecoVeterinarioPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }} />
       {(() => { const s = buildHowToSchema('jaleco-veterinaria', 'https://jaleca.com.br/jaleco-veterinaria'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
       {(() => { const s = buildOccupationSchema('jaleco-veterinaria', 'https://jaleca.com.br/jaleco-veterinaria'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
+      {(() => { const s = buildItemListSchema(produtos, 'https://jaleca.com.br/jaleco-veterinaria', "Jalecos para veterinaria"); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
       <meta name="ai-content-declaration" content="human-authored-with-ai-assistance" />
 
       <main style={{ fontWeight: 300 }}>

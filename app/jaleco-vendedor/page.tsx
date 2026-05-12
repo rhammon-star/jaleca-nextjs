@@ -15,7 +15,7 @@ import UGCSection from '@/components/UGCSection'
 import InstagramLazy from '@/components/profession-lp/InstagramLazy'
 import CompactTrustBar from '@/components/profession-lp/CompactTrustBar'
 import StickyMobileCTA from '@/components/profession-lp/StickyMobileCTA'
-import { buildHowToSchema, buildOccupationSchema } from '@/lib/profession-schemas'
+import { buildHowToSchema, buildOccupationSchema, buildItemListSchema} from '@/lib/profession-schemas'
 
 // ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
 export const revalidate = 3600
@@ -44,11 +44,26 @@ const schemaFaq = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   mainEntity: [
-    { '@type': 'Question', name: 'Qual comprimento de jaleco é mais indicado para vendedors?', acceptedAnswer: { '@type': 'Answer', text: 'Para vendas, o jaleco médio — reforça a identidade visual da empresa.' } },
-    { '@type': 'Question', name: 'O jaleco pode ser lavado com água quente?', acceptedAnswer: { '@type': 'Answer', text: 'Os jalecos Jaleca suportam lavagem até 60°C, temperatura suficiente para higienização clínica. Use alvejante sem cloro para preservar o tecido.' } },
-    { '@type': 'Question', name: 'Jaleco com elastano é bom para vendedor?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. O elastano adiciona memória ao tecido, retornando à forma após o movimento — essencial para quem passa horas em atendimento.' } },
-    { '@type': 'Question', name: 'Jaleco de vendedor precisa ser branco?', acceptedAnswer: { '@type': 'Answer', text: 'Não é obrigação. O branco é o clássico, mas tons pastel e cores discretas são bem aceitos. Não há restrição de cor.' } },
-    { '@type': 'Question', name: 'Qual a diferença entre jaleco Slim e Profissional?', acceptedAnswer: { '@type': 'Answer', text: 'O Slim tem corte ajustado ao corpo, ideal para quem quer visual mais moderno. O Profissional tem corte mais amplo e estruturado, com mais espaço para movimento.' } },
+    { '@type': 'Question', name: "Vendedor de farmácia ou loja de cosméticos usa jaleco?", acceptedAnswer: { '@type': 'Answer', text: "Sim, é prática comum em farmácias, perfumarias, lojas de produtos naturais e ópticas — transmite higiene e padroniza a equipe." } },
+    { '@type': 'Question', name: "Qual a melhor cor de jaleco para vendedor?", acceptedAnswer: { '@type': 'Answer', text: "Branco é tradicional em farmácia; cores corporativas (cor da marca) são comuns em perfumarias e ópticas." } },
+    { '@type': 'Question', name: "Qual tecido aguenta o dia em pé?", acceptedAnswer: { '@type': 'Answer', text: "Microfibra com elastano é leve, respira e não repuxa em jornada de 8h em pé." } },
+    { '@type': 'Question', name: "Posso bordar nome e loja?", acceptedAnswer: { '@type': 'Answer', text: "Sim. Bordamos nome + logo/nome da loja gratuitamente." } },
+    { '@type': 'Question', name: "Qual corte é mais usado?", acceptedAnswer: { '@type': 'Answer', text: "Corte reto masculino ou acinturado feminino, comprimento meio da coxa." } },
+    { '@type': 'Question', name: "Manga curta ou longa?", acceptedAnswer: { '@type': 'Answer', text: "Manga curta predomina no varejo (mais leve no calor); manga longa em farmácias mais formais." } },
+    { '@type': 'Question', name: "Atende plus size?", acceptedAnswer: { '@type': 'Answer', text: "Sim, do P ao GG3 masculino e PP ao GG3 feminino." } },
+    { '@type': 'Question', name: "Quanto custa?", acceptedAnswer: { '@type': 'Answer', text: "A partir de R$ 119,90, bordado de nome grátis." } },
+    { '@type': 'Question', name: "Prazo de entrega?", acceptedAnswer: { '@type': 'Answer', text: "Sem bordado: 1 a 5 dias úteis. Com bordado: 5 a 10 dias úteis." } },
+    { '@type': 'Question', name: "Posso trocar tamanho?", acceptedAnswer: { '@type': 'Answer', text: "Sim, em até 7 dias, sem uso e sem bordado." } },
+    { '@type': 'Question', name: "Envia para todo o Brasil?", acceptedAnswer: { '@type': 'Answer', text: "Sim, Correios e transportadoras." } },
+    { '@type': 'Question', name: "Tem desconto para loja com vários vendedores?", acceptedAnswer: { '@type': 'Answer', text: "Sim, a partir de 5 peças com bordado padronizado. Solicite orçamento." } },
+    { '@type': 'Question', name: "Faz uniforme com cor da minha marca?", acceptedAnswer: { '@type': 'Answer', text: "Sim. Trabalhamos com várias cores; consulte disponibilidade para a cor desejada." } },
+    { '@type': 'Question', name: "Tem bolsos para etiqueta de preço e leitor?", acceptedAnswer: { '@type': 'Answer', text: "Sim. Bolsos amplos suportam celular, caneta, etiquetas e leitor portátil." } },
+    { '@type': 'Question', name: "O jaleco aguenta lavagens frequentes?", acceptedAnswer: { '@type': 'Answer', text: "Sim. Microfibra suporta lavagem diária por anos sem perder caimento." } },
+    { '@type': 'Question', name: "Como lavar para preservar a cor?", acceptedAnswer: { '@type': 'Answer', text: "Máquina, água até 40 °C, separado de cores. Sem cloro para brancos." } },
+    { '@type': 'Question', name: "Combina com camiseta por baixo?", acceptedAnswer: { '@type': 'Answer', text: "Combina perfeitamente. Camiseta neutra ou camisa polo da loja por baixo é o padrão." } },
+    { '@type': 'Question', name: "Faz personalização com logo bordado?", acceptedAnswer: { '@type': 'Answer', text: "Sim. Bordamos logo da loja no peito ou nas costas." } },
+    { '@type': 'Question', name: "O jaleco amarrota durante o expediente?", acceptedAnswer: { '@type': 'Answer', text: "Microfibra praticamente não amarrota — mantém apresentação ao longo do dia." } },
+    { '@type': 'Question', name: "Qual a diferença entre jaleco vendedor e farmacêutico?", acceptedAnswer: { '@type': 'Answer', text: "O corte é o mesmo; muda o bordado (nome da loja vs CRF) e o tipo de personalização (logo corporativo)." } },
   ],
 }
 
@@ -127,6 +142,7 @@ export default async function JalecoDentistaPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }} />
       {(() => { const s = buildHowToSchema('jaleco-vendedor', 'https://jaleca.com.br/jaleco-vendedor'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
       {(() => { const s = buildOccupationSchema('jaleco-vendedor', 'https://jaleca.com.br/jaleco-vendedor'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
+      {(() => { const s = buildItemListSchema(produtos, 'https://jaleca.com.br/jaleco-vendedor', "Jalecos para vendedor"); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
       <meta name="ai-content-declaration" content="human-authored-with-ai-assistance" />
 
       <main style={{ fontWeight: 300 }}>

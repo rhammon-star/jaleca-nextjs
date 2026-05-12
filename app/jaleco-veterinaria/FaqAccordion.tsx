@@ -1,15 +1,26 @@
 'use client'
 import { useState } from 'react'
 const faqItems = [
-  { q: 'Qual o melhor jaleco para veterinário?', a: 'O veterinário trabalha com animais e produtos químicos. O modelo com elastano é ideal porque aguenta lavagens frequentes e permite movimento durante procedimentos.' },
-  { q: 'Veterinário pode usar jaleco colorido?', a: 'Pode. Cores como azul e verde são populares em clínicas veterinárias. O branco transmite higiene e é a escolha mais tradicional.' },
-  { q: 'Qual a diferença entre jaleco Slim e Profissional?', a: 'O Slim tem corte ajustado e visual moderno. O Profissional tem corte mais amplo, transmitindo mais formalidade para o ambiente clínico.' },
-  { q: 'Veterinário precisa de jaleco com proteção?', a: 'Sim. O jaleco funciona como barreira contra pelos, fluidos animais e produtos químicos. Deve ser usado exclusivamente durante o trabalho.' },
-  { q: 'Como funciona a troca?', a: 'Arrependimento: até 7 dias após o recebimento, produto sem uso e com etiqueta. Garantia Jaleca: 30 dias, sem marca de uso e com etiqueta. WhatsApp ou e-mail com número do pedido.' },
-  { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Prazo de 3 a 8 dias úteis conforme região — calculado no checkout.' },
-  { q: 'Qual jaleco leve e fresco para veterinária que trabalha o dia todo?', a: 'A Microfibra é o tecido mais leve da linha Jaleca — respirável e confortável para longas jornadas em clínica veterinária, sem pesar no corpo.' },
-  { q: 'Qual tecido de jaleco para veterinária aguenta lavagem frequente?', a: 'O Gabardine com elastano e a Microfibra são os mais resistentes a lavagens constantes — mantêm o caimento e a cor mesmo com uso intenso.' },
-  { q: 'Onde comprar jaleco feminino para veterinária com entrega rápida?', a: 'Na Jaleca enviamos em até 2 dias úteis para todo o Brasil. Frete grátis para SP, RJ, MG e ES em compras acima de R$499.' },
+  { q: "Médica veterinária pode usar jaleco feminino acinturado?", a: "Sim. O modelo acinturado é totalmente profissional e oferece caimento mais elegante, sem perder funcionalidade clínica." },
+  { q: "Qual a cor preferida das veterinárias?", a: "Branco lidera, seguido de rosé e azul-marinho — cores que combinam com a rotina entre consultório e clínica." },
+  { q: "Qual tecido é mais confortável para veterinária?", a: "Microfibra com 5% de elastano oferece elasticidade para se abaixar, agachar e atender pets sem repuxar." },
+  { q: "É possível bordar CRMV e nome?", a: "Sim. Bordamos nome, profissão e CRMV no peito esquerdo sem custo extra." },
+  { q: "O modelo feminino tem pences?", a: "Sim. Pences na frente e costas dão caimento ajustado à silhueta, sem apertar." },
+  { q: "Qual o comprimento ideal?", a: "Comprimento até o meio da coxa é o mais escolhido — protege e mantém elegância." },
+  { q: "Tem manga 3/4 para veterinária?", a: "Sim, manga 3/4 e manga longa estão disponíveis. A 3/4 facilita lavagem das mãos entre atendimentos." },
+  { q: "Atende tamanhos plus size?", a: "Sim. Linha feminina vai do PP ao GG3, com modelagem que respeita o corpo plus." },
+  { q: "O jaleco resiste a pelos de animais?", a: "Microfibra solta menos pelo do que algodão puro — basta passar rolinho ou lavar normalmente." },
+  { q: "Como lavar para preservar a cor branca?", a: "Lave separado, água até 40 °C, sem cloro. Use alvejante sem cloro ocasionalmente para manter o branco." },
+  { q: "Quanto custa um jaleco feminino veterinário?", a: "A partir de R$ 119,90, com bordado de nome + CRMV gratuito." },
+  { q: "Qual o prazo de entrega com bordado?", a: "Entre 5 e 10 dias úteis após confirmação do pagamento." },
+  { q: "Posso devolver se não servir?", a: "Sim, dentro de 7 dias após o recebimento, desde que o jaleco esteja sem uso e sem bordado." },
+  { q: "Tem frete grátis?", a: "Sim, em compras acima do valor mínimo. Confira na página do produto." },
+  { q: "Vocês fazem uniforme para clínicas inteiras?", a: "Sim. Atendemos clínicas com personalização padronizada — logo, cor e bordado uniforme para toda a equipe." },
+  { q: "Modelagem repuxa quando me abaixo para atender o pet?", a: "Não. O elastano dá elasticidade e as pences acomodam o movimento de agachar." },
+  { q: "Existe versão com decote V?", a: "Sim, alguns modelos femininos têm gola V; outros têm gola de padre tradicional." },
+  { q: "O jaleco serve para consulta domiciliar?", a: "Sim, é leve, dobra fácil e cabe em bolsa para visitas domiciliares." },
+  { q: "Qual diferença entre jaleco veterinária e enfermeira?", a: "O corte é semelhante; a diferença está no tipo de bordado (CRMV vs COREN) e no perfil de tecido escolhido." },
+  { q: "Como tirar manchas de iodo do jaleco?", a: "Aplique água oxigenada 10 volumes na mancha fresca antes da lavagem; evite cloro, que amarela o tecido." }
 ]
 export default function FaqAccordion() {
   const [openIndex, setOpenIndex] = useState<number | null>(0)

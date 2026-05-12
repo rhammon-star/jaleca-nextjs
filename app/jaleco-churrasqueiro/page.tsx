@@ -17,7 +17,7 @@ import UGCSection from '@/components/UGCSection'
 import InstagramLazy from '@/components/profession-lp/InstagramLazy'
 import CompactTrustBar from '@/components/profession-lp/CompactTrustBar'
 import StickyMobileCTA from '@/components/profession-lp/StickyMobileCTA'
-import { buildHowToSchema, buildOccupationSchema } from '@/lib/profession-schemas'
+import { buildHowToSchema, buildOccupationSchema, buildItemListSchema} from '@/lib/profession-schemas'
 
 // ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
 export const revalidate = 3600
@@ -46,11 +46,26 @@ const schemaFaq = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   mainEntity: [
-    { '@type': 'Question', name: 'Qual o melhor uniforme para churrasqueiro?', acceptedAnswer: { '@type': 'Answer', text: 'O churrasqueiro profissional trabalha em ambientes de alta temperatura e gordura. A Jaleca recomenda os dólares de cozinheiro — tecidos especiais que resistem a respingos de gordura.' } },
-    { '@type': 'Question', name: 'Churrasqueiro pode usar jaleco comum?', acceptedAnswer: { '@type': 'Answer', text: 'O jaleco tradicional não é o mais indicado para churrasqueiro. O dólar Jaleca foi desenvolvido especificamente para a rotina da cozinha e churrascaria.' } },
-    { '@type': 'Question', name: 'Dólmã é melhor que jaleco para churrasqueiro?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. O dólar tem corte mais reto, tecidos que não absorvem gordura facilmente e são mais ventilados. São a escolha padrão em cozinhas profissionais.' } },
-    { '@type': 'Question', name: 'Churrasqueiro precisa de EPI?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. Luvas de proteção, óculos e avental impermeável são EPIs obrigatórios. O dólar Jaleca é o uniforme base ideal para a função.' } },
-    { '@type': 'Question', name: 'Como lavar o uniforme de churrasqueiro?', acceptedAnswer: { '@type': 'Answer', text: 'Lave a 60°C para remover gordura incrustada. Use sabão desengordurante. Seque à sombra para preservar o tecido.' } },
+    { '@type': 'Question', name: "O tecido do jaleco Jaleca para churrasqueiro é resistente ao calor?", acceptedAnswer: { '@type': 'Answer', text: "Nosso jaleco para churrasqueiro é feito com tecido robusto e resistente a altas temperaturas, oferecendo proteção extra contra o calor da brasa." } },
+    { '@type': 'Question', name: "Este jaleco oferece proteção contra respingos de gordura e molhos?", acceptedAnswer: { '@type': 'Answer', text: "Com certeza! O tecido do nosso jaleco possui um tratamento que repele respingos de gordura e molhos, facilitando a limpeza e protegendo suas roupas." } },
+    { '@type': 'Question', name: "O corte do jaleco de churrasqueiro permite movimentos amplos ao manusear a carne?", acceptedAnswer: { '@type': 'Answer', text: "O corte é especialmente desenhado para garantir total liberdade de movimento, essencial para virar a carne, cortar e manusear os utensílios com conforto e segurança." } },
+    { '@type': 'Question', name: "É possível bordar o meu nome ou o logo do meu negócio de churrasco no jaleco?", acceptedAnswer: { '@type': 'Answer', text: "Sim, personalizamos seu jaleco com bordado do seu nome ou o logo da sua churrascaria, agregando profissionalismo e estilo à sua marca." } },
+    { '@type': 'Question', name: "O jaleco Jaleca é adequado para um ambiente de churrascaria profissional?", acceptedAnswer: { '@type': 'Answer', text: "Perfeitamente! Nosso jaleco foi pensado para o ambiente exigente de uma churrascaria, unindo proteção, durabilidade e um visual imponente." } },
+    { '@type': 'Question', name: "Qual a durabilidade de um jaleco de churrasqueiro da Jaleca?", acceptedAnswer: { '@type': 'Answer', text: "Projetamos nossos jalecos para churrasqueiros para serem extremamente duráveis, resistindo ao uso constante e às condições do ambiente da churrasqueira." } },
+    { '@type': 'Question', name: "Quais são as melhores práticas de lavagem para o jaleco de churrasqueiro?", acceptedAnswer: { '@type': 'Answer', text: "Para remover gordura e odores, recomendamos lavagem com água quente e sabão desengordurante, seguindo as instruções da etiqueta para manter a qualidade." } },
+    { '@type': 'Question', name: "Quais cores de jaleco estão disponíveis para churrasqueiros?", acceptedAnswer: { '@type': 'Answer', text: "Oferecemos cores que disfarçam melhor as manchas e realçam a sua presença, como tons terrosos e escuros, ideais para o churrasqueiro." } },
+    { '@type': 'Question', name: "Vocês possuem tamanhos grandes para churrasqueiros, como G3?", acceptedAnswer: { '@type': 'Answer', text: "Sim, nossa grade de tamanhos vai do PP ao G3, garantindo que todo churrasqueiro encontre um jaleco que vista perfeitamente e com conforto." } },
+    { '@type': 'Question', name: "O jaleco tem bolsos funcionais para utensílios de churrasco?", acceptedAnswer: { '@type': 'Answer', text: "Nossos jalecos possuem bolsos robustos e acessíveis, perfeitos para guardar termômetro de carne, pegador pequeno ou isqueiro, sempre à mão." } },
+    { '@type': 'Question', name: "O comprimento do jaleco é ideal para proteger a parte superior das pernas?", acceptedAnswer: { '@type': 'Answer', text: "Sim, o comprimento é cuidadosamente projetado para oferecer proteção estendida, cobrindo a parte superior das pernas contra respingos e calor." } },
+    { '@type': 'Question', name: "O jaleco de churrasqueiro possui opções de manga para diferentes necessidades?", acceptedAnswer: { '@type': 'Answer', text: "Disponibilizamos jalecos com manga longa para máxima proteção ou manga curta para maior conforto em climas quentes, adaptando-se ao seu estilo." } },
+    { '@type': 'Question', name: "O estilo profissional do jaleco realça a imagem do churrasqueiro?", acceptedAnswer: { '@type': 'Answer', text: "Com um design imponente e profissional, nosso jaleco eleva a imagem do churrasqueiro, transmitindo paixão e maestria pela arte da brasa." } },
+    { '@type': 'Question', name: "Os jalecos Jaleca para churrasqueiros são mais resistentes a fogo e chamas do que os concorrentes?", acceptedAnswer: { '@type': 'Answer', text: "Utilizamos tecidos com maior gramatura e tratamento que confere uma resistência superior a chamas e faíscas comparado a outros no mercado." } },
+    { '@type': 'Question', name: "Qual o investimento inicial para um jaleco de churrasqueiro de alta performance?", acceptedAnswer: { '@type': 'Answer', text: "Nossos jalecos de churrasqueiro começam a partir de R$159, um valor que reflete a qualidade e a segurança que você merece ao lado da brasa." } },
+    { '@type': 'Question', name: "Qual o prazo de entrega para meu jaleco de churrasqueiro?", acceptedAnswer: { '@type': 'Answer', text: "Seu jaleco chegará em suas mãos com rapidez, em um prazo de 3 a 8 dias úteis, para que você possa brilhar na sua próxima churrascada." } },
+    { '@type': 'Question', name: "É possível realizar a troca do jaleco se ele não servir bem?", acceptedAnswer: { '@type': 'Answer', text: "Sim, você tem até 7 dias para solicitar a troca do seu jaleco, caso o tamanho ou ajuste não sejam os ideais para você." } },
+    { '@type': 'Question', name: "O frete é grátis para pedidos de jalecos de churrasqueiro acima de R$499 em alguns estados?", acceptedAnswer: { '@type': 'Answer', text: "Sim, oferecemos frete grátis para compras acima de R$499 nos estados de SP, RJ, MG e ES, uma comodidade para os amantes do churrasco." } },
+    { '@type': 'Question', name: "O jaleco de churrasqueiro possui garantia de fabricação?", acceptedAnswer: { '@type': 'Answer', text: "Todos os nossos jalecos vêm com garantia contra defeitos de fabricação, assegurando que você receba um produto de alta qualidade." } },
+    { '@type': 'Question', name: "O tecido do jaleco para churrasqueiro ajuda a diminuir odores de fumaça?", acceptedAnswer: { '@type': 'Answer', text: "Embora não elimine odores completamente, o tecido de alta densidade e de fácil limpeza ajuda a minimizar a impregnação de fumaça, facilitando a higiene." } },
   ],
 }
 
@@ -144,6 +159,7 @@ export default async function JalecoChurrasqueiroPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }} />
       {(() => { const s = buildHowToSchema('jaleco-churrasqueiro', 'https://jaleca.com.br/jaleco-churrasqueiro'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
       {(() => { const s = buildOccupationSchema('jaleco-churrasqueiro', 'https://jaleca.com.br/jaleco-churrasqueiro'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
+      {(() => { const s = buildItemListSchema(produtos, 'https://jaleca.com.br/jaleco-churrasqueiro', "Jalecos para churrasqueiro"); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
       <meta name="ai-content-declaration" content="human-authored-with-ai-assistance" />
 
       <main style={{ fontWeight: 300 }}>

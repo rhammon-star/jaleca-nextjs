@@ -17,7 +17,7 @@ import UGCSection from '@/components/UGCSection'
 import InstagramLazy from '@/components/profession-lp/InstagramLazy'
 import CompactTrustBar from '@/components/profession-lp/CompactTrustBar'
 import StickyMobileCTA from '@/components/profession-lp/StickyMobileCTA'
-import { buildHowToSchema, buildOccupationSchema } from '@/lib/profession-schemas'
+import { buildHowToSchema, buildOccupationSchema, buildItemListSchema} from '@/lib/profession-schemas'
 
 // ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
 export const revalidate = 3600
@@ -46,11 +46,26 @@ const schemaFaq = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   mainEntity: [
-    { '@type': 'Question', name: 'Qual o melhor jaleco para barbeiro?', acceptedAnswer: { '@type': 'Answer', text: 'O jaleco para barbeiro deve ser prático e resistente. Modelos com elastano facilitam os movimentos durante o corte. O modelo Slim ou Profissional com bolsos laterais reforçados é ideal.' } },
-    { '@type': 'Question', name: 'Barbeiro pode usar jaleco preto?', acceptedAnswer: { '@type': 'Answer', text: 'Pode e é uma escolha popular. O jaleco preto transmite modernidade e combina com a estética de barbearias contemporâneas.' } },
-    { '@type': 'Question', name: 'Jaleco de barbeiro precisa de bolsos?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. O bolso no peito é útil para canetas e equipamentos pequenos. Os bolsos laterais são ideais para tesouras e pentes.' } },
-    { '@type': 'Question', name: 'Como lavar o jaleco de barbeiro?', acceptedAnswer: { '@type': 'Answer', text: 'Lavação a 60°C é suficiente para remover gordura e produtos capilares. Evite alvejante com cloro. Seque à sombra para preservar a cor.' } },
-    { '@type': 'Question', name: 'Jaleco de barbeiro pode ter bordado?', acceptedAnswer: { '@type': 'Answer', text: 'Sim, bordar o nome da barbearia ou nome do barbeiro é muito comum. Para pedidos a partir de 5 peças, oferecemos condições especiais.' } },
+    { '@type': 'Question', name: "Qual tecido o jaleco Jaleca para barbeiro utiliza?", acceptedAnswer: { '@type': 'Answer', text: "Nossos jalecos para barbeiros são confeccionados em tecido tecnológico, resistente a pelos, descolorantes e produtos químicos para garantir sua durabilidade." } },
+    { '@type': 'Question', name: "Este jaleco oferece proteção contra manchas de tintura?", acceptedAnswer: { '@type': 'Answer', text: "Sim, o tecido especial dos nossos jalecos repele a maioria das manchas de tintura e outros produtos químicos comuns em barbearias, facilitando a limpeza." } },
+    { '@type': 'Question', name: "Como o corte do jaleco influencia no trabalho do barbeiro?", acceptedAnswer: { '@type': 'Answer', text: "Nosso corte é pensado para oferecer total liberdade de movimento, essencial para a precisão e agilidade que um barbeiro precisa em seu dia a dia." } },
+    { '@type': 'Question', name: "É possível bordar o meu nome ou o logo da minha barbearia no jaleco?", acceptedAnswer: { '@type': 'Answer', text: "Com certeza! Oferecemos serviço de bordado personalizado para incluir seu nome, função ou o logo da sua barbearia, reforçando sua marca." } },
+    { '@type': 'Question', name: "Este jaleco é adequado para uso em uma barbearia com alta demanda?", acceptedAnswer: { '@type': 'Answer', text: "Desenvolvido para o ambiente dinâmico da barbearia, nosso jaleco suporta a rotina intensa, mantendo a boa aparência e proteção por mais tempo." } },
+    { '@type': 'Question', name: "Qual a durabilidade esperada para um jaleco de barbeiro Jaleca?", acceptedAnswer: { '@type': 'Answer', text: "Nossos jalecos são feitos para serem altamente duráveis, resistindo a múltiplas lavagens e ao desgaste diário, um investimento que vale a pena." } },
+    { '@type': 'Question', name: "Quais as instruções de lavagem para manter a qualidade do tecido?", acceptedAnswer: { '@type': 'Answer', text: "Recomendamos seguir as instruções na etiqueta para uma lavagem adequada, preservando as propriedades do tecido e a vivacidade da cor do seu jaleco." } },
+    { '@type': 'Question', name: "Que cores de jaleco estão disponíveis para barbeiros?", acceptedAnswer: { '@type': 'Answer', text: "Disponibilizamos diversas opções de cores que combinam com o estilo moderno das barbearias, permitindo que você escolha o que melhor representa seu ambiente." } },
+    { '@type': 'Question', name: "Os tamanhos de jaleco para barbeiro vão do PP ao G3?", acceptedAnswer: { '@type': 'Answer', text: "Sim, nossa grade de tamanhos abrange do PP ao G3, garantindo um ajuste perfeito e confortável para todos os biotipos de barbeiros." } },
+    { '@type': 'Question', name: "Os jalecos têm bolsos práticos para tesouras e pentes?", acceptedAnswer: { '@type': 'Answer', text: "Nossos jalecos são projetados com bolsos funcionais e bem distribuídos, ideais para armazenar suas ferramentas essenciais de trabalho com segurança e acesso rápido." } },
+    { '@type': 'Question', name: "O comprimento do jaleco atrapalha o movimento na cadeira?", acceptedAnswer: { '@type': 'Answer', text: "O comprimento é cuidadosamente balanceado para não atrapalhar o movimento ao redor da cadeira, combinando proteção e praticidade." } },
+    { '@type': 'Question', name: "O jaleco para barbeiro possui manga curta ou longa?", acceptedAnswer: { '@type': 'Answer', text: "Temos opções de manga curta e longa para o jaleco de barbeiro, permitindo escolher a que melhor se adapta ao seu conforto e necessidade." } },
+    { '@type': 'Question', name: "O estilo slim do jaleco é confortável para o dia todo?", acceptedAnswer: { '@type': 'Answer', text: "Nosso estilo slim é desenhado para ser elegante e confortável, proporcionando uma silhueta profissional sem restringir seus movimentos durante todo o dia." } },
+    { '@type': 'Question', name: "Os jalecos Jaleca para barbeiros são mais resistentes a descolorantes do que os da concorrência?", acceptedAnswer: { '@type': 'Answer', text: "Sim, utilizamos tecnologias de tecido superiores que oferecem maior resistência a descolorantes e manchas, superando a maioria dos produtos no mercado." } },
+    { '@type': 'Question', name: "A partir de qual preço consigo adquirir um jaleco para barbeiro?", acceptedAnswer: { '@type': 'Answer', text: "Você pode adquirir seu jaleco profissional para barbeiro a partir de R$159, um investimento acessível em qualidade e imagem para sua carreira." } },
+    { '@type': 'Question', name: "Qual o prazo de entrega para jalecos de barbeiro da Jaleca?", acceptedAnswer: { '@type': 'Answer', text: "O prazo de entrega para nossos jalecos é de 3 a 8 dias úteis, garantindo que você receba seu pedido com rapidez e eficiência." } },
+    { '@type': 'Question', name: "Posso realizar a troca do jaleco se o tamanho não for o ideal?", acceptedAnswer: { '@type': 'Answer', text: "Sim, oferecemos 7 dias para troca a partir do recebimento, caso o tamanho ou modelo não atendam às suas expectativas." } },
+    { '@type': 'Question', name: "O frete é grátis para barbeiros em SP/RJ/MG/ES?", acceptedAnswer: { '@type': 'Answer', text: "Sim, o frete é grátis para pedidos acima de R$499 para os estados de São Paulo, Rio de Janeiro, Minas Gerais e Espírito Santo." } },
+    { '@type': 'Question', name: "Os jalecos para barbeiro possuem garantia?", acceptedAnswer: { '@type': 'Answer', text: "Nossos produtos possuem garantia contra defeitos de fabricação, assegurando a qualidade e sua satisfação com a compra." } },
+    { '@type': 'Question', name: "O tecido do jaleco para barbeiro amassa com facilidade?", acceptedAnswer: { '@type': 'Answer', text: "Escolhemos tecidos que minimizam o amassado, garantindo que você mantenha uma aparência impecável e profissional durante todo o expediente." } },
   ],
 }
 
@@ -149,6 +164,7 @@ export default async function JalecoBarbeiroPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }} />
       {(() => { const s = buildHowToSchema('jaleco-barbeiro', 'https://jaleca.com.br/jaleco-barbeiro'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
       {(() => { const s = buildOccupationSchema('jaleco-barbeiro', 'https://jaleca.com.br/jaleco-barbeiro'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
+      {(() => { const s = buildItemListSchema(produtos, 'https://jaleca.com.br/jaleco-barbeiro', "Jalecos para barbeiro"); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
       <meta name="ai-content-declaration" content="human-authored-with-ai-assistance" />
 
       <main style={{ fontWeight: 300 }}>

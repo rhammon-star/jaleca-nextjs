@@ -17,7 +17,7 @@ import UGCSection from '@/components/UGCSection'
 import InstagramLazy from '@/components/profession-lp/InstagramLazy'
 import CompactTrustBar from '@/components/profession-lp/CompactTrustBar'
 import StickyMobileCTA from '@/components/profession-lp/StickyMobileCTA'
-import { buildHowToSchema, buildOccupationSchema } from '@/lib/profession-schemas'
+import { buildHowToSchema, buildOccupationSchema, buildItemListSchema} from '@/lib/profession-schemas'
 
 // ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
 export const revalidate = 3600
@@ -46,11 +46,26 @@ const schemaFaq = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   mainEntity: [
-    { '@type': 'Question', name: 'Qual comprimento de jaleco é mais indicado para pastors?', acceptedAnswer: { '@type': 'Answer', text: 'Para liturgia, o jaleco médio a longo — transmite formalidade e seriedade no ambiente religioso.' } },
-    { '@type': 'Question', name: 'O jaleco pode ser lavado com água quente?', acceptedAnswer: { '@type': 'Answer', text: 'Os jalecos Jaleca suportam lavagem até 60°C, temperatura suficiente para higienização clínica. Use alvejante sem cloro para preservar o tecido.' } },
-    { '@type': 'Question', name: 'Jaleco com elastano é bom para pastor?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. O elastano adiciona memória ao tecido, retornando à forma após o movimento — essencial para quem passa horas em atendimento.' } },
-    { '@type': 'Question', name: 'Jaleco de pastor precisa ser branco?', acceptedAnswer: { '@type': 'Answer', text: 'Não é obrigação. O branco é o clássico, mas tons pastel e cores discretas são bem aceitos. Não há restrição de cor.' } },
-    { '@type': 'Question', name: 'Qual a diferença entre jaleco Slim e Profissional?', acceptedAnswer: { '@type': 'Answer', text: 'O Slim tem corte ajustado ao corpo, ideal para quem quer visual mais moderno. O Profissional tem corte mais amplo e estruturado, com mais espaço para movimento.' } },
+    { '@type': 'Question', name: "Pastor pode usar jaleco?", acceptedAnswer: { '@type': 'Answer', text: "Pode, especialmente em hospitais (capelania), visitação a doentes e contextos onde o pastor atua junto a equipes médicas." } },
+    { '@type': 'Question', name: "Qual cor é mais apropriada?", acceptedAnswer: { '@type': 'Answer', text: "Branco para capelania hospitalar; preto para pastoreio formal em algumas denominações." } },
+    { '@type': 'Question', name: "Qual tecido escolher?", acceptedAnswer: { '@type': 'Answer', text: "Microfibra com elastano: leve, formal, não amassa em visitas longas." } },
+    { '@type': 'Question', name: "Posso bordar nome e função (Pastor / Capelão)?", acceptedAnswer: { '@type': 'Answer', text: "Sim. Bordamos nome + função (Pastor, Capelão Hospitalar, Reverendo) gratuitamente." } },
+    { '@type': 'Question', name: "Qual corte transmite mais sobriedade?", acceptedAnswer: { '@type': 'Answer', text: "Corte reto masculino tradicional, gola padre, comprimento meio da coxa." } },
+    { '@type': 'Question', name: "Manga longa ou curta?", acceptedAnswer: { '@type': 'Answer', text: "Longa para capelania hospitalar (protocolo). Curta para visitas em climas muito quentes." } },
+    { '@type': 'Question', name: "Tem plus size?", acceptedAnswer: { '@type': 'Answer', text: "Sim, do P ao GG3." } },
+    { '@type': 'Question', name: "Quanto custa?", acceptedAnswer: { '@type': 'Answer', text: "A partir de R$ 119,90, bordado de nome grátis." } },
+    { '@type': 'Question', name: "Prazo de entrega?", acceptedAnswer: { '@type': 'Answer', text: "Sem bordado: 1 a 5 dias úteis. Com bordado: 5 a 10 dias úteis." } },
+    { '@type': 'Question', name: "Posso trocar tamanho?", acceptedAnswer: { '@type': 'Answer', text: "Sim, em até 7 dias, sem uso e sem bordado." } },
+    { '@type': 'Question', name: "Envia para todo o Brasil?", acceptedAnswer: { '@type': 'Answer', text: "Sim, atendemos todo o território nacional." } },
+    { '@type': 'Question', name: "Tem desconto para igreja com vários pastores?", acceptedAnswer: { '@type': 'Answer', text: "Sim, a partir de 5 peças. Bordado padronizado disponível." } },
+    { '@type': 'Question', name: "O jaleco serve para evangelismo em hospital?", acceptedAnswer: { '@type': 'Answer', text: "Sim — o jaleco facilita acesso a UTIs e quartos hospitalares onde se exige aparência profissional." } },
+    { '@type': 'Question', name: "Combina com camisa social por baixo?", acceptedAnswer: { '@type': 'Answer', text: "Combina. A maioria dos pastores usa camisa social + jaleco em capelania." } },
+    { '@type': 'Question', name: "Tem bolsos para Bíblia pequena?", acceptedAnswer: { '@type': 'Answer', text: "Sim, bolsos amplos suportam Bíblia de bolso, celular e caneta." } },
+    { '@type': 'Question', name: "O jaleco amassa em visitas longas?", acceptedAnswer: { '@type': 'Answer', text: "Microfibra mantém o caimento mesmo em dias longos de visita." } },
+    { '@type': 'Question', name: "Faz personalização com logo da igreja?", acceptedAnswer: { '@type': 'Answer', text: "Sim. Bordamos logo da igreja + nome do pastor." } },
+    { '@type': 'Question', name: "Posso usar em culto?", acceptedAnswer: { '@type': 'Answer', text: "Tradicionalmente o jaleco é para capelania e visitação, não para culto, mas algumas denominações adotam jaleco preto curto em culto." } },
+    { '@type': 'Question', name: "Como lavar?", acceptedAnswer: { '@type': 'Answer', text: "Máquina, água até 40 °C, separado de cores. Dispensa ferro." } },
+    { '@type': 'Question', name: "Qual a diferença entre jaleco pastor e médico?", acceptedAnswer: { '@type': 'Answer', text: "Visualmente similares; muda o bordado (função pastoral vs CRM). Pastores costumam preferir tecidos formais." } },
   ],
 }
 
@@ -145,6 +160,7 @@ export default async function JalecoDentistaPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }} />
       {(() => { const s = buildHowToSchema('jaleco-pastor', 'https://jaleca.com.br/jaleco-pastor'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
       {(() => { const s = buildOccupationSchema('jaleco-pastor', 'https://jaleca.com.br/jaleco-pastor'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
+      {(() => { const s = buildItemListSchema(produtos, 'https://jaleca.com.br/jaleco-pastor', "Jalecos para pastor"); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
       <meta name="ai-content-declaration" content="human-authored-with-ai-assistance" />
 
       <main style={{ fontWeight: 300 }}>

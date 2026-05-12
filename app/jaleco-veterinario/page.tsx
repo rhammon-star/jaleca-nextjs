@@ -18,7 +18,7 @@ import GoogleRatingCarousel from '@/components/profession-lp/GoogleRatingCarouse
 import InstagramLazy from '@/components/profession-lp/InstagramLazy'
 import CompactTrustBar from '@/components/profession-lp/CompactTrustBar'
 import StickyMobileCTA from '@/components/profession-lp/StickyMobileCTA'
-import { buildHowToSchema, buildOccupationSchema } from '@/lib/profession-schemas'
+import { buildHowToSchema, buildOccupationSchema, buildItemListSchema} from '@/lib/profession-schemas'
 
 // ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
 export const revalidate = 3600
@@ -47,11 +47,26 @@ const schemaFaq = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   mainEntity: [
-    { '@type': 'Question', name: 'Qual comprimento de jaleco é mais indicado para veterinários?', acceptedAnswer: { '@type': 'Answer', text: 'Para veterinária, o jaleco curto (até o quadril) é mais popular por facilitar o movimento. O longo é mais usado em procedimentos cirúrgicos.' } },
-    { '@type': 'Question', name: 'O jaleco pode ser lavado com água quente?', acceptedAnswer: { '@type': 'Answer', text: 'Os jalecos Jaleca suportam lavagem até 60°C, temperatura suficiente para higienização clínica. Use alvejante sem cloro para preservar o tecido.' } },
-    { '@type': 'Question', name: 'Jaleco com elastano é bom para veterinário?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. O elastano adiciona memória ao tecido, retornando à forma após o movimento — essencial para quem passa horas em atendimento.' } },
-    { '@type': 'Question', name: 'Jaleco de veterinário precisa ser branco?', acceptedAnswer: { '@type': 'Answer', text: 'Não é obrigação. O branco é o clássico, mas tons pastel e cores discretas são aceitos. O CRMV não restringe a cor.' } },
-    { '@type': 'Question', name: 'Qual a diferença entre jaleco Slim e Profissional?', acceptedAnswer: { '@type': 'Answer', text: 'O Slim tem corte ajustado ao corpo, ideal para quem quer visual mais moderno. O Profissional tem corte mais amplo e estruturado, com mais espaço para movimento.' } },
+    { '@type': 'Question', name: "Veterinário precisa de jaleco específico?", acceptedAnswer: { '@type': 'Answer', text: "Sim. Embora o CRMV não exija modelo padronizado, o jaleco branco é praxe profissional e ajuda a identificar o médico veterinário em clínicas e consultórios." } },
+    { '@type': 'Question', name: "Qual a melhor cor de jaleco para veterinário?", acceptedAnswer: { '@type': 'Answer', text: "Branco é o tradicional, mas azul-marinho e cinza estão crescendo entre veterinários por sujar menos com pelos e fluidos animais." } },
+    { '@type': 'Question', name: "Qual tecido aguenta o dia a dia em clínica veterinária?", acceptedAnswer: { '@type': 'Answer', text: "Microfibra com elastano é a escolha ideal: resiste a pelos, arranhões leves de patas e suporta lavagem frequente em água quente." } },
+    { '@type': 'Question', name: "O jaleco resiste a arranhões de gato?", acceptedAnswer: { '@type': 'Answer', text: "Nossos jalecos em microfibra são densos e resistem bem a arranhões superficiais, embora nenhum tecido seja 100% à prova de unhas." } },
+    { '@type': 'Question', name: "Posso bordar CRMV e nome no jaleco?", acceptedAnswer: { '@type': 'Answer', text: "Sim. Bordamos nome completo, profissão e número do CRMV no peito esquerdo sem custo adicional." } },
+    { '@type': 'Question', name: "Qual o corte mais usado por veterinários?", acceptedAnswer: { '@type': 'Answer', text: "Corte reto tradicional masculino, com bolsos amplos para guardar termômetro, caneta e estetoscópio veterinário." } },
+    { '@type': 'Question', name: "Qual o comprimento ideal do jaleco veterinário?", acceptedAnswer: { '@type': 'Answer', text: "Comprimento no meio da coxa é o mais funcional — protege a roupa sem atrapalhar ao abaixar para atender animais." } },
+    { '@type': 'Question', name: "Manga longa ou curta para clínica veterinária?", acceptedAnswer: { '@type': 'Answer', text: "Manga longa é mais usada por proteger antebraços de mordidas e arranhões; manga curta serve para procedimentos cirúrgicos." } },
+    { '@type': 'Question', name: "Tem tamanho plus size para veterinário?", acceptedAnswer: { '@type': 'Answer', text: "Sim. Atendemos do P ao GG3 (equivalente ao 56) no modelo masculino." } },
+    { '@type': 'Question', name: "O jaleco encolhe na lavagem?", acceptedAnswer: { '@type': 'Answer', text: "Não. Nossos tecidos são pré-encolhidos. Lave em água até 40 °C e seque à sombra para preservar o caimento." } },
+    { '@type': 'Question', name: "Quanto custa um jaleco veterinário?", acceptedAnswer: { '@type': 'Answer', text: "A partir de R$ 119,90 no modelo padrão. Bordado de nome + CRMV é gratuito." } },
+    { '@type': 'Question', name: "Qual o prazo de entrega?", acceptedAnswer: { '@type': 'Answer', text: "Sem bordado: 1 a 5 dias úteis. Com bordado personalizado: 5 a 10 dias úteis após confirmação do pedido." } },
+    { '@type': 'Question', name: "Posso trocar o tamanho se não servir?", acceptedAnswer: { '@type': 'Answer', text: "Sim. Você tem 7 dias após o recebimento para solicitar troca, desde que o jaleco esteja sem uso e sem bordado personalizado." } },
+    { '@type': 'Question', name: "Vocês entregam em todo o Brasil?", acceptedAnswer: { '@type': 'Answer', text: "Sim, enviamos via Correios e transportadoras para todo o território nacional, incluindo zonas rurais." } },
+    { '@type': 'Question', name: "Tem desconto para clínica veterinária com vários funcionários?", acceptedAnswer: { '@type': 'Answer', text: "Sim. Para 5 jalecos ou mais oferecemos desconto progressivo. Solicite orçamento pelo WhatsApp." } },
+    { '@type': 'Question', name: "Qual a diferença entre jaleco veterinário e médico?", acceptedAnswer: { '@type': 'Answer', text: "Funcionalmente o corte é o mesmo, mas o veterinário costuma escolher tecidos mais resistentes a pelos e fluidos animais." } },
+    { '@type': 'Question', name: "O jaleco serve para cirurgia veterinária?", acceptedAnswer: { '@type': 'Answer', text: "Para cirurgias usamos jaleco com manga curta ou avental cirúrgico — peça à parte. O jaleco padrão é para consulta e clínica." } },
+    { '@type': 'Question', name: "Tem bolso para guardar estetoscópio?", acceptedAnswer: { '@type': 'Answer', text: "Sim. Todos têm bolso superior + dois inferiores amplos, com profundidade suficiente para estetoscópio veterinário." } },
+    { '@type': 'Question', name: "Posso usar o jaleco em atendimento domiciliar (home vet)?", acceptedAnswer: { '@type': 'Answer', text: "Sim. O tecido leve e o caimento ajustado tornam o jaleco confortável para visitas domiciliares de longa duração." } },
+    { '@type': 'Question', name: "O jaleco amarela com o tempo?", acceptedAnswer: { '@type': 'Answer', text: "Com lavagem correta (sem alvejante cloro direto), o branco mantém-se por mais de 2 anos de uso diário." } },
   ],
 }
 
@@ -146,6 +161,7 @@ export default async function JalecoVeterinarioPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }} />
       {(() => { const s = buildHowToSchema('jaleco-veterinario', 'https://jaleca.com.br/jaleco-veterinario'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
       {(() => { const s = buildOccupationSchema('jaleco-veterinario', 'https://jaleca.com.br/jaleco-veterinario'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
+      {(() => { const s = buildItemListSchema(produtos, 'https://jaleca.com.br/jaleco-veterinario', "Jalecos para veterinario"); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
       <meta name="ai-content-declaration" content="human-authored-with-ai-assistance" />
 
       <main style={{ fontWeight: 300 }}>

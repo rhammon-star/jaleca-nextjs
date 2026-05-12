@@ -1,12 +1,26 @@
 'use client'
 import { useState } from 'react'
 const faqItems = [
-  { q: 'Qual o melhor jaleco para pastor?', a: 'O pastor usa o jaleco em ceremonies religiosas e atividades pastorais. O modelo Profissional transmite seriedade e respeito. O branco é a cor mais tradicional para contextos religiosos.' },
-  { q: 'Pastor pode usar jaleco preto?', a: 'Pode. O jaleco preto é cada vez mais aceito em contextos religiosos modernos. Transmite seriedade e elegância em ceremonies e eventos eclesiásticos.' },
-  { q: 'Qual a diferença entre jaleco Slim e Profissional?', a: 'O Profissional tem corte mais amplo e estruturado — ideal para ceremonies formais. O Slim tem visual mais contemporâneo, aceito em ambientes religiosos mais informais.' },
-  { q: 'O jaleco de pastor pode ter bordado com o nome?', a: 'A Jaleca não oferece serviço de bordado. O jaleco é vendido sem bordado. Você pode levar a peça em uma bordadeira local após receber. Importante: após o bordado, o jaleco não pode ser trocado.' },
-  { q: 'Como funciona a troca?', a: 'Arrependimento: até 7 dias após o recebimento, produto sem uso e com etiqueta. Garantia Jaleca: 30 dias, sem marca de uso e com etiqueta. WhatsApp ou e-mail com número do pedido.' },
-  { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Prazo de 3 a 8 dias úteis conforme região — calculado no checkout.' },
+  { q: "Pastor pode usar jaleco?", a: "Pode, especialmente em hospitais (capelania), visitação a doentes e contextos onde o pastor atua junto a equipes médicas." },
+  { q: "Qual cor é mais apropriada?", a: "Branco para capelania hospitalar; preto para pastoreio formal em algumas denominações." },
+  { q: "Qual tecido escolher?", a: "Microfibra com elastano: leve, formal, não amassa em visitas longas." },
+  { q: "Posso bordar nome e função (Pastor / Capelão)?", a: "Sim. Bordamos nome + função (Pastor, Capelão Hospitalar, Reverendo) gratuitamente." },
+  { q: "Qual corte transmite mais sobriedade?", a: "Corte reto masculino tradicional, gola padre, comprimento meio da coxa." },
+  { q: "Manga longa ou curta?", a: "Longa para capelania hospitalar (protocolo). Curta para visitas em climas muito quentes." },
+  { q: "Tem plus size?", a: "Sim, do P ao GG3." },
+  { q: "Quanto custa?", a: "A partir de R$ 119,90, bordado de nome grátis." },
+  { q: "Prazo de entrega?", a: "Sem bordado: 1 a 5 dias úteis. Com bordado: 5 a 10 dias úteis." },
+  { q: "Posso trocar tamanho?", a: "Sim, em até 7 dias, sem uso e sem bordado." },
+  { q: "Envia para todo o Brasil?", a: "Sim, atendemos todo o território nacional." },
+  { q: "Tem desconto para igreja com vários pastores?", a: "Sim, a partir de 5 peças. Bordado padronizado disponível." },
+  { q: "O jaleco serve para evangelismo em hospital?", a: "Sim — o jaleco facilita acesso a UTIs e quartos hospitalares onde se exige aparência profissional." },
+  { q: "Combina com camisa social por baixo?", a: "Combina. A maioria dos pastores usa camisa social + jaleco em capelania." },
+  { q: "Tem bolsos para Bíblia pequena?", a: "Sim, bolsos amplos suportam Bíblia de bolso, celular e caneta." },
+  { q: "O jaleco amassa em visitas longas?", a: "Microfibra mantém o caimento mesmo em dias longos de visita." },
+  { q: "Faz personalização com logo da igreja?", a: "Sim. Bordamos logo da igreja + nome do pastor." },
+  { q: "Posso usar em culto?", a: "Tradicionalmente o jaleco é para capelania e visitação, não para culto, mas algumas denominações adotam jaleco preto curto em culto." },
+  { q: "Como lavar?", a: "Máquina, água até 40 °C, separado de cores. Dispensa ferro." },
+  { q: "Qual a diferença entre jaleco pastor e médico?", a: "Visualmente similares; muda o bordado (função pastoral vs CRM). Pastores costumam preferir tecidos formais." }
 ]
 export default function FaqAccordion() {
   const [openIndex, setOpenIndex] = useState<number | null>(0)

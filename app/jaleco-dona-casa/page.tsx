@@ -17,7 +17,7 @@ import UGCSection from '@/components/UGCSection'
 import InstagramLazy from '@/components/profession-lp/InstagramLazy'
 import CompactTrustBar from '@/components/profession-lp/CompactTrustBar'
 import StickyMobileCTA from '@/components/profession-lp/StickyMobileCTA'
-import { buildHowToSchema, buildOccupationSchema } from '@/lib/profession-schemas'
+import { buildHowToSchema, buildOccupationSchema, buildItemListSchema} from '@/lib/profession-schemas'
 
 // ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
 export const revalidate = 3600
@@ -46,11 +46,26 @@ const schemaFaq = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   mainEntity: [
-    { '@type': 'Question', name: 'Dona de casa precisa usar jaleco?', acceptedAnswer: { '@type': 'Answer', text: 'O jaleco para dona de casa é uma questão de praticidade e proteção. Muita gente não sabe, mas o trabalho doméstico envolve exposição a produtos químicos, calor e gordura.' } },
-    { '@type': 'Question', name: 'Qual o melhor modelo para trabalho doméstico?', acceptedAnswer: { '@type': 'Answer', text: 'O modelo com elastano é ideal porque permite liberdade de movimento durante as tarefas do dia a dia. A modelo Slim ou Profissional com bolsos é prática.' } },
-    { '@type': 'Question', name: 'O jaleco protege contra produtos de limpeza?', acceptedAnswer: { '@type': 'Answer', text: 'O jaleco funciona como barreira entre a roupa e os produtos de limpeza, protegendo contra respingos de химикатов.' } },
-    { '@type': 'Question', name: 'Posso usar o jaleco em casa?', acceptedAnswer: { '@type': 'Answer', text: 'Pode e é recomendado. O uso do jaleco exclusivamente em casa mantém a higiene e evita que sujeiras do ambiente doméstico contaminem outros espaços.' } },
-    { '@type': 'Question', name: 'Como lavar o jaleco de uso doméstico?', acceptedAnswer: { '@type': 'Answer', text: 'Lave a 60°C para garantir a remoção de bactérias e fungos que se acumulam durante o trabalho doméstico.' } },
+    { '@type': 'Question', name: "Qual a característica principal do tecido do jaleco Jaleca para uso doméstico?", acceptedAnswer: { '@type': 'Answer', text: "Nosso jaleco para dona de casa é feito com tecido leve e de fácil lavagem, ideal para o dia a dia, garantindo conforto e praticidade." } },
+    { '@type': 'Question', name: "O jaleco para dona de casa protege contra manchas de cozinha?", acceptedAnswer: { '@type': 'Answer', text: "Sim, ele oferece uma excelente barreira contra respingos de alimentos e molhos, protegendo suas roupas de baixo de manchas e odores da cozinha." } },
+    { '@type': 'Question', name: "O corte do jaleco é confortável para as atividades diárias em casa?", acceptedAnswer: { '@type': 'Answer', text: "Com um corte solto e prático, nosso jaleco permite total liberdade de movimento para cozinhar, limpar e realizar todas as tarefas domésticas com conforto." } },
+    { '@type': 'Question', name: "É possível bordar um detalhe divertido ou um nome no jaleco da dona de casa?", acceptedAnswer: { '@type': 'Answer', text: "Sim! Personalize seu jaleco com um bordado do seu nome ou uma frase divertida, tornando-o único e com um toque pessoal para o seu lar." } },
+    { '@type': 'Question', name: "Este jaleco é versátil para diferentes tarefas domésticas?", acceptedAnswer: { '@type': 'Answer', text: "Absolutamente. Ele é ideal para cozinhar, limpar, cuidar do jardim ou até mesmo para artesanato, oferecendo proteção e praticidade em diversas atividades." } },
+    { '@type': 'Question', name: "Qual a durabilidade de um jaleco Jaleca para uso doméstico?", acceptedAnswer: { '@type': 'Answer', text: "Nossos jalecos são feitos para durar, suportando lavagens frequentes e o uso diário, sendo um item confiável e duradouro para sua casa." } },
+    { '@type': 'Question', name: "Como devo lavar o jaleco para mantê-lo sempre limpo e cheiroso?", acceptedAnswer: { '@type': 'Answer', text: "Lave-o regularmente com detergente comum. Para manchas persistentes, pré-trate antes da lavagem. Siga sempre as instruções da etiqueta para melhor conservação." } },
+    { '@type': 'Question', name: "Quais cores de jaleco estão disponíveis para o uso doméstico?", acceptedAnswer: { '@type': 'Answer', text: "Oferecemos uma variedade de cores alegres e discretas que combinam com o ambiente de casa, adicionando um toque de estilo e funcionalidade ao seu dia." } },
+    { '@type': 'Question', name: "Os tamanhos de jaleco para dona de casa abrangem do PP ao G3?", acceptedAnswer: { '@type': 'Answer', text: "Sim, nossa linha de tamanhos vai do PP ao G3, garantindo um caimento confortável e adequado para todas as donas de casa." } },
+    { '@type': 'Question', name: "O jaleco tem bolsos práticos para guardar o celular ou anotações?", acceptedAnswer: { '@type': 'Answer', text: "Sim, ele possui bolsos convenientes para guardar seu celular, lista de compras ou outros pequenos itens, mantendo tudo sempre à mão." } },
+    { '@type': 'Question', name: "O comprimento do jaleco é ideal para proteger a roupa enquanto se agacha ou se estica?", acceptedAnswer: { '@type': 'Answer', text: "O comprimento foi projetado para oferecer boa cobertura, protegendo suas roupas enquanto você se move livremente pela casa, sem atrapalhar suas tarefas." } },
+    { '@type': 'Question', name: "O jaleco para dona de casa está disponível com manga curta ou longa?", acceptedAnswer: { '@type': 'Answer', text: "Temos opções de manga curta para os dias mais quentes e manga longa para proteção adicional ou para climas mais frios, proporcionando versatilidade." } },
+    { '@type': 'Question', name: "O estilo do jaleco para dona de casa é mais casual e funcional?", acceptedAnswer: { '@type': 'Answer', text: "Sim, o estilo é pensado para ser funcional e casual, proporcionando um visual arrumado e protegido para as atividades domésticas sem perder o conforto." } },
+    { '@type': 'Question', name: "Os jalecos Jaleca para dona de casa são mais práticos de lavar que os da concorrência?", acceptedAnswer: { '@type': 'Answer', text: "Nossos tecidos são selecionados para facilitar a lavagem e a secagem rápida, tornando-os mais práticos para o dia a dia do que muitos concorrentes." } },
+    { '@type': 'Question', name: "Qual o preço de partida para um jaleco confortável para uso doméstico?", acceptedAnswer: { '@type': 'Answer', text: "Nossos jalecos para dona de casa estão disponíveis a partir de R$159, um investimento acessível em conforto e proteção para seu lar." } },
+    { '@type': 'Question', name: "Qual o prazo de entrega para meu jaleco de dona de casa?", acceptedAnswer: { '@type': 'Answer', text: "Seu jaleco será entregue em 3 a 8 dias úteis, para que você possa desfrutar rapidamente da praticidade e proteção no seu dia a dia em casa." } },
+    { '@type': 'Question', name: "Posso trocar o jaleco se o tamanho não for o que eu esperava?", acceptedAnswer: { '@type': 'Answer', text: "Sim, você tem 7 dias após o recebimento para solicitar a troca do seu jaleco, caso o tamanho ou modelo não sejam os ideais para você." } },
+    { '@type': 'Question', name: "Há frete grátis para compras de jalecos de dona de casa acima de R$499 em SP/RJ/MG/ES?", acceptedAnswer: { '@type': 'Answer', text: "Sim, oferecemos frete grátis para pedidos acima de R$499 para os estados de São Paulo, Rio de Janeiro, Minas Gerais e Espírito Santo, facilitando sua compra." } },
+    { '@type': 'Question', name: "O jaleco de dona de casa possui garantia?", acceptedAnswer: { '@type': 'Answer', text: "Todos os nossos jalecos vêm com garantia contra defeitos de fabricação, assegurando a sua satisfação e a qualidade do produto." } },
+    { '@type': 'Question', name: "O tecido do jaleco para dona de casa é leve e respirável para o uso contínuo?", acceptedAnswer: { '@type': 'Answer', text: "Priorizamos tecidos leves e respiráveis que garantem conforto térmico, ideal para o uso contínuo em todas as estações do ano dentro de casa." } },
   ],
 }
 
@@ -144,6 +159,7 @@ export default async function JalecoDonaDeCasaPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }} />
       {(() => { const s = buildHowToSchema('jaleco-dona-casa', 'https://jaleca.com.br/jaleco-dona-casa'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
       {(() => { const s = buildOccupationSchema('jaleco-dona-casa', 'https://jaleca.com.br/jaleco-dona-casa'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
+      {(() => { const s = buildItemListSchema(produtos, 'https://jaleca.com.br/jaleco-dona-casa', "Jalecos para dona casa"); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
       <meta name="ai-content-declaration" content="human-authored-with-ai-assistance" />
 
       <main style={{ fontWeight: 300 }}>

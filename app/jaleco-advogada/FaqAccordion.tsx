@@ -3,30 +3,26 @@
 import { useState } from 'react'
 
 const faqItems = [
-  {
-    q: 'Advogada precisa usar jaleco no tribunal?',
-    a: 'Não é obrigatório. O traje forense exige toga e vestes talares, não jaleco. O conjunto é usado em audiências de custódia, defensorias públicas e atendimentos de jurídica popular onde há contato direto com clientes.',
-  },
-  {
-    q: 'Qual o melhor conjunto para advogada?',
-    a: 'O Conjunto Executiva transmite autoridade e sofisticação — ideal para audiências e escritórios. O Conjunto Puff Zíper é mais moderno, aceito em departamentos jurídicos de empresas. Ambos em tecido premium com elastano.',
-  },
-  {
-    q: 'Conjunto para advogada pode ter bordado com nome e OAB?',
-    a: 'A Jaleca não oferece serviço de bordado. O jaleco é vendido sem bordado. Você pode levar a peça em uma bordadeira local após receber. Importante: após o bordado, o jaleco não pode ser trocado.',
-  },
-  {
-    q: 'Qual cor é mais indicada para advogada?',
-    a: 'O preto transmite autoridade e é a escolha clássica no meio jurídico. O branco passa credibilidade e higiene. Ambas as cores são amplamente aceitas — não há restrição da OAB quanto à cor do uniforme.',
-  },
-  {
-    q: 'Qual o prazo de entrega?',
-    a: 'Enviamos em até 2 dias úteis após a confirmação do pagamento. O prazo varia de 3 a 8 dias úteis conforme sua região — calculado no checkout com o CEP. Capitais do Sudeste geralmente recebem em 3 a 5 dias.',
-  },
-  {
-    q: 'Como funciona a troca de tamanho?',
-    a: 'Arrependimento em até 7 dias após o recebimento, produto sem uso e com etiqueta. Garantia Jaleca: 30 dias, sem marca de uso e com etiqueta. Manda uma mensagem pelo WhatsApp com o número do pedido.',
-  },
+  { q: "Advogada pode usar jaleco no exercício profissional?", a: "Pode, em contextos técnicos (perícia, visita hospitalar, advocacia em saúde). Em audiências, o código de ética da OAB exige traje social." },
+  { q: "Qual a melhor cor para advogada?", a: "Branco em ambiente hospitalar; preto e azul-marinho para escritórios formais ou perícias." },
+  { q: "Tem modelo acinturado feminino?", a: "Sim. Modelagem feminina com pences valoriza a silhueta e mantém formalidade." },
+  { q: "Qual tecido escolher?", a: "Microfibra com elastano: leve, não amassa e mantém o caimento formal." },
+  { q: "Posso bordar OAB e nome?", a: "Sim. Bordamos nome + OAB + seccional sem custo." },
+  { q: "Qual comprimento favorece o look formal?", a: "Meio da coxa é o mais versátil — combina com calça social, saia lápis ou vestido." },
+  { q: "Manga longa ou 3/4?", a: "Longa transmite mais formalidade. 3/4 é alternativa elegante para climas quentes." },
+  { q: "Atende plus size?", a: "Sim, do PP ao GG3 com modelagem que respeita o corpo feminino." },
+  { q: "Quanto custa?", a: "A partir de R$ 119,90, com bordado de nome + OAB grátis." },
+  { q: "Prazo de entrega?", a: "Sem bordado: 1 a 5 dias úteis. Com bordado: 5 a 10 dias úteis." },
+  { q: "Posso trocar o tamanho?", a: "Sim, em até 7 dias após o recebimento, sem uso e sem bordado." },
+  { q: "Envia para todo o Brasil?", a: "Sim, para todo o território nacional." },
+  { q: "Tem desconto para escritório?", a: "Sim, a partir de 5 peças há desconto progressivo." },
+  { q: "Combina com salto e calça social?", a: "Sim. O caimento foi pensado para harmonizar com look social profissional." },
+  { q: "O jaleco amarrota?", a: "Microfibra praticamente não amarrota — chega pronto para vestir." },
+  { q: "Faz personalização com logo do escritório?", a: "Sim. Bordamos logo + nome individual da advogada." },
+  { q: "Tem gola V ou gola padre?", a: "Os dois modelos. Gola padre transmite mais formalidade; gola V é mais moderna." },
+  { q: "Posso usar em audiência?", a: "Não. Audiência exige traje social. Use o jaleco em perícia, diligência e advocacia em saúde." },
+  { q: "Como lavar?", a: "Máquina, água até 40 °C, separado de cores. Dispensa ferro." },
+  { q: "Qual a diferença entre jaleco advogada e médica?", a: "O corte pode ser igual; muda o bordado (OAB vs CRM) e geralmente a escolha por tecidos mais formais e cores escuras." }
 ]
 
 export default function FaqAccordion() {

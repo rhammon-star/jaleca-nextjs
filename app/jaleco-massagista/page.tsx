@@ -17,7 +17,7 @@ import GoogleRatingCarousel from '@/components/profession-lp/GoogleRatingCarouse
 import InstagramLazy from '@/components/profession-lp/InstagramLazy'
 import CompactTrustBar from '@/components/profession-lp/CompactTrustBar'
 import StickyMobileCTA from '@/components/profession-lp/StickyMobileCTA'
-import { buildHowToSchema, buildOccupationSchema } from '@/lib/profession-schemas'
+import { buildHowToSchema, buildOccupationSchema, buildItemListSchema} from '@/lib/profession-schemas'
 
 // ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
 export const revalidate = 3600
@@ -46,11 +46,26 @@ const schemaFaq = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   mainEntity: [
-    { '@type': 'Question', name: 'Qual comprimento de jaleco é mais indicado para massagistas?', acceptedAnswer: { '@type': 'Answer', text: 'Para massoterapia, o jaleco médio a longo — confortável para atendimentos longos e posturas variadas.' } },
-    { '@type': 'Question', name: 'O jaleco pode ser lavado com água quente?', acceptedAnswer: { '@type': 'Answer', text: 'Os jalecos Jaleca suportam lavagem até 60°C, temperatura suficiente para higienização clínica. Use alvejante sem cloro para preservar o tecido.' } },
-    { '@type': 'Question', name: 'Jaleco com elastano é bom para massagista?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. O elastano adiciona memória ao tecido, retornando à forma após o movimento — essencial para quem passa horas em atendimento.' } },
-    { '@type': 'Question', name: 'Jaleco de massagista precisa ser branco?', acceptedAnswer: { '@type': 'Answer', text: 'Não é obrigação. O branco é o clássico, mas tons pastel e cores discretas são bem aceitos. Não há restrição de cor.' } },
-    { '@type': 'Question', name: 'Qual a diferença entre jaleco Slim e Profissional?', acceptedAnswer: { '@type': 'Answer', text: 'O Slim tem corte ajustado ao corpo, ideal para quem quer visual mais moderno. O Profissional tem corte mais amplo e estruturado, com mais espaço para movimento.' } },
+    { '@type': 'Question', name: "Massagista precisa usar jaleco?", acceptedAnswer: { '@type': 'Answer', text: "Não é obrigatório, mas o jaleco transmite profissionalismo e higiene, especialmente em SPAs e clínicas de massoterapia." } },
+    { '@type': 'Question', name: "Qual a melhor cor para jaleco de massagista?", acceptedAnswer: { '@type': 'Answer', text: "Branco é o tradicional; bege, areia e branco-off transmitem aconchego e combinam com ambiente de SPA." } },
+    { '@type': 'Question', name: "Qual tecido é mais confortável para trabalhar com óleos?", acceptedAnswer: { '@type': 'Answer', text: "Microfibra com elastano resiste melhor a manchas de óleos essenciais e cremes do que algodão puro." } },
+    { '@type': 'Question', name: "Como tirar manchas de óleo do jaleco?", acceptedAnswer: { '@type': 'Answer', text: "Polvilhe amido de milho na mancha, deixe 1h, escove e depois lave normalmente. Evite água quente antes de remover o óleo." } },
+    { '@type': 'Question', name: "Qual corte é melhor para movimentos amplos de massagem?", acceptedAnswer: { '@type': 'Answer', text: "Corte com elastano e abertura nas laterais (fendas) permite movimentos amplos de braço sem repuxar." } },
+    { '@type': 'Question', name: "Manga curta ou 3/4 para massoterapia?", acceptedAnswer: { '@type': 'Answer', text: "Manga curta é a preferência — facilita os movimentos e evita contato da manga com o óleo aplicado no cliente." } },
+    { '@type': 'Question', name: "Posso bordar nome e especialidade?", acceptedAnswer: { '@type': 'Answer', text: "Sim. Bordamos nome + especialidade (massoterapeuta, quiropraxista) gratuitamente." } },
+    { '@type': 'Question', name: "Qual comprimento é mais funcional?", acceptedAnswer: { '@type': 'Answer', text: "Comprimento no meio da coxa não atrapalha ao se inclinar sobre a maca." } },
+    { '@type': 'Question', name: "Tem jaleco unissex para massagista?", acceptedAnswer: { '@type': 'Answer', text: "Sim. Modelos com corte reto servem para massagistas homens e mulheres." } },
+    { '@type': 'Question', name: "Atende tamanhos plus size?", acceptedAnswer: { '@type': 'Answer', text: "Sim, do PP ao GG3 nos modelos femininos e P ao GG3 nos masculinos." } },
+    { '@type': 'Question', name: "Quanto custa?", acceptedAnswer: { '@type': 'Answer', text: "A partir de R$ 119,90, com bordado de nome grátis." } },
+    { '@type': 'Question', name: "Qual o prazo de entrega?", acceptedAnswer: { '@type': 'Answer', text: "Sem bordado: 1 a 5 dias úteis. Com bordado: 5 a 10 dias úteis." } },
+    { '@type': 'Question', name: "Posso trocar de tamanho?", acceptedAnswer: { '@type': 'Answer', text: "Sim, em até 7 dias após o recebimento, sem uso e sem bordado personalizado." } },
+    { '@type': 'Question', name: "Frete para todo o Brasil?", acceptedAnswer: { '@type': 'Answer', text: "Sim, enviamos via Correios e transportadoras para todo o país." } },
+    { '@type': 'Question', name: "Tem desconto para SPA com vários massagistas?", acceptedAnswer: { '@type': 'Answer', text: "Sim, a partir de 5 peças há desconto progressivo. Solicite orçamento." } },
+    { '@type': 'Question', name: "O jaleco aguenta lavagens frequentes?", acceptedAnswer: { '@type': 'Answer', text: "Sim. Microfibra suporta lavagem diária por anos sem perder caimento." } },
+    { '@type': 'Question', name: "Tecido transpira no calor?", acceptedAnswer: { '@type': 'Answer', text: "Sim, microfibra é leve e respirável — ideal para SPAs com ambiente aquecido." } },
+    { '@type': 'Question', name: "Posso usar jaleco preto?", acceptedAnswer: { '@type': 'Answer', text: "Pode. O preto disfarça manchas de óleo e está cada vez mais comum em SPAs urbanos modernos." } },
+    { '@type': 'Question', name: "Tem bolsos para guardar óleos pequenos?", acceptedAnswer: { '@type': 'Answer', text: "Sim. Todos os modelos têm bolsos amplos suficientes para frascos de óleo essencial e celular." } },
+    { '@type': 'Question', name: "Qual a diferença entre jaleco massagista e esteticista?", acceptedAnswer: { '@type': 'Answer', text: "Funcionalmente são iguais; varia o nome bordado. Ambos priorizam leveza, conforto e resistência a manchas." } },
   ],
 }
 
@@ -145,6 +160,7 @@ export default async function JalecoDentistaPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }} />
       {(() => { const s = buildHowToSchema('jaleco-massagista', 'https://jaleca.com.br/jaleco-massagista'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
       {(() => { const s = buildOccupationSchema('jaleco-massagista', 'https://jaleca.com.br/jaleco-massagista'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
+      {(() => { const s = buildItemListSchema(produtos, 'https://jaleca.com.br/jaleco-massagista', "Jalecos para massagista"); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
       <meta name="ai-content-declaration" content="human-authored-with-ai-assistance" />
 
       <main style={{ fontWeight: 300 }}>

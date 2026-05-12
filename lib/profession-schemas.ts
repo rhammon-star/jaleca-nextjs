@@ -56,3 +56,31 @@ export function buildOccupationSchema(slug: string, pageUrl: string) {
 }
 
 export const AI_CONTENT_DECLARATION = 'human-authored-with-ai-assistance' as const
+
+type ItemListProduct = {
+  name?: string
+  slug?: string
+  image?: { sourceUrl?: string | null } | string | null
+}
+
+export function buildItemListSchema(produtos: ItemListProduct[], pageUrl: string, listName: string) {
+  if (!produtos || produtos.length === 0) return null
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: listName,
+    url: pageUrl,
+    numberOfItems: produtos.length,
+    itemListOrder: 'https://schema.org/ItemListOrderAscending',
+    itemListElement: produtos.map((p, i) => {
+      const img = typeof p.image === 'string' ? p.image : p.image?.sourceUrl ?? undefined
+      return {
+        '@type': 'ListItem',
+        position: i + 1,
+        url: p.slug ? `https://jaleca.com.br/produto/${p.slug}` : pageUrl,
+        name: p.name,
+        ...(img ? { image: img } : {}),
+      }
+    }),
+  }
+}

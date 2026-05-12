@@ -17,7 +17,7 @@ import UGCSection from '@/components/UGCSection'
 import InstagramLazy from '@/components/profession-lp/InstagramLazy'
 import CompactTrustBar from '@/components/profession-lp/CompactTrustBar'
 import StickyMobileCTA from '@/components/profession-lp/StickyMobileCTA'
-import { buildHowToSchema, buildOccupationSchema } from '@/lib/profession-schemas'
+import { buildHowToSchema, buildOccupationSchema, buildItemListSchema} from '@/lib/profession-schemas'
 
 // ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
 export const revalidate = 3600
@@ -46,11 +46,26 @@ const schemaFaq = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   mainEntity: [
-    { '@type': 'Question', name: 'Advogada precisa usar jaleco no tribunal?', acceptedAnswer: { '@type': 'Answer', text: 'Não é obrigatório. O traje forense exige toga e vestes talares. O conjunto é usado em audiências de custódia, defensorias e atendimentos de jurídica popular.' } },
-    { '@type': 'Question', name: 'Qual o melhor conjunto para advogada?', acceptedAnswer: { '@type': 'Answer', text: 'O Conjunto Executiva transmite autoridade e sofisticação — ideal para audiências. O Conjunto Puff Zíper é mais moderno, aceito em departamentos jurídicos de empresas.' } },
-    { '@type': 'Question', name: 'Conjunto para advogada pode ter bordado?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. É muito comum bordar o nome e o número da OAB. Para pedidos acima de 5 peças, oferecemos condições especiais de bordado corporativo.' } },
-    { '@type': 'Question', name: 'Qual cor é mais indicada para advogada?', acceptedAnswer: { '@type': 'Answer', text: 'O preto transmite autoridade e é a escolha clássica no meio jurídico. O branco passa credibilidade. Não há restrição da OAB quanto à cor do uniforme.' } },
-    { '@type': 'Question', name: 'Conjunto ou jaleco para advogada?', acceptedAnswer: { '@type': 'Answer', text: 'O conjunto (calça + blusa) é a opção mais moderna e confortável para advogadas. Transmite profissionalismo sem a formalidade excessiva do jaleco tradicional.' } },
+    { '@type': 'Question', name: "Advogada pode usar jaleco no exercício profissional?", acceptedAnswer: { '@type': 'Answer', text: "Pode, em contextos técnicos (perícia, visita hospitalar, advocacia em saúde). Em audiências, o código de ética da OAB exige traje social." } },
+    { '@type': 'Question', name: "Qual a melhor cor para advogada?", acceptedAnswer: { '@type': 'Answer', text: "Branco em ambiente hospitalar; preto e azul-marinho para escritórios formais ou perícias." } },
+    { '@type': 'Question', name: "Tem modelo acinturado feminino?", acceptedAnswer: { '@type': 'Answer', text: "Sim. Modelagem feminina com pences valoriza a silhueta e mantém formalidade." } },
+    { '@type': 'Question', name: "Qual tecido escolher?", acceptedAnswer: { '@type': 'Answer', text: "Microfibra com elastano: leve, não amassa e mantém o caimento formal." } },
+    { '@type': 'Question', name: "Posso bordar OAB e nome?", acceptedAnswer: { '@type': 'Answer', text: "Sim. Bordamos nome + OAB + seccional sem custo." } },
+    { '@type': 'Question', name: "Qual comprimento favorece o look formal?", acceptedAnswer: { '@type': 'Answer', text: "Meio da coxa é o mais versátil — combina com calça social, saia lápis ou vestido." } },
+    { '@type': 'Question', name: "Manga longa ou 3/4?", acceptedAnswer: { '@type': 'Answer', text: "Longa transmite mais formalidade. 3/4 é alternativa elegante para climas quentes." } },
+    { '@type': 'Question', name: "Atende plus size?", acceptedAnswer: { '@type': 'Answer', text: "Sim, do PP ao GG3 com modelagem que respeita o corpo feminino." } },
+    { '@type': 'Question', name: "Quanto custa?", acceptedAnswer: { '@type': 'Answer', text: "A partir de R$ 119,90, com bordado de nome + OAB grátis." } },
+    { '@type': 'Question', name: "Prazo de entrega?", acceptedAnswer: { '@type': 'Answer', text: "Sem bordado: 1 a 5 dias úteis. Com bordado: 5 a 10 dias úteis." } },
+    { '@type': 'Question', name: "Posso trocar o tamanho?", acceptedAnswer: { '@type': 'Answer', text: "Sim, em até 7 dias após o recebimento, sem uso e sem bordado." } },
+    { '@type': 'Question', name: "Envia para todo o Brasil?", acceptedAnswer: { '@type': 'Answer', text: "Sim, para todo o território nacional." } },
+    { '@type': 'Question', name: "Tem desconto para escritório?", acceptedAnswer: { '@type': 'Answer', text: "Sim, a partir de 5 peças há desconto progressivo." } },
+    { '@type': 'Question', name: "Combina com salto e calça social?", acceptedAnswer: { '@type': 'Answer', text: "Sim. O caimento foi pensado para harmonizar com look social profissional." } },
+    { '@type': 'Question', name: "O jaleco amarrota?", acceptedAnswer: { '@type': 'Answer', text: "Microfibra praticamente não amarrota — chega pronto para vestir." } },
+    { '@type': 'Question', name: "Faz personalização com logo do escritório?", acceptedAnswer: { '@type': 'Answer', text: "Sim. Bordamos logo + nome individual da advogada." } },
+    { '@type': 'Question', name: "Tem gola V ou gola padre?", acceptedAnswer: { '@type': 'Answer', text: "Os dois modelos. Gola padre transmite mais formalidade; gola V é mais moderna." } },
+    { '@type': 'Question', name: "Posso usar em audiência?", acceptedAnswer: { '@type': 'Answer', text: "Não. Audiência exige traje social. Use o jaleco em perícia, diligência e advocacia em saúde." } },
+    { '@type': 'Question', name: "Como lavar?", acceptedAnswer: { '@type': 'Answer', text: "Máquina, água até 40 °C, separado de cores. Dispensa ferro." } },
+    { '@type': 'Question', name: "Qual a diferença entre jaleco advogada e médica?", acceptedAnswer: { '@type': 'Answer', text: "O corte pode ser igual; muda o bordado (OAB vs CRM) e geralmente a escolha por tecidos mais formais e cores escuras." } },
   ],
 }
 
@@ -134,6 +149,7 @@ export default async function JalecoAdvogadaPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }} />
       {(() => { const s = buildHowToSchema('jaleco-advogada', 'https://jaleca.com.br/jaleco-advogada'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
       {(() => { const s = buildOccupationSchema('jaleco-advogada', 'https://jaleca.com.br/jaleco-advogada'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
+      {(() => { const s = buildItemListSchema(produtos, 'https://jaleca.com.br/jaleco-advogada', "Jalecos para advogada"); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
       <meta name="ai-content-declaration" content="human-authored-with-ai-assistance" />
 
       <main style={{ fontWeight: 300 }}>

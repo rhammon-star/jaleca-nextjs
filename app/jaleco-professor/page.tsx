@@ -18,7 +18,7 @@ import UGCSection from '@/components/UGCSection'
 import InstagramLazy from '@/components/profession-lp/InstagramLazy'
 import CompactTrustBar from '@/components/profession-lp/CompactTrustBar'
 import StickyMobileCTA from '@/components/profession-lp/StickyMobileCTA'
-import { buildHowToSchema, buildOccupationSchema } from '@/lib/profession-schemas'
+import { buildHowToSchema, buildOccupationSchema, buildItemListSchema} from '@/lib/profession-schemas'
 
 // ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
 export const revalidate = 3600
@@ -47,13 +47,26 @@ const schemaFaq = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   mainEntity: [
-    { '@type': 'Question', name: 'Qual comprimento de jaleco é mais indicado para professors?', acceptedAnswer: { '@type': 'Answer', text: 'Para educação, o jaleco médio — confortável para longas horas em pé.' } },
-    { '@type': 'Question', name: 'O jaleco pode ser lavado com água quente?', acceptedAnswer: { '@type': 'Answer', text: 'Os jalecos Jaleca suportam lavagem até 60°C, temperatura suficiente para higienização clínica. Use alvejante sem cloro para preservar o tecido.' } },
-    { '@type': 'Question', name: 'Jaleco com elastano é bom para professor?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. O elastano adiciona memória ao tecido, retornando à forma após o movimento — essencial para quem passa horas em atendimento.' } },
-    { '@type': 'Question', name: 'Jaleco de professor precisa ser branco?', acceptedAnswer: { '@type': 'Answer', text: 'Não é obrigação. O branco é o clássico, mas tons pastel e cores discretas são bem aceitos. Não há restrição de cor.' } },
-    { '@type': 'Question', name: 'Qual a diferença entre jaleco Slim e Profissional?', acceptedAnswer: { '@type': 'Answer', text: 'O Slim tem corte ajustado ao corpo, ideal para quem quer visual mais moderno. O Profissional tem corte mais amplo e estruturado, com mais espaço para movimento.' } },
-    { '@type': 'Question', name: 'Qual o melhor tecido para jaleco de professor?', acceptedAnswer: { '@type': 'Answer', text: 'Para uso diário em sala de aula, o gabardine 100% poliéster é o mais escolhido por professores na Jaleca: excelente custo-benefício e fácil lavagem. Professores universitários e coordenadores geralmente optam pelo tecido alfaiataria premium para transmitir mais autoridade. O gabardine com elastano é ideal para quem quer conforto durante longas horas em pé.' } },
-    { '@type': 'Question', name: 'Qual tamanho de jaleco escolher para professor?', acceptedAnswer: { '@type': 'Answer', text: 'M e G acinturados são os mais pedidos por professores na Jaleca. O erro mais comum é pedir M e precisar trocar por G. O jaleco deve ter folga suficiente para escrever no quadro com os braços levantados sem apertar. Meça a largura dos ombros antes de comprar.' } },
+    { '@type': 'Question', name: "Professor precisa de jaleco?", acceptedAnswer: { '@type': 'Answer', text: "Em laboratórios de química, biologia e física, sim — por norma de segurança. Em sala comum, é opcional e usado por identidade profissional." } },
+    { '@type': 'Question', name: "Qual cor para laboratório?", acceptedAnswer: { '@type': 'Answer', text: "Branco é praticamente padrão em laboratórios de ciências, por permitir identificar respingos de reagentes rapidamente." } },
+    { '@type': 'Question', name: "Qual tecido aguenta laboratório?", acceptedAnswer: { '@type': 'Answer', text: "Microfibra com tratamento antichama leve ou algodão denso. Evite tecidos finos demais para ambiente de bancada." } },
+    { '@type': 'Question', name: "Posso bordar nome e instituição?", acceptedAnswer: { '@type': 'Answer', text: "Sim. Bordamos nome do professor + instituição/disciplina gratuitamente." } },
+    { '@type': 'Question', name: "Qual corte é mais usado?", acceptedAnswer: { '@type': 'Answer', text: "Corte reto masculino, manga longa, comprimento meio da coxa — padrão laboratorial." } },
+    { '@type': 'Question', name: "Manga longa é obrigatória em laboratório?", acceptedAnswer: { '@type': 'Answer', text: "Sim. Manga longa protege braços de respingos de reagentes — regra de segurança em quase toda universidade." } },
+    { '@type': 'Question', name: "Tem plus size?", acceptedAnswer: { '@type': 'Answer', text: "Sim, do P ao GG3 masculino e PP ao GG3 feminino." } },
+    { '@type': 'Question', name: "Quanto custa?", acceptedAnswer: { '@type': 'Answer', text: "A partir de R$ 119,90, com bordado de nome grátis." } },
+    { '@type': 'Question', name: "Prazo de entrega?", acceptedAnswer: { '@type': 'Answer', text: "Sem bordado: 1 a 5 dias úteis. Com bordado: 5 a 10 dias úteis." } },
+    { '@type': 'Question', name: "Posso trocar tamanho?", acceptedAnswer: { '@type': 'Answer', text: "Sim, em até 7 dias, sem uso e sem bordado." } },
+    { '@type': 'Question', name: "Frete para todo Brasil?", acceptedAnswer: { '@type': 'Answer', text: "Sim, atendemos todo o território nacional." } },
+    { '@type': 'Question', name: "Tem desconto para escola/universidade?", acceptedAnswer: { '@type': 'Answer', text: "Sim, a partir de 5 peças. Bordado padronizado para corpo docente disponível." } },
+    { '@type': 'Question', name: "O jaleco serve para professor de educação física?", acceptedAnswer: { '@type': 'Answer', text: "Geralmente não — professor de educação física usa uniforme esportivo. O jaleco é mais usado por professores de exatas e biológicas." } },
+    { '@type': 'Question', name: "Resiste a respingos químicos?", acceptedAnswer: { '@type': 'Answer', text: "Resiste a respingos leves; para reagentes corrosivos é necessário EPI específico além do jaleco." } },
+    { '@type': 'Question', name: "Tem bolsos para canetas e calculadora?", acceptedAnswer: { '@type': 'Answer', text: "Sim: bolso superior + dois inferiores." } },
+    { '@type': 'Question', name: "Como lavar manchas de tinta de quadro?", acceptedAnswer: { '@type': 'Answer', text: "Aplique álcool isopropílico na mancha fresca, esfregue suavemente e lave normalmente." } },
+    { '@type': 'Question', name: "Posso usar fora do laboratório, em sala?", acceptedAnswer: { '@type': 'Answer', text: "Sim. Muitos professores universitários adotam jaleco como identidade profissional em sala de aula." } },
+    { '@type': 'Question', name: "O jaleco amassa?", acceptedAnswer: { '@type': 'Answer', text: "Microfibra praticamente não amassa, mesmo entre aulas e deslocamentos." } },
+    { '@type': 'Question', name: "Tem versão feminina?", acceptedAnswer: { '@type': 'Answer', text: "Sim, com modelagem acinturada feminina específica." } },
+    { '@type': 'Question', name: "Qual a diferença entre jaleco professor e médico?", acceptedAnswer: { '@type': 'Answer', text: "Funcionalmente idênticos; muda o bordado (instituição/disciplina vs CRM) e às vezes o tecido conforme uso laboratorial." } },
   ],
 }
 
@@ -148,6 +161,7 @@ export default async function JalecoDentistaPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }} />
       {(() => { const s = buildHowToSchema('jaleco-professor', 'https://jaleca.com.br/jaleco-professor'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
       {(() => { const s = buildOccupationSchema('jaleco-professor', 'https://jaleca.com.br/jaleco-professor'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
+      {(() => { const s = buildItemListSchema(produtos, 'https://jaleca.com.br/jaleco-professor', "Jalecos para professor"); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
       <meta name="ai-content-declaration" content="human-authored-with-ai-assistance" />
 
       <main style={{ fontWeight: 300 }}>

@@ -17,7 +17,7 @@ import UGCSection from '@/components/UGCSection'
 import InstagramLazy from '@/components/profession-lp/InstagramLazy'
 import CompactTrustBar from '@/components/profession-lp/CompactTrustBar'
 import StickyMobileCTA from '@/components/profession-lp/StickyMobileCTA'
-import { buildHowToSchema, buildOccupationSchema } from '@/lib/profession-schemas'
+import { buildHowToSchema, buildOccupationSchema, buildItemListSchema} from '@/lib/profession-schemas'
 
 // ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
 export const revalidate = 3600
@@ -46,11 +46,26 @@ const schemaFaq = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   mainEntity: [
-    { '@type': 'Question', name: 'Qual comprimento de jaleco é mais indicado para secretárias?', acceptedAnswer: { '@type': 'Answer', text: 'Para escritório, o jaleco médio — elegante e prático para o ambiente corporativo.' } },
-    { '@type': 'Question', name: 'O jaleco pode ser lavado com água quente?', acceptedAnswer: { '@type': 'Answer', text: 'Os jalecos Jaleca suportam lavagem até 60°C, temperatura suficiente para higienização clínica. Use alvejante sem cloro para preservar o tecido.' } },
-    { '@type': 'Question', name: 'Jaleco com elastano é bom para secretária?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. O elastano adiciona memória ao tecido, retornando à forma após o movimento — essencial para quem passa horas em atendimento.' } },
-    { '@type': 'Question', name: 'Jaleco de secretária precisa ser branco?', acceptedAnswer: { '@type': 'Answer', text: 'Não é obrigação. O branco é o clássico, mas tons pastel e cores discretas são bem aceitos. Não há restrição de cor.' } },
-    { '@type': 'Question', name: 'Qual a diferença entre jaleco Slim e Profissional?', acceptedAnswer: { '@type': 'Answer', text: 'O Slim tem corte ajustado ao corpo, ideal para quem quer visual mais moderno. O Profissional tem corte mais amplo e estruturado, com mais espaço para movimento.' } },
+    { '@type': 'Question', name: "Secretária precisa usar jaleco?", acceptedAnswer: { '@type': 'Answer', text: "Em clínicas, consultórios e farmácias, o jaleco padroniza a equipe e transmite higiene. Não é obrigatório por lei, mas é padrão de mercado." } },
+    { '@type': 'Question', name: "Qual cor para recepção de clínica?", acceptedAnswer: { '@type': 'Answer', text: "Branco harmoniza com a equipe médica; rosé, azul-marinho ou preto são opções modernas para recepção." } },
+    { '@type': 'Question', name: "Qual tecido é mais confortável para ficar sentada?", acceptedAnswer: { '@type': 'Answer', text: "Microfibra com elastano não repuxa ao sentar e mantém caimento o dia todo." } },
+    { '@type': 'Question', name: "Posso bordar nome e função?", acceptedAnswer: { '@type': 'Answer', text: "Sim. Bordamos nome + função (Secretária, Recepcionista) gratuitamente." } },
+    { '@type': 'Question', name: "Qual o melhor corte?", acceptedAnswer: { '@type': 'Answer', text: "Acinturado feminino com pences valoriza a silhueta em ambiente sentado." } },
+    { '@type': 'Question', name: "Manga 3/4 ou longa?", acceptedAnswer: { '@type': 'Answer', text: "3/4 é a mais usada por secretárias — facilita digitação e atendimento sem repuxar." } },
+    { '@type': 'Question', name: "Atende plus size?", acceptedAnswer: { '@type': 'Answer', text: "Sim, do PP ao GG3 feminino." } },
+    { '@type': 'Question', name: "Quanto custa?", acceptedAnswer: { '@type': 'Answer', text: "A partir de R$ 119,90, bordado de nome grátis." } },
+    { '@type': 'Question', name: "Prazo de entrega?", acceptedAnswer: { '@type': 'Answer', text: "Sem bordado: 1 a 5 dias úteis. Com bordado: 5 a 10 dias úteis." } },
+    { '@type': 'Question', name: "Posso trocar tamanho?", acceptedAnswer: { '@type': 'Answer', text: "Sim, em até 7 dias após recebimento, sem uso e sem bordado." } },
+    { '@type': 'Question', name: "Envia para todo o Brasil?", acceptedAnswer: { '@type': 'Answer', text: "Sim." } },
+    { '@type': 'Question', name: "Tem desconto para clínica com várias recepcionistas?", acceptedAnswer: { '@type': 'Answer', text: "Sim, a partir de 5 peças com bordado padronizado." } },
+    { '@type': 'Question', name: "O jaleco amassa ao ficar sentada o dia todo?", acceptedAnswer: { '@type': 'Answer', text: "Microfibra praticamente não amassa, mesmo após 8h sentada." } },
+    { '@type': 'Question', name: "Combina com calça jeans e tênis?", acceptedAnswer: { '@type': 'Answer', text: "Combina. O caimento moderno permite looks casuais ou formais." } },
+    { '@type': 'Question', name: "Tem bolsos para celular?", acceptedAnswer: { '@type': 'Answer', text: "Sim, bolso superior + dois inferiores amplos." } },
+    { '@type': 'Question', name: "Faz personalização com logo da clínica?", acceptedAnswer: { '@type': 'Answer', text: "Sim. Bordamos logo + nome de cada secretária." } },
+    { '@type': 'Question', name: "Tem versão curta, tipo blazer?", acceptedAnswer: { '@type': 'Answer', text: "Sim. O modelo de comprimento curto fica parecido com blazer profissional — ótimo para recepcionistas." } },
+    { '@type': 'Question', name: "Como lavar para preservar a cor?", acceptedAnswer: { '@type': 'Answer', text: "Máquina, água até 40 °C, separado de cores. Sem cloro para brancos." } },
+    { '@type': 'Question', name: "O jaleco serve para secretária de escritório (não clínica)?", acceptedAnswer: { '@type': 'Answer', text: "Pode servir, especialmente em ambientes corporativos que adotam uniforme. Cores escuras (preto, marinho) são mais comuns aí." } },
+    { '@type': 'Question', name: "Qual a diferença entre jaleco secretária e enfermeira?", acceptedAnswer: { '@type': 'Answer', text: "O corte pode ser igual; muda o bordado (função vs COREN) e a preferência de cor (recepção tende a cores mais variadas)." } },
   ],
 }
 
@@ -145,6 +160,7 @@ export default async function JalecoDentistaPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }} />
       {(() => { const s = buildHowToSchema('jaleco-secretaria', 'https://jaleca.com.br/jaleco-secretaria'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
       {(() => { const s = buildOccupationSchema('jaleco-secretaria', 'https://jaleca.com.br/jaleco-secretaria'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
+      {(() => { const s = buildItemListSchema(produtos, 'https://jaleca.com.br/jaleco-secretaria', "Jalecos para secretaria"); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
       <meta name="ai-content-declaration" content="human-authored-with-ai-assistance" />
 
       <main style={{ fontWeight: 300 }}>

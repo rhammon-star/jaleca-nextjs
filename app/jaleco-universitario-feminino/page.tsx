@@ -15,7 +15,7 @@ import GoogleRatingCarousel from '@/components/profession-lp/GoogleRatingCarouse
 import InstagramLazy from '@/components/profession-lp/InstagramLazy'
 import CompactTrustBar from '@/components/profession-lp/CompactTrustBar'
 import StickyMobileCTA from '@/components/profession-lp/StickyMobileCTA'
-import { buildHowToSchema, buildOccupationSchema } from '@/lib/profession-schemas'
+import { buildHowToSchema, buildOccupationSchema, buildItemListSchema} from '@/lib/profession-schemas'
 
 export const revalidate = 3600
 
@@ -43,11 +43,26 @@ const schemaFaq = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   mainEntity: [
-    { '@type': 'Question', name: 'Qual jaleco feminino comprar para a faculdade?', acceptedAnswer: { '@type': 'Answer', text: 'O Jaleco Padrão Aluno Feminino é o mais indicado para o início da graduação — branco, corte neutro, aceito pela maioria das IES.' } },
-    { '@type': 'Question', name: 'Jaleco feminino ou unissex para a faculdade?', acceptedAnswer: { '@type': 'Answer', text: 'O feminino tem corte acinturado e veste melhor em mulheres. O unissex pode ficar largo nos ombros. Para quem tem cintura definida, o feminino é mais confortável no dia a dia.' } },
-    { '@type': 'Question', name: 'Posso usar jaleco slim na faculdade?', acceptedAnswer: { '@type': 'Answer', text: 'Depende da IES. A maioria aceita slim no estágio e em clínicas. Confirme com a coordenação antes de comprar.' } },
-    { '@type': 'Question', name: 'O jaleco feminino pode ter bordado com nome?', acceptedAnswer: { '@type': 'Answer', text: 'Depende da fase do curso. A maioria das faculdades libera bordado com nome e número de registro provisório a partir do terceiro ou quarto período.' } },
-    { '@type': 'Question', name: 'Quantos jalecos comprar para a faculdade?', acceptedAnswer: { '@type': 'Answer', text: 'O mínimo é 2: um para usar e um de reserva na lavagem. Cursos com estágio hospitalar pedem 3 ou mais.' } },
+    { '@type': 'Question', name: "Qual o tecido mais recomendado para o primeiro jaleco feminino universitário?", acceptedAnswer: { '@type': 'Answer', text: "Sugerimos tecidos como gabardine premium, que oferecem um caimento mais feminino e são resistentes para o dia a dia acadêmico, além de serem fáceis de manter." } },
+    { '@type': 'Question', name: "Este jaleco é indicado para futuras médicas, dentistas ou enfermeiras?", acceptedAnswer: { '@type': 'Answer', text: "Sim, o jaleco é perfeito para estudantes de medicina, odontologia, enfermagem e farmácia, combinando elegância, conforto e a seriedade exigida pelas profissões." } },
+    { '@type': 'Question', name: "Como o corte feminino do jaleco universitário se adapta à mobilidade em laboratórios?", acceptedAnswer: { '@type': 'Answer', text: "O corte acinturado e pensado para a mulher oferece total mobilidade, sendo ideal para a rotina intensa de aulas práticas e laboratórios universitários." } },
+    { '@type': 'Question', name: "É possível bordar meu nome, curso e futuras credenciais como CRM/CRO/COFEN?", acceptedAnswer: { '@type': 'Answer', text: "Com certeza! Oferecemos bordados personalizados para seu nome, o nome do seu curso e, futuramente, suas credenciais profissionais, um toque essencial para sua carreira." } },
+    { '@type': 'Question', name: "O jaleco Jaleca ajuda a transmitir uma imagem profissional desde o início da faculdade?", acceptedAnswer: { '@type': 'Answer', text: "Absolutamente! Nosso jaleco feminino foi desenhado para projetar uma imagem de profissionalismo e dedicação desde o primeiro dia de faculdade, destacando você." } },
+    { '@type': 'Question', name: "Qual a expectativa de durabilidade de um jaleco universitário feminino?", acceptedAnswer: { '@type': 'Answer', text: "Projetamos nossos jalecos para serem altamente duráveis, resistindo ao uso intenso e às muitas lavagens, acompanhando você durante toda a sua jornada acadêmica." } },
+    { '@type': 'Question', name: "Como devo lavar o jaleco para preservar sua cor e modelagem feminina?", acceptedAnswer: { '@type': 'Answer', text: "Recomendamos lavar em ciclo delicado com água fria, sem misturar com outras cores, e secar à sombra para manter a cor, o tecido e a modelagem feminina intactos." } },
+    { '@type': 'Question', name: "Este jaleco atende às exigências de regulamentação para o uso em ambientes de saúde?", acceptedAnswer: { '@type': 'Answer', text: "Sim, nossos jalecos são projetados para cumprir as regulamentações de vestuário e higiene exigidas em ambientes clínicos e hospitalares, dando-lhe segurança." } },
+    { '@type': 'Question', name: "Os tamanhos de jaleco universitário feminino abrangem do PP ao G3?", acceptedAnswer: { '@type': 'Answer', text: "Nossa ampla grade de tamanhos, do PP ao G3, garante que cada estudante encontre o jaleco feminino com o caimento perfeito, valorizando a silhueta e o conforto." } },
+    { '@type': 'Question', name: "Os bolsos do jaleco feminino são práticos para itens essenciais do estudante?", acceptedAnswer: { '@type': 'Answer', text: "Sim, os bolsos são funcionais e discretos, ideais para organizar canetas, estetoscópio ou pequenos cadernos, mantendo seus materiais sempre acessíveis." } },
+    { '@type': 'Question', name: "O comprimento do jaleco feminino é adequado para não atrapalhar a mobilidade nas aulas?", acceptedAnswer: { '@type': 'Answer', text: "O comprimento foi balanceado para oferecer cobertura e elegância, sem restringir a mobilidade necessária para aulas práticas e estágios na universidade." } },
+    { '@type': 'Question', name: "O jaleco universitário feminino está disponível com opções de manga?", acceptedAnswer: { '@type': 'Answer', text: "Oferecemos principalmente manga longa, que é o padrão exigido na maioria dos cursos da área da saúde, garantindo a conformidade e proteção." } },
+    { '@type': 'Question', name: "O estilo slim do jaleco feminino oferece um visual mais moderno e empoderado?", acceptedAnswer: { '@type': 'Answer', text: "Nosso estilo slim feminino é moderno, elegante e empoderador, perfeito para a estudante que busca um visual profissional e confiante para sua trajetória." } },
+    { '@type': 'Question', name: "Os jalecos Jaleca se destacam em design e qualidade para estudantes femininas em comparação aos concorrentes?", acceptedAnswer: { '@type': 'Answer', text: "Nosso design exclusivo e a qualidade superior dos tecidos oferecem um jaleco que valoriza a figura feminina, diferenciando-se dos modelos básicos da concorrência." } },
+    { '@type': 'Question', name: "Qual o preço inicial para um jaleco universitário feminino de alta qualidade?", acceptedAnswer: { '@type': 'Answer', text: "Você pode adquirir seu jaleco universitário feminino de alta qualidade a partir de R$159, um investimento essencial em sua jornada acadêmica e profissional." } },
+    { '@type': 'Question', name: "Qual o prazo de entrega para jalecos universitários femininos?", acceptedAnswer: { '@type': 'Answer', text: "Garantimos a entrega do seu jaleco feminino em 3 a 8 dias úteis, para que você possa iniciar sua vida acadêmica com estilo e profissionalismo." } },
+    { '@type': 'Question', name: "Posso trocar o jaleco se o tamanho não estiver ideal para o meu corpo?", acceptedAnswer: { '@type': 'Answer', text: "Sim, você tem 7 dias após o recebimento para solicitar a troca do seu jaleco, caso o tamanho ou modelo não atendam perfeitamente ao seu biotipo." } },
+    { '@type': 'Question', name: "Há frete grátis para compras de jalecos universitários femininos acima de R$499 em SP/RJ/MG/ES?", acceptedAnswer: { '@type': 'Answer', text: "Sim, oferecemos frete grátis para pedidos de jalecos universitários femininos acima de R$499 para os estados de São Paulo, Rio de Janeiro, Minas Gerais e Espírito Santo." } },
+    { '@type': 'Question', name: "O jaleco feminino universitário possui garantia de fabricação?", acceptedAnswer: { '@type': 'Answer', text: "Todos os nossos jalecos são cobertos por garantia contra defeitos de fabricação, assegurando a qualidade e a sua total confiança na sua compra." } },
+    { '@type': 'Question', name: "É um bom investimento para usar na cerimônia de formatura?", acceptedAnswer: { '@type': 'Answer', text: "Com seu design elegante e acabamento impecável, nosso jaleco é perfeito para a cerimônia de formatura, sendo uma peça que marca a conquista da sua graduação." } },
   ],
 }
 
@@ -147,6 +162,7 @@ export default async function JalecoUniversitarioFemininoPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }} />
       {(() => { const s = buildHowToSchema('jaleco-universitario-feminino', 'https://jaleca.com.br/jaleco-universitario-feminino'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
       {(() => { const s = buildOccupationSchema('jaleco-universitario-feminino', 'https://jaleca.com.br/jaleco-universitario-feminino'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
+      {(() => { const s = buildItemListSchema(produtos, 'https://jaleca.com.br/jaleco-universitario-feminino', "Jalecos para universitario feminino"); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
       <meta name="ai-content-declaration" content="human-authored-with-ai-assistance" />
 
       <main style={{ fontWeight: 300 }}>

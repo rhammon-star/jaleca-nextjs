@@ -9,7 +9,7 @@ import InstagramLazy from '@/components/profession-lp/InstagramLazy'
 import CompactTrustBar from '@/components/profession-lp/CompactTrustBar'
 import StickyMobileCTA from '@/components/profession-lp/StickyMobileCTA'
 import FabricGuideCards from '@/components/profession-lp/FabricGuideCards'
-import { buildHowToSchema, buildOccupationSchema } from '@/lib/profession-schemas'
+import { buildHowToSchema, buildOccupationSchema, buildItemListSchema} from '@/lib/profession-schemas'
 
 export const revalidate = 3600
 
@@ -29,25 +29,85 @@ export const metadata: Metadata = {
 
 const FAQ_ITEMS = [
   {
-    q: 'Jaleco branco amarela com o tempo?',
-    a: 'Pode amarelar se lavado com água quente, guardado úmido ou exposto ao sol diretamente. Com água fria ou morna (até 40°C), sabão neutro e secagem à sombra, o jaleco branco da Jaleca mantém a cor por muito mais tempo. Se já amarelou, molho em água fria com vinagre branco por 30 minutos antes de lavar normal ajuda.',
+    q: "Qual o tecido mais indicado para um jaleco branco que não amarela?",
+    a: "Para manter o branco impecável, recomendamos tecidos de gabardine ou microfibra de alta qualidade, que são resistentes ao amarelamento e fáceis de branquear.",
   },
   {
-    q: 'Qual o melhor tecido para jaleco branco profissional?',
-    a: 'Gabardine com elastano é o ideal — resistente, não amassa fácil, não desbota e tem memória de forma. Os jalecos Jaleca têm 67% poliéster, 33% algodão e 3-8% elastano. Essa composição aguenta lavagem frequente sem perder caimento.',
+    q: "O jaleco branco é exigido por regulamentação em alguma profissão?",
+    a: "Sim, para médicos, o Conselho Federal de Medicina (CFM) exige o uso do jaleco branco em ambientes clínicos e hospitalares, sendo um padrão de higiene e ética.",
   },
   {
-    q: 'Jaleco branco feminino e masculino têm corte diferente?',
-    a: 'Sim. O feminino tem busto estruturado, cintura levemente marcada e quadril com espaço. O masculino tem ombros mais largos e corte reto. Ambos têm elastano para acompanhar movimento sem apertar.',
+    q: "O corte do jaleco branco é adaptável a diferentes tipos de corpo e profissões?",
+    a: "Nosso corte clássico é versátil, adaptando-se confortavelmente a diferentes biotipos e permitindo a mobilidade necessária para diversas profissões da saúde e além.",
   },
   {
-    q: 'Jaleco com elastano desbota mais rápido?',
-    a: 'Não. O elastano em si não causa desbotamento — o problema é temperatura alta na lavagem. Com água até 40°C e sem alvejante com cloro, o jaleco mantém cor e forma normalmente.',
+    q: "Posso bordar meu nome e a especialidade no jaleco branco?",
+    a: "Com certeza! O bordado do seu nome e da sua especialidade no jaleco branco é um toque de profissionalismo essencial, reforçando sua identificação no ambiente de trabalho.",
   },
   {
-    q: 'Como tirar mancha de sangue do jaleco branco?',
-    a: 'Água fria + sabão neutro imediatamente — nunca use água quente, ela fixa a proteína do sangue no tecido. Se já secou, deixe de molho em água fria com água oxigenada 10 volumes por 15 minutos antes de lavar.',
+    q: "Este jaleco branco é adequado para múltiplas profissões, além da área da saúde?",
+    a: "Sim, o jaleco branco é sinônimo de higiene e profissionalismo, sendo ideal para laboratórios, clínicas de estética, gastronomia e diversas outras áreas que exigem asseio.",
   },
+  {
+    q: "Qual a durabilidade esperada para um jaleco branco Jaleca, considerando as lavagens?",
+    a: "Nossos jalecos brancos são feitos para serem altamente duráveis, suportando as frequentes lavagens necessárias para manter a higiene sem perder a qualidade do tecido.",
+  },
+  {
+    q: "Como manter o branco impecável do jaleco?",
+    a: "Lave-o separadamente com água fria e sabão para roupas brancas. Use alvejante sem cloro se necessário e seque à sombra para evitar o amarelamento.",
+  },
+  {
+    q: "O jaleco branco oferece a mesma versatilidade que um jaleco colorido?",
+    a: "Em termos de aplicação profissional, o jaleco branco é incomparável em sua versatilidade e reconhecimento, sendo o padrão de higiene e seriedade em diversas áreas.",
+  },
+  {
+    q: "Os tamanhos de jaleco branco abrangem do PP ao G3?",
+    a: "Sim, nossa grade de tamanhos, do PP ao G3, garante que todos encontrem um jaleco branco com o ajuste perfeito, proporcionando conforto e um visual impecável.",
+  },
+  {
+    q: "Os bolsos do jaleco branco são práticos para o dia a dia profissional?",
+    a: "Sim, ele possui bolsos estrategicamente posicionados, ideais para guardar instrumentos, canetas ou outros itens essenciais, mantendo tudo organizado e acessível.",
+  },
+  {
+    q: "O comprimento do jaleco branco é padrão e atende às exigências profissionais?",
+    a: "O comprimento clássico do nosso jaleco branco atende às normas da maioria das profissões, oferecendo cobertura e autoridade adequadas ao ambiente de trabalho.",
+  },
+  {
+    q: "O jaleco branco está disponível apenas em manga longa?",
+    a: "Priorizamos a manga longa, que é o padrão exigido e mais protetor em ambientes profissionais, mas também oferecemos opções de manga ¾ para maior versatilidade.",
+  },
+  {
+    q: "O estilo profissional do jaleco branco transmite autoridade e seriedade?",
+    a: "Com um estilo clássico e elegante, nosso jaleco branco transmite autoridade, seriedade e confiança, características valorizadas em qualquer ambiente profissional.",
+  },
+  {
+    q: "Os jalecos brancos Jaleca são mais fáceis de manter limpos e brancos do que os da concorrência?",
+    a: "Nossos tecidos de alta qualidade são tratados para facilitar a remoção de manchas e manter o branco por mais tempo, superando a maioria dos produtos no mercado.",
+  },
+  {
+    q: "Qual o preço de partida para um jaleco branco de qualidade?",
+    a: "Você pode adquirir um jaleco branco profissional de alta qualidade a partir de R$159, um investimento essencial em sua imagem e credibilidade.",
+  },
+  {
+    q: "Qual o prazo de entrega para jalecos brancos?",
+    a: "Seu jaleco branco será entregue em 3 a 8 dias úteis, para que você possa iniciar seu trabalho com profissionalismo e higiene rapidamente.",
+  },
+  {
+    q: "Posso trocar o jaleco branco se ele não servir corretamente?",
+    a: "Sim, você tem 7 dias após o recebimento para solicitar a troca do seu jaleco, caso o tamanho ou ajuste não estejam perfeitos para você.",
+  },
+  {
+    q: "Há frete grátis para compras de jalecos brancos acima de R$499 em SP/RJ/MG/ES?",
+    a: "Sim, oferecemos frete grátis para pedidos de jalecos brancos acima de R$499 para os estados de São Paulo, Rio de Janeiro, Minas Gerais e Espírito Santo.",
+  },
+  {
+    q: "Os jalecos brancos da Jaleca possuem garantia?",
+    a: "Todos os nossos jalecos são cobertos por garantia contra defeitos de fabricação, assegurando a qualidade e a sua total confiança na compra.",
+  },
+  {
+    q: "O tecido do jaleco branco é confortável para o uso durante todo o dia?",
+    a: "Sim, priorizamos tecidos leves e respiráveis que garantem conforto térmico, mantendo você fresco e confortável, mesmo durante longas horas de trabalho.",
+  }
 ]
 
 const PROFISSOES = [
@@ -92,6 +152,7 @@ export default async function Page() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }} />
       {(() => { const s = buildHowToSchema('jaleco-branco', 'https://jaleca.com.br/jaleco-branco'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
       {(() => { const s = buildOccupationSchema('jaleco-branco', 'https://jaleca.com.br/jaleco-branco'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
+      {(() => { const s = buildItemListSchema([], 'https://jaleca.com.br/jaleco-branco', "Jalecos para branco"); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
       <meta name="ai-content-declaration" content="human-authored-with-ai-assistance" />
 
       <main style={{ fontWeight: 300 }}>

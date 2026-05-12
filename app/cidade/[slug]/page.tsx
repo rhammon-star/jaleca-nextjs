@@ -27,7 +27,7 @@ type CidadeInfo = {
 }
 
 
-const FAQ_TEMPLATE = (nome: string, estado: string) => [
+const FAQ_TEMPLATE = (nome: string, estado: string, uf: string) => [
   {
     pergunta: `Qual o prazo de entrega para jalecos em ${nome}?`,
     resposta: `O prazo de entrega para ${nome}, ${estado}, varia de 3 a 7 dias úteis após a confirmação do pagamento. Você recebe o código de rastreamento por e-mail assim que o pedido for despachado.`,
@@ -48,6 +48,21 @@ const FAQ_TEMPLATE = (nome: string, estado: string) => [
     pergunta: `A Jaleca faz bordado de nome e registro profissional no jaleco enviado para ${nome}?`,
     resposta: `Não. A Jaleca não oferece serviço de bordado. Os jalecos são enviados para ${nome} sem bordado. Após receber, você pode levar a peça a uma bordadeira local — é simples e acessível. Importante: depois de bordado, o jaleco não pode mais ser trocado.`,
   },
+  { pergunta: `Quais formas de pagamento a Jaleca aceita?`, resposta: `Aceitamos PIX (com desconto à vista), boleto e cartão de crédito em até 6x sem juros. A aprovação por PIX é imediata e libera seu pedido para envio no mesmo dia.` },
+  { pergunta: `Como escolher o tamanho certo do jaleco?`, resposta: `Cada página de produto tem tabela de medidas detalhada (busto, cintura, quadril e comprimento). Trabalhamos do PP ao EXG, com modelagens feminina, masculina e plus size.` },
+  { pergunta: `Quais tecidos vocês usam nos jalecos enviados para ${nome}?`, resposta: `Oxford premium, microfibra, gabardine e tecidos com elastano. Cada um tem caimento e indicação diferente — microfibra é leve para o calor, oxford é mais estruturado e durável.` },
+  { pergunta: `Como lavar o jaleco para durar mais?`, resposta: `Lave em água fria, do avesso, com sabão neutro. Evite alvejante e secadora. Passe em temperatura média. Seguindo isso, o jaleco mantém o branco e o caimento por anos.` },
+  { pergunta: `A Jaleca tem atendimento por WhatsApp?`, resposta: `Sim. Nosso time responde por WhatsApp em horário comercial para tirar dúvidas sobre tamanho, tecido, prazo e bordado antes da compra. O botão fica no canto da tela.` },
+  { pergunta: `A Jaleca tem loja física em ${nome}?`, resposta: `Não temos loja física em ${nome} — somos 100% online e enviamos para todo o ${estado}. Isso permite preço mais competitivo e variedade maior de modelos do que lojas de bairro.` },
+  { pergunta: `Vocês vendem jaleco no atacado para clínicas e equipes em ${nome}?`, resposta: `Sim, atendemos pedidos de atacado para clínicas, hospitais, faculdades e empresas. Para 10 peças ou mais oferecemos preço diferenciado e podemos padronizar bordado e modelo.` },
+  { pergunta: `Qual a garantia de qualidade dos jalecos?`, resposta: `Todo jaleco passa por controle de qualidade antes do envio. Se chegar com defeito de fabricação, trocamos sem custo — basta enviar foto pelo WhatsApp em até 7 dias do recebimento.` },
+  { pergunta: `O pedido vem com nota fiscal?`, resposta: `Sim, toda compra é faturada com nota fiscal eletrônica enviada por e-mail. Isso garante seu direito de troca, devolução e permite reembolso pela faculdade ou empresa.` },
+  { pergunta: `Como o jaleco é embalado para envio a ${nome}?`, resposta: `O jaleco é dobrado, protegido em saco plástico individual e enviado em embalagem resistente. Chega em ${nome} sem amassados e pronto para usar — basta passar a ferro leve se preferir.` },
+  { pergunta: `Vocês têm modelos para profissões específicas?`, resposta: `Sim. Temos linhas separadas para medicina, enfermagem, odontologia, veterinária, farmácia, estética, nutrição, fisioterapia, barbearia, gastronomia e mais. Cada uma com modelagem pensada para a rotina da profissão.` },
+  { pergunta: `Como saber das promoções e cupons da Jaleca?`, resposta: `Cadastre-se na newsletter e siga nosso Instagram. Toda semana liberamos cupom e nas datas sazonais (volta às aulas, Black Friday) os descontos chegam a 30% em coleções selecionadas.` },
+  { pergunta: `Qual o prazo para arrependimento da compra?`, resposta: `Pelo Código de Defesa do Consumidor, você tem 7 dias corridos após o recebimento para se arrepender e devolver sem precisar justificar. O jaleco deve estar sem uso, com etiqueta e embalagem original.` },
+  { pergunta: `Por que comprar online em vez de uma loja de uniformes em ${nome}?`, resposta: `Online você compara dezenas de modelos, tecidos e tamanhos em minutos, com preço de fábrica e entrega rastreada. Lojas físicas em ${nome}-${uf} costumam ter estoque limitado e markup maior.` },
+  { pergunta: `Quais profissões da região de ${nome} mais compram aqui?`, resposta: `Em ${nome} e no ${estado} atendemos principalmente profissionais da saúde — medicina, enfermagem, odontologia e estética — além de estudantes universitários e equipes de clínicas e laboratórios.` },
 ]
 
 const CIDADES: Record<string, CidadeInfo> = {
@@ -884,7 +899,7 @@ export default async function CidadePage({
   ])
   const heroImage = cidade.heroUrl ?? null
 
-  const faq = FAQ_TEMPLATE(cidade.nome, cidade.estado)
+  const faq = FAQ_TEMPLATE(cidade.nome, cidade.estado, cidade.uf)
 
   const breadcrumbSchema = {
     '@context': 'https://schema.org',

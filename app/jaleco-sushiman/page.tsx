@@ -17,7 +17,7 @@ import UGCSection from '@/components/UGCSection'
 import InstagramLazy from '@/components/profession-lp/InstagramLazy'
 import CompactTrustBar from '@/components/profession-lp/CompactTrustBar'
 import StickyMobileCTA from '@/components/profession-lp/StickyMobileCTA'
-import { buildHowToSchema, buildOccupationSchema } from '@/lib/profession-schemas'
+import { buildHowToSchema, buildOccupationSchema, buildItemListSchema} from '@/lib/profession-schemas'
 
 // ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
 export const revalidate = 3600
@@ -46,11 +46,26 @@ const schemaFaq = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   mainEntity: [
-    { '@type': 'Question', name: 'Qual comprimento de jaleco é mais indicado para sushimans?', acceptedAnswer: { '@type': 'Answer', text: 'Para gastronomia japonesa, o jaleco longo — proteção máxima durante o preparo dos alimentos.' } },
-    { '@type': 'Question', name: 'O jaleco pode ser lavado com água quente?', acceptedAnswer: { '@type': 'Answer', text: 'Os jalecos Jaleca suportam lavagem até 60°C, temperatura suficiente para higienização clínica. Use alvejante sem cloro para preservar o tecido.' } },
-    { '@type': 'Question', name: 'Jaleco com elastano é bom para sushiman?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. O elastano adiciona memória ao tecido, retornando à forma após o movimento — essencial para quem passa horas em atendimento.' } },
-    { '@type': 'Question', name: 'Jaleco de sushiman precisa ser branco?', acceptedAnswer: { '@type': 'Answer', text: 'Não é obrigação. O branco é o clássico, mas tons pastel e cores discretas são bem aceitos. Não há restrição de cor.' } },
-    { '@type': 'Question', name: 'Qual a diferença entre jaleco Slim e Profissional?', acceptedAnswer: { '@type': 'Answer', text: 'O Slim tem corte ajustado ao corpo, ideal para quem quer visual mais moderno. O Profissional tem corte mais amplo e estruturado, com mais espaço para movimento.' } },
+    { '@type': 'Question', name: "Qual a composição do tecido ideal para um jaleco de sushiman?", acceptedAnswer: { '@type': 'Answer', text: "Nosso jaleco para sushiman é confeccionado em tecido leve e de fácil higienização, essencial para o ambiente de manipulação de alimentos frescos." } },
+    { '@type': 'Question', name: "O jaleco ajuda a manter a higiene no preparo de sushi?", acceptedAnswer: { '@type': 'Answer', text: "Sim, ele atua como uma barreira protetora eficaz, minimizando a contaminação cruzada e assegurando a higiene necessária para o preparo de sushi." } },
+    { '@type': 'Question', name: "O corte do jaleco de sushiman permite movimentos precisos e delicados?", acceptedAnswer: { '@type': 'Answer', text: "O corte é otimizado para não restringir os movimentos finos e precisos exigidos na arte de fazer sushi, garantindo conforto e agilidade." } },
+    { '@type': 'Question', name: "Posso bordar o nome do meu restaurante japonês no jaleco?", acceptedAnswer: { '@type': 'Answer', text: "Com certeza! Personalizamos seu jaleco com o nome do sushiman ou o logo do seu restaurante, fortalecendo a identidade visual e o profissionalismo." } },
+    { '@type': 'Question', name: "Este jaleco é adequado para um sushibar de alto padrão?", acceptedAnswer: { '@type': 'Answer', text: "Absolutamente. O design elegante e a qualidade do nosso jaleco complementam a sofisticação de um sushibar de alto padrão, impressionando seus clientes." } },
+    { '@type': 'Question', name: "Qual a durabilidade de um jaleco Jaleca para sushiman em uso diário?", acceptedAnswer: { '@type': 'Answer', text: "Nossos jalecos são projetados para suportar o uso diário e lavagens frequentes, mantendo a aparência impecável e a higiene por um longo período." } },
+    { '@type': 'Question', name: "Como devo lavar o jaleco de sushiman para garantir a máxima higiene?", acceptedAnswer: { '@type': 'Answer', text: "Lave o jaleco em água fria ou morna com detergente neutro. Evite alvejantes para preservar o tecido, secando em local arejado para manter a frescura." } },
+    { '@type': 'Question', name: "Há opções de cores de jaleco para sushiman além do branco tradicional?", acceptedAnswer: { '@type': 'Answer', text: "Sim, além do branco clássico, oferecemos outras cores discretas e elegantes que podem complementar a estética do seu sushibar, mantendo a sobriedade." } },
+    { '@type': 'Question', name: "Os tamanhos disponíveis para sushiman são abrangentes (PP-G3)?", acceptedAnswer: { '@type': 'Answer', text: "Sim, nossa linha de tamanhos vai do PP ao G3, garantindo um caimento perfeito e confortável para cada sushiman, independentemente do biotipo." } },
+    { '@type': 'Question', name: "Os bolsos do jaleco são funcionais para as necessidades de um sushiman?", acceptedAnswer: { '@type': 'Answer', text: "Os bolsos são discretos e práticos, ideais para guardar um pano de limpeza ou pequenos utensílios, sem comprometer a higiene ou a estética." } },
+    { '@type': 'Question', name: "O comprimento do jaleco de sushiman é apropriado para a postura de trabalho?", acceptedAnswer: { '@type': 'Answer', text: "O comprimento foi cuidadosamente balanceado para não atrapalhar a postura curvada ou os movimentos rápidos, essencial para o preparo de sushi." } },
+    { '@type': 'Question', name: "O jaleco para sushiman está disponível em manga curta ou longa?", acceptedAnswer: { '@type': 'Answer', text: "Oferecemos opções de manga curta para maior conforto e frescor, ou manga longa para quem prefere proteção adicional, adaptando-se à sua preferência." } },
+    { '@type': 'Question', name: "O estilo slim do jaleco de sushiman é elegante para um ambiente de alta gastronomia?", acceptedAnswer: { '@type': 'Answer', text: "Nosso estilo slim confere uma imagem de elegância e profissionalismo, perfeitamente alinhada com a alta gastronomia japonesa e a apresentação impecável." } },
+    { '@type': 'Question', name: "Os jalecos Jaleca para sushiman oferecem uma qualidade de tecido superior à da concorrência?", acceptedAnswer: { '@type': 'Answer', text: "Sim, selecionamos tecidos que combinam leveza, resistência e facilidade de higienização, superando os padrões da concorrência para o ambiente alimentar." } },
+    { '@type': 'Question', name: "Qual o valor inicial de um jaleco para sushiman?", acceptedAnswer: { '@type': 'Answer', text: "Você pode adquirir um jaleco de alta qualidade para sushiman a partir de R$159, um investimento essencial na sua imagem e higiene profissional." } },
+    { '@type': 'Question', name: "Qual o prazo de entrega para jalecos de sushiman?", acceptedAnswer: { '@type': 'Answer', text: "Garantimos a entrega do seu jaleco de sushiman em um prazo de 3 a 8 dias úteis, para que você possa iniciar seu trabalho com estilo e higiene." } },
+    { '@type': 'Question', name: "Posso trocar o jaleco se ele não atender às minhas expectativas de tamanho ou modelo?", acceptedAnswer: { '@type': 'Answer', text: "Sim, você tem um prazo de 7 dias após o recebimento para solicitar a troca do seu jaleco, caso precise de outro tamanho ou modelo." } },
+    { '@type': 'Question', name: "Há frete grátis para pedidos de jalecos de sushiman acima de R$499 em SP/RJ/MG/ES?", acceptedAnswer: { '@type': 'Answer', text: "Sim, para pedidos de jalecos de sushiman acima de R$499, o frete é grátis para os estados de São Paulo, Rio de Janeiro, Minas Gerais e Espírito Santo." } },
+    { '@type': 'Question', name: "O jaleco de sushiman da Jaleca possui garantia?", acceptedAnswer: { '@type': 'Answer', text: "Todos os nossos jalecos são cobertos por garantia contra defeitos de fabricação, assegurando a qualidade e a sua satisfação com o produto." } },
+    { '@type': 'Question', name: "O tecido do jaleco de sushiman é confortável para longas horas de trabalho?", acceptedAnswer: { '@type': 'Answer', text: "Sim, priorizamos tecidos leves e que proporcionam excelente conforto térmico, ideal para longas jornadas de trabalho em cozinhas e balcões de sushibar." } },
   ],
 }
 
@@ -145,6 +160,7 @@ export default async function JalecoDentistaPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }} />
       {(() => { const s = buildHowToSchema('jaleco-sushiman', 'https://jaleca.com.br/jaleco-sushiman'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
       {(() => { const s = buildOccupationSchema('jaleco-sushiman', 'https://jaleca.com.br/jaleco-sushiman'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
+      {(() => { const s = buildItemListSchema(produtos, 'https://jaleca.com.br/jaleco-sushiman', "Jalecos para sushiman"); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
       <meta name="ai-content-declaration" content="human-authored-with-ai-assistance" />
 
       <main style={{ fontWeight: 300 }}>

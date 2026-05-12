@@ -17,7 +17,7 @@ import UGCSection from '@/components/UGCSection'
 import InstagramLazy from '@/components/profession-lp/InstagramLazy'
 import CompactTrustBar from '@/components/profession-lp/CompactTrustBar'
 import StickyMobileCTA from '@/components/profession-lp/StickyMobileCTA'
-import { buildHowToSchema, buildOccupationSchema } from '@/lib/profession-schemas'
+import { buildHowToSchema, buildOccupationSchema, buildItemListSchema} from '@/lib/profession-schemas'
 
 // ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
 export const revalidate = 3600
@@ -46,11 +46,26 @@ const schemaFaq = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   mainEntity: [
-    { '@type': 'Question', name: 'Qual comprimento de jaleco é mais indicado para tatuadors?', acceptedAnswer: { '@type': 'Answer', text: 'Para tatuagem, o jaleco médio a longo — protege durante os procedimentos e transmite profissionalismo.' } },
-    { '@type': 'Question', name: 'O jaleco pode ser lavado com água quente?', acceptedAnswer: { '@type': 'Answer', text: 'Os jalecos Jaleca suportam lavagem até 60°C, temperatura suficiente para higienização clínica. Use alvejante sem cloro para preservar o tecido.' } },
-    { '@type': 'Question', name: 'Jaleco com elastano é bom para tatuador?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. O elastano adiciona memória ao tecido, retornando à forma após o movimento — essencial para quem passa horas em atendimento.' } },
-    { '@type': 'Question', name: 'Jaleco de tatuador precisa ser branco?', acceptedAnswer: { '@type': 'Answer', text: 'Não é obrigação. O branco é o clássico, mas tons pastel e cores discretas são bem aceitos. Não há restrição de cor.' } },
-    { '@type': 'Question', name: 'Qual a diferença entre jaleco Slim e Profissional?', acceptedAnswer: { '@type': 'Answer', text: 'O Slim tem corte ajustado ao corpo, ideal para quem quer visual mais moderno. O Profissional tem corte mais amplo e estruturado, com mais espaço para movimento.' } },
+    { '@type': 'Question', name: "O tecido do jaleco para tatuador é resistente a tintas de tatuagem?", acceptedAnswer: { '@type': 'Answer', text: "Sim, nosso tecido é especialmente tratado para ser resistente a tintas de tatuagem, minimizando manchas e facilitando a limpeza pós-sessão." } },
+    { '@type': 'Question', name: "O jaleco oferece proteção contra respingos de sangue ou outros fluidos corporais?", acceptedAnswer: { '@type': 'Answer', text: "Ele atua como uma barreira protetora eficaz, minimizando o contato com fluidos corporais e contribuindo para um ambiente de trabalho mais higiênico e seguro." } },
+    { '@type': 'Question', name: "O corte do jaleco para tatuador permite liberdade de movimento e precisão?", acceptedAnswer: { '@type': 'Answer', text: "Com um corte inteligente, o jaleco garante liberdade total para seus braços e corpo, essencial para a precisão e detalhes minuciosos de uma tatuagem." } },
+    { '@type': 'Question', name: "Posso bordar meu nome artístico ou o logo do meu estúdio de tatuagem no jaleco?", acceptedAnswer: { '@type': 'Answer', text: "Absolutamente! Personalize seu jaleco com seu nome artístico ou o logo do seu estúdio, reforçando sua marca e estilo único como tatuador." } },
+    { '@type': 'Question', name: "Este jaleco é apropriado para o ambiente de um estúdio de tatuagem profissional?", acceptedAnswer: { '@type': 'Answer', text: "Sim, ele é desenhado para atender às exigências de higiene e estilo de um estúdio de tatuagem profissional, garantindo uma imagem impecável." } },
+    { '@type': 'Question', name: "Qual a durabilidade de um jaleco Jaleca para tatuadores em um estúdio movimentado?", acceptedAnswer: { '@type': 'Answer', text: "Nossos jalecos são feitos para durar, resistindo ao uso intenso, lavagens frequentes e aos desafios de um estúdio de tatuagem com grande fluxo de clientes." } },
+    { '@type': 'Question', name: "Qual a melhor forma de lavar o jaleco para remover manchas de tinta?", acceptedAnswer: { '@type': 'Answer', text: "Recomendamos pré-tratar as manchas de tinta e seguir as instruções da etiqueta para uma lavagem eficiente, preservando o tecido e a cor do seu jaleco." } },
+    { '@type': 'Question', name: "Que opções de cores de jaleco estão disponíveis para tatuadores?", acceptedAnswer: { '@type': 'Answer', text: "Oferecemos uma seleção de cores que vão do clássico preto ao cinza, cores que combinam com o estilo moderno e arrojado do universo da tatuagem." } },
+    { '@type': 'Question', name: "Os tamanhos de jaleco para tatuador abrangem do PP ao G3?", acceptedAnswer: { '@type': 'Answer', text: "Sim, nossa grade de tamanhos, do PP ao G3, garante que todos os tatuadores encontrem um jaleco com o ajuste perfeito para máximo conforto e estilo." } },
+    { '@type': 'Question', name: "Os bolsos do jaleco são úteis para guardar equipamentos pequenos de tatuagem?", acceptedAnswer: { '@type': 'Answer', text: "Nossos bolsos são projetados para serem práticos e discretos, ideais para guardar luvas, biqueiras descartáveis ou outros pequenos acessórios de forma organizada." } },
+    { '@type': 'Question', name: "O comprimento do jaleco para tatuador interfere na postura durante a tatuagem?", acceptedAnswer: { '@type': 'Answer', text: "O comprimento é cuidadosamente ajustado para não restringir sua postura ou movimentos, permitindo que você se concentre totalmente na arte sem desconforto." } },
+    { '@type': 'Question', name: "Posso escolher entre manga curta ou longa para o jaleco de tatuador?", acceptedAnswer: { '@type': 'Answer', text: "Sim, oferecemos opções de manga curta para maior ventilação e manga longa para proteção extra, adaptando-se à sua preferência pessoal e ao clima." } },
+    { '@type': 'Question', name: "O estilo slim do jaleco de tatuador é moderno e profissional?", acceptedAnswer: { '@type': 'Answer', text: "Nosso estilo slim é sinônimo de modernidade e profissionalismo, proporcionando um visual contemporâneo que complementa a estética de um estúdio de tatuagem atual." } },
+    { '@type': 'Question', name: "Os jalecos Jaleca para tatuadores são mais duráveis e resistentes a tintas que os da concorrência?", acceptedAnswer: { '@type': 'Answer', text: "Sim, nossa escolha de tecidos e tratamentos confere aos nossos jalecos uma resistência superior a tintas e maior durabilidade em comparação com outros no mercado." } },
+    { '@type': 'Question', name: "Qual o preço de partida para um jaleco profissional para tatuador?", acceptedAnswer: { '@type': 'Answer', text: "Nossos jalecos de alta qualidade para tatuadores estão disponíveis a partir de R$159, um investimento essencial em imagem, higiene e proteção para sua arte." } },
+    { '@type': 'Question', name: "Qual o prazo de entrega para jalecos de tatuador?", acceptedAnswer: { '@type': 'Answer', text: "Garantimos a entrega do seu jaleco de tatuador em um prazo de 3 a 8 dias úteis, para que você possa elevar o nível do seu estúdio rapidamente." } },
+    { '@type': 'Question', name: "Se o tamanho estiver incorreto, posso trocar o jaleco de tatuador?", acceptedAnswer: { '@type': 'Answer', text: "Sim, você tem até 7 dias após o recebimento para solicitar a troca do seu jaleco, caso o tamanho ou o ajuste não sejam perfeitos." } },
+    { '@type': 'Question', name: "O frete é grátis para pedidos de jalecos de tatuador acima de R$499 em SP/RJ/MG/ES?", acceptedAnswer: { '@type': 'Answer', text: "Sim, para pedidos de jalecos de tatuador acima de R$499, o frete é grátis para os estados de São Paulo, Rio de Janeiro, Minas Gerais e Espírito Santo." } },
+    { '@type': 'Question', name: "Os jalecos para tatuador possuem garantia?", acceptedAnswer: { '@type': 'Answer', text: "Todos os jalecos da Jaleca contam com garantia contra defeitos de fabricação, assegurando a qualidade e sua total confiança na compra." } },
+    { '@type': 'Question', name: "O tecido do jaleco para tatuador é confortável para sessões longas?", acceptedAnswer: { '@type': 'Answer', text: "Priorizamos tecidos que oferecem conforto térmico e respirabilidade, mantendo você confortável e focado durante longas e intensas sessões de tatuagem." } },
   ],
 }
 
@@ -145,6 +160,7 @@ export default async function JalecoDentistaPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }} />
       {(() => { const s = buildHowToSchema('jaleco-tatuador', 'https://jaleca.com.br/jaleco-tatuador'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
       {(() => { const s = buildOccupationSchema('jaleco-tatuador', 'https://jaleca.com.br/jaleco-tatuador'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
+      {(() => { const s = buildItemListSchema(produtos, 'https://jaleca.com.br/jaleco-tatuador', "Jalecos para tatuador"); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
       <meta name="ai-content-declaration" content="human-authored-with-ai-assistance" />
 
       <main style={{ fontWeight: 300 }}>

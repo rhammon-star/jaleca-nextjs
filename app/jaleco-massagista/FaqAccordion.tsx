@@ -1,12 +1,26 @@
 'use client'
 import { useState } from 'react'
 const faqItems = [
-  { q: 'Qual o melhor jaleco para massagista?', a: 'O massagista precisa de um jaleco extremamente confortável porque trabalha com os braços elevados por longos períodos. O modelo com elastano é essencial para liberdade de movimento total.' },
-  { q: 'Massagista pode usar jaleco colorido?', a: 'Pode. Cores suaves como azul, verde e lavanda transmitem relaxamento e são populares em spas e clínicas de massagem.' },
-  { q: 'Qual a diferença entre jaleco Slim e Profissional?', a: 'O Slim tem corte ajustado que não atrapalha durante a massagem. O Profissional tem mais espaço, sendo bom para quem faz procedimentos mais longos.' },
-  { q: 'O jaleco precisa de bolsos?', a: 'Sim. O bolso no peito é útil para canetas e equipamentos pequenos. Os bolsos laterais são ideais para cremes e óleos de massagem.' },
-  { q: 'Como funciona a troca?', a: 'Arrependimento: até 7 dias após o recebimento, produto sem uso e com etiqueta. Garantia Jaleca: 30 dias, sem marca de uso e com etiqueta. WhatsApp ou e-mail com número do pedido.' },
-  { q: 'Qual o prazo de entrega?', a: 'Enviamos em até 2 dias úteis. Prazo de 3 a 8 dias úteis conforme região — calculado no checkout.' },
+  { q: "Massagista precisa usar jaleco?", a: "Não é obrigatório, mas o jaleco transmite profissionalismo e higiene, especialmente em SPAs e clínicas de massoterapia." },
+  { q: "Qual a melhor cor para jaleco de massagista?", a: "Branco é o tradicional; bege, areia e branco-off transmitem aconchego e combinam com ambiente de SPA." },
+  { q: "Qual tecido é mais confortável para trabalhar com óleos?", a: "Microfibra com elastano resiste melhor a manchas de óleos essenciais e cremes do que algodão puro." },
+  { q: "Como tirar manchas de óleo do jaleco?", a: "Polvilhe amido de milho na mancha, deixe 1h, escove e depois lave normalmente. Evite água quente antes de remover o óleo." },
+  { q: "Qual corte é melhor para movimentos amplos de massagem?", a: "Corte com elastano e abertura nas laterais (fendas) permite movimentos amplos de braço sem repuxar." },
+  { q: "Manga curta ou 3/4 para massoterapia?", a: "Manga curta é a preferência — facilita os movimentos e evita contato da manga com o óleo aplicado no cliente." },
+  { q: "Posso bordar nome e especialidade?", a: "Sim. Bordamos nome + especialidade (massoterapeuta, quiropraxista) gratuitamente." },
+  { q: "Qual comprimento é mais funcional?", a: "Comprimento no meio da coxa não atrapalha ao se inclinar sobre a maca." },
+  { q: "Tem jaleco unissex para massagista?", a: "Sim. Modelos com corte reto servem para massagistas homens e mulheres." },
+  { q: "Atende tamanhos plus size?", a: "Sim, do PP ao GG3 nos modelos femininos e P ao GG3 nos masculinos." },
+  { q: "Quanto custa?", a: "A partir de R$ 119,90, com bordado de nome grátis." },
+  { q: "Qual o prazo de entrega?", a: "Sem bordado: 1 a 5 dias úteis. Com bordado: 5 a 10 dias úteis." },
+  { q: "Posso trocar de tamanho?", a: "Sim, em até 7 dias após o recebimento, sem uso e sem bordado personalizado." },
+  { q: "Frete para todo o Brasil?", a: "Sim, enviamos via Correios e transportadoras para todo o país." },
+  { q: "Tem desconto para SPA com vários massagistas?", a: "Sim, a partir de 5 peças há desconto progressivo. Solicite orçamento." },
+  { q: "O jaleco aguenta lavagens frequentes?", a: "Sim. Microfibra suporta lavagem diária por anos sem perder caimento." },
+  { q: "Tecido transpira no calor?", a: "Sim, microfibra é leve e respirável — ideal para SPAs com ambiente aquecido." },
+  { q: "Posso usar jaleco preto?", a: "Pode. O preto disfarça manchas de óleo e está cada vez mais comum em SPAs urbanos modernos." },
+  { q: "Tem bolsos para guardar óleos pequenos?", a: "Sim. Todos os modelos têm bolsos amplos suficientes para frascos de óleo essencial e celular." },
+  { q: "Qual a diferença entre jaleco massagista e esteticista?", a: "Funcionalmente são iguais; varia o nome bordado. Ambos priorizam leveza, conforto e resistência a manchas." }
 ]
 export default function FaqAccordion() {
   const [openIndex, setOpenIndex] = useState<number | null>(0)

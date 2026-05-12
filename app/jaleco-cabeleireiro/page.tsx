@@ -17,7 +17,7 @@ import UGCSection from '@/components/UGCSection'
 import InstagramLazy from '@/components/profession-lp/InstagramLazy'
 import CompactTrustBar from '@/components/profession-lp/CompactTrustBar'
 import StickyMobileCTA from '@/components/profession-lp/StickyMobileCTA'
-import { buildHowToSchema, buildOccupationSchema } from '@/lib/profession-schemas'
+import { buildHowToSchema, buildOccupationSchema, buildItemListSchema} from '@/lib/profession-schemas'
 
 // ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
 export const revalidate = 3600
@@ -46,11 +46,26 @@ const schemaFaq = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   mainEntity: [
-    { '@type': 'Question', name: 'Qual comprimento de jaleco é mais indicado para cabeleireiros?', acceptedAnswer: { '@type': 'Answer', text: 'Para salão de beleza, o jaleco médio — facilita o movimento e protege a roupa durante o atendimento.' } },
-    { '@type': 'Question', name: 'O jaleco pode ser lavado com água quente?', acceptedAnswer: { '@type': 'Answer', text: 'Os jalecos Jaleca suportam lavagem até 60°C, temperatura suficiente para higienização clínica. Use alvejante sem cloro para preservar o tecido.' } },
-    { '@type': 'Question', name: 'Jaleco com elastano é bom para cabeleireiro?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. O elastano adiciona memória ao tecido, retornando à forma após o movimento — essencial para quem passa horas em atendimento.' } },
-    { '@type': 'Question', name: 'Jaleco de cabeleireiro precisa ser branco?', acceptedAnswer: { '@type': 'Answer', text: 'Não é obrigação. O branco é o clássico, mas tons pastel e cores discretas são bem aceitos. Não há restrição de cor.' } },
-    { '@type': 'Question', name: 'Qual a diferença entre jaleco Slim e Profissional?', acceptedAnswer: { '@type': 'Answer', text: 'O Slim tem corte ajustado ao corpo, ideal para quem quer visual mais moderno. O Profissional tem corte mais amplo e estruturado, com mais espaço para movimento.' } },
+    { '@type': 'Question', name: "Qual a principal vantagem do tecido do jaleco para cabeleireiro?", acceptedAnswer: { '@type': 'Answer', text: "Nosso tecido premium é desenvolvido para repelir cabelos e resistir a manchas de produtos químicos e tinturas, mantendo seu jaleco limpo e apresentável." } },
+    { '@type': 'Question', name: "Este jaleco protege contra o calor do secador e chapinha?", acceptedAnswer: { '@type': 'Answer', text: "Sim, o material do jaleco Jaleca para cabeleireiro oferece uma barreira protetora eficaz contra o calor de equipamentos térmicos, aumentando sua segurança." } },
+    { '@type': 'Question', name: "Como o corte profissional do jaleco se adapta ao movimento constante do cabeleireiro?", acceptedAnswer: { '@type': 'Answer', text: "O corte é ergonomicamente desenhado para permitir total flexibilidade e conforto, crucial para a movimentação constante no salão sem restrições." } },
+    { '@type': 'Question', name: "É possível personalizar o jaleco com meu nome ou o logo do salão?", acceptedAnswer: { '@type': 'Answer', text: "Claro! Oferecemos serviço de bordado de alta qualidade para seu nome, cargo ou o logo do seu salão, agregando valor à sua imagem profissional." } },
+    { '@type': 'Question', name: "O jaleco Jaleca é ideal para o ambiente agitado de um salão de beleza?", acceptedAnswer: { '@type': 'Answer', text: "Absolutamente! Nossos jalecos são projetados para suportar o ritmo acelerado de um salão, oferecendo durabilidade e um visual sempre impecável." } },
+    { '@type': 'Question', name: "Qual a expectativa de vida útil de um jaleco para cabeleireiro da Jaleca?", acceptedAnswer: { '@type': 'Answer', text: "Com os devidos cuidados, seu jaleco Jaleca terá uma vida útil prolongada, sendo um companheiro confiável no seu dia a dia profissional por muito tempo." } },
+    { '@type': 'Question', name: "Como devo lavar o jaleco para evitar desbotamento da cor?", acceptedAnswer: { '@type': 'Answer', text: "Lave o jaleco separadamente ou com cores similares, utilizando água fria e sabão neutro para preservar a cor e a integridade do tecido." } },
+    { '@type': 'Question', name: "Quais as opções de cores disponíveis para o jaleco de cabeleireiro?", acceptedAnswer: { '@type': 'Answer', text: "Contamos com uma paleta de cores modernas e elegantes, perfeitas para harmonizar com a identidade visual do seu salão e seu estilo pessoal." } },
+    { '@type': 'Question', name: "Onde posso encontrar a tabela de tamanhos para o jaleco de cabeleireiro?", acceptedAnswer: { '@type': 'Answer', text: "A tabela de medidas completa está disponível em nosso site, ajudando você a escolher o tamanho ideal, do PP ao G3, para um caimento perfeito." } },
+    { '@type': 'Question', name: "Os bolsos do jaleco são funcionais para ferramentas de cabeleireiro?", acceptedAnswer: { '@type': 'Answer', text: "Sim, os bolsos são estrategicamente posicionados e dimensionados para guardar pentes, grampos e outros utensílios, mantendo-os sempre à mão e organizados." } },
+    { '@type': 'Question', name: "O comprimento do jaleco é adequado para evitar que caia cabelo nas roupas de baixo?", acceptedAnswer: { '@type': 'Answer', text: "Nosso comprimento foi cuidadosamente pensado para cobrir adequadamente suas roupas, minimizando o acúmulo de cabelo e protegendo seu uniforme pessoal." } },
+    { '@type': 'Question', name: "Posso escolher entre manga curta ou longa para o jaleco de cabeleireiro?", acceptedAnswer: { '@type': 'Answer', text: "Sim, oferecemos opções de jalecos com manga curta ou longa, permitindo que você escolha o modelo que proporciona maior conforto e proteção no seu trabalho." } },
+    { '@type': 'Question', name: "O estilo 'profissional' do jaleco reflete a seriedade do meu trabalho?", acceptedAnswer: { '@type': 'Answer', text: "Absolutamente. Nosso estilo profissional foi criado para transmitir confiança e seriedade, elevando a percepção da sua imagem no salão." } },
+    { '@type': 'Question', name: "Os jalecos Jaleca para cabeleireiros oferecem melhor custo-benefício que os da concorrência?", acceptedAnswer: { '@type': 'Answer', text: "Devido à durabilidade superior e resistência a produtos químicos, nossos jalecos representam um excelente custo-benefício a longo prazo, superando a concorrência." } },
+    { '@type': 'Question', name: "Qual o preço de partida para um jaleco de cabeleireiro na Jaleca?", acceptedAnswer: { '@type': 'Answer', text: "Nossos jalecos de alta qualidade para cabeleireiros estão disponíveis a partir de R$159, um investimento na sua imagem e proteção profissional." } },
+    { '@type': 'Question', name: "Qual o tempo de entrega para jalecos de cabeleireiro?", acceptedAnswer: { '@type': 'Answer', text: "Com um prazo de entrega de 3 a 8 dias úteis, você receberá seu jaleco rapidamente, pronto para uso no seu salão." } },
+    { '@type': 'Question', name: "Existe política de troca caso eu não esteja satisfeito com o jaleco?", acceptedAnswer: { '@type': 'Answer', text: "Sim, você tem até 7 dias após o recebimento para solicitar a troca do seu jaleco, garantindo sua total satisfação com a compra." } },
+    { '@type': 'Question', name: "Há frete grátis para compras de jalecos acima de R$499 em alguns estados?", acceptedAnswer: { '@type': 'Answer', text: "Sim, oferecemos frete grátis para pedidos de jalecos acima de R$499 nos estados de SP, RJ, MG e ES, facilitando sua compra." } },
+    { '@type': 'Question', name: "Os jalecos para cabeleireiro vêm com alguma garantia?", acceptedAnswer: { '@type': 'Answer', text: "Sim, todos os nossos jalecos vêm com garantia contra defeitos de fabricação, assegurando a qualidade e a sua confiança na marca Jaleca." } },
+    { '@type': 'Question', name: "O tecido do jaleco para cabeleireiro é respirável para o uso diário?", acceptedAnswer: { '@type': 'Answer', text: "Priorizamos tecidos respiráveis que proporcionam conforto térmico durante todo o dia, mesmo em ambientes movimentados de salão." } },
   ],
 }
 
@@ -145,6 +160,7 @@ export default async function JalecoCabeleireiroPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }} />
       {(() => { const s = buildHowToSchema('jaleco-cabeleireiro', 'https://jaleca.com.br/jaleco-cabeleireiro'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
       {(() => { const s = buildOccupationSchema('jaleco-cabeleireiro', 'https://jaleca.com.br/jaleco-cabeleireiro'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
+      {(() => { const s = buildItemListSchema(produtos, 'https://jaleca.com.br/jaleco-cabeleireiro', "Jalecos para cabeleireiro"); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
       <meta name="ai-content-declaration" content="human-authored-with-ai-assistance" />
 
       <main style={{ fontWeight: 300 }}>
