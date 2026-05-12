@@ -8,6 +8,7 @@ import GoogleRatingCarousel from '@/components/profession-lp/GoogleRatingCarouse
 import InstagramLazy from '@/components/profession-lp/InstagramLazy'
 import FabricGuideCards from '@/components/profession-lp/FabricGuideCards'
 import ProfessionLinksNeutral from '@/components/profession-lp/ProfessionLinksNeutral'
+import { buildHowToSchema, buildOccupationSchema } from '@/lib/profession-schemas'
 
 export const revalidate = 3600
 
@@ -114,6 +115,9 @@ export default async function Page() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaFaq).replace(/</g, '\\u003c') }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }} />
+      {(() => { const s = buildHowToSchema('jaleco-feminino-branco', 'https://jaleca.com.br/jaleco-feminino-branco'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
+      {(() => { const s = buildOccupationSchema('jaleco-feminino-branco', 'https://jaleca.com.br/jaleco-feminino-branco'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
+      <meta name="ai-content-declaration" content="human-authored-with-ai-assistance" />
 
       <main style={{ fontWeight: 300 }}>
 

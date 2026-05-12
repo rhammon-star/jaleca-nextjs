@@ -4,6 +4,12 @@ import { getGooglePlaceData } from '@/lib/google-places'
 import { getCachedHeroImage } from '@/lib/profession-page-data'
 import ProfessionProductGrid from '@/components/ProfessionProductGrid'
 import UGCSection from '@/components/UGCSection'
+import HeroCommercial from '@/components/profession-lp/HeroCommercial'
+import GoogleRatingCarousel from '@/components/profession-lp/GoogleRatingCarousel'
+import InstagramLazy from '@/components/profession-lp/InstagramLazy'
+import CompactTrustBar from '@/components/profession-lp/CompactTrustBar'
+import FabricGuideCards from '@/components/profession-lp/FabricGuideCards'
+import { buildHowToSchema, buildOccupationSchema } from '@/lib/profession-schemas'
 
 export const revalidate = 3600
 
@@ -81,10 +87,23 @@ export default async function Page() {
     })),
   }
 
+
+  const schemaSpeakable = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['h1', '.faq-section', 'h2'],
+    },
+  }
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaFaq).replace(/</g, '\\u003c') }} />
+      {(() => { const s = buildHowToSchema('jaleco-elegante', 'https://jaleca.com.br/jaleco-elegante'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
+      {(() => { const s = buildOccupationSchema('jaleco-elegante', 'https://jaleca.com.br/jaleco-elegante'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
+      <meta name="ai-content-declaration" content="human-authored-with-ai-assistance" />
 
       <main style={{ fontWeight: 300 }}>
 
@@ -103,60 +122,22 @@ export default async function Page() {
             ))}
           </ol>
         </div>
+        {/* ── HERO ── */}
+        <HeroCommercial
+          eyebrow="Alfaiataria premium"
+          h1Line1="Jaleco feminino elegante:"
+          h1Line2="alfaiataria e sofisticação para profissionais"
+          description="Para médicas, dentistas e profissionais que precisam unir autoridade visual com conforto real em jornadas longas. Tecidos de alfaiataria premium, corte acinturado, acabamentos trabalhados."
+          startingPrice="R$220"
+          collectionHref="#produtos"
+          allHref="/produtos?categoria=jalecos"
+          googleRating={placeData?.rating}
+        />
 
-        {/* HERO */}
-        <section className="grid grid-cols-1 lg:grid-cols-2" style={{ minHeight: '88vh', padding: 0 }}>
-          <div className="flex flex-col justify-center order-2 lg:order-1" style={{ padding: 'clamp(3rem,8vw,5rem) clamp(2rem,5vw,4rem) clamp(3rem,8vw,5rem) clamp(2rem,8vw,7rem)', background: '#f9f7f4' }}>
-            <div className="flex items-center gap-3 mb-6" style={{ fontSize: '0.72rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#6b6b6b' }}>
-              <span style={{ display: 'inline-block', width: 32, height: 1, background: '#c8c4bc' }} />
-              Alfaiataria premium
-            </div>
-            <h1 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2.4rem,5.5vw,4.8rem)', fontWeight: 400, lineHeight: 1.05, letterSpacing: '-0.01em', color: '#1a1a1a', marginBottom: '1.5rem' }}>
-              Jaleco feminino elegante:<br />
-              <em style={{ fontStyle: 'italic', fontWeight: 300 }}>alfaiataria e sofisticação para profissionais</em>
-            </h1>
-            <p style={{ fontSize: '1rem', fontWeight: 300, color: '#6b6b6b', maxWidth: 480, marginBottom: '2.5rem', lineHeight: 1.8 }}>
-              Para médicas, dentistas e profissionais que precisam unir autoridade visual com conforto real em jornadas longas. Tecidos de alfaiataria premium, corte acinturado, acabamentos trabalhados.
-            </p>
-            <div className="flex gap-4 flex-wrap">
-              <Link href="/categoria/jalecos-femininos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: '#1a1a1a', color: '#fff', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none' }}>
-                Ver jalecos elegantes ↗
-              </Link>
-              <Link href="/modelo-de-jaleco" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: 'transparent', color: '#1a1a1a', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
-                Todos os modelos →
-              </Link>
-            </div>
-            {placeData && (
-              <div className="flex items-center gap-2 mt-10">
-                <span style={{ color: '#c8a96e', fontSize: '0.85rem', letterSpacing: 2 }}>★★★★★</span>
-                <span style={{ fontSize: '0.78rem', color: '#6b6b6b' }}>⭐ {placeData.rating.toFixed(1)} no Google</span>
-              </div>
-            )}
-          </div>
-          <div className="relative order-1 lg:order-2" style={{ background: '#e5e0d8', minHeight: 480, overflow: 'hidden' }}>
-            {heroImg ? (
-              <img src={heroImg.src} alt={heroImg.alt} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block', position: 'absolute', inset: 0 }} />
-            ) : (
-              <div style={{ width: '100%', height: '100%', background: 'linear-gradient(160deg, #ccc8c0 0%, #bfbab2 100%)', position: 'absolute', inset: 0 }} />
-            )}
-          </div>
-        </section>
 
-        {/* TRUST BAR */}
-        <div style={{ background: '#1a1a1a', padding: '1.5rem clamp(1rem,4vw,3rem)', display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)' }}>
-          {[
-            { title: 'Alfaiataria premium', sub: 'Tecidos de alto padrão' },
-            { title: 'Corte acinturado', sub: 'Elegância sem perder conforto' },
-            { title: 'PP ao G3', sub: 'Molde próprio por tamanho' },
-            { title: 'Frete grátis Sudeste', sub: 'Acima de R$499' },
-          ].map((item, i) => (
-            <div key={i} style={{ padding: '1rem 1.25rem', textAlign: 'center', borderRight: i % 2 === 0 ? '1px solid rgba(255,255,255,0.12)' : 'none', borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.08)' : 'none' }}>
-              <strong style={{ display: 'block', fontSize: '0.82rem', fontWeight: 400, color: '#fff', marginBottom: '0.15rem' }}>{item.title}</strong>
-              <span style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.45)' }}>{item.sub}</span>
-            </div>
-          ))}
-        </div>
 
+        {/* ── ② COMPACT TRUST BAR ── */}
+        <CompactTrustBar />
         {/* CONTEÚDO EDITORIAL */}
         <section style={{ background: '#fff', padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)' }}>
           <div style={{ maxWidth: 900, margin: '0 auto' }}>
@@ -271,7 +252,14 @@ export default async function Page() {
           </div>
         </section>
 
-            <UGCSection />
+            
+        {/* ── GOOGLE RATING ── */}
+        <GoogleRatingCarousel rating={placeData?.rating} />
+
+        <UGCSection />
+
+        {/* ── INSTAGRAM ── */}
+        <InstagramLazy />
 
     </main>
     </>

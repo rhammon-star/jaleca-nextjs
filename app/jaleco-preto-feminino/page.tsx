@@ -3,6 +3,13 @@ import Link from 'next/link'
 import { getGooglePlaceData } from '@/lib/google-places'
 import CategoryProductGrid from '@/components/CategoryProductGrid'
 import UGCSection from '@/components/UGCSection'
+import HeroCommercial from '@/components/profession-lp/HeroCommercial'
+import GoogleRatingCarousel from '@/components/profession-lp/GoogleRatingCarousel'
+import InstagramLazy from '@/components/profession-lp/InstagramLazy'
+import CompactTrustBar from '@/components/profession-lp/CompactTrustBar'
+import FabricGuideCards from '@/components/profession-lp/FabricGuideCards'
+import ProfessionLinksNeutral from '@/components/profession-lp/ProfessionLinksNeutral'
+import { buildHowToSchema, buildOccupationSchema } from '@/lib/profession-schemas'
 
 // ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
 export const revalidate = 3600
@@ -129,6 +136,9 @@ export default async function Page() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaFaq).replace(/</g, '\\u003c') }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaArticle).replace(/</g, '\\u003c') }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }} />
+      {(() => { const s = buildHowToSchema('jaleco-preto-feminino', 'https://jaleca.com.br/jaleco-preto-feminino'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
+      {(() => { const s = buildOccupationSchema('jaleco-preto-feminino', 'https://jaleca.com.br/jaleco-preto-feminino'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
+      <meta name="ai-content-declaration" content="human-authored-with-ai-assistance" />
 
       <main style={{ fontWeight: 300 }}>
 
@@ -147,37 +157,22 @@ export default async function Page() {
           </ol>
         </div>
 
-        <section style={{ background: '#1a1a1a', padding: 'clamp(3rem,8vw,6rem) clamp(1.5rem,5vw,4rem)' }}>
-          <div style={{ maxWidth: 900, margin: '0 auto', textAlign: 'center' }}>
-            <div className="flex items-center justify-center gap-3 mb-6" style={{ fontSize: '0.72rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.45)' }}>
-              <span style={{ display: 'inline-block', width: 32, height: 1, background: 'rgba(255,255,255,0.2)' }} />
-              Para beleza e estética
-              <span style={{ display: 'inline-block', width: 32, height: 1, background: 'rgba(255,255,255,0.2)' }} />
-            </div>
-            <h1 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2.4rem,5.5vw,4.8rem)', fontWeight: 400, lineHeight: 1.05, letterSpacing: '-0.01em', color: '#fff', marginBottom: '1.5rem' }}>
-              Jaleco preto feminino:<br />
-              <em style={{ fontStyle: 'italic', fontWeight: 300, color: '#c8a96e' }}>estética, beleza e identidade</em>
-            </h1>
-            <p style={{ fontSize: '1rem', fontWeight: 300, color: 'rgba(255,255,255,0.6)', maxWidth: 620, margin: '0 auto 2.5rem', lineHeight: 1.8 }}>
-              Tecido que não retém pelos. Repele produtos e finalizadores. Elastano para mobilidade. Do PP ao G3 com molde feminino.
-            </p>
-            <div className="flex gap-4 flex-wrap justify-center">
-              <Link href="/produtos?cor=preto&categoria=jalecos-femininos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: '#c8a96e', color: '#1a1a1a', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none' }}>
-                Ver jalecos pretos ↗
-              </Link>
-              <Link href="/jaleco-feminino" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: 'transparent', color: '#fff', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid rgba(255,255,255,0.3)' }}>
-                Todas as cores →
-              </Link>
-            </div>
-            {placeData && (
-              <div className="flex items-center justify-center gap-2 mt-10">
-                <span style={{ color: '#c8a96e', fontSize: '0.85rem', letterSpacing: 2 }}>★★★★★</span>
-                <span style={{ fontSize: '0.78rem', color: 'rgba(255,255,255,0.45)' }}>⭐ {placeData.rating.toFixed(1)} no Google</span>
-              </div>
-            )}
-          </div>
-        </section>
+        
+        {/* ── HERO ── */}
+        <HeroCommercial
+          eyebrow="Uniforme profissional"
+          h1Line1="Jaleco preto feminino:"
+          h1Line2="estética, beleza e identidade"
+          description="Tecido que não retém pelos. Repele produtos e finalizadores. Elastano para mobilidade. Do PP ao G3 com molde feminino."
+          startingPrice="R$220"
+          collectionHref="#produtos"
+          allHref="/produtos?categoria=jalecos-femininos"
+          googleRating={placeData?.rating}
+        />
 
+
+        {/* ── ② COMPACT TRUST BAR ── */}
+        <CompactTrustBar />
         <div className="grid" style={{ background: '#111', padding: '1.5rem clamp(1.5rem,5vw,4rem)' }}>
           {[
             { title: 'Não retém pelos', sub: 'Superfície calendrada' },
@@ -277,7 +272,14 @@ export default async function Page() {
           </div>
         </section>
 
-            <UGCSection />
+            
+        {/* ── GOOGLE RATING ── */}
+        <GoogleRatingCarousel rating={placeData?.rating} />
+
+        <UGCSection />
+
+        {/* ── INSTAGRAM ── */}
+        <InstagramLazy />
 
     </main>
     </>

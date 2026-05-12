@@ -1,5 +1,12 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import HeroCommercial from '@/components/profession-lp/HeroCommercial'
+import GoogleRatingCarousel from '@/components/profession-lp/GoogleRatingCarousel'
+import UGCSection from '@/components/UGCSection'
+import InstagramLazy from '@/components/profession-lp/InstagramLazy'
+import CompactTrustBar from '@/components/profession-lp/CompactTrustBar'
+import FabricGuideCards from '@/components/profession-lp/FabricGuideCards'
+import { buildHowToSchema, buildOccupationSchema } from '@/lib/profession-schemas'
 
 export const revalidate = 3600
 
@@ -43,10 +50,23 @@ export default function Page() {
     ],
   }
 
+
+  const schemaSpeakable = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['h1', '.faq-section', 'h2'],
+    },
+  }
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaFaq).replace(/</g, '\\u003c') }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }} />
+      {(() => { const s = buildHowToSchema('jaleco-para-residencia-medica', 'https://jaleca.com.br/jaleco-para-residencia-medica'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
+      {(() => { const s = buildOccupationSchema('jaleco-para-residencia-medica', 'https://jaleca.com.br/jaleco-para-residencia-medica'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
+      <meta name="ai-content-declaration" content="human-authored-with-ai-assistance" />
       <main style={{ fontWeight: 300 }}>
         <div style={{ background: '#f9f7f4', borderBottom: '1px solid #e5e0d8', padding: '0.85rem clamp(1.5rem,5vw,4rem)' }}>
           <ol className="flex items-center gap-2 max-w-[1200px] mx-auto" style={{ listStyle: 'none' }}>
@@ -58,21 +78,21 @@ export default function Page() {
           </ol>
         </div>
 
-        <section style={{ background: '#f9f7f4', padding: 'clamp(3rem,8vw,6rem) clamp(1.5rem,5vw,4rem)' }}>
-          <div style={{ maxWidth: 900, margin: '0 auto', textAlign: 'center' }}>
-            <h1 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2.4rem,5.5vw,4.2rem)', fontWeight: 400, lineHeight: 1.1, color: '#1a1a1a', marginBottom: '1.5rem' }}>
-              Jaleco para<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>residência médica</em>
-            </h1>
-            <p style={{ fontSize: '1rem', color: '#6b6b6b', maxWidth: 620, margin: '0 auto 2.5rem', lineHeight: 1.8 }}>
-              Plantão de 24h. Lavagem industrial. Bolsos cheios. Cinco anos de uso. O jaleco da residência precisa aguentar tudo — e ainda sair bem na foto da formatura.
-            </p>
-            <div className="flex gap-4 flex-wrap justify-center">
-              <Link href="/jaleco-feminino" style={{ padding: '0.9rem 2rem', background: '#1a1a1a', color: '#fff', fontSize: '0.78rem', letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none' }}>Feminino</Link>
-              <Link href="/jaleco-masculino" style={{ padding: '0.9rem 2rem', background: 'transparent', color: '#1a1a1a', fontSize: '0.78rem', letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>Masculino</Link>
-            </div>
-          </div>
-        </section>
+        
+        {/* ── HERO ── */}
+        <HeroCommercial
+          eyebrow="Uniforme profissional"
+          h1Line1="Jaleco para"
+          h1Line2="residência médica"
+          description="Plantão de 24h. Lavagem industrial. Bolsos cheios. Cinco anos de uso. O jaleco da residência precisa aguentar tudo — e ainda sair bem na foto da formatura."
+          startingPrice="R$220"
+          collectionHref="#produtos"
+          allHref="/produtos?categoria=jalecos-masculinos"
+        />
 
+
+        {/* ── ② COMPACT TRUST BAR ── */}
+        <CompactTrustBar />
         <section style={{ background: '#fff', padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)' }}>
           <div style={{ maxWidth: 800, margin: '0 auto' }}>
             <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(2rem,3.5vw,3rem)', fontWeight: 400, color: '#1a1a1a', marginBottom: '1.5rem' }}>O que muda de um jaleco "comum" para um de residência</h2>
@@ -101,6 +121,15 @@ export default function Page() {
             </div>
           </div>
         </section>
+
+        {/* ── GOOGLE RATING ── */}
+        <GoogleRatingCarousel rating={4.9} />
+
+        {/* ── UGC PROFISSIONAIS ── */}
+        <UGCSection />
+
+        {/* ── INSTAGRAM ── */}
+        <InstagramLazy />
       </main>
     </>
   )

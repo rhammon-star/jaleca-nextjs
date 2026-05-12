@@ -12,6 +12,11 @@ import { getAllProducts } from '@/lib/all-products'
 import { getHeroImageSlug } from '@/lib/profession-hero-images'
 import { getCachedHeroImage, getCachedBlogPosts } from '@/lib/profession-page-data'
 import UGCSection from '@/components/UGCSection'
+import HeroCommercial from '@/components/profession-lp/HeroCommercial'
+import GoogleRatingCarousel from '@/components/profession-lp/GoogleRatingCarousel'
+import InstagramLazy from '@/components/profession-lp/InstagramLazy'
+import CompactTrustBar from '@/components/profession-lp/CompactTrustBar'
+import { buildHowToSchema, buildOccupationSchema } from '@/lib/profession-schemas'
 
 // ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
 export const revalidate = 3600
@@ -102,6 +107,16 @@ async function getJalecos(): Promise<WooProduct[]> {
 function HeroStars({ rating }: { rating: number }) {
   const full = Math.floor(rating)
   const half = rating - full >= 0.5
+
+  const schemaSpeakable = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['h1', '.faq-section', 'h2'],
+    },
+  }
+
   return (
     <div className="flex items-center gap-2 mt-10">
       <span style={{ color: '#c8a96e', fontSize: '0.85rem', letterSpacing: 2 }}>
@@ -127,6 +142,9 @@ export default async function JalecoDentistaPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaFaq).replace(/</g, '\\u003c') }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaArticle).replace(/</g, '\\u003c') }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }} />
+      {(() => { const s = buildHowToSchema('jaleco-podologa', 'https://jaleca.com.br/jaleco-podologa'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
+      {(() => { const s = buildOccupationSchema('jaleco-podologa', 'https://jaleca.com.br/jaleco-podologa'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
+      <meta name="ai-content-declaration" content="human-authored-with-ai-assistance" />
 
       <main style={{ fontWeight: 300 }}>
 
@@ -145,78 +163,22 @@ export default async function JalecoDentistaPage() {
             ))}
           </ol>
         </div>
-
         {/* ── HERO ── */}
-        <section className="grid grid-cols-1 lg:grid-cols-2" style={{ minHeight: '88vh', padding: 0 }}
-        >
-          <div className="flex flex-col justify-center order-2 lg:order-1 px-4 py-8 lg:px-16 lg:py-20" style={{ padding: 'clamp(3rem,8vw,5rem) clamp(2rem,5vw,4rem) clamp(3rem,8vw,5rem) clamp(2rem,8vw,7rem)', background: '#f9f7f4' }}
-          >
-            <div className="flex items-center gap-3 mb-6" style={{ fontSize: '0.72rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#6b6b6b' }}>
-              <span style={{ display: 'inline-block', width: 32, height: 1, background: '#c8c4bc' }} />
-              Uniforme profissional
-            </div>
-            <h1
-              style={{
-                fontFamily: "'Cormorant', Georgia, serif",
-                fontSize: 'clamp(3rem,5.5vw,5.2rem)',
-                fontWeight: 400,
-                lineHeight: 1.05,
-                letterSpacing: '-0.01em',
-                color: '#1a1a1a',
-                marginBottom: '1.5rem',
-              }}
-            >
-              Jaleco para<br />
-              <em style={{ fontStyle: 'italic', fontWeight: 300 }}>Podóloga</em>
-            </h1>
-            <p style={{ fontSize: '1rem', fontWeight: 300, color: '#6b6b6b', maxWidth: 420, marginBottom: '2.5rem', lineHeight: 1.8 }}>
-              Tecido premium, caimento perfeito, preço justo.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3 lg:gap-4">
-              <Link href="/produtos?categoria=jalecos-femininos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: '#1a1a1a', color: '#fff', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
-                Feminino ↗
-              </Link>
-              <Link href="/produtos?categoria=jalecos-masculinos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.9rem 2rem', background: 'transparent', color: '#1a1a1a', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a' }}>
-                Masculino →
-              </Link>
-            </div>
-            {/* Estrelas Google reais — sem contagem */}
-            {placeData && <HeroStars rating={placeData.rating} />}
-          </div>
+        <HeroCommercial
+          eyebrow="Uniforme profissional"
+          h1Line1="Jaleco para"
+          h1Line2="Podóloga"
+          description="Tecido premium, caimento perfeito, preço justo."
+          startingPrice="R$220"
+          collectionHref="#produtos"
+          allHref="/produtos?categoria=jalecos-femininos"
+          googleRating={placeData?.rating}
+        />
 
-          <div className="relative order-1 lg:order-2" style={{ background: '#e5e0d8', minHeight: 480, overflow: 'hidden' }}>
-            {heroImg ? (
-              <img
-                src={heroImg.src}
-                alt={heroImg.alt}
-                style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block', position: 'absolute', inset: 0 }}
-              />
-            ) : (
-              <div style={{ width: '100%', height: '100%', background: 'linear-gradient(160deg, #ccc8c0 0%, #bfbab2 100%)', position: 'absolute', inset: 0 }} />
-            )}
-          </div>
-        </section>
 
-        {/* ── TRUST BAR ── */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-y-4 lg:gap-y-0" style={{ background: '#1a1a1a', padding: '2rem clamp(1.5rem,5vw,4rem)' }}>
-          {[
-            { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><path d="M3 6h18M3 12h18M3 18h18" /></svg>, title: 'Tamanhos PP ao G3', sub: 'Grade completa, corpo real' },
-            { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><ellipse cx="12" cy="12" rx="9" ry="6" /><path d="M12 3v18M3 12h18" opacity=".5" /></svg>, title: 'Com elastano', sub: 'Movimento sem restrição' },
-            { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><path d="M5 12h14M12 5l7 7-7 7" /></svg>, title: 'Frete grátis', sub: 'SP · RJ · MG · ES acima R$499' },
-            { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ width: 20, height: 20 }}><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0" /><path d="m9 12 2 2 4-4" /></svg>, title: 'Troca em 7 dias', sub: 'Direito do consumidor' },
-          ].map((item, i) => (
-            <div key={i} className="flex items-center gap-4" style={{ padding: '0.5rem 1.5rem', borderRight: i < 3 ? '1px solid rgba(255,255,255,0.12)' : 'none' }}>
-              <div className="shrink-0 flex items-center justify-center" style={{ width: 40, height: 40, border: '1px solid rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.8)' }}>
-                {item.icon}
-              </div>
-              <div>
-                <strong style={{ display: 'block', fontSize: '0.82rem', fontWeight: 400, letterSpacing: '0.06em', color: '#fff', marginBottom: '0.15rem' }}>{item.title}</strong>
-                <span style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.45)' }}>{item.sub}</span>
-              </div>
-            </div>
-          ))}
-        </div>
 
+        {/* ── ② COMPACT TRUST BAR ── */}
+        <CompactTrustBar />
         {/* ── PRODUTOS — Above the Fold ── */}
         {/* Produtos aparecem logo após Trust Bar, antes do guia editorial longo */}
         {produtos.length > 0 && (
@@ -243,6 +205,14 @@ export default async function JalecoDentistaPage() {
             </div>
           </section>
         )}
+
+        {/* ── GOOGLE RATING ── */}
+        <GoogleRatingCarousel rating={placeData?.rating} />
+
+        <UGCSection />
+
+        {/* ── INSTAGRAM ── */}
+        <InstagramLazy />
 
         {/* ── GUIA ── */}
         <section className="px-4 py-12 lg:px-16 lg:py-20" style={{ background: '#f9f7f4', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
@@ -496,7 +466,7 @@ export default async function JalecoDentistaPage() {
           </div>
         </section>
 
-            <UGCSection />
+            
 
     </main>
     </>
