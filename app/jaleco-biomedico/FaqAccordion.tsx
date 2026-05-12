@@ -1,7 +1,3 @@
-'use client'
-
-import { useState } from 'react'
-
 const faqItems = [
   { q: "Qual o tecido mais resistente e adequado para o jaleco masculino de biomédico em laboratórios de análises clínicas?", a: "Gabardine de alta densidade é ideal, pois é resistente a produtos químicos leves, fácil de descontaminar e durável para o ambiente laboratorial intenso." },
   { q: "Os jalecos para biomédicos são projetados para máxima proteção e conforto durante a manipulação de amostras e reagentes?", a: "Sim, nossos modelos masculinos oferecem manga longa e punhos que protegem eficazmente, além de cortes que garantem liberdade de movimento para manipulações precisas." },
@@ -24,51 +20,26 @@ const faqItems = [
   { q: "Os jalecos de biomédico são adequados para uso em salas limpas ou ambientes controlados?", a: "Para salas limpas, são exigidos jalecos específicos de tecidos que não soltem fiapos e sigam normas ISO. Nossos jalecos padrão são para uso geral em laboratório, não necessariamente salas limpas." },
   { q: "É possível personalizar o jaleco de biomédico com o logo da instituição ou empresa?", a: "Sim, além do nome e CRBM, oferecemos o serviço de bordado para incluir o logo da sua instituição, laboratório ou empresa, promovendo a identidade visual." }
 ]
-
 export default function FaqAccordion() {
-  const [openIndex, setOpenIndex] = useState<number | null>(0)
-
-  const toggle = (i: number) => setOpenIndex(openIndex === i ? null : i)
-
-  const half = Math.ceil(faqItems.length / 2)
-  const col1 = faqItems.slice(0, half)
-  const col2 = faqItems.slice(half)
-
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 mt-12">
-      {[col1, col2].map((col, ci) =>
-        col.map((item, i) => {
-          const idx = ci * half + i
-          const isOpen = openIndex === idx
-          return (
-            <div key={idx} className="border-t border-[#e5e0d8] overflow-hidden">
-              <button
-                onClick={() => toggle(idx)}
-                className="w-full flex items-center justify-between gap-4 py-5 text-left cursor-pointer"
-              >
-                <span className="text-[0.95rem] font-[400] text-[#1a1a1a] leading-snug pr-2">{item.q}</span>
-                <span
-                  className="w-6 h-6 shrink-0 flex items-center justify-center border border-[#e5e0d8] text-[#6b6b6b] text-base transition-all duration-300"
-                  style={{
-                    transform: isOpen ? 'rotate(45deg)' : 'rotate(0deg)',
-                    background: isOpen ? '#1a1a1a' : 'transparent',
-                    color: isOpen ? '#fff' : '#6b6b6b',
-                    borderColor: isOpen ? '#1a1a1a' : '#e5e0d8',
-                  }}
-                >
-                  +
-                </span>
-              </button>
-              <div
-                className="overflow-hidden transition-all duration-300"
-                style={{ maxHeight: isOpen ? '300px' : '0px' }}
-              >
-                <p className="text-[0.9rem] text-[#6b6b6b] leading-[1.8] pb-5 font-light">{item.a}</p>
-              </div>
-            </div>
-          )
-        })
-      )}
+    <div style={{ maxWidth: 900, margin: '0 auto' }}>
+      <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.5rem' }}>Perguntas frequentes</div>
+      <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(1.8rem,3vw,2.6rem)', fontWeight: 400, color: '#1a1a1a', marginBottom: '1.25rem' }}>
+        Tudo sobre jaleco para biomédico
+      </h2>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', background: '#e5e0d8' }}>
+        {faqItems.map((item, i) => (
+          <details key={i} style={{ background: '#fff', padding: '1.25rem 1.5rem' }}>
+            <summary style={{ cursor: 'pointer', fontSize: '0.9rem', fontWeight: 500, color: '#1a1a1a', lineHeight: 1.5, listStyle: 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '1rem' }}>
+              {item.q}
+              <span style={{ flexShrink: 0, fontSize: '1.1rem', color: '#c8a96e', fontWeight: 300 }}>+</span>
+            </summary>
+            <p style={{ fontSize: '0.85rem', color: '#4a4a4a', lineHeight: 1.8, marginTop: '0.75rem', paddingTop: '0.75rem', borderTop: '1px solid #f0ece5', marginBottom: 0 }}>
+              {item.a}
+            </p>
+          </details>
+        ))}
+      </div>
     </div>
   )
 }
