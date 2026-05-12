@@ -11,6 +11,7 @@ import { getPosts } from '@/lib/wordpress'
 import type { WPPost } from '@/lib/wordpress'
 import { getGooglePlaceData } from '@/lib/google-places'
 import StickyMobileCTA from '@/components/profession-lp/StickyMobileCTA'
+import cidadeFaqExtra from '@/lib/cidade-faq-extra.json'
 
 type CidadeInfo = {
   nome: string
@@ -899,7 +900,12 @@ export default async function CidadePage({
   ])
   const heroImage = cidade.heroUrl ?? null
 
-  const faq = FAQ_TEMPLATE(cidade.nome, cidade.estado, cidade.uf)
+  const baseFaq = FAQ_TEMPLATE(cidade.nome, cidade.estado, cidade.uf)
+  const extras = (cidadeFaqExtra as Record<string, { q: string; a: string }[]>)[slug] ?? []
+  const faq = [
+    ...baseFaq,
+    ...extras.map((e) => ({ pergunta: e.q, resposta: e.a })),
+  ]
 
   const breadcrumbSchema = {
     '@context': 'https://schema.org',

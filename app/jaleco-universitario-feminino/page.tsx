@@ -15,7 +15,7 @@ import GoogleRatingCarousel from '@/components/profession-lp/GoogleRatingCarouse
 import InstagramLazy from '@/components/profession-lp/InstagramLazy'
 import CompactTrustBar from '@/components/profession-lp/CompactTrustBar'
 import StickyMobileCTA from '@/components/profession-lp/StickyMobileCTA'
-import { buildHowToSchema, buildOccupationSchema, buildItemListSchema} from '@/lib/profession-schemas'
+import { buildHowToSchema, buildOccupationSchema, buildItemListSchema, buildProductListSchema, buildReviewSchema} from '@/lib/profession-schemas'
 
 export const revalidate = 3600
 
@@ -163,6 +163,8 @@ export default async function JalecoUniversitarioFemininoPage() {
       {(() => { const s = buildHowToSchema('jaleco-universitario-feminino', 'https://jaleca.com.br/jaleco-universitario-feminino'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
       {(() => { const s = buildOccupationSchema('jaleco-universitario-feminino', 'https://jaleca.com.br/jaleco-universitario-feminino'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
       {(() => { const s = buildItemListSchema(produtos, 'https://jaleca.com.br/jaleco-universitario-feminino', "Jalecos para universitario feminino"); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
+      {(() => { const arr = buildProductListSchema(produtos, 'https://jaleca.com.br/jaleco-universitario-feminino'); return arr ? arr.map((s, i) => <script key={'p'+i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} />) : null })()}
+      {(() => { const arr = buildReviewSchema(placeData?.reviews, 'https://jaleca.com.br/jaleco-universitario-feminino', "Jaleco para universitario feminino"); return arr ? arr.map((s, i) => <script key={'r'+i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} />) : null })()}
       <meta name="ai-content-declaration" content="human-authored-with-ai-assistance" />
 
       <main style={{ fontWeight: 300 }}>

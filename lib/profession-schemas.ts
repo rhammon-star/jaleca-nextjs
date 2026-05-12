@@ -61,6 +61,62 @@ type ItemListProduct = {
   name?: string
   slug?: string
   image?: { sourceUrl?: string | null } | string | null
+  price?: string | null
+  regularPrice?: string | null
+  stockStatus?: string | null
+  sku?: string | null
+}
+
+function priceToNumber(p?: string | null): number | null {
+  if (!p) return null
+  const s = String(p).replace(/[^\d,.-]/g, '').replace(/\./g, '').replace(',', '.')
+  const n = parseFloat(s)
+  return isFinite(n) && n > 0 ? n : null
+}
+
+export function buildProductListSchema(produtos: ItemListProduct[], pageUrl: string) {
+  if (!produtos || produtos.length === 0) return null
+  return produtos.map((p) => {
+    const img = typeof p.image === 'string' ? p.image : p.image?.sourceUrl ?? undefined
+    const price = priceToNumber(p.price) ?? priceToNumber(p.regularPrice)
+    const productUrl = p.slug ? `https://jaleca.com.br/produto/${p.slug}` : pageUrl
+    return {
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      name: p.name,
+      url: productUrl,
+      ...(img ? { image: img } : {}),
+      ...(p.sku ? { sku: p.sku } : {}),
+      brand: { '@type': 'Brand', name: 'Jaleca' },
+      ...(price ? {
+        offers: {
+          '@type': 'Offer',
+          url: productUrl,
+          priceCurrency: 'BRL',
+          price: price.toFixed(2),
+          availability: p.stockStatus === 'OUT_OF_STOCK'
+            ? 'https://schema.org/OutOfStock'
+            : 'https://schema.org/InStock',
+          itemCondition: 'https://schema.org/NewCondition',
+          seller: { '@type': 'Organization', name: 'Jaleca' },
+        },
+      } : {}),
+    }
+  })
+}
+
+type ReviewItem = { authorName: string; rating: number; text: string; relativeTime?: string }
+export function buildReviewSchema(reviews: ReviewItem[] | undefined, pageUrl: string, productName: string) {
+  if (!reviews || reviews.length === 0) return null
+  return reviews.slice(0, 5).map((r) => ({
+    '@context': 'https://schema.org',
+    '@type': 'Review',
+    itemReviewed: { '@type': 'Product', name: productName, url: pageUrl },
+    author: { '@type': 'Person', name: r.authorName },
+    reviewRating: { '@type': 'Rating', ratingValue: r.rating, bestRating: 5 },
+    reviewBody: r.text,
+    publisher: { '@type': 'Organization', name: 'Google' },
+  }))
 }
 
 export function buildItemListSchema(produtos: ItemListProduct[], pageUrl: string, listName: string) {

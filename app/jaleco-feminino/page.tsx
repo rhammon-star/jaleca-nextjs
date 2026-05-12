@@ -178,12 +178,28 @@ export default async function Page() {
     ],
   }
 
+  const modelosItemListSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Modelos de Jaleco Feminino',
+    url: 'https://jaleca.com.br/jaleco-feminino',
+    numberOfItems: 4,
+    itemListOrder: 'https://schema.org/ItemListOrderAscending',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Jaleco Feminino Slim', url: 'https://jaleca.com.br/categoria/jalecos-femininos' },
+      { '@type': 'ListItem', position: 2, name: 'Jaleco Feminino Princesa', url: 'https://jaleca.com.br/categoria/jalecos-femininos' },
+      { '@type': 'ListItem', position: 3, name: 'Jaleco Feminino Duquesa', url: 'https://jaleca.com.br/categoria/jalecos-femininos' },
+      { '@type': 'ListItem', position: 4, name: 'Jaleco Feminino Elastex', url: 'https://jaleca.com.br/categoria/jalecos-femininos' },
+    ],
+  }
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaFaq).replace(/</g, '\\u003c') }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaArticle).replace(/</g, '\\u003c') }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaAggregateRating).replace(/</g, '\\u003c') }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(modelosItemListSchema).replace(/</g, '\\u003c') }} />
       {(() => { const s = buildHowToSchema('jaleco-feminino', 'https://jaleca.com.br/jaleco-feminino'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
       {(() => { const s = buildOccupationSchema('jaleco-feminino', 'https://jaleca.com.br/jaleco-feminino'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
       <meta name="ai-content-declaration" content="human-authored-with-ai-assistance" />
@@ -282,11 +298,113 @@ export default async function Page() {
           </div>
         </section>
 
+        {/* ── ⑦.5 COMO ESCOLHER ── */}
+        <section style={{ background: '#fff', padding: 'clamp(2.5rem,5vw,4rem) clamp(1.5rem,5vw,4rem)', borderTop: '1px solid #f0ece5' }}>
+          <div style={{ maxWidth: 900, margin: '0 auto' }}>
+            <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.5rem' }}>Guia de compra</div>
+            <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(1.8rem,3vw,2.6rem)', fontWeight: 400, color: '#1a1a1a', marginBottom: '1.25rem' }}>
+              Como escolher o jaleco feminino ideal
+            </h2>
+            <p style={{ fontSize: '0.92rem', color: '#4a4a4a', lineHeight: 1.8, marginBottom: '1.5rem' }}>
+              Escolher um jaleco feminino que funcione no dia a dia exige observar três variáveis: corte, tecido e tamanho.
+              Um bom jaleco feminino acompanha o movimento, não amassa entre atendimentos e mantém o caimento mesmo após
+              dezenas de lavagens. Abaixo, o que considerar em cada decisão antes de comprar.
+            </p>
+
+            <h3 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '1.35rem', fontWeight: 500, color: '#1a1a1a', marginTop: '1.5rem', marginBottom: '0.5rem' }}>
+              1. Corte: acinturado, princesa ou reto
+            </h3>
+            <p style={{ fontSize: '0.9rem', color: '#4a4a4a', lineHeight: 1.8, marginBottom: '1rem' }}>
+              O corte define a silhueta. O modelo Slim usa recortes laterais e pences nas costas para valorizar a cintura sem
+              apertar. O Princesa tem cava americana e caimento mais fluido — bom para procedimentos estéticos. O Duquesa,
+              mais clássico, agrada quem prefere visual sóbrio de consultório. Se você nunca usou jaleco acinturado,
+              comece pelo Slim — é o mais versátil entre os modelos de <Link href="/jaleco-medica" style={{ color: '#c8a96e' }}>jaleco para médica</Link> e <Link href="/jaleco-dentista" style={{ color: '#c8a96e' }}>dentista</Link>.
+            </p>
+
+            <h3 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '1.35rem', fontWeight: 500, color: '#1a1a1a', marginTop: '1.5rem', marginBottom: '0.5rem' }}>
+              2. Tecido: gabardine, microfibra ou alfaiataria
+            </h3>
+            <p style={{ fontSize: '0.9rem', color: '#4a4a4a', lineHeight: 1.8, marginBottom: '1rem' }}>
+              Gabardine com elastano (150-165 g/m²) é o padrão para atendimento clínico — leve, respirável, com pouca formação
+              de vinco. Microfibra é mais econômica e também não amassa. Alfaiataria premium tem caimento estruturado e é
+              indicada para quem trabalha com paciente particular ou rotina exposta a câmera. Veja também o
+              {' '}<Link href="/jaleco-com-elastano" style={{ color: '#c8a96e' }}>jaleco com elastano</Link>, que ganhou espaço entre quem faz plantões longos.
+            </p>
+
+            <h3 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: '1.35rem', fontWeight: 500, color: '#1a1a1a', marginTop: '1.5rem', marginBottom: '0.5rem' }}>
+              3. Tamanho: do PP ao G3 com molde próprio
+            </h3>
+            <p style={{ fontSize: '0.9rem', color: '#4a4a4a', lineHeight: 1.8, marginBottom: 0 }}>
+              Confira a tabela de medidas antes de pedir. Marcas que trabalham só com escala (ampliação proporcional do M)
+              tendem a apertar nos ombros nas grades maiores. A linha {' '}
+              <Link href="/jaleco-plus-size" style={{ color: '#c8a96e' }}>jaleco plus size</Link> da Jaleca tem molde refeito do G1 ao G3 — ombro recalculado, manga progressiva,
+              busto alargado sem perder cintura. Para climas quentes, o {' '}
+              <Link href="/jaleco-manga-curta-feminino" style={{ color: '#c8a96e' }}>jaleco manga curta feminino</Link> é alternativa válida em consultórios sem exigência de manga longa.
+            </p>
+          </div>
+        </section>
+
+        {/* ── ⑦.6 JALECO FEMININO POR PROFISSÃO ── */}
+        <section style={{ background: '#f9f7f4', padding: 'clamp(2.5rem,5vw,4rem) clamp(1.5rem,5vw,4rem)' }}>
+          <div style={{ maxWidth: 900, margin: '0 auto' }}>
+            <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.5rem' }}>Por profissão</div>
+            <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(1.8rem,3vw,2.6rem)', fontWeight: 400, color: '#1a1a1a', marginBottom: '1.25rem' }}>
+              Jaleco feminino por profissão
+            </h2>
+            <p style={{ fontSize: '0.92rem', color: '#4a4a4a', lineHeight: 1.8, marginBottom: '1rem' }}>
+              Cada área da saúde tem uma rotina diferente — e isso muda o tipo de jaleco feminino mais indicado. A escolha
+              não é só estética: gramatura, comprimento, manga e bolso impactam o conforto ao longo do plantão.
+            </p>
+            <p style={{ fontSize: '0.9rem', color: '#4a4a4a', lineHeight: 1.8, marginBottom: '0.85rem' }}>
+              Para quem atua em consultório clínico, o <Link href="/jaleco-medica" style={{ color: '#c8a96e' }}>jaleco feminino para médica</Link> com gabardine
+              165 g/m² e manga longa é o mais aceito. Em odontologia, o <Link href="/jaleco-dentista" style={{ color: '#c8a96e' }}>jaleco para dentista</Link> com
+              tecido DWR (repele líquidos) protege contra respingos durante procedimentos.
+            </p>
+            <p style={{ fontSize: '0.9rem', color: '#4a4a4a', lineHeight: 1.8, marginBottom: '0.85rem' }}>
+              No ambiente hospitalar, o <Link href="/jaleco-enfermeira" style={{ color: '#c8a96e' }}>jaleco para enfermeira</Link> precisa resistir a lavagens
+              frequentes — veja também a página de <Link href="/jaleco-enfermagem" style={{ color: '#c8a96e' }}>jaleco de enfermagem</Link> com referências da Cofen.
+              Estudantes de <Link href="/jaleco-medicina" style={{ color: '#c8a96e' }}>medicina</Link> costumam optar por modelos básicos e duráveis durante a graduação.
+            </p>
+            <p style={{ fontSize: '0.9rem', color: '#4a4a4a', lineHeight: 1.8, marginBottom: 0 }}>
+              Já em estética, veterinária e farmácia, o jaleco feminino assume papel mais comercial: o {' '}
+              <Link href="/jaleco-esteticista" style={{ color: '#c8a96e' }}>jaleco para esteticista</Link>, o {' '}
+              <Link href="/jaleco-veterinaria" style={{ color: '#c8a96e' }}>jaleco para veterinária</Link> e o {' '}
+              <Link href="/jaleco-farmaceutica" style={{ color: '#c8a96e' }}>jaleco para farmacêutica</Link> aceitam cores
+              além do branco. Em todas essas áreas, o corte feminino com elastano segue como o mais procurado.
+            </p>
+          </div>
+        </section>
+
         {/* ── ⑧ LINKS DE PROFISSÃO ── */}
         <ProfessionLinksNeutral
           title="Jaleco para sua profissão"
           links={INTERNAL_LINKS.map(l => ({ href: l.href, label: l.label }))}
         />
+
+        {/* ── ⑧.5 MODELOS E CATEGORIAS RELACIONADAS ── */}
+        <section style={{ background: '#fff', padding: 'clamp(2rem,4vw,3rem) clamp(1.5rem,5vw,4rem)', borderTop: '1px solid #f0ece5' }}>
+          <div style={{ maxWidth: 900, margin: '0 auto' }}>
+            <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.5rem' }}>Explore</div>
+            <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(1.6rem,2.6vw,2.2rem)', fontWeight: 400, color: '#1a1a1a', marginBottom: '1rem' }}>
+              Modelos e categorias relacionadas
+            </h2>
+            <p style={{ fontSize: '0.9rem', color: '#4a4a4a', lineHeight: 1.8, marginBottom: 0 }}>
+              Confira também outros modelos e categorias da loja: {' '}
+              <Link href="/categoria/jalecos-femininos" style={{ color: '#c8a96e' }}>todos os jalecos femininos</Link>,{' '}
+              <Link href="/jaleco-branco" style={{ color: '#c8a96e' }}>jaleco branco</Link>,{' '}
+              <Link href="/jaleco-preto-feminino" style={{ color: '#c8a96e' }}>jaleco preto feminino</Link>,{' '}
+              <Link href="/jaleco-plus-size" style={{ color: '#c8a96e' }}>jaleco plus size</Link>,{' '}
+              <Link href="/jaleco-manga-curta-feminino" style={{ color: '#c8a96e' }}>jaleco manga curta feminino</Link>,{' '}
+              <Link href="/jaleco-com-elastano" style={{ color: '#c8a96e' }}>jaleco com elastano</Link>,{' '}
+              <Link href="/jaleco-medica" style={{ color: '#c8a96e' }}>jaleco para médica</Link>,{' '}
+              <Link href="/jaleco-medico" style={{ color: '#c8a96e' }}>jaleco médico</Link>,{' '}
+              <Link href="/jaleco-dentista" style={{ color: '#c8a96e' }}>jaleco dentista</Link>,{' '}
+              <Link href="/jaleco-enfermeira" style={{ color: '#c8a96e' }}>jaleco enfermeira</Link>,{' '}
+              <Link href="/jaleco-enfermagem" style={{ color: '#c8a96e' }}>jaleco enfermagem</Link> e{' '}
+              <Link href="/jaleco-medicina" style={{ color: '#c8a96e' }}>jaleco medicina</Link>.
+            </p>
+          </div>
+        </section>
 
         {/* ── ⑨ CTA FINAL ── */}
         <section style={{ background: '#1a1a1a', padding: 'clamp(2.5rem,5vw,4rem) clamp(1.5rem,5vw,4rem)', textAlign: 'center' }}>
@@ -306,14 +424,7 @@ export default async function Page() {
             <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.35)' }}>★ 4.9 Google · 200 mil peças vendidas</div>
           </div>
         </section>
-      <StickyMobileCTA href="#produtos" startingPrice="R
-
-      </main>
-    </>
-  )
-}89" label="Ver coleção" />
-
-
+        <StickyMobileCTA href="#colecao" startingPrice="R$189" label="Ver coleção" />
       </main>
     </>
   )

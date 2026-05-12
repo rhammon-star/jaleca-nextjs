@@ -1,5 +1,13 @@
-Data: 2026-05-12 (sessão tarde-noite)
-Tarefa: Fase 4 Layout Redesign — FAQ +20 por slug + ItemList schema + cidade FAQ expandido
+Data: 2026-05-12 (sessão noite +rodada 2)
+Tarefa: Fase 4 Layout Redesign — FAQ +20 + ItemList + Product+Offer + Review + 75 cidades FAQ únicas
+
+Rodada 2 (após FAQ inicial):
+- lib/profession-schemas.ts: adicionado buildProductListSchema (Product+Offer com preço/SKU/availability) e buildReviewSchema (Review com até 5 reviews Google)
+- 40× app/jaleco-*/page.tsx: scripts JSON-LD Product+Offer e Review injetados após ItemList
+- lib/cidade-faq-extra.json (NOVO): 75 cidades × 5 Q/A únicas por cidade (Gemini)
+- app/cidade/[slug]/page.tsx: faq agora é baseFaq (20 template) + extras únicas (5 por cidade) = 25 Q/A por cidade
+
+Rodada 1:
 
 Arquivos alterados:
 - lib/profession-faq-data.json (NOVO — 40 slugs × 20 Q/A = 800 FAQs)
