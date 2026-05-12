@@ -14,6 +14,7 @@ import HeroCommercial from '@/components/profession-lp/HeroCommercial'
 import GoogleRatingCarousel from '@/components/profession-lp/GoogleRatingCarousel'
 import InstagramLazy from '@/components/profession-lp/InstagramLazy'
 import CompactTrustBar from '@/components/profession-lp/CompactTrustBar'
+import StickyMobileCTA from '@/components/profession-lp/StickyMobileCTA'
 import { buildHowToSchema, buildOccupationSchema } from '@/lib/profession-schemas'
 
 export const revalidate = 3600
@@ -205,13 +206,14 @@ export default async function JalecoUniversitarioFemininoPage() {
           </section>
         )}
 
+        {/* ── TRUST BAR — desceu pra depois da grade ── */}
+        <CompactTrustBar />
+
         {/* ── GOOGLE RATING ── */}
         <GoogleRatingCarousel rating={placeData?.rating} />
 
         <UGCSection />
 
-        {/* ── INSTAGRAM ── */}
-        <InstagramLazy />
 
         {/* ── CURSOS ── */}
         <section style={{ background: '#fff', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
@@ -377,6 +379,9 @@ export default async function JalecoUniversitarioFemininoPage() {
         <ProductDetailSection productType="jaleco" />
 
         {/* ── FAQ ── */}
+        {/* ── INSTAGRAM — desceu pra antes do FAQ ── */}
+        <InstagramLazy />
+
         <section style={{ background: '#fff', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
           <div style={{ maxWidth: 1200, width: '100%', margin: '0 auto' }}>
             <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>Dúvidas frequentes</div>
@@ -498,6 +503,8 @@ export default async function JalecoUniversitarioFemininoPage() {
         </section>
 
             
+
+      <StickyMobileCTA href="#produtos" startingPrice="R$220" label="Ver coleção" />
 
     </main>
     </>

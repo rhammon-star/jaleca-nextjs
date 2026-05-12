@@ -16,6 +16,7 @@ import GoogleRatingCarousel from '@/components/profession-lp/GoogleRatingCarouse
 import UGCSection from '@/components/UGCSection'
 import InstagramLazy from '@/components/profession-lp/InstagramLazy'
 import CompactTrustBar from '@/components/profession-lp/CompactTrustBar'
+import StickyMobileCTA from '@/components/profession-lp/StickyMobileCTA'
 import { buildHowToSchema, buildOccupationSchema } from '@/lib/profession-schemas'
 
 // ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
@@ -177,12 +178,9 @@ export default async function JalecoCabeleireiroPage() {
 
 
 
-        {/* ── ② COMPACT TRUST BAR ── */}
-        <CompactTrustBar />
-        {/* ── PRODUTOS — Above the Fold ── */}
-        {/* Produtos aparecem logo após Trust Bar, antes do guia editorial longo */}
+        {/* ── PRODUTOS — Above the Fold (subiu pra após Hero, mobile) ── */}
         {produtos.length > 0 && (
-          <section className="px-4 py-12 lg:px-16 lg:py-20" style={{ background: '#f9f7f4', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
+          <section id="produtos" className="px-4 py-12 lg:px-16 lg:py-20" style={{ background: '#f9f7f4', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
             <div style={{ maxWidth: 1200, width: '100%', margin: '0 auto' }}>
               <div className="mb-10">
                 <div>
@@ -206,14 +204,18 @@ export default async function JalecoCabeleireiroPage() {
           </section>
         )}
 
+        {/* ── TRUST BAR — desceu pra depois da grade ── */}
+        <CompactTrustBar />
+
         {/* ── GOOGLE RATING ── */}
         <GoogleRatingCarousel rating={placeData?.rating} />
 
         {/* ── UGC PROFISSIONAIS ── */}
         <UGCSection />
 
-        {/* ── INSTAGRAM ── */}
-        <InstagramLazy />
+
+        {/* ── DESCRITIVO MODELOS — subiu pra antes do Guia ── */}
+        <ProductDetailSection productType="jaleco" />
 
         {/* ── GUIA ── */}
         <section className="px-4 py-12 lg:px-16 lg:py-20" style={{ background: '#f9f7f4', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
@@ -341,8 +343,9 @@ export default async function JalecoCabeleireiroPage() {
           </div>
         </section>
 
-        {/* ── PRODUTO — Detalhamento ── */}
-        <ProductDetailSection productType="jaleco" />
+        {/* ── INSTAGRAM — desceu pra antes do FAQ ── */}
+        <InstagramLazy />
+
         <section style={{ background: '#fff', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
           <div style={{ maxWidth: 1200, width: '100%', margin: '0 auto' }}>
             <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>Dúvidas frequentes</div>
@@ -465,6 +468,8 @@ export default async function JalecoCabeleireiroPage() {
             </div>
           </div>
         </section>
+      <StickyMobileCTA href="#produtos" startingPrice="R$220" label="Ver coleção" />
+
 
 
       </main>

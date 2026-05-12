@@ -4,6 +4,7 @@ import { getGooglePlaceData } from '@/lib/google-places'
 import ProfessionProductGrid from '@/components/ProfessionProductGrid'
 import HeroCommercial from '@/components/profession-lp/HeroCommercial'
 import CompactTrustBar from '@/components/profession-lp/CompactTrustBar'
+import StickyMobileCTA from '@/components/profession-lp/StickyMobileCTA'
 import GoogleRatingCarousel from '@/components/profession-lp/GoogleRatingCarousel'
 import InstagramLazy from '@/components/profession-lp/InstagramLazy'
 import FabricGuideCards from '@/components/profession-lp/FabricGuideCards'
@@ -305,6 +306,13 @@ export default async function Page() {
             <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.35)' }}>★ 4.9 Google · 200 mil peças vendidas</div>
           </div>
         </section>
+      <StickyMobileCTA href="#produtos" startingPrice="R
+
+      </main>
+    </>
+  )
+}89" label="Ver coleção" />
+
 
       </main>
     </>

@@ -9,6 +9,8 @@ import { getAllProducts } from '@/lib/all-products'
 import UGCSection from '@/components/UGCSection'
 import { getPosts } from '@/lib/wordpress'
 import type { WPPost } from '@/lib/wordpress'
+import { getGooglePlaceData } from '@/lib/google-places'
+import StickyMobileCTA from '@/components/profession-lp/StickyMobileCTA'
 
 type CidadeInfo = {
   nome: string
@@ -875,9 +877,10 @@ export default async function CidadePage({
   const cidade = CIDADES[slug]
   if (!cidade) notFound()
 
-  const [products, posts] = await Promise.all([
+  const [products, posts, placeData] = await Promise.all([
     getAllProducts(),
     getPosts({ per_page: 3, search: 'jaleco' }).catch(() => [] as WPPost[]),
+    getGooglePlaceData().catch(() => null),
   ])
   const heroImage = cidade.heroUrl ?? null
 
@@ -920,12 +923,16 @@ export default async function CidadePage({
 
   const localBusinessSchema = {
     '@context': 'https://schema.org',
-    '@type': 'LocalBusiness',
+    '@type': ['Store', 'OnlineStore', 'LocalBusiness'],
+    '@id': `https://jaleca.com.br/cidade/${slug}#store`,
     name: 'Jaleca',
     url: `https://jaleca.com.br/cidade/${slug}`,
     logo: 'https://jaleca.com.br/logo-cropped.jpg',
     image: 'https://jaleca.com.br/og-home.jpg',
     telephone: '+553134461777',
+    priceRange: 'R$ 99 - R$ 489',
+    currenciesAccepted: 'BRL',
+    paymentAccepted: 'Cartão de Crédito, PIX, Boleto',
     description: `Uniformes profissionais com entrega em ${cidade.nome}. Jalecos, dólmãs e conjuntos para ${cidade.profissoes}.`,
     areaServed: {
       '@type': 'City',
@@ -934,6 +941,36 @@ export default async function CidadePage({
         '@type': 'State',
         name: cidade.estado,
       },
+    },
+    makesOffer: {
+      '@type': 'Offer',
+      itemOffered: {
+        '@type': 'Product',
+        name: `Jaleco profissional em ${cidade.nome}`,
+        category: 'Uniformes profissionais',
+      },
+      priceCurrency: 'BRL',
+      priceSpecification: {
+        '@type': 'PriceSpecification',
+        minPrice: 99,
+        maxPrice: 489,
+        priceCurrency: 'BRL',
+      },
+      areaServed: { '@type': 'City', name: cidade.nome },
+      availableDeliveryMethod: 'http://purl.org/goodrelations/v1#DeliveryModeMail',
+    },
+    openingHoursSpecification: {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      opens: '09:00',
+      closes: '18:00',
+    },
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: String(placeData?.rating ?? 4.9),
+      reviewCount: String(placeData?.reviewCount ?? 1000),
+      bestRating: '5',
+      worstRating: '1',
     },
     sameAs: [
       'https://www.instagram.com/jalecaa/',
@@ -1021,14 +1058,31 @@ export default async function CidadePage({
         </div>
       </section>
 
+      {/* ── INTRO LOCAL — antes dos produtos, reforça sinal GEO ── */}
+      {cidade.conteudoLocal && (
+        <section className="bg-white py-10 px-4">
+          <div className="container max-w-3xl">
+            <h2 className="font-display text-2xl md:text-3xl font-normal text-foreground mb-4 leading-tight">
+              Jalecos da Jaleca em {cidade.nome}
+            </h2>
+            <p className="text-muted-foreground leading-relaxed text-[0.97rem]">
+              {cidade.conteudoLocal}
+            </p>
+          </div>
+        </section>
+      )}
+
       {/* Produtos */}
       <section id="produtos" className="py-12">
         <div className="container">
           <div className="mb-8 text-center">
             <h2 className="font-display text-3xl font-semibold mb-2">
-              Nossos Produtos
+              Jalecos em {cidade.nome}, {cidade.uf}
             </h2>
-            <p className="text-muted-foreground">
+            <h3 className="text-base font-normal text-muted-foreground">
+              Coleção completa para {cidade.profissoes}
+            </h3>
+            <p className="text-sm text-muted-foreground mt-2">
               Enviamos para {cidade.nome} via PAC, SEDEX e Jadlog
             </p>
           </div>
@@ -1185,6 +1239,8 @@ export default async function CidadePage({
           </div>
         </div>
       </section>
+
+      <StickyMobileCTA href="#produtos" label={`Ver jalecos em ${cidade.nome}`} />
 
     </main>
   )

@@ -10,6 +10,7 @@ import HeroCommercial from '@/components/profession-lp/HeroCommercial'
 import GoogleRatingCarousel from '@/components/profession-lp/GoogleRatingCarousel'
 import InstagramLazy from '@/components/profession-lp/InstagramLazy'
 import CompactTrustBar from '@/components/profession-lp/CompactTrustBar'
+import StickyMobileCTA from '@/components/profession-lp/StickyMobileCTA'
 import { buildHowToSchema, buildOccupationSchema } from '@/lib/profession-schemas'
 
 // ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
@@ -263,8 +264,6 @@ export default async function JalecoPlusSizePage() {
           </div>
         </section>
 
-        {/* ── PRODUTO — Detalhamento ── */}
-        <ProductDetailSection productType="jaleco" />
 
         {/* ── CTA FINAL ── */}
         <section style={{ background: '#f9f7f4', padding: 'clamp(5rem,10vw,9rem) clamp(1.5rem,5vw,4rem)', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
@@ -296,8 +295,8 @@ export default async function JalecoPlusSizePage() {
 
         <UGCSection />
 
-        {/* ── INSTAGRAM ── */}
-        <InstagramLazy />
+
+      <StickyMobileCTA href="#produtos" startingPrice="R$220" label="Ver coleção" />
 
     </main>
     </>
