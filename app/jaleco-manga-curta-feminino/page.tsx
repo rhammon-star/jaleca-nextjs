@@ -5,7 +5,6 @@ import GoogleRatingCarousel from '@/components/profession-lp/GoogleRatingCarouse
 import UGCSection from '@/components/UGCSection'
 import InstagramLazy from '@/components/profession-lp/InstagramLazy'
 import CompactTrustBar from '@/components/profession-lp/CompactTrustBar'
-import StickyMobileCTA from '@/components/profession-lp/StickyMobileCTA'
 import FabricGuideCards from '@/components/profession-lp/FabricGuideCards'
 import { buildHowToSchema, buildOccupationSchema } from '@/lib/profession-schemas'
 
@@ -126,7 +125,6 @@ export default function Page() {
 
         {/* ── UGC PROFISSIONAIS ── */}
         <UGCSection />
-      <StickyMobileCTA href="#produtos" startingPrice="R$220" label="Ver coleção" />
 
 
       </main>

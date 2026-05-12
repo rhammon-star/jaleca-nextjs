@@ -1,11 +1,10 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import ProductsClient from './ProductsClient'
 import { getAllProducts } from '@/lib/all-products'
 
 // ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
 export const revalidate = 3600
-
-export const dynamic = 'force-dynamic'
 
 const BASE_METADATA: Metadata = {
   title: 'Catálogo Jaleca — Jalecos e Uniformes Profissionais',
@@ -132,6 +131,43 @@ export default async function ProdutosPage({
         initialBestSellersOnly={bestSellersOnly}
         pageTitle={bestSellersOnly ? 'Mais Vendidos' : undefined}
       />
+
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 py-12 sm:py-16 prose prose-neutral prose-lg" itemScope itemType="https://schema.org/Article">
+        <h2 className="font-display text-3xl sm:text-4xl font-normal mb-6">Comprar jaleco online com confiança — o que está no catálogo Jaleca</h2>
+        <p>
+          O catálogo Jaleca reúne <strong>mais de 30 modelos de jalecos profissionais</strong> desenvolvidos para médicos, dentistas, enfermeiros, fisioterapeutas, nutricionistas, veterinários, esteticistas e estudantes da área da saúde. Cada peça é confeccionada em tecidos técnicos selecionados — gabardine com elastano, alfaiataria premium e Elastex bidirecional — e passa por controle de qualidade peça a peça antes do envio.
+        </p>
+
+        <h3>Jalecos femininos: Slim, Princesa, Duquesa e Elastex</h3>
+        <p>
+          Para o público feminino, o <Link href="/jaleco-feminino" className="text-amber-700 underline">jaleco feminino</Link> Jaleca tem quatro modelagens principais. O <strong>Slim acinturado</strong> valoriza a silhueta sem apertar e é o preferido em consultórios e clínicas. O <strong>Princesa</strong> tem recortes verticais que afinam o corte e ficam elegantes em ambiente clínico. O <strong>Duquesa</strong> traz caimento estruturado de alfaiataria para diretoras clínicas, gestoras e médicas que precisam transmitir autoridade. O <strong>Elastex</strong> usa tecido com elastano bidirecional — perfeito para plantões longos, procedimentos e dentistas que trabalham muitas horas ao redor da cadeira.
+        </p>
+
+        <h3>Jalecos masculinos e unissex</h3>
+        <p>
+          Os <Link href="/jaleco-masculino" className="text-amber-700 underline">jalecos masculinos</Link> da Jaleca têm corte reto profissional, ombros alinhados e bolsos funcionais. Disponíveis nas mesmas variações de tecido das linhas femininas (gabardine, alfaiataria premium, Elastex), atendem médicos, enfermeiros, farmacêuticos, professores universitários e cirurgiões. Para uso em ambiente hospitalar tradicional, o branco é o padrão. Em consultórios privados, azul royal, verde água, preto e cinza são as cores mais pedidas.
+        </p>
+
+        <h3>Dólmãs, conjuntos scrub e pijamas cirúrgicos</h3>
+        <p>
+          Além dos jalecos, o catálogo inclui <strong>conjuntos scrub femininos e masculinos</strong> para enfermagem e cirurgia, <strong>dólmãs</strong> para chefs, sushimen, churrasqueiros e cozinheiros, e <strong>pijamas cirúrgicos</strong> para centros cirúrgicos. Todos com a mesma exigência de tecido e acabamento dos jalecos — modelagem ergonômica, costura reforçada nos pontos de tensão e elastano onde o corpo mais se movimenta.
+        </p>
+
+        <h3>Tamanhos do PP ao G3 — atendendo todos os corpos</h3>
+        <p>
+          A grade Jaleca vai do <strong>PP ao G3</strong>, com modelagem testada em corpos reais — não em manequim. Plus size feminino e masculino têm caimento próprio, não é só "uma versão maior" do tamanho médio. Em caso de dúvida entre dois tamanhos, recomendamos o maior: o jaleco não pode apertar nos ombros nem restringir o levantar de braços durante procedimentos clínicos.
+        </p>
+
+        <h3>Frete grátis Sudeste, troca em 7 dias e suporte humano</h3>
+        <p>
+          <strong>Frete grátis para compras acima de R$ 499</strong> em São Paulo, Rio de Janeiro, Minas Gerais e Espírito Santo. Para demais regiões, o frete é calculado no checkout. Aceitamos PIX (com 5% de desconto no item), cartão em até 6× sem juros e boleto. <strong>Garantia Jaleca: 30 dias para troca</strong> sem marca de uso, e direito de arrependimento de 7 dias pelo CDC. Atendimento humano via WhatsApp para tirar dúvidas sobre tamanho, tecido ou prazo antes de comprar.
+        </p>
+
+        <h3>Por que a Jaleca virou referência em jaleco profissional no Brasil</h3>
+        <p>
+          A Jaleca atende mais de <strong>5.000 profissionais da saúde no Brasil</strong>, com nota <strong>4.9 estrelas</strong> no Google. Não é confecção genérica de uniforme — é vestuário profissional feito para quem trabalha de jaleco todos os dias. Estamos em <Link href="/cidade/jaleco-sao-paulo" className="text-amber-700 underline">São Paulo</Link>, <Link href="/cidade/jaleco-belo-horizonte" className="text-amber-700 underline">Belo Horizonte</Link>, <Link href="/cidade/jaleco-rio-de-janeiro" className="text-amber-700 underline">Rio de Janeiro</Link> e atendemos todo o país via e-commerce.
+        </p>
+      </section>
     </>
   )
 }

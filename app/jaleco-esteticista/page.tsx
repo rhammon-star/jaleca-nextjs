@@ -17,7 +17,6 @@ import HeroCommercial from '@/components/profession-lp/HeroCommercial'
 import GoogleRatingCarousel from '@/components/profession-lp/GoogleRatingCarousel'
 import InstagramLazy from '@/components/profession-lp/InstagramLazy'
 import CompactTrustBar from '@/components/profession-lp/CompactTrustBar'
-import StickyMobileCTA from '@/components/profession-lp/StickyMobileCTA'
 import { buildHowToSchema, buildOccupationSchema, buildItemListSchema, buildProductListSchema, buildReviewSchema} from '@/lib/profession-schemas'
 
 // ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
@@ -491,10 +490,6 @@ export default async function JalecoEsteticistaPage() {
         <section style={{ padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)', maxWidth: '1200px', margin: '0 auto' }}>
           <InstagramGallery maxItems={6} title="Inspire-se — @jaleca.oficial" />
         </section>
-
-            
-
-      <StickyMobileCTA href="#produtos" startingPrice="R$220" label="Ver coleção" />
 
     </main>
     </>

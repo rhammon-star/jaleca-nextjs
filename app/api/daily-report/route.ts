@@ -486,7 +486,22 @@ async function fetchMetaAds() {
 
 async function getGa4Token(): Promise<string | null> {
   try {
-    const sa = JSON.parse(GA4_SA_JSON)
+    if (!GA4_SA_JSON) { console.error('[GA4] GA4_SERVICE_ACCOUNT_JSON ausente'); return null }
+    // Vercel env vars armazenam JSON com \n literais dentro do private_key.
+    // Tenta parse direto; se private_key contém \n literais, converte.
+    let raw = GA4_SA_JSON.trim()
+    // Caso o env esteja base64-encoded (prática comum p/ evitar quebra de linha)
+    if (!raw.startsWith('{')) {
+      try { raw = Buffer.from(raw, 'base64').toString('utf-8') } catch {}
+    }
+    const sa = JSON.parse(raw)
+    if (sa.private_key && sa.private_key.includes('\\n')) {
+      sa.private_key = sa.private_key.replace(/\\n/g, '\n')
+    }
+    if (!sa.client_email || !sa.private_key) {
+      console.error('[GA4] service account sem client_email ou private_key')
+      return null
+    }
     // Build JWT for service account
     const now = Math.floor(Date.now() / 1000)
     const header = Buffer.from(JSON.stringify({ alg: 'RS256', typ: 'JWT' })).toString('base64url')

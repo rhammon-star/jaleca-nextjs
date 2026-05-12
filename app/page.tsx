@@ -346,33 +346,6 @@ export default async function Home() {
         </section>
       </ScrollReveal>
 
-      {/* Differentials */}
-      <ScrollReveal>
-        <section className="py-20 md:py-28">
-          <div className="container">
-            <h2 className="font-display text-3xl md:text-4xl font-semibold text-center mb-16">Jalecos Profissionais com Qualidade Premium</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-              {[
-                { icon: Ruler, title: "Tamanhos para Todos", desc: "Do PP ao G3, com tabela de medidas por modelo para garantir o tamanho certo.", showMobile: true },
-                { icon: Shield, title: "Garantia de Qualidade", desc: "Cada peça passa por rigoroso controle de qualidade.", showMobile: true },
-                { icon: Sparkles, title: "Tecidos Premium", desc: "Materiais anti-microbianos com stretch e conforto térmico.", showMobile: false },
-                { icon: Sparkles, title: "Estilo e Elegância", desc: "Jalecos que combinam funcionalidade profissional com design moderno.", showMobile: false },
-              ].map((d, i) => (
-                <ScrollReveal key={d.title} delay={i * 100}>
-                  <div className={`text-center ${d.showMobile === false ? 'hidden sm:block' : ''}`}>
-                    <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center">
-                      <d.icon size={22} className="text-primary" />
-                    </div>
-                    <h3 className="font-display text-lg font-semibold mb-2">{d.title}</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed max-w-[240px] mx-auto">{d.desc}</p>
-                  </div>
-                </ScrollReveal>
-              ))}
-            </div>
-          </div>
-        </section>
-      </ScrollReveal>
-
       {/* Trust badges */}
       <section className="py-12 border-y border-border bg-muted/20">
         <div className="container">
@@ -397,14 +370,41 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* Clientes usando Jaleca — carrossel UGC real */}
+      <ScrollReveal>
+        <UGCSection />
+      </ScrollReveal>
+
       {/* Google Reviews — Avaliações Verificadas */}
       <Suspense fallback={<div className="py-16 bg-[#faf9f7] border-t border-border" aria-hidden="true" />}>
         <GoogleReviewsServer />
       </Suspense>
 
-      {/* Clientes usando Jaleca — carrossel UGC real */}
+      {/* Differentials — Jalecos Profissionais com Qualidade Premium */}
       <ScrollReveal>
-        <UGCSection />
+        <section className="py-20 md:py-28">
+          <div className="container">
+            <h2 className="font-display text-3xl md:text-4xl font-semibold text-center mb-16">Jalecos Profissionais com Qualidade Premium</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+              {[
+                { icon: Ruler, title: "Tamanhos para Todos", desc: "Do PP ao G3, com tabela de medidas por modelo para garantir o tamanho certo.", showMobile: true },
+                { icon: Shield, title: "Garantia de Qualidade", desc: "Cada peça passa por rigoroso controle de qualidade.", showMobile: true },
+                { icon: Sparkles, title: "Tecidos Premium", desc: "Materiais anti-microbianos com stretch e conforto térmico.", showMobile: false },
+                { icon: Sparkles, title: "Estilo e Elegância", desc: "Jalecos que combinam funcionalidade profissional com design moderno.", showMobile: false },
+              ].map((d, i) => (
+                <ScrollReveal key={d.title} delay={i * 100}>
+                  <div className={`text-center ${d.showMobile === false ? 'hidden sm:block' : ''}`}>
+                    <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center">
+                      <d.icon size={22} className="text-primary" />
+                    </div>
+                    <h3 className="font-display text-lg font-semibold mb-2">{d.title}</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed max-w-[240px] mx-auto">{d.desc}</p>
+                  </div>
+                </ScrollReveal>
+              ))}
+            </div>
+          </div>
+        </section>
       </ScrollReveal>
 
       {/* Últimas postagens — Blog */}

@@ -10,7 +10,6 @@ import UGCSection from '@/components/UGCSection'
 import { getPosts } from '@/lib/wordpress'
 import type { WPPost } from '@/lib/wordpress'
 import { getGooglePlaceData } from '@/lib/google-places'
-import StickyMobileCTA from '@/components/profession-lp/StickyMobileCTA'
 import cidadeFaqExtra from '@/lib/cidade-faq-extra.json'
 
 type CidadeInfo = {
@@ -1260,8 +1259,6 @@ export default async function CidadePage({
           </div>
         </div>
       </section>
-
-      <StickyMobileCTA href="#produtos" label={`Ver jalecos em ${cidade.nome}`} />
 
     </main>
   )

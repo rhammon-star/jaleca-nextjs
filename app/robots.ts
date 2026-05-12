@@ -17,8 +17,10 @@ export default function robots(): MetadataRoute.Robots {
           '/comparar',
           '/checkout',
           '/pagamento',
-          // Next.js internos — não indexar (JS, CSS, fontes com ?dpl= estavam sendo rastreados)
-          '/_next/',
+          // Next.js — bloquear apenas /_next/data/ (rotas RSC/loaders).
+          // /_next/static/ deve ser CRAWLABLE para o Googlebot renderizar a página (JS/CSS).
+          '/_next/data/',
+          '/_next/image?*',
           // Variações específicas de produto (?vid=) — duplicatas das páginas de cor
           '/*?vid=',
           '/*?vid=*',

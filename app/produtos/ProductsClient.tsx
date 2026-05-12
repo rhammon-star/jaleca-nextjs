@@ -46,9 +46,12 @@ function norm(s: string) {
 function matchesCategory(name: string, slug: string, cat: string, productCategories?: { nodes: Array<{ name: string; slug: string }> }) {
   if (cat === "Todos") return true;
   const wcCats = (productCategories?.nodes ?? []).map(c => norm(c.slug) + " " + norm(c.name));
+  // Exclui acessórios do filtro "Jalecos" mesmo se WP tiver categorizado em "Jaleco"
+  const normNS = norm(name + " " + slug);
+  const isAccessory = /\b(colete|touca|faixa|avental|sapato|cropp)\b/.test(normNS);
   if (wcCats.length > 0) {
     const joined = wcCats.join(" ");
-    if (cat === "Jalecos") return joined.includes("jaleco");
+    if (cat === "Jalecos") return joined.includes("jaleco") && !isAccessory;
     if (cat === "Dólmãs") return joined.includes("dolma");
     if (cat === "Conjuntos") return joined.includes("conjunto");
     if (cat === "Acessórios") return joined.includes("acessor") || joined.includes("touca");
