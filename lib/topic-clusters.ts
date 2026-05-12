@@ -16,7 +16,7 @@ export const TOPIC_CLUSTERS: TopicCluster[] = [
   {
     pillarSlug: 'guia-completo-jaleco-feminino',
     pillarTitle: 'Jaleco Feminino: Guia Completo para Profissionais de Saúde',
-    pillarDescription: 'Tudo sobre jaleco feminino: modelos slim, elastex, branco e colorido, por especialidade e contexto de uso.',
+    pillarDescription: 'Qual jaleco feminino comprar? Guia completo com modelos Slim, Elastex e Clássico, comparativo de tecidos, tamanhos do PP ao G3 e dicas por especialidade — médica, dentista, enfermeira e esteticista.',
     category: '/categoria/jalecos-femininos',
     posts: [
       { slug: 'jaleco-slim-feminino', title: 'Jaleco Slim Feminino', description: 'Por que é o favorito das médicas' },
