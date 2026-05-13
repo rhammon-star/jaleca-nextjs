@@ -125,7 +125,7 @@ export default function CheckoutClient() {
   }, [items.length, subtotal])
   const shippingCost = shipping?.cost ?? 0
   const total = subtotal + shippingCost
-  const pixDiscount = paymentMethod === 'pix' ? (subtotal - couponDiscount) * 0.05 : 0
+  const pixDiscount = paymentMethod === 'pix' ? subtotal * 0.05 : 0
   const finalTotal = subtotal - couponDiscount - pixDiscount + shippingCost
 
   // Load Konduto device fingerprint script when credit card is selected
@@ -826,7 +826,7 @@ export default function CheckoutClient() {
                         <p className="text-xs text-muted-foreground">{user?.email}</p>
                       </div>
                     </div>
-                    {/* CPF for logged-in user (needed for Pagar.me) */}
+                    {/* CPF for logged-in user (needed for Cielo) */}
                     <div>
                       <label htmlFor="checkout-cpf-logged" className="block text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">CPF *</label>
                       <input

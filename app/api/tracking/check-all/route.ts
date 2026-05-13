@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { trackShipments, getMEShippedOrdersByTag } from '@/lib/melhor-envio'
+import { trackShipments, getRecentShippedMEOrders, type MEShippedOrder } from '@/lib/melhor-envio'
 import {
   sendOrderInTransit,
   sendOrderOutForDelivery,
@@ -93,17 +93,36 @@ export async function GET(req: NextRequest) {
     // ── Step 0: Auto-detect newly generated labels from Melhor Envio ──────────
     const pendingOrders = await getPendingTrackingOrders()
     if (pendingOrders.length > 0) {
-      const wcOrderIds = pendingOrders.map(o => o.id)
-      const shippedMeOrders = await getMEShippedOrdersByTag(wcOrderIds)
+      const shippedMeOrders = await getRecentShippedMEOrders()
+
+      // Build resolver: tag match (primary) → CPF match (fallback)
+      const pendingByCpf = new Map<string, WCOrder>()
+      for (const o of pendingOrders) {
+        const cpf = getMeta(o, 'billing_cpf').replace(/\D/g, '')
+        if (cpf) pendingByCpf.set(cpf, o)
+      }
+
+      const resolveWCOrder = (meOrder: MEShippedOrder): { wc: WCOrder; via: 'tag' | 'cpf' } | null => {
+        const wcOrderTag = meOrder.tags?.find(t => t.tag.startsWith('wc-order-'))?.tag
+        if (wcOrderTag) {
+          const id = parseInt(wcOrderTag.replace('wc-order-', ''), 10)
+          const wc = pendingOrders.find(o => o.id === id)
+          if (wc) return { wc, via: 'tag' }
+        }
+        const cpf = (meOrder.to?.document || '').replace(/\D/g, '')
+        if (cpf) {
+          const wc = pendingByCpf.get(cpf)
+          if (wc) return { wc, via: 'cpf' }
+        }
+        return null
+      }
 
       for (const meOrder of shippedMeOrders) {
-        const wcOrderTag = meOrder.tags?.find(t => t.tag.startsWith('wc-order-'))?.tag
-        const wcOrderId = wcOrderTag ? parseInt(wcOrderTag.replace('wc-order-', ''), 10) : null
-        if (!wcOrderId || !meOrder.tracking) continue
+        if (!meOrder.tracking) continue
+        const match = resolveWCOrder(meOrder)
+        if (!match) continue
 
-        const wcOrder = pendingOrders.find(o => o.id === wcOrderId)
-        if (!wcOrder) continue
-
+        const wcOrderId = match.wc.id
         const trackingCode = meOrder.tracking
         const carrier = meOrder.service?.name || 'Transportadora'
 
@@ -123,12 +142,16 @@ export async function GET(req: NextRequest) {
         })
 
         // Send "shipped" email
-        const firstName = wcOrder.billing.first_name
-        const email = wcOrder.billing.email
-        await addOrderNote(wcOrderId, `Código de rastreio: ${trackingCode} | Transportadora: ${carrier}`)
+        const firstName = match.wc.billing.first_name
+        const email = match.wc.billing.email
+        const matchNote = match.via === 'cpf' ? ' (casado por CPF — sem tag wc-order)' : ''
+        await addOrderNote(wcOrderId, `Código de rastreio: ${trackingCode} | Transportadora: ${carrier}${matchNote}`)
         await sendOrderShippedWithTracking(wcOrderId, firstName, email, trackingCode, carrier, undefined)
 
-        console.log(`[Tracking Check-All] Auto-registrado: pedido WC #${wcOrderId} — ${carrier} ${trackingCode} → status enviado`)
+        // Remove from pending pool to avoid double-processing in same run
+        pendingByCpf.delete((meOrder.to?.document || '').replace(/\D/g, ''))
+
+        console.log(`[Tracking Check-All] Auto-registrado via ${match.via}: pedido WC #${wcOrderId} — ${carrier} ${trackingCode} → status enviado`)
       }
     }
 

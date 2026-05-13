@@ -52,7 +52,7 @@ const faqData = {
       "name": "Posso parcelar no cartão sem juros?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Sim! Você pode parcelar em até 3x sem juros. O parcelamento está disponível para todos os cartões Visa, Mastercard, Elo e Amex. A análise de crédito é feita pela plataforma Pagar.me."
+        "text": "Sim! Você pode parcelar em até 3x sem juros. O parcelamento está disponível para todos os cartões Visa, Mastercard, Elo e Amex. A análise de crédito é feita pela plataforma Cielo."
       }
     },
     {
@@ -221,7 +221,7 @@ export default function FAQPage() {
                           <p>O PIX é aprovado na hora. Após escolher essa forma de pagamento, você recebe um QR Code para escanear com o app do banco. O pedido é liberado automaticamente após a confirmação. <strong>Comprando via PIX, você ganha 5% de desconto!</strong></p>
                         )}
                         {item.q.includes('parcelar') && (
-                          <p>Sim! Você pode parcelar em até 3x sem juros. Disponível para todos os cartões Visa, Mastercard, Elo e Amex. A análise de crédito é feita pela plataforma Pagar.me.</p>
+                          <p>Sim! Você pode parcelar em até 3x sem juros. Disponível para todos os cartões Visa, Mastercard, Elo e Amex. A análise de crédito é feita pela plataforma Cielo.</p>
                         )}
                         {item.q.includes('desconto para pagamento à vista') && (
                           <p>Sim! Pagamento via PIX tem <strong>5% de desconto</strong> sobre o valor total do pedido. O desconto é aplicado automaticamente na tela de pagamento.</p>

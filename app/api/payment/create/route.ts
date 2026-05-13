@@ -204,13 +204,12 @@ export async function POST(request: NextRequest) {
     // ── SECURITY: Calcular desconto PIX corretamente no servidor ──────────────
     const PIX_DISCOUNT_PERCENT = 0.05
     const itemsSubtotalForPix = items.reduce((sum, i) => sum + i.price * i.quantity, 0)
-    const couponDiscountForPix = Math.min(Math.max(totalDiscount || 0, 0), itemsSubtotalForPix)
-    const calculatedPixDiscount = parseFloat(((itemsSubtotalForPix - couponDiscountForPix) * PIX_DISCOUNT_PERCENT).toFixed(2))
+    const calculatedPixDiscount = parseFloat((itemsSubtotalForPix * PIX_DISCOUNT_PERCENT).toFixed(2))
     // Accept only if within R$0.50 tolerance (for rounding)
     if (pixDiscount !== undefined && pixDiscount > 0) {
       if (Math.abs(pixDiscount - calculatedPixDiscount) > 0.50) {
         console.error(`[payment/create] SECURITY: PIX discount mismatch: sent=${pixDiscount}, calculated=${calculatedPixDiscount}`)
-        // Note: Pagar.me charge uses wcOrder.total (server-authoritative), so this mismatch is already blocked
+        // Note: Cielo charge uses wcOrder.total (server-authoritative), so this mismatch is already blocked
       }
     }
 
@@ -296,6 +295,8 @@ export async function POST(request: NextRequest) {
         ...(clickIds?.utm_content ? [{ key: '_utm_content',   value: clickIds.utm_content }] : []),
         ...(clickIds?.landingPage ? [{ key: '_landing_page',  value: clickIds.landingPage }] : []),
         ...(clickIds?.referrer    ? [{ key: '_referrer',      value: clickIds.referrer }]    : []),
+        ...(clientInfo.fbc ? [{ key: '_fbc', value: clientInfo.fbc }] : []),
+        ...(clientInfo.fbp ? [{ key: '_fbp', value: clientInfo.fbp }] : []),
       ],
     }
 
@@ -558,6 +559,7 @@ export async function POST(request: NextRequest) {
         email:      billing.email,
         document:   cpf,
         address:    billing.address_1,
+        number:     billing.address_2 || 'S/N',
         complement: '',
         district:   billing.neighborhood || '',
         city:       billing.city,

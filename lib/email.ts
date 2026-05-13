@@ -1015,9 +1015,9 @@ export async function sendInternalPaymentFailureAlert(params: {
   paymentMethod: string
   failureReason: string
   amount: string
-  pagarmeOrderId?: string
+  cieloPaymentId?: string
 }): Promise<void> {
-  const { orderId, orderNumber, customerName, customerEmail, customerPhone, paymentMethod, failureReason, amount, pagarmeOrderId } = params
+  const { orderId, orderNumber, customerName, customerEmail, customerPhone, paymentMethod, failureReason, amount, cieloPaymentId } = params
 
   const waLink = `https://wa.me/55${customerPhone?.replace(/\D/g, '')}`
   const wcAdminLink = `https://wp.jaleca.com.br/wp-admin/post.php?post=${orderId}&action=edit`
@@ -1041,7 +1041,7 @@ export async function sendInternalPaymentFailureAlert(params: {
             <tr><td style="padding:5px 0;color:#666;">Pagamento</td><td style="padding:5px 0;">${paymentMethod}</td></tr>
             <tr><td style="padding:5px 0;color:#666;">Valor</td><td style="padding:5px 0;"><strong>${amount}</strong></td></tr>
             <tr><td style="padding:5px 0;color:#666;">Motivo</td><td style="padding:5px 0;color:#c0392b;"><strong>${failureReason}</strong></td></tr>
-            ${pagarmeOrderId ? `<tr><td style="padding:5px 0;color:#666;">Pagar.me ID</td><td style="padding:5px 0;font-size:12px;color:#999;">${pagarmeOrderId}</td></tr>` : ''}
+            ${cieloPaymentId ? `<tr><td style="padding:5px 0;color:#666;">Cielo ID</td><td style="padding:5px 0;font-size:12px;color:#999;">${cieloPaymentId}</td></tr>` : ''}
           </table>
           <a href="${wcAdminLink}" style="display:inline-block;background:#1a1a1a;color:#fff;padding:12px 24px;text-decoration:none;font-size:12px;letter-spacing:2px;margin-right:12px;">
             VER PEDIDO

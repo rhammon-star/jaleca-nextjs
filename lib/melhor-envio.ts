@@ -287,6 +287,7 @@ export type MEShipmentPayload = {
     email: string
     document: string         // CPF do cliente
     address: string
+    number: string
     complement?: string
     district?: string
     city: string
@@ -314,7 +315,8 @@ export async function addShipmentToMECart(payload: MEShipmentPayload): Promise<{
       phone:       '3134461777',
       email:       'contato@jaleca.com.br',
       document:    '11439632618',   // CPF do titular da conta ME (conta PF)
-      address:     'Rua Coronel Joao Pessoa, 408',
+      address:     'Rua Coronel Joao Pessoa',
+      number:      '408',
       complement:  'Loja',
       district:    'Centro',
       city:        'Ipatinga',
@@ -328,6 +330,7 @@ export async function addShipmentToMECart(payload: MEShipmentPayload): Promise<{
       email:       payload.to.email,
       document:    payload.to.document.replace(/\D/g, ''),
       address:     payload.to.address,
+      number:      payload.to.number,
       complement:  payload.to.complement || '',
       district:    payload.to.district || '',
       city:        payload.to.city,
@@ -385,20 +388,27 @@ export async function addShipmentToMECart(payload: MEShipmentPayload): Promise<{
 
 // ── Consultar etiquetas geradas no ME por tag WC ──────────────────────────────
 
-type MEShippedOrder = {
+export type MEShippedOrder = {
   id: string
   status: string
   tracking: string | null
+  self_tracking?: string | null
   service: { name: string }
   tags?: Array<{ tag: string; url?: string }>
+  to?: {
+    name?: string
+    document?: string
+    postal_code?: string
+  }
 }
 
-export async function getMEShippedOrdersByTag(wcOrderIds: number[]): Promise<MEShippedOrder[]> {
+// Lista recente de pedidos com etiqueta gerada (sem filtrar por tag).
+// Usado para matching por tag E fallback por CPF no cron.
+export async function getRecentShippedMEOrders(): Promise<MEShippedOrder[]> {
   const token = process.env.MELHOR_ENVIO_TOKEN
-  if (!token || token === 'PLACEHOLDER' || wcOrderIds.length === 0) return []
+  if (!token || token === 'PLACEHOLDER') return []
 
   try {
-    // Query ME orders — filter by WC order tags
     const res = await fetch(`${API_BASE}/me/orders?per_page=50&filter[status]=posted,released,delivered`, {
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -411,16 +421,19 @@ export async function getMEShippedOrdersByTag(wcOrderIds: number[]): Promise<MES
       return []
     }
     const data = await res.json() as { data?: MEShippedOrder[] } | MEShippedOrder[]
-    const orders: MEShippedOrder[] = Array.isArray(data) ? data : (data.data ?? [])
-
-    // Filter orders that match any of our WC order tags
-    const tagSet = new Set(wcOrderIds.map(id => `wc-order-${id}`))
-    return orders.filter(o =>
-      o.tracking &&
-      o.tags?.some(t => tagSet.has(t.tag))
-    )
+    return Array.isArray(data) ? data : (data.data ?? [])
   } catch (err) {
     console.error('[ME Orders] Fetch error:', err)
     return []
   }
+}
+
+export async function getMEShippedOrdersByTag(wcOrderIds: number[]): Promise<MEShippedOrder[]> {
+  if (wcOrderIds.length === 0) return []
+  const orders = await getRecentShippedMEOrders()
+  const tagSet = new Set(wcOrderIds.map(id => `wc-order-${id}`))
+  return orders.filter(o =>
+    o.tracking &&
+    o.tags?.some(t => tagSet.has(t.tag))
+  )
 }

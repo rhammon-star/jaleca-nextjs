@@ -69,17 +69,16 @@ async function verifyLineItemStock(
   return { ok: true }
 }
 
-// Pagar.me payment method IDs
-const PAGARME_METHODS = {
-  pix: 'woo-pagarme-payments-pix',
-  boleto: 'woo-pagarme-payments-billet',
-  credit_card: 'woo-pagarme-payments-credit_card',
+const CIELO_METHODS = {
+  pix: 'cielo-pix',
+  boleto: 'cielo-boleto',
+  credit_card: 'cielo-credit-card',
 } as const
 
-const PAGARME_TITLES = {
-  'woo-pagarme-payments-pix': 'PIX',
-  'woo-pagarme-payments-billet': 'Boleto Bancário',
-  'woo-pagarme-payments-credit_card': 'Cartão de Crédito',
+const CIELO_TITLES = {
+  'cielo-pix': 'PIX',
+  'cielo-boleto': 'Boleto Bancário',
+  'cielo-credit-card': 'Cartão de Crédito',
 } as const
 
 export async function GET(request: NextRequest) {
@@ -134,22 +133,21 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Dados de faturamento e itens são obrigatórios' }, { status: 400 })
     }
 
-    // Normalize payment method to Pagar.me IDs
+    // Normalize payment method to Cielo IDs
     const pmKey = body.payment_method as string
-    const validPagarme = Object.values(PAGARME_METHODS) as string[]
+    const validCielo = Object.values(CIELO_METHODS) as string[]
 
-    if (!validPagarme.includes(pmKey)) {
-      // Try to map legacy method IDs to Pagar.me
+    if (!validCielo.includes(pmKey)) {
       const legacyMap: Record<string, string> = {
-        pix: PAGARME_METHODS.pix,
-        bacs: PAGARME_METHODS.boleto,
-        boleto: PAGARME_METHODS.boleto,
-        credit_card: PAGARME_METHODS.credit_card,
+        pix: CIELO_METHODS.pix,
+        bacs: CIELO_METHODS.boleto,
+        boleto: CIELO_METHODS.boleto,
+        credit_card: CIELO_METHODS.credit_card,
       }
       if (legacyMap[pmKey]) {
         body.payment_method = legacyMap[pmKey]
         body.payment_method_title =
-          PAGARME_TITLES[legacyMap[pmKey] as keyof typeof PAGARME_TITLES] ??
+          CIELO_TITLES[legacyMap[pmKey] as keyof typeof CIELO_TITLES] ??
           body.payment_method_title
       }
     }
