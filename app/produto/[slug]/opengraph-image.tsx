@@ -1,5 +1,7 @@
 import { ImageResponse } from 'next/og'
 import { graphqlClient } from '@/lib/graphql'
+import { parseColorSlug, findVariationByColor } from '@/lib/product-colors'
+import { getKnownColorSlugs } from '@/lib/kv-colors'
 
 export const runtime = 'nodejs'
 export const revalidate = 86400
@@ -42,6 +44,7 @@ const OG_QUERY = `
             price
             regularPrice
             image { sourceUrl }
+            attributes { nodes { name value } }
           }
         }
       }
@@ -99,21 +102,42 @@ async function fetchImageAsDataUri(url: string): Promise<string | null> {
   }
 }
 
+async function fetchProduct(slug: string): Promise<ProductData | null> {
+  try {
+    const data = await graphqlClient.request<{ product: ProductData | null }>(OG_QUERY, { slug })
+    return data.product
+  } catch {
+    return null
+  }
+}
+
 export default async function OG({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
 
-  let product: ProductData | null = null
-  try {
-    const data = await graphqlClient.request<{ product: ProductData | null }>(OG_QUERY, { slug })
-    product = data.product
-  } catch {
-    product = null
+  // Slug pode ser página filha (ex: "...-jaleca-branco"). Se WP não acha, tenta baseSlug
+  let product = await fetchProduct(slug)
+  let colorName: string | null = null
+  if (!product) {
+    const kvColors = await getKnownColorSlugs()
+    const parsed = parseColorSlug(slug, kvColors)
+    if (parsed.hasColor && parsed.baseSlug !== slug) {
+      product = await fetchProduct(parsed.baseSlug)
+      colorName = parsed.colorName ?? null
+    }
+  }
+
+  // Imagem da variação específica (se for página filha de cor) tem prioridade
+  let variationImg: string | undefined
+  if (product && colorName) {
+    const variations = (product.variations?.nodes ?? []) as Array<{ image?: Img; attributes?: unknown }>
+    const v = findVariationByColor(variations as never[], colorName) as { image?: Img } | null
+    variationImg = v?.image?.sourceUrl
   }
 
   const name = product?.name ?? 'Jaleco profissional'
   const low = product ? lowestPrice(product) : undefined
   const priceLabel = low !== undefined ? `R$ ${low.toFixed(0)}` : null
-  const rawImgUrl = product ? pickImage(product) : undefined
+  const rawImgUrl = variationImg ?? (product ? pickImage(product) : undefined)
   const imgUrl = rawImgUrl ? (await fetchImageAsDataUri(rawImgUrl)) ?? rawImgUrl : undefined
 
   return new ImageResponse(
