@@ -74,12 +74,29 @@ function lowestPrice(product: ProductData): number | undefined {
 }
 
 function pickImage(product: ProductData): string | undefined {
-  const main = product.image?.sourceUrl
-  if (main) return main
-  const gallery = product.galleryImages?.nodes?.find((g) => g.sourceUrl)?.sourceUrl
-  if (gallery) return gallery
-  const firstVar = product.variations?.nodes?.find((v) => v.image?.sourceUrl)?.image?.sourceUrl
-  return firstVar
+  const candidates: string[] = []
+  if (product.image?.sourceUrl) candidates.push(product.image.sourceUrl)
+  for (const g of product.galleryImages?.nodes ?? []) {
+    if (g.sourceUrl) candidates.push(g.sourceUrl)
+  }
+  for (const v of product.variations?.nodes ?? []) {
+    if (v.image?.sourceUrl) candidates.push(v.image.sourceUrl)
+  }
+  // next/og (Satori) é mais estável com JPG/PNG do que WebP — prefere não-webp
+  const nonWebp = candidates.find((u) => !/\.webp(\?|$)/i.test(u))
+  return nonWebp ?? candidates[0]
+}
+
+async function fetchImageAsDataUri(url: string): Promise<string | null> {
+  try {
+    const res = await fetch(url, { cache: 'force-cache' })
+    if (!res.ok) return null
+    const ct = res.headers.get('content-type') || 'image/jpeg'
+    const buf = Buffer.from(await res.arrayBuffer())
+    return `data:${ct};base64,${buf.toString('base64')}`
+  } catch {
+    return null
+  }
 }
 
 export default async function OG({ params }: { params: Promise<{ slug: string }> }) {
@@ -96,7 +113,8 @@ export default async function OG({ params }: { params: Promise<{ slug: string }>
   const name = product?.name ?? 'Jaleco profissional'
   const low = product ? lowestPrice(product) : undefined
   const priceLabel = low !== undefined ? `R$ ${low.toFixed(0)}` : null
-  const imgUrl = product ? pickImage(product) : undefined
+  const rawImgUrl = product ? pickImage(product) : undefined
+  const imgUrl = rawImgUrl ? (await fetchImageAsDataUri(rawImgUrl)) ?? rawImgUrl : undefined
 
   return new ImageResponse(
     (
