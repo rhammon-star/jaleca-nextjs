@@ -1,50 +1,12 @@
-Data: 2026-05-12 (sessão noite +rodada 2)
-Tarefa: Fase 4 Layout Redesign — FAQ +20 + ItemList + Product+Offer + Review + 75 cidades FAQ únicas
-
-Rodada 2 (após FAQ inicial):
-- lib/profession-schemas.ts: adicionado buildProductListSchema (Product+Offer com preço/SKU/availability) e buildReviewSchema (Review com até 5 reviews Google)
-- 40× app/jaleco-*/page.tsx: scripts JSON-LD Product+Offer e Review injetados após ItemList
-- lib/cidade-faq-extra.json (NOVO): 75 cidades × 5 Q/A únicas por cidade (Gemini)
-- app/cidade/[slug]/page.tsx: faq agora é baseFaq (20 template) + extras únicas (5 por cidade) = 25 Q/A por cidade
-
-Rodada 1:
-
-Arquivos alterados:
-- lib/profession-faq-data.json (NOVO — 40 slugs × 20 Q/A = 800 FAQs)
-- lib/profession-schemas.ts (adicionado buildItemListSchema)
-- 40× app/jaleco-*/FaqAccordion.tsx (faqItems reescrito com 20 entradas)
-- 40× app/jaleco-*/page.tsx (schemaFaq.mainEntity expandido para 20 + ItemList schema injetado)
-- app/cidade/[slug]/page.tsx (FAQ_TEMPLATE de 5 → 20 Q/A, assinatura recebe uf agora)
-
+Data: 2026-05-12 20:50
+Tarefa: Fix og:image (miniatura compartilhamento) + preço maior em produto pai variável
+Arquivos alterados: app/produto/[slug]/opengraph-image.tsx
 O que foi feito:
-- Gemini gerou 800 Q/A únicos por profissão em 4 batches paralelos (10 slugs cada)
-- Gemini gerou 15 Q/A novas para template cidade (totalizando 20)
-- Merge batches → lib/profession-faq-data.json
-- Patch script reescreveu faqItems em 40 FaqAccordion.tsx
-- Patch script reescreveu schemaFaq.mainEntity em 39 page.tsx (jaleco-branco usa FAQ_ITEMS.map() — patch direto)
-- Adicionado buildItemListSchema em lib/profession-schemas.ts
-- Patch script injetou <script ItemList> em 40 LPs após schema Occupation
-- Cidade FAQ_TEMPLATE expandido com 15 entradas usando ${nome}/${estado}/${uf}
-
-Comandos rodados:
-- node /tmp/patch-faq.mjs (40 patched)
-- node /tmp/patch-faq-schema.mjs (39 patched + jaleco-branco manual)
-- node /tmp/patch-itemlist.mjs (40 patched)
-- npx tsc --noEmit (verde)
-
-Bug encontrado e corrigido:
-- replace() interpretou "R$159" como backreference $1 → string mangle nos arquivos.
-  Fix: usar callback function em .replace() para escapar $ corretamente.
-- jaleco-branco e jaleco-medica não têm variável `produtos` no escopo da page →
-  passado [] em buildItemListSchema (retorna null, safe).
-
-Resultado: OK — typecheck verde, 40 LPs com 20 FAQs + ItemList, cidade template com 20 Q/A.
-
-Riscos identificados:
-- Deploy ainda não feito (aguardando OK usuário).
-- Validação visual mobile pendente.
-- Re-scrape Facebook Sharing Debugger é ação manual do usuário.
-
-Próximo passo:
-- Aguardar OK do usuário para commit + deploy.
-- Schemas pendentes (Product+Offer, Review 5★) — escopo maior, deixar para próxima sessão.
+- Query GraphQL local com galleryImages + variations { image, price, regularPrice }
+- pickImage com fallback: image → galleryImages[0] → primeira variação com imagem
+- lowestPrice: Math.min de price/regularPrice das variações; fallback ao parsePrice do pai
+- parsePrice agora pega o MENOR de todos os matches (antes pegava o último → maior)
+Comandos rodados: npx tsc --noEmit -p . (OK)
+Resultado: OK — aguardando deploy
+Riscos identificados: nenhum (afeta só imagem OG, não toca em schema/checkout/SEO indexável)
+Próximo passo: usuário aprovar deploy → após deploy, validar share no Instagram com produto variável

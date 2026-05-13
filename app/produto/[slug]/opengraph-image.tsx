@@ -1,5 +1,5 @@
 import { ImageResponse } from 'next/og'
-import { graphqlClient, GET_PRODUCT_BY_SLUG } from '@/lib/graphql'
+import { graphqlClient } from '@/lib/graphql'
 
 export const runtime = 'nodejs'
 export const revalidate = 86400
@@ -7,21 +7,79 @@ export const alt = 'Jaleca — Jaleco profissional'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
+type Img = { sourceUrl?: string; altText?: string }
+type Variation = {
+  price?: string
+  regularPrice?: string
+  image?: Img
+}
 type ProductData = {
   name?: string
   price?: string
   regularPrice?: string
-  image?: { sourceUrl?: string; altText?: string }
+  image?: Img
+  galleryImages?: { nodes?: Img[] }
+  variations?: { nodes?: Variation[] }
 }
 
-function formatPrice(raw?: string): string | null {
-  if (!raw) return null
-  const m = raw.match(/[\d.,]+/g)
-  if (!m) return null
-  const last = m[m.length - 1].replace(/\./g, '').replace(',', '.')
-  const n = Number(last)
-  if (!Number.isFinite(n) || n <= 0) return null
-  return `R$ ${n.toFixed(0)}`
+const OG_QUERY = `
+  query OgProduct($slug: ID!) {
+    product(id: $slug, idType: SLUG) {
+      name
+      ... on SimpleProduct {
+        price
+        regularPrice
+        image { sourceUrl }
+        galleryImages { nodes { sourceUrl } }
+      }
+      ... on VariableProduct {
+        price
+        regularPrice
+        image { sourceUrl }
+        galleryImages { nodes { sourceUrl } }
+        variations(first: 50) {
+          nodes {
+            price
+            regularPrice
+            image { sourceUrl }
+          }
+        }
+      }
+    }
+  }
+`
+
+function parsePrice(raw?: string | null): number | undefined {
+  if (!raw) return undefined
+  const matches = String(raw).match(/[\d][\d.,]*/g)
+  if (!matches) return undefined
+  const nums = matches
+    .map((t) => {
+      let s = t
+      if (s.includes(',')) s = s.replace(/\./g, '').replace(',', '.')
+      const n = Number(s)
+      return Number.isFinite(n) && n > 0 ? n : undefined
+    })
+    .filter((n): n is number => n !== undefined)
+  return nums.length ? Math.min(...nums) : undefined
+}
+
+function lowestPrice(product: ProductData): number | undefined {
+  const vNodes = product.variations?.nodes ?? []
+  const variationPrices = vNodes
+    .flatMap((v) => [parsePrice(v.price), parsePrice(v.regularPrice)])
+    .filter((n): n is number => n !== undefined)
+  if (variationPrices.length) return Math.min(...variationPrices)
+  return parsePrice(product.price) ?? parsePrice(product.regularPrice)
+}
+
+function pickImage(product: ProductData): string | undefined {
+  const main = product.image?.sourceUrl
+  if (main) return main
+  const gallery = product.galleryImages?.nodes?.find((g) => g.sourceUrl)?.sourceUrl
+  if (gallery) return gallery
+  const firstVar = product.variations?.nodes?.find((v) => v.image?.sourceUrl)?.image?.sourceUrl
+  return firstVar
 }
 
 export default async function OG({ params }: { params: Promise<{ slug: string }> }) {
@@ -29,18 +87,16 @@ export default async function OG({ params }: { params: Promise<{ slug: string }>
 
   let product: ProductData | null = null
   try {
-    const data = await graphqlClient.request<{ product: ProductData | null }>(
-      GET_PRODUCT_BY_SLUG,
-      { slug }
-    )
+    const data = await graphqlClient.request<{ product: ProductData | null }>(OG_QUERY, { slug })
     product = data.product
   } catch {
     product = null
   }
 
   const name = product?.name ?? 'Jaleco profissional'
-  const priceLabel = formatPrice(product?.price) ?? formatPrice(product?.regularPrice)
-  const imgUrl = product?.image?.sourceUrl
+  const low = product ? lowestPrice(product) : undefined
+  const priceLabel = low !== undefined ? `R$ ${low.toFixed(0)}` : null
+  const imgUrl = product ? pickImage(product) : undefined
 
   return new ImageResponse(
     (
