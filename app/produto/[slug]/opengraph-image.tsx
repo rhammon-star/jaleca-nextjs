@@ -92,10 +92,14 @@ function pickImage(product: ProductData): string | undefined {
 
 async function fetchImageAsDataUri(url: string): Promise<string | null> {
   try {
-    const res = await fetch(url, { cache: 'force-cache' })
+    const ctrl = new AbortController()
+    const t = setTimeout(() => ctrl.abort(), 6000)
+    const res = await fetch(url, { cache: 'force-cache', signal: ctrl.signal })
+    clearTimeout(t)
     if (!res.ok) return null
     const ct = res.headers.get('content-type') || 'image/jpeg'
     const buf = Buffer.from(await res.arrayBuffer())
+    if (buf.byteLength > 2_000_000) return null // > 2MB: passa URL direta em vez
     return `data:${ct};base64,${buf.toString('base64')}`
   } catch {
     return null
@@ -111,27 +115,41 @@ async function fetchProduct(slug: string): Promise<ProductData | null> {
   }
 }
 
+async function resolveProductData(slug: string): Promise<{ product: ProductData | null; colorName: string | null }> {
+  try {
+    let product = await fetchProduct(slug)
+    let colorName: string | null = null
+    if (!product) {
+      try {
+        const kvColors = await getKnownColorSlugs()
+        const parsed = parseColorSlug(slug, kvColors)
+        if (parsed.hasColor && parsed.baseSlug !== slug) {
+          product = await fetchProduct(parsed.baseSlug)
+          colorName = parsed.colorName ?? null
+        }
+      } catch {
+        // KV/parse fail — segue sem dados de cor
+      }
+    }
+    return { product, colorName }
+  } catch {
+    return { product: null, colorName: null }
+  }
+}
+
 export default async function OG({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
+  const { product, colorName } = await resolveProductData(slug)
 
-  // Slug pode ser página filha (ex: "...-jaleca-branco"). Se WP não acha, tenta baseSlug
-  let product = await fetchProduct(slug)
-  let colorName: string | null = null
-  if (!product) {
-    const kvColors = await getKnownColorSlugs()
-    const parsed = parseColorSlug(slug, kvColors)
-    if (parsed.hasColor && parsed.baseSlug !== slug) {
-      product = await fetchProduct(parsed.baseSlug)
-      colorName = parsed.colorName ?? null
-    }
-  }
-
-  // Imagem da variação específica (se for página filha de cor) tem prioridade
   let variationImg: string | undefined
-  if (product && colorName) {
-    const variations = (product.variations?.nodes ?? []) as Array<{ image?: Img; attributes?: unknown }>
-    const v = findVariationByColor(variations as never[], colorName) as { image?: Img } | null
-    variationImg = v?.image?.sourceUrl
+  try {
+    if (product && colorName) {
+      const variations = (product.variations?.nodes ?? []) as Array<{ image?: Img; attributes?: unknown }>
+      const v = findVariationByColor(variations as never[], colorName) as { image?: Img } | null
+      variationImg = v?.image?.sourceUrl
+    }
+  } catch {
+    // ignore
   }
 
   const name = product?.name ?? 'Jaleco profissional'
