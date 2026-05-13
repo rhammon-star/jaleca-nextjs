@@ -1,7 +1,5 @@
 import { ImageResponse } from 'next/og'
 import { graphqlClient } from '@/lib/graphql'
-import { parseColorSlug, findVariationByColor } from '@/lib/product-colors'
-import { getKnownColorSlugs } from '@/lib/kv-colors'
 
 export const runtime = 'nodejs'
 export const revalidate = 86400
@@ -44,7 +42,6 @@ const OG_QUERY = `
             price
             regularPrice
             image { sourceUrl }
-            attributes { nodes { name value } }
           }
         }
       }
@@ -115,48 +112,34 @@ async function fetchProduct(slug: string): Promise<ProductData | null> {
   }
 }
 
-async function resolveProductData(slug: string): Promise<{ product: ProductData | null; colorName: string | null }> {
-  try {
-    let product = await fetchProduct(slug)
-    let colorName: string | null = null
-    if (!product) {
-      try {
-        const kvColors = await getKnownColorSlugs()
-        const parsed = parseColorSlug(slug, kvColors)
-        if (parsed.hasColor && parsed.baseSlug !== slug) {
-          product = await fetchProduct(parsed.baseSlug)
-          colorName = parsed.colorName ?? null
-        }
-      } catch {
-        // KV/parse fail — segue sem dados de cor
-      }
-    }
-    return { product, colorName }
-  } catch {
-    return { product: null, colorName: null }
+// Tenta resolver slug. Se não achar produto, vai removendo o último segmento
+// (caso de páginas filhas de cor: "...-jaleca-branco" → "...-jaleca")
+async function resolveProductBySlug(slug: string): Promise<ProductData | null> {
+  let current = slug
+  for (let i = 0; i < 3; i++) {
+    const p = await fetchProduct(current).catch(() => null)
+    if (p) return p
+    const lastDash = current.lastIndexOf('-')
+    if (lastDash <= 0) break
+    current = current.slice(0, lastDash)
   }
+  return null
 }
 
 export default async function OG({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const { product, colorName } = await resolveProductData(slug)
-
-  let variationImg: string | undefined
+  let product: ProductData | null = null
   try {
-    if (product && colorName) {
-      const variations = (product.variations?.nodes ?? []) as Array<{ image?: Img; attributes?: unknown }>
-      const v = findVariationByColor(variations as never[], colorName) as { image?: Img } | null
-      variationImg = v?.image?.sourceUrl
-    }
+    product = await resolveProductBySlug(slug)
   } catch {
-    // ignore
+    product = null
   }
 
   const name = product?.name ?? 'Jaleco profissional'
   const low = product ? lowestPrice(product) : undefined
   const priceLabel = low !== undefined ? `R$ ${low.toFixed(0)}` : null
-  const rawImgUrl = variationImg ?? (product ? pickImage(product) : undefined)
-  const imgUrl = rawImgUrl ? (await fetchImageAsDataUri(rawImgUrl)) ?? rawImgUrl : undefined
+  const rawImgUrl = product ? pickImage(product) : undefined
+  const imgUrl = rawImgUrl ? (await fetchImageAsDataUri(rawImgUrl).catch(() => null)) ?? rawImgUrl : undefined
 
   return new ImageResponse(
     (
