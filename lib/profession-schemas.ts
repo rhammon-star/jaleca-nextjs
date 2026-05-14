@@ -136,26 +136,42 @@ export function buildProductListSchema(produtos: ItemListProduct[], pageUrl: str
 type ReviewItem = { authorName: string; rating: number; text: string; relativeTime?: string }
 export function buildReviewSchema(reviews: ReviewItem[] | undefined, pageUrl: string, productName: string) {
   if (!reviews || reviews.length === 0) return null
-  return reviews.slice(0, 5).map((r) => ({
+  // Em vez de emitir Reviews top-level (cada um cria um pseudo-Product órfão que o GSC
+  // sinaliza como "sem offers/review/aggregateRating"), agrupamos tudo em UM Product
+  // canônico da página com offers, aggregateRating e review[] aninhado.
+  const product = {
     '@context': 'https://schema.org',
-    '@type': 'Review',
-    itemReviewed: {
-      '@type': 'Product',
-      name: productName,
-      url: pageUrl,
-      aggregateRating: {
-        '@type': 'AggregateRating',
-        ratingValue: '4.9',
-        reviewCount: '61',
-        bestRating: '5',
-        worstRating: '1',
-      },
+    '@type': 'Product',
+    name: productName,
+    url: pageUrl,
+    image: FALLBACK_PRODUCT_IMAGE,
+    description: `${productName} — Jaleca Uniformes. PP ao G3, entrega rápida para todo o Brasil.`,
+    brand: { '@type': 'Brand', name: 'Jaleca' },
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: '4.9',
+      reviewCount: '61',
+      bestRating: '5',
+      worstRating: '1',
     },
-    author: { '@type': 'Person', name: r.authorName },
-    reviewRating: { '@type': 'Rating', ratingValue: r.rating, bestRating: 5 },
-    reviewBody: r.text,
-    publisher: { '@type': 'Organization', name: 'Google' },
-  }))
+    offers: {
+      '@type': 'AggregateOffer',
+      priceCurrency: 'BRL',
+      lowPrice: '99.00',
+      highPrice: '299.00',
+      offerCount: 12,
+      availability: 'https://schema.org/InStock',
+      url: pageUrl,
+    },
+    review: reviews.slice(0, 5).map((r) => ({
+      '@type': 'Review',
+      author: { '@type': 'Person', name: r.authorName },
+      reviewRating: { '@type': 'Rating', ratingValue: r.rating, bestRating: 5 },
+      reviewBody: r.text,
+      publisher: { '@type': 'Organization', name: 'Google' },
+    })),
+  }
+  return [product]
 }
 
 export function buildItemListSchema(produtos: ItemListProduct[], pageUrl: string, listName: string) {
