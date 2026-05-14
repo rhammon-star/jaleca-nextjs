@@ -134,11 +134,27 @@ export function buildProductListSchema(produtos: ItemListProduct[], pageUrl: str
 }
 
 type ReviewItem = { authorName: string; rating: number; text: string; relativeTime?: string }
-export function buildReviewSchema(reviews: ReviewItem[] | undefined, pageUrl: string, productName: string) {
+export function buildReviewSchema(
+  reviews: ReviewItem[] | undefined,
+  pageUrl: string,
+  productName: string,
+  produtos?: ItemListProduct[]
+) {
   if (!reviews || reviews.length === 0) return null
-  // Em vez de emitir Reviews top-level (cada um cria um pseudo-Product órfão que o GSC
-  // sinaliza como "sem offers/review/aggregateRating"), agrupamos tudo em UM Product
-  // canônico da página com offers, aggregateRating e review[] aninhado.
+  const prices = (produtos ?? [])
+    .map((p) => priceToNumber(p.price) ?? priceToNumber(p.regularPrice))
+    .filter((n): n is number => n !== null)
+  const offers = prices.length > 0
+    ? {
+        '@type': 'AggregateOffer',
+        priceCurrency: 'BRL',
+        lowPrice: Math.min(...prices).toFixed(2),
+        highPrice: Math.max(...prices).toFixed(2),
+        offerCount: prices.length,
+        availability: 'https://schema.org/InStock',
+        url: pageUrl,
+      }
+    : undefined
   const product = {
     '@context': 'https://schema.org',
     '@type': 'Product',
@@ -154,15 +170,7 @@ export function buildReviewSchema(reviews: ReviewItem[] | undefined, pageUrl: st
       bestRating: '5',
       worstRating: '1',
     },
-    offers: {
-      '@type': 'AggregateOffer',
-      priceCurrency: 'BRL',
-      lowPrice: '99.00',
-      highPrice: '299.00',
-      offerCount: 12,
-      availability: 'https://schema.org/InStock',
-      url: pageUrl,
-    },
+    ...(offers ? { offers } : {}),
     review: reviews.slice(0, 5).map((r) => ({
       '@type': 'Review',
       author: { '@type': 'Person', name: r.authorName },
