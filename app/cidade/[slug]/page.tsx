@@ -968,6 +968,22 @@ export default async function CidadePage({
         '@type': 'Product',
         name: `Jaleco profissional em ${cidade.nome}`,
         category: 'Uniformes profissionais',
+        brand: { '@type': 'Brand', name: 'Jaleca' },
+        aggregateRating: {
+          '@type': 'AggregateRating',
+          ratingValue: String(placeData?.rating ?? 4.9),
+          reviewCount: String(placeData?.reviewCount ?? 61),
+          bestRating: '5',
+          worstRating: '1',
+        },
+        offers: {
+          '@type': 'Offer',
+          priceCurrency: 'BRL',
+          price: '99.00',
+          availability: 'https://schema.org/InStock',
+          itemCondition: 'https://schema.org/NewCondition',
+          url: `https://jaleca.com.br/cidade/${slug}`,
+        },
       },
       priceCurrency: 'BRL',
       priceSpecification: {
