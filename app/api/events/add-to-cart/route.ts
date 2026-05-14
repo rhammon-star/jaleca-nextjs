@@ -4,7 +4,7 @@ import { sendMetaAddToCart } from '@/lib/meta-conversions'
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
-    const { id, name, value, quantity, eventId } = body
+    const { id, name, value, quantity, eventId, fbc: bodyFbc, fbclid } = body
 
     if (!id || !name || !value) {
       return NextResponse.json({ ok: false }, { status: 400 })
@@ -14,7 +14,10 @@ export async function POST(req: NextRequest) {
       ?? req.headers.get('x-real-ip')
       ?? undefined
     const clientUserAgent = req.headers.get('user-agent') ?? undefined
-    const fbc = req.cookies.get('_fbc')?.value
+    const cookieFbc = req.cookies.get('_fbc')?.value
+    const fbc = cookieFbc
+      ?? bodyFbc
+      ?? (fbclid ? `fb.1.${Math.floor(Date.now() / 1000)}.${fbclid}` : undefined)
     const fbp = req.cookies.get('_fbp')?.value
 
     await sendMetaAddToCart(

@@ -99,10 +99,16 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     const price = parsePrice(newItem.price)
     if (price > 0) {
       const eventId = typeof window !== 'undefined' ? (window as any).__lastAtcEventId : undefined
+      const fbc = typeof document !== 'undefined'
+        ? (document.cookie.match(/(?:^|;\s*)_fbc=([^;]+)/)?.[1] ?? undefined)
+        : undefined
+      const fbclid = typeof window !== 'undefined'
+        ? (new URLSearchParams(window.location.search).get('fbclid') ?? undefined)
+        : undefined
       fetch('/api/events/add-to-cart', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: newItem.databaseId ?? newItem.id, name: newItem.name, value: price, quantity: 1, eventId }),
+        body: JSON.stringify({ id: newItem.databaseId ?? newItem.id, name: newItem.name, value: price, quantity: 1, eventId, fbc, fbclid }),
       }).catch(() => {})
     }
   }, [])
