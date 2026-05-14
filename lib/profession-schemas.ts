@@ -74,10 +74,12 @@ function priceToNumber(p?: string | null): number | null {
   return isFinite(n) && n > 0 ? n : null
 }
 
+const FALLBACK_PRODUCT_IMAGE = 'https://jaleca.com.br/og-home.jpg'
+
 export function buildProductListSchema(produtos: ItemListProduct[], pageUrl: string) {
   if (!produtos || produtos.length === 0) return null
   return produtos.map((p) => {
-    const img = typeof p.image === 'string' ? p.image : p.image?.sourceUrl ?? undefined
+    const img = (typeof p.image === 'string' ? p.image : p.image?.sourceUrl ?? undefined) || FALLBACK_PRODUCT_IMAGE
     const price = priceToNumber(p.price) ?? priceToNumber(p.regularPrice)
     const productUrl = p.slug ? `https://jaleca.com.br/produto/${p.slug}` : pageUrl
     return {
@@ -85,8 +87,8 @@ export function buildProductListSchema(produtos: ItemListProduct[], pageUrl: str
       '@type': 'Product',
       name: p.name,
       url: productUrl,
-      ...(img ? { image: img } : {}),
-      ...(p.sku ? { sku: p.sku } : {}),
+      image: img,
+      ...(p.sku ? { sku: p.sku } : { mpn: p.slug }),
       brand: { '@type': 'Brand', name: 'Jaleca' },
       ...(price ? {
         offers: {
