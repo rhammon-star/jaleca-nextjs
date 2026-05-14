@@ -102,8 +102,30 @@ async function getFeaturedProducts(): Promise<WooProduct[]> {
   }
 }
 
-export default async function Home() {
+async function FeaturedProductsGrid() {
   const products = await getFeaturedProducts();
+  return (
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+      {products.map((p, i) => (
+        <ScrollReveal key={p.id} delay={i * 80}>
+          <ProductCard product={p} priority={i < 2} />
+        </ScrollReveal>
+      ))}
+    </div>
+  )
+}
+
+function FeaturedProductsSkeleton() {
+  return (
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+      {Array.from({ length: 8 }).map((_, i) => (
+        <div key={i} className="aspect-[3/4] bg-secondary/20 animate-pulse" />
+      ))}
+    </div>
+  )
+}
+
+export default function Home() {
 
   const localBusinessJsonLd = {
     '@context': 'https://schema.org',
@@ -213,22 +235,19 @@ export default async function Home() {
           {/* RIGHT — photo panel */}
           <div className="relative w-full md:w-[58%] bg-[#e4e4e4]">
             <Link href="/produtos" aria-label="Ver coleção de jalecos" className="block">
-              <picture>
-                <source media="(max-width: 767px)" srcSet="/jaleco-hero-mobile.webp" type="image/webp" />
-                <source media="(min-width: 768px)" srcSet="/jaleco-hero-desktop.webp" type="image/webp" />
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/jaleco-hero-desktop.webp"
-                  alt="Profissional de saúde usando jaleco feminino premium Jaleca coleção 2026"
-                  className="w-full h-auto block cursor-pointer"
-                  width={3155}
-                  height={3871}
-                  fetchPriority="high"
-                  loading="eager"
-                  decoding="async"
-                  sizes="(max-width: 767px) 100vw, 58vw"
-                />
-              </picture>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/jaleco-hero-desktop.webp"
+                srcSet="/jaleco-hero-mobile.webp 450w, /jaleco-hero-desktop.webp 900w"
+                sizes="(max-width: 767px) 100vw, 58vw"
+                alt="Profissional de saúde usando jaleco feminino premium Jaleca coleção 2026"
+                className="w-full h-auto block cursor-pointer"
+                width={900}
+                height={1104}
+                fetchPriority="high"
+                loading="eager"
+                decoding="async"
+              />
             </Link>
             {/* Gradiente editorial suave */}
             <div className="absolute inset-0 z-10 pointer-events-none"
@@ -310,13 +329,9 @@ export default async function Home() {
                 Ver todos <ArrowRight size={14} />
               </Link>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-              {products.map((p, i) => (
-                <ScrollReveal key={p.id} delay={i * 80}>
-                  <ProductCard product={p} priority={i < 2} />
-                </ScrollReveal>
-              ))}
-            </div>
+            <Suspense fallback={<FeaturedProductsSkeleton />}>
+              <FeaturedProductsGrid />
+            </Suspense>
             <div className="sm:hidden mt-8 text-center">
               <Link href="/produtos" className="inline-flex items-center gap-1 text-sm font-medium text-primary-text hover:underline underline-offset-4">
                 Ver todos <ArrowRight size={14} />
