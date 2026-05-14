@@ -193,8 +193,8 @@ export default function RootLayout({
         <link rel="preload" as="image" href="/jaleco-hero-desktop.webp" type="image/webp" media="(min-width: 768px)" fetchPriority="high" />
         <link rel="preconnect" href="https://connect.facebook.net" />
         <link rel="preconnect" href="https://www.googletagmanager.com" />
-        <link rel="dns-prefetch" href="https://wp.jaleca.com.br" />
-        <link rel="dns-prefetch" href="https://lh3.googleusercontent.com" />
+        <link rel="preconnect" href="https://wp.jaleca.com.br" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://lh3.googleusercontent.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://embed.tawk.to" />
         <link rel="dns-prefetch" href="https://bat.bing.net" />
         <link rel="dns-prefetch" href="https://www.clarity.ms" />
