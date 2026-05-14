@@ -89,6 +89,7 @@ export function buildProductListSchema(produtos: ItemListProduct[], pageUrl: str
       url: productUrl,
       image: img,
       ...(p.sku ? { sku: p.sku } : { mpn: p.slug }),
+      description: `${p.name ?? 'Jaleco profissional'} — Jaleca Uniformes. PP ao G3, entrega rápida para todo o Brasil.`,
       brand: { '@type': 'Brand', name: 'Jaleca' },
       aggregateRating: {
         '@type': 'AggregateRating',
@@ -108,6 +109,24 @@ export function buildProductListSchema(produtos: ItemListProduct[], pageUrl: str
             : 'https://schema.org/InStock',
           itemCondition: 'https://schema.org/NewCondition',
           seller: { '@type': 'Organization', name: 'Jaleca' },
+          shippingDetails: {
+            '@type': 'OfferShippingDetails',
+            shippingRate: { '@type': 'MonetaryAmount', value: 0, currency: 'BRL' },
+            shippingDestination: { '@type': 'DefinedRegion', addressCountry: 'BR' },
+            deliveryTime: {
+              '@type': 'ShippingDeliveryTime',
+              handlingTime: { '@type': 'QuantitativeValue', minValue: 1, maxValue: 2, unitCode: 'DAY' },
+              transitTime: { '@type': 'QuantitativeValue', minValue: 3, maxValue: 10, unitCode: 'DAY' },
+            },
+          },
+          hasMerchantReturnPolicy: {
+            '@type': 'MerchantReturnPolicy',
+            applicableCountry: 'BR',
+            returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+            merchantReturnDays: 7,
+            returnMethod: 'https://schema.org/ReturnByMail',
+            returnFees: 'https://schema.org/FreeReturn',
+          },
         },
       } : {}),
     }
