@@ -128,14 +128,23 @@ export async function generateMetadata({
   const { slug } = await params
   const sp = searchParams ? await searchParams : {}
   // URLs com ?vid= são variações específicas — noindex para evitar duplicatas no GSC
+  // Mas SEMPRE emite canonical apontando para o produto base (sem query),
+  // pra GSC não reportar "duplicate sem canonical selecionado".
   if (sp['vid']) {
-    return { robots: { index: false, follow: true } }
+    return {
+      robots: { index: false, follow: true },
+      alternates: { canonical: `https://jaleca.com.br/produto/${slug}` },
+    }
   }
 
   if (isNoindexProduct(slug)) {
     const p = await getProduct(slug)
     const pName = p ? String(p.name || '').replace(/ - Jaleca$/i, '') : slug
-    return { title: `${pName} | Jaleca`, robots: { index: false, follow: false } }
+    return {
+      title: `${pName} | Jaleca`,
+      robots: { index: false, follow: false },
+      alternates: { canonical: `https://jaleca.com.br/produto/${slug}` },
+    }
   }
 
   const kvColors = await getKnownColorSlugs()
