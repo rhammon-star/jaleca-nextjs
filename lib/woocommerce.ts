@@ -61,6 +61,7 @@ export type WCOrderData = {
   payment_method: string
   payment_method_title: string
   set_paid?: boolean
+  status?: string
   billing: WCAddress & { email: string; phone?: string }
   shipping: WCAddress
   line_items: WCOrderLineItem[]

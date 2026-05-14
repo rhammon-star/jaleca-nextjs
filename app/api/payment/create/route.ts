@@ -248,6 +248,7 @@ export async function POST(request: NextRequest) {
       payment_method: wcMethodMap[paymentMethod],
       payment_method_title: wcTitleMap[paymentMethod],
       set_paid: false,
+      status: paymentMethod === 'pix' || paymentMethod === 'boleto' ? 'on-hold' : 'pending',
       billing: { ...billing, address_2: billing.address_2 || '' },
       shipping: {
         first_name: billing.first_name,
