@@ -106,7 +106,8 @@ export async function sendMetaPurchase(
         currency: purchase.currency || 'BRL',
         order_id: purchase.orderId,
         contents: purchase.items?.map(i => ({ id: String(i.id), quantity: i.quantity })),
-        content_type: 'product',
+        content_ids: purchase.items?.map(i => String(i.id)),
+        content_type: 'product_group',
       },
     },
   ])
@@ -174,7 +175,8 @@ export async function sendMetaAddToCart(
 export async function sendMetaInitiateCheckout(
   userData: MetaUserData,
   value: number,
-  sourceUrl = 'https://jaleca.com.br/finalizar-compra'
+  sourceUrl = 'https://jaleca.com.br/finalizar-compra',
+  items?: Array<{ id: string; quantity: number }>
 ) {
   await sendEvent([
     {
@@ -184,7 +186,16 @@ export async function sendMetaInitiateCheckout(
       event_source_url: sourceUrl,
       action_source: 'website',
       user_data: buildUserData(userData),
-      custom_data: { value, currency: 'BRL' },
+      custom_data: {
+        value,
+        currency: 'BRL',
+        ...(items && items.length > 0 && {
+          content_ids: items.map(i => String(i.id)),
+          contents: items.map(i => ({ id: String(i.id), quantity: i.quantity })),
+          content_type: 'product_group',
+          num_items: items.reduce((s, i) => s + i.quantity, 0),
+        }),
+      },
     },
   ])
 }

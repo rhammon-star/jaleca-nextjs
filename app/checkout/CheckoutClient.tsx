@@ -121,7 +121,7 @@ export default function CheckoutClient() {
     if (icFiredRef.current) return
     if (items.length === 0 || subtotal <= 0) return
     icFiredRef.current = true
-    trackInitiateCheckout(subtotal, items.length)
+    trackInitiateCheckout(subtotal, items.length, items.map(i => ({ id: i.id, quantity: i.quantity })))
   }, [items.length, subtotal])
   const shippingCost = shipping?.cost ?? 0
   const total = subtotal + shippingCost

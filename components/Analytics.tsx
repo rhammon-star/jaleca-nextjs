@@ -100,7 +100,8 @@ export function trackPurchase(
     value,
     currency: 'BRL',
     contents: items.map(i => ({ id: i.id, quantity: i.quantity })),
-    content_type: 'product',
+    content_ids: items.map(i => i.id),
+    content_type: 'product_group',
     num_items: items.reduce((s, i) => s + i.quantity, 0),
     ...(purchaseFbc && { fbc: purchaseFbc }),
     ...(purchaseFbp && { fbp: purchaseFbp }),
@@ -143,7 +144,11 @@ export function trackViewItem(product: {
   }, { eventID: viewEventId })
 }
 
-export function trackInitiateCheckout(value: number, numItems: number) {
+export function trackInitiateCheckout(
+  value: number,
+  numItems: number,
+  items?: Array<{ id: string; quantity: number }>
+) {
   if (typeof window === 'undefined') return
   if (isInternalTraffic()) return
 
@@ -160,6 +165,11 @@ export function trackInitiateCheckout(value: number, numItems: number) {
     value,
     currency: 'BRL',
     num_items: numItems,
+    ...(items && items.length > 0 && {
+      content_ids: items.map(i => i.id),
+      contents: items.map(i => ({ id: i.id, quantity: i.quantity })),
+      content_type: 'product_group',
+    }),
     ...(checkoutFbc && { fbc: checkoutFbc }),
     ...(checkoutFbp && { fbp: checkoutFbp }),
   })
