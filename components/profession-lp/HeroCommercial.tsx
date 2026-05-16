@@ -33,7 +33,6 @@ export default function HeroCommercial({
         <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.5rem', marginBottom: '0.35rem' }}>
           <span style={{ fontSize: '0.82rem', color: '#6b6b6b' }}>A partir de</span>
           <strong style={{ fontSize: '1.5rem', fontWeight: 700, color: '#1a1a1a' }}>{startingPrice}</strong>
-          {comparePrice && <s style={{ fontSize: '0.85rem', color: '#bbb' }}>{comparePrice}</s>}
         </div>
         <div style={{ fontSize: '0.82rem', color: '#1a7a1a', fontWeight: 600, marginBottom: '1.5rem' }}>
           ✓ PIX com 5% off &nbsp;·&nbsp; 3x sem juros

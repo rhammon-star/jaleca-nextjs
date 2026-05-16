@@ -73,7 +73,7 @@ const schemaFaq = {
   '@type': 'FAQPage',
   mainEntity: [
     { '@type': 'Question', name: 'Qual prazo de entrega dos produtos Jaleca?', acceptedAnswer: { '@type': 'Answer', text: 'Enviamos em até 2 dias úteis após confirmação do pagamento. O prazo de entrega varia de 3 a 8 dias úteis conforme sua região — calculado no checkout com CEP.' } },
-    { '@type': 'Question', name: 'Como funciona a troca de tamanho?', acceptedAnswer: { '@type': 'Answer', text: 'Arrependimento: 7 dias após o recebimento, produto sem uso e com etiqueta (CDC). Garantia Jaleca: 30 dias, sem marca de uso e com etiqueta.' } },
+    { '@type': 'Question', name: 'Como funciona a troca de tamanho?', acceptedAnswer: { '@type': 'Answer', text: 'Arrependimento: 7 dias após o recebimento, produto sem uso e com etiqueta (CDC). Para defeito de fabricação, os prazos seguem o Código de Defesa do Consumidor (30 ou 90 dias).' } },
     { '@type': 'Question', name: 'Como escolher o tamanho certo do jaleco?', acceptedAnswer: { '@type': 'Answer', text: 'Meça busto, cintura e quadril com fita métrica. Compare com a tabela de medidas na página de cada produto. Em caso de dúvida entre dois tamanhos, opte pelo maior — jalecos Jaleca têm elastano e adaptam bem ao corpo.' } },
     { '@type': 'Question', name: 'Frete grátis para quais regiões?', acceptedAnswer: { '@type': 'Answer', text: 'Frete grátis para compras acima de R$499 nas regiões SP, RJ, MG e ES. Para outras regiões, o valor é calculado no checkout com base no CEP de entrega.' } },
     { '@type': 'Question', name: 'Posso comprar jaleco por atacado?', acceptedAnswer: { '@type': 'Answer', text: 'Para compras a partir de 10 peças do mesmo modelo, entre em contato pelo WhatsApp para preço especial Atacado. Temos condição diferenciada para clínicas e consultórios.' } },
@@ -160,7 +160,7 @@ export default async function ProdutosPage({
 
         <h3>Frete grátis Sudeste, troca em 7 dias e suporte humano</h3>
         <p>
-          <strong>Frete grátis para compras acima de R$ 499</strong> em São Paulo, Rio de Janeiro, Minas Gerais e Espírito Santo. Para demais regiões, o frete é calculado no checkout. Aceitamos PIX (com 5% de desconto no item), cartão em até 6× sem juros e boleto. <strong>Garantia Jaleca: 30 dias para troca</strong> sem marca de uso, e direito de arrependimento de 7 dias pelo CDC. Atendimento humano via WhatsApp para tirar dúvidas sobre tamanho, tecido ou prazo antes de comprar.
+          <strong>Frete grátis para compras acima de R$ 499</strong> em São Paulo, Rio de Janeiro, Minas Gerais e Espírito Santo. Para demais regiões, o frete é calculado no checkout. Aceitamos PIX (com 5% de desconto no item), cartão em até 6× sem juros e boleto. Direito de <strong>arrependimento em 7 dias</strong> pelo CDC, e para defeitos de fabricação, garantia conforme o Código de Defesa do Consumidor (30 ou 90 dias). Atendimento humano via WhatsApp para tirar dúvidas sobre tamanho, tecido ou prazo antes de comprar.
         </p>
 
         <h3>Por que a Jaleca virou referência em jaleco profissional no Brasil</h3>

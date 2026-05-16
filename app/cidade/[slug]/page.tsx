@@ -38,7 +38,7 @@ const FAQ_TEMPLATE = (nome: string, estado: string, uf: string) => [
   },
   {
     pergunta: `Como funciona a troca de jalecos em ${nome}?`,
-    resposta: `Arrependimento: 7 dias após o recebimento, produto sem uso e com etiqueta (CDC). Garantia Jaleca: 30 dias, sem marca de uso e com etiqueta. Entre em contato pelo WhatsApp.`,
+    resposta: `Arrependimento: 7 dias após o recebimento, produto sem uso e com etiqueta (CDC). Para defeito de fabricação, os prazos seguem o Código de Defesa do Consumidor (30 ou 90 dias). Entre em contato pelo WhatsApp.`,
   },
   {
     pergunta: `Como rastrear meu pedido para ${nome}?`,

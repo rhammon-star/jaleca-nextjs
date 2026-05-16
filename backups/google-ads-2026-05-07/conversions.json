@@ -1,0 +1,12 @@
+[
+  {
+    "action": "Compra (Evento do Google Analytics purchase)",
+    "total_conversions": 2,
+    "total_value": 17.259999999999998
+  },
+  {
+    "action": "Jaleca (web) conversion_event_purchase",
+    "total_conversions": 1,
+    "total_value": 4.27
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "backup_date": "2026-05-07",
+  "campaigns_total": 43,
+  "campaigns_active": 0,
+  "keywords_total": 297,
+  "last_30_days": {
+    "cost_brl": "2447.49",
+    "conversions": 3,
+    "conversion_value_brl": "21.53",
+    "roas": "0.01"
+  }
+}

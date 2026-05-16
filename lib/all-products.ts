@@ -27,7 +27,7 @@ const fetchAllProducts = async (): Promise<WooProduct[]> => {
 
 const getAllProductsCached = unstable_cache(fetchAllProducts, ['all-products'], { revalidate: 3600, tags: ['products'] })
 
-async function getColorVariants(mainProducts: WooProduct[]): Promise<{ variants: WooProduct[]; productsWithColorPages: Set<string>; parentsWithGeneratedVariants: Set<string> }> {
+async function getColorVariants(mainProducts: WooProduct[], kvImageBySlug?: Map<string, string>): Promise<{ variants: WooProduct[]; productsWithColorPages: Set<string>; parentsWithGeneratedVariants: Set<string> }> {
   const productsWithColorPages = new Set<string>()
   const parentsWithGeneratedVariants = new Set<string>()
   try {
@@ -36,11 +36,15 @@ async function getColorVariants(mainProducts: WooProduct[]): Promise<{ variants:
     const colorPages: Array<{ url: string; productName: string; colorName: string; title: string; metaDescription: string; category: string }> = JSON.parse(jsonContent)
 
     const productMap = new Map<string, WooProduct>()
+    const productBySlugKey = new Map<string, WooProduct>()
+    const normKey = (s: string) => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-')
     mainProducts.forEach(p => {
-      // Remove "– Jaleca" ou "- Jaleca" do final (em dash U+2013 ou hífen comum)
       const cleanName = p.name.replace(/\s*[\u2013\-]\s*Jaleca\s*$/i, '').trim()
       productMap.set(cleanName, p)
-      productMap.set(p.name, p) // também indexa pelo nome completo
+      productMap.set(p.name, p)
+      productBySlugKey.set(p.slug, p)
+      productBySlugKey.set(p.slug.replace(/-jaleca$/, ''), p)
+      productBySlugKey.set(normKey(cleanName), p)
     })
 
     colorPages.forEach(page => {
@@ -50,7 +54,14 @@ async function getColorVariants(mainProducts: WooProduct[]): Promise<{ variants:
 
     const variants: WooProduct[] = []
     colorPages.forEach((page, idx) => {
-      const parentProduct = productMap.get(page.productName)
+      let parentProduct = productMap.get(page.productName)
+      if (!parentProduct) {
+        // Fallback por slug derivado do URL (remove sufixo de cor)
+        const fullSlug = page.url.replace('/produto/', '')
+        const colorSlug = normKey(page.colorName)
+        const parentSlug = fullSlug.replace(new RegExp(`-${colorSlug}$`), '')
+        parentProduct = productBySlugKey.get(parentSlug) || productBySlugKey.get(normKey(page.productName))
+      }
 
       // Best-sellers sempre aparecem como produto pai (não duplicar com variantes de cor)
       if (parentProduct && BEST_SELLER_SLUGS.includes(parentProduct.slug)) {
@@ -92,6 +103,24 @@ async function getColorVariants(mainProducts: WooProduct[]): Promise<{ variants:
         variantRegularPrice = variant.regularPrice || variantRegularPrice
         variantSalePrice = variant.salePrice || variantSalePrice
       }
+
+      // Fallback: variante sem imagem própria — usa primeira variação do pai que tenha imagem
+      if (!variantImage?.sourceUrl && parentProduct?.variations?.nodes) {
+        const anyWithImg = parentProduct.variations.nodes.find(v => v.image?.sourceUrl)
+        if (anyWithImg?.image) variantImage = anyWithImg.image
+      }
+      if (!variantImage?.sourceUrl && parentProduct?.image?.sourceUrl) {
+        variantImage = parentProduct.image
+      }
+      // Último fallback: imageUrl do KV (SEO entry da própria variante)
+      const slugFromUrl = page.url.replace('/produto/', '')
+      const kvImg = kvImageBySlug?.get(slugFromUrl)
+      if (!variantImage?.sourceUrl && kvImg) {
+        variantImage = { sourceUrl: kvImg, altText: `${page.productName} ${page.colorName}` }
+      }
+
+      // Skip órfão: sem imagem E sem preço → não mostra card vazio
+      if (!variantImage?.sourceUrl && !variantPrice) return
 
       if (parentProduct) parentsWithGeneratedVariants.add(parentProduct.slug)
 
@@ -159,15 +188,27 @@ async function _getKVVariants(
   jsonSlugs: Set<string>,
 ): Promise<WooProduct[]> {
   try {
-    // Indexa produtos pai por slug para lookup rápido
     const productBySlug = new Map<string, WooProduct>()
     mainProducts.forEach(p => productBySlug.set(p.slug, p))
 
-    // Varre todas as entradas SEO do KV
+    // 1. Coleta todas as keys primeiro (scan é rápido)
+    const keys: string[] = []
+    for await (const key of kv.scanIterator({ match: 'seo:produto/*', count: 500 })) {
+      keys.push(key as string)
+    }
+
+    // 2. Busca em paralelo, batches de 50
+    const BATCH = 50
+    const entriesAll: (SeoEntry | null)[] = []
+    for (let i = 0; i < keys.length; i += BATCH) {
+      const slice = keys.slice(i, i + BATCH)
+      const batch = await Promise.all(slice.map(k => kv.get<SeoEntry>(k).catch(() => null)))
+      entriesAll.push(...batch)
+    }
+
     const variants: WooProduct[] = []
     let idx = 0
-    for await (const key of kv.scanIterator({ match: 'seo:produto/*', count: 100 })) {
-        const entry = await kv.get<SeoEntry>(key)
+    for (const entry of entriesAll) {
         if (!entry) continue
         if (entry.stockStatus === 'outofstock' || entry.noindex) continue
 
@@ -233,9 +274,37 @@ async function _getKVVariants(
   }
 }
 
+async function _getKVImageMap(): Promise<Map<string, string>> {
+  const map = new Map<string, string>()
+  try {
+    const keys: string[] = []
+    for await (const key of kv.scanIterator({ match: 'seo:produto/*', count: 500 })) {
+      keys.push(key as string)
+    }
+    const BATCH = 50
+    for (let i = 0; i < keys.length; i += BATCH) {
+      const slice = keys.slice(i, i + BATCH)
+      const batch = await Promise.all(slice.map(k => kv.get<SeoEntry>(k).catch(() => null)))
+      batch.forEach(entry => {
+        if (entry?.imageUrl && entry.url) {
+          map.set(entry.url.replace('/produto/', ''), entry.imageUrl)
+        }
+      })
+    }
+  } catch (e) {
+    console.error('[getKVImageMap] error:', e)
+  }
+  return map
+}
+
+const getKVImageMapCached = unstable_cache(_getKVImageMap, ['kv-image-map'], { revalidate: 3600, tags: ['products'] })
+
 async function _buildAllProducts(): Promise<WooProduct[]> {
-  const mainProducts = await fetchAllProducts()
-  const { variants: colorVariants, productsWithColorPages, parentsWithGeneratedVariants } = await getColorVariants(mainProducts)
+  const [mainProducts, kvImageBySlug] = await Promise.all([
+    fetchAllProducts(),
+    getKVImageMapCached(),
+  ])
+  const { variants: colorVariants, productsWithColorPages, parentsWithGeneratedVariants } = await getColorVariants(mainProducts, kvImageBySlug)
 
   const mainProductsWithoutColorPages = mainProducts.filter(p => {
     if (BEST_SELLER_SLUGS.includes(p.slug)) return true
@@ -248,8 +317,10 @@ async function _buildAllProducts(): Promise<WooProduct[]> {
   })
 
   const jsonSlugs = new Set(colorVariants.map(v => v.slug))
-  const kvVariants = await getKVVariantsCached(mainProducts, jsonSlugs)
-  const inStockVariants = await filterOutOfStockVariants(colorVariants)
+  const [kvVariants, inStockVariants] = await Promise.all([
+    getKVVariantsCached(mainProducts, jsonSlugs),
+    filterOutOfStockVariants(colorVariants),
+  ])
 
   console.log(`[getAllProducts] ${mainProducts.length} WC, ${productsWithColorPages.size} JSON cores, ${kvVariants.length} KV novas → ${inStockVariants.length} JSON instock + ${kvVariants.length} KV + ${mainProductsWithoutColorPages.length} pai`)
 

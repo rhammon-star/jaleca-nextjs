@@ -58,7 +58,7 @@ const faqSchema = {
     {
       '@type': 'Question',
       name: 'Como devolver jaleco comprado online?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Pelo Código de Defesa do Consumidor, você tem 7 dias para desistir de qualquer compra online, sem precisar justificar. O produto deve estar sem uso e com etiqueta. Após esse prazo, a política de troca varia por loja — algumas aceitam troca por tamanho em até 30 dias. Leia a política de troca antes de comprar.' },
+      acceptedAnswer: { '@type': 'Answer', text: 'Pelo Código de Defesa do Consumidor, você tem 7 dias para desistir de qualquer compra online, sem precisar justificar (Direito de Arrependimento, Art. 49). O produto deve estar sem uso e com etiqueta. Para defeitos de fabricação, os prazos de garantia variam entre 30 a 90 dias conforme o Código. Leia a política de cada loja antes de comprar.' },
     },
   ],
 }
@@ -164,7 +164,7 @@ export default function BlogPost() {
         <div className="mt-12 p-8 bg-[#faf9f7] border border-[#e8e0d5]">
           <h3 className="font-display text-xl font-semibold mb-2">Compre com segurança na Jaleca</h3>
           <p className="text-muted-foreground mb-4">
-            Fabricante direto, nota 4.9 no Google, frete grátis no Sudeste e troca em até 30 dias.
+            Fabricante direto, nota 4.9 no Google, frete grátis no Sudeste, arrependimento em 7 dias e garantia em caso de defeito.
           </p>
           <Link
             href="/"

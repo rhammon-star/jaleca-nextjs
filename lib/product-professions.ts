@@ -156,7 +156,7 @@ export const PRODUCT_PROFESSIONS: ProductProfessions[] = [
   {
     slug: 'jaleco-padrao-aluno-feminino-jaleca',
     name: 'Jaleco Padrão Aluno Feminino',
-    professions: ['aluno','universitario','professor','estudante','uniforme-professor','enfermagem-feminino'],
+    professions: ['aluno','universitario','professor','professora','estudante','uniforme-professor','medica','medico-feminino','medicina','dentista','dentista-feminino','odontologia','enfermeira','enfermagem','enfermagem-feminino','farmaceutica','farmacia','nutricionista','nutricao','veterinaria','psicologa','biomedica','podologa','fisioterapeuta','fisioterapia','esteticista','massagista','cabeleireira','nail design','micropigmentadora','tatuador','pastor','secretaria','advogada','estiloso','preto'],
   },
 
   // ── JALECOS MASCULINOS ─────────────────────────────────────────────────────
@@ -178,7 +178,7 @@ export const PRODUCT_PROFESSIONS: ProductProfessions[] = [
   {
     slug: 'jaleco-padrao-aluno-masculino-jaleca',
     name: 'Jaleco Padrão Aluno Masculino',
-    professions: ['aluno','universitario','estudante','professor','uniforme-professor'],
+    professions: ['aluno','universitario','estudante','professor','uniforme-professor','medico','medicina','dentista','odontologia','enfermeiro','enfermagem','farmaceutico','farmacia','veterinario','nutricionista','nutricao','biomedico','podologo','fisioterapeuta','fisioterapia','barbeiro','cabeleireiro','tatuador','pastor','estiloso','preto'],
   },
 
   // ── UNISSEX ────────────────────────────────────────────────────────────────
@@ -241,27 +241,27 @@ export const PRODUCT_PROFESSIONS: ProductProfessions[] = [
   {
     slug: 'colete-multiuso-jaleca',
     name: 'Colete Multiuso',
-    professions: ['farmaceutica','podologa','esteticista','cabeleireira','professor','professora','nail design','tatuador','secretaria do lar','micropigmentadora','enfermagem-feminino'],
+    professions: ['podologa','esteticista','nail design','micropigmentadora','tatuador','secretaria','professora','farmaceutica','cabeleireira','secretaria do lar','dona-de-casa','buffet','confeiteira','confeiteiro','cozinheira','cozinheiro','churrasqueira','churrasqueiro'],
   },
   {
     slug: 'max-colete-jaleca',
     name: 'Max Colete',
-    professions: ['medica','dentista','dentista-feminino','enfermeira','enfermagem','enfermagem-feminino','farmaceutica','nutricionista','veterinaria','veterinario','psicologa','biomedica','pastor','nail design','micropigmentadora'],
+    professions: ['podologa','esteticista','nail design','micropigmentadora','tatuador','secretaria','professora','farmaceutica','cabeleireira','secretaria do lar','dona-de-casa','buffet','confeiteira','confeiteiro','cozinheira','cozinheiro','churrasqueira','churrasqueiro'],
   },
   {
     slug: 'faixa-de-cabelo-jaleca',
     name: 'Faixa de Cabelo',
-    professions: ['medica','dentista','dentista-feminino','enfermeira','enfermagem','enfermagem-feminino','farmaceutica','nutricionista','veterinaria','veterinario','psicologa','biomedica','pastor','nail design','micropigmentadora','dona-de-casa'],
+    professions: ['podologa','esteticista','cabeleireira','nail design','micropigmentadora','massagista','tatuador','fisioterapeuta','fisioterapia','dentista','dentista-feminino','enfermeira','enfermagem-feminino','dona-de-casa','secretaria do lar','buffet','confeiteira','cozinheira','churrasqueira'],
   },
   {
     slug: 'touca-de-elastico-jaleca',
     name: 'Touca de Elástico',
-    professions: ['biomedica','nutricionista','nutricao','enfermeira','enfermagem','enfermagem-feminino','dona-de-casa'],
+    professions: ['biomedica','nutricionista','nutricao','enfermeira','enfermeiro','enfermagem','enfermagem-feminino','farmaceutica','dona-de-casa','secretaria do lar','buffet','confeiteira','confeiteiro','cozinheira','cozinheiro','churrasqueira','churrasqueiro','sushiman'],
   },
   {
     slug: 'touca-de-amarrar-jaleca',
     name: 'Touca de Amarrar',
-    professions: ['biomedica','nutricionista','nutricao','enfermeiro','enfermagem','dona-de-casa'],
+    professions: ['biomedica','nutricionista','nutricao','enfermeira','enfermeiro','enfermagem','enfermagem-feminino','farmaceutica','dona-de-casa','secretaria do lar','buffet','confeiteira','confeiteiro','cozinheira','cozinheiro','churrasqueira','churrasqueiro','sushiman'],
   },
 ]
 

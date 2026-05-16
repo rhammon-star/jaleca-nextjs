@@ -10,7 +10,7 @@ export default function InstagramLazy() {
             IG
           </div>
           <div>
-            <strong style={{ display: 'block', fontSize: '0.9rem', color: '#1a1a1a' }}>@jaleca.uniformes</strong>
+            <strong style={{ display: 'block', fontSize: '0.9rem', color: '#1a1a1a' }}>@jaleca.oficial</strong>
             <span style={{ fontSize: '0.72rem', color: '#888' }}>Clientes reais · Marque #jaleca</span>
           </div>
         </div>

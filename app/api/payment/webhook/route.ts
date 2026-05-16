@@ -110,6 +110,11 @@ export async function POST(request: NextRequest) {
               campaignName:   metaVal('_utm_campaign'),
             }).catch(err => console.error('[GA4 MP] webhook error:', err))
 
+            const fbc = metaVal('_fbc') ||
+              (metaVal('_fbclid')
+                ? `fb.1.${Math.floor(new Date(order.date_created).getTime() / 1000)}.${metaVal('_fbclid')}`
+                : undefined)
+            const fbp = metaVal('_fbp')
             await sendMetaPurchase(
               {
                 email: order.billing?.email,
@@ -120,6 +125,8 @@ export async function POST(request: NextRequest) {
                 state: order.billing?.state,
                 zip: order.billing?.postcode,
                 country: order.billing?.country,
+                fbc,
+                fbp,
               },
               {
                 orderId: String(order.id),

@@ -39,7 +39,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'Posso trocar o jaleco se o tamanho não servir?',
-    a: 'Arrependimento: 7 dias após o recebimento, produto sem uso e com etiqueta (CDC). Garantia Jaleca: 30 dias, sem marca de uso e com etiqueta. O custo do frete de devolução é por conta do cliente. Mais detalhes em /trocas-e-devolucoes.',
+    a: 'Arrependimento: 7 dias após o recebimento, produto sem uso e com etiqueta (CDC). Para defeito de fabricação, os prazos seguem o Código de Defesa do Consumidor (30 ou 90 dias). O custo do frete de devolução é por conta do cliente. Mais detalhes em /trocas-e-devolucoes.',
   },
 ]
 

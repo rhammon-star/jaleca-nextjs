@@ -327,7 +327,7 @@ export default async function ComprarJalecoOnlinePage() {
                 },
                 {
                   q: 'Posso trocar meu jaleco se não servir?',
-                  a: 'Arrependimento: até 7 dias após o recebimento, produto sem uso e com etiqueta. Garantia Jaleca: 30 dias, sem marca de uso e com etiqueta. Basta nos contatar pelo WhatsApp ou email.',
+                  a: 'Arrependimento: até 7 dias após o recebimento, produto sem uso e com etiqueta (CDC). Para defeito de fabricação, os prazos seguem o Código de Defesa do Consumidor (30 ou 90 dias). Entre em contato pelo WhatsApp ou email.',
                 },
                 {
                   q: 'Qual o prazo de entrega?',
