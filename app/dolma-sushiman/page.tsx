@@ -9,6 +9,7 @@ import { getGooglePlaceData } from '@/lib/google-places'
 import FaqAccordion from './FaqAccordion'
 import { PROFESSION_PRODUCT_SLUGS } from '@/lib/product-professions'
 import { getCachedHeroImage, getCachedBlogPosts } from '@/lib/profession-page-data'
+import UGCSection from '@/components/UGCSection'
 
 // ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
 export const revalidate = 3600
@@ -466,6 +467,8 @@ export default async function DolmaSushimanPage() {
           </div>
         </section>
 
+
+        <section className="py-4 px-4"><div className="container"><UGCSection /></div></section>
       </main>
     </>
   )

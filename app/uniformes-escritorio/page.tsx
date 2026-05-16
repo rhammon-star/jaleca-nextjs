@@ -5,6 +5,7 @@ import type { WooProduct } from '@/components/ProductCard'
 import ProductCard from '@/components/ProductCard'
 import { getGooglePlaceData } from '@/lib/google-places'
 import FaqAccordion from './FaqAccordion'
+import UGCSection from '@/components/UGCSection'
 
 // ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
 export const revalidate = 3600
@@ -187,6 +188,8 @@ export default async function Page() {
           </section>
         )}
 
+
+        <section className="py-4 px-4"><div className="container"><UGCSection /></div></section>
         {/* ── FAQ ── */}
         <section style={{ background: '#f9f7f4', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
           <div style={{ maxWidth: 1200, margin: '0 auto' }}>

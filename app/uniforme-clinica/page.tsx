@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import UGCSection from '@/components/UGCSection'
 
 export const revalidate = 86400
 
@@ -165,6 +166,8 @@ export default function UniformeClinicaPage() {
           Falar com atendimento B2B
         </a>
       </section>
+
+        <section className="py-4 px-4"><div className="container"><UGCSection /></div></section>
     </main>
   )
 }

@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { graphqlClient, GET_PRODUCTS } from '@/lib/graphql'
 import ProductCard from '@/components/ProductCard'
 import type { WooProduct } from '@/components/ProductCard'
+import UGCSection from '@/components/UGCSection'
 
 // ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
 export const revalidate = 3600
@@ -162,6 +163,8 @@ export default async function Page() {
           </div>
         </section>
 
+
+        <section className="py-4 px-4"><div className="container"><UGCSection /></div></section>
         {/* FAQ */}
         <section style={{ borderTop: '1px solid #e8e4df', paddingTop: '3rem', marginBottom: '3rem' }}>
           <h2 style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: 'clamp(1.8rem,3vw,2.5rem)', fontWeight: 400, lineHeight: 1.15, color: '#1a1a1a', marginBottom: '0.75rem' }}>

@@ -9,6 +9,7 @@ import InstagramLazy from '@/components/profession-lp/InstagramLazy'
 import FabricGuideCards from '@/components/profession-lp/FabricGuideCards'
 import ProfessionLinksNeutral from '@/components/profession-lp/ProfessionLinksNeutral'
 import { buildHowToSchema, buildOccupationSchema } from '@/lib/profession-schemas'
+import UGCSection from '@/components/UGCSection'
 
 export const revalidate = 3600
 
@@ -209,6 +210,8 @@ export default async function Page() {
           </div>
         </section>
 
+
+        <section className="py-4 px-4"><div className="container"><UGCSection /></div></section>
         {/* ── ⑦ FAQ ACCORDION + GUIA DE TECIDOS ── */}
         <section style={{ background: '#fff', padding: 'clamp(2.5rem,5vw,4rem) clamp(1.5rem,5vw,4rem)' }}>
           <div style={{ maxWidth: 900, margin: '0 auto' }}>

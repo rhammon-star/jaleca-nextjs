@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getGooglePlaceData } from '@/lib/google-places'
 import CategoryProductGrid from '@/components/CategoryProductGrid'
+import UGCSection from '@/components/UGCSection'
 
 // ISR — revalida a cada 1h. Permite Vercel servir HTML estático da CDN.
 export const revalidate = 3600
@@ -280,6 +281,8 @@ export default async function Page() {
           </div>
         </section>
 
+
+        <section className="py-4 px-4"><div className="container"><UGCSection /></div></section>
       </main>
     </>
   )
