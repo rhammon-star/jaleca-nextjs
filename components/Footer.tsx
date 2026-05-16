@@ -141,12 +141,7 @@ const Footer = () => {
                     contato@jaleca.com.br
                   </a>
                 </li>
-                <li>
-                  <Link href="/nossas-lojas" className="hover:text-foreground transition-colors">
-                    Nossas Lojas — Ipatinga, MG
-                  </Link>
-                </li>
-                <li className="pt-2">
+<li className="pt-2">
                   <p className="text-[13px] md:text-[11px] leading-relaxed">
                     Seg–Sex: 9h às 18h<br/>
                     Sáb: 9h às 12h
