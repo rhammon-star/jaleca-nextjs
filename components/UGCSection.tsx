@@ -59,13 +59,13 @@ function VideoThumb({ src, thumb, alt, onPause }: { src: string; thumb: string; 
 
 const TRACK = [...ITEMS, ...ITEMS]
 
-export default function UGCSection() {
+export default function UGCSection({ title = 'Profissionais de todo o Brasil' }: { title?: string } = {}) {
   const [paused, setPaused] = useState(false)
 
   return (
     <div className="mt-8 md:mt-16 overflow-hidden">
       <p className="mb-4 text-center text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-        Profissionais de todo o Brasil
+        {title}
       </p>
 
       <div className="relative">
