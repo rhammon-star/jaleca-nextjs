@@ -1,20 +1,17 @@
-Data: 2026-05-16
-Tarefa: Substituir Instagram Gallery por carrossel UGCSection "Profissionais de todo o Brasil" em páginas de produto, cidade e LPs
+Data: 2026-05-16 16:35 UTC
+Tarefa: Deploy commit 98e7045 — substituir InstagramGallery por UGCSection "Profissionais de todo o Brasil"
 
-Arquivos alterados:
-- app/produto/[slug]/ProductSocialProof.tsx
-- app/jaleco-esteticista/page.tsx
-- app/jaleco-dentista/page.tsx
-- app/jaleco-enfermeiro/page.tsx
-- app/jaleco-professor/page.tsx
-- app/page.tsx (home)
-- app/cidade/[slug]/page.tsx
+Arquivos alterados: app/produto/[slug]/ProductSocialProof.tsx, app/jaleco-esteticista/page.tsx, app/jaleco-dentista/page.tsx, app/jaleco-enfermeiro/page.tsx, app/jaleco-professor/page.tsx, app/page.tsx (home), app/cidade/[slug]/page.tsx, ai-source-docs/historico/ultima-execucao-claude.md, app/checkout/CheckoutClient.tsx
 
 O que foi feito:
-- ProductSocialProof: removido title="Clientes usando Jaleca", usa default "Profissionais de todo o Brasil"
-- 4 LPs (esteticista, dentista, enfermeiro, professor): trocado InstagramGallery por UGCSection
-- Home (page.tsx): removido import InstagramGallery, trocado por UGCSection
-- Cidade: adicionado UGCSection antes do bloco FAQ (import já existia)
+- ✅ Commit 98e7045: refactor InstagramGallery → UGCSection carrossel em todas as páginas
+- ✅ Deployment prod via Vercel — READY (6m build time, 257 páginas geradas e aquecidas)
+- ✅ Home + 4 LPs + city pages + product pages com novo carrossel "Profissionais de todo o Brasil"
+- ✅ Removido InstagramGallery imports, mantido UGCSection component integrado
 
-Resultado: OK — TypeScript sem erros
-Próximo passo: deploy para produção
+Deployment ID: dpl_3rwnmhz3buRes2c9E761pWaozJhU
+URL: https://jaleca.com.br (production alias)
+Build time: 6m | Status: READY
+
+Resultado: ✅ OK
+Próximo passo: monitorar UX do carrossel em produção
