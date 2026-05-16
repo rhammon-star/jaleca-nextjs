@@ -1,36 +1,17 @@
-Data: 2026-05-13 (sessão tarde — múltiplas tarefas)
-Tarefa: Fix PIX 5% + limpeza Pagar.me + número ME + tokens ME re-autorizados
-
-Arquivos alterados (resumo):
-- app/checkout/CheckoutClient.tsx (PIX 5% sobre subtotal cheio)
-- app/api/payment/create/route.ts (PIX server-side + número p/ ME + comentários Cielo)
-- app/faq/page.tsx (Pagar.me → Cielo no JSON-LD + texto visível)
-- lib/email.ts (param pagarmeOrderId → cieloPaymentId)
-- app/api/orders/route.ts (PAGARME_METHODS → CIELO_METHODS)
-- next.config.ts (CSP sem api.pagar.me)
-- lib/pagarme.ts (DELETADO)
-- lib/melhor-envio.ts (campo `number` no payload ME)
-
-Env vars Vercel (production):
-- MELHOR_ENVIO_TOKEN regravado (1587 chars, válido)
-- MELHOR_ENVIO_REFRESH_TOKEN regravado (1620 chars)
-
-Causa raiz dos problemas relatados:
-- Tokens ME estavam VAZIOS em prod há ~7h → calculateShipping caía no fallback regional → cliente pagava valor diferente do real ME na geração de etiqueta.
-- Sem token, addShipmentToMECart retornava null → pedidos ME criados manualmente sem tag wc-order-X → cron tracking não casava → sem emails automáticos.
-
-Resultados validados pós-fix:
-- /api/shipping com CEP SP: PAC 32,71 / Jadlog 24,70 / SEDEX 56,46 — valores REAIS ME, não fallback.
-- /api/tracking/check-all: HTTP 200, sem erro.
-
-Pendência:
-- Pedidos antigos no ME sem tag wc-order-X não serão casados automaticamente. Usuário decidiu NÃO implementar fallback (C). Daqui pra frente, novas vendas criam tag corretamente.
-- Cron renova tokens dia 1 e 21 — recomendado monitorar logs do refresh.
-
-Próximo passo: monitorar 1ª venda nova → ver carrinho aparecer no painel ME com tag wc-order-X → ao gerar etiqueta, email automático cliente.
-
----
-Adendo (mesma sessão): Implementado fallback C — match por CPF
-- lib/melhor-envio.ts: extendido tipo MEShippedOrder (to.document, to.postal_code, to.name, self_tracking) + nova função getRecentShippedMEOrders()
-- app/api/tracking/check-all/route.ts: Step 0 agora tenta tag wc-order-X primeiro; se falhar, casa por billing_cpf (digits only). Log indica origem do match (via=tag|cpf) e adiciona nota WC com origem.
-- Risco baixo: CPF é único; remove do pool após uso pra evitar duplo match na mesma rodada.
+Data: 2026-05-16 03:15
+Tarefa: Prova social nas páginas de produto — substituir aba "Clientes" por bloco com tabs (Profissionais + Clientes usando Jaleca) posicionado entre o seletor de cor/tamanho e o grid de dados técnicos
+Arquivos alterados:
+- app/produto/[slug]/ProductSocialProof.tsx (novo)
+- app/produto/[slug]/ProductDetailClient.tsx
+O que foi feito:
+- Criado componente ProductSocialProof com 2 abas: "Profissionais de todo o Brasil" (carrossel @/components/UGCSection — logos correndo) e "Clientes usando Jaleca" (grid UGC ./UGCSection — fotos/vídeos reais)
+- Inserido <ProductSocialProof /> em ProductDetailClient.tsx logo após o bloco do botão "Adicionar à sacola" e antes do bloco de Content tabs
+- Removida aba "Clientes" das tabs inferiores
+- Removido o bloco condicional {activeTab === 'clientes' && <UGCSection />}
+- Atualizado tipo ActiveTab para remover 'clientes'
+- Trocado import: @/components/UGCSection → ./ProductSocialProof
+- Decisão UX: ao invés de 4 carrosséis empilhados, consolidado em 1 bloco com 2 abas. Stories IG e Postagens descartados a pedido do usuário.
+Comandos rodados: npx tsc --noEmit (0 erros)
+Resultado: OK — pendente teste manual em produção
+Riscos identificados: nenhum (cobre produto pai e filho automaticamente pela mesma rota /produto/[slug])
+Próximo passo: aguardar autorização do usuário para deploy

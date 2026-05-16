@@ -17,7 +17,7 @@ import ProductCard, { type WooProduct } from '@/components/ProductCard'
 import RecentlyViewed from '@/components/RecentlyViewed'
 import UrgencyToast from '@/components/UrgencyToast'
 import { isBestSeller } from '@/lib/best-sellers'
-import UGCSection from '@/components/UGCSection'
+import ProductSocialProof from './ProductSocialProof'
 import type { PlaceData } from '@/lib/google-places'
 
 // #1 — Alt text descritivo: nome + cor selecionada (sem mencionar profissão)
@@ -130,7 +130,7 @@ type Review = {
   verified: boolean
 }
 
-type ActiveTab = 'dados-tecnicos' | 'informacoes' | 'clientes' | 'avaliacoes'
+type ActiveTab = 'dados-tecnicos' | 'informacoes' | 'avaliacoes'
 
 // Build a slug → display name map from attribute terms
 function buildSlugMap(attr: Attribute | undefined): Record<string, string> {
@@ -884,10 +884,15 @@ export default function ProductDetailClient({
                   </p>
                 )}
                 {pixPrice > 0 && (
-                  <p className="text-sm text-muted-foreground flex items-center gap-1.5">
-                    <Banknote size={13} />
-                    {formatCurrency(pixPrice)} no PIX (5% de desconto)
-                  </p>
+                  <div className="inline-flex items-center gap-2 bg-green-50 border border-green-200 rounded px-3 py-1.5 mt-1">
+                    <Banknote size={15} className="text-green-700 shrink-0" />
+                    <span className="text-sm font-semibold text-green-800">
+                      {formatCurrency(pixPrice)} no PIX
+                    </span>
+                    <span className="text-xs font-bold bg-green-600 text-white px-1.5 py-0.5 rounded">
+                      5% OFF
+                    </span>
+                  </div>
                 )}
               </div>
             )}
@@ -1170,6 +1175,9 @@ export default function ProductDetailClient({
           </div>
         </div>
 
+        {/* Prova social — abas Profissionais / Clientes usando Jaleca */}
+        <ProductSocialProof />
+
         {/* Content tabs */}
         <div className="mt-16 md:mt-24">
           {/* Tab headers */}
@@ -1177,7 +1185,6 @@ export default function ProductDetailClient({
             {([
               { id: 'dados-tecnicos', label: 'Dados Técnicos' },
               { id: 'informacoes', label: 'Informações Adicionais' },
-              { id: 'clientes', label: 'Clientes' },
               { id: 'avaliacoes', label: `Avaliações${reviews.length > 0 ? ` (${reviews.length})` : ''}` },
             ] as { id: ActiveTab; label: string }[]).map(tab => (
               <button
@@ -1201,7 +1208,7 @@ export default function ProductDetailClient({
           <div
             role="tabpanel"
             id={`tab-panel-${activeTab}`}
-            aria-label={activeTab === 'dados-tecnicos' ? 'Dados Técnicos' : activeTab === 'informacoes' ? 'Informações Adicionais' : activeTab === 'clientes' ? 'Clientes' : 'Avaliações'}
+            aria-label={activeTab === 'dados-tecnicos' ? 'Dados Técnicos' : activeTab === 'informacoes' ? 'Informações Adicionais' : 'Avaliações'}
             className="py-8"
           >
             {/* Dados Técnicos */}
@@ -1243,11 +1250,6 @@ export default function ProductDetailClient({
                   <p className="text-sm text-muted-foreground">Informações adicionais não disponíveis.</p>
                 )}
               </div>
-            )}
-
-            {/* Clientes (UGC) */}
-            {activeTab === 'clientes' && (
-              <UGCSection />
             )}
 
             {/* Avaliações */}
@@ -1441,7 +1443,10 @@ export default function ProductDetailClient({
     {/* Sticky Add-to-Cart — mobile only, aparece quando botão original sai da viewport e cor/tam já escolhidos */}
     {showStickyBar && !isOutOfStock && canAdd && (
       <div className="fixed left-0 right-0 z-[80] md:hidden bg-background/95 backdrop-blur border-t border-border px-3 py-2 flex items-center gap-2 shadow-md animate-fade-up" style={{ bottom: 'calc(3.5rem + env(safe-area-inset-bottom))' }}>
-        <p className="flex-1 text-sm font-semibold truncate">{displayPrice}</p>
+        <div className="flex-1 min-w-0">
+          <p className="text-sm font-semibold truncate">{displayPrice}</p>
+          {pixPrice > 0 && <p className="text-xs text-green-700 font-medium truncate">{formatCurrency(pixPrice)} no PIX · 5% OFF</p>}
+        </div>
         <button
           onClick={handleBuyNow}
           className="flex-shrink-0 bg-ink text-background px-4 h-10 text-[11px] font-semibold tracking-widest uppercase transition-all active:scale-[0.98] flex items-center gap-1.5"
