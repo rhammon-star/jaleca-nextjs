@@ -1227,6 +1227,13 @@ export default async function CidadePage({
         </section>
       )}
 
+      {/* Carrossel de profissionais */}
+      <section className="py-4 px-4">
+        <div className="container">
+          <UGCSection />
+        </div>
+      </section>
+
       {/* FAQ */}
       <section className="bg-secondary/30 py-12 px-4">
         <div className="container max-w-2xl">

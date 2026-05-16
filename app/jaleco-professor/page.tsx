@@ -1,4 +1,3 @@
-import { InstagramGallery } from '@/components/InstagramGallery'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Suspense } from 'react'
@@ -489,7 +488,7 @@ export default async function JalecoDentistaPage() {
         </section>
 
         <section style={{ padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)', maxWidth: '1200px', margin: '0 auto' }}>
-          <InstagramGallery maxItems={6} title="Inspire-se — @jaleca.oficial" />
+          <UGCSection />
         </section>
 
 

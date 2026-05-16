@@ -1,4 +1,3 @@
-import { InstagramGallery } from '@/components/InstagramGallery'
 import UGCSection from '@/components/UGCSection'
 import FAQHome, { faqs } from '@/components/FAQHome'
 import type { Metadata } from "next";
@@ -462,9 +461,9 @@ export default function Home() {
         </section>
       </ScrollReveal>
 
-      {/* Carrossel de clientes — Instagram */}
+      {/* Carrossel de profissionais */}
       <section style={{ padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)', maxWidth: '1200px', margin: '0 auto' }}>
-        <InstagramGallery maxItems={6} title="Inspiração — Jalecos no Instagram" />
+        <UGCSection />
       </section>
 
       {/* CTA */}

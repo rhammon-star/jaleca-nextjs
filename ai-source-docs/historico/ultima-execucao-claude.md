@@ -1,17 +1,20 @@
-Data: 2026-05-16 03:15
-Tarefa: Prova social nas páginas de produto — substituir aba "Clientes" por bloco com tabs (Profissionais + Clientes usando Jaleca) posicionado entre o seletor de cor/tamanho e o grid de dados técnicos
+Data: 2026-05-16
+Tarefa: Substituir Instagram Gallery por carrossel UGCSection "Profissionais de todo o Brasil" em páginas de produto, cidade e LPs
+
 Arquivos alterados:
-- app/produto/[slug]/ProductSocialProof.tsx (novo)
-- app/produto/[slug]/ProductDetailClient.tsx
+- app/produto/[slug]/ProductSocialProof.tsx
+- app/jaleco-esteticista/page.tsx
+- app/jaleco-dentista/page.tsx
+- app/jaleco-enfermeiro/page.tsx
+- app/jaleco-professor/page.tsx
+- app/page.tsx (home)
+- app/cidade/[slug]/page.tsx
+
 O que foi feito:
-- Criado componente ProductSocialProof com 2 abas: "Profissionais de todo o Brasil" (carrossel @/components/UGCSection — logos correndo) e "Clientes usando Jaleca" (grid UGC ./UGCSection — fotos/vídeos reais)
-- Inserido <ProductSocialProof /> em ProductDetailClient.tsx logo após o bloco do botão "Adicionar à sacola" e antes do bloco de Content tabs
-- Removida aba "Clientes" das tabs inferiores
-- Removido o bloco condicional {activeTab === 'clientes' && <UGCSection />}
-- Atualizado tipo ActiveTab para remover 'clientes'
-- Trocado import: @/components/UGCSection → ./ProductSocialProof
-- Decisão UX: ao invés de 4 carrosséis empilhados, consolidado em 1 bloco com 2 abas. Stories IG e Postagens descartados a pedido do usuário.
-Comandos rodados: npx tsc --noEmit (0 erros)
-Resultado: OK — pendente teste manual em produção
-Riscos identificados: nenhum (cobre produto pai e filho automaticamente pela mesma rota /produto/[slug])
-Próximo passo: aguardar autorização do usuário para deploy
+- ProductSocialProof: removido title="Clientes usando Jaleca", usa default "Profissionais de todo o Brasil"
+- 4 LPs (esteticista, dentista, enfermeiro, professor): trocado InstagramGallery por UGCSection
+- Home (page.tsx): removido import InstagramGallery, trocado por UGCSection
+- Cidade: adicionado UGCSection antes do bloco FAQ (import já existia)
+
+Resultado: OK — TypeScript sem erros
+Próximo passo: deploy para produção

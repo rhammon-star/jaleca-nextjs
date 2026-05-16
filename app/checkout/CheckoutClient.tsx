@@ -665,53 +665,8 @@ export default function CheckoutClient() {
 
         <form ref={formRef} onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-8 lg:gap-12 items-start">
-            {/* Right column: Upsell + Order summary */}
+            {/* Right column: Order summary + Upsell */}
             <aside className="space-y-6 lg:col-start-2 lg:row-start-1 order-2 lg:order-none">
-            {/* Upsell / cross-sell — só desktop */}
-            {upsellProducts.length > 0 && (
-              <div className="border border-border p-5 hidden lg:block">
-                <h2 className="font-display text-lg font-semibold mb-4">Você também pode gostar</h2>
-                <div className="space-y-3">
-                  {upsellProducts.map(product => (
-                    <div key={product.id} className="flex items-center gap-3">
-                      <div className="relative w-14 h-16 flex-shrink-0 bg-secondary/20 overflow-hidden">
-                        {product.image?.sourceUrl ? (
-                          <Image
-                            src={product.image.sourceUrl}
-                            alt={product.image.altText || product.name}
-                            fill
-                            className="object-cover"
-                            sizes="56px"
-                          />
-                        ) : (
-                          <div className="w-full h-full bg-muted" />
-                        )}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-xs font-medium truncate">{product.name.replace(/ - Jaleca$/i, '')}</p>
-                        <p className="text-xs text-muted-foreground">{product.price || product.regularPrice}</p>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => addItem({
-                          id: product.id,
-                          databaseId: product.databaseId,
-                          slug: product.slug,
-                          name: product.name.replace(/ - Jaleca$/i, ''),
-                          image: product.image?.sourceUrl,
-                          price: product.price || product.regularPrice || '0',
-                        })}
-                        className="flex-shrink-0 w-7 h-7 bg-foreground text-background flex items-center justify-center hover:bg-foreground/80 transition-colors"
-                        aria-label={`Adicionar ${product.name}`}
-                      >
-                        <Plus size={12} />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
             {/* Order summary */}
             <div className="border border-border p-6 lg:sticky lg:top-24">
               <h2 className="font-display text-xl font-semibold mb-4">Resumo do Pedido</h2>
@@ -806,6 +761,51 @@ export default function CheckoutClient() {
                 </div>
               </div>
             </div>
+
+            {/* Upsell / cross-sell — após o resumo, só desktop */}
+            {upsellProducts.length > 0 && (
+              <div className="border border-border p-5 hidden lg:block">
+                <h2 className="font-display text-lg font-semibold mb-4">Você também pode gostar</h2>
+                <div className="space-y-3">
+                  {upsellProducts.map(product => (
+                    <div key={product.id} className="flex items-center gap-3">
+                      <div className="relative w-14 h-16 flex-shrink-0 bg-secondary/20 overflow-hidden">
+                        {product.image?.sourceUrl ? (
+                          <Image
+                            src={product.image.sourceUrl}
+                            alt={product.image.altText || product.name}
+                            fill
+                            className="object-cover"
+                            sizes="56px"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-muted" />
+                        )}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs font-medium truncate">{product.name.replace(/ - Jaleca$/i, '')}</p>
+                        <p className="text-xs text-muted-foreground">{product.price || product.regularPrice}</p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => addItem({
+                          id: product.id,
+                          databaseId: product.databaseId,
+                          slug: product.slug,
+                          name: product.name.replace(/ - Jaleca$/i, ''),
+                          image: product.image?.sourceUrl,
+                          price: product.price || product.regularPrice || '0',
+                        })}
+                        className="flex-shrink-0 w-7 h-7 bg-foreground text-background flex items-center justify-center hover:bg-foreground/80 transition-colors"
+                        aria-label={`Adicionar ${product.name}`}
+                      >
+                        <Plus size={12} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
             </aside>
 
             {/* Left column */}
