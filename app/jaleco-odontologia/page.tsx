@@ -221,16 +221,19 @@ export default async function JalecoOdontologiaPage() {
           </section>
         )}
 
-        {/* ── TRUST BAR — desceu pra depois da grade ── */}
+        {/* ── TRUST BAR ── */}
         <CompactTrustBar />
+
+        {/* ── PROFISSIONAIS DE TODO O BRASIL (UGC carrossel) ── */}
+        <section className="py-4 px-4"><div className="container"><UGCSection /></div></section>
 
         {/* ── GOOGLE RATING ── */}
         <GoogleRatingCarousel rating={placeData?.rating} />
 
-        <UGCSection />
+        {/* ── INSTAGRAM (Stories → Feed → Marcaram) ── */}
+        <InstagramLazy />
 
-
-        {/* ── DESCRITIVO MODELOS — subiu pra antes do Guia ── */}
+        {/* ── DESCRITIVO MODELOS ── */}
         <ProductDetailSection productType="jaleco" />
 
         {/* ── GUIA ── */}
@@ -359,9 +362,6 @@ export default async function JalecoOdontologiaPage() {
             </div>
           </div>
         </section>
-
-        {/* ── INSTAGRAM — desceu pra antes do FAQ ── */}
-        <InstagramLazy />
 
         <section style={{ background: '#fff', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
           <div style={{ maxWidth: 1200, width: '100%', margin: '0 auto' }}>

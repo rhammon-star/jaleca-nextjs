@@ -249,13 +249,16 @@ export default async function Page() {
           />
         </div>
 
-        {/* ── ④ GOOGLE 4.9★ + DEPOIMENTOS ── */}
+        {/* ── ④ PROFISSIONAIS DE TODO O BRASIL (UGC carrossel) ── */}
+        <section className="py-4 px-4"><div className="container"><UGCSection /></div></section>
+
+        {/* ── ⑤ GOOGLE 4.9★ + DEPOIMENTOS ── */}
         <GoogleRatingCarousel rating={placeData?.rating ?? 4.9} />
 
-        {/* ── ⑤ INSTAGRAM ── */}
+        {/* ── ⑥ INSTAGRAM (Stories → Feed → Marcaram) ── */}
         <InstagramLazy />
 
-        {/* ── ⑥ MODELOS ── */}
+        {/* ── ⑦ MODELOS ── */}
         <section style={{ background: '#f9f7f4', padding: 'clamp(2.5rem,5vw,4rem) clamp(1.5rem,5vw,4rem)' }}>
           <div style={{ maxWidth: 1200, margin: '0 auto' }}>
             <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.5rem' }}>Qual modelo é o seu?</div>
@@ -275,8 +278,7 @@ export default async function Page() {
         </section>
 
 
-        <section className="py-4 px-4"><div className="container"><UGCSection /></div></section>
-        {/* ── ⑦ FAQ ACCORDION + GUIA DE TECIDOS ── */}
+        {/* ── ⑧ FAQ ACCORDION + GUIA DE TECIDOS ── */}
         <section style={{ background: '#fff', padding: 'clamp(2.5rem,5vw,4rem) clamp(1.5rem,5vw,4rem)' }}>
           <div style={{ maxWidth: 900, margin: '0 auto' }}>
             <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.5rem' }}>Perguntas frequentes</div>

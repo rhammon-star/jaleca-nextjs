@@ -129,13 +129,33 @@ export default async function Page() {
   }
 
 
-  const schemaSpeakable = {
+  const schemaAggregateRating = {
     '@context': 'https://schema.org',
-    '@type': 'WebPage',
-    speakable: {
-      '@type': 'SpeakableSpecification',
-      cssSelector: ['h1', '.faq-section', 'h2'],
+    '@type': 'Organization',
+    name: 'Jaleca Uniformes Profissionais',
+    url: 'https://jaleca.com.br',
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: '4.9',
+      reviewCount: '61',
+      bestRating: '5',
+      worstRating: '1',
     },
+  }
+
+  const modelosItemListSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Modelos de Jaleco Masculino',
+    url: 'https://jaleca.com.br/jaleco-masculino',
+    numberOfItems: MODELOS.length,
+    itemListOrder: 'https://schema.org/ItemListOrderAscending',
+    itemListElement: MODELOS.map((m, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: m.nome,
+      url: 'https://jaleca.com.br/produtos?categoria=jalecos-masculinos',
+    })),
   }
 
   return (
@@ -143,6 +163,8 @@ export default async function Page() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaFaq).replace(/</g, '\\u003c') }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaArticle).replace(/</g, '\\u003c') }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaAggregateRating).replace(/</g, '\\u003c') }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(modelosItemListSchema).replace(/</g, '\\u003c') }} />
       {(() => { const s = buildHowToSchema('jaleco-masculino', 'https://jaleca.com.br/jaleco-masculino'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
       {(() => { const s = buildOccupationSchema('jaleco-masculino', 'https://jaleca.com.br/jaleco-masculino'); return s ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s).replace(/</g, '\\u003c') }} /> : null })()}
       <meta name="ai-content-declaration" content="human-authored-with-ai-assistance" />
@@ -180,6 +202,8 @@ export default async function Page() {
 
         {/* ── ② COMPACT TRUST BAR ── */}
         <CompactTrustBar />
+
+        {/* ── ③ PRODUTOS ── */}
         <ProfessionProductGrid
           professionKey="medico"
           professionLabel="Profissionais"
@@ -187,6 +211,15 @@ export default async function Page() {
           productLabel="Jalecos"
           allHref="/produtos?categoria=jalecos-masculinos"
         />
+
+        {/* ── ④ PROFISSIONAIS DE TODO O BRASIL (UGC carrossel) ── */}
+        <section className="py-4 px-4"><div className="container"><UGCSection /></div></section>
+
+        {/* ── ⑤ GOOGLE 4.9★ + DEPOIMENTOS ── */}
+        <GoogleRatingCarousel rating={placeData?.rating} />
+
+        {/* ── ⑥ INSTAGRAM (Stories → Feed → Marcaram) ── */}
+        <InstagramLazy />
 
         {/* ── INTRO ── */}
         <section style={{ background: '#fff', padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)' }}>
@@ -281,12 +314,6 @@ export default async function Page() {
             </div>
           </div>
         </section>
-
-            
-        {/* ── GOOGLE RATING ── */}
-        <GoogleRatingCarousel rating={placeData?.rating} />
-
-        <UGCSection />
 
     </main>
     </>
