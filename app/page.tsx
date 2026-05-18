@@ -562,6 +562,7 @@ export default function Home() {
           <h2 className="font-display text-xl md:text-2xl font-semibold text-center mb-8">Jalecos por Perfil Profissional</h2>
           <div className="flex flex-wrap justify-center gap-3">
             {[
+              { label: 'Jaleco Feminino', href: '/jaleco-feminino' },
               { label: 'Jaleco Feminino Branco', href: '/jaleco-feminino-branco' },
               { label: 'Jaleco Universitário Feminino', href: '/jaleco-universitario-feminino' },
               { label: 'Jaleco Médico', href: '/jaleco-medico' },
