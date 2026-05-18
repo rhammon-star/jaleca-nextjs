@@ -2,6 +2,8 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import ProductsClient from '@/app/produtos/ProductsClient'
 import { getAllProducts } from '@/lib/all-products'
+import { getGooglePlaceData } from '@/lib/google-places'
+import CompactTrustBar from '@/components/profession-lp/CompactTrustBar'
 import type { Metadata } from 'next'
 import UGCSection from '@/components/UGCSection'
 
@@ -58,12 +60,12 @@ const CATEGORY_MAP: Record<string, { label: string; description: string; keyword
   },
   'jalecos-femininos': {
     label: 'Jalecos Femininos',
-    title: 'Jaleco Feminino — Slim, Princesa e Elastex | 12 Cores',
-    h1: 'Jaleco Feminino',
+    title: 'Jalecos Femininos — Slim, Princesa, Elastex do PP ao G3 — Jaleca',
+    h1: 'Jalecos Femininos',
     filterLabel: 'Jalecos',
     gender: 'Feminino',
-    description: 'Jaleco feminino com corte real para o corpo. Modelos Slim, Princesa e Elastex do PP ao G3. 12 cores. Frete grátis Sudeste. Troca fácil em 7 dias.',
-    keywords: 'jaleco feminino, jalecos femininos, jaleco slim feminino, jaleco princesa, jaleco duquesa, jaleco elastex, comprar jaleco feminino, jaleco médica, jaleco dentista feminino, jaleco enfermagem feminino',
+    description: 'Catálogo completo de jalecos femininos Jaleca: Slim, Princesa, Elastex e Plus Size. PP ao G3, 12 cores, elastano. Frete grátis Sudeste acima de R$499. Nota 4,9 no Google.',
+    keywords: 'jaleco feminino, jalecos femininos, jaleco slim feminino, jaleco princesa, jaleco duquesa, jaleco elastex, jaleco médica, jaleco dentista feminino, jaleco enfermagem feminino, jaleco plus size',
   },
   'jalecos-masculinos': {
     label: 'Jalecos Masculinos',
@@ -188,7 +190,10 @@ export default async function CategoriaPage({
   const cat = CATEGORY_MAP[slug]
   if (!cat) notFound()
 
-  const allProducts = await getAllProducts()
+  const [allProducts, placeData] = await Promise.all([
+    getAllProducts(),
+    getGooglePlaceData(),
+  ])
 
   // Para categorias baseadas em nome (não em categoria WooCommerce), filtra por nome do produto
   const NAME_FILTER: Record<string, string> = {
@@ -272,18 +277,24 @@ export default async function CategoriaPage({
     },
   } : null
 
-  // AggregateRating schema — rich snippet de estrelas no SERP para categoria feminina
-  const aggregateRatingSchema = slug === 'jalecos-femininos' ? {
+  // AggregateRating schema — rich snippet de estrelas no SERP para categoria feminina.
+  // ratingValue + reviewCount vêm DINÂMICOS do Google Places (fonte única, auditável).
+  // Atualiza automaticamente conforme novas avaliações chegam — sem hardcode.
+  const aggregateRatingSchema = slug === 'jalecos-femininos' && placeData && placeData.reviewCount > 0 ? {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: 'Jaleco Feminino Jaleca',
     description: 'Jalecos femininos premium: Slim, Princesa e Elastex. Do PP ao G3, em 12 cores.',
     brand: { '@type': 'Brand', name: 'Jaleca' },
     url: 'https://jaleca.com.br/categoria/jalecos-femininos',
+    sameAs: [
+      'https://www.google.com/maps/place/Jaleca+Uniformes+Profissionais',
+      'https://www.instagram.com/jaleca.oficial',
+    ],
     aggregateRating: {
       '@type': 'AggregateRating',
-      ratingValue: '4.9',
-      reviewCount: 317,
+      ratingValue: placeData.rating.toFixed(1),
+      reviewCount: placeData.reviewCount,
       bestRating: '5',
       worstRating: '1',
     },
@@ -346,6 +357,19 @@ export default async function CategoriaPage({
         }}
       />
 
+      {/* TrustBar above-the-fold — sinais de confiança imediatos pra tráfego pago */}
+      {slug === 'jalecos-femininos' && (
+        <CompactTrustBar
+          pillars={[
+            { label: 'Nota 4,9 no Google' },
+            { label: '+200.000 peças entregues' },
+            { label: 'Frete grátis Sudeste' },
+            { label: 'Troca em 7 dias' },
+            { label: 'PP ao G3' },
+          ]}
+        />
+      )}
+
       <ProductsClient
         products={products}
         initialCat={NAME_FILTER[slug] ? 'Todos' : (cat.filterLabel ?? cat.label)}
@@ -357,13 +381,16 @@ export default async function CategoriaPage({
             <p className="text-sm text-muted-foreground leading-relaxed mb-3">
               Encontre jaleco feminino com modelagem própria da Jaleca, desenvolvido para vestir melhor o corpo feminino. Modelos brancos, acinturados, modernos e profissionais para médicas, dentistas, estudantes, veterinárias e profissionais da saúde.
             </p>
-            <ul className="flex flex-wrap gap-2 text-xs text-muted-foreground">
+            <ul className="flex flex-wrap gap-2 text-xs text-muted-foreground mb-3">
               {['Modelagem feminina exclusiva', 'Modelos brancos e acinturados', '12 cores disponíveis', 'Do PP ao G3', 'Frete grátis no Sudeste'].map(d => (
                 <li key={d} className="flex items-center gap-1 border border-border px-2 py-1 rounded-sm">
                   <span className="text-[#c4a97d]">✓</span> {d}
                 </li>
               ))}
             </ul>
+            <p className="text-xs text-muted-foreground">
+              Em dúvida sobre qual modelo combina com você? <Link href="/jaleco-feminino" className="underline underline-offset-2 font-medium text-foreground hover:text-[#c4a97d] transition-colors">Guia: como escolher seu jaleco feminino →</Link>
+            </p>
           </div>
         ) : undefined}
       />

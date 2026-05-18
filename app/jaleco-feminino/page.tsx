@@ -14,8 +14,8 @@ import UGCSection from '@/components/UGCSection'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: { absolute: 'Jaleco Feminino com Caimento Premium — Jaleca' },
-  description: 'Nota 4,9 no Google. Jaleco feminino com elastano bidirecional, modelagem slim, PP ao G3. Frete grátis Sudeste acima de R$499. Troca em 7 dias.',
+  title: { absolute: 'Jaleco Feminino: Guia Completo — Slim, Princesa, Elastex' },
+  description: 'Como escolher o jaleco feminino certo: tecidos, modelagens, grade PP ao G3 e qual modelo combina com cada profissão. Guia completo da Jaleca, com nota 4,9 no Google.',
   keywords: 'jaleco feminino, jaleco feminino elegante, modelo de jaleco feminino, modelos de jalecos femininos, jaleco de médica, jaleco feminino onde comprar, jalecos femininos elegantes, modelo jaleco feminino',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-feminino' },
   openGraph: {
@@ -299,6 +299,18 @@ export default async function Page() {
             allHref="/categoria/jalecos-femininos"
           />
         </div>
+
+        {/* ── ③.5 CTA TRANSACIONAL (link cruzado para a categoria) ── */}
+        <section style={{ background: '#1a1a1a', padding: 'clamp(1.5rem,3vw,2.5rem) clamp(1.5rem,5vw,4rem)' }}>
+          <div style={{ maxWidth: 900, margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem', textAlign: 'center' }}>
+            <p style={{ fontSize: '0.95rem', color: '#f9f7f4', margin: 0, fontWeight: 300 }}>
+              Pronto para escolher o seu? Veja o catálogo completo com filtros por cor, modelo e tamanho.
+            </p>
+            <Link href="/categoria/jalecos-femininos" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.85rem 2.25rem', background: '#fff', color: '#1a1a1a', fontSize: '0.78rem', fontWeight: 500, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none' }}>
+              Ver catálogo de jalecos femininos →
+            </Link>
+          </div>
+        </section>
 
         {/* ── ④ PROFISSIONAIS DE TODO O BRASIL (UGC carrossel) ── */}
         <section className="py-4 px-4"><div className="container"><UGCSection /></div></section>
