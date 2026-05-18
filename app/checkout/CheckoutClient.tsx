@@ -670,7 +670,7 @@ export default function CheckoutClient() {
         <form ref={formRef} onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-8 lg:gap-12 items-start">
             {/* Right column: Order summary + Upsell */}
-            <aside className="space-y-6 lg:col-start-2 lg:row-start-1 order-2 lg:order-none">
+            <aside className="space-y-6 lg:col-start-2 lg:row-start-1 order-1 lg:order-none">
             {/* Order summary */}
             <div className="border border-border p-6 lg:sticky lg:top-24">
               <h2 className="font-display text-xl font-semibold mb-4">Resumo do Pedido</h2>
