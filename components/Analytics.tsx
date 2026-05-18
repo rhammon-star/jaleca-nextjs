@@ -270,8 +270,13 @@ export default function Analytics() {
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());
-                gtag('config', '${GA4_ID}', { send_page_view: false });
-                gtag('config', '${GOOGLE_ADS_ID}');
+                gtag('config', '${GA4_ID}', {
+                  send_page_view: false,
+                  linker: { domains: ['jaleca.com.br', 'wp.jaleca.com.br'], accept_incoming: true }
+                });
+                gtag('config', '${GOOGLE_ADS_ID}', {
+                  linker: { domains: ['jaleca.com.br', 'wp.jaleca.com.br'], accept_incoming: true }
+                });
                 // Captura client_id assim que GA4 inicializa e persiste no localStorage
                 // Usado no checkout para rastreamento server-side via GA4 Measurement Protocol
                 gtag('get', '${GA4_ID}', 'client_id', function(cid) {

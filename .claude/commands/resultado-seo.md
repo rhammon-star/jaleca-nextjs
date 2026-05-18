@@ -87,11 +87,13 @@ mcp__gsc__batch_url_inspection(
 
 ## ETAPA 2 — PageSpeed Insights (mobile + desktop)
 
-API pública — sem autenticação necessária. URLs prioritárias:
+Usa API key dedicada (memória `psi_api_key.md`). URLs prioritárias:
 
 ```bash
+PSI_KEY="AIzaSyA1SRRfalzpGsc7I-6sOCLsAJOkZ6aIqfo"
+
 # Mobile — Homepage
-curl -s "https://pagespeedonline.googleapis.com/pagespeedonline/v5/runPagespeed?url=https://jaleca.com.br/&strategy=mobile&category=performance&category=seo" | jq '{
+curl -s "https://pagespeedonline.googleapis.com/pagespeedonline/v5/runPagespeed?url=https://jaleca.com.br/&strategy=mobile&category=performance&category=seo&key=${PSI_KEY}" | jq '{
   score_mobile: .lighthouseResult.categories.performance.score,
   lcp: .lighthouseResult.audits["largest-contentful-paint"].displayValue,
   cls: .lighthouseResult.audits["cumulative-layout-shift"].displayValue,
@@ -102,14 +104,14 @@ curl -s "https://pagespeedonline.googleapis.com/pagespeedonline/v5/runPagespeed?
 }'
 
 # Desktop — Homepage
-curl -s "https://pagespeedonline.googleapis.com/pagespeedonline/v5/runPagespeed?url=https://jaleca.com.br/&strategy=desktop&category=performance" | jq '{
+curl -s "https://pagespeedonline.googleapis.com/pagespeedonline/v5/runPagespeed?url=https://jaleca.com.br/&strategy=desktop&category=performance&key=${PSI_KEY}" | jq '{
   score_desktop: .lighthouseResult.categories.performance.score,
   lcp: .lighthouseResult.audits["largest-contentful-paint"].displayValue,
   cls: .lighthouseResult.audits["cumulative-layout-shift"].displayValue
 }'
 
 # Mobile — Jaleco Feminino (página mais importante)
-curl -s "https://pagespeedonline.googleapis.com/pagespeedonline/v5/runPagespeed?url=https://jaleca.com.br/jaleco-feminino&strategy=mobile&category=performance" | jq '{
+curl -s "https://pagespeedonline.googleapis.com/pagespeedonline/v5/runPagespeed?url=https://jaleca.com.br/jaleco-feminino&strategy=mobile&category=performance&key=${PSI_KEY}" | jq '{
   score_mobile: .lighthouseResult.categories.performance.score,
   lcp: .lighthouseResult.audits["largest-contentful-paint"].displayValue,
   cls: .lighthouseResult.audits["cumulative-layout-shift"].displayValue

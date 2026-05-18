@@ -1,0 +1,25 @@
+name: Smoke — Tracking
+
+on:
+  pull_request:
+    paths:
+      - 'components/Analytics.tsx'
+      - 'scripts/smoke-tracking.mjs'
+      - '.github/workflows/smoke-tracking.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'components/Analytics.tsx'
+  schedule:
+    - cron: '0 12 * * *' # diário 09h BRT
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Run tracking smoke
+        run: node scripts/smoke-tracking.mjs
