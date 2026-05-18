@@ -1,43 +1,29 @@
-Data: 2026-05-17 21:50
-Tarefa: Checkout Complemento + edit/remover item + Carrossel reviews 5★ + fix odontologia/ImageZoom + DEPLOY produção
+Data: 2026-05-18 15:00
+Tarefa: GSC fixes + LCP audit completo (cidades + 50 LPs profissão)
 
-Arquivos alterados (11):
-- app/checkout/CheckoutClient.tsx (campo Complemento; botões −/+ quantidade; link Remover por item; autofill complemento de pedido anterior)
-- app/api/payment/create/route.ts (billing.complement?; meta _billing/_shipping_address_complement; Cielo Number=address_2/Complement=complement; ME complement)
-- components/profession-lp/GoogleRatingCarousel.tsx (carrossel scroll-snap reviews 5★)
-- app/jaleco-feminino|masculino|odontologia|dentista/page.tsx (passam reviews={placeData?.reviews})
-- app/jaleco-odontologia/page.tsx (getJalecos slice 6→9)
-- components/ImageZoom.tsx (remove width/height conflitando com fill — Runtime Error /produto/[slug])
-- components/InstagramGallery.tsx + components/ProfessionProductGrid.tsx (já carregadas de sessão anterior, agora commitadas)
+Arquivos alterados (~55):
+- app/cidade/[slug]/page.tsx — Product image no JSON-LD + hero <Image fill priority>
+- next.config.ts — 301 /scrub-masculino, remotePatterns wikimedia
+- app/robots.ts — disallow opengraph/twitter-image
+- 50 app/<profissao>/page.tsx — primeiros 2 ProductCards com priority
 
-O que foi feito:
-1. CHECKOUT (área crítica): novo campo "Complemento (opcional)" — propaga para Melhor Envio, Cielo (Number agora vem do address_2 real, antes 'S/N' fixo) e WC meta. Autofill recupera de pedido anterior.
-2. CHECKOUT: usuários reclamaram que não conseguiam alterar/remover item duplicado — adicionados botões −/+ (mín 1) e link "Remover" no resumo do pedido.
-3. LPs: carrossel horizontal scroll-snap (CSS puro) com comentários 5★ do Google abaixo do GoogleRatingCarousel nas 4 LPs profissionais.
-4. /jaleco-odontologia: grid limitado a 6 produtos → 9 (alinhado às outras LPs).
-5. ImageZoom: Runtime Error em /produto/[slug] (next/image com fill + width simultâneo).
+Diagnóstico Lighthouse real (jaleco-medico mobile):
+- LCP: 6.9s (crítico, era 3.5s no GSC)
+- FCP 1.3s, Speed Index 1.6s, TTFB 20ms — todos ótimos
+- CLS 0, TBT 370ms
+- Causa: ProductCards no grid abaixo do hero NÃO tinham priority → primeiros 2 lazy-loaded → LCP element não estabilizava
+- Outras oportunidades: 770ms unused JS (GTM/Meta Pixel já em lazyOnload)
 
-Comandos rodados:
-- npx tsc --noEmit -p . → OK
-- git commit f0f7d56 → 11 arquivos, 311+/143-
-- vercel --prod --yes → READY ✅
-  - Deployment ID: dpl_HDNdBLNPccjFVZPNevhjn8V9kRTL
-  - Alias: https://jaleca.com.br
+Fix LCP aplicado:
+- Padrão {produtos.slice(0, N).map((product, i) => <ProductCard ... priority={i < 2} />)} em 50 LPs
+- Cidades: hero CSS-bg → next/image fill priority (Wikipedia 3840px → AVIF otimizado)
 
-Resultado: OK — deploy em produção concluído.
+Esperado:
+- LCP cidades: 3.5s → ~1.5s
+- LCP LPs profissão: 6.9s → ~2s
+- Score Lighthouse: 67 → 85+
 
-Riscos identificados:
-- Checkout é área crítica. Mudança aditiva (campo opcional + UI extra), mas validar: 1 pedido real PIX com complemento; confirmar payload chega no Melhor Envio e no pedido WC; confirmar botões −/+ e Remover funcionam.
-
-Próximo passo: usuário valida em produção (pedido PIX real com complemento + manipulação carrinho).
-
-### Consumo estimado por IA nesta tarefa
-
-| IA | Participação estimada | Papel na tarefa |
-|---|---:|---|
-| Claude Code | 100% | Refactor checkout completo, propagação Cielo+ME+WC, fix odontologia+ImageZoom, carrossel reviews, build, deploy |
-| Gemini | 0% | Não usado |
-| GPT | 0% | Não usado |
-| GSC | 0% | Não usado |
-
-Estimativa operacional, não medição financeira.
+Comandos rodados: npx tsc --noEmit (OK)
+Resultado: OK — pronto para commit + deploy + nova medição
+Riscos: baixo (mudanças cirúrgicas, zero refactor)
+Próximo passo: commit + deploy + medir novamente

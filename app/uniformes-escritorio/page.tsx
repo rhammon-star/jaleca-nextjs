@@ -177,7 +177,7 @@ export default async function Page() {
                 Jalecos e conjuntos<br /><em style={{ fontStyle: 'italic', fontWeight: 300 }}>para escritório</em>
               </h2>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {produtos.slice(0, 6).map(product => <ProductCard key={product.id} product={product} />)}
+                {produtos.slice(0, 6).map((product, i) => <ProductCard key={product.id} product={product} priority={i < 2} />)}
               </div>
               <div style={{ textAlign: 'center', marginTop: '2.5rem' }}>
                 <Link href="/produtos?cat=Conjuntos" style={{ display: 'inline-flex', padding: '0.9rem 2rem', fontSize: '0.78rem', fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase', textDecoration: 'none', border: '1px solid #1a1a1a', color: '#1a1a1a' }}>

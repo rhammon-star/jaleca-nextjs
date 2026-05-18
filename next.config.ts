@@ -16,6 +16,11 @@ const nextConfig: NextConfig = {
         hostname: "wp.jaleca.com.br",
         pathname: "/wp-content/uploads/**",
       },
+      {
+        protocol: "https",
+        hostname: "upload.wikimedia.org",
+        pathname: "/wikipedia/commons/**",
+      },
     ],
     formats: ["image/avif", "image/webp"],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
@@ -48,6 +53,7 @@ const nextConfig: NextConfig = {
       { source: '/categoria/jalecos-personalizados', destination: '/produtos', permanent: true },
       { source: '/categoria/calcas', destination: '/produtos', permanent: true },
       { source: '/categoria/scrub', destination: '/categoria/conjuntos', permanent: true },
+      { source: '/scrub-masculino', destination: '/jaleco-masculino', permanent: true },
       // Correções de produto/profissão (26/04/2026)
       { source: '/conjunto-pastor', destination: '/jaleco-pastor', permanent: true },
       { source: '/jaleco-cozinheiro', destination: '/dolma-cozinheiro', permanent: true },

@@ -21,6 +21,11 @@ export default function robots(): MetadataRoute.Robots {
           // /_next/static/ deve ser CRAWLABLE para o Googlebot renderizar a página (JS/CSS).
           '/_next/data/',
           '/_next/image?*',
+          // OG images geradas dinamicamente — não precisam ser indexadas
+          '/*/opengraph-image',
+          '/*/opengraph-image?*',
+          '/*/twitter-image',
+          '/*/twitter-image?*',
           // Variações específicas de produto (?vid=) — duplicatas das páginas de cor
           '/*?vid=',
           '/*?vid=*',

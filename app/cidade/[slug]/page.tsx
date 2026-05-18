@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import { graphqlClient, GET_PRODUCTS } from '@/lib/graphql'
 import ProductsClient from '@/app/produtos/ProductsClient'
 import type { WooProduct } from '@/components/ProductCard'
@@ -968,6 +969,7 @@ export default async function CidadePage({
         '@type': 'Product',
         name: `Jaleco profissional em ${cidade.nome}`,
         category: 'Uniformes profissionais',
+        image: 'https://jaleca.com.br/og-home.jpg',
         brand: { '@type': 'Brand', name: 'Jaleca' },
         aggregateRating: {
           '@type': 'AggregateRating',
@@ -1035,20 +1037,21 @@ export default async function CidadePage({
 
       {/* Hero */}
       <section
-        className="relative text-white py-20 px-4"
-        style={
-          heroImage
-            ? {
-                backgroundImage: `url(${heroImage})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundColor: '#1a1a1a',
-              }
-            : { backgroundColor: '#1a1a1a' }
-        }
+        className="relative text-white py-20 px-4 overflow-hidden"
+        style={{ backgroundColor: '#1a1a1a' }}
       >
         {heroImage && (
-          <div className="absolute inset-0 bg-black/55" aria-hidden="true" />
+          <>
+            <Image
+              src={heroImage}
+              alt={`${cidade.nome} — ${cidade.estado}`}
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-black/55" aria-hidden="true" />
+          </>
         )}
         <div className="container max-w-3xl text-center relative z-10">
           <p className="text-xs font-semibold tracking-widest uppercase text-white/60 mb-3">

@@ -212,8 +212,8 @@ export default async function JalecoChurrasqueiroPage() {
                 </Link>
               </div>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {produtos.slice(0, 6).map(product => (
-                  <ProductCard key={product.id} product={product} />
+                {produtos.slice(0, 6).map((product, i) => (
+                  <ProductCard key={product.id} product={product} priority={i < 2} />
                 ))}
               </div>
             </div>
