@@ -175,8 +175,10 @@ async function getJalecos(): Promise<WooProduct[]> {
     // Prioriza branco e preto primeiro (mais vendidos)
     const prioritized = prioritizeByColor(professionProducts)
 
-    // Retorna 6 produtos
-    return prioritized.slice(0, 6)
+    // Mix: 7 femininos + 2 masculinos
+    const femininos = prioritized.filter(p => /feminin/i.test(p.slug)).slice(0, 7)
+    const masculinos = prioritized.filter(p => /masculin/i.test(p.slug)).slice(0, 2)
+    return [...femininos, ...masculinos]
   } catch (error) {
     console.error('[getJalecos] Error:', error)
     return []
@@ -262,7 +264,7 @@ export default async function JalecoDentistaPage() {
                 </div>
                 </div>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {produtos.slice(0, 6).map(product => (
+                {produtos.slice(0, 9).map(product => (
                   <ProductCard key={product.id} product={product} />
                 ))}
               </div>
@@ -275,16 +277,19 @@ export default async function JalecoDentistaPage() {
           </section>
         )}
 
-        {/* ── TRUST BAR — desceu pra depois da grade ── */}
+        {/* ── TRUST BAR ── */}
         <CompactTrustBar />
 
+        {/* ── PROFISSIONAIS DE TODO O BRASIL (UGC carrossel) ── */}
+        <section className="py-4 px-4"><div className="container"><UGCSection /></div></section>
+
         {/* ── GOOGLE RATING ── */}
-        <GoogleRatingCarousel rating={placeData?.rating} />
+        <GoogleRatingCarousel rating={placeData?.rating} reviews={placeData?.reviews} />
 
-        <UGCSection />
+        {/* ── INSTAGRAM (Stories → Feed → Marcaram) ── */}
+        <InstagramLazy />
 
-
-        {/* ── DESCRITIVO MODELOS — subiu pra antes do Guia ── */}
+        {/* ── DESCRITIVO MODELOS ── */}
         <ProductDetailSection productType="jaleco" />
 
         {/* ── GUIA ── */}
@@ -414,9 +419,6 @@ export default async function JalecoDentistaPage() {
           </div>
         </section>
 
-        {/* ── INSTAGRAM — desceu pra antes do FAQ ── */}
-        <InstagramLazy />
-
         <section style={{ background: '#fff', padding: 'clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)' }}>
           <div style={{ maxWidth: 1200, width: '100%', margin: '0 auto' }}>
             <div style={{ fontSize: '0.7rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8c4bc', marginBottom: '0.75rem' }}>Dúvidas frequentes</div>
@@ -538,10 +540,6 @@ export default async function JalecoDentistaPage() {
               </Link>
             </div>
           </div>
-        </section>
-
-        <section style={{ padding: 'clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem)', maxWidth: '1200px', margin: '0 auto' }}>
-          <UGCSection />
         </section>
 
             <EATBlock profession="dentista" />

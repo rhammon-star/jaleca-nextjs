@@ -112,8 +112,8 @@ async function getJalecos(): Promise<WooProduct[]> {
     // Prioriza branco e preto primeiro (mais vendidos)
     const prioritized = prioritizeByColor(professionProducts)
 
-    // Retorna 6 produtos
-    return prioritized.slice(0, 6)
+    // Retorna 9 produtos
+    return prioritized.slice(0, 9)
   } catch (error) {
     console.error('[getJalecos] Error:', error)
     return []
@@ -208,7 +208,7 @@ export default async function JalecoOdontologiaPage() {
                 </div>
                 </div>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {produtos.slice(0, 6).map(product => (
+                {produtos.slice(0, 9).map(product => (
                   <ProductCard key={product.id} product={product} />
                 ))}
               </div>
@@ -228,7 +228,7 @@ export default async function JalecoOdontologiaPage() {
         <section className="py-4 px-4"><div className="container"><UGCSection /></div></section>
 
         {/* ── GOOGLE RATING ── */}
-        <GoogleRatingCarousel rating={placeData?.rating} />
+        <GoogleRatingCarousel rating={placeData?.rating} reviews={placeData?.reviews} />
 
         {/* ── INSTAGRAM (Stories → Feed → Marcaram) ── */}
         <InstagramLazy />

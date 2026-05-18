@@ -11,7 +11,7 @@ type Props = {
   height?: number
 }
 
-export default function ImageZoom({ src, alt, priority = false, width = 800, height = 1067 }: Props) {
+export default function ImageZoom({ src, alt, priority = false }: Props) {
   const [zoomed, setZoomed] = useState(false)
   const [origin, setOrigin] = useState('50% 50%')
   const containerRef = useRef<HTMLDivElement>(null)
@@ -35,8 +35,6 @@ export default function ImageZoom({ src, alt, priority = false, width = 800, hei
         src={src}
         alt={alt}
         fill
-        width={width}
-        height={height}
         sizes="(max-width: 768px) 100vw, 50vw"
         priority={priority}
         className="object-cover transition-transform duration-200 ease-out will-change-transform"

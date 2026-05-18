@@ -34,6 +34,7 @@ type RequestBody = {
     phone: string
     address_1: string
     address_2: string
+    complement?: string
     neighborhood: string
     city: string
     state: string
@@ -280,8 +281,10 @@ export async function POST(request: NextRequest) {
         { key: 'billing_cpf', value: cpf.replace(/\D/g, '') },
         { key: '_billing_neighborhood',  value: billing.neighborhood || '' },
         { key: '_billing_number',        value: billing.address_2 || '' },
+        { key: '_billing_address_complement',  value: billing.complement || '' },
         { key: '_shipping_neighborhood', value: billing.neighborhood || '' },
         { key: '_shipping_number',       value: billing.address_2 || '' },
+        { key: '_shipping_address_complement', value: billing.complement || '' },
         { key: 'melhorenvio_service_id', value: shipping.method_id },
         { key: 'jaleca_shipping_service', value: shipping.method_title },
         ...(gaClientId ? [{ key: 'jaleca_ga_client_id', value: gaClientId }] : []),
@@ -348,8 +351,8 @@ export async function POST(request: NextRequest) {
       Email: billing.email,
       Address: {
         Street: billing.address_1,
-        Number: 'S/N',
-        Complement: billing.address_2 || '',
+        Number: billing.address_2 || 'S/N',
+        Complement: billing.complement || '',
         District: billing.neighborhood,
         ZipCode: billing.postcode.replace(/\D/g, ''),
         City: billing.city,
@@ -561,7 +564,7 @@ export async function POST(request: NextRequest) {
         document:   cpf,
         address:    billing.address_1,
         number:     billing.address_2 || 'S/N',
-        complement: '',
+        complement: billing.complement || '',
         district:   billing.neighborhood || '',
         city:       billing.city,
         state:      billing.state,

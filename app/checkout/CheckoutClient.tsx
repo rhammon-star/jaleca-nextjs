@@ -22,6 +22,7 @@ type AddressForm = {
   postcode: string
   address_1: string
   address_2: string
+  complement: string
   neighborhood: string
   city: string
   state: string
@@ -43,13 +44,13 @@ function formatCEP(value: string): string {
 
 const emptyAddress: AddressForm = {
   first_name: '', last_name: '', email: '', phone: '',
-  postcode: '', address_1: '', address_2: '', neighborhood: '', city: '', state: '',
+  postcode: '', address_1: '', address_2: '', complement: '', neighborhood: '', city: '', state: '',
 }
 
 type PaymentMethod = 'credit_card' | 'pix' | 'boleto'
 
 export default function CheckoutClient() {
-  const { items, clearCart, addItem, appliedCoupon } = useCart()
+  const { items, clearCart, addItem, removeItem, updateQuantity, appliedCoupon } = useCart()
   const { user, isLoggedIn, login } = useAuth()
   const router = useRouter()
 
@@ -251,6 +252,7 @@ export default function CheckoutClient() {
       .then((orders: Array<{ billing?: { first_name?: string; last_name?: string; address_1?: string; address_2?: string; city?: string; state?: string; postcode?: string; phone?: string }; meta_data?: Array<{ key: string; value: string }> }> | null) => {
         if (!Array.isArray(orders) || orders.length === 0) return
         const order = orders[0]
+        const findMeta = (k: string) => order?.meta_data?.find(m => m.key === k)?.value
         const b = order?.billing
         if (!b) return
         // billing.address_2 in WC = bairro (neighborhood), see payment/create
@@ -260,8 +262,9 @@ export default function CheckoutClient() {
         const number = parts[parts.length - 1]?.trim() || ''
         setAddress(prev => ({
           ...prev,
-          address_1:    street || prev.address_1,
+            address_1:    street || prev.address_1,
           address_2:    number || prev.address_2,
+          complement:   findMeta('_billing_address_complement') || prev.complement,
           neighborhood: b.address_2 || prev.neighborhood,
           city:         b.city || prev.city,
           state:        b.state || prev.state,
@@ -536,6 +539,7 @@ export default function CheckoutClient() {
         last_name: address.last_name,
         address_1: address.address_1,
         address_2: address.address_2 || '',
+        complement: address.complement || '',
         neighborhood: address.neighborhood,
         city: address.city,
         state: address.state,
@@ -686,10 +690,32 @@ export default function CheckoutClient() {
                         <p className="text-[13px] md:text-[11px] text-muted-foreground">
                           {[item.color ? item.color.charAt(0).toUpperCase() + item.color.slice(1) : null, item.size].filter(Boolean).join(' / ')}
                         </p>
-                        <div className="flex justify-between items-center mt-1">
-                          <span className="text-[13px] md:text-[11px] text-muted-foreground">Qtd: {item.quantity}</span>
+                        <div className="flex justify-between items-center mt-1.5 gap-2">
+                          <div className="flex items-center border border-border">
+                            <button
+                              type="button"
+                              aria-label="Diminuir quantidade"
+                              onClick={() => updateQuantity(item.id, item.size, item.color, Math.max(1, item.quantity - 1))}
+                              disabled={item.quantity <= 1}
+                              className="px-2 py-0.5 text-sm leading-none hover:bg-muted disabled:opacity-40 disabled:cursor-not-allowed"
+                            >−</button>
+                            <span className="px-2 text-xs min-w-[1.5rem] text-center">{item.quantity}</span>
+                            <button
+                              type="button"
+                              aria-label="Aumentar quantidade"
+                              onClick={() => updateQuantity(item.id, item.size, item.color, item.quantity + 1)}
+                              className="px-2 py-0.5 text-sm leading-none hover:bg-muted"
+                            >+</button>
+                          </div>
                           <span className="text-xs font-semibold">{item.price}</span>
                         </div>
+                        <button
+                          type="button"
+                          onClick={() => removeItem(item.id, item.size, item.color)}
+                          className="mt-1 text-[11px] text-muted-foreground hover:text-red-600 underline underline-offset-2"
+                        >
+                          Remover
+                        </button>
                       </div>
                     </div>
                   ))}
@@ -1108,6 +1134,18 @@ export default function CheckoutClient() {
                       required
                       autoComplete="address-line2"
                       className={fieldClass(address.address_2)}
+                    />
+                  </div>
+                  <div className="sm:col-span-2">
+                    <label htmlFor="addr-complement" className="block text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">Complemento (opcional)</label>
+                    <input
+                      id="addr-complement"
+                      type="text"
+                      value={address.complement}
+                      onChange={e => setAddress(p => ({ ...p, complement: e.target.value }))}
+                      placeholder="Apto, bloco, fundos, casa 2…"
+                      autoComplete="address-line3"
+                      className={fieldClass(address.complement || ' ')}
                     />
                   </div>
                   <div>

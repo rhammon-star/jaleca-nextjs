@@ -69,6 +69,8 @@ type Props = {
   productLabel?: string
   /** URL do "ver todos" — padrão: /produtos */
   allHref?: string
+  /** Máx. de produtos exibidos — padrão: 9 */
+  maxItems?: number
 }
 
 export default async function ProfessionProductGrid({
@@ -77,8 +79,9 @@ export default async function ProfessionProductGrid({
   collectionLabel,
   productLabel = 'Jalecos',
   allHref = '/produtos',
+  maxItems = 9,
 }: Props) {
-  const produtos = await fetchByProfession(professionKey)
+  const produtos = (await fetchByProfession(professionKey)).slice(0, maxItems)
 
   if (produtos.length === 0) return null
 

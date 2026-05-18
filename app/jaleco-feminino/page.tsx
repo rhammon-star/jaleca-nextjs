@@ -253,7 +253,7 @@ export default async function Page() {
         <section className="py-4 px-4"><div className="container"><UGCSection /></div></section>
 
         {/* ── ⑤ GOOGLE 4.9★ + DEPOIMENTOS ── */}
-        <GoogleRatingCarousel rating={placeData?.rating ?? 4.9} />
+        <GoogleRatingCarousel rating={placeData?.rating ?? 4.9} reviews={placeData?.reviews} />
 
         {/* ── ⑥ INSTAGRAM (Stories → Feed → Marcaram) ── */}
         <InstagramLazy />

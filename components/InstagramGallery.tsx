@@ -32,7 +32,7 @@ async function getPosts(): Promise<InstagramPost[]> {
     const igId = process.env.INSTAGRAM_BUSINESS_ID
     if (!token || !igId) return []
 
-    const url = `https://graph.facebook.com/v25.0/${igId}/media?fields=id,caption,media_type,media_url,thumbnail_url,permalink,timestamp&limit=18&access_token=${token}`
+    const url = `https://graph.facebook.com/v25.0/${igId}/media?fields=id,caption,media_type,media_url,thumbnail_url,permalink,timestamp&limit=12&access_token=${token}`
     const res = await fetch(url, { next: { revalidate: 3600 } })
     const data = await res.json()
     if (data.error) return []
@@ -49,12 +49,12 @@ async function getTaggedPosts(): Promise<InstagramPost[]> {
     const igId = process.env.INSTAGRAM_BUSINESS_ID
     if (!token || !igId) return []
 
-    const url = `https://graph.facebook.com/v25.0/${igId}/tags?fields=id,caption,media_type,media_url,thumbnail_url,permalink,timestamp&limit=30&access_token=${token}`
+    const url = `https://graph.facebook.com/v25.0/${igId}/tags?fields=id,media_type,media_url,thumbnail_url,permalink,timestamp&limit=20&access_token=${token}`
     const res = await fetch(url, { next: { revalidate: 3600 } })
     const data = await res.json()
     if (data.error) return []
 
-    return (data.data ?? []).filter(isJalecoRelated).slice(0, 12)
+    return (data.data ?? []).slice(0, 12)
   } catch {
     return []
   }

@@ -1,8 +1,13 @@
+import type { GoogleReview } from '@/lib/google-places'
+
 type Props = {
   rating?: number
+  reviews?: GoogleReview[]
 }
 
-export default function GoogleRatingCarousel({ rating = 4.9 }: Props) {
+export default function GoogleRatingCarousel({ rating = 4.9, reviews = [] }: Props) {
+  const fiveStar = reviews.filter(r => r.rating >= 5)
+
   return (
     <section style={{ background: '#fff', padding: 'clamp(2.5rem,5vw,4rem) clamp(1.5rem,5vw,4rem)', borderTop: '3px solid #c8a96e' }}>
       <div style={{ maxWidth: 1200, margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.6rem', textAlign: 'center' }}>
@@ -16,6 +21,58 @@ export default function GoogleRatingCarousel({ rating = 4.9 }: Props) {
         <div style={{ color: '#fbbc04', fontSize: '1.2rem', letterSpacing: 3 }}>★★★★★</div>
         <span style={{ fontSize: '0.82rem', color: '#666' }}>Avaliações verificadas no Google</span>
       </div>
+
+      {fiveStar.length > 0 && (
+        <div
+          style={{
+            maxWidth: 1200,
+            margin: '2.5rem auto 0',
+            display: 'flex',
+            gap: '1rem',
+            overflowX: 'auto',
+            scrollSnapType: 'x mandatory',
+            paddingBottom: '0.75rem',
+            WebkitOverflowScrolling: 'touch',
+          }}
+          aria-label="Comentários 5 estrelas do Google"
+        >
+          {fiveStar.map((r, i) => (
+            <article
+              key={i}
+              style={{
+                flex: '0 0 85%',
+                maxWidth: 360,
+                scrollSnapAlign: 'start',
+                background: '#faf9f7',
+                border: '1px solid #ecead8',
+                padding: '1.25rem 1.25rem 1.1rem',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '0.6rem',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                {r.photoUri ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={r.photoUri} alt={r.authorName} width={36} height={36} loading="lazy" style={{ width: 36, height: 36, borderRadius: '50%', objectFit: 'cover' }} />
+                ) : (
+                  <div style={{ width: 36, height: 36, borderRadius: '50%', background: '#e8dec6', color: '#8a6b2f', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: '0.85rem' }}>
+                    {r.authorName.charAt(0).toUpperCase()}
+                  </div>
+                )}
+                <div style={{ textAlign: 'left' }}>
+                  <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#1a1a1a', lineHeight: 1.2 }}>{r.authorName}</div>
+                  <div style={{ fontSize: '0.72rem', color: '#888' }}>{r.relativeTime}</div>
+                </div>
+              </div>
+              <div style={{ color: '#fbbc04', fontSize: '0.95rem', letterSpacing: 2, textAlign: 'left' }}>★★★★★</div>
+              <p style={{ fontSize: '0.88rem', color: '#444', lineHeight: 1.5, textAlign: 'left', margin: 0, display: '-webkit-box', WebkitLineClamp: 5, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                “{r.text}”
+              </p>
+            </article>
+          ))}
+        </div>
+      )}
     </section>
   )
 }
