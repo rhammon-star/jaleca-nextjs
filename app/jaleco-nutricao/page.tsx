@@ -22,12 +22,12 @@ import { buildHowToSchema, buildOccupationSchema, buildItemListSchema, buildProd
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Jaleco para Nutrição: Modelagem Feminina e Conforto',
-  description: 'Jaleco para Nutrição em tecido premium com elastano. Modelo Slim ou Princesa, do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca.',
+  title: { absolute: 'Jaleco de Nutrição Slim — Feminino e Masculino na Jaleca' },
+  description: 'Nota 4,9 no Google. Jaleco com elastano para nutricionistas — branco, preto e colorido, PP ao G3. Frete grátis Sudeste acima de R$499. Troca em 7 dias.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-nutricao' },
   openGraph: {
-    title: 'Jaleco para Nutrição: Modelagem Feminina e Conforto',
-    description: 'Jaleco para Nutrição em tecido premium com elastano. Modelo Slim ou Princesa, do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca.',
+    title: 'Jaleco para Nutrição — Slim, Branco e Colorido — Jaleca',
+    description: 'Nota 4,9 no Google. Jaleco para nutricionistas com elastano, modelagem slim, PP ao G3. Frete grátis Sudeste acima de R$499.',
     url: 'https://jaleca.com.br/jaleco-nutricao',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -35,8 +35,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: 'Jaleco para Nutrição: Modelagem Feminina e Conforto',
-    description: 'Jaleco para Nutrição em tecido premium com elastano. Modelo Slim ou Princesa, do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca.',
+    title: 'Jaleco para Nutrição — Tecido Premium, Caimento Perfeito — Jaleca',
+    description: 'Jaleco premium para nutricionistas. Elastano, caimento perfeito, do PP ao G3. Frete grátis Sudeste.',
     images: ["https://jaleca.com.br/og-home.jpg"],
   },
 }

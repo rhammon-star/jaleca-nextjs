@@ -22,12 +22,12 @@ import { buildHowToSchema, buildOccupationSchema, buildItemListSchema, buildProd
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: { absolute: 'Jaleco para Psicóloga: Tecido Premium, Caimento Perfeito | Jaleca' },
-  description: 'Jaleco para Psicóloga em tecido premium com caimento perfeito. Modelos Slim e Profissional do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
+  title: { absolute: 'Jaleco de Psicóloga Slim — Feminino e Masculino na Jaleca' },
+  description: 'Nota 4,9 no Google. Jaleco com elastano para psicólogas — branco, preto e colorido, PP ao G3. Frete grátis Sudeste acima de R$499. Troca em 7 dias.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-psicologa' },
   openGraph: {
-    title: 'Jaleco para Psicóloga | Tecido Premium, Caimento Perfeito — Jaleca',
-    description: 'Qual jaleco usar na psicologia? Jaleco premium com elastano, caimento impecável e preço justo. Do PP ao G3. Frete grátis.',
+    title: 'Jaleco para Psicóloga — Slim, Branco e Colorido — Jaleca',
+    description: 'Nota 4,9 no Google. Jaleco para psicólogas com elastano, modelagem slim, PP ao G3. Frete grátis Sudeste acima de R$499.',
     url: 'https://jaleca.com.br/jaleco-psicologa',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -35,8 +35,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: 'Jaleco para Psicóloga | Tecido Premium, Caimento Perfeito — Jaleca',
-    description: 'Jaleco premium para psicóloga. Tecido de qualidade, caimento perfeito, preço justo. Do PP ao G3.',
+    title: 'Jaleco para Psicóloga — Tecido Premium, Caimento Perfeito — Jaleca',
+    description: 'Jaleco premium para psicólogas. Elastano, caimento perfeito, do PP ao G3. Frete grátis Sudeste.',
     images: ["https://jaleca.com.br/og-home.jpg"],
   },
 }

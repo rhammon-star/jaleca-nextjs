@@ -15,12 +15,12 @@ import { buildHowToSchema, buildOccupationSchema } from '@/lib/profession-schema
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Jaleco Estiloso: Charme, Criatividade e Profissionalismo',
-  description: 'Descubra jaleco estiloso para saúde e estética. Modelos diferenciados, coloridos e com cortes modernos para valorizar seu visual no trabalho.',
+  title: { absolute: 'Jaleco Estiloso com Caimento Premium — Jaleca' },
+  description: 'Nota 4,9 no Google. Jaleco estiloso com elastano bidirecional, modelagem slim, PP ao G3. Frete grátis Sudeste acima de R$499. Troca em 7 dias.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-estiloso' },
   openGraph: {
-    title: 'Jaleco Estiloso: Charme, Criatividade e Profissionalismo',
-    description: 'Jaleco estiloso que combina identidade visual com qualidade técnica. Para quem se importa com o que veste no trabalho.',
+    title: 'Jaleco Estiloso — Caimento Premium e Elastano — Jaleca',
+    description: 'Nota 4,9 no Google. Jaleco estiloso — modelagem slim, elastano, PP ao G3. Frete grátis Sudeste acima de R$499.',
     url: 'https://jaleca.com.br/jaleco-estiloso',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -28,8 +28,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Jaleco Estiloso: Charme, Criatividade e Profissionalismo',
-    description: 'Jaleco estiloso que combina identidade visual com qualidade técnica. Para quem se importa com o que veste no trabalho.',
+    title: 'Jaleco Estiloso — Caimento Premium — Jaleca',
+    description: 'Jaleco estiloso. Elastano, modelagem slim, do PP ao G3. Frete grátis Sudeste.',
     images: ['https://jaleca.com.br/og-home.jpg'],
   },
 }

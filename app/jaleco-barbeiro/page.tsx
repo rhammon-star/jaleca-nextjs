@@ -22,12 +22,12 @@ import { buildHowToSchema, buildOccupationSchema, buildItemListSchema, buildProd
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: { absolute: 'Jaleco para Barbeiro: Estilo e Praticidade na Barbearia | Jaleca' },
-  description: 'Jaleco para barbeiro em tecido premium com elastano. Modelos Slim e Profissional do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
+  title: { absolute: 'Jaleco Barbeiro com Estilo Profissional — Jaleca' },
+  description: 'Nota 4,9 no Google. Jaleco para barbeiro com caimento moderno, tecido elastano e modelagem slim — do PP ao G3. Frete grátis Sudeste acima de R$499.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-barbeiro' },
   openGraph: {
-    title: 'Jaleco para Barbeiro | Estilo e Praticidade — Jaleca',
-    description: 'Qual jaleco usar na barbearia? Jaleco premium com elastano, caimento impecável e preço justo. Do PP ao G3. Frete grátis.',
+    title: 'Jaleco Barbeiro — Estilo Profissional e Caimento Slim — Jaleca',
+    description: 'Nota 4,9 no Google. Jaleco para barbeiro com elastano, modelagem slim, PP ao G3. Frete grátis Sudeste acima de R$499.',
     url: 'https://jaleca.com.br/jaleco-barbeiro',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -35,8 +35,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: 'Jaleco para Barbeiro | Estilo e Praticidade — Jaleca',
-    description: 'Jaleco premium para barbeiro. Tecido de qualidade, caimento perfeito, preço justo. Do PP ao G3.',
+    title: 'Jaleco Barbeiro — Estilo Profissional — Jaleca',
+    description: 'Jaleco premium para barbeiro. Caimento moderno, elastano, do PP ao G3. Frete grátis Sudeste.',
     images: ["https://jaleca.com.br/og-home.jpg"],
   },
 }

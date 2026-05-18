@@ -22,12 +22,12 @@ import { buildHowToSchema, buildOccupationSchema, buildItemListSchema, buildProd
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: { absolute: 'Jaleco para Massagista: Elastano para Movimento Total — 4.9★ | Jaleca' },
-  description: 'Jaleco massagista com elastano bidirecional — amplitude total para drenagem, relaxamento e RPG. Nota 4.9★ no Google. PP ao G3, Slim e Princesa. Frete grátis SP/RJ/MG/ES acima de R$499.',
+  title: { absolute: 'Jaleco de Massagista Slim — Feminino e Masculino na Jaleca' },
+  description: 'Nota 4,9 no Google. Jaleco com elastano para massagistas — branco, preto e colorido, PP ao G3. Frete grátis Sudeste acima de R$499. Troca em 7 dias.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-massagista' },
   openGraph: {
-    title: 'Jaleco para Massagista | Tecido Premium, Caimento Perfeito — Jaleca',
-    description: 'Qual jaleco usar na massagem? Jaleco premium com elastano, caimento impecável e preço justo. Do PP ao G3. Frete grátis.',
+    title: 'Jaleco para Massagista — Slim, Branco e Colorido — Jaleca',
+    description: 'Nota 4,9 no Google. Jaleco para massagistas com elastano, modelagem slim, PP ao G3. Frete grátis Sudeste acima de R$499.',
     url: 'https://jaleca.com.br/jaleco-massagista',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -35,8 +35,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: 'Jaleco para Massagista | Tecido Premium, Caimento Perfeito — Jaleca',
-    description: 'Jaleco premium para massagista. Tecido de qualidade, caimento perfeito, preço justo. Do PP ao G3.',
+    title: 'Jaleco para Massagista — Tecido Premium, Caimento Perfeito — Jaleca',
+    description: 'Jaleco premium para massagistas. Elastano, caimento perfeito, do PP ao G3. Frete grátis Sudeste.',
     images: ["https://jaleca.com.br/og-home.jpg"],
   },
 }

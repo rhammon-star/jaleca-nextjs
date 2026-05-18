@@ -19,12 +19,12 @@ import { buildHowToSchema, buildOccupationSchema, buildItemListSchema, buildProd
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: { absolute: 'Jaleco Universitário Feminino — Medicina, Enfermagem e Odontologia | Jaleca' },
-  description: 'Jaleco feminino para estudantes de medicina, enfermagem, odontologia, fisioterapia e biomedicina. Corte acinturado, tecido premium com elastano. PP ao G3. Frete grátis SP/RJ/MG/ES.',
+  title: { absolute: 'Jaleco Universitário Feminino com Postura Profissional — Jaleca' },
+  description: 'Nota 4,9 no Google. Jaleco para universitárias com caimento alfaiataria, elastano e modelagem slim — PP ao G3. Frete grátis Sudeste acima de R$499.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-universitario-feminino' },
   openGraph: {
-    title: 'Jaleco Universitário Feminino — Medicina, Enfermagem e Odontologia | Jaleca',
-    description: 'Jaleco feminino para caloura e estudante de saúde. Corte acinturado, tecido com elastano, do PP ao G3. Frete grátis.',
+    title: 'Jaleco Universitário Feminino — Caimento Alfaiataria, Postura Profissional — Jaleca',
+    description: 'Nota 4,9 no Google. Jaleco para universitárias com elastano, modelagem slim, PP ao G3. Frete grátis Sudeste acima de R$499.',
     url: 'https://jaleca.com.br/jaleco-universitario-feminino',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -32,8 +32,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Jaleco Universitário Feminino | Jaleca',
-    description: 'Jaleco feminino para estudantes de medicina, enfermagem, odontologia e mais. PP ao G3.',
+    title: 'Jaleco Universitário Feminino — Postura Profissional — Jaleca',
+    description: 'Jaleco premium para universitárias. Caimento alfaiataria, elastano, do PP ao G3.',
     images: ['https://jaleca.com.br/og-home.jpg'],
   },
 }

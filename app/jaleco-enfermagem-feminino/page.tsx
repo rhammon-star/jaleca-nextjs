@@ -15,12 +15,12 @@ import { buildHowToSchema, buildOccupationSchema } from '@/lib/profession-schema
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Jaleco de Enfermagem Feminino: Plantão, COFEN e Lavagem 60°C',
-  description: 'Jaleco enfermagem feminino com elastano para plantão. Aguenta lavagem a 60°C, cumpre COFEN 375/2011 e tem molde próprio do PP ao G3. Frete grátis Sudeste acima de R$499.',
+  title: { absolute: 'Jaleco de Enfermagem Feminino Slim — Feminino e Masculino na Jaleca' },
+  description: 'Nota 4,9 no Google. Jaleco com elastano para enfermeiras — branco, preto e colorido, PP ao G3. Frete grátis Sudeste acima de R$499. Troca em 7 dias.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-enfermagem' },
   openGraph: {
-    title: 'Jaleco de Enfermagem Feminino: Plantão, COFEN e Lavagem 60°C',
-    description: 'Jaleco enfermagem feminino com elastano para plantão. Aguenta lavagem a 60°C e tem molde próprio do PP ao G3.',
+    title: 'Jaleco para Enfermagem Feminino — Slim, Branco e Colorido — Jaleca',
+    description: 'Nota 4,9 no Google. Jaleco para enfermeiras com elastano, modelagem slim, PP ao G3. Frete grátis Sudeste acima de R$499.',
     url: 'https://jaleca.com.br/jaleco-enfermagem-feminino',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -28,8 +28,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Jaleco de Enfermagem Feminino: Plantão, COFEN e Lavagem 60°C',
-    description: 'Jaleco enfermagem feminino com elastano para plantão. Do PP ao G3.',
+    title: 'Jaleco para Enfermagem Feminino — Tecido Premium, Caimento Perfeito — Jaleca',
+    description: 'Jaleco premium para enfermeiras. Elastano, caimento perfeito, do PP ao G3. Frete grátis Sudeste.',
     images: ['https://jaleca.com.br/og-home.jpg'],
   },
 }

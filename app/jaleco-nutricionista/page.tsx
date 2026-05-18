@@ -23,12 +23,12 @@ import { buildHowToSchema, buildOccupationSchema, buildItemListSchema, buildProd
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: { absolute: 'Jaleco para Nutricionista: Slim Colorido ou Branco | Jaleca' },
-  description: 'Jaleco para nutricionista Slim colorido ou branco — transmite acolhimento e autoridade no consultório. PP ao G3, com elastano. O CFN não define cor. Frete grátis Sudeste acima de R$499.',
+  title: { absolute: 'Jaleco de Nutricionista Slim — Feminino e Masculino na Jaleca' },
+  description: 'Nota 4,9 no Google. Jaleco com elastano para nutricionistas — branco, preto e colorido, PP ao G3. Frete grátis Sudeste acima de R$499. Troca em 7 dias.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-nutricionista' },
   openGraph: {
-    title: 'Jaleco para Nutricionista: Slim Colorido ou Branco | Jaleca',
-    description: 'Jaleco para nutricionista Slim colorido ou branco. PP ao G3. O que o CFN permite. Transmite acolhimento e autoridade.',
+    title: 'Jaleco para Nutricionista — Slim, Branco e Colorido — Jaleca',
+    description: 'Nota 4,9 no Google. Jaleco para nutricionistas com elastano, modelagem slim, PP ao G3. Frete grátis Sudeste acima de R$499.',
     url: 'https://jaleca.com.br/jaleco-nutricionista',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -36,8 +36,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: 'Jaleco para Nutricionista | Tecido Premium, Caimento Perfeito — Jaleca',
-    description: 'Jaleco premium para nutricionista. Tecido de qualidade, caimento perfeito, preço justo. Do PP ao G3.',
+    title: 'Jaleco para Nutricionista — Tecido Premium, Caimento Perfeito — Jaleca',
+    description: 'Jaleco premium para nutricionistas. Elastano, caimento perfeito, do PP ao G3. Frete grátis Sudeste.',
     images: ["https://jaleca.com.br/og-home.jpg"],
   },
 }

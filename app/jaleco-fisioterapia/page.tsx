@@ -22,12 +22,12 @@ import { buildHowToSchema, buildOccupationSchema, buildItemListSchema, buildProd
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: { absolute: 'Jaleco para Fisioterapia: Conforto e Mobilidade | Jaleca' },
-  description: 'Jaleco para Fisioterapia com elastano e modelagem que acompanha o movimento. Tecido respirável, do PP ao G3. Frete grátis SP/RJ/MG/ES.',
+  title: { absolute: 'Jaleco de Fisioterapia Slim — Feminino e Masculino na Jaleca' },
+  description: 'Nota 4,9 no Google. Jaleco com elastano para fisioterapeutas — branco, preto e colorido, PP ao G3. Frete grátis Sudeste acima de R$499. Troca em 7 dias.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-fisioterapia' },
   openGraph: {
-    title: 'Jaleco para Fisioterapia: Conforto e Mobilidade | Jaleca 2026',
-    description: 'Jaleco para Fisioterapia com elastano e modelagem que acompanha o movimento. Tecido respirável, do PP ao G3. Frete grátis SP/RJ/MG/ES.',
+    title: 'Jaleco para Fisioterapia — Slim, Branco e Colorido — Jaleca',
+    description: 'Nota 4,9 no Google. Jaleco para fisioterapeutas com elastano, modelagem slim, PP ao G3. Frete grátis Sudeste acima de R$499.',
     url: 'https://jaleca.com.br/jaleco-fisioterapia',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -35,8 +35,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: 'Jaleco para Fisioterapia: Conforto e Mobilidade | Jaleca 2026',
-    description: 'Jaleco para Fisioterapia com elastano e modelagem que acompanha o movimento. Tecido respirável, do PP ao G3. Frete grátis SP/RJ/MG/ES.',
+    title: 'Jaleco para Fisioterapia — Tecido Premium, Caimento Perfeito — Jaleca',
+    description: 'Jaleco premium para fisioterapeutas. Elastano, caimento perfeito, do PP ao G3. Frete grátis Sudeste.',
     images: ["https://jaleca.com.br/og-home.jpg"],
   },
 }

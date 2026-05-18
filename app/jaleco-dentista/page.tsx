@@ -23,12 +23,12 @@ import { buildHowToSchema, buildOccupationSchema, buildItemListSchema, buildProd
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: { absolute: 'Jaleco Dentista: Curto ou Longo? Elastano para a Cadeira — 4.9★' },
-  description: '⭐ 4.9★ · 61 avaliações reais · usado por +500 dentistas. Curto ou longo, com elastano para liberdade ao redor da cadeira. Branco e colorido, PP ao G3. O que o CRO permite. Frete grátis Sudeste · troca em 7 dias.',
+  title: { absolute: 'Jaleco de Dentista Slim — Feminino e Masculino na Jaleca' },
+  description: 'Nota 4,9 no Google. Jaleco com elastano para dentistas — branco, preto e colorido, PP ao G3. Frete grátis Sudeste acima de R$499. Troca em 7 dias.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-dentista' },
   openGraph: {
-    title: 'Jaleco para Dentista: Curto, Slim e com Elastano | Jaleca',
-    description: 'Jaleco para dentista curto ou longo, com elastano para movimento ao redor da cadeira. O que o CRO permite. PP ao G3.',
+    title: 'Jaleco para Dentista — Slim, Branco e Colorido — Jaleca',
+    description: 'Nota 4,9 no Google. Jaleco para dentistas com elastano, modelagem slim, PP ao G3. Frete grátis Sudeste acima de R$499.',
     url: 'https://jaleca.com.br/jaleco-dentista',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -36,8 +36,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: 'Jaleco para Dentista | Tecido Premium, Caimento Perfeito — Jaleca',
-    description: 'Jaleco premium para dentista. Tecido de qualidade, caimento perfeito, preço justo. Do PP ao G3.',
+    title: 'Jaleco para Dentista — Tecido Premium, Caimento Perfeito — Jaleca',
+    description: 'Jaleco premium para dentistas. Elastano, caimento perfeito, do PP ao G3. Frete grátis Sudeste.',
     images: ["https://jaleca.com.br/og-home.jpg"],
   },
 }

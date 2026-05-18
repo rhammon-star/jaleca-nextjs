@@ -23,12 +23,12 @@ import { buildHowToSchema, buildOccupationSchema, buildItemListSchema, buildProd
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: { absolute: 'Jaleco para Veterinário: Resistente, Lavável e Profissional | Jaleca' },
-  description: 'Jaleco para veterinário com tecido resistente a pelos e produtos. Feminino e masculino, Slim e Profissional, PP ao G3. Frete grátis SP/RJ/MG/ES.',
+  title: { absolute: 'Jaleco de Veterinário Slim — Feminino e Masculino na Jaleca' },
+  description: 'Nota 4,9 no Google. Jaleco com elastano para veterinários — branco, preto e colorido, PP ao G3. Frete grátis Sudeste acima de R$499. Troca em 7 dias.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-veterinario' },
   openGraph: {
-    title: 'Jaleco para Veterinário | Tecido Premium, Caimento Perfeito — Jaleca',
-    description: 'Qual jaleco usar na veterinária? Jaleco premium com elastano, caimento impecável e preço justo. Do PP ao G3. Frete grátis.',
+    title: 'Jaleco para Veterinário — Slim, Branco e Colorido — Jaleca',
+    description: 'Nota 4,9 no Google. Jaleco para veterinários com elastano, modelagem slim, PP ao G3. Frete grátis Sudeste acima de R$499.',
     url: 'https://jaleca.com.br/jaleco-veterinario',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -36,8 +36,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: 'Jaleco para Veterinário | Tecido Premium, Caimento Perfeito — Jaleca',
-    description: 'Jaleco premium para veterinário. Tecido de qualidade, caimento perfeito, preço justo. Do PP ao G3.',
+    title: 'Jaleco para Veterinário — Tecido Premium, Caimento Perfeito — Jaleca',
+    description: 'Jaleco premium para veterinários. Elastano, caimento perfeito, do PP ao G3. Frete grátis Sudeste.',
     images: ["https://jaleca.com.br/og-home.jpg"],
   },
 }

@@ -14,16 +14,21 @@ import UGCSection from '@/components/UGCSection'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Jaleco Feminino Acinturado | Corte Slim para Consultório',
-  description: 'Jaleco feminino acinturado com corte Slim que define a cintura sem apertar. Elastex, Tradicional e Princesa do PP ao G3. 12 cores. Frete grátis Sudeste.',
+  title: { absolute: 'Jaleco Feminino Acinturado com Caimento Premium — Jaleca' },
+  description: 'Nota 4,9 no Google. Jaleco feminino acinturado com elastano bidirecional, modelagem slim, PP ao G3. Frete grátis Sudeste acima de R$499. Troca em 7 dias.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-feminino-acinturado' },
   openGraph: {
-    title: 'Jaleco Feminino Acinturado | Jaleca',
-    description: 'Corte Slim que define a cintura sem apertar. PP ao G3, 12 cores.',
+    title: 'Jaleco Feminino Acinturado — Caimento Premium e Elastano — Jaleca',
+    description: 'Nota 4,9 no Google. Jaleco feminino acinturado — modelagem slim, elastano, PP ao G3. Frete grátis Sudeste acima de R$499.',
     url: 'https://jaleca.com.br/jaleco-feminino-acinturado',
     siteName: 'Jaleca',
     locale: 'pt_BR',
     type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Jaleco Feminino Acinturado — Caimento Premium — Jaleca',
+    description: 'Jaleco feminino acinturado. Elastano, modelagem slim, do PP ao G3. Frete grátis Sudeste.',
   },
 }
 

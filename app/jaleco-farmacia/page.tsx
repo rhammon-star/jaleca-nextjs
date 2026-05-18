@@ -22,12 +22,12 @@ import { buildHowToSchema, buildOccupationSchema, buildItemListSchema, buildProd
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Jaleco para Farmácia: Feminino e Masculino',
-  description: 'Jaleco para farmacêutico e atendente de farmácia. Modelos femininos e masculinos, branco e colorido, PP ao G3. Transmite confiança e profissionalismo. Frete grátis SP/RJ/MG/ES.',
+  title: { absolute: 'Jaleco de Farmácia Slim — Feminino e Masculino na Jaleca' },
+  description: 'Nota 4,9 no Google. Jaleco com elastano para farmacêuticos — branco, preto e colorido, PP ao G3. Frete grátis Sudeste acima de R$499. Troca em 7 dias.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-farmacia' },
   openGraph: {
-    title: 'Jaleco para Farmácia: Visual Profissional e Confiança',
-    description: 'Jaleco para Farmácia em tecido premium. Modelagem que transmite confiança ao cliente. Do PP ao G3. Frete grátis SP/RJ/MG/ES.',
+    title: 'Jaleco para Farmácia — Slim, Branco e Colorido — Jaleca',
+    description: 'Nota 4,9 no Google. Jaleco para farmacêuticos com elastano, modelagem slim, PP ao G3. Frete grátis Sudeste acima de R$499.',
     url: 'https://jaleca.com.br/jaleco-farmacia',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -35,8 +35,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: 'Jaleco para Farmácia: Visual Profissional e Confiança',
-    description: 'Jaleco para Farmácia em tecido premium. Modelagem que transmite confiança ao cliente. Do PP ao G3. Frete grátis SP/RJ/MG/ES.',
+    title: 'Jaleco para Farmácia — Tecido Premium, Caimento Perfeito — Jaleca',
+    description: 'Jaleco premium para farmacêuticos. Elastano, caimento perfeito, do PP ao G3. Frete grátis Sudeste.',
     images: ["https://jaleca.com.br/og-home.jpg"],
   },
 }

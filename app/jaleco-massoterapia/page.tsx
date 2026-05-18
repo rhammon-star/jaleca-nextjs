@@ -14,13 +14,13 @@ import { buildHowToSchema, buildOccupationSchema } from '@/lib/profession-schema
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Jaleco para Massoterapia: Leve, Confortável e Profissional',
-  description: 'Jaleco para massoterapia com amplitude de movimento, tecido leve e corte acinturado. Modelos Slim e Elastex para massoterapeuta. Do PP ao G3, entrega rápida.',
+  title: { absolute: 'Jaleco de Massoterapia Slim — Feminino e Masculino na Jaleca' },
+  description: 'Nota 4,9 no Google. Jaleco com elastano para massoterapeutas — branco, preto e colorido, PP ao G3. Frete grátis Sudeste acima de R$499. Troca em 7 dias.',
   keywords: 'jaleco massoterapia, jaleco massoterapeuta, jaleco para massoterapia, uniforme massoterapeuta, jaleco estetica massoterapia',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-massoterapia' },
   openGraph: {
-    title: 'Jaleco para Massoterapia | Jaleca',
-    description: 'Jaleco leve e confortável para massoterapeuta. Amplitude de movimento, tecido premium, do PP ao G3.',
+    title: 'Jaleco para Massoterapia — Slim, Branco e Colorido — Jaleca',
+    description: 'Nota 4,9 no Google. Jaleco para massoterapeutas com elastano, modelagem slim, PP ao G3. Frete grátis Sudeste acima de R$499.',
     url: 'https://jaleca.com.br/jaleco-massoterapia',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -28,8 +28,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Jaleco para Massoterapia | Jaleca',
-    description: 'Jaleco leve e confortável para massoterapeuta. Do PP ao G3.',
+    title: 'Jaleco para Massoterapia — Tecido Premium, Caimento Perfeito — Jaleca',
+    description: 'Jaleco premium para massoterapeutas. Elastano, caimento perfeito, do PP ao G3. Frete grátis Sudeste.',
     images: ['https://jaleca.com.br/og-home.jpg'],
   },
 }

@@ -22,12 +22,12 @@ import { buildHowToSchema, buildOccupationSchema, buildItemListSchema, buildProd
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: { absolute: 'Uniforme para Churrasqueiro: Dólmã Resistente à Gordura | Jaleca' },
-  description: 'Uniforme profissional para churrasqueiro. Dólmã de cozinheiro resistente à gordura, conforto térmico e durabilidade. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
+  title: { absolute: 'Jaleco Churrasqueiro para quem ama cozinhar — Jaleca' },
+  description: 'Nota 4,9 no Google. Jaleco para churrasqueiro — tecido resistente, bolsos funcionais, modelagem slim, PP ao G3. Frete grátis Sudeste acima de R$499.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-churrasqueiro' },
   openGraph: {
-    title: 'Uniforme para Churrasqueiro | Dólmã Resistente — Jaleca',
-    description: 'Qual uniforme usar na churrascaria? Dólmã profissional resistente à gordura, conforto térmico e preço justo. Frete grátis.',
+    title: 'Jaleco Churrasqueiro — Tecido Resistente, Caimento Slim — Jaleca',
+    description: 'Nota 4,9 no Google. Jaleco para churrasqueiro com bolsos funcionais, elastano, PP ao G3. Frete grátis Sudeste acima de R$499.',
     url: 'https://jaleca.com.br/jaleco-churrasqueiro',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -35,8 +35,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: 'Uniforme para Churrasqueiro | Dólmã Resistente — Jaleca',
-    description: 'Dólmã profissional para churrasqueiro. Tecido resistente, conforto térmico, preço justo. Frete grátis.',
+    title: 'Jaleco Churrasqueiro — Para quem ama cozinhar — Jaleca',
+    description: 'Jaleco premium para churrasqueiro. Tecido resistente, bolsos funcionais, do PP ao G3.',
     images: ["https://jaleca.com.br/og-home.jpg"],
   },
 }

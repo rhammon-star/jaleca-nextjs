@@ -23,12 +23,12 @@ import { buildHowToSchema, buildOccupationSchema, buildItemListSchema, buildProd
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: { absolute: 'Jaleco para Fisioterapeuta: Elastex com Amplitude de Movimento | Jaleca' },
-  description: 'Jaleco para fisioterapeuta com elastano máximo — amplitude de movimento para técnicas manuais, RPG e pilates clínico. Curto ou longo, PP ao G3. O COFFITO não define cor. Frete grátis Sudeste.',
+  title: { absolute: 'Jaleco de Fisioterapeuta Slim — Feminino e Masculino na Jaleca' },
+  description: 'Nota 4,9 no Google. Jaleco com elastano para fisioterapeutas — branco, preto e colorido, PP ao G3. Frete grátis Sudeste acima de R$499. Troca em 7 dias.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-fisioterapeuta' },
   openGraph: {
-    title: 'Jaleco para Fisioterapeuta: Elastex com Amplitude de Movimento | Jaleca',
-    description: 'Jaleco para fisioterapeuta Elastex — amplitude de movimento para técnicas manuais. PP ao G3. O que o COFFITO permite.',
+    title: 'Jaleco para Fisioterapeuta — Slim, Branco e Colorido — Jaleca',
+    description: 'Nota 4,9 no Google. Jaleco para fisioterapeutas com elastano, modelagem slim, PP ao G3. Frete grátis Sudeste acima de R$499.',
     url: 'https://jaleca.com.br/jaleco-fisioterapeuta',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -36,8 +36,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: 'Jaleco para Fisioterapeuta | Tecido Premium, Caimento Perfeito — Jaleca',
-    description: 'Jaleco premium para fisioterapeuta. Tecido de qualidade, caimento perfeito, preço justo. Do PP ao G3.',
+    title: 'Jaleco para Fisioterapeuta — Tecido Premium, Caimento Perfeito — Jaleca',
+    description: 'Jaleco premium para fisioterapeutas. Elastano, caimento perfeito, do PP ao G3. Frete grátis Sudeste.',
     images: ["https://jaleca.com.br/og-home.jpg"],
   },
 }

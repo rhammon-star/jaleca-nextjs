@@ -16,12 +16,12 @@ import { isBestSeller } from "@/lib/best-sellers";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "Compre Jalecos Femininos e Masculinos Online | Jaleca",
-  description: "Jaleca é referência em jalecos femininos e masculinos premium. Modelos slim, princesa e universitários do PP ao G3. Frete grátis no Sudeste. Mais de 200 mil peças vendidas.",
+  title: "Jaleca: Jalecos Femininos e Masculinos, Identidade Profissional",
+  description: "Jaleca veste a identidade profissional. Coleção de jalecos femininos e masculinos premium, modelagem exclusiva, tecido nobre, do PP ao G3. Nota 4,9 no Google. Frete grátis no Sudeste.",
   alternates: { canonical: "https://jaleca.com.br" },
   openGraph: {
-    title: "Jalecos Femininos e Masculinos — Jaleca",
-    description: "Compre jalecos femininos, masculinos, slim, princesa e universitários. Frete grátis no Sudeste. Jalecos para médicos, dentistas e profissionais da saúde.",
+    title: "Jaleca: Jalecos Femininos e Masculinos, Identidade Profissional",
+    description: "Coleção premium de jalecos femininos e masculinos para profissionais que prezam elegância. Modelagem exclusiva, tecido nobre, do PP ao G3.",
     url: "https://jaleca.com.br",
     siteName: "Jaleca",
     locale: "pt_BR",
@@ -30,8 +30,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Jalecos Femininos e Masculinos — Jaleca",
-    description: "Compre jalecos femininos, masculinos, slim, princesa e universitários. Frete grátis no Sudeste.",
+    title: "Jaleca: Jalecos Femininos e Masculinos, Identidade Profissional",
+    description: "Coleção premium de jalecos femininos e masculinos. Modelagem exclusiva, tecido nobre, do PP ao G3.",
     images: ["https://jaleca.com.br/og-home.jpg"],
   },
 };

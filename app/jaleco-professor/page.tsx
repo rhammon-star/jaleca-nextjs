@@ -22,12 +22,12 @@ import { buildHowToSchema, buildOccupationSchema, buildItemListSchema, buildProd
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: { absolute: 'Jaleco para Professor: Tecido Premium | Jaleca' },
-  description: 'Jaleco para Professor em tecido premium com caimento perfeito. Modelos Slim e Profissional do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
+  title: { absolute: 'Jaleco Professor com Postura Profissional — Jaleca' },
+  description: 'Nota 4,9 no Google. Jaleco para professores com caimento alfaiataria, elastano e modelagem slim — PP ao G3. Frete grátis Sudeste acima de R$499.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-professor' },
   openGraph: {
-    title: 'Jaleco para Professor | Tecido Premium, Caimento Perfeito — Jaleca',
-    description: 'Qual jaleco usar na docência? Jaleco premium com elastano, caimento impecável e preço justo. Do PP ao G3. Frete grátis.',
+    title: 'Jaleco Professor — Caimento Alfaiataria, Postura Profissional — Jaleca',
+    description: 'Nota 4,9 no Google. Jaleco para professores com elastano, modelagem slim, PP ao G3. Frete grátis Sudeste acima de R$499.',
     url: 'https://jaleca.com.br/jaleco-professor',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -35,8 +35,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: 'Jaleco para Professor | Tecido Premium, Caimento Perfeito — Jaleca',
-    description: 'Jaleco premium para professor. Tecido de qualidade, caimento perfeito, preço justo. Do PP ao G3.',
+    title: 'Jaleco Professor — Postura Profissional — Jaleca',
+    description: 'Jaleco premium para professores. Caimento alfaiataria, elastano, do PP ao G3.',
     images: ["https://jaleca.com.br/og-home.jpg"],
   },
 }

@@ -22,12 +22,12 @@ import { buildHowToSchema, buildOccupationSchema, buildItemListSchema, buildProd
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: { absolute: 'Jaleco para Cabeleireiro: Tecido Premium | Jaleca' },
-  description: 'Jaleco para Cabeleireiro em tecido premium com caimento perfeito. Modelos Slim e Profissional do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
+  title: { absolute: 'Jaleco Cabeleireiro com Estilo Profissional — Jaleca' },
+  description: 'Nota 4,9 no Google. Jaleco para cabeleireiro com caimento moderno, tecido elastano e modelagem slim — do PP ao G3. Frete grátis Sudeste acima de R$499.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-cabeleireiro' },
   openGraph: {
-    title: 'Jaleco para Cabeleireiro | Tecido Premium, Caimento Perfeito — Jaleca',
-    description: 'Qual jaleco usar na beleza? Jaleco premium com elastano, caimento impecável e preço justo. Do PP ao G3. Frete grátis.',
+    title: 'Jaleco Cabeleireiro — Estilo Profissional e Caimento Slim — Jaleca',
+    description: 'Nota 4,9 no Google. Jaleco para cabeleireiro com elastano, modelagem slim, PP ao G3. Frete grátis Sudeste acima de R$499.',
     url: 'https://jaleca.com.br/jaleco-cabeleireiro',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -35,8 +35,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: 'Jaleco para Cabeleireiro | Tecido Premium, Caimento Perfeito — Jaleca',
-    description: 'Jaleco premium para cabeleireiro. Tecido de qualidade, caimento perfeito, preço justo. Do PP ao G3.',
+    title: 'Jaleco Cabeleireiro — Estilo Profissional — Jaleca',
+    description: 'Jaleco premium para cabeleireiro. Caimento moderno, elastano, do PP ao G3. Frete grátis Sudeste.',
     images: ["https://jaleca.com.br/og-home.jpg"],
   },
 }

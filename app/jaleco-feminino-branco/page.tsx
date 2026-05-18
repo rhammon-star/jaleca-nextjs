@@ -14,12 +14,12 @@ import UGCSection from '@/components/UGCSection'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Jaleco Feminino Branco | Acinturado, Premium, PP ao G3',
-  description: 'Jaleco feminino branco com corte acinturado, tecido Elastex premium e elastano bidirecional. Modelos Slim Elastex, Gold, Tradicional e mais. Do PP ao G3. Frete grátis Sudeste.',
+  title: { absolute: 'Jaleco Feminino Branco com Caimento Premium — Jaleca' },
+  description: 'Nota 4,9 no Google. Jaleco feminino branco com elastano bidirecional, modelagem slim, PP ao G3. Frete grátis Sudeste acima de R$499. Troca em 7 dias.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-feminino-branco' },
   openGraph: {
-    title: 'Jaleco Feminino Branco Acinturado — Coleção Exclusiva | Jaleca',
-    description: 'Jaleco feminino branco com corte acinturado, tecido premium e elastano. Para médicas, dentistas e estudantes. Do PP ao G3.',
+    title: 'Jaleco Feminino Branco — Caimento Premium e Elastano — Jaleca',
+    description: 'Nota 4,9 no Google. Jaleco feminino branco — modelagem slim, elastano, PP ao G3. Frete grátis Sudeste acima de R$499.',
     url: 'https://jaleca.com.br/jaleco-feminino-branco',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -28,8 +28,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Jaleco Feminino Branco | Jaleca',
-    description: 'Jaleco feminino branco acinturado com tecido premium. Para médicas, dentistas e estudantes.',
+    title: 'Jaleco Feminino Branco — Caimento Premium — Jaleca',
+    description: 'Jaleco feminino branco. Elastano, modelagem slim, do PP ao G3. Frete grátis Sudeste.',
     images: ['https://wp.jaleca.com.br/wp-content/uploads/2026/04/JALECO-SLIM-TRADICIONAL-FEMININO-BRANCO-ACINTURADO-JALECA-91.webp'],
   },
 }

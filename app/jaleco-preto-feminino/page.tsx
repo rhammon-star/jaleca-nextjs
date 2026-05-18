@@ -15,12 +15,12 @@ import { buildHowToSchema, buildOccupationSchema } from '@/lib/profession-schema
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Jaleco Preto Feminino: Slim, Elegante e Profissional',
-  description: 'Jaleco preto feminino com elastano — modelos Slim e Profissional para médicas, esteticistas e cabeleireiras. Tecido que não desbota. PP ao G3. Frete grátis Sudeste acima de R$499.',
+  title: { absolute: 'Jaleco Feminino Preto com Caimento Premium — Jaleca' },
+  description: 'Nota 4,9 no Google. Jaleco feminino preto com elastano bidirecional, modelagem slim, PP ao G3. Frete grátis Sudeste acima de R$499. Troca em 7 dias.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-preto-feminino' },
   openGraph: {
-    title: 'Jaleco Preto Feminino: Esteticista, Barbeiro e Tatuador',
-    description: 'Jaleco preto feminino com elastano para esteticista, cabeleireiro e tatuador. Do PP ao G3.',
+    title: 'Jaleco Feminino Preto — Caimento Premium e Elastano — Jaleca',
+    description: 'Nota 4,9 no Google. Jaleco feminino preto — modelagem slim, elastano, PP ao G3. Frete grátis Sudeste acima de R$499.',
     url: 'https://jaleca.com.br/jaleco-preto-feminino',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -28,8 +28,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Jaleco Preto Feminino: Esteticista, Barbeiro e Tatuador',
-    description: 'Jaleco preto feminino com elastano. Do PP ao G3.',
+    title: 'Jaleco Feminino Preto — Caimento Premium — Jaleca',
+    description: 'Jaleco feminino preto. Elastano, modelagem slim, do PP ao G3. Frete grátis Sudeste.',
     images: ['https://jaleca.com.br/og-home.jpg'],
   },
 }

@@ -11,12 +11,12 @@ import { buildHowToSchema, buildOccupationSchema } from '@/lib/profession-schema
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Jaleco para Residência Médica: Resistência em Plantão de 24h | Jaleca',
-  description: 'Jaleco para residência médica — gabardine 165-200 g/m² com elastano e DWR, suporta lavagem industrial. Manga longa, bolsos amplos, PP ao G3. ⭐ 4.9 no Google.',
+  title: { absolute: 'Jaleco de para Residência Médica Slim — Feminino e Masculino na Jaleca' },
+  description: 'Nota 4,9 no Google. Jaleco com elastano para médicos residentes — branco, preto e colorido, PP ao G3. Frete grátis Sudeste acima de R$499. Troca em 7 dias.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-para-residencia-medica' },
   openGraph: {
-    title: 'Jaleco para Residência Médica | Jaleca',
-    description: 'Jaleco que aguenta plantão de 24h, lavagem industrial e uso intenso.',
+    title: 'Jaleco para para Residência Médica — Slim, Branco e Colorido — Jaleca',
+    description: 'Nota 4,9 no Google. Jaleco para médicos residentes com elastano, modelagem slim, PP ao G3. Frete grátis Sudeste acima de R$499.',
     url: 'https://jaleca.com.br/jaleco-para-residencia-medica',
     siteName: 'Jaleca',
     locale: 'pt_BR',

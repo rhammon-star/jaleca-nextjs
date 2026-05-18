@@ -22,12 +22,12 @@ import { buildHowToSchema, buildOccupationSchema, buildItemListSchema, buildProd
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: { absolute: 'Jaleco para Advogado: Elegância e Autoridade no Direito | Jaleca' },
-  description: 'Jaleco para advogado em tecido premium com caimento impecável. Modelos Profissional e Slim do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
+  title: { absolute: 'Jaleco Advogado com Postura Profissional — Jaleca' },
+  description: 'Nota 4,9 no Google. Jaleco para advogados com caimento alfaiataria, elastano e modelagem slim — PP ao G3. Frete grátis Sudeste acima de R$499.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-advogado' },
   openGraph: {
-    title: 'Jaleco para Advogado | Elegância e Autoridade no Direito — Jaleca',
-    description: 'Qual jaleco usar no tribunal e em audiências? Jaleco premium com caimento impecável e preço justo. Do PP ao G3. Frete grátis.',
+    title: 'Jaleco Advogado — Caimento Alfaiataria, Postura Profissional — Jaleca',
+    description: 'Nota 4,9 no Google. Jaleco para advogados com elastano, modelagem slim, PP ao G3. Frete grátis Sudeste acima de R$499.',
     url: 'https://jaleca.com.br/jaleco-advogado',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -35,8 +35,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: 'Jaleco para Advogado | Elegância e Autoridade — Jaleca',
-    description: 'Jaleco premium para advogado. Tecido de qualidade, caimento perfeito, preço justo. Do PP ao G3.',
+    title: 'Jaleco Advogado — Postura Profissional — Jaleca',
+    description: 'Jaleco premium para advogados. Caimento alfaiataria, elastano, do PP ao G3.',
     images: ["https://jaleca.com.br/og-home.jpg"],
   },
 }

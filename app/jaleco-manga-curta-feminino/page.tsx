@@ -11,16 +11,21 @@ import { buildHowToSchema, buildOccupationSchema } from '@/lib/profession-schema
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Jaleco Manga Curta Feminino: Conforto em Climas Quentes | Jaleca',
-  description: 'Jaleco manga curta feminino para clínicas com ar pesado, verão e profissionais que pegam muito sol. Gabardine leve, PP ao G3, ⭐ 4.9 no Google.',
+  title: { absolute: 'Jaleco Feminino Manga Curta com Caimento Premium — Jaleca' },
+  description: 'Nota 4,9 no Google. Jaleco feminino manga curta com elastano bidirecional, modelagem slim, PP ao G3. Frete grátis Sudeste acima de R$499. Troca em 7 dias.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-manga-curta-feminino' },
   openGraph: {
-    title: 'Jaleco Manga Curta Feminino | Jaleca',
-    description: 'Jaleco feminino manga curta para climas quentes. PP ao G3, leve, com elastano.',
+    title: 'Jaleco Feminino Manga Curta — Caimento Premium e Elastano — Jaleca',
+    description: 'Nota 4,9 no Google. Jaleco feminino manga curta — modelagem slim, elastano, PP ao G3. Frete grátis Sudeste acima de R$499.',
     url: 'https://jaleca.com.br/jaleco-manga-curta-feminino',
     siteName: 'Jaleca',
     locale: 'pt_BR',
     type: 'article',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Jaleco Feminino Manga Curta — Caimento Premium — Jaleca',
+    description: 'Jaleco feminino manga curta. Elastano, modelagem slim, do PP ao G3. Frete grátis Sudeste.',
   },
 }
 

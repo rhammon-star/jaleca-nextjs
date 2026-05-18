@@ -22,12 +22,12 @@ import { buildHowToSchema, buildOccupationSchema, buildItemListSchema, buildProd
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: { absolute: 'Jaleco para Enfermeira: Slim, Plus Size | Jaleca' },
-  description: 'Jaleco feminino para enfermeira com elastano e bolsos funcionais. Modelos Slim e Profissional do PP ao G3. Frete grátis Sudeste acima de R$499.',
+  title: { absolute: 'Jaleco de Enfermeira Slim — Feminino e Masculino na Jaleca' },
+  description: 'Nota 4,9 no Google. Jaleco com elastano para enfermeiras — branco, preto e colorido, PP ao G3. Frete grátis Sudeste acima de R$499. Troca em 7 dias.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-enfermeira' },
   openGraph: {
-    title: 'Jaleco para Enfermeiro | Tecido Premium, Caimento Perfeito — Jaleca',
-    description: 'Qual jaleco usar na enfermagem? Jaleco premium com elastano, caimento impecável e preço justo. Do PP ao G3. Frete grátis.',
+    title: 'Jaleco para Enfermeira — Slim, Branco e Colorido — Jaleca',
+    description: 'Nota 4,9 no Google. Jaleco para enfermeiras com elastano, modelagem slim, PP ao G3. Frete grátis Sudeste acima de R$499.',
     url: 'https://jaleca.com.br/jaleco-enfermeira',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -35,8 +35,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: 'Jaleco para Enfermeiro | Tecido Premium, Caimento Perfeito — Jaleca',
-    description: 'Jaleco premium para enfermeiro. Tecido de qualidade, caimento perfeito, preço justo. Do PP ao G3.',
+    title: 'Jaleco para Enfermeira — Tecido Premium, Caimento Perfeito — Jaleca',
+    description: 'Jaleco premium para enfermeiras. Elastano, caimento perfeito, do PP ao G3. Frete grátis Sudeste.',
     images: ["https://jaleca.com.br/og-home.jpg"],
   },
 }

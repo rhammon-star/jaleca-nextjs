@@ -11,16 +11,21 @@ import { buildHowToSchema, buildOccupationSchema } from '@/lib/profession-schema
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Jaleco com Elastano: Mobilidade Real em Plantão e Consultório | Jaleca',
-  description: 'Jaleco com elastano 4-6% para liberdade de movimento em jornadas longas. Gabardine 150-200 g/m², do PP ao G3, feminino e masculino. ⭐ 4.9 no Google.',
+  title: { absolute: 'Jaleco com Elastano com Caimento Premium — Jaleca' },
+  description: 'Nota 4,9 no Google. Jaleco com elastano com elastano bidirecional, modelagem slim, PP ao G3. Frete grátis Sudeste acima de R$499. Troca em 7 dias.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-com-elastano' },
   openGraph: {
-    title: 'Jaleco com Elastano: Mobilidade Real em Plantão | Jaleca',
-    description: 'Jaleco com elastano 4-6% para mobilidade total em jornadas longas. PP ao G3.',
+    title: 'Jaleco com Elastano — Caimento Premium e Elastano — Jaleca',
+    description: 'Nota 4,9 no Google. Jaleco com elastano — modelagem slim, elastano, PP ao G3. Frete grátis Sudeste acima de R$499.',
     url: 'https://jaleca.com.br/jaleco-com-elastano',
     siteName: 'Jaleca',
     locale: 'pt_BR',
     type: 'article',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Jaleco com Elastano — Caimento Premium — Jaleca',
+    description: 'Jaleco com elastano. Elastano, modelagem slim, do PP ao G3. Frete grátis Sudeste.',
   },
 }
 

@@ -14,13 +14,13 @@ import UGCSection from '@/components/UGCSection'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Jaleco Feminino: Modelos Elegantes para Médica, Dentista e Enfermeira',
-  description: 'Jaleco feminino com corte real para o corpo: Slim, Princesa, Elegante e Elastex. Do PP ao G3, 12 cores, entrega rápida. Onde comprar jaleco feminino de qualidade.',
+  title: { absolute: 'Jaleco Feminino com Caimento Premium — Jaleca' },
+  description: 'Nota 4,9 no Google. Jaleco feminino com elastano bidirecional, modelagem slim, PP ao G3. Frete grátis Sudeste acima de R$499. Troca em 7 dias.',
   keywords: 'jaleco feminino, jaleco feminino elegante, modelo de jaleco feminino, modelos de jalecos femininos, jaleco de médica, jaleco feminino onde comprar, jalecos femininos elegantes, modelo jaleco feminino',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-feminino' },
   openGraph: {
-    title: 'Jaleco Feminino: Modelos Elegantes para Médica, Dentista e Enfermeira | Jaleca',
-    description: 'Jaleco feminino Slim, Princesa e Elastex. Do PP ao G3, 12 cores. Onde comprar jaleco feminino de qualidade com entrega rápida para todo o Brasil.',
+    title: 'Jaleco Feminino — Caimento Premium e Elastano — Jaleca',
+    description: 'Nota 4,9 no Google. Jaleco feminino — modelagem slim, elastano, PP ao G3. Frete grátis Sudeste acima de R$499.',
     url: 'https://jaleca.com.br/jaleco-feminino',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -28,8 +28,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Jaleco Feminino: Modelos Elegantes | Jaleca',
-    description: 'Jaleco feminino Slim, Princesa e Elastex. Do PP ao G3, 12 cores. Onde comprar com entrega rápida.',
+    title: 'Jaleco Feminino — Caimento Premium — Jaleca',
+    description: 'Jaleco feminino. Elastano, modelagem slim, do PP ao G3. Frete grátis Sudeste.',
     images: ['https://jaleca.com.br/og-home.jpg'],
   },
 }

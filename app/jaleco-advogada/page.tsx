@@ -22,12 +22,12 @@ import { buildHowToSchema, buildOccupationSchema, buildItemListSchema, buildProd
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: { absolute: 'Conjunto para Advogada: Elegância e Autoridade no Direito | Jaleca' },
-  description: 'Conjunto para advogada em tecido premium com caimento impecável. Modelos Executiva, Puff Zíper e Laço do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
+  title: { absolute: 'Jaleco Advogada com Postura Profissional — Jaleca' },
+  description: 'Nota 4,9 no Google. Jaleco para advogadas com caimento alfaiataria, elastano e modelagem slim — PP ao G3. Frete grátis Sudeste acima de R$499.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-advogada' },
   openGraph: {
-    title: 'Conjunto para Advogada | Elegância e Autoridade no Direito — Jaleca',
-    description: 'Qual conjunto usar no tribunal e em audiências? Conjunto premium com caimento impecável e preço justo. Do PP ao G3. Frete grátis.',
+    title: 'Jaleco Advogada — Caimento Alfaiataria, Postura Profissional — Jaleca',
+    description: 'Nota 4,9 no Google. Jaleco para advogadas com elastano, modelagem slim, PP ao G3. Frete grátis Sudeste acima de R$499.',
     url: 'https://jaleca.com.br/jaleco-advogada',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -35,8 +35,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: 'Conjunto para Advogada | Elegância e Autoridade — Jaleca',
-    description: 'Conjunto premium para advogada. Tecido de qualidade, caimento perfeito, preço justo. Do PP ao G3.',
+    title: 'Jaleco Advogada — Postura Profissional — Jaleca',
+    description: 'Jaleco premium para advogadas. Caimento alfaiataria, elastano, do PP ao G3.',
     images: ["https://jaleca.com.br/og-home.jpg"],
   },
 }

@@ -13,16 +13,21 @@ import { buildHowToSchema, buildOccupationSchema, buildItemListSchema, buildProd
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: { absolute: 'Jaleco Branco Profissional — Médico, Enfermeiro e Clínica | Jaleca' },
-  description: 'Jaleco branco profissional com elastano. Para médicos, enfermeiros, dentistas e profissionais de saúde. Tecido que não amarela, caimento impecável. PP ao G3. Frete grátis SP, RJ, MG e ES acima de R$499.',
+  title: { absolute: 'Jaleco Branco com Caimento Premium — Jaleca' },
+  description: 'Nota 4,9 no Google. Jaleco branco com elastano bidirecional, modelagem slim, PP ao G3. Frete grátis Sudeste acima de R$499. Troca em 7 dias.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-branco' },
   openGraph: {
-    title: 'Jaleco Branco Profissional — Médico, Enfermeiro e Clínica',
-    description: 'Jaleco branco profissional com elastano. Para médicos, enfermeiros, dentistas. Tecido que não amarela.',
+    title: 'Jaleco Branco — Caimento Premium e Elastano — Jaleca',
+    description: 'Nota 4,9 no Google. Jaleco branco — modelagem slim, elastano, PP ao G3. Frete grátis Sudeste acima de R$499.',
     url: 'https://jaleca.com.br/jaleco-branco',
     siteName: 'Jaleca',
     locale: 'pt_BR',
     type: 'article',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Jaleco Branco — Caimento Premium — Jaleca',
+    description: 'Jaleco branco. Elastano, modelagem slim, do PP ao G3. Frete grátis Sudeste.',
   },
 }
 

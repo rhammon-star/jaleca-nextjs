@@ -1,27 +1,18 @@
-Data: 2026-05-18 15:30
-Tarefa: SEO Schema (item #4) + Sitemap lastmod (item #5)
-
-Arquivos alterados:
-- 71 páginas `app/**/page.tsx` + `components/HubProfissaoTemplate.tsx` + 3 scripts em `scripts/*.mjs` + `app/api/blog/generate/route.ts`: publisher.logo trocado de `logo-email.png` → `logo-jaleca-512.png` + width/height 512
-- `app/sitemap.ts`: pós-processa entries com `getLastMod()` (preserva product/post/KV originais)
-- `lib/route-lastmod.ts`: novo helper URL → Date
-- `lib/route-lastmod-map.json`: novo, 174 rotas com data git
-- `scripts/build-lastmod-map.mjs`: novo, roda no prebuild
-- `scripts/audit-schema-urls.mjs`: novo helper de auditoria
-- `package.json`: adicionado `prebuild`
-- `public/logo-jaleca-{192,512,full}.png`: novos assets institucionais
-
+Data: 2026-05-18
+Tarefa: Padronização de metadata (title/description/OG/Twitter) em 60 LPs em 5 segmentos temáticos
+Arquivos alterados: 60 app/jaleco-{slug}/page.tsx (somente bloco export const metadata)
 O que foi feito:
-- #4 SEO Schema: substituído logo de email pelo logo institucional 512×512 em todas as 95 ocorrências de publisher.logo; auditoria confirmou 0 mismatches em schemaArticle.url
-- #5 Sitemap lastmod: pipeline prebuild gera mapa rota→data-git; sitemap usa data real por arquivo em vez de `new Date()` único
-
+- Removido estrela "⭐" e nº de avaliações das descrições (regra: "Nota X,X no Google" sem estrela e sem #)
+- Trocado separador "|" por "—" (regra: pipe parece IA)
+- 5 templates por segmento: Saúde Clínica (29) / Beleza (5) / Gastronomia (2) / Corporativo (9) / Genérico (15)
+- Preservado: canonical, openGraph.url, twitter.images, siteName, locale, type
+- Schemas JSON-LD (HowTo, Article, Product, Occupation, FAQ) intocados
 Comandos rodados:
-- `node scripts/build-lastmod-map.mjs` → 174 rotas
-- `node scripts/audit-schema-urls.mjs` → OK
-- `npm run build` → sucesso (warnings WP cache não-relacionados)
-
-Resultado: OK — não deployed ainda
-
-Riscos identificados: baixo (schema e sitemap; não toca checkout/pagamento/preço)
-
-Próximo passo: aguardar autorização do usuário para deploy
+- python3 /tmp/apply_meta_jaleca.py --dry
+- python3 /tmp/apply_meta_jaleca.py
+- git diff --stat
+Resultado: OK — 53 via script + 2 Seg 3 + 5 Seg 2 via subagent = 60 LPs
+Riscos identificados:
+- 2 LPs sem bloco twitter no metadata (plus-size, feminino-acinturado) — não é erro, só não tinham o campo
+- Não rodei build/typecheck ainda — recomendar antes do deploy
+Próximo passo: usuário decidir se quer (a) rodar npm run build (b) commitar + deploy preview/prod

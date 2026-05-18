@@ -15,12 +15,12 @@ import { buildHowToSchema, buildOccupationSchema } from '@/lib/profession-schema
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Jaleco Premium: Elegância e Qualidade para Profissionais',
-  description: 'Encontre jaleco premium para medicina, estética e odontologia. Alta costura, conforto superior e exclusividade para seu dia a dia profissional.',
+  title: { absolute: 'Jaleco Premium com Caimento Premium — Jaleca' },
+  description: 'Nota 4,9 no Google. Jaleco premium com elastano bidirecional, modelagem slim, PP ao G3. Frete grátis Sudeste acima de R$499. Troca em 7 dias.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-premium' },
   openGraph: {
-    title: 'Jaleco Premium: Elegância e Qualidade para Profissionais',
-    description: 'O que define um jaleco premium? Tecido, acabamento e corte que fazem diferença na jornada toda.',
+    title: 'Jaleco Premium — Caimento Premium e Elastano — Jaleca',
+    description: 'Nota 4,9 no Google. Jaleco premium — modelagem slim, elastano, PP ao G3. Frete grátis Sudeste acima de R$499.',
     url: 'https://jaleca.com.br/jaleco-premium',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -28,8 +28,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Jaleco Premium: Elegância e Qualidade para Profissionais',
-    description: 'O que define um jaleco premium? Tecido, acabamento e corte que fazem diferença na jornada toda.',
+    title: 'Jaleco Premium — Caimento Premium — Jaleca',
+    description: 'Jaleco premium. Elastano, modelagem slim, do PP ao G3. Frete grátis Sudeste.',
     images: ['https://jaleca.com.br/og-home.jpg'],
   },
 }

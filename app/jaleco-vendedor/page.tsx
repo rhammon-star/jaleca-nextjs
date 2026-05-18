@@ -20,12 +20,12 @@ import { buildHowToSchema, buildOccupationSchema, buildItemListSchema, buildProd
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: { absolute: 'Jaleco para Vendedor: Tecido Premium, Caimento Perfeito | Jaleca' },
-  description: 'Jaleco para Vendedor em tecido premium com caimento perfeito. Modelos Slim e Profissional do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
+  title: { absolute: 'Jaleco Vendedor com Postura Profissional — Jaleca' },
+  description: 'Nota 4,9 no Google. Jaleco para vendedores com caimento alfaiataria, elastano e modelagem slim — PP ao G3. Frete grátis Sudeste acima de R$499.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-vendedor' },
   openGraph: {
-    title: 'Jaleco para Vendedor | Tecido Premium, Caimento Perfeito — Jaleca',
-    description: 'Qual jaleco usar na vendas? Jaleco premium com elastano, caimento impecável e preço justo. Do PP ao G3. Frete grátis.',
+    title: 'Jaleco Vendedor — Caimento Alfaiataria, Postura Profissional — Jaleca',
+    description: 'Nota 4,9 no Google. Jaleco para vendedores com elastano, modelagem slim, PP ao G3. Frete grátis Sudeste acima de R$499.',
     url: 'https://jaleca.com.br/jaleco-vendedor',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -33,8 +33,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: 'Jaleco para Vendedor | Tecido Premium, Caimento Perfeito — Jaleca',
-    description: 'Jaleco premium para vendedor. Tecido de qualidade, caimento perfeito, preço justo. Do PP ao G3.',
+    title: 'Jaleco Vendedor — Postura Profissional — Jaleca',
+    description: 'Jaleco premium para vendedores. Caimento alfaiataria, elastano, do PP ao G3.',
     images: ["https://jaleca.com.br/og-home.jpg"],
   },
 }

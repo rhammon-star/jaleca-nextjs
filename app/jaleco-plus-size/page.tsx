@@ -40,16 +40,21 @@ const breadcrumbSchema = {
 }
 
 export const metadata: Metadata = {
-  title: { absolute: 'Jaleco Plus Size | Tecidos Premium do GG ao G3 — Jaleca' },
-  description: 'Jalecos plus size em tecido premium com caimento perfeito. Tamanhos do GG ao G3. Frete grátis SP/RJ/MG/ES. Jaleca — fabricante com estoque próprio.',
+  title: { absolute: 'Jaleco Plus Size com Caimento Premium — Jaleca' },
+  description: 'Nota 4,9 no Google. Jaleco plus size com elastano bidirecional, modelagem slim, PP ao G3. Frete grátis Sudeste acima de R$499. Troca em 7 dias.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-plus-size' },
   openGraph: {
-    title: 'Jaleco Plus Size | Tecidos Premium do GG ao G3 — Jaleca',
-    description: 'Jalecos plus size em tecido premium com caimento perfeito. Tamanhos do GG ao G3. Frete grátis SP/RJ/MG/ES.',
+    title: 'Jaleco Plus Size — Caimento Premium e Elastano — Jaleca',
+    description: 'Nota 4,9 no Google. Jaleco plus size — modelagem slim, elastano, PP ao G3. Frete grátis Sudeste acima de R$499.',
     url: 'https://jaleca.com.br/jaleco-plus-size',
     siteName: 'Jaleca',
     locale: 'pt_BR',
     type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Jaleco Plus Size — Caimento Premium — Jaleca',
+    description: 'Jaleco plus size. Elastano, modelagem slim, do PP ao G3. Frete grátis Sudeste.',
   },
 }
 

@@ -14,13 +14,13 @@ import { buildHowToSchema, buildOccupationSchema } from '@/lib/profession-schema
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Jaleco Azul Marinho Feminino e Scrub Azul Marinho',
-  description: 'Jaleco azul marinho feminino e scrub feminino azul marinho para profissionais da saúde. Também em azul claro e azul royal. Do PP ao G3, entrega rápida para todo o Brasil.',
+  title: { absolute: 'Jaleco Azul Marinho com Caimento Premium — Jaleca' },
+  description: 'Nota 4,9 no Google. Jaleco azul marinho com elastano bidirecional, modelagem slim, PP ao G3. Frete grátis Sudeste acima de R$499. Troca em 7 dias.',
   keywords: 'jaleco azul marinho feminino, scrub feminino azul marinho, scrub azul marinho, jaleco azul marinho, jaleco azul claro, jalecos azul claro, scrub azul, jaleco azul feminino',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-azul-marinho' },
   openGraph: {
-    title: 'Jaleco Azul Marinho Feminino e Scrub Azul | Jaleca',
-    description: 'Jaleco e scrub feminino em azul marinho e azul claro. Do PP ao G3. Entrega rápida para todo o Brasil.',
+    title: 'Jaleco Azul Marinho — Caimento Premium e Elastano — Jaleca',
+    description: 'Nota 4,9 no Google. Jaleco azul marinho — modelagem slim, elastano, PP ao G3. Frete grátis Sudeste acima de R$499.',
     url: 'https://jaleca.com.br/jaleco-azul-marinho',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -28,8 +28,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Jaleco Azul Marinho Feminino | Jaleca',
-    description: 'Jaleco e scrub feminino em azul marinho e azul claro. Do PP ao G3.',
+    title: 'Jaleco Azul Marinho — Caimento Premium — Jaleca',
+    description: 'Jaleco azul marinho. Elastano, modelagem slim, do PP ao G3. Frete grátis Sudeste.',
     images: ['https://jaleca.com.br/og-home.jpg'],
   },
 }

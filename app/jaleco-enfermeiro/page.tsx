@@ -23,12 +23,12 @@ import { buildHowToSchema, buildOccupationSchema, buildItemListSchema, buildProd
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: { absolute: 'Jaleco de Enfermagem: Elastex para Plantão de 12h | Jaleca' },
-  description: 'Jaleco de enfermagem Elastex com elastano para plantão de 12 horas. Não amassa, seca rápido, bolsos funcionais. PP ao G3. O que o COFEN exige. Frete grátis Sudeste acima de R$499.',
+  title: { absolute: 'Jaleco de Enfermeiro Slim — Feminino e Masculino na Jaleca' },
+  description: 'Nota 4,9 no Google. Jaleco com elastano para enfermeiros — branco, preto e colorido, PP ao G3. Frete grátis Sudeste acima de R$499. Troca em 7 dias.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-enfermagem' },
   openGraph: {
-    title: 'Jaleco de Enfermagem: Elastex para Plantão de 12h | Jaleca',
-    description: 'Jaleco de enfermagem Elastex para plantão. Não amassa, seca rápido, PP ao G3. O que o COFEN exige.',
+    title: 'Jaleco para Enfermeiro — Slim, Branco e Colorido — Jaleca',
+    description: 'Nota 4,9 no Google. Jaleco para enfermeiros com elastano, modelagem slim, PP ao G3. Frete grátis Sudeste acima de R$499.',
     url: 'https://jaleca.com.br/jaleco-enfermeiro',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -36,8 +36,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: 'Jaleco para Enfermeiro | Tecido Premium, Caimento Perfeito — Jaleca',
-    description: 'Jaleco premium para enfermeiro. Tecido de qualidade, caimento perfeito, preço justo. Do PP ao G3.',
+    title: 'Jaleco para Enfermeiro — Tecido Premium, Caimento Perfeito — Jaleca',
+    description: 'Jaleco premium para enfermeiros. Elastano, caimento perfeito, do PP ao G3. Frete grátis Sudeste.',
     images: ["https://jaleca.com.br/og-home.jpg"],
   },
 }

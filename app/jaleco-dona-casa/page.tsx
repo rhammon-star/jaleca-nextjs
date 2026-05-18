@@ -22,12 +22,12 @@ import { buildHowToSchema, buildOccupationSchema, buildItemListSchema, buildProd
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: { absolute: 'Jaleco para Dona de Casa: Praticidade e Proteção no Trabalho Doméstico | Jaleca' },
-  description: 'Jaleco para dona de casa em tecido premium com elastano. Modelo prático e confortável para o trabalho doméstico. Frete grátis SP/RJ/MG/ES.',
+  title: { absolute: 'Jaleco Dona de Casa com Postura Profissional — Jaleca' },
+  description: 'Nota 4,9 no Google. Jaleco para donas de casa com caimento alfaiataria, elastano e modelagem slim — PP ao G3. Frete grátis Sudeste acima de R$499.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-dona-casa' },
   openGraph: {
-    title: 'Jaleco para Dona de Casa | Praticidade e Proteção — Jaleca',
-    description: 'Qual jaleco usar em casa? Jaleco premium com elastano, confortável e prático para o trabalho doméstico. Frete grátis.',
+    title: 'Jaleco Dona de Casa — Caimento Alfaiataria, Postura Profissional — Jaleca',
+    description: 'Nota 4,9 no Google. Jaleco para donas de casa com elastano, modelagem slim, PP ao G3. Frete grátis Sudeste acima de R$499.',
     url: 'https://jaleca.com.br/jaleco-dona-casa',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -35,8 +35,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: 'Jaleco para Dona de Casa | Praticidade e Proteção — Jaleca',
-    description: 'Jaleco premium para dona de casa. Tecido de qualidade, conforto, preço justo. Frete grátis.',
+    title: 'Jaleco Dona de Casa — Postura Profissional — Jaleca',
+    description: 'Jaleco premium para donas de casa. Caimento alfaiataria, elastano, do PP ao G3.',
     images: ["https://jaleca.com.br/og-home.jpg"],
   },
 }

@@ -22,12 +22,12 @@ import { buildHowToSchema, buildOccupationSchema, buildItemListSchema, buildProd
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: { absolute: 'Jaleco para Biomédico: Norma ANVISA, Slim PP ao G3 — 4.9★ | Jaleca' },
-  description: 'Jaleco biomédico Slim com elastano para laboratório e harmonização. Nota 4.9★ no Google · 61 avaliações. O que a ANVISA exige. PP ao G3. Frete grátis SP/RJ/MG/ES acima de R$499.',
+  title: { absolute: 'Jaleco de Biomédico Slim — Feminino e Masculino na Jaleca' },
+  description: 'Nota 4,9 no Google. Jaleco com elastano para biomédicos — branco, preto e colorido, PP ao G3. Frete grátis Sudeste acima de R$499. Troca em 7 dias.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-biomedico' },
   openGraph: {
-    title: 'Jaleco para Biomédico | Norma ANVISA e Conforto — Jaleca',
-    description: 'Qual jaleco usar no laboratório biomédico? Jaleco premium com elastano, caimento impecável e conformidade com normas. Do PP ao G3.',
+    title: 'Jaleco para Biomédico — Slim, Branco e Colorido — Jaleca',
+    description: 'Nota 4,9 no Google. Jaleco para biomédicos com elastano, modelagem slim, PP ao G3. Frete grátis Sudeste acima de R$499.',
     url: 'https://jaleca.com.br/jaleco-biomedico',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -35,8 +35,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: 'Jaleco para Biomédico | Norma ANVISA e Conforto — Jaleca',
-    description: 'Jaleco premium para biomédico. Tecido de qualidade, caimento perfeito, conformidade com normas do CFM e ANVISA.',
+    title: 'Jaleco para Biomédico — Tecido Premium, Caimento Perfeito — Jaleca',
+    description: 'Jaleco premium para biomédicos. Elastano, caimento perfeito, do PP ao G3. Frete grátis Sudeste.',
     images: ["https://jaleca.com.br/og-home.jpg"],
   },
 }

@@ -14,16 +14,21 @@ import { buildHowToSchema, buildOccupationSchema } from '@/lib/profession-schema
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Jaleco Preto: Feminino e Masculino para Profissionais',
-  description: 'Jaleco preto masculino e feminino para estética, barbearia, gastronomia e clínicas. Tecido que não desbota, com elastano. PP ao G3. Frete grátis SP/RJ/MG/ES acima de R$499.',
+  title: { absolute: 'Jaleco Preto com Caimento Premium — Jaleca' },
+  description: 'Nota 4,9 no Google. Jaleco preto com elastano bidirecional, modelagem slim, PP ao G3. Frete grátis Sudeste acima de R$499. Troca em 7 dias.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-preto' },
   openGraph: {
-    title: 'Jaleco Preto Profissional — Estética, Barbeiro e Chef',
-    description: 'Jaleco preto para esteticistas, cabeleireiros, tatuadores e chefs. Tecido que não desbota, confortável.',
+    title: 'Jaleco Preto — Caimento Premium e Elastano — Jaleca',
+    description: 'Nota 4,9 no Google. Jaleco preto — modelagem slim, elastano, PP ao G3. Frete grátis Sudeste acima de R$499.',
     url: 'https://jaleca.com.br/jaleco-preto',
     siteName: 'Jaleca',
     locale: 'pt_BR',
     type: 'article',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Jaleco Preto — Caimento Premium — Jaleca',
+    description: 'Jaleco preto. Elastano, modelagem slim, do PP ao G3. Frete grátis Sudeste.',
   },
 }
 

@@ -14,12 +14,12 @@ import { buildHowToSchema, buildOccupationSchema } from '@/lib/profession-schema
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Jaleco para Pediatra: Colorido, Acolhedor e Profissional',
-  description: 'Jaleco para pediatra em cores alegres que acalmam crianças. Modelos femininos e masculinos, Slim e Profissional, PP ao G3. Tecido macio e lavável. Frete grátis SP/RJ/MG/ES.',
+  title: { absolute: 'Jaleco de Pediatra Slim — Feminino e Masculino na Jaleca' },
+  description: 'Nota 4,9 no Google. Jaleco com elastano para pediatras — branco, preto e colorido, PP ao G3. Frete grátis Sudeste acima de R$499. Troca em 7 dias.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-pediatra' },
   openGraph: {
-    title: 'Jaleco para Pediatra: Colorido, Acolhedor e Profissional | Jaleca',
-    description: 'Jaleco para pediatra em cores que acalmam crianças. Feminino e masculino, PP ao G3. Frete grátis Sudeste.',
+    title: 'Jaleco para Pediatra — Slim, Branco e Colorido — Jaleca',
+    description: 'Nota 4,9 no Google. Jaleco para pediatras com elastano, modelagem slim, PP ao G3. Frete grátis Sudeste acima de R$499.',
     url: 'https://jaleca.com.br/jaleco-pediatra',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -27,8 +27,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Jaleco para Pediatra | Jaleca',
-    description: 'Jaleco para pediatra colorido e profissional. PP ao G3. Frete grátis Sudeste.',
+    title: 'Jaleco para Pediatra — Tecido Premium, Caimento Perfeito — Jaleca',
+    description: 'Jaleco premium para pediatras. Elastano, caimento perfeito, do PP ao G3. Frete grátis Sudeste.',
     images: ['https://jaleca.com.br/og-home.jpg'],
   },
 }

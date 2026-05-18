@@ -22,12 +22,12 @@ import { buildHowToSchema, buildOccupationSchema, buildItemListSchema, buildProd
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: { absolute: 'Jaleco Universitario — Conforto e Profissionalismo para a Vida Academica | Jaleca' },
-  description: 'Jaleco universitario em tecido premium com caimento perfeito. Modelos do PP ao G3. Frete gratis SP/RJ/MG/ES. Jaleca — fabricante com estoque proprio.',
+  title: { absolute: 'Jaleco Universitário com Postura Profissional — Jaleca' },
+  description: 'Nota 4,9 no Google. Jaleco para universitários com caimento alfaiataria, elastano e modelagem slim — PP ao G3. Frete grátis Sudeste acima de R$499.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-universitario' },
   openGraph: {
-    title: 'Jaleco Universitario — Conforto e Profissionalismo para a Vida Academica — Jaleca',
-    description: 'Qual jaleco comprar para a faculdade? Tecido premium com elastano, caimento impecavel e preco justo. Do PP ao G3. Frete gratis.',
+    title: 'Jaleco Universitário — Caimento Alfaiataria, Postura Profissional — Jaleca',
+    description: 'Nota 4,9 no Google. Jaleco para universitários com elastano, modelagem slim, PP ao G3. Frete grátis Sudeste acima de R$499.',
     url: 'https://jaleca.com.br/jaleco-universitario',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -35,8 +35,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: 'Jaleco Universitario — Conforto e Profissionalismo para a Vida Academica — Jaleca',
-    description: 'Jaleco universitario premium. Tecido de qualidade, caimento perfeito, preco justo. Do PP ao G3.',
+    title: 'Jaleco Universitário — Postura Profissional — Jaleca',
+    description: 'Jaleco premium para universitários. Caimento alfaiataria, elastano, do PP ao G3.',
     images: ["https://jaleca.com.br/og-home.jpg"],
   },
 }

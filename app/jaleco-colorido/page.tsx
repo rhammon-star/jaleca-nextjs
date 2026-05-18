@@ -15,12 +15,12 @@ import { buildHowToSchema, buildOccupationSchema } from '@/lib/profession-schema
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Jaleco Colorido: 12 Cores para Saúde e Estética',
-  description: 'Jaleco colorido para nutricionista, fisioterapeuta, esteticista e pediatra. 12 cores: rosa, lilás, verde, azul, areia e mais. Do PP ao G3 com elastano. Frete grátis Sudeste.',
+  title: { absolute: 'Jaleco Colorido com Caimento Premium — Jaleca' },
+  description: 'Nota 4,9 no Google. Jaleco colorido com elastano bidirecional, modelagem slim, PP ao G3. Frete grátis Sudeste acima de R$499. Troca em 7 dias.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-colorido' },
   openGraph: {
-    title: 'Jaleco Colorido: 12 Cores para Saúde e Estética',
-    description: 'Jaleco colorido para nutricionista, fisioterapeuta, esteticista e pediatra. 12 cores do PP ao G3.',
+    title: 'Jaleco Colorido — Caimento Premium e Elastano — Jaleca',
+    description: 'Nota 4,9 no Google. Jaleco colorido — modelagem slim, elastano, PP ao G3. Frete grátis Sudeste acima de R$499.',
     url: 'https://jaleca.com.br/jaleco-colorido',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -28,8 +28,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Jaleco Colorido: 12 Cores para Saúde e Estética',
-    description: 'Jaleco colorido 12 cores do PP ao G3.',
+    title: 'Jaleco Colorido — Caimento Premium — Jaleca',
+    description: 'Jaleco colorido. Elastano, modelagem slim, do PP ao G3. Frete grátis Sudeste.',
     images: ['https://jaleca.com.br/og-home.jpg'],
   },
 }

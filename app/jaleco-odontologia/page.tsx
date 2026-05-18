@@ -22,12 +22,12 @@ import { buildHowToSchema, buildOccupationSchema, buildItemListSchema, buildProd
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Jaleco para Odontologia: Tecido que Aguenta Cloro',
-  description: 'Jaleco para Odontologia com tecido resistente a químicos e cloro. Modelos Slim e Profissional do PP ao G3. Frete grátis SP/RJ/MG/ES.',
+  title: { absolute: 'Jaleco de Odontologia Slim — Feminino e Masculino na Jaleca' },
+  description: 'Nota 4,9 no Google. Jaleco com elastano para dentistas — branco, preto e colorido, PP ao G3. Frete grátis Sudeste acima de R$499. Troca em 7 dias.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-odontologia' },
   openGraph: {
-    title: 'Jaleco para Odontologia: Tecido que Aguenta Cloro',
-    description: 'Jaleco para Odontologia com tecido resistente a químicos e cloro. Modelos Slim e Profissional do PP ao G3. Frete grátis SP/RJ/MG/ES.',
+    title: 'Jaleco para Odontologia — Slim, Branco e Colorido — Jaleca',
+    description: 'Nota 4,9 no Google. Jaleco para dentistas com elastano, modelagem slim, PP ao G3. Frete grátis Sudeste acima de R$499.',
     url: 'https://jaleca.com.br/jaleco-odontologia',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -35,8 +35,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: 'Jaleco para Odontologia: Tecido que Aguenta Cloro',
-    description: 'Jaleco para Odontologia com tecido resistente a químicos e cloro. Modelos Slim e Profissional do PP ao G3. Frete grátis SP/RJ/MG/ES.',
+    title: 'Jaleco para Odontologia — Tecido Premium, Caimento Perfeito — Jaleca',
+    description: 'Jaleco premium para dentistas. Elastano, caimento perfeito, do PP ao G3. Frete grátis Sudeste.',
     images: ["https://jaleca.com.br/og-home.jpg"],
   },
 }

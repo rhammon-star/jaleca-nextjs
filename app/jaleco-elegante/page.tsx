@@ -14,13 +14,13 @@ import { buildHowToSchema, buildOccupationSchema } from '@/lib/profession-schema
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Jaleco Elegante e de Alfaiataria para Médica e Dentista',
-  description: 'Jalecos elegantes femininos em alfaiataria premium: Slim acinturado, Duquesa manga longa e acabamentos sofisticados. Para médicas, dentistas e profissionais que querem beleza e autoridade.',
+  title: { absolute: 'Jaleco Elegante com Caimento Premium — Jaleca' },
+  description: 'Nota 4,9 no Google. Jaleco elegante com elastano bidirecional, modelagem slim, PP ao G3. Frete grátis Sudeste acima de R$499. Troca em 7 dias.',
   keywords: 'jaleco elegante, jaleco feminino elegante, jalecos femininos elegantes, jalecos alfaiataria, jalecos luxo, jaleco premium, jaleco sofisticado, jaleco médica elegante',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-elegante' },
   openGraph: {
-    title: 'Jaleco Elegante Feminino — Alfaiataria e Premium | Jaleca',
-    description: 'Jalecos elegantes em alfaiataria premium para médicas e dentistas. Slim acinturado e Duquesa manga longa — autoridade e sofisticação no consultório.',
+    title: 'Jaleco Elegante — Caimento Premium e Elastano — Jaleca',
+    description: 'Nota 4,9 no Google. Jaleco elegante — modelagem slim, elastano, PP ao G3. Frete grátis Sudeste acima de R$499.',
     url: 'https://jaleca.com.br/jaleco-elegante',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -28,8 +28,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Jaleco Elegante Feminino | Jaleca',
-    description: 'Jalecos elegantes em alfaiataria premium para profissionais da saúde.',
+    title: 'Jaleco Elegante — Caimento Premium — Jaleca',
+    description: 'Jaleco elegante. Elastano, modelagem slim, do PP ao G3. Frete grátis Sudeste.',
     images: ['https://jaleca.com.br/og-home.jpg'],
   },
 }

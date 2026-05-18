@@ -14,12 +14,12 @@ import UGCSection from '@/components/UGCSection'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Jaleco para Dentista Feminino: NR-32, Cores e Modelos 2026',
-  description: 'Jaleco dentista feminino com manga longa NR-32. Branco clássico ou pastéis para harmonização facial. Elastano, antimicrobiano e molde próprio do PP ao G3. Frete grátis Sudeste.',
+  title: { absolute: 'Jaleco de Dentista Feminino Slim — Feminino e Masculino na Jaleca' },
+  description: 'Nota 4,9 no Google. Jaleco com elastano para dentistas — branco, preto e colorido, PP ao G3. Frete grátis Sudeste acima de R$499. Troca em 7 dias.',
   alternates: { canonical: 'https://jaleca.com.br/jaleco-dentista-feminino' },
   openGraph: {
-    title: 'Jaleco para Dentista Feminino: NR-32, Cores e Modelos 2026',
-    description: 'Jaleco dentista feminino com manga longa NR-32. Elastano, antimicrobiano e molde próprio do PP ao G3.',
+    title: 'Jaleco para Dentista Feminino — Slim, Branco e Colorido — Jaleca',
+    description: 'Nota 4,9 no Google. Jaleco para dentistas com elastano, modelagem slim, PP ao G3. Frete grátis Sudeste acima de R$499.',
     url: 'https://jaleca.com.br/jaleco-dentista-feminino',
     siteName: 'Jaleca',
     locale: 'pt_BR',
@@ -27,8 +27,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Jaleco para Dentista Feminino: NR-32, Cores e Modelos 2026',
-    description: 'Jaleco dentista feminino com manga longa NR-32. Do PP ao G3.',
+    title: 'Jaleco para Dentista Feminino — Tecido Premium, Caimento Perfeito — Jaleca',
+    description: 'Jaleco premium para dentistas. Elastano, caimento perfeito, do PP ao G3. Frete grátis Sudeste.',
     images: ['https://jaleca.com.br/og-home.jpg'],
   },
 }
