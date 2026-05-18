@@ -151,7 +151,47 @@ export default async function Page() {
     },
     url: 'https://jaleca.com.br/jaleco-feminino',
     datePublished: '2026-04-21',
-    dateModified: '2026-04-30',
+    dateModified: new Date().toISOString().split('T')[0],
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['[data-speakable]'],
+    },
+    mentions: [
+      { '@type': 'Thing', name: 'CFM (Conselho Federal de Medicina)' },
+      { '@type': 'Thing', name: 'COFEN (Conselho Federal de Enfermagem)' },
+      { '@type': 'Thing', name: 'ABNT NBR 16064 — Uniforme profissional' },
+      { '@type': 'Thing', name: 'Elastano (Spandex)' },
+      { '@type': 'Thing', name: 'Gabardine poliéster-viscose' },
+      { '@type': 'Thing', name: 'Microfibra' },
+      { '@type': 'Thing', name: 'DWR (Durable Water Repellent)' },
+    ],
+  }
+
+  const schemaProduct = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: 'Jaleco Feminino — Slim, Princesa, Elastex e Plus Size',
+    description: 'Jaleco feminino premium com elastano, modelagem própria para o corpo feminino. Grade do PP ao G3, 12 cores. Tecido gabardine ou microfibra.',
+    brand: { '@type': 'Brand', name: 'Jaleca' },
+    category: 'Uniforme profissional > Jaleco feminino',
+    image: 'https://jaleca.com.br/og-home.jpg',
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: placeData?.rating ?? 4.9,
+      reviewCount: placeData?.reviewCount ?? 61,
+      bestRating: 5,
+      worstRating: 1,
+    },
+    offers: {
+      '@type': 'AggregateOffer',
+      priceCurrency: 'BRL',
+      lowPrice: '189.00',
+      highPrice: '349.00',
+      offerCount: 12,
+      availability: 'https://schema.org/InStock',
+      url: 'https://jaleca.com.br/jaleco-feminino',
+      seller: { '@type': 'Organization', name: 'Jaleca' },
+    },
   }
 
   const schemaAggregateRating = {
@@ -197,6 +237,7 @@ export default async function Page() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaFaq).replace(/</g, '\\u003c') }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaArticle).replace(/</g, '\\u003c') }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaProduct).replace(/</g, '\\u003c') }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaAggregateRating).replace(/</g, '\\u003c') }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(modelosItemListSchema).replace(/</g, '\\u003c') }} />
@@ -221,6 +262,16 @@ export default async function Page() {
             ))}
           </ol>
         </div>
+
+        {/* ── ⓪ RESPOSTA DIRETA (AEO/IEO — extractive snippet) ── */}
+        <section data-speakable aria-label="Resposta direta" style={{ background: '#fff', borderBottom: '1px solid #f0ece5', padding: 'clamp(1.25rem,3vw,2rem) clamp(1.5rem,5vw,4rem)' }}>
+          <div style={{ maxWidth: 900, margin: '0 auto' }}>
+            <div style={{ fontSize: '0.68rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c8a96e', marginBottom: '0.5rem', fontWeight: 500 }}>Resposta rápida</div>
+            <p style={{ fontSize: 'clamp(0.95rem,1.5vw,1.05rem)', color: '#1a1a1a', lineHeight: 1.65, margin: 0, fontWeight: 400 }}>
+              <strong>Jaleco feminino</strong> é a peça profissional desenhada com modelagem específica para o corpo feminino — recortes laterais, pences nas costas e grade própria do PP ao G3. Na <strong>Jaleca</strong>, o jaleco feminino é fabricado em gabardine ou microfibra com elastano bidirecional, com 3 modelagens (Slim, Princesa, Elastex) e 12 cores. Preço a partir de R$ 189, frete grátis Sudeste acima de R$ 499, troca em 7 dias. Mais de 200 mil peças entregues e <strong>nota 4,9 no Google</strong>.
+            </p>
+          </div>
+        </section>
 
         {/* ── ① HERO COMMERCIAL ── */}
         <HeroCommercial
