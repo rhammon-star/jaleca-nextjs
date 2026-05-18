@@ -8,10 +8,12 @@ export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
 type Img = { sourceUrl?: string; altText?: string }
+type Attribute = { name?: string; value?: string }
 type Variation = {
   price?: string
   regularPrice?: string
   image?: Img
+  attributes?: { nodes?: Attribute[] }
 }
 type ProductData = {
   name?: string
@@ -42,6 +44,7 @@ const OG_QUERY = `
             price
             regularPrice
             image { sourceUrl }
+            attributes { nodes { name value } }
           }
         }
       }
@@ -73,8 +76,29 @@ function lowestPrice(product: ProductData): number | undefined {
   return parsePrice(product.price) ?? parsePrice(product.regularPrice)
 }
 
+function norm(s?: string): string {
+  return (s ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim()
+}
+
+function findWhiteVariationImage(product: ProductData): string | undefined {
+  const whiteTokens = new Set(['branco', 'branca', 'white'])
+  for (const v of product.variations?.nodes ?? []) {
+    const attrs = v.attributes?.nodes ?? []
+    const hasCorAttr = attrs.some(a => {
+      const n = norm(a.name)
+      const val = norm(a.value)
+      return (n.includes('cor') || n === 'pa_cor' || n === 'color') && whiteTokens.has(val)
+    })
+    if (hasCorAttr && v.image?.sourceUrl) return v.image.sourceUrl
+  }
+  return undefined
+}
+
 function pickImage(product: ProductData): string | undefined {
+  // Sempre prioriza a variação branca, se existir — miniatura compartilhada uniforme
+  const white = findWhiteVariationImage(product)
   const candidates: string[] = []
+  if (white) candidates.push(white)
   if (product.image?.sourceUrl) candidates.push(product.image.sourceUrl)
   for (const g of product.galleryImages?.nodes ?? []) {
     if (g.sourceUrl) candidates.push(g.sourceUrl)
@@ -83,6 +107,8 @@ function pickImage(product: ProductData): string | undefined {
     if (v.image?.sourceUrl) candidates.push(v.image.sourceUrl)
   }
   // next/og (Satori) é mais estável com JPG/PNG do que WebP — prefere não-webp
+  // (mas mantém a branca no topo mesmo se for webp)
+  if (white) return white
   const nonWebp = candidates.find((u) => !/\.webp(\?|$)/i.test(u))
   return nonWebp ?? candidates[0]
 }
