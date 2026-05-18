@@ -243,6 +243,16 @@ async function _getKVVariants(
           variantImage = { sourceUrl: entry.imageUrl, altText: `${entry.productName} ${entry.colorName}` }
         }
 
+        // Skip órfão sem imagem — evita card "Sem imagem" no grid
+        if (!variantImage?.sourceUrl) {
+          const galleryFallback = parent?.galleryImages?.nodes?.find(n => n?.sourceUrl)
+          if (galleryFallback) {
+            variantImage = galleryFallback
+          } else {
+            continue
+          }
+        }
+
         const categories = parent?.productCategories?.nodes ?? [
           { name: entry.category, slug: entry.category }
         ]

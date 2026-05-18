@@ -31,6 +31,12 @@ export const GET_PRODUCTS = `
             sourceUrl
             altText
           }
+          galleryImages {
+            nodes {
+              sourceUrl
+              altText
+            }
+          }
           attributes {
             nodes {
               name
@@ -45,6 +51,12 @@ export const GET_PRODUCTS = `
           image {
             sourceUrl
             altText
+          }
+          galleryImages {
+            nodes {
+              sourceUrl
+              altText
+            }
           }
           attributes {
             nodes {
@@ -109,6 +121,12 @@ export const GET_PRODUCTS_LISTING = `
             sourceUrl
             altText
           }
+          galleryImages {
+            nodes {
+              sourceUrl
+              altText
+            }
+          }
           attributes {
             nodes {
               name
@@ -123,6 +141,12 @@ export const GET_PRODUCTS_LISTING = `
           image {
             sourceUrl
             altText
+          }
+          galleryImages {
+            nodes {
+              sourceUrl
+              altText
+            }
           }
           attributes {
             nodes {

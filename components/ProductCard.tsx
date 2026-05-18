@@ -67,7 +67,11 @@ const ProductCard = ({ product, colorFilter, priority }: { product: WooProduct; 
   // Prefer variation image: by color filter, or single-variation product (desmembrado por cor)
   const colorVariationImage = getColorVariationImage(variations, colorFilter ?? null);
   const singleVariationImage = !colorVariationImage && variations.length === 1 ? variations[0].image : null;
-  const mainImage = colorVariationImage ?? singleVariationImage ?? product.image;
+  // Fallbacks quando o produto não tem featured image setada no WP:
+  // 1ª variação com imagem → 1ª gallery image
+  const anyVariationImage = variations.find(v => v.image?.sourceUrl)?.image ?? null;
+  const firstGalleryImage = product.galleryImages?.nodes?.find(n => n?.sourceUrl) ?? null;
+  const mainImage = colorVariationImage ?? singleVariationImage ?? (product.image?.sourceUrl ? product.image : null) ?? anyVariationImage ?? firstGalleryImage;
 
   // Calculate discount % (only when all variants are on sale)
   const discount = isOnSale && product.regularPrice && product.salePrice
