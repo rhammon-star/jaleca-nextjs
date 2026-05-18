@@ -155,8 +155,8 @@ export default async function JalecoPlusSizePage() {
 
             {produtos.length > 0 ? (
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-10">
-                {produtos.map(product => (
-                  <ProductCard key={product.id} product={product} />
+                {produtos.map((product, i) => (
+                  <ProductCard key={product.id} product={product} priority={i < 2} />
                 ))}
               </div>
             ) : (
