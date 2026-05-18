@@ -66,7 +66,7 @@ const organizationSchema = {
   '@type': 'Organization',
   name: 'Jaleca Uniformes Profissionais',
   url: 'https://jaleca.com.br',
-  logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' },
+  logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-jaleca-512.png', width: 512, height: 512 },
   description: 'Fabricante de jalecos profissionais com produção própria em Londrina/PR. Atacado e varejo, do PP ao G3.',
   foundingLocation: { '@type': 'Place', name: 'Londrina, Paraná, Brasil' },
   areaServed: 'Brasil',

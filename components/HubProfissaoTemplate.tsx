@@ -185,7 +185,7 @@ export default async function HubProfissaoTemplate({ profissao }: { profissao: s
     publisher: {
       '@type': 'Organization',
       name: 'Jaleca',
-      logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' },
+      logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-jaleca-512.png', width: 512, height: 512 },
     },
     url: `https://jaleca.com.br/${pageUrl}`,
     datePublished: '2026-04-18',

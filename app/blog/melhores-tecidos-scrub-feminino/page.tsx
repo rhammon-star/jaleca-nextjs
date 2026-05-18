@@ -55,7 +55,7 @@ const articleSchema = {
   headline: 'Melhores Tecidos para Scrub Feminino: Conforto e Durabilidade',
   description: 'Guia completo sobre os melhores tecidos para scrub feminino.',
   author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
-  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
+  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-jaleca-512.png', width: 512, height: 512 } },
   url: 'https://jaleca.com.br/blog/melhores-tecidos-scrub-feminino',
   datePublished: '2026-04-30',
   dateModified: '2026-04-30',

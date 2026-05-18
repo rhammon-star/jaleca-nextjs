@@ -1,29 +1,27 @@
-Data: 2026-05-18 15:00
-Tarefa: GSC fixes + LCP audit completo (cidades + 50 LPs profissão)
+Data: 2026-05-18 15:30
+Tarefa: SEO Schema (item #4) + Sitemap lastmod (item #5)
 
-Arquivos alterados (~55):
-- app/cidade/[slug]/page.tsx — Product image no JSON-LD + hero <Image fill priority>
-- next.config.ts — 301 /scrub-masculino, remotePatterns wikimedia
-- app/robots.ts — disallow opengraph/twitter-image
-- 50 app/<profissao>/page.tsx — primeiros 2 ProductCards com priority
+Arquivos alterados:
+- 71 páginas `app/**/page.tsx` + `components/HubProfissaoTemplate.tsx` + 3 scripts em `scripts/*.mjs` + `app/api/blog/generate/route.ts`: publisher.logo trocado de `logo-email.png` → `logo-jaleca-512.png` + width/height 512
+- `app/sitemap.ts`: pós-processa entries com `getLastMod()` (preserva product/post/KV originais)
+- `lib/route-lastmod.ts`: novo helper URL → Date
+- `lib/route-lastmod-map.json`: novo, 174 rotas com data git
+- `scripts/build-lastmod-map.mjs`: novo, roda no prebuild
+- `scripts/audit-schema-urls.mjs`: novo helper de auditoria
+- `package.json`: adicionado `prebuild`
+- `public/logo-jaleca-{192,512,full}.png`: novos assets institucionais
 
-Diagnóstico Lighthouse real (jaleco-medico mobile):
-- LCP: 6.9s (crítico, era 3.5s no GSC)
-- FCP 1.3s, Speed Index 1.6s, TTFB 20ms — todos ótimos
-- CLS 0, TBT 370ms
-- Causa: ProductCards no grid abaixo do hero NÃO tinham priority → primeiros 2 lazy-loaded → LCP element não estabilizava
-- Outras oportunidades: 770ms unused JS (GTM/Meta Pixel já em lazyOnload)
+O que foi feito:
+- #4 SEO Schema: substituído logo de email pelo logo institucional 512×512 em todas as 95 ocorrências de publisher.logo; auditoria confirmou 0 mismatches em schemaArticle.url
+- #5 Sitemap lastmod: pipeline prebuild gera mapa rota→data-git; sitemap usa data real por arquivo em vez de `new Date()` único
 
-Fix LCP aplicado:
-- Padrão {produtos.slice(0, N).map((product, i) => <ProductCard ... priority={i < 2} />)} em 50 LPs
-- Cidades: hero CSS-bg → next/image fill priority (Wikipedia 3840px → AVIF otimizado)
+Comandos rodados:
+- `node scripts/build-lastmod-map.mjs` → 174 rotas
+- `node scripts/audit-schema-urls.mjs` → OK
+- `npm run build` → sucesso (warnings WP cache não-relacionados)
 
-Esperado:
-- LCP cidades: 3.5s → ~1.5s
-- LCP LPs profissão: 6.9s → ~2s
-- Score Lighthouse: 67 → 85+
+Resultado: OK — não deployed ainda
 
-Comandos rodados: npx tsc --noEmit (OK)
-Resultado: OK — pronto para commit + deploy + nova medição
-Riscos: baixo (mudanças cirúrgicas, zero refactor)
-Próximo passo: commit + deploy + medir novamente
+Riscos identificados: baixo (schema e sitemap; não toca checkout/pagamento/preço)
+
+Próximo passo: aguardar autorização do usuário para deploy

@@ -83,7 +83,7 @@ export default async function Page() {
     headline: 'Loja de Jaleco Online — Jalecos para Profissionais de Saúde e Beleza',
     description: 'Guia da loja de jaleco online. Tecidos premium, corte feminino real, grade do PP ao G3. Frete grátis SP, RJ, MG e ES acima de R$499.',
     author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
-    publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
+    publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-jaleca-512.png', width: 512, height: 512 } },
     url: 'https://jaleca.com.br/loja-jaleco',
     datePublished: '2026-04-10',
     dateModified: '2026-04-24',

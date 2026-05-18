@@ -75,7 +75,7 @@ const schemaArticle = {
   headline: 'Jaleco de Enfermagem: Elastex para Plantão de 12 Horas',
   description: 'Jaleco de enfermagem Elastex para plantão. Não amassa, seca rápido, bolsos funcionais, PP ao G3. O que o COFEN exige.',
   author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
-  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
+  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-jaleca-512.png', width: 512, height: 512 } },
   url: 'https://jaleca.com.br/jaleco-enfermeiro',
   datePublished: '2026-04-18',
   dateModified: '2026-04-21',

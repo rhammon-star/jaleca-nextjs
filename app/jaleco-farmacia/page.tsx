@@ -74,7 +74,7 @@ const schemaArticle = {
   headline: 'Jaleco para Farmácia: Visual Profissional e Confiança | Jaleca',
   description: 'Jaleco para Farmácia em tecido premium. Modelagem que transmite confiança ao cliente. Do PP ao G3. Frete grátis SP/RJ/MG/ES.',
   author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
-  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
+  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-jaleca-512.png', width: 512, height: 512 } },
   url: 'https://jaleca.com.br/jaleco-farmacia',
   datePublished: '2026-04-18',
   dateModified: '2026-04-21',

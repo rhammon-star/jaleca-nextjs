@@ -25,7 +25,7 @@ const articleSchema = {
   headline: cluster.pillarTitle,
   description: cluster.pillarDescription,
   author: { '@type': 'Organization', name: 'Jaleca', url: 'https://jaleca.com.br' },
-  publisher: { '@type': 'Organization', name: 'Jaleca', url: 'https://jaleca.com.br', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
+  publisher: { '@type': 'Organization', name: 'Jaleca', url: 'https://jaleca.com.br', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-jaleca-512.png', width: 512, height: 512 } },
   datePublished: '2026-05-09',
   dateModified: '2026-05-09',
   url: `https://jaleca.com.br/blog/${cluster.pillarSlug}`,

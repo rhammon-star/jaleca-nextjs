@@ -74,7 +74,7 @@ const schemaArticle = {
   headline: 'Jaleco para Enfermagem — Conforto e Mobilidade para a Rotina Hospitalar',
   description: 'Guia completo do jaleco para enfermagem: melhor tecido, elastano, Bolsos funcionais, mobilidade e como escolher o modelo ideal.',
   author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
-  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
+  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-jaleca-512.png', width: 512, height: 512 } },
   url: 'https://jaleca.com.br/jaleco-enfermagem',
   datePublished: '2026-04-24',
   dateModified: '2026-04-24',

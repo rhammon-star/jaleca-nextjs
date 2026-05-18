@@ -55,7 +55,7 @@ const articleSchema = {
   headline: 'Pijama Cirúrgico: Guia Completo para Profissionais de Saúde',
   description: 'Guia completo sobre pijama cirúrgico: tecidos, modelagens e como escolher o scrub ideal.',
   author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
-  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
+  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-jaleca-512.png', width: 512, height: 512 } },
   url: 'https://jaleca.com.br/blog/pijama-cirurgico-guia-completo',
   datePublished: '2026-04-28',
   dateModified: '2026-04-28',

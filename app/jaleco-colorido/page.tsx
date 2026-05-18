@@ -102,7 +102,7 @@ export default async function Page() {
     headline: 'Jaleco Colorido: 12 Cores para Saúde e Estética',
     description: 'Guia de jaleco colorido — cores por profissão, cuidados e como escolher para identidade visual da clínica.',
     author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
-    publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
+    publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-jaleca-512.png', width: 512, height: 512 } },
     url: 'https://jaleca.com.br/jaleco-colorido',
     datePublished: '2026-04-22',
     dateModified: '2026-04-22',

@@ -55,7 +55,7 @@ const articleSchema = {
   headline: 'Como Cuidar do Seu Scrub Feminino: Lavagem e Conservação',
   description: 'Guia prático de cuidados para prolongar a vida útil do seu scrub feminino.',
   author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
-  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
+  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-jaleca-512.png', width: 512, height: 512 } },
   url: 'https://jaleca.com.br/blog/como-cuidar-scrub-feminino',
   datePublished: '2026-04-30',
   dateModified: '2026-04-30',

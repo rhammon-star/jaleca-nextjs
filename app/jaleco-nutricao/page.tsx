@@ -74,7 +74,7 @@ const schemaArticle = {
   headline: 'Jaleco para Nutrição: Modelagem Feminina e Conforto | Jaleca',
   description: 'Jaleco para Nutrição em tecido premium com elastano. Modelo Slim ou Princesa, do PP ao G3. Frete grátis SP/RJ/MG/ES. Jaleca.',
   author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
-  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
+  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-jaleca-512.png', width: 512, height: 512 } },
   url: 'https://jaleca.com.br/jaleco-nutricao',
   datePublished: '2026-04-18',
   dateModified: '2026-04-21',

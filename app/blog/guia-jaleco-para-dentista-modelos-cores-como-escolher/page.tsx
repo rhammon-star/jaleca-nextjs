@@ -54,7 +54,7 @@ const articleSchema = {
   headline: 'Jaleco para Dentista: Modelos, Cores e Como Escolher',
   description: 'Guia completo de jaleco para dentista: modelos certos (Slim, Duquesa, Elastex), cores recomendadas, NR-32 e como escolher o jaleco odontológico ideal.',
   author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
-  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
+  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-jaleca-512.png', width: 512, height: 512 } },
   url: 'https://jaleca.com.br/blog/guia-jaleco-dentista-modelos-cores-como-escolher',
   datePublished: '2026-04-23',
   dateModified: '2026-04-23',

@@ -119,7 +119,7 @@ export async function POST(request: NextRequest) {
         ])
         const dateIso = new Date().toISOString().split('T')[0]
 
-        const articleSchemaTag = `<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":${JSON.stringify(generated.title)},"author":${JSON.stringify(authorSchema(author))},"about":${aboutSchema},"mentions":${mentionsSchema},"dateModified":"${dateIso}","publisher":{"@type":"Organization","name":"Jaleca","url":"https://jaleca.com.br","logo":{"@type":"ImageObject","url":"https://jaleca.com.br/logo-email.png"}}}</script>\n`
+        const articleSchemaTag = `<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":${JSON.stringify(generated.title)},"author":${JSON.stringify(authorSchema(author))},"about":${aboutSchema},"mentions":${mentionsSchema},"dateModified":"${dateIso}","publisher":{"@type":"Organization","name":"Jaleca","url":"https://jaleca.com.br","logo":{"@type":"ImageObject","url":"https://jaleca.com.br/logo-jaleca-512.png"}}}</script>\n`
 
         // Author bio block injected at end of content (B)
         const authorBioBlock = `\n<div style="border-top:1px solid #e8e0d5;margin-top:2rem;padding-top:1rem;display:flex;align-items:flex-start;gap:0.75rem"><div><p style="font-size:0.82rem;font-weight:600;color:#1a1a1a;margin:0">${author.name}</p><p style="font-size:0.78rem;color:#888;margin:0">${author.jobTitle} · <a href="https://jaleca.com.br/autor/${author.slug}" style="color:#c4a97d">Ver perfil completo</a></p><p style="font-size:0.8rem;color:#555;margin-top:0.25rem">${author.bio.slice(0, 120)}...</p></div></div>`

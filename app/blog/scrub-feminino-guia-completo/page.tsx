@@ -63,7 +63,7 @@ const articleSchema = {
   headline: 'Scrub Feminino: Guia Completo para Escolher o Ideal',
   description: 'Guia completo sobre scrub feminino: tecidos, modelagens, cores e como escolher.',
   author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
-  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
+  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-jaleca-512.png', width: 512, height: 512 } },
   url: 'https://jaleca.com.br/blog/scrub-feminino-guia-completo',
   datePublished: '2026-04-30',
   dateModified: '2026-04-30',

@@ -74,7 +74,7 @@ const schemaArticle = {
   headline: 'Jaleco Universitario — Conforto e Profissionalismo para a Vida Academica',
   description: 'Guia completo do jaleco universitario: tecido premium, caimento perfeito, modelo Padrao vs Slim, normas da IES e custo-beneficio.',
   author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
-  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
+  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-jaleca-512.png', width: 512, height: 512 } },
   url: 'https://jaleca.com.br/jaleco-universitario',
   datePublished: '2026-04-24',
   dateModified: '2026-04-24',

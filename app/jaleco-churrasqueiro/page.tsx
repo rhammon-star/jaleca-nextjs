@@ -74,7 +74,7 @@ const schemaArticle = {
   headline: 'Uniforme para Churrasqueiro: Dólmã Resistente à Gordura',
   description: 'Guia completo do uniforme para churrasqueiro: dólar profissional, resistência à gordura, conforto térmico e custo-benefício.',
   author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
-  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
+  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-jaleca-512.png', width: 512, height: 512 } },
   url: 'https://jaleca.com.br/jaleco-churrasqueiro',
   datePublished: '2026-04-18',
   dateModified: '2026-04-21',

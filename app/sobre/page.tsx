@@ -75,7 +75,7 @@ const schemaArticle = {
   headline: 'Sobre a Jaleca — Nossa História e Compromisso com Profissionais',
   description: 'Conheça a história da Jaleca: mais de 200 mil jalecos vendidos desde 2010, missão, valores e compromisso com profissionais da saúde.',
   author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
-  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
+  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-jaleca-512.png', width: 512, height: 512 } },
   url: 'https://jaleca.com.br/sobre',
   datePublished: '2024-01-15',
   dateModified: '2026-04-24',

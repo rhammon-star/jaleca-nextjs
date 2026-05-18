@@ -90,7 +90,7 @@ const schemaArticle = {
   publisher: {
     '@type': 'Organization',
     name: 'Jaleca',
-    logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' },
+    logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-jaleca-512.png', width: 512, height: 512 },
   },
   url: 'https://jaleca.com.br/uniforme-consultorio',
   datePublished: '2026-05-05',

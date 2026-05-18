@@ -55,7 +55,7 @@ const articleSchema = {
   headline: 'Scrub Feminino para Grávidas: Conforto e Praticidade na Gestação',
   description: 'Como escolher o scrub feminino ideal durante a gravidez.',
   author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
-  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
+  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-jaleca-512.png', width: 512, height: 512 } },
   url: 'https://jaleca.com.br/blog/scrub-feminino-gravidas',
   datePublished: '2026-04-30',
   dateModified: '2026-04-30',

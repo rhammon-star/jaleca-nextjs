@@ -278,7 +278,7 @@ function buildFinalContent(title, slug, rewritten, isTutorial, imageSource) {
     '@type': 'Article',
     headline: title,
     author: { '@type': 'Organization', name: 'Jaleca', url: 'https://jaleca.com.br' },
-    publisher: { '@type': 'Organization', name: 'Jaleca', url: 'https://jaleca.com.br', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
+    publisher: { '@type': 'Organization', name: 'Jaleca', url: 'https://jaleca.com.br', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-jaleca-512.png' } },
     dateModified: today,
     url: `https://jaleca.com.br/blog/${slug}`,
     about: [{ '@type': 'Thing', name: 'Jaleco', sameAs: 'https://pt.wikipedia.org/wiki/Jaleco' }],

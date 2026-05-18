@@ -52,7 +52,7 @@ const schemaArticle = {
   headline: 'Conjunto Profissional para Psicóloga: Elegância e Conforto',
   description: 'Guia completo do conjunto profissional para psicóloga: tecido premium, modelagem acolhedora, cores para consultório e custo-benefício.',
   author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
-  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
+  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-jaleca-512.png', width: 512, height: 512 } },
   url: 'https://jaleca.com.br/conjunto-psicologa',
   datePublished: '2026-04-18',
   dateModified: '2026-04-21',

@@ -55,7 +55,7 @@ const articleSchema = {
   headline: 'Scrub Feminino Plus Size: Modelos que Valorizam seu Corpo',
   description: 'Guia completo para escolher o scrub feminino plus size ideal.',
   author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
-  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
+  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-jaleca-512.png', width: 512, height: 512 } },
   url: 'https://jaleca.com.br/blog/scrub-feminino-plus-size',
   datePublished: '2026-04-30',
   dateModified: '2026-04-30',

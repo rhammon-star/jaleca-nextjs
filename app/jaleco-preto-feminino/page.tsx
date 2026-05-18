@@ -111,7 +111,7 @@ export default async function Page() {
     headline: 'Jaleco Preto Feminino: Esteticista, Barbeiro e Tatuador',
     description: 'Guia de jaleco preto feminino — tecidos, cuidados e como escolher pelo tipo de trabalho.',
     author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
-    publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
+    publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-jaleca-512.png', width: 512, height: 512 } },
     url: 'https://jaleca.com.br/jaleco-preto-feminino',
     datePublished: '2026-04-22',
     dateModified: '2026-04-22',

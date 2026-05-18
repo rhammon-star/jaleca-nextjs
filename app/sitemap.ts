@@ -19,6 +19,7 @@ import { getPostsWithMeta } from '@/lib/wordpress'
 import type { WPPost } from '@/lib/wordpress'
 import { readFile } from 'fs/promises'
 import { join } from 'path'
+import { getLastMod } from '@/lib/route-lastmod'
 
 type ProductNode = {
   slug: string
@@ -393,5 +394,26 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }))
 
-  return [...staticPages, ...categoryPages, ...cidadePages, ...productPages, ...kvColorPages, ...postPages]
+  const all: MetadataRoute.Sitemap = [
+    ...staticPages,
+    ...categoryPages,
+    ...cidadePages,
+    ...productPages,
+    ...kvColorPages,
+    ...postPages,
+  ]
+
+  // Override hardcoded `now`/`legalDate` with real per-route git dates.
+  // Skip entries whose lastModified was set from real per-item source
+  // (products/posts/KV use product.modified, post.modified, e.lastSyncedAt).
+  const productUrls = new Set(productPages.map(p => p.url))
+  const postUrls = new Set(postPages.map(p => p.url))
+  const kvUrls = new Set(kvColorPages.map(p => p.url))
+
+  return all.map(entry => {
+    if (productUrls.has(entry.url) || postUrls.has(entry.url) || kvUrls.has(entry.url)) {
+      return entry
+    }
+    return { ...entry, lastModified: getLastMod(entry.url) }
+  })
 }

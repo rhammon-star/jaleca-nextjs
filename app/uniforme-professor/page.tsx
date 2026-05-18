@@ -52,7 +52,7 @@ const schemaArticle = {
   headline: 'Uniforme para Professor: Elegância e Conforto para a Sala de Aula',
   description: 'Guia completo do uniforme para professor: tecido premium, modelagem elegante, conforto para longas horas de aula e custo-benefício.',
   author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
-  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
+  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-jaleca-512.png', width: 512, height: 512 } },
   url: 'https://jaleca.com.br/uniforme-professor',
   datePublished: '2026-04-18',
   dateModified: '2026-04-21',

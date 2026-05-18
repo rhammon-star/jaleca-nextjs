@@ -55,7 +55,7 @@ const articleSchema = {
   headline: 'Scrub Feminino Acinturado: Elegância e Conforto no Dia a Dia',
   description: 'Como escolher o scrub feminino acinturado ideal: modelos, tecidos e dicas.',
   author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
-  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
+  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-jaleca-512.png', width: 512, height: 512 } },
   url: 'https://jaleca.com.br/blog/scrub-feminino-acinturado',
   datePublished: '2026-04-30',
   dateModified: '2026-04-30',

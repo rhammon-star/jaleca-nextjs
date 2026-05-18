@@ -75,7 +75,7 @@ const schemaArticle = {
   headline: 'Jaleco para Nutricionista: Slim Colorido ou Branco — Guia Completo',
   description: 'Jaleco para nutricionista Slim colorido ou branco. PP ao G3. O que o CFN permite. Transmite acolhimento e autoridade no consultório.',
   author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
-  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
+  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-jaleca-512.png', width: 512, height: 512 } },
   url: 'https://jaleca.com.br/jaleco-nutricionista',
   datePublished: '2026-04-18',
   dateModified: '2026-04-21',

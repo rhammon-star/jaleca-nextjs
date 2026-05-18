@@ -62,7 +62,7 @@ const articleSchema = {
   headline: 'Tabela de Medidas Scrub Feminino — Como Medir e Escolher o Tamanho Certo',
   description: 'Tabela completa de medidas para scrub feminino e guia de como medir.',
   author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
-  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
+  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-jaleca-512.png', width: 512, height: 512 } },
   url: 'https://jaleca.com.br/blog/tabela-medidas-scrub-feminino',
   datePublished: '2026-04-30',
   dateModified: '2026-04-30',

@@ -55,7 +55,7 @@ const articleSchema = {
   headline: 'Onde Comprar Scrub Feminino Barato e de Qualidade Online',
   description: 'Guia completo para comprar scrub feminino online com segurança.',
   author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
-  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
+  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-jaleca-512.png', width: 512, height: 512 } },
   url: 'https://jaleca.com.br/blog/onde-comprar-scrub-feminino',
   datePublished: '2026-04-30',
   dateModified: '2026-04-30',

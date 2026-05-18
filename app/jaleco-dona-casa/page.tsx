@@ -74,7 +74,7 @@ const schemaArticle = {
   headline: 'Jaleco para Dona de Casa: Praticidade e Proteção no Trabalho Doméstico',
   description: 'Guia completo do jaleco para dona de casa: praticidade, proteção contra produtos químicos, conforto e custo-benefício.',
   author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
-  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
+  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-jaleca-512.png', width: 512, height: 512 } },
   url: 'https://jaleca.com.br/jaleco-dona-casa',
   datePublished: '2026-04-18',
   dateModified: '2026-04-21',

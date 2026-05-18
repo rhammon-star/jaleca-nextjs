@@ -74,7 +74,7 @@ const schemaArticle = {
   headline: 'Conjunto para Advogada: Elegância e Autoridade no Direito',
   description: 'Guia completo do uniforme para advogada: conjunto executiva, modelo ideal, tecido premium e normas da OAB.',
   author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
-  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
+  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-jaleca-512.png', width: 512, height: 512 } },
   url: 'https://jaleca.com.br/jaleco-advogada',
   datePublished: '2026-04-26',
   dateModified: '2026-04-26',

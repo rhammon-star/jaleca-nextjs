@@ -55,7 +55,7 @@ const articleSchema = {
   headline: 'Scrub Feminino Colorido: Tendências e Significado das Cores',
   description: 'Guia completo sobre cores de scrub feminino: significados, tendências e dicas para cada profissão.',
   author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
-  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
+  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-jaleca-512.png', width: 512, height: 512 } },
   url: 'https://jaleca.com.br/blog/scrub-feminino-colorido',
   datePublished: '2026-04-30',
   dateModified: '2026-04-30',

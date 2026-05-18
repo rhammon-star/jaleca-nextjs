@@ -111,7 +111,7 @@ const schemaArticle = {
   headline: 'Jaleca: Lojas Físicas Desde 2010 e Mais de 200 Mil Peças Vendidas',
   description: 'Conheça a Jaleca — loja especializada em jalecos e uniformes profissionais. Matriz em Ipatinga, MG, desde 2010. Mais de 200mil peças vendidas em todo o Brasil.',
   author: { '@type': 'Organization', name: 'Jaleca Uniformes Profissionais' },
-  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-email.png' } },
+  publisher: { '@type': 'Organization', name: 'Jaleca', logo: { '@type': 'ImageObject', url: 'https://jaleca.com.br/logo-jaleca-512.png', width: 512, height: 512 } },
   url: 'https://jaleca.com.br/loja-matriz',
   datePublished: '2026-04-01',
   dateModified: '2026-04-24',
