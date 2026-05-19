@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
   if (!admin) {
     return NextResponse.json({ error: 'Não autorizado' }, { status: 401 })
   }
-  const users = getUsers()
+  const users = await getUsers()
   return NextResponse.json(users)
 }
 
@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Role inválido' }, { status: 400 })
     }
 
-    const newUser = addUser({
+    const newUser = await addUser({
       name: body.name,
       email: body.email,
       password: body.password,
@@ -58,8 +58,9 @@ export async function POST(request: NextRequest) {
     })
 
     return NextResponse.json(newUser, { status: 201 })
-  } catch {
-    return NextResponse.json({ error: 'Erro ao criar usuário' }, { status: 500 })
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : 'Erro ao criar usuário'
+    return NextResponse.json({ error: msg }, { status: 500 })
   }
 }
 
@@ -78,7 +79,7 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: 'Não é possível remover o admin padrão' }, { status: 400 })
     }
 
-    const removed = removeUser(body.id)
+    const removed = await removeUser(body.id)
     if (!removed) {
       return NextResponse.json({ error: 'Usuário não encontrado' }, { status: 404 })
     }

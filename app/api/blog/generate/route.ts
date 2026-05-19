@@ -182,7 +182,7 @@ export async function POST(request: NextRequest) {
         // Step 5: Optionally publish
         if (publishDirectly) {
           send('progress', { step: 5, message: 'Publicando no WordPress...' })
-          const user = getUserById(payload.sub)
+          const user = await getUserById(payload.sub)
           const wpUser = user?.wpUsername || process.env.WP_ADMIN_USER
           const wpPass = user?.wpAppPassword || process.env.WP_ADMIN_APP_PASSWORD
 

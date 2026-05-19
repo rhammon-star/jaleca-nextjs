@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Título, conteúdo e slug são obrigatórios' }, { status: 400 })
     }
 
-    const user = getUserById(payload.sub)
+    const user = await getUserById(payload.sub)
     const wpUsername = user?.wpUsername || process.env.WP_ADMIN_USER
     const wpAppPassword = user?.wpAppPassword || process.env.WP_ADMIN_APP_PASSWORD
 

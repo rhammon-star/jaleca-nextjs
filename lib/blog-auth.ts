@@ -1,4 +1,5 @@
 import { createHmac } from 'crypto'
+import { kv } from '@vercel/kv'
 
 export type BlogUserRole = 'admin' | 'editor' | 'autor'
 
@@ -12,42 +13,85 @@ export type BlogUser = {
   passwordHash?: string
 }
 
-// In-memory users store (starts with default admin)
-let blogUsers: BlogUser[] = [
-  {
-    id: '1',
-    name: 'Admin',
-    email: 'admin@jaleca.com.br',
-    role: 'admin',
-    passwordHash: hashPassword('jaleca2024'),
-  },
-]
+// ── User store (persistência: Vercel KV `blog:users`) ────────────────────────
+// Antes era in-memory — perdia tudo a cada deploy. Agora é KV durável.
+// Em ambientes sem KV (dev local sem .env), faz fallback in-memory automaticamente.
+
+const KV_KEY = 'blog:users'
 
 function hashPassword(password: string): string {
   const secret = process.env.BLOG_JWT_SECRET || 'jaleca-blog-secret-2024'
   return createHmac('sha256', secret).update(password).digest('hex')
 }
 
+const defaultAdmin = (): BlogUser => ({
+  id: '1',
+  name: 'Admin',
+  email: 'admin@jaleca.com.br',
+  role: 'admin',
+  passwordHash: hashPassword('jaleca2024'),
+})
+
+const hasKV = !!(process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN)
+let memoryUsers: BlogUser[] | null = null
+
+async function loadUsers(): Promise<BlogUser[]> {
+  if (hasKV) {
+    try {
+      const stored = await kv.get<BlogUser[]>(KV_KEY)
+      if (stored && stored.length > 0) return stored
+      // Primeiro acesso — seed do admin default
+      const seed = [defaultAdmin()]
+      await kv.set(KV_KEY, seed)
+      return seed
+    } catch (err) {
+      console.error('[blog-auth] KV indisponível, usando memória:', err)
+    }
+  }
+  if (!memoryUsers) memoryUsers = [defaultAdmin()]
+  return memoryUsers
+}
+
+async function saveUsers(users: BlogUser[]): Promise<void> {
+  if (hasKV) {
+    try {
+      await kv.set(KV_KEY, users)
+      return
+    } catch (err) {
+      console.error('[blog-auth] KV save falhou:', err)
+    }
+  }
+  memoryUsers = users
+}
+
 export function verifyPassword(password: string, hash: string): boolean {
   return hashPassword(password) === hash
 }
 
-export function getUsers(): BlogUser[] {
-  return blogUsers.map(u => ({ ...u, passwordHash: undefined }))
+export async function getUsers(): Promise<BlogUser[]> {
+  const users = await loadUsers()
+  return users.map(u => ({ ...u, passwordHash: undefined }))
 }
 
-export function getUserByEmail(email: string): BlogUser | undefined {
-  return blogUsers.find(u => u.email === email)
+export async function getUserByEmail(email: string): Promise<BlogUser | undefined> {
+  const users = await loadUsers()
+  return users.find(u => u.email === email)
 }
 
-export function getUserById(id: string): BlogUser | undefined {
-  return blogUsers.find(u => u.id === id)
+export async function getUserById(id: string): Promise<BlogUser | undefined> {
+  const users = await loadUsers()
+  return users.find(u => u.id === id)
 }
 
-export function addUser(user: Omit<BlogUser, 'id' | 'passwordHash'> & { password: string }): BlogUser {
-  const id = String(Date.now())
+export async function addUser(
+  user: Omit<BlogUser, 'id' | 'passwordHash'> & { password: string }
+): Promise<BlogUser> {
+  const users = await loadUsers()
+  if (users.some(u => u.email === user.email)) {
+    throw new Error('E-mail já cadastrado')
+  }
   const newUser: BlogUser = {
-    id,
+    id: String(Date.now()),
     name: user.name,
     email: user.email,
     role: user.role,
@@ -55,14 +99,16 @@ export function addUser(user: Omit<BlogUser, 'id' | 'passwordHash'> & { password
     wpAppPassword: user.wpAppPassword,
     passwordHash: hashPassword(user.password),
   }
-  blogUsers.push(newUser)
+  await saveUsers([...users, newUser])
   return { ...newUser, passwordHash: undefined }
 }
 
-export function removeUser(id: string): boolean {
-  const before = blogUsers.length
-  blogUsers = blogUsers.filter(u => u.id !== id)
-  return blogUsers.length < before
+export async function removeUser(id: string): Promise<boolean> {
+  const users = await loadUsers()
+  const next = users.filter(u => u.id !== id)
+  if (next.length === users.length) return false
+  await saveUsers(next)
+  return true
 }
 
 // Simple JWT using HMAC-SHA256

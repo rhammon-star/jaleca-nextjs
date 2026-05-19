@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Email e senha são obrigatórios' }, { status: 400 })
     }
 
-    const user = getUserByEmail(email)
+    const user = await getUserByEmail(email)
     if (!user || !user.passwordHash) {
       return NextResponse.json({ error: 'Credenciais inválidas' }, { status: 401 })
     }
