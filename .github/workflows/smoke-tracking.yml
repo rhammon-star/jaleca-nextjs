@@ -1,25 +1,52 @@
-name: Smoke — Tracking
+name: Smoke — SEO + Tracking
 
 on:
   pull_request:
     paths:
       - 'components/Analytics.tsx'
-      - 'scripts/smoke-tracking.mjs'
+      - 'app/**/page.tsx'
+      - 'app/sitemap.ts'
+      - 'lib/route-lastmod-map.json'
+      - 'scripts/smoke-*.mjs'
       - '.github/workflows/smoke-tracking.yml'
   push:
     branches: [main]
     paths:
       - 'components/Analytics.tsx'
+      - 'app/**/page.tsx'
+      - 'app/sitemap.ts'
   schedule:
     - cron: '0 12 * * *' # diário 09h BRT
 
 jobs:
-  smoke:
+  tracking:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Run tracking smoke
+      - name: Tracking — código (linker, GA4, pixel, AW)
         run: node scripts/smoke-tracking.mjs
+
+  schema:
+    runs-on: ubuntu-latest
+    needs: tracking
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Schema — produção (JSON-LD nas URLs críticas)
+        run: node scripts/smoke-schema.mjs
+
+  sitemap:
+    runs-on: ubuntu-latest
+    needs: tracking
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Sitemap — produção (URLs + lastmods + sample 200)
+        run: node scripts/smoke-sitemap.mjs
