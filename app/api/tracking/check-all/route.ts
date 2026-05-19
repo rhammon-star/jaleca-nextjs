@@ -31,7 +31,7 @@ function getMeta(order: WCOrder, key: string): string {
 
 async function getActiveTrackingOrders(): Promise<WCOrder[]> {
   // Busca pedidos com rastreio ativo (status shipped/processing/on-hold)
-  const statuses = ['wc-enviado', 'processing', 'on-hold', 'wc-em-separacao'].join(',')
+  const statuses = ['enviado', 'processing', 'on-hold', 'em-separacao', 'completed'].join(',')
   const url = `${WC_API_URL}/orders?per_page=50&status=${statuses}`
   const res = await fetch(url, {
     headers: { Authorization: wcAuth() },
