@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { sendOrderConfirmation, sendInternalPaymentFailureAlert } from '@/lib/email'
+import { sendOrderConfirmation, sendInternalOrderNotification, sendInternalPaymentFailureAlert } from '@/lib/email'
 import { sendMetaPurchase } from '@/lib/meta-conversions'
 import { sendGA4PurchaseMP } from '@/lib/ga4-measurement-protocol'
 import { getPaymentStatus } from '@/lib/cielo'
@@ -68,7 +68,8 @@ export async function POST(request: NextRequest) {
         })
         if (getRes.ok) {
           const current = await getRes.json()
-          wasAlreadyProcessing = current.status !== 'pending'
+          // Só pula se já estiver em processing/completed/enviado — pending e on-hold devem disparar email
+          wasAlreadyProcessing = ['processing', 'completed', 'enviado'].includes(current.status)
         }
       } catch {}
     }
@@ -88,6 +89,30 @@ export async function POST(request: NextRequest) {
           if (email) {
             sendOrderConfirmation(order, email).catch(err => console.error('[Webhook] sendOrderConfirmation failed:', err))
             import('@/lib/brevo-cart').then(m => m.removeFromRecoveryList(email)).catch(() => {})
+
+            // Notificação interna admin — PIX/boleto confirmado
+            const paymentTitle = order.payment_method_title || order.payment_method || 'Pagamento'
+            const totalFormatted = `R$ ${parseFloat(order.total || '0').toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`
+            const shippingTitle = order.shipping_lines?.[0]?.method_title
+            const billingCpf = (order.meta_data as Array<{key:string;value:string}>|undefined)?.find(m => m.key === 'billing_cpf')?.value
+            sendInternalOrderNotification(
+              order.id,
+              order.number || String(order.id),
+              `${order.billing?.first_name ?? ''} ${order.billing?.last_name ?? ''}`.trim(),
+              email,
+              order.billing?.phone || '',
+              `${order.billing?.address_1 ?? ''}, ${order.billing?.city ?? ''} - ${order.billing?.state ?? ''}`,
+              totalFormatted,
+              paymentTitle,
+              (order.line_items ?? []).map((i: { name: string; quantity: number; meta_data?: Array<{display_key:string;display_value:string}> }) => {
+                const color = i.meta_data?.find(m => /cor|color/i.test(m.display_key))?.display_value
+                const size  = i.meta_data?.find(m => /tamanho|size/i.test(m.display_key))?.display_value
+                return { name: i.name, quantity: i.quantity, color, size }
+              }),
+              billingCpf,
+              shippingTitle,
+              `Pagamento confirmado (${paymentTitle})`,
+            ).catch(err => console.error('[Webhook] sendInternalOrderNotification failed:', err))
 
             // GA4 Measurement Protocol — usa client_id real e gclid/UTMs salvos no pedido
             const meta = (order.meta_data as Array<{key:string;value:string}>|undefined) ?? []

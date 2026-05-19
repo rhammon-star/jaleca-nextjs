@@ -210,6 +210,7 @@ export async function trackShipments(meTags: string[]): Promise<TrackingResult[]
       const info = data[tag]
       if (!info) return { meTag: tag, status: 'unknown' as const, events: [] }
       const status = normalizeStatus(info.status ?? '')
+      console.log(`[ME Tracking] tag=${tag} rawStatus="${info.status ?? ''}" normalized="${status}"`)
       const events: TrackingEvent[] = (info.steps ?? []).map(s => ({
         status: normalizeStatus(s.status),
         description: s.message,

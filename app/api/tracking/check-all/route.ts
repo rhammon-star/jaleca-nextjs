@@ -5,6 +5,7 @@ import {
   sendOrderOutForDelivery,
   sendOrderDelivered,
   sendOrderShippedWithTracking,
+  sendOrderShippedManual,
 } from '@/lib/email'
 
 const WC_API_URL = process.env.WOOCOMMERCE_API_URL!
@@ -207,8 +208,34 @@ export async function GET(req: NextRequest) {
       }
     }
 
-    console.log(`[Tracking Check-All] Verificados: ${orders.length} | Emails enviados: ${notified}`)
-    return NextResponse.json({ ok: true, checked: orders.length, notified })
+    // ── Step 2: Pedidos marcados como "enviado" manualmente sem código ME ─────
+    // Cliente precisa ser avisado mesmo que o ME ainda não tenha gerado etiqueta.
+    let manualNotified = 0
+    try {
+      const manualRes = await fetch(`${WC_API_URL}/orders?per_page=50&status=enviado`, {
+        headers: { Authorization: wcAuth() }, cache: 'no-store',
+      })
+      if (manualRes.ok) {
+        const manualOrders = await manualRes.json() as WCOrder[]
+        for (const o of manualOrders) {
+          const already = getMeta(o, 'jaleca_notified_statuses')
+          const hasTracking = getMeta(o, 'jaleca_tracking_active') === '1'
+          if (already.includes('shipped') || hasTracking) continue
+          const email = o.billing?.email
+          const firstName = o.billing?.first_name
+          if (!email) continue
+          await sendOrderShippedManual(o.id, firstName, email)
+          await updateOrderMeta(o.id, 'jaleca_notified_statuses', 'shipped_manual')
+          await addOrderNote(o.id, '✉️ Email "pedido despachado" (sem rastreio) enviado ao cliente.')
+          manualNotified++
+        }
+      }
+    } catch (err) {
+      console.error('[Tracking Check-All] manual-shipped step error:', err)
+    }
+
+    console.log(`[Tracking Check-All] Verificados: ${orders.length} | Emails tracking: ${notified} | Emails manual-shipped: ${manualNotified}`)
+    return NextResponse.json({ ok: true, checked: orders.length, notified, manualNotified })
   } catch (err) {
     console.error('[Tracking Check-All] Error:', err)
     return NextResponse.json({ error: 'Internal error' }, { status: 500 })

@@ -669,6 +669,7 @@ export async function POST(request: NextRequest) {
         paymentTitle,
         items.map(i => ({ name: i.name, quantity: i.quantity, color: i.color, size: i.size })),
         cpf || undefined,
+        shipping?.method_title,
       ).catch((err) => console.error('[payment/create] sendInternalOrderNotification failed:', err))
     }
 
