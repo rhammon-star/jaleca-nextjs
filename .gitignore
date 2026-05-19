@@ -45,3 +45,4 @@ scripts/gsc-submit-with-token.mjs
 .env
 .ai-cache/
 .venv/
+scripts/_ads-backup-*.json
