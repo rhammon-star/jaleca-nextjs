@@ -9,11 +9,12 @@ import { join } from 'path'
 
 const META_TOKEN = 'EAASQD9N7C3EBRbqaaZCWi37m5P0lspk5tUcaTmo7VPlTpvEtRlQCry5DGFmTiCYyjeopsXmuFyDGl6QBmjIvopAwobpqbtCZCMCIm9ccKL8DF5YFZAA3gSo9Gm4DVydrnumuu2OrfvjpZBEhaRFZATR5HVMSmrTGbfeA4zo6QzxZAFHQEApowYsDIC2z6ePQZDZD'
 const CAMP_ID = '120245125571490396'
+// Nota 19/05: A2 e A5 foram extraídos pra campanhas próprias (Jaleca —
+// Dentistas LAL Mulheres camp 120245782630780396 + Jaleca — LAL 1%
+// Compradores camp 120245782633100396). TOFU agora tem só A1 e A4 ativos.
 const ADSETS = [
-  { id: '120245126384400396', name: 'A1 Público Aberto Mulheres 25-45', budgetBRL: 20 },
-  { id: '120245126428670396', name: 'A2 LAL 1% Compradores Jaleca', budgetBRL: 10 },
+  { id: '120245126384400396', name: 'A1 Público Aberto Mulheres 25-45', budgetBRL: 30 },
   { id: '120245692889320396', name: 'A4 Dentistas LAL Homens', budgetBRL: 10 },
-  { id: '120245692888460396', name: 'A5 Dentistas LAL Mulheres', budgetBRL: 20 },
 ]
 
 const BACKUP_DIR = join(import.meta.dirname || './scripts', '_meta-backup')
