@@ -59,12 +59,10 @@ console.log(`Total bruto: ${allOrders.length}`)
 let valid = allOrders.filter(o => o.billing?.email && o.line_items?.length > 0)
 console.log(`Com e-mail e itens: ${valid.length}`)
 
-// Pula já enviados
-valid = valid.filter(o => {
-  const sent = o.meta_data?.find(m => m.key === 'jaleca_review_request_sent')?.value
-  return sent !== '1'
-})
-console.log(`Não-enviados ainda: ${valid.length}`)
+// Não filtra por meta aqui — o list endpoint do WP retorna meta_data
+// truncado quando _fields é combinado. A fonte de verdade é o endpoint
+// single, que checa meta_data via /orders/{id} (retorna skipped:already_sent).
+console.log(`(filtro de já-enviados delegado ao endpoint single)`)
 
 // Dedup por e-mail — mantém pedido MAIS RECENTE por e-mail
 const byEmail = new Map()
@@ -98,11 +96,11 @@ if (isDryRun) {
 // Pra executar: chama o endpoint do próprio site (passa orderId)
 // que reutiliza sendReviewRequest + markReviewRequestSent
 let sent = 0
+let skipped = 0
 let failed = 0
 const log = []
 
 for (const o of toSend) {
-  const products = o.line_items.map(i => ({ id: i.product_id, name: i.name }))
   try {
     const res = await fetch(TRIGGER_ENDPOINT, {
       method: 'POST',
@@ -110,10 +108,14 @@ for (const o of toSend) {
       body: JSON.stringify({ orderId: o.id }),
     })
     const json = await res.json().catch(() => ({}))
-    if (res.ok) {
+    if (res.ok && json.skipped === 'already_sent') {
+      skipped++
+      log.push({ orderId: o.id, email: o.billing.email, status: 'skipped' })
+      console.log(`  ⏭️  #${o.number} → ${o.billing.email} (já enviado)`)
+    } else if (res.ok && json.sent) {
       sent++
-      log.push({ orderId: o.id, email: o.billing.email, status: 'sent' })
-      console.log(`  ✅ #${o.number} → ${o.billing.email}`)
+      log.push({ orderId: o.id, email: o.billing.email, status: 'sent', markedOrders: json.markedOrders })
+      console.log(`  ✅ #${o.number} → ${o.billing.email}${json.productsInEmail === 0 ? ' (sem produtos)' : ''}`)
     } else {
       failed++
       log.push({ orderId: o.id, email: o.billing.email, status: 'error', error: json })
@@ -124,11 +126,12 @@ for (const o of toSend) {
     log.push({ orderId: o.id, email: o.billing.email, status: 'error', error: String(e) })
     console.error(`  ❌ #${o.number} → ${o.billing.email} (${e.message})`)
   }
-  // Throttle: 6s entre envios = 10/min (seguro pra Brevo)
-  await new Promise(r => setTimeout(r, 6000))
+  // Throttle: 4s entre envios = 15/min (Brevo aceita até 100/s, conservador)
+  // Skipped não precisa throttle longo (não chama Brevo) — mas mantém simples
+  await new Promise(r => setTimeout(r, 4000))
 }
 
 const logFile = `scripts/_mass-review-${Date.now()}.json`
 writeFileSync(logFile, JSON.stringify(log, null, 2))
 console.log(`\n📦 Log: ${logFile}`)
-console.log(`✅ ${sent} enviados | ❌ ${failed} falhas`)
+console.log(`✅ ${sent} enviados | ⏭️  ${skipped} já-enviados (skipped) | ❌ ${failed} falhas`)
