@@ -614,25 +614,28 @@ export async function sendReviewRequest(
   }).join('')
 
   const content = `
-    <h2 style="font-size:22px;margin:0 0 8px;">Como foi sua experiência? ⭐</h2>
-    <p style="color:#666;margin:0 0 24px;">Olá, ${firstName}! Seu pedido <strong>#${orderId}</strong> foi entregue. Sua opinião é muito importante para nós e ajuda outras profissionais a escolherem melhor.</p>
-    <p style="color:#1a1a1a;font-weight:bold;margin:0 0 12px;font-size:14px;">Avalie seus produtos:</p>
-    <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;">
-      ${productButtons}
-    </table>
-    <table width="100%" cellpadding="0" cellspacing="0" style="margin:24px 0;background:#f9f7f4;border-radius:6px;">
+    <h2 style="font-size:22px;margin:0 0 8px;">Como foi sua experiência, ${firstName}? ⭐</h2>
+    <p style="color:#666;margin:0 0 28px;font-size:15px;line-height:1.55;">Seu pedido <strong>#${orderId}</strong> foi entregue. Sua avaliação <strong>no Google</strong> ajuda milhares de profissionais a encontrar a Jaleca — e leva menos de 30 segundos.</p>
+
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 32px;background:#1a1a1a;border-radius:8px;">
       <tr>
-        <td style="padding:18px 20px;text-align:center;">
-          <p style="color:#1a1a1a;font-weight:bold;margin:0 0 6px;font-size:15px;">Quer ir além? Avalie a Jaleca no Google ⭐</p>
-          <p style="color:#666;margin:0 0 14px;font-size:13px;">Sua review no Google ajuda muito outras profissionais a encontrar a Jaleca — leva 30 segundos.</p>
+        <td style="padding:28px 24px;text-align:center;">
+          <div style="font-size:32px;margin-bottom:6px;">⭐⭐⭐⭐⭐</div>
+          <p style="color:#ffffff;font-weight:bold;margin:0 0 6px;font-size:18px;">Avalie a Jaleca no Google</p>
+          <p style="color:#c8c4bc;margin:0 0 18px;font-size:13px;line-height:1.5;">Leva 30 segundos. Sua opinião sincera vale muito para nós e para quem ainda não nos conhece.</p>
           <a href="https://search.google.com/local/writereview?placeid=ChIJLSOL5LMBsAARDGN0kL6hzQE"
-             style="display:inline-block;background:#c8a96e;color:#ffffff;padding:10px 22px;text-decoration:none;font-size:12px;letter-spacing:2px;font-family:Arial,sans-serif;border-radius:4px;">
-            ⭐ AVALIAR NO GOOGLE
+             style="display:inline-block;background:#c8a96e;color:#1a1a1a;padding:14px 36px;text-decoration:none;font-size:13px;letter-spacing:2px;font-weight:bold;font-family:Arial,sans-serif;border-radius:4px;">
+            DEIXAR MINHA AVALIAÇÃO
           </a>
         </td>
       </tr>
     </table>
-    <p style="color:#888;font-size:12px;margin:0;">Leva menos de 1 minuto e faz toda a diferença. Obrigada!</p>
+
+    <p style="color:#888;font-size:12px;margin:0 0 12px;text-align:center;letter-spacing:1px;text-transform:uppercase;">Ou avalie cada produto separadamente</p>
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:16px;">
+      ${productButtons}
+    </table>
+    <p style="color:#888;font-size:12px;margin:0;">Obrigada por confiar na Jaleca. ❤️</p>
   `
   await sendMail({
     to: customerEmail,
