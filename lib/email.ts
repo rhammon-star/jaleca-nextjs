@@ -620,6 +620,18 @@ export async function sendReviewRequest(
     <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;">
       ${productButtons}
     </table>
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin:24px 0;background:#f9f7f4;border-radius:6px;">
+      <tr>
+        <td style="padding:18px 20px;text-align:center;">
+          <p style="color:#1a1a1a;font-weight:bold;margin:0 0 6px;font-size:15px;">Quer ir além? Avalie a Jaleca no Google ⭐</p>
+          <p style="color:#666;margin:0 0 14px;font-size:13px;">Sua review no Google ajuda muito outras profissionais a encontrar a Jaleca — leva 30 segundos.</p>
+          <a href="https://search.google.com/local/writereview?placeid=ChIJLSOL5LMBsAARDGN0kL6hzQE"
+             style="display:inline-block;background:#c8a96e;color:#ffffff;padding:10px 22px;text-decoration:none;font-size:12px;letter-spacing:2px;font-family:Arial,sans-serif;border-radius:4px;">
+            ⭐ AVALIAR NO GOOGLE
+          </a>
+        </td>
+      </tr>
+    </table>
     <p style="color:#888;font-size:12px;margin:0;">Leva menos de 1 minuto e faz toda a diferença. Obrigada!</p>
   `
   await sendMail({
