@@ -82,14 +82,19 @@ function norm(s?: string): string {
 
 function findWhiteVariationImage(product: ProductData): string | undefined {
   const whiteTokens = new Set(['branco', 'branca', 'white'])
+  // Bug 19/05: WooCommerce na Jaleca usa `pa_color` (inglês, não pa_cor).
+  // `.includes('cor')` NÃO casa com "pa_color" (color tem c-o-l, não c-o-r).
+  // Por isso checa ambos: "cor" (pt) E "color" (en) E os nomes exatos.
+  const colorAttrPatterns = ['cor', 'color']
   for (const v of product.variations?.nodes ?? []) {
     const attrs = v.attributes?.nodes ?? []
-    const hasCorAttr = attrs.some(a => {
+    const hasColorAttr = attrs.some(a => {
       const n = norm(a.name)
       const val = norm(a.value)
-      return (n.includes('cor') || n === 'pa_cor' || n === 'color') && whiteTokens.has(val)
+      const isColorAttr = colorAttrPatterns.some(p => n.includes(p))
+      return isColorAttr && whiteTokens.has(val)
     })
-    if (hasCorAttr && v.image?.sourceUrl) return v.image.sourceUrl
+    if (hasColorAttr && v.image?.sourceUrl) return v.image.sourceUrl
   }
   return undefined
 }
