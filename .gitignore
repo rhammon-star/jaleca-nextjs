@@ -46,3 +46,4 @@ scripts/gsc-submit-with-token.mjs
 .ai-cache/
 .venv/
 scripts/_ads-backup-*.json
+_mass-review-*.json
