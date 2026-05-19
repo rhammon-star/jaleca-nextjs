@@ -631,10 +631,12 @@ export async function sendReviewRequest(
       </tr>
     </table>
 
+    ${products.length > 0 ? `
     <p style="color:#888;font-size:12px;margin:0 0 12px;text-align:center;letter-spacing:1px;text-transform:uppercase;">Ou avalie cada produto separadamente</p>
     <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:16px;">
       ${productButtons}
     </table>
+    ` : ''}
     <p style="color:#888;font-size:12px;margin:0;">Obrigada por confiar na Jaleca. ❤️</p>
   `
   await sendMail({
@@ -655,6 +657,8 @@ export async function sendInternalOrderNotification(
   paymentMethod: string,
   items: Array<{ name: string; quantity: number; color?: string; size?: string }>,
   customerCpf?: string,
+  shippingMethod?: string,
+  subjectPrefix?: string,
 ): Promise<void> {
   const itemsList = items.map(i => {
     const variant = [i.color, i.size].filter(Boolean).join(' / ')
@@ -679,6 +683,7 @@ export async function sendInternalOrderNotification(
             ${customerCpf ? `<tr><td style="padding:5px 0;color:#666;">CPF</td><td style="padding:5px 0;">${customerCpf}</td></tr>` : ''}
             <tr><td style="padding:5px 0;color:#666;vertical-align:top;">Endereço</td><td style="padding:5px 0;">${customerAddress}</td></tr>
             <tr><td style="padding:5px 0;color:#666;">Pagamento</td><td style="padding:5px 0;"><strong>${paymentMethod}</strong></td></tr>
+            ${shippingMethod ? `<tr><td style="padding:5px 0;color:#666;">Frete</td><td style="padding:5px 0;"><strong>${shippingMethod}</strong></td></tr>` : ''}
             <tr><td style="padding:5px 0;color:#666;">Total</td><td style="padding:5px 0;"><strong style="font-size:16px;">${total}</strong></td></tr>
           </table>
           <p style="margin:0 0 8px;font-size:13px;color:#666;">Itens:</p>
@@ -699,9 +704,26 @@ export async function sendInternalOrderNotification(
     'contato@jaleca.com.br',
     'rhammon@objetivasolucao.com.br',
   ]
+  const prefix = subjectPrefix ?? 'Nova venda'
   await Promise.all(
-    internalRecipients.map(to => sendMail({ to, subject: `Nova venda — Pedido #${orderNumber} (${total})`, html }))
+    internalRecipients.map(to => sendMail({ to, subject: `${prefix} — Pedido #${orderNumber} (${total})`, html }))
   )
+}
+
+/** Email enviado quando o pedido é marcado como "enviado" no WP manualmente, sem código de rastreio do ME ainda */
+export async function sendOrderShippedManual(
+  orderId: number | string,
+  customerName: string,
+  customerEmail: string,
+): Promise<void> {
+  const firstName = customerName.split(' ')[0] || 'Cliente'
+  const content = `
+    <h2 style="font-size:22px;margin:0 0 8px;">Seu pedido foi despachado! 📦</h2>
+    <p style="color:#666;margin:0 0 16px;">Olá, ${firstName}! Boa notícia — o pedido <strong>#${orderId}</strong> saiu do nosso estoque hoje.</p>
+    <p style="color:#666;margin:0 0 24px;">O código de rastreio será enviado em até 24h, assim que a transportadora confirmar a coleta. Fique de olho na sua caixa de entrada. 👀</p>
+    ${btn('Ver meu pedido', `https://jaleca.com.br/minha-conta`)}
+  `
+  await sendMail({ to: customerEmail, subject: `Pedido #${orderId} despachado 📦 — Jaleca`, html: wrapHtml(content, 'Pedido despachado') })
 }
 
 // ── Email de definição de senha (novo cliente ou redefinição) ─────────────────
