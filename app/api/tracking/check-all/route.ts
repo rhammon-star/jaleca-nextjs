@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { trackShipments, getRecentShippedMEOrders, type MEShippedOrder } from '@/lib/melhor-envio'
+import { register17track } from '@/lib/track17'
 import {
   sendOrderInTransit,
   sendOrderOutForDelivery,
@@ -148,6 +149,9 @@ export async function GET(req: NextRequest) {
         const matchNote = match.via === 'cpf' ? ' (casado por CPF — sem tag wc-order)' : ''
         await addOrderNote(wcOrderId, `Código de rastreio: ${trackingCode} | Transportadora: ${carrier}${matchNote}`)
         await sendOrderShippedWithTracking(wcOrderId, firstName, email, trackingCode, carrier, undefined)
+        // Registra no 17track para receber eventos de movimentação via webhook
+        await register17track([{ trackingCode, carrierName: carrier }])
+          .catch(err => console.error('[Tracking Check-All] register17track failed:', err))
 
         // Remove from pending pool to avoid double-processing in same run
         pendingByCpf.delete((meOrder.to?.document || '').replace(/\D/g, ''))
@@ -206,6 +210,28 @@ export async function GET(req: NextRequest) {
         await completeOrder(orderId) // muda status para Concluído automaticamente
         notified++
       }
+    }
+
+    // ── Step 1b: Backfill 17track — registra códigos já existentes ainda não registrados
+    try {
+      const toRegister: Array<{ orderId: number; trackingCode: string; carrierName: string }> = []
+      for (const o of orders) {
+        if (getMeta(o, 'jaleca_17track_registered') === '1') continue
+        const code = getMeta(o, 'jaleca_tracking_code')
+        const carrier = getMeta(o, 'jaleca_tracking_carrier') || 'Correios'
+        if (code) toRegister.push({ orderId: o.id, trackingCode: code, carrierName: carrier })
+      }
+      if (toRegister.length > 0) {
+        const result = await register17track(toRegister.map(t => ({ trackingCode: t.trackingCode, carrierName: t.carrierName })))
+        if (result) {
+          for (const t of toRegister) {
+            await updateOrderMeta(t.orderId, 'jaleca_17track_registered', '1')
+          }
+          console.log(`[Tracking Check-All] 17track backfill: ${toRegister.length} pedidos registrados`)
+        }
+      }
+    } catch (err) {
+      console.error('[Tracking Check-All] 17track backfill error:', err)
     }
 
     // ── Step 2: Pedidos marcados como "enviado" manualmente sem código ME ─────
