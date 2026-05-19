@@ -1,10 +1,22 @@
 function stripMarkdownCodeBlock(text: string): string {
-  return text
+  let t = text
     .replace(/^```html\s*/i, '')
     .replace(/^```json\s*/i, '')
     .replace(/^```\s*/i, '')
     .replace(/\s*```$/i, '')
     .trim()
+  // Extrai JSON do meio do texto (caso Gemini retorne explicação antes/depois)
+  const first = t.indexOf('{')
+  const last = t.lastIndexOf('}')
+  if (first !== -1 && last !== -1 && last > first) {
+    const candidate = t.slice(first, last + 1)
+    // Só usa o trecho extraído se for muito menor que o original (indica que tinha lixo fora)
+    // OU se o original não começar com { (claramente tem prefixo)
+    if (!t.startsWith('{') || candidate.length < t.length * 0.95) {
+      t = candidate
+    }
+  }
+  return t
 }
 
 async function callGemini(prompt: string, maxTokens = 2000): Promise<string> {
@@ -221,9 +233,31 @@ Retorne APENAS um JSON válido (sem markdown, sem texto antes ou depois) no segu
   try {
     parsed = JSON.parse(cleaned) as GeneratedContent
   } catch {
-    const lastBrace = cleaned.lastIndexOf('"}')
-    if (lastBrace === -1) throw new Error('Resposta do Gemini inválida')
-    parsed = JSON.parse(cleaned.slice(0, lastBrace + 2) + '}') as GeneratedContent
+    // Tentativa 2: recupera JSON truncado procurando último `"}`
+    try {
+      const lastBrace = cleaned.lastIndexOf('"}')
+      if (lastBrace !== -1) {
+        parsed = JSON.parse(cleaned.slice(0, lastBrace + 2) + '}') as GeneratedContent
+      } else {
+        throw new Error('no last brace')
+      }
+    } catch {
+      // Tentativa 3: tira possível bloco "thinking" extra antes do JSON
+      const jsonMatch = cleaned.match(/\{[\s\S]*"title"[\s\S]*\}/)
+      if (jsonMatch) {
+        try {
+          parsed = JSON.parse(jsonMatch[0]) as GeneratedContent
+        } catch (e3) {
+          console.error('[Gemini] Parse falhou. Raw (primeiros 800 chars):', raw.slice(0, 800))
+          console.error('[Gemini] Cleaned (primeiros 800 chars):', cleaned.slice(0, 800))
+          throw new Error('Resposta do Gemini inválida')
+        }
+      } else {
+        console.error('[Gemini] Parse falhou. Raw (primeiros 800 chars):', raw.slice(0, 800))
+        console.error('[Gemini] Cleaned (primeiros 800 chars):', cleaned.slice(0, 800))
+        throw new Error('Resposta do Gemini inválida')
+      }
+    }
   }
   if (parsed.metaDescription?.length > 160) {
     parsed.metaDescription = parsed.metaDescription.slice(0, 157) + '...'
