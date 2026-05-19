@@ -3,13 +3,13 @@ import Link from 'next/link'
 import { Calendar, User, Clock } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Qual o Melhor Tecido para Scrub Feminino? Gabardine, Two Way e Mais',
-  description: 'Gabardine, two way, oxfordine ou algodão: comparamos 4 tecidos de scrub feminino por conforto, durabilidade e clima. Escolha o certo para sua rotina.',
+  title: 'Tecido para Scrub Feminino: 5 Opções Comparadas — Guia 2026',
+  description: 'Gabardine, two way, oxfordine ou algodão? Comparativo real de 5 tecidos de scrub feminino: conforto, durabilidade, secagem e preço. Veja qual escolher para sua rotina.',
   keywords: 'melhor tecido para scrub, tecido para scrub feminino, scrub feminino gabardine, scrub feminino two way, qual tecido scrub',
   alternates: { canonical: 'https://jaleca.com.br/blog/melhores-tecidos-scrub-feminino' },
   openGraph: {
-    title: 'Qual o Melhor Tecido para Scrub Feminino? Gabardine, Two Way e Mais',
-    description: 'Gabardine, two way, oxfordine ou algodão: comparamos 4 tecidos de scrub feminino por conforto, durabilidade e clima.',
+    title: 'Tecido para Scrub Feminino: 5 Opções Comparadas — Guia 2026',
+    description: 'Gabardine, two way, oxfordine ou algodão? Comparativo real de 5 tecidos de scrub feminino: conforto, durabilidade, secagem e preço.',
     url: 'https://jaleca.com.br/blog/melhores-tecidos-scrub-feminino',
     siteName: 'Jaleca',
     locale: 'pt_BR',
